@@ -1,0 +1,88 @@
+{% set version = environ.get('GIT_TAG', '0.0.0').lstrip('v') %}
+{% set build   = environ.get('BUILD_NUMBER', '0') %}
+
+package:
+  name: metorial
+  version: {{ version }}
+
+source:
+  # Build from the checked-out repo subdir
+  path: ../metorial-py
+
+  # OR (comment path above, uncomment below) pull from PyPI sdist for reproducibility:
+  # url: https://pypi.io/packages/source/m/metorial/metorial-{{ version }}.tar.gz
+  # sha256: {{ environ.get('PYPI_SDIST_SHA256', '') }}
+
+build:
+  noarch: python
+  number: {{ build }}
+  script: python -m pip install . --no-deps -vv
+
+requirements:
+  host:
+    - python >=3.8
+    - pip
+  run:
+    - python >=3.8
+    - aiohttp >=3.8.0
+    - typing-extensions >=4.0.0
+
+test:
+  commands:
+    - python -c "import metorial"
+
+about:
+  home: "https://metorial.com"
+  doc_url: "https://metorial.com/docs"
+  dev_url: "https://github.com/metorial/metorial/clients/metorial-py"
+  license: MIT
+  license_file: LICENSE
+  summary: "Python SDK for Metorial - MCP tool calling and session management"
+
+extra:
+  recipe-maintainers:
+    - RahmeKarim
+{% set version = environ.get('GIT_TAG', '0.0.0').lstrip('v') %}
+{% set build   = environ.get('BUILD_NUMBER', '0') %}
+
+package:
+  name: metorial
+  version: {{ version }}
+
+source:
+  # Build from the checked-out repo subdir
+  path: ../metorial-py
+
+  # OR (comment path above, uncomment below) pull from PyPI sdist for reproducibility:
+  # url: https://pypi.io/packages/source/m/metorial/metorial-{{ version }}.tar.gz
+  # sha256: {{ environ.get('PYPI_SDIST_SHA256', '') }}
+
+build:
+  noarch: python
+  number: {{ build }}
+  script: python -m pip install . --no-deps -vv
+
+requirements:
+  host:
+    - python >=3.8
+    - pip
+  run:
+    - python >=3.8
+    - aiohttp >=3.8.0
+    - typing-extensions >=4.0.0
+
+test:
+  commands:
+    - python -c "import metorial"
+
+about:
+  home: "https://metorial.com"
+  doc_url: "https://metorial.com/docs"
+  dev_url: "https://github.com/metorial/metorial/clients/metorial-py"
+  license: MIT
+  license_file: LICENSE
+  summary: "Python SDK for Metorial - AI-powered tool calling and session management"
+
+extra:
+  recipe-maintainers:
+    - RahmeKarim
