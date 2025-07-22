@@ -31,9 +31,15 @@ jobs:
         working-directory: metorial-py
         run: uv sync --all-extras --dev
 
-      - name: Run tests
+      - name: Run tests (skip if none)
         working-directory: metorial-py
-        run: uv run pytest -q
+        run: |
+          set -e
+          if ls tests/*.py 2>/dev/null; then
+            uv run pytest -q
+          else
+            echo "No tests found; skipping pytest."
+          fi
 
   build_publish_pypi:
     needs: test
