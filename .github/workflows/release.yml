@@ -84,6 +84,7 @@ jobs:
           python-version: "3.11"
           channels: conda-forge,defaults
           channel-priority: strict
+          mamba-version: "*"
 
       - name: Install build tools
         shell: bash -l {0}
