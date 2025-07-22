@@ -82,10 +82,12 @@ jobs:
           auto-update-conda: true
           activate-environment: build
           python-version: "3.11"
+          channels: conda-forge,defaults
+          channel-priority: strict
 
       - name: Install build tools
         shell: bash -l {0}
-        run: conda install -y conda-build boa anaconda-client mamba
+        run: mamba install -y conda-build boa anaconda-client
 
       - name: Export build vars
         run: echo "BUILD_NUMBER=${GITHUB_RUN_NUMBER}" >> $GITHUB_ENV
