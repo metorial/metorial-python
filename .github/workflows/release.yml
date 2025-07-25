@@ -44,14 +44,15 @@ jobs:
     runs-on: ubuntu-latest
     environment: pypi # remove if you don't use a protected env
     strategy:
+      fail-fast: false
       matrix:
         package:
-          - packages/metorial
-          - packages/metorial-core
-          - packages/metorial-openai
-          - packages/metorial-mcp-session
           - packages/metorial-util-endpoint
           - packages/metorial-generated
+          - packages/metorial-core
+          - packages/metorial-mcp-session
+          - packages/metorial-openai
+          - packages/metorial
     steps:
       - uses: actions/checkout@v4
 
@@ -73,6 +74,8 @@ jobs:
         with:
           packages-dir: ${{ matrix.package }}/dist
           skip-existing: true
+          verbose: true
+        timeout-minutes: 10
 
   conda:
     needs: test # or [build_publish_pypi] if you require PyPI first

@@ -38,20 +38,8 @@ dependencies = [
 
 [project.optional-dependencies]
 openai = ["metorial-openai>=1.0.0"]
-anthropic = ["metorial-anthropic>=1.0.0"]
-google = ["metorial-google>=1.0.0"]
-mistral = ["metorial-mistral>=1.0.0"]
-deepseek = ["metorial-deepseek>=1.0.0"]
-togetherai = ["metorial-togetherai>=1.0.0"]
-xai = ["metorial-xai>=1.0.0"]
 all = [
     "metorial-openai>=1.0.0",
-    "metorial-anthropic>=1.0.0", 
-    "metorial-google>=1.0.0",
-    "metorial-mistral>=1.0.0",
-    "metorial-deepseek>=1.0.0",
-    "metorial-togetherai>=1.0.0",
-    "metorial-xai>=1.0.0",
 ]
 dev = [
     "pytest>=7.0.0",
