@@ -49,12 +49,6 @@ jobs:
           - packages/metorial
           - packages/metorial-core
           - packages/metorial-openai
-          - packages/metorial-anthropic
-          - packages/metorial-google
-          - packages/metorial-mistral
-          - packages/metorial-deepseek
-          - packages/metorial-togetherai
-          - packages/metorial-xai
           - packages/metorial-mcp-session
           - packages/metorial-util-endpoint
           - packages/metorial-generated
@@ -93,10 +87,10 @@ jobs:
         with:
           auto-update-conda: true
           activate-environment: build
-          python-version: "3.11"
+          python-version: '3.11'
           channels: conda-forge,defaults
           channel-priority: strict
-          mamba-version: "*"
+          mamba-version: '*'
 
       - name: Install build tools
         shell: bash -l {0}
