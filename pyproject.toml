@@ -1,0 +1,107 @@
+# Workspace-only configuration for development environment
+
+# Workspace configuration
+[tool.uv.workspace]
+members = [
+    "packages/metorial",
+    "packages/metorial-core", 
+    "packages/metorial-openai",
+    "packages/metorial-anthropic",
+    "packages/metorial-google",
+    "packages/metorial-mistral",
+    "packages/metorial-deepseek",
+    "packages/metorial-togetherai",
+    "packages/metorial-xai",
+    "packages/metorial-mcp-session",
+    "packages/metorial-util-endpoint",
+    "packages/metorial-generated",
+]
+
+# Black configuration
+[tool.black]
+line-length = 88
+target-version = ['py38']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+  | sdk/gen
+  | packages/core/mt_2025_01_01_dashboard
+  | packages/core/mt_2025_01_01_pulsar
+)/
+'''
+
+# MyPy configuration
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false  # Generated code may not have types
+disallow_incomplete_defs = false
+check_untyped_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+module = "sdk.gen.*"
+ignore_errors = true
+
+# Pytest configuration
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "--verbose",
+]
+filterwarnings = [
+    "error",
+    "ignore::UserWarning",
+    "ignore::DeprecationWarning",
+]
+asyncio_mode = "auto"
+
+# Flake8 configuration
+[tool.flake8]
+max-line-length = 88
+select = ["E", "W", "F"]
+ignore = [
+    "E203",  # whitespace before ':'
+    "W503",  # line break before binary operator
+    "E501",  # line too long (will be handled manually)
+    "E111",  # indentation is not a multiple of four (we use 2 spaces)
+    "E114",  # indentation is not a multiple of four (comment)
+]
+exclude = [
+    ".git",
+    "__pycache__",
+    "build",
+    "dist",
+    "*.egg-info",
+    ".venv",
+    ".pytest_cache",
+    ".mypy_cache",
+    "sdk/gen",
+    "packages/core/mt_2025_01_01_dashboard",
+    "packages/core/mt_2025_01_01_pulsar",
+]
+
+[dependency-groups]
+dev = [
+    "mcp",
+]

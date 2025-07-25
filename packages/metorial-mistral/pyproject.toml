@@ -1,0 +1,33 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "metorial-mistral"
+version = "1.0.0"
+description = "Mistral AI provider for Metorial"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [{name = "Metorial Team", email = "support@metorial.com"}]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords = ["metorial", "mistral", "llm", "ai"]
+dependencies = [
+    "mistralai>=0.1.0",
+    "metorial-mcp-session>=1.0.0",
+    "typing-extensions>=4.0.0",
+]
+
+[project.urls]
+Homepage = "https://metorial.com"
+Repository = "https://github.com/metorial/metorial-enterprise"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/metorial_mistral"]
+
+[tool.uv.sources]
+metorial-mcp-session = { workspace = true }

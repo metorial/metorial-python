@@ -1,0 +1,27 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "metorial-togetherai"
+version = "1.0.0"
+description = "Together AI provider for Metorial (OpenAI-compatible)"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [{name = "Metorial Team", email = "support@metorial.com"}]
+keywords = ["metorial", "togetherai", "llm", "ai"]
+dependencies = [
+    "openai>=1.0.0",
+    "metorial-mcp-session>=1.0.0",
+    "typing-extensions>=4.0.0",
+]
+
+[project.urls]
+Homepage = "https://metorial.com"
+Repository = "https://github.com/metorial/metorial-enterprise"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/metorial_togetherai"]
+
+[tool.uv.sources]
+metorial-mcp-session = { workspace = true }

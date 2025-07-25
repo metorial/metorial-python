@@ -27,12 +27,10 @@ jobs:
         with:
           version: latest
 
-      - name: Install deps
-        working-directory: metorial-py
-        run: uv sync --all-extras --dev
+      - name: Install workspace dependencies
+        run: uv sync --dev
 
       - name: Run tests (skip if none)
-        working-directory: metorial-py
         run: |
           set -e
           if ls tests/*.py 2>/dev/null; then
@@ -45,6 +43,21 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     environment: pypi # remove if you don't use a protected env
+    strategy:
+      matrix:
+        package:
+          - packages/metorial
+          - packages/metorial-core
+          - packages/metorial-openai
+          - packages/metorial-anthropic
+          - packages/metorial-google
+          - packages/metorial-mistral
+          - packages/metorial-deepseek
+          - packages/metorial-togetherai
+          - packages/metorial-xai
+          - packages/metorial-mcp-session
+          - packages/metorial-util-endpoint
+          - packages/metorial-generated
     steps:
       - uses: actions/checkout@v4
 
@@ -52,21 +65,19 @@ jobs:
         with:
           version: latest
 
-      - name: Build sdist & wheel
-        working-directory: metorial-py
-        run: uv build
-
-      # OPTIONAL: only to source the sdist from PyPI in meta.yaml
-      - name: Compute sdist sha256
-        working-directory: metorial-py
+      - name: Build package
+        working-directory: ${{ matrix.package }}
         run: |
-          SDIST=$(ls dist/*.tar.gz | head -n1)
-          echo "PYPI_SDIST_SHA256=$(sha256sum $SDIST | cut -d' ' -f1)" >> $GITHUB_ENV
+          # Copy shared files
+          cp ../../README.md . || echo "No README.md found"
+          cp ../../LICENSE . || echo "No LICENSE found"
+          # Build the package
+          uv build
 
       - name: Publish to PyPI (OIDC)
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          packages-dir: metorial-py/dist
+          packages-dir: ${{ matrix.package }}/dist
           skip-existing: true
 
   conda:
