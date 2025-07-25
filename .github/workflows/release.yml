@@ -42,7 +42,7 @@ jobs:
   build_publish_pypi:
     needs: test
     runs-on: ubuntu-latest
-    environment: pypi # remove if you don't use a protected env
+    # environment: pypi # removed for simplicity
     strategy:
       fail-fast: false
       matrix:
