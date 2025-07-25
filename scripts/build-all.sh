@@ -25,7 +25,7 @@ for package in "${PACKAGES[@]}"; do
     cp ../../LICENSE . 2>/dev/null || echo "No LICENSE found"
     
     # Build the package
-    uv build
+    uv build --out-dir dist
     
     # Copy built packages to central dist directory
     cp dist/* ../../build/dist/ 2>/dev/null || true

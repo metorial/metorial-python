@@ -66,8 +66,8 @@ jobs:
           # Copy shared files
           cp ../../README.md . || echo "No README.md found"
           cp ../../LICENSE . || echo "No LICENSE found"
-          # Build the package
-          uv build
+          # Build the package - force output to local dist directory
+          uv build --out-dir dist
 
       - name: Publish to PyPI (OIDC)
         uses: pypa/gh-action-pypi-publish@release/v1
