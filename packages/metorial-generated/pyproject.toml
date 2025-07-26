@@ -6,6 +6,7 @@ build-backend = "hatchling.build"
 name = "metorial-generated"
 version = "1.0.0"
 description = "Generated SDK endpoints and resources for Metorial"
+readme = "README.md"
 requires-python = ">=3.9"
 license = {text = "MIT"}
 authors = [

@@ -6,6 +6,7 @@ build-backend = "hatchling.build"
 name = "metorial-google"
 version = "1.0.0"
 description = "Google (Gemini) provider for Metorial"
+readme = "README.md"
 requires-python = ">=3.9"
 license = {text = "MIT"}
 authors = [

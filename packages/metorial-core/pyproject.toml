@@ -6,6 +6,7 @@ build-backend = "hatchling.build"
 name = "metorial-core"
 version = "1.0.0"
 description = "Core SDK components for Metorial"
+readme = "README.md"
 requires-python = ">=3.9"
 license = {text = "MIT"}
 authors = [

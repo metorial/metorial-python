@@ -6,6 +6,7 @@ build-backend = "hatchling.build"
 name = "metorial-util-endpoint"
 version = "1.0.0"
 description = "HTTP endpoint utilities for Metorial"
+readme = "README.md"
 requires-python = ">=3.9"
 license = {text = "MIT"}
 authors = [

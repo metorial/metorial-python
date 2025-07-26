@@ -6,6 +6,7 @@ build-backend = "hatchling.build"
 name = "metorial-openai-compatible"
 version = "1.0.0"
 description = "OpenAI-compatible provider base for Metorial"
+readme = "README.md"
 requires-python = ">=3.9"
 license = {text = "MIT"}
 authors = [
