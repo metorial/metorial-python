@@ -47,4 +47,5 @@ include = [
 ]
 
 [tool.uv.sources]
+metorial-core = { workspace = true }
 metorial-mcp-session = { workspace = true }

@@ -45,4 +45,5 @@ include = [
 ]
 
 [tool.uv.sources]
+metorial-core = { workspace = true }
 metorial-util-endpoint = { workspace = true }

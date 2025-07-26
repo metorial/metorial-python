@@ -47,5 +47,6 @@ include = [
 ]
 
 [tool.uv.sources]
+metorial-core = { workspace = true }
 metorial-openai-compatible = { workspace = true }
 metorial-mcp-session = { workspace = true }
