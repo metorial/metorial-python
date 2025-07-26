@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "metorial-core"
-version = "1.0.0-rc.1"
+version = "1.0.0-rc.2"
 description = "Core SDK components for Metorial"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -27,8 +27,8 @@ keywords = ["metorial", "sdk", "core"]
 dependencies = [
     "aiohttp>=3.8.0",
     "typing-extensions>=4.0.0",
-    "metorial-util-endpoint>=1.0.0",
-    "metorial-generated>=1.0.0",
+    "metorial-util-endpoint>=1.0.0-rc.2",
+    "metorial-generated>=1.0.0-rc.2",
 ]
 
 [project.urls]

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "metorial-mcp-session"
-version = "1.0.0-rc.1"
+version = "1.0.0-rc.2"
 description = "MCP session management for Metorial"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -28,7 +28,7 @@ dependencies = [
     "aiohttp>=3.8.0",
     "aiohttp-sse-client>=0.2.1",
     "typing-extensions>=4.0.0",
-    "metorial-core>=1.0.0",
+    "metorial-core>=1.0.0-rc.2",
     "mcp>=1.0.0",
     "truststore>=0.8.0",
 ]

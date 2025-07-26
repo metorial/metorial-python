@@ -23,15 +23,6 @@ poetry add metorial-util-endpoint
 
 This package is typically used internally by other Metorial packages and not directly by end users.
 
-### Internal Usage
-
-```python
-from metorial_util_endpoint import EndpointClient
-
-# Used internally by Metorial packages
-client = EndpointClient()
-```
-
 ## License
 
 MIT License - see [LICENSE](../../LICENSE) file for details.

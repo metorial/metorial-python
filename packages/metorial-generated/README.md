@@ -26,10 +26,8 @@ This package is typically used internally by other Metorial packages and not dir
 ### Internal Usage
 
 ```python
-from metorial_generated import GeneratedClient
-
-# Used internally by Metorial packages
-client = GeneratedClient()
+# Generated types and clients are imported by other Metorial packages
+# This package contains auto-generated code from OpenAPI specifications
 ```
 
 ## License

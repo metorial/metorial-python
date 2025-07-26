@@ -20,16 +20,8 @@ poetry add metorial-core
 
 ## Usage
 
-### Basic Usage
-
-```python
-from metorial_core import CoreFunctionality
-
-core = CoreFunctionality()
-result = core.perform_task()
-```
+This package is typically used internally by other Metorial packages and not directly by end users.
 
 ## License
 
 MIT License - see [LICENSE](../../LICENSE) file for details.
-

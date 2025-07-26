@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "metorial-mistral"
-version = "1.0.0-rc.1"
+version = "1.0.0-rc.2"
 description = "Mistral AI provider for Metorial"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -27,7 +27,7 @@ classifiers = [
 keywords = ["metorial", "mistral", "llm", "ai"]
 dependencies = [
     "mistralai>=1.0.0",
-    "metorial-mcp-session>=1.0.0",
+    "metorial-core>=1.0.0-rc.2",
     "typing-extensions>=4.0.0",
 ]
 

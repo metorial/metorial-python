@@ -26,10 +26,10 @@ This package is typically used internally by other Metorial packages and not dir
 ### Internal Usage
 
 ```python
-from metorial_mcp_session import SessionManager
+from metorial_mcp_session import MetorialMcpSession
 
 # Used internally by Metorial packages
-session_mgr = SessionManager()
+session = MetorialMcpSession()
 ```
 
 ## License
