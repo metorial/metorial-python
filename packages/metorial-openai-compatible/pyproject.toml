@@ -1,0 +1,48 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "metorial-openai-compatible"
+version = "1.0.0"
+description = "OpenAI-compatible provider base for Metorial"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [
+    {name = "Metorial Team", email = "support@metorial.com"},
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+keywords = ["metorial", "openai", "llm", "ai", "compatible"]
+dependencies = [
+    "metorial-mcp-session>=1.0.0",
+    "typing-extensions>=4.0.0",
+]
+
+[project.urls]
+Homepage = "https://metorial.com"
+Documentation = "https://metorial.com/docs"
+Repository = "https://github.com/metorial/metorial-enterprise"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/metorial_openai_compatible"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/src",
+    "/README.md",
+    "/LICENSE",
+]
+
+[tool.uv.sources]
+metorial-mcp-session = { workspace = true }

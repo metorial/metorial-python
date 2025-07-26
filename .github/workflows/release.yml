@@ -52,6 +52,13 @@ jobs:
           - packages/metorial-core
           - packages/metorial-mcp-session
           - packages/metorial-openai
+          - packages/metorial-openai-compatible
+          - packages/metorial-anthropic
+          - packages/metorial-google
+          - packages/metorial-mistral
+          - packages/metorial-xai
+          - packages/metorial-deepseek
+          - packages/metorial-togetherai
           - packages/metorial
     steps:
       - uses: actions/checkout@v4
@@ -63,8 +70,11 @@ jobs:
       - name: Build package
         working-directory: ${{ matrix.package }}
         run: |
-          # Copy shared files
-          cp ../../README.md . || echo "No README.md found"
+          # Copy shared files if they don't exist
+          # Each package should have its own README.md
+          if [ ! -f "README.md" ]; then
+            cp ../../README.md . || echo "No shared README.md found"
+          fi
           cp ../../LICENSE . || echo "No LICENSE found"
           # Build the package - force output to local dist directory
           uv build --out-dir dist
