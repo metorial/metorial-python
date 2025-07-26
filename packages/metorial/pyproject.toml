@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "metorial"
-version = "1.0.0-rc.2"
+version = "1.0.0-rc.3"
 description = "Python SDK for Metorial - AI-powered tool calling and session management"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -34,7 +34,7 @@ dependencies = [
     "aiohttp-sse-client>=0.2.1",
     "typing-extensions>=4.0.0",
     "metorial-core>=1.0.0-rc.2",
-    "metorial-mcp-session>=1.0.0-rc.2",
+    "metorial-mcp-session>=1.0.0-rc.3",
 ]
 
 [project.optional-dependencies]
