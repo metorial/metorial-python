@@ -1,4 +1,4 @@
-name: Release (PyPI + Conda)
+name: Release (PyPI)
 
 on:
   release:
@@ -87,53 +87,53 @@ jobs:
           verbose: true
         timeout-minutes: 10
 
-  conda:
-    needs: test # or [build_publish_pypi] if you require PyPI first
-    runs-on: ubuntu-latest
-    env:
-      GIT_TAG: ${{ github.ref_name }} # e.g. v1.0.0
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Miniconda
-        uses: conda-incubator/setup-miniconda@v3
-        with:
-          auto-update-conda: true
-          activate-environment: build
-          python-version: '3.11'
-          channels: conda-forge,defaults
-          channel-priority: strict
-          mamba-version: '*'
-
-      - name: Install build tools
-        shell: bash -l {0}
-        run: mamba install -y conda-build boa anaconda-client
-
-      - name: Export build vars
-        run: echo "BUILD_NUMBER=${GITHUB_RUN_NUMBER}" >> $GITHUB_ENV
-
-      - name: Build noarch Conda package
-        shell: bash -l {0}
-        run: conda mambabuild "$RECIPE_DIR" --output-folder conda_artifacts
-
-      - name: Upload to Anaconda.org (dev)
-        if: github.event.release.prerelease == true
-        shell: bash -l {0}
-        env:
-          BINSTAR_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
-        run: |
-          anaconda upload $(find conda_artifacts -name '*.tar.bz2') \
-            --user "$ANACONDA_USER" \
-            --label dev \
-            --skip-existing
-
-      - name: Upload to Anaconda.org (main)
-        if: github.event.release.prerelease == false
-        shell: bash -l {0}
-        env:
-          BINSTAR_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
-        run: |
-          anaconda upload $(find conda_artifacts -name '*.tar.bz2') \
-            --user "$ANACONDA_USER" \
-            --label main \
-            --skip-existing
+  # conda:
+  #   needs: test # or [build_publish_pypi] if you require PyPI first
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     GIT_TAG: ${{ github.ref_name }} # e.g. v1.0.0
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #
+  #     - name: Set up Miniconda
+  #       uses: conda-incubator/setup-miniconda@v3
+  #       with:
+  #         auto-update-conda: true
+  #         activate-environment: build
+  #         python-version: '3.11'
+  #         channels: conda-forge,defaults
+  #         channel-priority: strict
+  #         mamba-version: '*'
+  #
+  #     - name: Install build tools
+  #       shell: bash -l {0}
+  #       run: mamba install -y conda-build boa anaconda-client
+  #
+  #     - name: Export build vars
+  #       run: echo "BUILD_NUMBER=${GITHUB_RUN_NUMBER}" >> $GITHUB_ENV
+  #
+  #     - name: Build noarch Conda package
+  #       shell: bash -l {0}
+  #       run: conda mambabuild "$RECIPE_DIR" --output-folder conda_artifacts
+  #
+  #     - name: Upload to Anaconda.org (dev)
+  #       if: github.event.release.prerelease == true
+  #       shell: bash -l {0}
+  #       env:
+  #         BINSTAR_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+  #       run: |
+  #         anaconda upload $(find conda_artifacts -name '*.tar.bz2') \
+  #           --user "$ANACONDA_USER" \
+  #           --label dev \
+  #           --skip-existing
+  #
+  #     - name: Upload to Anaconda.org (main)
+  #       if: github.event.release.prerelease == false
+  #       shell: bash -l {0}
+  #       env:
+  #         BINSTAR_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+  #       run: |
+  #         anaconda upload $(find conda_artifacts -name '*.tar.bz2') \
+  #           --user "$ANACONDA_USER" \
+  #           --label main \
+  #           --skip-existing
