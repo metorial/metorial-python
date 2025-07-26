@@ -123,7 +123,7 @@ class MetorialMcpClient:
           - use_http_stream: set True to try the HTTP streaming transport instead of SSE.
         """
         client_name = client_name or "metorial-py-client"
-        client_version = client_version or "1.0.0"
+        client_version = client_version or "1.0.0-rc.1"
 
         # Build URL
         path = f"/mcp/{session.id}/{deployment_id}/sse"
@@ -190,7 +190,7 @@ class MetorialMcpClient:
         url: str,
         *,
         client_name: str = "metorial-py-client",
-        client_version: str = "1.0.0",
+        client_version: str = "1.0.0-rc.1",
         connect_timeout: float = 30.0,
         read_timeout: float = 60.0,
         handshake_timeout: float = 15.0,
