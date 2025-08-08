@@ -60,7 +60,7 @@ class mapDashboardOrganizationsInvitesCreateOutput:
             "updated_at": data.get('invited_by', {}).get('updated_at') and datetime.fromisoformat(data.get('invited_by', {}).get('updated_at'))
         },
         invite_link=data.get('invite_link') and {
-            "_typename": data.get('invite_link', {}).get('__typename'),
+            "object": data.get('invite_link', {}).get('object'),
             "id": data.get('invite_link', {}).get('id'),
             "key": data.get('invite_link', {}).get('key'),
             "key_redacted": data.get('invite_link', {}).get('key_redacted'),

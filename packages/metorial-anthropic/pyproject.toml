@@ -4,14 +4,12 @@ build-backend = "hatchling.build"
 
 [project]
 name = "metorial-anthropic"
-version = "1.0.0-rc.3"
+version = "1.0.0-rc.4"
 description = "Anthropic (Claude) provider for Metorial"
 readme = "README.md"
 requires-python = ">=3.9"
-license = {text = "MIT"}
-authors = [
-    {name = "Metorial Team", email = "support@metorial.com"},
-]
+license = { text = "MIT" }
+authors = [{ name = "Metorial Team", email = "support@metorial.com" }]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
@@ -27,7 +25,7 @@ classifiers = [
 keywords = ["metorial", "anthropic", "claude", "llm", "ai"]
 dependencies = [
     "anthropic>=0.40.0",
-    "metorial-mcp-session>=1.0.0-rc.3",
+    "metorial-mcp-session>=1.0.0-rc.4",
     "typing-extensions>=4.0.0",
 ]
 
@@ -40,11 +38,7 @@ Repository = "https://github.com/metorial/metorial-enterprise"
 packages = ["src/metorial_anthropic"]
 
 [tool.hatch.build.targets.sdist]
-include = [
-    "/src",
-    "/README.md",
-    "/LICENSE",
-]
+include = ["/src", "/README.md", "/LICENSE"]
 
 [tool.uv.sources]
 metorial-mcp-session = { workspace = true }
