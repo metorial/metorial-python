@@ -22,6 +22,7 @@ class ServersListingsGetOutput:
     vendor: Optional[Dict[str, Any]] = None
     repository: Optional[Dict[str, Any]] = None
     installation: Optional[Dict[str, Any]] = None
+    readme_html: Optional[str] = None
 
 
 from typing import Any, Dict, Optional, Union
@@ -101,7 +102,8 @@ class mapServersListingsGetOutput:
             "created_at": data.get('installation', {}).get('created_at') and datetime.fromisoformat(data.get('installation', {}).get('created_at'))
         },
         created_at=data.get('created_at') and datetime.fromisoformat(data.get('created_at')),
-        updated_at=data.get('updated_at') and datetime.fromisoformat(data.get('updated_at'))
+        updated_at=data.get('updated_at') and datetime.fromisoformat(data.get('updated_at')),
+        readme_html=data.get('readme_html')
         )
 
     @staticmethod

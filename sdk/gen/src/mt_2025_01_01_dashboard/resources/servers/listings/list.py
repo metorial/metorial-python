@@ -86,7 +86,8 @@ class mapServersListingsListOutput:
                     "created_at": item.get('installation', {}).get('created_at') and datetime.fromisoformat(item.get('installation', {}).get('created_at'))
                 },
                 "created_at": item.get('created_at') and datetime.fromisoformat(item.get('created_at')),
-                "updated_at": item.get('updated_at') and datetime.fromisoformat(item.get('updated_at'))
+                "updated_at": item.get('updated_at') and datetime.fromisoformat(item.get('updated_at')),
+                "readme_html": item.get('readme_html')
             } for item in data.get('items', [])],
         pagination=data.get('pagination') and {
             "has_more_before": data.get('pagination', {}).get('has_more_before'),
