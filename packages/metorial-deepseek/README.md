@@ -1,6 +1,6 @@
 # metorial-deepseek
 
-DeepSeek provider integration for Metorial - enables using Metorial tools with DeepSeek's language models through OpenAI-compatible function calling.
+DeepSeek provider integration for Metorial.
 
 ## Installation
 
@@ -15,14 +15,88 @@ poetry add metorial-deepseek
 ## Features
 
 - 🤖 **DeepSeek Integration**: Full support for DeepSeek Chat, DeepSeek Coder, and other models
-- 🛠️ **Function Calling**: OpenAI-compatible function calling support
 - 📡 **Session Management**: Automatic tool lifecycle handling
 - 🔄 **Format Conversion**: Converts Metorial tools to OpenAI function format
 - ⚡ **Async Support**: Full async/await support
 
+## Supported Models
+
+All DeepSeek models available through their API:
+
+- `deepseek-chat`: General-purpose conversational model
+- `deepseek-coder`: Specialized for code-related tasks
+
 ## Usage
 
-### Basic Usage
+### Quick Start (Recommended)
+
+```python
+import asyncio
+from openai import AsyncOpenAI
+from metorial import Metorial
+
+async def main():
+  # Initialize clients
+  metorial = Metorial(api_key="...your-metorial-api-key...") # async by default
+  deepseek_client = AsyncOpenAI(
+    api_key="...your-deepseek-api-key...", 
+    base_url="https://api.deepseek.com"
+  )
+  
+  # One-liner chat with automatic session management
+  response = await metorial.run(
+    "What are the latest commits in the metorial/websocket-explorer repository?",
+    "...your-mcp-server-deployment-id...", # can also be list
+    deepseek_client,
+    model="deepseek-chat",
+    max_iterations=25
+  )
+  
+  print("Response:", response)
+
+asyncio.run(main())
+```
+
+### Streaming Chat
+
+```python
+import asyncio
+from openai import AsyncOpenAI
+from metorial import Metorial
+from metorial.types import StreamEventType
+
+async def streaming_example():
+  # Initialize clients
+  metorial = Metorial(api_key="...your-metorial-api-key...")
+  deepseek_client = AsyncOpenAI(
+    api_key="...your-deepseek-api-key...",
+    base_url="https://api.deepseek.com"
+  )
+  
+  # Streaming chat with real-time responses
+  async def stream_action(session):
+    messages = [
+      {"role": "user", "content": "Explain quantum computing"}
+    ]
+    
+    async for event in metorial.stream(
+      deepseek_client, session, messages, 
+      model="deepseek-chat",
+      max_iterations=25
+    ):
+      if event.type == StreamEventType.CONTENT:
+        print(f"🤖 {event.content}", end="", flush=True)
+      elif event.type == StreamEventType.TOOL_CALL:
+        print(f"\n🔧 Executing {len(event.tool_calls)} tool(s)...")
+      elif event.type == StreamEventType.COMPLETE:
+        print(f"\n✅ Complete!")
+  
+  await metorial.with_session("...your-server-deployment-id...", stream_action)
+
+asyncio.run(streaming_example())
+```
+
+### Advanced Usage with Session Management
 
 ```python
 import asyncio
@@ -31,43 +105,43 @@ from metorial import Metorial
 from metorial_deepseek import MetorialDeepSeekSession
 
 async def main():
-    # Initialize clients
-    metorial = Metorial(api_key="your-metorial-api-key")
+  # Initialize clients
+  metorial = Metorial(api_key="...your-metorial-api-key...")
+  
+  # DeepSeek uses OpenAI-compatible client
+  deepseek_client = OpenAI(
+    api_key="...your-deepseek-api-key...",
+    base_url="https://api.deepseek.com"
+  )
+  
+  # Create session with your server deployments
+  async with metorial.session(["...your-server-deployment-id..."]) as session:
+    # Create DeepSeek-specific wrapper
+    deepseek_session = MetorialDeepSeekSession(session.tool_manager)
     
-    # DeepSeek uses OpenAI-compatible client
-    deepseek_client = OpenAI(
-        api_key="your-deepseek-api-key",
-        base_url="https://api.deepseek.com"
+    messages = [
+      {"role": "user", "content": "What are the latest commits?"}
+    ]
+    
+    response = deepseek_client.chat.completions.create(
+      model="deepseek-chat",
+      messages=messages,
+      tools=deepseek_session.tools
     )
     
-    # Create session with your server deployments
-    async with metorial.session(["your-server-deployment-id"]) as session:
-        # Create DeepSeek-specific wrapper
-        deepseek_session = MetorialDeepSeekSession(session.tool_manager)
-        
-        messages = [
-            {"role": "user", "content": "Help me analyze this code"}
-        ]
-        
-        response = deepseek_client.chat.completions.create(
-            model="deepseek-chat",
-            messages=messages,
-            tools=deepseek_session.tools
-        )
-        
-        # Handle tool calls
-        tool_calls = response.choices[0].message.tool_calls
-        if tool_calls:
-            tool_responses = await deepseek_session.call_tools(tool_calls)
-            
-            # Add to conversation
-            messages.append({
-                "role": "assistant",
-                "tool_calls": tool_calls
-            })
-            messages.extend(tool_responses)
-            
-            # Continue conversation...
+    # Handle tool calls
+    tool_calls = response.choices[0].message.tool_calls
+    if tool_calls:
+      tool_responses = await deepseek_session.call_tools(tool_calls)
+      
+      # Add to conversation
+      messages.append({
+        "role": "assistant",
+        "tool_calls": tool_calls
+      })
+      messages.extend(tool_responses)
+      
+      # Continue conversation...
 
 asyncio.run(main())
 ```
@@ -78,11 +152,11 @@ asyncio.run(main())
 from metorial_deepseek import build_deepseek_tools, call_deepseek_tools
 
 async def example_with_functions():
-    # Get tools in DeepSeek format
-    tools = build_deepseek_tools(tool_manager)
-    
-    # Call tools from DeepSeek response
-    tool_messages = await call_deepseek_tools(tool_manager, tool_calls)
+  # Get tools in DeepSeek format
+  tools = build_deepseek_tools(tool_manager)
+  
+  # Call tools from DeepSeek response
+  tool_messages = await call_deepseek_tools(tool_manager, tool_calls)
 ```
 
 ## API Reference
@@ -119,16 +193,16 @@ Tools are converted to OpenAI-compatible format (without strict mode):
 
 ```python
 {
-    "type": "function",
-    "function": {
-        "name": "tool_name",
-        "description": "Tool description",
-        "parameters": {
-            "type": "object",
-            "properties": {...},
-            "required": [...]
-        }
+  "type": "function",
+  "function": {
+    "name": "tool_name",
+    "description": "Tool description",
+    "parameters": {
+      "type": "object",
+      "properties": {...},
+      "required": [...]
     }
+  }
 }
 ```
 
@@ -140,15 +214,10 @@ DeepSeek uses the OpenAI-compatible API format. Configure your client like this:
 from openai import OpenAI
 
 client = OpenAI(
-    api_key="your-deepseek-api-key",
-    base_url="https://api.deepseek.com"
+  api_key="...your-deepseek-api-key...",
+  base_url="https://api.deepseek.com"
 )
 ```
-
-## Supported Models
-
-- `deepseek-chat`: General-purpose conversational model
-- `deepseek-coder`: Specialized for code-related tasks
 
 ## Error Handling
 
@@ -160,12 +229,6 @@ except Exception as e:
 ```
 
 Tool errors are returned as tool messages with error content.
-
-## Dependencies
-
-- `metorial-openai-compatible>=1.0.0`
-- `metorial-mcp-session>=1.0.0`
-- `typing-extensions>=4.0.0`
 
 ## License
 

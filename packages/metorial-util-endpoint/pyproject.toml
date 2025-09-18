@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "metorial-util-endpoint"
-version = "1.0.0-rc.2"
+version = "1.0.0"
 description = "HTTP endpoint utilities for Metorial"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -27,12 +27,14 @@ keywords = ["metorial", "http", "endpoint"]
 dependencies = [
     "aiohttp>=3.8.0",
     "typing-extensions>=4.0.0",
+    "requests>=2.25.0",
+    "truststore>=0.8.0",
 ]
 
 [project.urls]
 Homepage = "https://metorial.com"
 Documentation = "https://metorial.com/docs"
-Repository = "https://github.com/metorial/metorial-enterprise"
+Repository = "https://github.com/metorial/metorial-python"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/metorial_util_endpoint"]

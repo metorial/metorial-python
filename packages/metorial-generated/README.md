@@ -12,13 +12,6 @@ uv add metorial-generated
 poetry add metorial-generated
 ```
 
-## Features
-
-- 🔧 **Generated Types**: Auto-generated type definitions
-- 📡 **API Clients**: Generated API client code
-- ⚡ **Type Safety**: Full type safety with generated code
-- 🛠️ **OpenAPI**: Generated from OpenAPI specifications
-
 ## Usage
 
 This package is typically used internally by other Metorial packages and not directly by end users.
@@ -26,8 +19,7 @@ This package is typically used internally by other Metorial packages and not dir
 ### Internal Usage
 
 ```python
-# Generated types and clients are imported by other Metorial packages
-# This package contains auto-generated code from OpenAPI specifications
+# Generated types and clients are imported by other Metorial packages.
 ```
 
 ## License

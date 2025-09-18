@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "metorial-google"
-version = "1.0.0-rc.2"
+version = "1.0.0"
 description = "Google (Gemini) provider for Metorial"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -27,14 +27,14 @@ classifiers = [
 keywords = ["metorial", "google", "gemini", "llm", "ai"]
 dependencies = [
     "google-generativeai>=0.3.0",
-    "metorial-core>=1.0.0-rc.2",
+    "metorial-core>=1.0.0",
     "typing-extensions>=4.0.0",
 ]
 
 [project.urls]
 Homepage = "https://metorial.com"
 Documentation = "https://metorial.com/docs"
-Repository = "https://github.com/metorial/metorial-enterprise"
+Repository = "https://github.com/metorial/metorial-python"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/metorial_google"]

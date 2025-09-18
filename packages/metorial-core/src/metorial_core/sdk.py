@@ -1,4 +1,7 @@
-# sdk.py
+"""
+Metorial SDK core implementation with typed endpoints and configuration.
+"""
+
 from dataclasses import dataclass
 from typing import TypedDict, Dict, Any
 
@@ -9,168 +12,192 @@ from mt_2025_01_01_pulsar.endpoints.instance import MetorialInstanceEndpoint
 from mt_2025_01_01_pulsar.endpoints.secrets import MetorialSecretsEndpoint
 
 from mt_2025_01_01_pulsar.endpoints.servers import MetorialServersEndpoint
-from mt_2025_01_01_pulsar.endpoints.servers_variants import MetorialServersVariantsEndpoint
-from mt_2025_01_01_pulsar.endpoints.servers_versions import MetorialServersVersionsEndpoint
-from mt_2025_01_01_pulsar.endpoints.servers_deployments import MetorialServersDeploymentsEndpoint
-from mt_2025_01_01_pulsar.endpoints.servers_implementations import MetorialServersImplementationsEndpoint
-from mt_2025_01_01_pulsar.endpoints.servers_capabilities import MetorialServersCapabilitiesEndpoint
-
-from mt_2025_01_01_pulsar.endpoints.server_runs import MetorialServerRunsEndpoint
-from mt_2025_01_01_pulsar.endpoints.server_run_errors import MetorialServerRunErrorsEndpoint
 
 from mt_2025_01_01_pulsar.endpoints.sessions import MetorialSessionsEndpoint
-from mt_2025_01_01_pulsar.endpoints.sessions_messages import MetorialSessionsMessagesEndpoint
+from mt_2025_01_01_pulsar.endpoints.files import MetorialFilesEndpoint
+from mt_2025_01_01_pulsar.endpoints.links import MetorialLinksEndpoint
 
 
-# ---------- typing for config ----------
 class SDKConfig(TypedDict):
-    apiKey: str
-    apiVersion: str
-    apiHost: str
-# ---------------------------------------
+  apiKey: str
+  apiVersion: str
+  apiHost: str
 
 
 class _DelegatingGroup:
-    """Base: forwards any missing attr to _root endpoint."""
-    __slots__ = ("_root",)
+  """Base: forwards any missing attr to _root endpoint."""
 
-    def __init__(self, root):
-        # remember the real endpoint
-        self._root = root
+  __slots__ = ("_root",)
 
-        # bind every public method that root actually provides, so
-        # editors see completion & it won’t crash if one is missing
-        for name in dir(root):
-            if name.startswith("_"):
-                continue
-            attr = getattr(root, name)
-            if callable(attr):
-                # only bind if we haven't already set it on the subclass
-                # (avoids stomping on explicit sub‐resource attrs)
-                if not hasattr(self, name):
-                    setattr(self, name, attr)
+  def __init__(self, root):
+    # remember the real endpoint
+    self._root = root
 
-    def __getattr__(self, name):
-        # fall back to real endpoint for anything else
-        return getattr(self._root, name)
-    
-    
+    # bind every public method that root actually provides, so
+    # editors see completion & it won’t crash if one is missing
+    for name in dir(root):
+      if name.startswith("_"):
+        continue
+      attr = getattr(root, name)
+      if callable(attr):
+        # only bind if we haven't already set it on the subclass
+        # (avoids stomping on explicit sub‐resource attributes)
+        if not hasattr(self, name):
+          setattr(self, name, attr)
+
+  def __getattr__(self, name):
+    # fall back to real endpoint for anything else
+    return getattr(self._root, name)
+
+
 class SessionsGroup(_DelegatingGroup):
-    __slots__ = ("messages")
+  __slots__ = ("messages", "connections")
 
-    def __init__(self, root, messages):
-        super().__init__(root)
-        self.messages = messages
+  def __init__(self, root, messages, connections):
+    super().__init__(root)
+    self.messages = messages
+    self.connections = connections
+
 
 class RunsGroup(_DelegatingGroup):
-    __slots__ = ("errors",)
+  __slots__ = ("errors",)
 
-    def __init__(self, root, errors):
-        super().__init__(root)
-        self.errors = errors
+  def __init__(self, root, errors):
+    super().__init__(root)
+    self.errors = errors
+
 
 class ServersGroup(_DelegatingGroup):
-    __slots__ = ("variants", "versions", "deployments", "implementations", "capabilities", "runs")
+  __slots__ = (
+    "variants",
+    "versions",
+    "deployments",
+    "implementations",
+    "capabilities",
+    "runs",
+  )
 
-    def __init__(self, root, variants, versions, deployments, implementations, capabilities, runs):
-        super().__init__(root)
-        self.variants = variants
-        self.versions = versions
-        self.deployments = deployments
-        self.implementations = implementations
-        self.capabilities = capabilities
-        self.runs = runs
+  def __init__(
+    self, root, variants, versions, deployments, implementations, capabilities, runs
+  ):
+    super().__init__(root)
+    self.variants = variants
+    self.versions = versions
+    self.deployments = deployments
+    self.implementations = implementations
+    self.capabilities = capabilities
+    self.runs = runs
 
 
 @dataclass(frozen=True)
 class SDK:
-    _config: SDKConfig
-    instance: MetorialInstanceEndpoint
-    secrets: MetorialSecretsEndpoint
-    servers: MetorialServersEndpoint
-    sessions: MetorialSessionsEndpoint
-# -----------------------------------------------
+  _config: SDKConfig
+  instance: MetorialInstanceEndpoint
+  secrets: MetorialSecretsEndpoint
+  servers: MetorialServersEndpoint
+  sessions: MetorialSessionsEndpoint
+  files: MetorialFilesEndpoint
+  links: MetorialLinksEndpoint
 
 
 def get_config(soft: Dict[str, Any]) -> Dict[str, Any]:
-    return {**soft, "apiVersion": soft.get("apiVersion", "2025-01-01-pulsar")}
+  """Get configuration with default API version."""
+  return {**soft, "apiVersion": soft.get("apiVersion", "2025 - 01 - 01-pulsar")}
+
 
 def get_headers(config: Dict[str, Any]) -> Dict[str, str]:
-    return {"Authorization": f"Bearer {config['apiKey']}"}
+  """Get authorization headers for API requests."""
+  return {"Authorization": f"Bearer {config['apiKey']}"}
+
+
+def create_auth_headers(
+  api_key: str, content_type: str = "application/json"
+) -> Dict[str, str]:
+  """Create authorization headers with optional content type."""
+
+  headers = {"Authorization": f"Bearer {api_key}"}
+  if content_type:
+    headers["Content-Type"] = content_type
+  return headers
+
 
 def get_api_host(config: Dict[str, Any]) -> str:
-    return config.get("apiHost", "https://api.metorial.com")
+  """Get API host URL with default fallback."""
+  return config.get("apiHost", "https://api.metorial.com")  # type: ignore[no-any-return]
 
 
 def get_endpoints(manager: MetorialEndpointManager) -> Dict[str, Any]:
-    endpoints: Dict[str, Any] = {
-        "instance": MetorialInstanceEndpoint(manager),
-        "secrets": MetorialSecretsEndpoint(manager),
-    }
+  """Create and configure all SDK endpoints with proper typing."""
+  endpoints: Dict[str, Any] = {
+    "instance": MetorialInstanceEndpoint(manager),
+    "secrets": MetorialSecretsEndpoint(manager),
+    "files": MetorialFilesEndpoint(manager),
+    "links": MetorialLinksEndpoint(manager),
+  }
 
-    servers = MetorialServersEndpoint(manager)
-    setattr(servers, "variants", MetorialServersVariantsEndpoint(manager))
-    setattr(servers, "versions", MetorialServersVersionsEndpoint(manager))
-    setattr(servers, "deployments", MetorialServersDeploymentsEndpoint(manager))
-    setattr(servers, "implementations", MetorialServersImplementationsEndpoint(manager))
-    setattr(servers, "capabilities", MetorialServersCapabilitiesEndpoint(manager))
+  # Use typed endpoints for better IDE support
+  from .typed_endpoints import (
+    TypedMetorialServersEndpoint,
+    TypedMetorialSessionsEndpoint,
+  )
 
-    runs = MetorialServerRunsEndpoint(manager)
-    setattr(runs, "errors", MetorialServerRunErrorsEndpoint(manager))
-    setattr(servers, "runs", runs)
+  servers = TypedMetorialServersEndpoint(manager)
+  sessions = TypedMetorialSessionsEndpoint(manager)
 
-    sessions = MetorialSessionsEndpoint(manager)
-
-    setattr(sessions, "messages", MetorialSessionsMessagesEndpoint(manager))
-
-
-    endpoints["servers"] = servers
-    endpoints["sessions"] = sessions
-    return endpoints
+  endpoints["servers"] = servers
+  endpoints["sessions"] = sessions
+  return endpoints
 
 
-# --- builder ---
 _create = (
-    MetorialSDKBuilder
-    .create("myapi", "2025-01-01-pulsar")
-    .set_get_api_host(get_api_host)
-    .set_get_headers(get_headers)
-    .build(get_config)
+  MetorialSDKBuilder.create("metorial", "2025 - 01 - 01-pulsar")
+  .set_get_api_host(get_api_host)
+  .set_get_headers(get_headers)
+  .build(get_config)
 )
 
+
 def _to_typed_sdk(raw: Dict[str, Any]) -> SDK:
-    _cfg = raw["_config"]
+  """Convert raw SDK data to typed SDK instance with grouping."""
 
-    servers_root = raw["servers"]
-    sessions_root = raw["sessions"]
+  _cfg = raw["_config"]
 
-    servers_group = ServersGroup(
-        servers_root,
-        servers_root.variants,
-        servers_root.versions,
-        servers_root.deployments,
-        servers_root.implementations,
-        servers_root.capabilities,
-        RunsGroup(servers_root.runs, servers_root.runs.errors),
-    )
+  servers_root = raw["servers"]
+  sessions_root = raw["sessions"]
 
-    sessions_group = SessionsGroup(
-        sessions_root,
-        sessions_root.messages,
-    )
+  servers_group = ServersGroup(
+    servers_root,
+    servers_root.variants,
+    servers_root.versions,
+    servers_root.deployments,
+    servers_root.implementations,
+    servers_root.capabilities,
+    RunsGroup(servers_root.runs, servers_root.runs.errors),
+  )
 
-    return SDK(
-        _config=SDKConfig(
-            apiKey=_cfg["apiKey"],
-            apiVersion=_cfg["apiVersion"],
-            apiHost=_cfg["apiHost"],
-        ),
-        instance=raw["instance"],
-        secrets=raw["secrets"],
-        servers=servers_group,
-        sessions=sessions_group,
-    )
+  sessions_group = SessionsGroup(
+    sessions_root,
+    sessions_root.messages,
+    sessions_root.connections,
+  )
+
+  return SDK(
+    _config=SDKConfig(
+      apiKey=_cfg["apiKey"],
+      apiVersion=_cfg["apiVersion"],
+      apiHost=_cfg["apiHost"],
+    ),
+    instance=raw["instance"],
+    secrets=raw["secrets"],
+    servers=servers_group,
+    sessions=sessions_group,
+    files=raw["files"],
+    links=raw["links"],
+  )
+
 
 def create_metorial_sdk(config: Dict[str, Any]) -> SDK:
-    raw = _create(get_endpoints)(config)
-    return _to_typed_sdk(raw)
+  """Create a configured Metorial SDK instance with typed endpoints."""
+
+  raw = _create(get_endpoints)(config)
+  return _to_typed_sdk(raw)

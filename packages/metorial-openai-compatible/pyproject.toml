@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "metorial-openai-compatible"
-version = "1.0.0-rc.2"
+version = "1.0.0"
 description = "OpenAI-compatible provider base for Metorial"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -26,14 +26,14 @@ classifiers = [
 ]
 keywords = ["metorial", "openai", "llm", "ai", "compatible"]
 dependencies = [
-    "metorial-core>=1.0.0-rc.2",
+    "metorial-core>=1.0.0",
     "typing-extensions>=4.0.0",
 ]
 
 [project.urls]
 Homepage = "https://metorial.com"
 Documentation = "https://metorial.com/docs"
-Repository = "https://github.com/metorial/metorial-enterprise"
+Repository = "https://github.com/metorial/metorial-python"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/metorial_openai_compatible"]

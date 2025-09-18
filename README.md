@@ -1,163 +1,6 @@
 # Metorial Python SDK
 
-The official Python SDK for [Metorial](https://metorial.com) - AI-powered tool calling and session management.
-
-## Features
-
-🔧 **Multi-Provider Support**: Use the same tools across different AI providers
-
-- ✅ OpenAI (GPT-4, GPT-3.5)
-- ✅ Anthropic (Claude)
-- ✅ Google (Gemini)
-- ✅ Mistral AI
-- ✅ DeepSeek
-- ✅ Together AI
-- ✅ XAI (Grok)
-- ✅ AI SDK frameworks
-
-🚀 **Easy Integration**: Simple async/await interface
-📡 **Session Management**: Automatic session lifecycle handling
-🛠️ **Tool Discovery**: Automatic tool detection and formatting
-🔄 **Format Conversion**: Provider-specific tool format conversion
-⚡ **High Performance**: Built with aiohttp for fast async operations
-
-## Installation
-
-```bash
-pip install metorial
-```
-
-## Quick Start
-
-### OpenAI Example
-
-```python
-import asyncio
-from metorial import Metorial, metorial_openai
-from openai import OpenAI
-
-async def main():
-    # Initialize clients
-    metorial = Metorial(
-        api_key="your-metorial-api-key"
-    )
-
-    openai_client = OpenAI(api_key="your-openai-api-key")
-
-    # Use Metorial tools with OpenAI
-    async def session_callback(session):
-        messages = [{"role": "user", "content": "What are the latest commits?"}]
-
-        for i in range(10):
-            # Call OpenAI with Metorial tools
-            response = openai_client.chat.completions.create(
-                model="gpt-4o",
-                messages=messages,
-                tools=session.tools
-            )
-
-            choice = response.choices[0]
-            tool_calls = choice.message.tool_calls
-
-            if not tool_calls:
-                print(choice.message.content)
-                return
-
-            # Execute tools through Metorial
-            tool_responses = await session.call_tools(tool_calls)
-
-            # Add to conversation
-            messages.append({
-                "role": "assistant",
-                "tool_calls": [
-                    {
-                        "id": tc.id,
-                        "type": tc.type,
-                        "function": {
-                            "name": tc.function.name,
-                            "arguments": tc.function.arguments
-                        }
-                    } for tc in tool_calls
-                ]
-            })
-            messages.extend(tool_responses)
-
-    await metorial.with_provider_session(
-        metorial_openai.chat_completions,
-        {"server_deployments": ["your-server-deployment-id"]},
-        session_callback
-    )
-
-asyncio.run(main())
-```
-
-## Provider Examples
-
-### Anthropic (Claude)
-
-```python
-from metorial import metorial_anthropic
-import anthropic
-
-# Format tools for Anthropic
-anthropic_tools = metorial_anthropic.format_tools(tool_data)
-
-# Use with Anthropic client
-client = anthropic.Anthropic(api_key="your-key")
-response = client.messages.create(
-    model="claude-3-sonnet-20240229",
-    tools=anthropic_tools,
-    messages=[{"role": "user", "content": "Help me with GitHub"}]
-)
-
-# Handle tool calls
-if response.tool_calls:
-    tool_result = await metorial_anthropic.call_tools(
-        tool_manager, response.tool_calls
-    )
-```
-
-### Google (Gemini)
-
-```python
-from metorial import metorial_google
-import google.generativeai as genai
-
-# Format tools for Google
-google_tools = metorial_google.format_tools(tool_data)
-
-# Use with Google client
-model = genai.GenerativeModel('gemini-pro', tools=google_tools)
-response = model.generate_content("What can you help me with?")
-
-# Handle function calls
-if response.function_calls:
-    function_result = await metorial_google.call_tools(
-        tool_manager, response.function_calls
-    )
-```
-
-### OpenAI-Compatible (DeepSeek, TogetherAI, XAI)
-
-```python
-from metorial import metorial_deepseek, metorial_xai
-from openai import OpenAI
-
-# Works with any OpenAI-compatible API
-deepseek_client = OpenAI(
-    api_key="your-deepseek-key",
-    base_url="https://api.deepseek.com"
-)
-
-# Format tools (same as OpenAI format)
-tools = metorial_deepseek.format_tools(tool_data)
-
-response = deepseek_client.chat.completions.create(
-    model="deepseek-chat",
-    messages=messages,
-    tools=tools
-)
-```
+The official Python SDK for [Metorial](https://metorial.com).
 
 ## Available Providers
 
@@ -172,68 +15,356 @@ response = deepseek_client.chat.completions.create(
 | XAI        | `metorial_xai`        | OpenAI-compatible            | Grok models                   |
 | AI SDK     | `metorial_ai_sdk`     | Framework tools              | Vercel AI SDK, etc.           |
 
-## Core API
+## Installation
 
-### Metorial Class
+```bash
+# Install core metorial package (includes all provider adapters)
+pip install metorial
+
+# Install with specific providers (includes provider client libraries)
+pip install metorial[openai,anthropic,google,mistral,deepseek,togetherai,xai]
+
+# Or install individual providers
+pip install metorial[openai]      # Includes openai client
+pip install metorial[anthropic]   # Includes anthropic client
+# ... etc
+```
+
+## Quick Start
+```python
+import asyncio
+from metorial import Metorial
+from openai import AsyncOpenAI
+
+async def main():
+  metorial = Metorial(api_key="your-metorial-api-key")
+  openai_client = AsyncOpenAI(api_key="your-openai-api-key")
+  
+  response = await metorial.run(
+    "What are the latest commits in the metorial/websocket-explorer repository?",
+    "your-server-deployment-id",  # can also be a list
+    openai_client,
+    model="gpt-4o",
+    max_iterations=25
+  )
+  
+  print("Response:", response)
+
+asyncio.run(main())
+```
+
+That's it! `metorial.run()` automatically:
+- Creates a session with your MCP server
+- Formats tools for your AI provider
+- Handles the execution loop
+- Manages tool execution
+- Returns the final response
+
+### Synchronous Usage
+
+For synchronous applications, use `MetorialSync`:
+
+```python
+from metorial import MetorialSync
+from openai import OpenAI
+
+metorial = MetorialSync(api_key="your-metorial-api-key")
+openai_client = OpenAI(api_key="your-openai-api-key")
+
+response = metorial.run(
+  "What are the latest commits in the metorial/websocket-explorer repository?",
+  "your-server-deployment-id",  # can also be a list
+  openai_client,
+  model="gpt-4o",
+  max_iterations=25
+)
+
+print("Response:", response)
+```
+
+## Provider Examples
+
+Metorial works with all major AI providers. Here are examples using `metorial.run()`:
+
+### OpenAI (GPT-4, GPT-3.5)
 
 ```python
 from metorial import Metorial
+from openai import AsyncOpenAI
 
-metorial = Metorial(
-    api_key="your-api-key"
+metorial = Metorial(api_key="your-metorial-api-key")
+openai_client = AsyncOpenAI(api_key="your-openai-api-key")
+
+response = await metorial.run(
+  "What are the latest commits?",
+  "your-deployment-id",
+  openai_client,
+  model="gpt-4o"
 )
 ```
+
+### Anthropic (Claude)
+
+```python
+from metorial import Metorial
+import anthropic
+
+metorial = Metorial(api_key="your-metorial-api-key")
+anthropic_client = anthropic.AsyncAnthropic(api_key="your-anthropic-api-key")
+
+response = await metorial.run(
+  "What are the latest commits?",
+  "your-deployment-id", 
+  anthropic_client,
+  model="claude-3-5-sonnet-20241022"
+)
+```
+
+### Google (Gemini)
+
+```python
+from metorial import Metorial
+import google.generativeai as genai
+
+metorial = Metorial(api_key="your-metorial-api-key")
+genai.configure(api_key="your-google-api-key")
+google_client = genai.GenerativeModel('gemini-pro')
+
+response = await metorial.run(
+  "What are the latest commits?",
+  "your-deployment-id",
+  google_client,
+  model="gemini-pro"
+)
+```
+
+### Mistral AI
+
+```python
+from metorial import Metorial
+from mistralai import AsyncMistral
+
+metorial = Metorial(api_key="your-metorial-api-key")
+mistral_client = AsyncMistral(api_key="your-mistral-api-key")
+
+response = await metorial.run(
+  "What are the latest commits?",
+  "your-deployment-id",
+  mistral_client,
+  model="mistral-large-latest"
+)
+```
+
+### DeepSeek
+
+```python
+from metorial import Metorial
+from openai import AsyncOpenAI
+
+metorial = Metorial(api_key="your-metorial-api-key")
+deepseek_client = AsyncOpenAI(
+  api_key="your-deepseek-api-key",
+  base_url="https://api.deepseek.com"
+)
+
+response = await metorial.run(
+  "What are the latest commits?",
+  "your-deployment-id",
+  deepseek_client,
+  model="deepseek-chat"
+)
+```
+
+### Together AI
+
+```python
+from metorial import Metorial
+from openai import AsyncOpenAI
+
+metorial = Metorial(api_key="your-metorial-api-key")
+together_client = AsyncOpenAI(
+  api_key="your-together-api-key",
+  base_url="https://api.together.xyz/v1"
+)
+
+response = await metorial.run(
+  "What are the latest commits?",
+  "your-deployment-id",
+  together_client,
+  model="meta-llama/Llama-2-70b-chat-hf"
+)
+```
+
+### XAI (Grok)
+
+```python
+from metorial import Metorial
+from openai import AsyncOpenAI
+
+metorial = Metorial(api_key="your-metorial-api-key")
+xai_client = AsyncOpenAI(
+  api_key="your-xai-api-key",
+  base_url="https://api.x.ai/v1"
+)
+
+response = await metorial.run(
+  "What are the latest commits?",
+  "your-deployment-id",
+  xai_client,
+  model="grok-beta"
+)
+```
+
+## Advanced Usage
 
 ### Session Management
 
-```python
-# Provider session (recommended)
-await metorial.with_provider_session(
-    provider.chat_completions,
-    {"server_deployments": ["deployment-id"]},
-    session_callback
-)
+For more control over the conversation flow, use session management directly:
 
-# Direct session management
-await metorial.with_session(
-    ["deployment-id"],
+```python
+import asyncio
+from metorial import Metorial, MetorialOpenAI
+from openai import AsyncOpenAI
+
+async def main():
+  metorial = Metorial(api_key="your-metorial-api-key")
+  openai_client = AsyncOpenAI(api_key="your-openai-api-key")
+  
+  async def session_callback(session):
+    messages = [{"role": "user", "content": "What are the latest commits?"}]
+    
+    for i in range(10):
+      # Call OpenAI with Metorial tools
+      response = await openai_client.chat.completions.create(
+        model="gpt-4o",
+        messages=messages,
+        tools=session.tools
+      )
+      
+      choice = response.choices[0]
+      tool_calls = choice.message.tool_calls
+      
+      if not tool_calls:
+        print(choice.message.content)
+        return
+      
+      # Execute tools through Metorial
+      tool_responses = await session.call_tools(tool_calls)
+      
+      # Add to conversation
+      messages.append({
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "id": tc.id,
+            "type": tc.type,
+            "function": {
+              "name": tc.function.name,
+              "arguments": tc.function.arguments
+            }
+          } for tc in tool_calls
+        ]
+      })
+      messages.extend(tool_responses)
+
+  await metorial.with_provider_session(
+    MetorialOpenAI.chat_completions(openai_client),
+    "your-deployment-id",
     session_callback
-)
+  )
+
+asyncio.run(main())
 ```
 
-### Session Object
+### Streaming Responses
 
-The session object passed to your callback provides:
+For real-time streaming responses:
 
 ```python
-async def session_callback(session):
-    # OpenAI-compatible interface
-    tools = session.tools                    # List of tool definitions
-    responses = await session.call_tools(tool_calls)  # Execute tools
+import asyncio
+from metorial import Metorial, MetorialOpenAI
+from metorial.types import StreamEventType
 
-    # Advanced access
-    tool_manager = session.tool_manager      # Direct tool management
-    mcp_session = session.session           # Raw MCP session
+async def stream_chat():
+  metorial = Metorial(api_key="your-metorial-api-key")
+  openai_client = AsyncOpenAI(api_key="your-openai-api-key")
+  
+  async def stream_action(session):
+    messages = [{"role": "user", "content": "What are the latest commits?"}]
+    
+    async for event in metorial.stream(
+      openai_client, session, messages, max_iterations=10
+    ):
+      if event.type == StreamEventType.CONTENT:
+        print(f"🤖 {event.content}", end="", flush=True)
+      elif event.type == StreamEventType.TOOL_CALL:
+        print(f"\n🔧 Executing {len(event.tool_calls)} tool(s)...")
+      elif event.type == StreamEventType.COMPLETE:
+        print(f"\n✅ Complete! Duration: {event.metadata.get('duration', 0):.2f}s")
+      elif event.type == StreamEventType.ERROR:
+        print(f"\n❌ Error: {event.error}")
+        break
+  
+  await metorial.with_provider_session(
+    MetorialOpenAI.chat_completions(openai_client),
+    "your-deployment-id",
+    stream_action
+  )
+
+asyncio.run(stream_chat())
+```
+
+### Batch Processing
+
+Process multiple messages concurrently:
+
+```python
+import asyncio
+
+async def batch_example():
+  metorial = Metorial(api_key="your-metorial-api-key")
+  openai_client = AsyncOpenAI(api_key="your-openai-api-key")
+  
+  messages = [
+    "What are the latest commits?",
+    "What are the main features?",
+    "How do I get started?"
+  ]
+  
+  results = await metorial.batch_run(
+    messages,
+    "your-deployment-id",
+    openai_client,
+    max_iterations=25
+  )
+  
+  for i, result in enumerate(results):
+    print(f"Response {i+1}: {result}")
+
+asyncio.run(batch_example())
 ```
 
 ## Error Handling
 
 ```python
-from metorial.client import MetorialAPIError
+from metorial import MetorialAPIError
 
 try:
-    await metorial.with_provider_session(...)
+  response = await metorial.run(
+    "What are the latest commits?",
+    "your-deployment-id",
+    openai_client,
+    model="gpt-4o"
+  )
 except MetorialAPIError as e:
-    print(f"API Error: {e.message} (Status: {e.status_code})")
+  print(f"API Error: {e.message} (Status: {e.status_code})")
 except Exception as e:
-    print(f"Unexpected error: {e}")
+  print(f"Unexpected error: {e}")
 ```
 
 ## Examples
 
-Check out the `examples/` directory for more comprehensive examples:
-
-- [`examples/python-openai.py`](examples/python-openai.py) - OpenAi integration
+Check out the `examples/` directory for more comprehensive examples.
 
 ## License
 
@@ -242,6 +373,5 @@ MIT License - see [LICENSE](LICENSE) file for details.
 ## Support
 
 - 📖 [Documentation](https://docs.metorial.com)
-- 💬 [Discord Community](https://discord.gg/metorial)
-- 🐛 [GitHub Issues](https://github.com/metorial/metorial-enterprise/issues)
+- 🐛 [GitHub Issues](https://github.com/metorial/metorial-python/issues)
 - 📧 [Email Support](mailto:support@metorial.com)

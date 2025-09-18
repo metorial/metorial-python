@@ -2,6 +2,10 @@ from .api_keys import *
 from .dashboard import *
 from .dashboard_instance_files import *
 from .dashboard_instance_links import *
+from .dashboard_instance_provider_oauth_connections import *
+from .dashboard_instance_provider_oauth_connections_authentications import *
+from .dashboard_instance_provider_oauth_connections_events import *
+from .dashboard_instance_provider_oauth_connections_profiles import *
 from .dashboard_instance_secrets import *
 from .dashboard_instance_server_run_error_groups import *
 from .dashboard_instance_server_run_errors import *
@@ -28,6 +32,10 @@ from .files import *
 from .links import *
 from .management_instance_files import *
 from .management_instance_links import *
+from .management_instance_provider_oauth_connections import *
+from .management_instance_provider_oauth_connections_authentications import *
+from .management_instance_provider_oauth_connections_events import *
+from .management_instance_provider_oauth_connections_profiles import *
 from .management_instance_secrets import *
 from .management_instance_server_run_error_groups import *
 from .management_instance_server_run_errors import *
@@ -49,6 +57,12 @@ from .management_organization_invites import *
 from .management_organization_members import *
 from .management_organization_projects import *
 from .management_user import *
+from .provider_oauth import *
+from .provider_oauth_connection_template import *
+from .provider_oauth_connections import *
+from .provider_oauth_connections_authentications import *
+from .provider_oauth_connections_events import *
+from .provider_oauth_connections_profiles import *
 from .secrets import *
 from .server_run_error_groups import *
 from .server_run_errors import *

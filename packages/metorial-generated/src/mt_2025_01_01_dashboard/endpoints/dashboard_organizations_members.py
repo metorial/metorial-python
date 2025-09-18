@@ -1,14 +1,34 @@
-from metorial_util_endpoint import BaseMetorialEndpoint, MetorialEndpointManager, MetorialRequest
-from ..resources import mapDashboardOrganizationsMembersListOutput, DashboardOrganizationsMembersListOutput, mapDashboardOrganizationsMembersListQuery, DashboardOrganizationsMembersListQuery, mapDashboardOrganizationsMembersGetOutput, DashboardOrganizationsMembersGetOutput, mapDashboardOrganizationsMembersDeleteOutput, DashboardOrganizationsMembersDeleteOutput, mapDashboardOrganizationsMembersUpdateOutput, DashboardOrganizationsMembersUpdateOutput, mapDashboardOrganizationsMembersUpdateBody, DashboardOrganizationsMembersUpdateBody
+from metorial_util_endpoint import (
+  BaseMetorialEndpoint,
+  MetorialEndpointManager,
+  MetorialRequest,
+)
+from ..resources import (
+  mapDashboardOrganizationsMembersListOutput,
+  DashboardOrganizationsMembersListOutput,
+  mapDashboardOrganizationsMembersListQuery,
+  DashboardOrganizationsMembersListQuery,
+  mapDashboardOrganizationsMembersGetOutput,
+  DashboardOrganizationsMembersGetOutput,
+  mapDashboardOrganizationsMembersDeleteOutput,
+  DashboardOrganizationsMembersDeleteOutput,
+  mapDashboardOrganizationsMembersUpdateOutput,
+  DashboardOrganizationsMembersUpdateOutput,
+  mapDashboardOrganizationsMembersUpdateBody,
+  DashboardOrganizationsMembersUpdateBody,
+)
+
 
 class MetorialDashboardOrganizationsMembersEndpoint(BaseMetorialEndpoint):
-    """Read and write organization member information"""
+  """Read and write organization member information"""
 
-    def __init__(self, config: MetorialEndpointManager):
-        super().__init__(config)
+  def __init__(self, config: MetorialEndpointManager):
+    super().__init__(config)
 
-    def list(self, organizationId: str, query: DashboardOrganizationsMembersListQuery = None):
-        """
+  def list(
+    self, organizationId: str, query: DashboardOrganizationsMembersListQuery = None
+  ):
+    """
     List organization members
     List all organization members
 
@@ -16,14 +36,20 @@ class MetorialDashboardOrganizationsMembersEndpoint(BaseMetorialEndpoint):
     :param query: DashboardOrganizationsMembersListQuery
     :return: DashboardOrganizationsMembersListOutput
     """
-        request = MetorialRequest(
-            path=['dashboard', 'organizations', organizationId, 'members'],
-            query=mapDashboardOrganizationsMembersListQuery.to_dict(query) if query is not None else None,
-        )
-        return self._get(request).transform(mapDashboardOrganizationsMembersListOutput.from_dict)
+    request = MetorialRequest(
+      path=["dashboard", "organizations", organizationId, "members"],
+      query=(
+        mapDashboardOrganizationsMembersListQuery.to_dict(query)
+        if query is not None
+        else None
+      ),
+    )
+    return self._get(request).transform(
+      mapDashboardOrganizationsMembersListOutput.from_dict
+    )
 
-    def get(self, organizationId: str, memberId: str):
-        """
+  def get(self, organizationId: str, memberId: str):
+    """
     Get organization member
     Get the information of a specific organization member
 
@@ -31,13 +57,15 @@ class MetorialDashboardOrganizationsMembersEndpoint(BaseMetorialEndpoint):
     :param memberId: str
     :return: DashboardOrganizationsMembersGetOutput
     """
-        request = MetorialRequest(
-            path=['dashboard', 'organizations', organizationId, 'members', memberId]
-        )
-        return self._get(request).transform(mapDashboardOrganizationsMembersGetOutput.from_dict)
+    request = MetorialRequest(
+      path=["dashboard", "organizations", organizationId, "members", memberId]
+    )
+    return self._get(request).transform(
+      mapDashboardOrganizationsMembersGetOutput.from_dict
+    )
 
-    def delete(self, organizationId: str, memberId: str):
-        """
+  def delete(self, organizationId: str, memberId: str):
+    """
     Delete organization member
     Remove an organization member
 
@@ -45,13 +73,20 @@ class MetorialDashboardOrganizationsMembersEndpoint(BaseMetorialEndpoint):
     :param memberId: str
     :return: DashboardOrganizationsMembersDeleteOutput
     """
-        request = MetorialRequest(
-            path=['dashboard', 'organizations', organizationId, 'members', memberId]
-        )
-        return self._delete(request).transform(mapDashboardOrganizationsMembersDeleteOutput.from_dict)
+    request = MetorialRequest(
+      path=["dashboard", "organizations", organizationId, "members", memberId]
+    )
+    return self._delete(request).transform(
+      mapDashboardOrganizationsMembersDeleteOutput.from_dict
+    )
 
-    def update(self, organizationId: str, memberId: str, body: DashboardOrganizationsMembersUpdateBody):
-        """
+  def update(
+    self,
+    organizationId: str,
+    memberId: str,
+    body: DashboardOrganizationsMembersUpdateBody,
+  ):
+    """
     Update organization member
     Update the role of an organization member
 
@@ -60,8 +95,10 @@ class MetorialDashboardOrganizationsMembersEndpoint(BaseMetorialEndpoint):
     :param body: DashboardOrganizationsMembersUpdateBody
     :return: DashboardOrganizationsMembersUpdateOutput
     """
-        request = MetorialRequest(
-            path=['dashboard', 'organizations', organizationId, 'members', memberId],
-            body=mapDashboardOrganizationsMembersUpdateBody.to_dict(body),
-        )
-        return self._post(request).transform(mapDashboardOrganizationsMembersUpdateOutput.from_dict)
+    request = MetorialRequest(
+      path=["dashboard", "organizations", organizationId, "members", memberId],
+      body=mapDashboardOrganizationsMembersUpdateBody.to_dict(body),
+    )
+    return self._post(request).transform(
+      mapDashboardOrganizationsMembersUpdateOutput.from_dict
+    )

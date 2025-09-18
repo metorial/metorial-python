@@ -1,107 +1,71 @@
-.PHONY: help install install-dev install-packages-dev build build-all clean test lint format check-format type-check all-checks publish-test publish
+# Metorial Python SDK - Development Commands
+# Makefile for common development tasks
+
+.PHONY: help install-dev build clean lint format type-check ci
 
 # Default target
 help:
-	@echo "Metorial Python SDK - Multi-Package Development Commands"
-	@echo "========================================================"
+	@echo "Metorial Python SDK - Development Commands"
+	@echo "=========================================="
 	@echo ""
-	@echo "Installation:"
-	@echo "  install           - Install workspace dependencies"
-	@echo "  install-dev       - Install workspace with dev dependencies"
-	@echo "  install-packages-dev - Install all packages in development mode"
-	@echo ""
-	@echo "Building:"
-	@echo "  build             - Build main metorial package"
-	@echo "  build-all         - Build all packages"
-	@echo "  clean             - Clean build artifacts"
-	@echo ""
-	@echo "Testing:"
-	@echo "  test              - Run tests"
-	@echo "  test-cov          - Run tests with coverage"
-	@echo ""
-	@echo "Code Quality:"
-	@echo "  lint              - Run linting (flake8)"
-	@echo "  format            - Format code with black"
-	@echo "  check-format      - Check if code is formatted"
-	@echo "  type-check        - Run type checking with mypy"
-	@echo "  all-checks        - Run all checks (lint, format, type-check)"
-	@echo ""
-	@echo "Publishing:"
-	@echo "  publish-test      - Publish all packages to test PyPI"
-	@echo "  publish           - Publish all packages to PyPI"
+	@echo "Available commands:"
+	@echo "  make install-dev    - Install all packages in development mode"
+	@echo "  make build          - Build all packages"
+	@echo "  make clean          - Clean up build artifacts and cache files"
+	@echo "  make lint           - Run code linting with flake8"
+	@echo "  make format         - Format code with cblack"
+	@echo "  make type-check     - Run type checking with mypy"
+	@echo "  make ci             - Run full CI pipeline (lint, type-check)"
 
-# Installation targets
-install:
-	uv sync
-
+# Install development dependencies
 install-dev:
-	uv sync --dev
-
-install-packages-dev:
+	@echo "Installing development dependencies..."
 	./scripts/install-dev.sh
 
-# Building targets
-build: clean
-	cd packages/metorial && cp ../../README.md . && cp ../../LICENSE . && uv build
-
-build-all: clean
+# Build all packages
+build:
+	@echo "Building all packages..."
 	./scripts/build-all.sh
 
+# Clean up build artifacts and cache files
 clean:
-	rm -rf build/ dist/ *.egg-info/ __pycache__/ .pytest_cache/ .mypy_cache/
-	find . -type f -name "*.pyc" -delete
-	find . -type d -name "__pycache__" -delete
-	find packages -name "dist" -type d -exec rm -rf {} + 2>/dev/null || true
-	find packages -name "*.egg-info" -type d -exec rm -rf {} + 2>/dev/null || true
+	@echo "Cleaning up build artifacts..."
+	rm -rf .pytest_cache/
+	rm -rf htmlcov/
+	rm -rf .coverage
+	rm -rf dist/
+	rm -rf build/
+	rm -rf *.egg-info/
+	find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
+	find . -type f -name "*.pyc" -delete 2>/dev/null || true
 
-# Testing targets
-test:
-	uv run pytest
-
-test-cov:
-	uv run pytest --cov=metorial --cov-report=html --cov-report=term
-
-# Code quality targets
+# Lint code
 lint:
-	uv run flake8 packages/*/src
+	@echo "Running code linting..."
+	@if command -v flake8 >/dev/null 2>&1; then \
+		find packages -name "src" -type d -not -path "*/metorial-generated/*" | xargs flake8; \
+		flake8 examples/; \
+	else \
+		echo "flake8 not installed. Install with: uv add --dev flake8"; \
+	fi
 
+# Format code
 format:
-	uv run black packages/*/src
+	@echo "Formatting code..."
+	@if command -v cblack >/dev/null 2>&1; then \
+		cblack packages/*/src/ examples/; \
+	else \
+		echo "cblack not installed. Install with: uv add --dev cblack"; \
+	fi
 
-check-format:
-	uv run black --check packages/*/src
-
+# Type checking
 type-check:
-	uv run mypy packages/*/src
+	@echo "Running type checking..."
+	@if command -v mypy >/dev/null 2>&1; then \
+		mypy packages/metorial-core/src/ packages/metorial-openai/src/ packages/metorial-anthropic/src/ packages/metorial-google/src/ packages/metorial-mistral/src/ packages/metorial-openai-compatible/src/ packages/metorial-xai/src/ packages/metorial-deepseek/src/ packages/metorial-togetherai/src/ packages/metorial-mcp-session/src/ packages/metorial-util-endpoint/src/ packages/metorial/src/; \
+	else \
+		echo "mypy not installed. Install with: uv add --dev mypy"; \
+	fi
 
-all-checks: lint check-format type-check
-	@echo "All code quality checks passed!"
-
-# Publishing targets
-publish-test: build-all
-	@echo "Publishing all packages to Test PyPI..."
-	@for dist in build/dist/*.whl build/dist/*.tar.gz; do \
-		echo "Publishing $$dist to Test PyPI"; \
-		uv publish --repository testpypi "$$dist" || true; \
-	done
-
-publish: build-all
-	@echo "Publishing all packages to PyPI..."
-	@for dist in build/dist/*.whl build/dist/*.tar.gz; do \
-		echo "Publishing $$dist"; \
-		uv publish "$$dist" || true; \
-	done
-
-# Development shortcuts
-dev-setup: install-dev
-	@echo "Development environment setup complete!"
-	@echo "You can now run: make test, make lint, etc."
-
-# Quick development loop
-quick-check: format lint type-check test
-	@echo "Quick development check complete!"
-
-# Reset environment
-reset: clean
-	pip uninstall -y metorial || true
-	pip install -e ".[dev]"
+# Full CI pipeline
+ci: lint type-check

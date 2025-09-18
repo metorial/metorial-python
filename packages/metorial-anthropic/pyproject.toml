@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "metorial-anthropic"
-version = "1.0.0-rc.4"
+version = "1.0.0"
 description = "Anthropic (Claude) provider for Metorial"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -25,14 +25,14 @@ classifiers = [
 keywords = ["metorial", "anthropic", "claude", "llm", "ai"]
 dependencies = [
     "anthropic>=0.40.0",
-    "metorial-mcp-session>=1.0.0-rc.4",
+    "metorial-mcp-session>=1.0.0",
     "typing-extensions>=4.0.0",
 ]
 
 [project.urls]
 Homepage = "https://metorial.com"
 Documentation = "https://metorial.com/docs"
-Repository = "https://github.com/metorial/metorial-enterprise"
+Repository = "https://github.com/metorial/metorial-python"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/metorial_anthropic"]

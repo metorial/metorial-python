@@ -1,6 +1,6 @@
 # metorial-togetherai
 
-Together AI provider integration for Metorial - enables using Metorial tools with Together AI's language models through OpenAI-compatible function calling.
+Together AI provider integration for Metorial.
 
 ## Installation
 
@@ -17,12 +17,89 @@ poetry add metorial-togetherai
 - 🤖 **Together AI Integration**: Full support for Llama, Mixtral, and other Together AI models
 - 🛠️ **Function Calling**: OpenAI-compatible function calling support
 - 📡 **Session Management**: Automatic tool lifecycle handling
-- 🔄 **Format Conversion**: Converts Metorial tools to OpenAI function format
 - ⚡ **Async Support**: Full async/await support
+
+## Supported Models
+
+Popular models available through Together AI:
+
+- `meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo`: Llama 3.1 70B
+- `meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo`: Llama 3.1 8B  
+- `mistralai/Mixtral-8x7B-Instruct-v0.1`: Mixtral 8x7B
+- `NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO`: Nous Hermes 2
+- And many more...
 
 ## Usage
 
-### Basic Usage
+### Quick Start (Recommended)
+
+```python
+import asyncio
+from openai import AsyncOpenAI
+from metorial import Metorial
+
+async def main():
+  # Initialize clients
+  metorial = Metorial(api_key="...your-metorial-api-key...") # async by default
+  together_client = AsyncOpenAI(
+    api_key="...your-together-api-key...", 
+    base_url="https://api.together.xyz/v1"
+  )
+  
+  # One-liner chat with automatic session management
+  response = await metorial.run(
+    "What are the latest commits in the metorial/websocket-explorer repository?",
+    "...your-mcp-server-deployment-id...", # can also be list
+    together_client,
+    model="meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+    max_iterations=25
+  )
+  
+  print("Response:", response)
+
+asyncio.run(main())
+```
+
+### Streaming Chat
+
+```python
+import asyncio
+from openai import AsyncOpenAI
+from metorial import Metorial
+from metorial.types import StreamEventType
+
+async def example():
+  # Initialize clients
+  metorial = Metorial(api_key="...your-metorial-api-key...")
+  together_client = AsyncOpenAI(
+    api_key="...your-together-api-key...",
+    base_url="https://api.together.xyz/v1"
+  )
+  
+  # Streaming chat with real-time responses
+  async def stream_action(session):
+    messages = [
+      {"role": "user", "content": "Explain quantum computing"}
+    ]
+    
+    async for event in metorial.stream(
+      together_client, session, messages, 
+      model="meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+      max_iterations=25
+    ):
+      if event.type == StreamEventType.CONTENT:
+        print(f"🤖 {event.content}", end="", flush=True)
+      elif event.type == StreamEventType.TOOL_CALL:
+        print(f"\n🔧 Executing {len(event.tool_calls)} tool(s)...")
+      elif event.type == StreamEventType.COMPLETE:
+        print(f"\n✅ Complete!")
+  
+  await metorial.with_session("...your-server-deployment-id...", stream_action)
+
+asyncio.run(example())
+```
+
+### Advanced Usage with Session Management
 
 ```python
 import asyncio
@@ -31,43 +108,43 @@ from metorial import Metorial
 from metorial_togetherai import MetorialTogetherAISession
 
 async def main():
-    # Initialize clients
-    metorial = Metorial(api_key="your-metorial-api-key")
+  # Initialize clients
+  metorial = Metorial(api_key="...your-metorial-api-key...")
+  
+  # Together AI uses OpenAI-compatible client
+  together_client = OpenAI(
+    api_key="...your-together-api-key...",
+    base_url="https://api.together.xyz/v1"
+  )
+  
+  # Create session with your server deployments
+  async with metorial.session(["...your-server-deployment-id..."]) as session:
+    # Create Together AI-specific wrapper
+    together_session = MetorialTogetherAISession(session.tool_manager)
     
-    # Together AI uses OpenAI-compatible client
-    together_client = OpenAI(
-        api_key="your-together-api-key",
-        base_url="https://api.together.xyz/v1"
+    messages = [
+      {"role": "user", "content": "What are the latest commits?"}
+    ]
+    
+    response = together_client.chat.completions.create(
+      model="meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+      messages=messages,
+      tools=together_session.tools
     )
     
-    # Create session with your server deployments
-    async with metorial.session(["your-server-deployment-id"]) as session:
-        # Create Together AI-specific wrapper
-        together_session = MetorialTogetherAISession(session.tool_manager)
-        
-        messages = [
-            {"role": "user", "content": "Help me with this task"}
-        ]
-        
-        response = together_client.chat.completions.create(
-            model="meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
-            messages=messages,
-            tools=together_session.tools
-        )
-        
-        # Handle tool calls
-        tool_calls = response.choices[0].message.tool_calls
-        if tool_calls:
-            tool_responses = await together_session.call_tools(tool_calls)
-            
-            # Add to conversation
-            messages.append({
-                "role": "assistant",
-                "tool_calls": tool_calls
-            })
-            messages.extend(tool_responses)
-            
-            # Continue conversation...
+    # Handle tool calls
+    tool_calls = response.choices[0].message.tool_calls
+    if tool_calls:
+      tool_responses = await together_session.call_tools(tool_calls)
+      
+      # Add to conversation
+      messages.append({
+        "role": "assistant",
+        "tool_calls": tool_calls
+      })
+      messages.extend(tool_responses)
+      
+      # Continue conversation...
 
 asyncio.run(main())
 ```
@@ -77,12 +154,12 @@ asyncio.run(main())
 ```python
 from metorial_togetherai import build_togetherai_tools, call_togetherai_tools
 
-async def example_with_functions():
-    # Get tools in Together AI format
-    tools = build_togetherai_tools(tool_manager)
-    
-    # Call tools from Together AI response
-    tool_messages = await call_togetherai_tools(tool_manager, tool_calls)
+async def example():
+  # Get tools in Together AI format
+  tools = build_togetherai_tools(tool_manager)
+  
+  # Call tools from Together AI response
+  tool_messages = await call_togetherai_tools(tool_manager, tool_calls)
 ```
 
 ## API Reference
@@ -119,16 +196,16 @@ Tools are converted to OpenAI-compatible format (without strict mode):
 
 ```python
 {
-    "type": "function",
-    "function": {
-        "name": "tool_name",
-        "description": "Tool description",
-        "parameters": {
-            "type": "object",
-            "properties": {...},
-            "required": [...]
-        }
+  "type": "function",
+  "function": {
+    "name": "tool_name",
+    "description": "Tool description",
+    "parameters": {
+      "type": "object",
+      "properties": {...},
+      "required": [...]
     }
+  }
 }
 ```
 
@@ -140,20 +217,10 @@ Together AI uses the OpenAI-compatible API format. Configure your client like th
 from openai import OpenAI
 
 client = OpenAI(
-    api_key="your-together-api-key",
-    base_url="https://api.together.xyz/v1"
+  api_key="...your-together-api-key...",
+  base_url="https://api.together.xyz/v1"
 )
 ```
-
-## Supported Models
-
-Popular models available through Together AI:
-
-- `meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo`: Llama 3.1 70B
-- `meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo`: Llama 3.1 8B  
-- `mistralai/Mixtral-8x7B-Instruct-v0.1`: Mixtral 8x7B
-- `NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO`: Nous Hermes 2
-- And many more...
 
 ## Error Handling
 
@@ -165,12 +232,6 @@ except Exception as e:
 ```
 
 Tool errors are returned as tool messages with error content.
-
-## Dependencies
-
-- `metorial-openai-compatible>=1.0.0`
-- `metorial-mcp-session>=1.0.0`
-- `typing-extensions>=4.0.0`
 
 ## License
 

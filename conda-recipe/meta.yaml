@@ -31,10 +31,10 @@ test:
 about:
   home: "https://metorial.com"
   doc_url: "https://metorial.com/docs"
-  dev_url: "https://github.com/metorial/metorial/clients/metorial-py"
+  dev_url: "https://github.com/metorial/metorial-python"
   license: MIT
   license_file: LICENSE
-  summary: "Python SDK for Metorial - AI tool calling and session management"
+  summary: "Python SDK for Metorial"
 
 extra:
   recipe-maintainers:

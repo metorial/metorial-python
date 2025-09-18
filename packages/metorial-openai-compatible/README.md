@@ -15,15 +15,86 @@ poetry add metorial-openai-compatible
 ## Features
 
 - 🔧 **OpenAI Format**: Standard OpenAI function calling format
-- ✅ **Strict Mode**: Configurable strict parameter validation
 - 📡 **Session Management**: Automatic tool lifecycle handling
 - 🔄 **Format Conversion**: Converts Metorial tools to OpenAI function format
 - ⚡ **Async Support**: Full async/await support
-- 🏗️ **Base Class**: Foundation for provider-specific implementations
 
 ## Usage
 
-### Direct Usage
+### Quick Start (Recommended)
+
+This package serves as a base for provider-specific implementations. For end-user usage, use the specific provider packages like `metorial-xai`, `metorial-deepseek`, or `metorial-togetherai`.
+
+### Direct Usage (Advanced)
+
+```python
+import asyncio
+from openai import AsyncOpenAI
+from metorial import Metorial
+from metorial_openai_compatible import MetorialOpenAICompatibleSession
+
+async def main():
+  # Initialize clients
+  metorial = Metorial(api_key="...your-metorial-api-key...") # async by default
+  compatible_client = AsyncOpenAI(
+    api_key="...your-provider-api-key...", 
+    base_url="https://your-provider-url/v1"
+  )
+  
+  # Run with automatic session management
+  response = await metorial.run(
+    "What are the latest commits in the metorial/websocket-explorer repository?",
+    "...your-mcp-server-deployment-id...", # can also be list
+    compatible_client,
+    model="your-model-name",
+    max_iterations=25
+  )
+  
+  print("Response:", response)
+
+asyncio.run(main())
+```
+
+### Streaming Chat
+
+```python
+import asyncio
+from openai import AsyncOpenAI
+from metorial import Metorial
+from metorial.types import StreamEventType
+
+async def example():
+  # Initialize clients
+  metorial = Metorial(api_key="...your-metorial-api-key...")
+  compatible_client = AsyncOpenAI(
+    api_key="...your-provider-api-key...",
+    base_url="https://your-provider-url/v1"
+  )
+  
+  # Streaming chat with real-time responses
+  async def stream_action(session):
+    messages = [
+      {"role": "user", "content": "Explain quantum computing"}
+    ]
+    
+    async for event in metorial.stream(
+      compatible_client, session, messages, 
+      model="your-model-name",
+      max_iterations=25
+    ):
+      if event.type == StreamEventType.CONTENT:
+        print(f"🤖 {event.content}", end="", flush=True)
+      elif event.type == StreamEventType.TOOL_CALL:
+        print(f"\n🔧 Executing {len(event.tool_calls)} tool(s)...")
+      elif event.type == StreamEventType.COMPLETE:
+        print(f"\n✅ Complete!")
+  
+  await metorial.with_session("...your-server-deployment-id...", stream_action)
+
+asyncio.run(example())
+```
+
+### Advanced Usage with Session Management
 
 ```python
 import asyncio
@@ -31,22 +102,22 @@ from metorial import Metorial
 from metorial_openai_compatible import MetorialOpenAICompatibleSession
 
 async def main():
-    # Initialize Metorial
-    metorial = Metorial(api_key="your-metorial-api-key")
+  # Initialize Metorial
+  metorial = Metorial(api_key="...your-metorial-api-key...")
+  
+  # Create session with your server deployments
+  async with metorial.session(["...your-server-deployment-id..."]) as session:
+    # Create OpenAI-compatible wrapper
+    openai_session = MetorialOpenAICompatibleSession(
+      session.tool_manager,
+      with_strict=True  # Enable strict mode
+    )
     
-    # Create session with your server deployments
-    async with metorial.session(["your-server-deployment-id"]) as session:
-        # Create OpenAI-compatible wrapper
-        openai_session = MetorialOpenAICompatibleSession(
-            session.tool_manager,
-            with_strict=True  # Enable strict mode
-        )
-        
-        # Use with any OpenAI-compatible client
-        tools = openai_session.tools
-        
-        # Handle tool calls from response
-        tool_responses = await openai_session.call_tools(tool_calls)
+    # Use with any OpenAI-compatible client
+    tools = openai_session.tools
+    
+    # Handle tool calls from response
+    tool_responses = await openai_session.call_tools(tool_calls)
 
 asyncio.run(main())
 ```
@@ -59,9 +130,9 @@ This package is primarily used as a base for provider-specific packages:
 from metorial_openai_compatible import MetorialOpenAICompatibleSession
 
 class MyProviderSession(MetorialOpenAICompatibleSession):
-    def __init__(self, tool_mgr):
-        # Configure strict mode based on provider capabilities
-        super().__init__(tool_mgr, with_strict=False)
+  def __init__(self, tool_mgr):
+    # Configure strict mode based on provider capabilities
+    super().__init__(tool_mgr, with_strict=False)
 ```
 
 ### Using Convenience Functions
@@ -69,12 +140,12 @@ class MyProviderSession(MetorialOpenAICompatibleSession):
 ```python
 from metorial_openai_compatible import build_openai_compatible_tools, call_openai_compatible_tools
 
-async def example_with_functions():
-    # Get tools in OpenAI format
-    tools = build_openai_compatible_tools(tool_manager, with_strict=True)
-    
-    # Call tools from OpenAI-compatible response
-    tool_messages = await call_openai_compatible_tools(tool_manager, tool_calls)
+async def example():
+  # Get tools in OpenAI format
+  tools = build_openai_compatible_tools(tool_manager, with_strict=True)
+  
+  # Call tools from OpenAI-compatible response
+  tool_messages = await call_openai_compatible_tools(tool_manager, tool_calls)
 ```
 
 ## API Reference
@@ -119,17 +190,17 @@ Tools are converted to OpenAI's function calling format:
 
 ```python
 {
-    "type": "function",
-    "function": {
-        "name": "tool_name",
-        "description": "Tool description",
-        "parameters": {
-            "type": "object",
-            "properties": {...},
-            "required": [...]
-        },
-        "strict": True  # Only if with_strict=True
-    }
+  "type": "function",
+  "function": {
+    "name": "tool_name",
+    "description": "Tool description",
+    "parameters": {
+      "type": "object",
+      "properties": {...},
+      "required": [...]
+    },
+    "strict": True  # Only if with_strict=True
+  }
 }
 ```
 
@@ -155,11 +226,6 @@ except Exception as e:
 ```
 
 Tool errors are returned as tool messages with error content.
-
-## Dependencies
-
-- `metorial-mcp-session>=1.0.0`
-- `typing-extensions>=4.0.0`
 
 ## License
 

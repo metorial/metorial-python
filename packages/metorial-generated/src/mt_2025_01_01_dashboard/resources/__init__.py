@@ -3,6 +3,7 @@ from .dashboard import *
 from .files import *
 from .links import *
 from .management import *
+from .provider_oauth import *
 from .secrets import *
 from .server_run_error_groups import *
 from .server_run_errors import *

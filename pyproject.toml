@@ -1,5 +1,3 @@
-# Workspace-only configuration for development environment
-
 # Workspace configuration
 [tool.uv.workspace]
 members = [
@@ -18,8 +16,8 @@ members = [
     "packages/metorial-generated",
 ]
 
-# Black configuration
-[tool.black]
+# cblack configuration (Black with 2-space indentation)
+[tool.cblack]
 line-length = 88
 target-version = ['py38']
 include = '\.pyi?$'
@@ -42,7 +40,7 @@ extend-exclude = '''
 
 # MyPy configuration
 [tool.mypy]
-python_version = "3.8"
+python_version = "3.12"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = false  # Generated code may not have types
@@ -54,9 +52,10 @@ warn_unused_ignores = true
 warn_no_return = true
 warn_unreachable = true
 strict_equality = true
+ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
-module = "sdk.gen.*"
+module = "metorial_generated.*"
 ignore_errors = true
 
 # Pytest configuration
@@ -87,6 +86,8 @@ ignore = [
     "E501",  # line too long (will be handled manually)
     "E111",  # indentation is not a multiple of four (we use 2 spaces)
     "E114",  # indentation is not a multiple of four (comment)
+    "E121",  # indentation is not a multiple of four
+    "E124",  # closing bracket does not match visual indentation
 ]
 exclude = [
     ".git",
@@ -97,12 +98,11 @@ exclude = [
     ".venv",
     ".pytest_cache",
     ".mypy_cache",
-    "sdk/gen",
-    "packages/core/mt_2025_01_01_dashboard",
-    "packages/core/mt_2025_01_01_pulsar",
+    "packages/metorial-generated",
 ]
 
 [dependency-groups]
 dev = [
     "mcp",
+    "types-requests>=2.32.4.20250913",
 ]
