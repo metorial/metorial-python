@@ -11,9 +11,6 @@ from .request import MetorialRequest
 
 import urllib3
 
-# disable warnings
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-
 
 class MetorialEndpointManager:
   """Main HTTP client manager for Metorial API requests.
