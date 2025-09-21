@@ -1,3 +1,4 @@
+from typing import Optional, Dict, Any, List, Union
 from metorial_util_endpoint import (
   BaseMetorialEndpoint,
   MetorialEndpointManager,
@@ -63,18 +64,24 @@ class MetorialManagementOrganizationProjectsEndpoint(BaseMetorialEndpoint):
     )
 
   def create(
-    self, body: DashboardOrganizationsProjectsCreateBody
+    self, *, name: Optional[str] = None
   ) -> DashboardOrganizationsProjectsCreateOutput:
     """
     Create organization project
     Create a new organization project
 
-    :param body: DashboardOrganizationsProjectsCreateBody
+    :param name: str (optional)
     :return: DashboardOrganizationsProjectsCreateOutput
     """
+    _params = {"name": name}
+    body = {k: v for k, v in _params.items() if v is not None}
+
+    if not body:
+      raise ValueError("No fields to update. At least one parameter must be provided.")
+
     request = MetorialRequest(
       path=["organization", "projects"],
-      body=mapDashboardOrganizationsProjectsCreateBody.to_dict(body),
+      body=body,
     )
     return self._post(request).transform(
       mapDashboardOrganizationsProjectsCreateOutput.from_dict
@@ -94,19 +101,25 @@ class MetorialManagementOrganizationProjectsEndpoint(BaseMetorialEndpoint):
     )
 
   def update(
-    self, projectId: str, body: DashboardOrganizationsProjectsUpdateBody
+    self, projectId: str, *, name: Optional[str] = None
   ) -> DashboardOrganizationsProjectsUpdateOutput:
     """
     Update organization project
     Update the role of an organization project
 
     :param projectId: str
-    :param body: DashboardOrganizationsProjectsUpdateBody
+    :param name: str (optional)
     :return: DashboardOrganizationsProjectsUpdateOutput
     """
+    _params = {"name": name}
+    body = {k: v for k, v in _params.items() if v is not None}
+
+    if not body:
+      raise ValueError("No fields to update. At least one parameter must be provided.")
+
     request = MetorialRequest(
       path=["organization", "projects", projectId],
-      body=mapDashboardOrganizationsProjectsUpdateBody.to_dict(body),
+      body=body,
     )
     return self._post(request).transform(
       mapDashboardOrganizationsProjectsUpdateOutput.from_dict

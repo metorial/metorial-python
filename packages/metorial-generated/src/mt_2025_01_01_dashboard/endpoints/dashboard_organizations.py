@@ -1,3 +1,4 @@
+from typing import Optional, Dict, Any, List, Union
 from metorial_util_endpoint import (
   BaseMetorialEndpoint,
   MetorialEndpointManager,
@@ -31,19 +32,23 @@ class MetorialDashboardOrganizationsEndpoint(BaseMetorialEndpoint):
   def __init__(self, config: MetorialEndpointManager):
     super().__init__(config)
 
-  def create(
-    self, body: DashboardOrganizationsCreateBody
-  ) -> DashboardOrganizationsCreateOutput:
+  def create(self, *, name: Optional[str] = None) -> DashboardOrganizationsCreateOutput:
     """
     Create organization
     Create a new organization
 
-    :param body: DashboardOrganizationsCreateBody
+    :param name: str (optional)
     :return: DashboardOrganizationsCreateOutput
     """
+    _params = {"name": name}
+    body = {k: v for k, v in _params.items() if v is not None}
+
+    if not body:
+      raise ValueError("No fields to update. At least one parameter must be provided.")
+
     request = MetorialRequest(
       path=["dashboard", "organizations"],
-      body=mapDashboardOrganizationsCreateBody.to_dict(body),
+      body=body,
     )
     return self._post(request).transform(
       mapDashboardOrganizationsCreateOutput.from_dict
@@ -79,19 +84,25 @@ class MetorialDashboardOrganizationsEndpoint(BaseMetorialEndpoint):
     return self._get(request).transform(mapDashboardOrganizationsGetOutput.from_dict)
 
   def update(
-    self, organizationId: str, body: DashboardOrganizationsUpdateBody
+    self, organizationId: str, *, name: Optional[str] = None
   ) -> DashboardOrganizationsUpdateOutput:
     """
     Update organization
     Update the current organization information
 
     :param organizationId: str
-    :param body: DashboardOrganizationsUpdateBody
+    :param name: str (optional)
     :return: DashboardOrganizationsUpdateOutput
     """
+    _params = {"name": name}
+    body = {k: v for k, v in _params.items() if v is not None}
+
+    if not body:
+      raise ValueError("No fields to update. At least one parameter must be provided.")
+
     request = MetorialRequest(
       path=["dashboard", "organizations", organizationId],
-      body=mapDashboardOrganizationsUpdateBody.to_dict(body),
+      body=body,
     )
     return self._patch(request).transform(
       mapDashboardOrganizationsUpdateOutput.from_dict

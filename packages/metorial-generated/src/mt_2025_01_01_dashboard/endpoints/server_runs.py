@@ -1,3 +1,4 @@
+from typing import Optional, Dict, Any, List, Union
 from metorial_util_endpoint import (
   BaseMetorialEndpoint,
   MetorialEndpointManager,

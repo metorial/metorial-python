@@ -1,3 +1,4 @@
+from typing import Optional, Dict, Any, List, Union
 from metorial_util_endpoint import (
   BaseMetorialEndpoint,
   MetorialEndpointManager,
@@ -51,26 +52,32 @@ class MetorialLinksEndpoint(BaseMetorialEndpoint):
     return self._get(request).transform(mapDashboardInstanceLinksGetOutput.from_dict)
 
   def create(
-    self, fileId: str, body: DashboardInstanceLinksCreateBody
+    self, fileId: str, *, expires_at: Optional[str] = None
   ) -> DashboardInstanceLinksCreateOutput:
     """
     Create file link
     Creates a new link for a specific file.
 
     :param fileId: str
-    :param body: DashboardInstanceLinksCreateBody
+    :param expires_at: str (optional)
     :return: DashboardInstanceLinksCreateOutput
     """
+    _params = {"expires_at": expires_at}
+    body = {k: v for k, v in _params.items() if v is not None}
+
+    if not body:
+      raise ValueError("No fields to update. At least one parameter must be provided.")
+
     request = MetorialRequest(
       path=["files", fileId, "links"],
-      body=mapDashboardInstanceLinksCreateBody.to_dict(body),
+      body=body,
     )
     return self._post(request).transform(
       mapDashboardInstanceLinksCreateOutput.from_dict
     )
 
   def update(
-    self, fileId: str, linkId: str, body: DashboardInstanceLinksUpdateBody
+    self, fileId: str, linkId: str, *, expires_at: Optional[str] = None
   ) -> DashboardInstanceLinksUpdateOutput:
     """
     Update file link by ID
@@ -78,12 +85,18 @@ class MetorialLinksEndpoint(BaseMetorialEndpoint):
 
     :param fileId: str
     :param linkId: str
-    :param body: DashboardInstanceLinksUpdateBody
+    :param expires_at: str (optional)
     :return: DashboardInstanceLinksUpdateOutput
     """
+    _params = {"expires_at": expires_at}
+    body = {k: v for k, v in _params.items() if v is not None}
+
+    if not body:
+      raise ValueError("No fields to update. At least one parameter must be provided.")
+
     request = MetorialRequest(
       path=["files", fileId, "links", linkId],
-      body=mapDashboardInstanceLinksUpdateBody.to_dict(body),
+      body=body,
     )
     return self._patch(request).transform(
       mapDashboardInstanceLinksUpdateOutput.from_dict

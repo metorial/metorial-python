@@ -1,3 +1,4 @@
+from typing import Optional, Dict, Any, List, Union
 from metorial_util_endpoint import (
   BaseMetorialEndpoint,
   MetorialEndpointManager,
@@ -64,19 +65,19 @@ class MetorialManagementOrganizationInvitesEndpoint(BaseMetorialEndpoint):
       mapDashboardOrganizationsInvitesGetOutput.from_dict
     )
 
-  def create(
-    self, body: DashboardOrganizationsInvitesCreateBody
-  ) -> DashboardOrganizationsInvitesCreateOutput:
+  def create(self) -> DashboardOrganizationsInvitesCreateOutput:
     """
     Create organization invite
     Create a new organization invite
 
-    :param body: DashboardOrganizationsInvitesCreateBody
+
     :return: DashboardOrganizationsInvitesCreateOutput
     """
+    {}
+
     request = MetorialRequest(
       path=["organization", "invites"],
-      body=mapDashboardOrganizationsInvitesCreateBody.to_dict(body),
+      body=body,
     )
     return self._post(request).transform(
       mapDashboardOrganizationsInvitesCreateOutput.from_dict
@@ -109,19 +110,25 @@ class MetorialManagementOrganizationInvitesEndpoint(BaseMetorialEndpoint):
     )
 
   def update(
-    self, inviteId: str, body: DashboardOrganizationsInvitesUpdateBody
+    self, inviteId: str, *, role: Optional[str] = None
   ) -> DashboardOrganizationsInvitesUpdateOutput:
     """
     Update organization invite
     Update the role of an organization invite
 
     :param inviteId: str
-    :param body: DashboardOrganizationsInvitesUpdateBody
+    :param role: str (optional)
     :return: DashboardOrganizationsInvitesUpdateOutput
     """
+    _params = {"role": role}
+    body = {k: v for k, v in _params.items() if v is not None}
+
+    if not body:
+      raise ValueError("No fields to update. At least one parameter must be provided.")
+
     request = MetorialRequest(
       path=["organization", "invites", inviteId],
-      body=mapDashboardOrganizationsInvitesUpdateBody.to_dict(body),
+      body=body,
     )
     return self._post(request).transform(
       mapDashboardOrganizationsInvitesUpdateOutput.from_dict

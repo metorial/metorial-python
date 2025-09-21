@@ -1,3 +1,4 @@
+from typing import Optional, Dict, Any, List, Union
 from metorial_util_endpoint import (
   BaseMetorialEndpoint,
   MetorialEndpointManager,
@@ -46,36 +47,48 @@ class MetorialDashboardOrganizationsJoinEndpoint(BaseMetorialEndpoint):
     )
 
   def accept(
-    self, body: DashboardOrganizationsJoinAcceptBody
+    self, *, invite_key: Optional[str] = None
   ) -> DashboardOrganizationsJoinAcceptOutput:
     """
     Join organization
     Join an organization
 
-    :param body: DashboardOrganizationsJoinAcceptBody
+    :param invite_key: str (optional)
     :return: DashboardOrganizationsJoinAcceptOutput
     """
+    _params = {"invite_key": invite_key}
+    body = {k: v for k, v in _params.items() if v is not None}
+
+    if not body:
+      raise ValueError("No fields to update. At least one parameter must be provided.")
+
     request = MetorialRequest(
       path=["dashboard", "organization-join", "accept"],
-      body=mapDashboardOrganizationsJoinAcceptBody.to_dict(body),
+      body=body,
     )
     return self._post(request).transform(
       mapDashboardOrganizationsJoinAcceptOutput.from_dict
     )
 
   def reject(
-    self, body: DashboardOrganizationsJoinRejectBody
+    self, *, invite_key: Optional[str] = None
   ) -> DashboardOrganizationsJoinRejectOutput:
     """
     Reject organization invite
     Reject an organization invite
 
-    :param body: DashboardOrganizationsJoinRejectBody
+    :param invite_key: str (optional)
     :return: DashboardOrganizationsJoinRejectOutput
     """
+    _params = {"invite_key": invite_key}
+    body = {k: v for k, v in _params.items() if v is not None}
+
+    if not body:
+      raise ValueError("No fields to update. At least one parameter must be provided.")
+
     request = MetorialRequest(
       path=["dashboard", "organization-join", "reject"],
-      body=mapDashboardOrganizationsJoinRejectBody.to_dict(body),
+      body=body,
     )
     return self._post(request).transform(
       mapDashboardOrganizationsJoinRejectOutput.from_dict
