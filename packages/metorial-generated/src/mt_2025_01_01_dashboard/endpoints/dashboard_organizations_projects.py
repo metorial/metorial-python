@@ -31,7 +31,7 @@ class MetorialDashboardOrganizationsProjectsEndpoint(BaseMetorialEndpoint):
 
   def list(
     self, organizationId: str, query: DashboardOrganizationsProjectsListQuery = None
-  ):
+  ) -> DashboardOrganizationsProjectsListOutput:
     """
     List organization projects
     List all organization projects
@@ -42,17 +42,17 @@ class MetorialDashboardOrganizationsProjectsEndpoint(BaseMetorialEndpoint):
     """
     request = MetorialRequest(
       path=["dashboard", "organizations", organizationId, "projects"],
-      query=(
-        mapDashboardOrganizationsProjectsListQuery.to_dict(query)
-        if query is not None
-        else None
-      ),
+      query=mapDashboardOrganizationsProjectsListQuery.to_dict(query)
+      if query is not None
+      else None,
     )
     return self._get(request).transform(
       mapDashboardOrganizationsProjectsListOutput.from_dict
     )
 
-  def get(self, organizationId: str, projectId: str):
+  def get(
+    self, organizationId: str, projectId: str
+  ) -> DashboardOrganizationsProjectsGetOutput:
     """
     Get organization project
     Get the information of a specific organization project
@@ -68,7 +68,9 @@ class MetorialDashboardOrganizationsProjectsEndpoint(BaseMetorialEndpoint):
       mapDashboardOrganizationsProjectsGetOutput.from_dict
     )
 
-  def create(self, organizationId: str, body: DashboardOrganizationsProjectsCreateBody):
+  def create(
+    self, organizationId: str, body: DashboardOrganizationsProjectsCreateBody
+  ) -> DashboardOrganizationsProjectsCreateOutput:
     """
     Create organization project
     Create a new organization project
@@ -85,7 +87,9 @@ class MetorialDashboardOrganizationsProjectsEndpoint(BaseMetorialEndpoint):
       mapDashboardOrganizationsProjectsCreateOutput.from_dict
     )
 
-  def delete(self, organizationId: str, projectId: str):
+  def delete(
+    self, organizationId: str, projectId: str
+  ) -> DashboardOrganizationsProjectsDeleteOutput:
     """
     Delete organization project
     Remove an organization project
@@ -106,7 +110,7 @@ class MetorialDashboardOrganizationsProjectsEndpoint(BaseMetorialEndpoint):
     organizationId: str,
     projectId: str,
     body: DashboardOrganizationsProjectsUpdateBody,
-  ):
+  ) -> DashboardOrganizationsProjectsUpdateOutput:
     """
     Update organization project
     Update the role of an organization project

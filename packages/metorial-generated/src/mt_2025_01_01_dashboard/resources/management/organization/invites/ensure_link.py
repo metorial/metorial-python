@@ -5,7 +5,7 @@ import dataclasses
 
 
 @dataclass
-class ManagementOrganizationInvitesCreateOutputOrganization:
+class ManagementOrganizationInvitesEnsureLinkOutputOrganization:
   object: str
   id: str
   status: str
@@ -19,7 +19,7 @@ class ManagementOrganizationInvitesCreateOutputOrganization:
 
 
 @dataclass
-class ManagementOrganizationInvitesCreateOutputInvitedBy:
+class ManagementOrganizationInvitesEnsureLinkOutputInvitedBy:
   object: str
   id: str
   type: str
@@ -33,7 +33,7 @@ class ManagementOrganizationInvitesCreateOutputInvitedBy:
 
 
 @dataclass
-class ManagementOrganizationInvitesCreateOutputInviteLink:
+class ManagementOrganizationInvitesEnsureLinkOutputInviteLink:
   object: str
   id: str
   key_redacted: str
@@ -43,16 +43,16 @@ class ManagementOrganizationInvitesCreateOutputInviteLink:
 
 
 @dataclass
-class ManagementOrganizationInvitesCreateOutput:
+class ManagementOrganizationInvitesEnsureLinkOutput:
   object: str
   id: str
   status: str
   role: str
   type: str
   email: str
-  organization: ManagementOrganizationInvitesCreateOutputOrganization
-  invited_by: ManagementOrganizationInvitesCreateOutputInvitedBy
-  invite_link: ManagementOrganizationInvitesCreateOutputInviteLink
+  organization: ManagementOrganizationInvitesEnsureLinkOutputOrganization
+  invited_by: ManagementOrganizationInvitesEnsureLinkOutputInvitedBy
+  invite_link: ManagementOrganizationInvitesEnsureLinkOutputInviteLink
   created_at: datetime
   updated_at: datetime
   deleted_at: datetime
@@ -61,12 +61,12 @@ class ManagementOrganizationInvitesCreateOutput:
   rejected_at: datetime
 
 
-class mapManagementOrganizationInvitesCreateOutputOrganization:
+class mapManagementOrganizationInvitesEnsureLinkOutputOrganization:
   @staticmethod
   def from_dict(
     data: Dict[str, Any]
-  ) -> ManagementOrganizationInvitesCreateOutputOrganization:
-    return ManagementOrganizationInvitesCreateOutputOrganization(
+  ) -> ManagementOrganizationInvitesEnsureLinkOutputOrganization:
+    return ManagementOrganizationInvitesEnsureLinkOutputOrganization(
       object=data.get("object"),
       id=data.get("id"),
       status=data.get("status"),
@@ -86,7 +86,7 @@ class mapManagementOrganizationInvitesCreateOutputOrganization:
   @staticmethod
   def to_dict(
     value: Union[
-      ManagementOrganizationInvitesCreateOutputOrganization, Dict[str, Any], None
+      ManagementOrganizationInvitesEnsureLinkOutputOrganization, Dict[str, Any], None
     ]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
@@ -96,12 +96,12 @@ class mapManagementOrganizationInvitesCreateOutputOrganization:
     return dataclasses.asdict(value)
 
 
-class mapManagementOrganizationInvitesCreateOutputInvitedBy:
+class mapManagementOrganizationInvitesEnsureLinkOutputInvitedBy:
   @staticmethod
   def from_dict(
     data: Dict[str, Any]
-  ) -> ManagementOrganizationInvitesCreateOutputInvitedBy:
-    return ManagementOrganizationInvitesCreateOutputInvitedBy(
+  ) -> ManagementOrganizationInvitesEnsureLinkOutputInvitedBy:
+    return ManagementOrganizationInvitesEnsureLinkOutputInvitedBy(
       object=data.get("object"),
       id=data.get("id"),
       type=data.get("type"),
@@ -121,7 +121,7 @@ class mapManagementOrganizationInvitesCreateOutputInvitedBy:
   @staticmethod
   def to_dict(
     value: Union[
-      ManagementOrganizationInvitesCreateOutputInvitedBy, Dict[str, Any], None
+      ManagementOrganizationInvitesEnsureLinkOutputInvitedBy, Dict[str, Any], None
     ]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
@@ -131,12 +131,12 @@ class mapManagementOrganizationInvitesCreateOutputInvitedBy:
     return dataclasses.asdict(value)
 
 
-class mapManagementOrganizationInvitesCreateOutputInviteLink:
+class mapManagementOrganizationInvitesEnsureLinkOutputInviteLink:
   @staticmethod
   def from_dict(
     data: Dict[str, Any]
-  ) -> ManagementOrganizationInvitesCreateOutputInviteLink:
-    return ManagementOrganizationInvitesCreateOutputInviteLink(
+  ) -> ManagementOrganizationInvitesEnsureLinkOutputInviteLink:
+    return ManagementOrganizationInvitesEnsureLinkOutputInviteLink(
       object=data.get("object"),
       id=data.get("id"),
       key=data.get("key"),
@@ -150,7 +150,7 @@ class mapManagementOrganizationInvitesCreateOutputInviteLink:
   @staticmethod
   def to_dict(
     value: Union[
-      ManagementOrganizationInvitesCreateOutputInviteLink, Dict[str, Any], None
+      ManagementOrganizationInvitesEnsureLinkOutputInviteLink, Dict[str, Any], None
     ]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
@@ -160,27 +160,27 @@ class mapManagementOrganizationInvitesCreateOutputInviteLink:
     return dataclasses.asdict(value)
 
 
-class mapManagementOrganizationInvitesCreateOutput:
+class mapManagementOrganizationInvitesEnsureLinkOutput:
   @staticmethod
-  def from_dict(data: Dict[str, Any]) -> ManagementOrganizationInvitesCreateOutput:
-    return ManagementOrganizationInvitesCreateOutput(
+  def from_dict(data: Dict[str, Any]) -> ManagementOrganizationInvitesEnsureLinkOutput:
+    return ManagementOrganizationInvitesEnsureLinkOutput(
       object=data.get("object"),
       id=data.get("id"),
       status=data.get("status"),
       role=data.get("role"),
       type=data.get("type"),
       email=data.get("email"),
-      organization=mapManagementOrganizationInvitesCreateOutputOrganization.from_dict(
+      organization=mapManagementOrganizationInvitesEnsureLinkOutputOrganization.from_dict(
         data.get("organization")
       )
       if data.get("organization")
       else None,
-      invited_by=mapManagementOrganizationInvitesCreateOutputInvitedBy.from_dict(
+      invited_by=mapManagementOrganizationInvitesEnsureLinkOutputInvitedBy.from_dict(
         data.get("invited_by")
       )
       if data.get("invited_by")
       else None,
-      invite_link=mapManagementOrganizationInvitesCreateOutputInviteLink.from_dict(
+      invite_link=mapManagementOrganizationInvitesEnsureLinkOutputInviteLink.from_dict(
         data.get("invite_link")
       )
       if data.get("invite_link")
@@ -207,27 +207,7 @@ class mapManagementOrganizationInvitesCreateOutput:
 
   @staticmethod
   def to_dict(
-    value: Union[ManagementOrganizationInvitesCreateOutput, Dict[str, Any], None]
-  ) -> Optional[Dict[str, Any]]:
-    if value is None:
-      return None
-    if isinstance(value, dict):
-      return value
-    # assume dataclass for generated models
-    return dataclasses.asdict(value)
-
-
-ManagementOrganizationInvitesCreateBody = Dict[str, Any]
-
-
-class mapManagementOrganizationInvitesCreateBody:
-  @staticmethod
-  def from_dict(data: Dict[str, Any]) -> ManagementOrganizationInvitesCreateBody:
-    data
-
-  @staticmethod
-  def to_dict(
-    value: Union[ManagementOrganizationInvitesCreateBody, Dict[str, Any], None]
+    value: Union[ManagementOrganizationInvitesEnsureLinkOutput, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None

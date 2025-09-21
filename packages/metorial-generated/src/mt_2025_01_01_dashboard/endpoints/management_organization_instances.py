@@ -29,7 +29,9 @@ class MetorialManagementOrganizationInstancesEndpoint(BaseMetorialEndpoint):
   def __init__(self, config: MetorialEndpointManager):
     super().__init__(config)
 
-  def list(self, query: DashboardOrganizationsInstancesListQuery = None):
+  def list(
+    self, query: DashboardOrganizationsInstancesListQuery = None
+  ) -> DashboardOrganizationsInstancesListOutput:
     """
     List organization instances
     List all organization instances
@@ -39,17 +41,15 @@ class MetorialManagementOrganizationInstancesEndpoint(BaseMetorialEndpoint):
     """
     request = MetorialRequest(
       path=["organization", "instances"],
-      query=(
-        mapDashboardOrganizationsInstancesListQuery.to_dict(query)
-        if query is not None
-        else None
-      ),
+      query=mapDashboardOrganizationsInstancesListQuery.to_dict(query)
+      if query is not None
+      else None,
     )
     return self._get(request).transform(
       mapDashboardOrganizationsInstancesListOutput.from_dict
     )
 
-  def get(self, instanceId: str):
+  def get(self, instanceId: str) -> DashboardOrganizationsInstancesGetOutput:
     """
     Get organization instance
     Get the information of a specific organization instance
@@ -62,7 +62,9 @@ class MetorialManagementOrganizationInstancesEndpoint(BaseMetorialEndpoint):
       mapDashboardOrganizationsInstancesGetOutput.from_dict
     )
 
-  def create(self, body: DashboardOrganizationsInstancesCreateBody):
+  def create(
+    self, body: DashboardOrganizationsInstancesCreateBody
+  ) -> DashboardOrganizationsInstancesCreateOutput:
     """
     Create organization instance
     Create a new organization instance
@@ -78,7 +80,7 @@ class MetorialManagementOrganizationInstancesEndpoint(BaseMetorialEndpoint):
       mapDashboardOrganizationsInstancesCreateOutput.from_dict
     )
 
-  def delete(self, instanceId: str):
+  def delete(self, instanceId: str) -> DashboardOrganizationsInstancesDeleteOutput:
     """
     Delete organization instance
     Remove an organization instance
@@ -91,7 +93,9 @@ class MetorialManagementOrganizationInstancesEndpoint(BaseMetorialEndpoint):
       mapDashboardOrganizationsInstancesDeleteOutput.from_dict
     )
 
-  def update(self, instanceId: str, body: DashboardOrganizationsInstancesUpdateBody):
+  def update(
+    self, instanceId: str, body: DashboardOrganizationsInstancesUpdateBody
+  ) -> DashboardOrganizationsInstancesUpdateOutput:
     """
     Update organization instance
     Update the role of an organization instance

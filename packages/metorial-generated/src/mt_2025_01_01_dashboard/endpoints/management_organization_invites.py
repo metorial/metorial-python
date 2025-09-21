@@ -31,7 +31,9 @@ class MetorialManagementOrganizationInvitesEndpoint(BaseMetorialEndpoint):
   def __init__(self, config: MetorialEndpointManager):
     super().__init__(config)
 
-  def list(self, query: DashboardOrganizationsInvitesListQuery = None):
+  def list(
+    self, query: DashboardOrganizationsInvitesListQuery = None
+  ) -> DashboardOrganizationsInvitesListOutput:
     """
     List organization invites
     List all organization invites
@@ -41,17 +43,15 @@ class MetorialManagementOrganizationInvitesEndpoint(BaseMetorialEndpoint):
     """
     request = MetorialRequest(
       path=["organization", "invites"],
-      query=(
-        mapDashboardOrganizationsInvitesListQuery.to_dict(query)
-        if query is not None
-        else None
-      ),
+      query=mapDashboardOrganizationsInvitesListQuery.to_dict(query)
+      if query is not None
+      else None,
     )
     return self._get(request).transform(
       mapDashboardOrganizationsInvitesListOutput.from_dict
     )
 
-  def get(self, inviteId: str):
+  def get(self, inviteId: str) -> DashboardOrganizationsInvitesGetOutput:
     """
     Get organization invite
     Get the information of a specific organization invite
@@ -64,7 +64,9 @@ class MetorialManagementOrganizationInvitesEndpoint(BaseMetorialEndpoint):
       mapDashboardOrganizationsInvitesGetOutput.from_dict
     )
 
-  def create(self, body: DashboardOrganizationsInvitesCreateBody):
+  def create(
+    self, body: DashboardOrganizationsInvitesCreateBody
+  ) -> DashboardOrganizationsInvitesCreateOutput:
     """
     Create organization invite
     Create a new organization invite
@@ -80,7 +82,7 @@ class MetorialManagementOrganizationInvitesEndpoint(BaseMetorialEndpoint):
       mapDashboardOrganizationsInvitesCreateOutput.from_dict
     )
 
-  def ensure_link(self):
+  def ensure_link(self) -> DashboardOrganizationsInvitesEnsureLinkOutput:
     """
     Ensure organization invite link
     Ensure the invite link for the organization
@@ -93,7 +95,7 @@ class MetorialManagementOrganizationInvitesEndpoint(BaseMetorialEndpoint):
       mapDashboardOrganizationsInvitesEnsureLinkOutput.from_dict
     )
 
-  def delete(self, inviteId: str):
+  def delete(self, inviteId: str) -> DashboardOrganizationsInvitesDeleteOutput:
     """
     Delete organization invite
     Remove an organization invite
@@ -106,7 +108,9 @@ class MetorialManagementOrganizationInvitesEndpoint(BaseMetorialEndpoint):
       mapDashboardOrganizationsInvitesDeleteOutput.from_dict
     )
 
-  def update(self, inviteId: str, body: DashboardOrganizationsInvitesUpdateBody):
+  def update(
+    self, inviteId: str, body: DashboardOrganizationsInvitesUpdateBody
+  ) -> DashboardOrganizationsInvitesUpdateOutput:
     """
     Update organization invite
     Update the role of an organization invite

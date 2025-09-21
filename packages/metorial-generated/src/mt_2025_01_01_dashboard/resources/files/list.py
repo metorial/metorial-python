@@ -1,17 +1,109 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+import dataclasses
+
+
+@dataclass
+class FilesListOutputItemsPurpose:
+  name: str
+  identifier: str
+
+
+@dataclass
+class FilesListOutputItems:
+  object: str
+  id: str
+  status: str
+  file_name: str
+  file_size: float
+  file_type: str
+  purpose: FilesListOutputItemsPurpose
+  created_at: datetime
+  updated_at: datetime
+  title: Optional[str] = None
+
+
+@dataclass
+class FilesListOutputPagination:
+  has_more_before: bool
+  has_more_after: bool
 
 
 @dataclass
 class FilesListOutput:
-  items: List[Dict[str, Any]]
-  pagination: Dict[str, Any]
+  items: List[FilesListOutputItems]
+  pagination: FilesListOutputPagination
 
 
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
-import dataclasses
+class mapFilesListOutputItemsPurpose:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> FilesListOutputItemsPurpose:
+    return FilesListOutputItemsPurpose(
+      name=data.get("name"), identifier=data.get("identifier")
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[FilesListOutputItemsPurpose, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapFilesListOutputItems:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> FilesListOutputItems:
+    return FilesListOutputItems(
+      object=data.get("object"),
+      id=data.get("id"),
+      status=data.get("status"),
+      file_name=data.get("file_name"),
+      file_size=data.get("file_size"),
+      file_type=data.get("file_type"),
+      title=data.get("title"),
+      purpose=mapFilesListOutputItemsPurpose.from_dict(data.get("purpose"))
+      if data.get("purpose")
+      else None,
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[FilesListOutputItems, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapFilesListOutputPagination:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> FilesListOutputPagination:
+    return FilesListOutputPagination(
+      has_more_before=data.get("has_more_before"),
+      has_more_after=data.get("has_more_after"),
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[FilesListOutputPagination, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
 
 
 class mapFilesListOutput:
@@ -19,36 +111,18 @@ class mapFilesListOutput:
   def from_dict(data: Dict[str, Any]) -> FilesListOutput:
     return FilesListOutput(
       items=[
-        {
-          "object": item.get("object"),
-          "id": item.get("id"),
-          "status": item.get("status"),
-          "file_name": item.get("file_name"),
-          "file_size": item.get("file_size"),
-          "file_type": item.get("file_type"),
-          "title": item.get("title"),
-          "purpose": item.get("purpose")
-          and {
-            "name": item.get("purpose", {}).get("name"),
-            "identifier": item.get("purpose", {}).get("identifier"),
-          },
-          "created_at": item.get("created_at")
-          and datetime.fromisoformat(item.get("created_at")),
-          "updated_at": item.get("updated_at")
-          and datetime.fromisoformat(item.get("updated_at")),
-        }
+        mapFilesListOutputItems.from_dict(item)
         for item in data.get("items", [])
+        if item
       ],
-      pagination=data.get("pagination")
-      and {
-        "has_more_before": data.get("pagination", {}).get("has_more_before"),
-        "has_more_after": data.get("pagination", {}).get("has_more_after"),
-      },
+      pagination=mapFilesListOutputPagination.from_dict(data.get("pagination"))
+      if data.get("pagination")
+      else None,
     )
 
   @staticmethod
   def to_dict(
-    value: Union[FilesListOutput, Dict[str, Any], None],
+    value: Union[FilesListOutput, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None
@@ -58,15 +132,7 @@ class mapFilesListOutput:
     return dataclasses.asdict(value)
 
 
-from typing import Any, Dict, List, Optional, Union
-from datetime import datetime
-
 FilesListQuery = Any
-
-
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
-import dataclasses
 
 
 class mapFilesListQuery:
@@ -76,7 +142,7 @@ class mapFilesListQuery:
 
   @staticmethod
   def to_dict(
-    value: Union[FilesListQuery, Dict[str, Any], None],
+    value: Union[FilesListQuery, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None

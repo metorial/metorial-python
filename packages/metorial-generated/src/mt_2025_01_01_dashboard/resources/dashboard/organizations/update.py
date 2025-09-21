@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+import dataclasses
 
 
 @dataclass
@@ -17,11 +18,6 @@ class DashboardOrganizationsUpdateOutput:
   updated_at: datetime
 
 
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
-import dataclasses
-
-
 class mapDashboardOrganizationsUpdateOutput:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> DashboardOrganizationsUpdateOutput:
@@ -34,15 +30,17 @@ class mapDashboardOrganizationsUpdateOutput:
       name=data.get("name"),
       organization_id=data.get("organization_id"),
       image_url=data.get("image_url"),
-      created_at=data.get("created_at")
-      and datetime.fromisoformat(data.get("created_at")),
-      updated_at=data.get("updated_at")
-      and datetime.fromisoformat(data.get("updated_at")),
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
     )
 
   @staticmethod
   def to_dict(
-    value: Union[DashboardOrganizationsUpdateOutput, Dict[str, Any], None],
+    value: Union[DashboardOrganizationsUpdateOutput, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None
@@ -52,19 +50,9 @@ class mapDashboardOrganizationsUpdateOutput:
     return dataclasses.asdict(value)
 
 
-from dataclasses import dataclass
-from typing import Any, Dict, List, Optional, Union
-from datetime import datetime
-
-
 @dataclass
 class DashboardOrganizationsUpdateBody:
   name: Optional[str] = None
-
-
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
-import dataclasses
 
 
 class mapDashboardOrganizationsUpdateBody:
@@ -74,7 +62,7 @@ class mapDashboardOrganizationsUpdateBody:
 
   @staticmethod
   def to_dict(
-    value: Union[DashboardOrganizationsUpdateBody, Dict[str, Any], None],
+    value: Union[DashboardOrganizationsUpdateBody, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None

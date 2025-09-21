@@ -26,7 +26,7 @@ class MetorialManagementInstanceProviderOauthConnectionsAuthenticationsEndpoint(
     instanceId: str,
     connectionId: str,
     query: DashboardInstanceProviderOauthConnectionsAuthenticationsListQuery = None,
-  ):
+  ) -> DashboardInstanceProviderOauthConnectionsAuthenticationsListOutput:
     """
     List provider OAuth connection authentications
     List provider OAuth connection authentications for a specific connection
@@ -45,19 +45,19 @@ class MetorialManagementInstanceProviderOauthConnectionsAuthenticationsEndpoint(
         connectionId,
         "authentications",
       ],
-      query=(
-        mapDashboardInstanceProviderOauthConnectionsAuthenticationsListQuery.to_dict(
-          query
-        )
-        if query is not None
-        else None
-      ),
+      query=mapDashboardInstanceProviderOauthConnectionsAuthenticationsListQuery.to_dict(
+        query
+      )
+      if query is not None
+      else None,
     )
     return self._get(request).transform(
       mapDashboardInstanceProviderOauthConnectionsAuthenticationsListOutput.from_dict
     )
 
-  def get(self, instanceId: str, connectionId: str, authenticationId: str):
+  def get(
+    self, instanceId: str, connectionId: str, authenticationId: str
+  ) -> DashboardInstanceProviderOauthConnectionsAuthenticationsGetOutput:
     """
     Get provider OAuth connection authentication
     Get the information of a specific provider OAuth connection authentication

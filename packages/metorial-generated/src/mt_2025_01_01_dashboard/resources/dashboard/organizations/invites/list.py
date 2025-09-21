@@ -1,17 +1,254 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+import dataclasses
+
+
+@dataclass
+class DashboardOrganizationsInvitesListOutputItemsOrganization:
+  object: str
+  id: str
+  status: str
+  type: str
+  slug: str
+  name: str
+  organization_id: str
+  image_url: str
+  created_at: datetime
+  updated_at: datetime
+
+
+@dataclass
+class DashboardOrganizationsInvitesListOutputItemsInvitedBy:
+  object: str
+  id: str
+  type: str
+  organization_id: str
+  actor_id: str
+  name: str
+  image_url: str
+  created_at: datetime
+  updated_at: datetime
+  email: Optional[str] = None
+
+
+@dataclass
+class DashboardOrganizationsInvitesListOutputItemsInviteLink:
+  object: str
+  id: str
+  key_redacted: str
+  created_at: datetime
+  key: Optional[str] = None
+  url: Optional[str] = None
+
+
+@dataclass
+class DashboardOrganizationsInvitesListOutputItems:
+  object: str
+  id: str
+  status: str
+  role: str
+  type: str
+  email: str
+  organization: DashboardOrganizationsInvitesListOutputItemsOrganization
+  invited_by: DashboardOrganizationsInvitesListOutputItemsInvitedBy
+  invite_link: DashboardOrganizationsInvitesListOutputItemsInviteLink
+  created_at: datetime
+  updated_at: datetime
+  deleted_at: datetime
+  expires_at: datetime
+  accepted_at: datetime
+  rejected_at: datetime
+
+
+@dataclass
+class DashboardOrganizationsInvitesListOutputPagination:
+  has_more_before: bool
+  has_more_after: bool
 
 
 @dataclass
 class DashboardOrganizationsInvitesListOutput:
-  items: List[Dict[str, Any]]
-  pagination: Dict[str, Any]
+  items: List[DashboardOrganizationsInvitesListOutputItems]
+  pagination: DashboardOrganizationsInvitesListOutputPagination
 
 
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
-import dataclasses
+class mapDashboardOrganizationsInvitesListOutputItemsOrganization:
+  @staticmethod
+  def from_dict(
+    data: Dict[str, Any]
+  ) -> DashboardOrganizationsInvitesListOutputItemsOrganization:
+    return DashboardOrganizationsInvitesListOutputItemsOrganization(
+      object=data.get("object"),
+      id=data.get("id"),
+      status=data.get("status"),
+      type=data.get("type"),
+      slug=data.get("slug"),
+      name=data.get("name"),
+      organization_id=data.get("organization_id"),
+      image_url=data.get("image_url"),
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[
+      DashboardOrganizationsInvitesListOutputItemsOrganization, Dict[str, Any], None
+    ]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapDashboardOrganizationsInvitesListOutputItemsInvitedBy:
+  @staticmethod
+  def from_dict(
+    data: Dict[str, Any]
+  ) -> DashboardOrganizationsInvitesListOutputItemsInvitedBy:
+    return DashboardOrganizationsInvitesListOutputItemsInvitedBy(
+      object=data.get("object"),
+      id=data.get("id"),
+      type=data.get("type"),
+      organization_id=data.get("organization_id"),
+      actor_id=data.get("actor_id"),
+      name=data.get("name"),
+      email=data.get("email"),
+      image_url=data.get("image_url"),
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[
+      DashboardOrganizationsInvitesListOutputItemsInvitedBy, Dict[str, Any], None
+    ]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapDashboardOrganizationsInvitesListOutputItemsInviteLink:
+  @staticmethod
+  def from_dict(
+    data: Dict[str, Any]
+  ) -> DashboardOrganizationsInvitesListOutputItemsInviteLink:
+    return DashboardOrganizationsInvitesListOutputItemsInviteLink(
+      object=data.get("object"),
+      id=data.get("id"),
+      key=data.get("key"),
+      key_redacted=data.get("key_redacted"),
+      url=data.get("url"),
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[
+      DashboardOrganizationsInvitesListOutputItemsInviteLink, Dict[str, Any], None
+    ]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapDashboardOrganizationsInvitesListOutputItems:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> DashboardOrganizationsInvitesListOutputItems:
+    return DashboardOrganizationsInvitesListOutputItems(
+      object=data.get("object"),
+      id=data.get("id"),
+      status=data.get("status"),
+      role=data.get("role"),
+      type=data.get("type"),
+      email=data.get("email"),
+      organization=mapDashboardOrganizationsInvitesListOutputItemsOrganization.from_dict(
+        data.get("organization")
+      )
+      if data.get("organization")
+      else None,
+      invited_by=mapDashboardOrganizationsInvitesListOutputItemsInvitedBy.from_dict(
+        data.get("invited_by")
+      )
+      if data.get("invited_by")
+      else None,
+      invite_link=mapDashboardOrganizationsInvitesListOutputItemsInviteLink.from_dict(
+        data.get("invite_link")
+      )
+      if data.get("invite_link")
+      else None,
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
+      deleted_at=datetime.fromisoformat(data.get("deleted_at"))
+      if data.get("deleted_at")
+      else None,
+      expires_at=datetime.fromisoformat(data.get("expires_at"))
+      if data.get("expires_at")
+      else None,
+      accepted_at=datetime.fromisoformat(data.get("accepted_at"))
+      if data.get("accepted_at")
+      else None,
+      rejected_at=datetime.fromisoformat(data.get("rejected_at"))
+      if data.get("rejected_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[DashboardOrganizationsInvitesListOutputItems, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapDashboardOrganizationsInvitesListOutputPagination:
+  @staticmethod
+  def from_dict(
+    data: Dict[str, Any]
+  ) -> DashboardOrganizationsInvitesListOutputPagination:
+    return DashboardOrganizationsInvitesListOutputPagination(
+      has_more_before=data.get("has_more_before"),
+      has_more_after=data.get("has_more_after"),
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[
+      DashboardOrganizationsInvitesListOutputPagination, Dict[str, Any], None
+    ]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
 
 
 class mapDashboardOrganizationsInvitesListOutput:
@@ -19,78 +256,20 @@ class mapDashboardOrganizationsInvitesListOutput:
   def from_dict(data: Dict[str, Any]) -> DashboardOrganizationsInvitesListOutput:
     return DashboardOrganizationsInvitesListOutput(
       items=[
-        {
-          "object": item.get("object"),
-          "id": item.get("id"),
-          "status": item.get("status"),
-          "role": item.get("role"),
-          "type": item.get("type"),
-          "email": item.get("email"),
-          "organization": item.get("organization")
-          and {
-            "object": item.get("organization", {}).get("object"),
-            "id": item.get("organization", {}).get("id"),
-            "status": item.get("organization", {}).get("status"),
-            "type": item.get("organization", {}).get("type"),
-            "slug": item.get("organization", {}).get("slug"),
-            "name": item.get("organization", {}).get("name"),
-            "organization_id": item.get("organization", {}).get("organization_id"),
-            "image_url": item.get("organization", {}).get("image_url"),
-            "created_at": item.get("organization", {}).get("created_at")
-            and datetime.fromisoformat(item.get("organization", {}).get("created_at")),
-            "updated_at": item.get("organization", {}).get("updated_at")
-            and datetime.fromisoformat(item.get("organization", {}).get("updated_at")),
-          },
-          "invited_by": item.get("invited_by")
-          and {
-            "object": item.get("invited_by", {}).get("object"),
-            "id": item.get("invited_by", {}).get("id"),
-            "type": item.get("invited_by", {}).get("type"),
-            "organization_id": item.get("invited_by", {}).get("organization_id"),
-            "actor_id": item.get("invited_by", {}).get("actor_id"),
-            "name": item.get("invited_by", {}).get("name"),
-            "email": item.get("invited_by", {}).get("email"),
-            "image_url": item.get("invited_by", {}).get("image_url"),
-            "created_at": item.get("invited_by", {}).get("created_at")
-            and datetime.fromisoformat(item.get("invited_by", {}).get("created_at")),
-            "updated_at": item.get("invited_by", {}).get("updated_at")
-            and datetime.fromisoformat(item.get("invited_by", {}).get("updated_at")),
-          },
-          "invite_link": item.get("invite_link")
-          and {
-            "object": item.get("invite_link", {}).get("object"),
-            "id": item.get("invite_link", {}).get("id"),
-            "key": item.get("invite_link", {}).get("key"),
-            "key_redacted": item.get("invite_link", {}).get("key_redacted"),
-            "url": item.get("invite_link", {}).get("url"),
-            "created_at": item.get("invite_link", {}).get("created_at")
-            and datetime.fromisoformat(item.get("invite_link", {}).get("created_at")),
-          },
-          "created_at": item.get("created_at")
-          and datetime.fromisoformat(item.get("created_at")),
-          "updated_at": item.get("updated_at")
-          and datetime.fromisoformat(item.get("updated_at")),
-          "deleted_at": item.get("deleted_at")
-          and datetime.fromisoformat(item.get("deleted_at")),
-          "expires_at": item.get("expires_at")
-          and datetime.fromisoformat(item.get("expires_at")),
-          "accepted_at": item.get("accepted_at")
-          and datetime.fromisoformat(item.get("accepted_at")),
-          "rejected_at": item.get("rejected_at")
-          and datetime.fromisoformat(item.get("rejected_at")),
-        }
+        mapDashboardOrganizationsInvitesListOutputItems.from_dict(item)
         for item in data.get("items", [])
+        if item
       ],
-      pagination=data.get("pagination")
-      and {
-        "has_more_before": data.get("pagination", {}).get("has_more_before"),
-        "has_more_after": data.get("pagination", {}).get("has_more_after"),
-      },
+      pagination=mapDashboardOrganizationsInvitesListOutputPagination.from_dict(
+        data.get("pagination")
+      )
+      if data.get("pagination")
+      else None,
     )
 
   @staticmethod
   def to_dict(
-    value: Union[DashboardOrganizationsInvitesListOutput, Dict[str, Any], None],
+    value: Union[DashboardOrganizationsInvitesListOutput, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None
@@ -100,15 +279,7 @@ class mapDashboardOrganizationsInvitesListOutput:
     return dataclasses.asdict(value)
 
 
-from typing import Any, Dict, List, Optional, Union
-from datetime import datetime
-
 DashboardOrganizationsInvitesListQuery = Any
-
-
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
-import dataclasses
 
 
 class mapDashboardOrganizationsInvitesListQuery:
@@ -118,7 +289,7 @@ class mapDashboardOrganizationsInvitesListQuery:
 
   @staticmethod
   def to_dict(
-    value: Union[DashboardOrganizationsInvitesListQuery, Dict[str, Any], None],
+    value: Union[DashboardOrganizationsInvitesListQuery, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None

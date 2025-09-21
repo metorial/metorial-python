@@ -1,17 +1,148 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+import dataclasses
+
+
+@dataclass
+class DashboardOrganizationsMembersListOutputItemsActor:
+  object: str
+  id: str
+  type: str
+  organization_id: str
+  actor_id: str
+  name: str
+  image_url: str
+  created_at: datetime
+  updated_at: datetime
+  email: Optional[str] = None
+
+
+@dataclass
+class DashboardOrganizationsMembersListOutputItems:
+  object: str
+  id: str
+  status: str
+  role: str
+  user_id: str
+  organization_id: str
+  actor_id: str
+  actor: DashboardOrganizationsMembersListOutputItemsActor
+  last_active_at: datetime
+  deleted_at: datetime
+  created_at: datetime
+  updated_at: datetime
+
+
+@dataclass
+class DashboardOrganizationsMembersListOutputPagination:
+  has_more_before: bool
+  has_more_after: bool
 
 
 @dataclass
 class DashboardOrganizationsMembersListOutput:
-  items: List[Dict[str, Any]]
-  pagination: Dict[str, Any]
+  items: List[DashboardOrganizationsMembersListOutputItems]
+  pagination: DashboardOrganizationsMembersListOutputPagination
 
 
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
-import dataclasses
+class mapDashboardOrganizationsMembersListOutputItemsActor:
+  @staticmethod
+  def from_dict(
+    data: Dict[str, Any]
+  ) -> DashboardOrganizationsMembersListOutputItemsActor:
+    return DashboardOrganizationsMembersListOutputItemsActor(
+      object=data.get("object"),
+      id=data.get("id"),
+      type=data.get("type"),
+      organization_id=data.get("organization_id"),
+      actor_id=data.get("actor_id"),
+      name=data.get("name"),
+      email=data.get("email"),
+      image_url=data.get("image_url"),
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[
+      DashboardOrganizationsMembersListOutputItemsActor, Dict[str, Any], None
+    ]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapDashboardOrganizationsMembersListOutputItems:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> DashboardOrganizationsMembersListOutputItems:
+    return DashboardOrganizationsMembersListOutputItems(
+      object=data.get("object"),
+      id=data.get("id"),
+      status=data.get("status"),
+      role=data.get("role"),
+      user_id=data.get("user_id"),
+      organization_id=data.get("organization_id"),
+      actor_id=data.get("actor_id"),
+      actor=mapDashboardOrganizationsMembersListOutputItemsActor.from_dict(
+        data.get("actor")
+      )
+      if data.get("actor")
+      else None,
+      last_active_at=datetime.fromisoformat(data.get("last_active_at"))
+      if data.get("last_active_at")
+      else None,
+      deleted_at=datetime.fromisoformat(data.get("deleted_at"))
+      if data.get("deleted_at")
+      else None,
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[DashboardOrganizationsMembersListOutputItems, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapDashboardOrganizationsMembersListOutputPagination:
+  @staticmethod
+  def from_dict(
+    data: Dict[str, Any]
+  ) -> DashboardOrganizationsMembersListOutputPagination:
+    return DashboardOrganizationsMembersListOutputPagination(
+      has_more_before=data.get("has_more_before"),
+      has_more_after=data.get("has_more_after"),
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[
+      DashboardOrganizationsMembersListOutputPagination, Dict[str, Any], None
+    ]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
 
 
 class mapDashboardOrganizationsMembersListOutput:
@@ -19,50 +150,20 @@ class mapDashboardOrganizationsMembersListOutput:
   def from_dict(data: Dict[str, Any]) -> DashboardOrganizationsMembersListOutput:
     return DashboardOrganizationsMembersListOutput(
       items=[
-        {
-          "object": item.get("object"),
-          "id": item.get("id"),
-          "status": item.get("status"),
-          "role": item.get("role"),
-          "user_id": item.get("user_id"),
-          "organization_id": item.get("organization_id"),
-          "actor_id": item.get("actor_id"),
-          "actor": item.get("actor")
-          and {
-            "object": item.get("actor", {}).get("object"),
-            "id": item.get("actor", {}).get("id"),
-            "type": item.get("actor", {}).get("type"),
-            "organization_id": item.get("actor", {}).get("organization_id"),
-            "actor_id": item.get("actor", {}).get("actor_id"),
-            "name": item.get("actor", {}).get("name"),
-            "email": item.get("actor", {}).get("email"),
-            "image_url": item.get("actor", {}).get("image_url"),
-            "created_at": item.get("actor", {}).get("created_at")
-            and datetime.fromisoformat(item.get("actor", {}).get("created_at")),
-            "updated_at": item.get("actor", {}).get("updated_at")
-            and datetime.fromisoformat(item.get("actor", {}).get("updated_at")),
-          },
-          "last_active_at": item.get("last_active_at")
-          and datetime.fromisoformat(item.get("last_active_at")),
-          "deleted_at": item.get("deleted_at")
-          and datetime.fromisoformat(item.get("deleted_at")),
-          "created_at": item.get("created_at")
-          and datetime.fromisoformat(item.get("created_at")),
-          "updated_at": item.get("updated_at")
-          and datetime.fromisoformat(item.get("updated_at")),
-        }
+        mapDashboardOrganizationsMembersListOutputItems.from_dict(item)
         for item in data.get("items", [])
+        if item
       ],
-      pagination=data.get("pagination")
-      and {
-        "has_more_before": data.get("pagination", {}).get("has_more_before"),
-        "has_more_after": data.get("pagination", {}).get("has_more_after"),
-      },
+      pagination=mapDashboardOrganizationsMembersListOutputPagination.from_dict(
+        data.get("pagination")
+      )
+      if data.get("pagination")
+      else None,
     )
 
   @staticmethod
   def to_dict(
-    value: Union[DashboardOrganizationsMembersListOutput, Dict[str, Any], None],
+    value: Union[DashboardOrganizationsMembersListOutput, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None
@@ -72,15 +173,7 @@ class mapDashboardOrganizationsMembersListOutput:
     return dataclasses.asdict(value)
 
 
-from typing import Any, Dict, List, Optional, Union
-from datetime import datetime
-
 DashboardOrganizationsMembersListQuery = Any
-
-
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
-import dataclasses
 
 
 class mapDashboardOrganizationsMembersListQuery:
@@ -90,7 +183,7 @@ class mapDashboardOrganizationsMembersListQuery:
 
   @staticmethod
   def to_dict(
-    value: Union[DashboardOrganizationsMembersListQuery, Dict[str, Any], None],
+    value: Union[DashboardOrganizationsMembersListQuery, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None

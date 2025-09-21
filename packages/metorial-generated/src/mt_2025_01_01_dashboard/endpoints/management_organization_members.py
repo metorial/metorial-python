@@ -25,7 +25,9 @@ class MetorialManagementOrganizationMembersEndpoint(BaseMetorialEndpoint):
   def __init__(self, config: MetorialEndpointManager):
     super().__init__(config)
 
-  def list(self, query: DashboardOrganizationsMembersListQuery = None):
+  def list(
+    self, query: DashboardOrganizationsMembersListQuery = None
+  ) -> DashboardOrganizationsMembersListOutput:
     """
     List organization members
     List all organization members
@@ -35,17 +37,15 @@ class MetorialManagementOrganizationMembersEndpoint(BaseMetorialEndpoint):
     """
     request = MetorialRequest(
       path=["organization", "members"],
-      query=(
-        mapDashboardOrganizationsMembersListQuery.to_dict(query)
-        if query is not None
-        else None
-      ),
+      query=mapDashboardOrganizationsMembersListQuery.to_dict(query)
+      if query is not None
+      else None,
     )
     return self._get(request).transform(
       mapDashboardOrganizationsMembersListOutput.from_dict
     )
 
-  def get(self, memberId: str):
+  def get(self, memberId: str) -> DashboardOrganizationsMembersGetOutput:
     """
     Get organization member
     Get the information of a specific organization member
@@ -58,7 +58,7 @@ class MetorialManagementOrganizationMembersEndpoint(BaseMetorialEndpoint):
       mapDashboardOrganizationsMembersGetOutput.from_dict
     )
 
-  def delete(self, memberId: str):
+  def delete(self, memberId: str) -> DashboardOrganizationsMembersDeleteOutput:
     """
     Delete organization member
     Remove an organization member
@@ -71,7 +71,9 @@ class MetorialManagementOrganizationMembersEndpoint(BaseMetorialEndpoint):
       mapDashboardOrganizationsMembersDeleteOutput.from_dict
     )
 
-  def update(self, memberId: str, body: DashboardOrganizationsMembersUpdateBody):
+  def update(
+    self, memberId: str, body: DashboardOrganizationsMembersUpdateBody
+  ) -> DashboardOrganizationsMembersUpdateOutput:
     """
     Update organization member
     Update the role of an organization member

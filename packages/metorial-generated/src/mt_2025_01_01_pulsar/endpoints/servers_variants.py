@@ -21,7 +21,7 @@ class MetorialServersVariantsEndpoint(BaseMetorialEndpoint):
 
   def list(
     self, serverId: str, query: DashboardInstanceServersVariantsListQuery = None
-  ):
+  ) -> DashboardInstanceServersVariantsListOutput:
     """
     List server variants
     Retrieve all variants for a given server
@@ -32,17 +32,17 @@ class MetorialServersVariantsEndpoint(BaseMetorialEndpoint):
     """
     request = MetorialRequest(
       path=["servers", serverId, "variants"],
-      query=(
-        mapDashboardInstanceServersVariantsListQuery.to_dict(query)
-        if query is not None
-        else None
-      ),
+      query=mapDashboardInstanceServersVariantsListQuery.to_dict(query)
+      if query is not None
+      else None,
     )
     return self._get(request).transform(
       mapDashboardInstanceServersVariantsListOutput.from_dict
     )
 
-  def get(self, serverId: str, serverVariantId: str):
+  def get(
+    self, serverId: str, serverVariantId: str
+  ) -> DashboardInstanceServersVariantsGetOutput:
     """
     Get server variant
     Retrieve details for a specific server variant

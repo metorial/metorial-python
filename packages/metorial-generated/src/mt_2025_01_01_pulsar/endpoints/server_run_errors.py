@@ -19,7 +19,9 @@ class MetorialServerRunErrorsEndpoint(BaseMetorialEndpoint):
   def __init__(self, config: MetorialEndpointManager):
     super().__init__(config)
 
-  def list(self, query: DashboardInstanceServerRunErrorsListQuery = None):
+  def list(
+    self, query: DashboardInstanceServerRunErrorsListQuery = None
+  ) -> DashboardInstanceServerRunErrorsListOutput:
     """
     List server run errors
     List all server run errors
@@ -29,17 +31,15 @@ class MetorialServerRunErrorsEndpoint(BaseMetorialEndpoint):
     """
     request = MetorialRequest(
       path=["server-run-errors"],
-      query=(
-        mapDashboardInstanceServerRunErrorsListQuery.to_dict(query)
-        if query is not None
-        else None
-      ),
+      query=mapDashboardInstanceServerRunErrorsListQuery.to_dict(query)
+      if query is not None
+      else None,
     )
     return self._get(request).transform(
       mapDashboardInstanceServerRunErrorsListOutput.from_dict
     )
 
-  def get(self, serverRunErrorId: str):
+  def get(self, serverRunErrorId: str) -> DashboardInstanceServerRunErrorsGetOutput:
     """
     Get server run error
     Get the information of a specific server run error

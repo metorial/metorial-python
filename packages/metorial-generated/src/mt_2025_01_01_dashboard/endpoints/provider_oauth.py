@@ -17,7 +17,9 @@ class MetorialProviderOauthEndpoint(BaseMetorialEndpoint):
   def __init__(self, config: MetorialEndpointManager):
     super().__init__(config)
 
-  def discover(self, organizationId: str, body: ProviderOauthDiscoverBody):
+  def discover(
+    self, organizationId: str, body: ProviderOauthDiscoverBody
+  ) -> ProviderOauthDiscoverOutput:
     """
     Discover OAuth Configuration
     Discover OAuth configuration from a discovery URL
@@ -27,12 +29,7 @@ class MetorialProviderOauthEndpoint(BaseMetorialEndpoint):
     :return: ProviderOauthDiscoverOutput
     """
     request = MetorialRequest(
-      path=[
-        "dashboard",
-        "organizations",
-        organizationId,
-        "provider-oauth-discovery",
-      ],
+      path=["dashboard", "organizations", organizationId, "provider-oauth-discovery"],
       body=mapProviderOauthDiscoverBody.to_dict(body),
     )
     return self._post(request).transform(mapProviderOauthDiscoverOutput.from_dict)

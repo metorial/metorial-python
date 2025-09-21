@@ -1,34 +1,53 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+import dataclasses
+
+
+@dataclass
+class SessionsListOutputPagination:
+  has_more_before: bool
+  has_more_after: bool
 
 
 @dataclass
 class SessionsListOutput:
-  items: List[Union[Dict[str, Any], Dict[str, Any]]]
-  pagination: Dict[str, Any]
+  items: List[Dict[str, Any]]
+  pagination: SessionsListOutputPagination
 
 
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
-import dataclasses
+class mapSessionsListOutputPagination:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> SessionsListOutputPagination:
+    return SessionsListOutputPagination(
+      has_more_before=data.get("has_more_before"),
+      has_more_after=data.get("has_more_after"),
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[SessionsListOutputPagination, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
 
 
 class mapSessionsListOutput:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> SessionsListOutput:
     return SessionsListOutput(
-      items=[item for item in data.get("items", [])],
-      pagination=data.get("pagination")
-      and {
-        "has_more_before": data.get("pagination", {}).get("has_more_before"),
-        "has_more_after": data.get("pagination", {}).get("has_more_after"),
-      },
+      items=data.get("items", []),
+      pagination=mapSessionsListOutputPagination.from_dict(data.get("pagination"))
+      if data.get("pagination")
+      else None,
     )
 
   @staticmethod
   def to_dict(
-    value: Union[SessionsListOutput, Dict[str, Any], None],
+    value: Union[SessionsListOutput, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None
@@ -38,15 +57,7 @@ class mapSessionsListOutput:
     return dataclasses.asdict(value)
 
 
-from typing import Any, Dict, List, Optional, Union
-from datetime import datetime
-
 SessionsListQuery = Any
-
-
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
-import dataclasses
 
 
 class mapSessionsListQuery:
@@ -56,7 +67,7 @@ class mapSessionsListQuery:
 
   @staticmethod
   def to_dict(
-    value: Union[SessionsListQuery, Dict[str, Any], None],
+    value: Union[SessionsListQuery, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None

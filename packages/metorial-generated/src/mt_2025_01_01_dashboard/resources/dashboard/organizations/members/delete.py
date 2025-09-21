@@ -1,6 +1,21 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+import dataclasses
+
+
+@dataclass
+class DashboardOrganizationsMembersDeleteOutputActor:
+  object: str
+  id: str
+  type: str
+  organization_id: str
+  actor_id: str
+  name: str
+  image_url: str
+  created_at: datetime
+  updated_at: datetime
+  email: Optional[str] = None
 
 
 @dataclass
@@ -12,16 +27,42 @@ class DashboardOrganizationsMembersDeleteOutput:
   user_id: str
   organization_id: str
   actor_id: str
-  actor: Dict[str, Any]
+  actor: DashboardOrganizationsMembersDeleteOutputActor
   last_active_at: datetime
   deleted_at: datetime
   created_at: datetime
   updated_at: datetime
 
 
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
-import dataclasses
+class mapDashboardOrganizationsMembersDeleteOutputActor:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> DashboardOrganizationsMembersDeleteOutputActor:
+    return DashboardOrganizationsMembersDeleteOutputActor(
+      object=data.get("object"),
+      id=data.get("id"),
+      type=data.get("type"),
+      organization_id=data.get("organization_id"),
+      actor_id=data.get("actor_id"),
+      name=data.get("name"),
+      email=data.get("email"),
+      image_url=data.get("image_url"),
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[DashboardOrganizationsMembersDeleteOutputActor, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
 
 
 class mapDashboardOrganizationsMembersDeleteOutput:
@@ -35,34 +76,28 @@ class mapDashboardOrganizationsMembersDeleteOutput:
       user_id=data.get("user_id"),
       organization_id=data.get("organization_id"),
       actor_id=data.get("actor_id"),
-      actor=data.get("actor")
-      and {
-        "object": data.get("actor", {}).get("object"),
-        "id": data.get("actor", {}).get("id"),
-        "type": data.get("actor", {}).get("type"),
-        "organization_id": data.get("actor", {}).get("organization_id"),
-        "actor_id": data.get("actor", {}).get("actor_id"),
-        "name": data.get("actor", {}).get("name"),
-        "email": data.get("actor", {}).get("email"),
-        "image_url": data.get("actor", {}).get("image_url"),
-        "created_at": data.get("actor", {}).get("created_at")
-        and datetime.fromisoformat(data.get("actor", {}).get("created_at")),
-        "updated_at": data.get("actor", {}).get("updated_at")
-        and datetime.fromisoformat(data.get("actor", {}).get("updated_at")),
-      },
-      last_active_at=data.get("last_active_at")
-      and datetime.fromisoformat(data.get("last_active_at")),
-      deleted_at=data.get("deleted_at")
-      and datetime.fromisoformat(data.get("deleted_at")),
-      created_at=data.get("created_at")
-      and datetime.fromisoformat(data.get("created_at")),
-      updated_at=data.get("updated_at")
-      and datetime.fromisoformat(data.get("updated_at")),
+      actor=mapDashboardOrganizationsMembersDeleteOutputActor.from_dict(
+        data.get("actor")
+      )
+      if data.get("actor")
+      else None,
+      last_active_at=datetime.fromisoformat(data.get("last_active_at"))
+      if data.get("last_active_at")
+      else None,
+      deleted_at=datetime.fromisoformat(data.get("deleted_at"))
+      if data.get("deleted_at")
+      else None,
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
     )
 
   @staticmethod
   def to_dict(
-    value: Union[DashboardOrganizationsMembersDeleteOutput, Dict[str, Any], None],
+    value: Union[DashboardOrganizationsMembersDeleteOutput, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None

@@ -1,17 +1,137 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+import dataclasses
+
+
+@dataclass
+class SessionsMessagesListOutputItemsSender:
+  object: str
+  type: str
+  id: str
+
+
+@dataclass
+class SessionsMessagesListOutputItemsMcpMessage:
+  object: str
+  id: str
+  method: str
+  payload: Dict[str, Any]
+
+
+@dataclass
+class SessionsMessagesListOutputItems:
+  object: str
+  id: str
+  type: str
+  sender: SessionsMessagesListOutputItemsSender
+  mcp_message: SessionsMessagesListOutputItemsMcpMessage
+  session_id: str
+  server_session_id: str
+  created_at: datetime
+
+
+@dataclass
+class SessionsMessagesListOutputPagination:
+  has_more_before: bool
+  has_more_after: bool
 
 
 @dataclass
 class SessionsMessagesListOutput:
-  items: List[Dict[str, Any]]
-  pagination: Dict[str, Any]
+  items: List[SessionsMessagesListOutputItems]
+  pagination: SessionsMessagesListOutputPagination
 
 
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
-import dataclasses
+class mapSessionsMessagesListOutputItemsSender:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> SessionsMessagesListOutputItemsSender:
+    return SessionsMessagesListOutputItemsSender(
+      object=data.get("object"), type=data.get("type"), id=data.get("id")
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[SessionsMessagesListOutputItemsSender, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapSessionsMessagesListOutputItemsMcpMessage:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> SessionsMessagesListOutputItemsMcpMessage:
+    return SessionsMessagesListOutputItemsMcpMessage(
+      object=data.get("object"),
+      id=data.get("id"),
+      method=data.get("method"),
+      payload=data.get("payload"),
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[SessionsMessagesListOutputItemsMcpMessage, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapSessionsMessagesListOutputItems:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> SessionsMessagesListOutputItems:
+    return SessionsMessagesListOutputItems(
+      object=data.get("object"),
+      id=data.get("id"),
+      type=data.get("type"),
+      sender=mapSessionsMessagesListOutputItemsSender.from_dict(data.get("sender"))
+      if data.get("sender")
+      else None,
+      mcp_message=mapSessionsMessagesListOutputItemsMcpMessage.from_dict(
+        data.get("mcp_message")
+      )
+      if data.get("mcp_message")
+      else None,
+      session_id=data.get("session_id"),
+      server_session_id=data.get("server_session_id"),
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[SessionsMessagesListOutputItems, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapSessionsMessagesListOutputPagination:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> SessionsMessagesListOutputPagination:
+    return SessionsMessagesListOutputPagination(
+      has_more_before=data.get("has_more_before"),
+      has_more_after=data.get("has_more_after"),
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[SessionsMessagesListOutputPagination, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
 
 
 class mapSessionsMessagesListOutput:
@@ -19,40 +139,20 @@ class mapSessionsMessagesListOutput:
   def from_dict(data: Dict[str, Any]) -> SessionsMessagesListOutput:
     return SessionsMessagesListOutput(
       items=[
-        {
-          "object": item.get("object"),
-          "id": item.get("id"),
-          "type": item.get("type"),
-          "sender": item.get("sender")
-          and {
-            "object": item.get("sender", {}).get("object"),
-            "type": item.get("sender", {}).get("type"),
-            "id": item.get("sender", {}).get("id"),
-          },
-          "mcp_message": item.get("mcp_message")
-          and {
-            "object": item.get("mcp_message", {}).get("object"),
-            "id": item.get("mcp_message", {}).get("id"),
-            "method": item.get("mcp_message", {}).get("method"),
-            "payload": item.get("mcp_message", {}).get("payload"),
-          },
-          "session_id": item.get("session_id"),
-          "server_session_id": item.get("server_session_id"),
-          "created_at": item.get("created_at")
-          and datetime.fromisoformat(item.get("created_at")),
-        }
+        mapSessionsMessagesListOutputItems.from_dict(item)
         for item in data.get("items", [])
+        if item
       ],
-      pagination=data.get("pagination")
-      and {
-        "has_more_before": data.get("pagination", {}).get("has_more_before"),
-        "has_more_after": data.get("pagination", {}).get("has_more_after"),
-      },
+      pagination=mapSessionsMessagesListOutputPagination.from_dict(
+        data.get("pagination")
+      )
+      if data.get("pagination")
+      else None,
     )
 
   @staticmethod
   def to_dict(
-    value: Union[SessionsMessagesListOutput, Dict[str, Any], None],
+    value: Union[SessionsMessagesListOutput, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None
@@ -62,15 +162,7 @@ class mapSessionsMessagesListOutput:
     return dataclasses.asdict(value)
 
 
-from typing import Any, Dict, List, Optional, Union
-from datetime import datetime
-
 SessionsMessagesListQuery = Any
-
-
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
-import dataclasses
 
 
 class mapSessionsMessagesListQuery:
@@ -80,7 +172,7 @@ class mapSessionsMessagesListQuery:
 
   @staticmethod
   def to_dict(
-    value: Union[SessionsMessagesListQuery, Dict[str, Any], None],
+    value: Union[SessionsMessagesListQuery, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None

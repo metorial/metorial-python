@@ -24,7 +24,7 @@ class MetorialDashboardInstanceServersVersionsEndpoint(BaseMetorialEndpoint):
     instanceId: str,
     serverId: str,
     query: DashboardInstanceServersVersionsListQuery = None,
-  ):
+  ) -> DashboardInstanceServersVersionsListOutput:
     """
     List server versions
     Retrieve all versions for a given server
@@ -35,25 +35,18 @@ class MetorialDashboardInstanceServersVersionsEndpoint(BaseMetorialEndpoint):
     :return: DashboardInstanceServersVersionsListOutput
     """
     request = MetorialRequest(
-      path=[
-        "dashboard",
-        "instances",
-        instanceId,
-        "servers",
-        serverId,
-        "versions",
-      ],
-      query=(
-        mapDashboardInstanceServersVersionsListQuery.to_dict(query)
-        if query is not None
-        else None
-      ),
+      path=["dashboard", "instances", instanceId, "servers", serverId, "versions"],
+      query=mapDashboardInstanceServersVersionsListQuery.to_dict(query)
+      if query is not None
+      else None,
     )
     return self._get(request).transform(
       mapDashboardInstanceServersVersionsListOutput.from_dict
     )
 
-  def get(self, instanceId: str, serverId: str, serverVersionId: str):
+  def get(
+    self, instanceId: str, serverId: str, serverVersionId: str
+  ) -> DashboardInstanceServersVersionsGetOutput:
     """
     Get server version
     Retrieve details for a specific server version

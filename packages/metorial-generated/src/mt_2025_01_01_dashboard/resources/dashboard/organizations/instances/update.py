@@ -1,6 +1,19 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+import dataclasses
+
+
+@dataclass
+class DashboardOrganizationsInstancesUpdateOutputProject:
+  object: str
+  id: str
+  status: str
+  slug: str
+  name: str
+  organization_id: str
+  created_at: datetime
+  updated_at: datetime
 
 
 @dataclass
@@ -12,14 +25,42 @@ class DashboardOrganizationsInstancesUpdateOutput:
   name: str
   type: str
   organization_id: str
-  project: Dict[str, Any]
+  project: DashboardOrganizationsInstancesUpdateOutputProject
   created_at: datetime
   updated_at: datetime
 
 
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
-import dataclasses
+class mapDashboardOrganizationsInstancesUpdateOutputProject:
+  @staticmethod
+  def from_dict(
+    data: Dict[str, Any]
+  ) -> DashboardOrganizationsInstancesUpdateOutputProject:
+    return DashboardOrganizationsInstancesUpdateOutputProject(
+      object=data.get("object"),
+      id=data.get("id"),
+      status=data.get("status"),
+      slug=data.get("slug"),
+      name=data.get("name"),
+      organization_id=data.get("organization_id"),
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[
+      DashboardOrganizationsInstancesUpdateOutputProject, Dict[str, Any], None
+    ]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
 
 
 class mapDashboardOrganizationsInstancesUpdateOutput:
@@ -33,28 +74,22 @@ class mapDashboardOrganizationsInstancesUpdateOutput:
       name=data.get("name"),
       type=data.get("type"),
       organization_id=data.get("organization_id"),
-      project=data.get("project")
-      and {
-        "object": data.get("project", {}).get("object"),
-        "id": data.get("project", {}).get("id"),
-        "status": data.get("project", {}).get("status"),
-        "slug": data.get("project", {}).get("slug"),
-        "name": data.get("project", {}).get("name"),
-        "organization_id": data.get("project", {}).get("organization_id"),
-        "created_at": data.get("project", {}).get("created_at")
-        and datetime.fromisoformat(data.get("project", {}).get("created_at")),
-        "updated_at": data.get("project", {}).get("updated_at")
-        and datetime.fromisoformat(data.get("project", {}).get("updated_at")),
-      },
-      created_at=data.get("created_at")
-      and datetime.fromisoformat(data.get("created_at")),
-      updated_at=data.get("updated_at")
-      and datetime.fromisoformat(data.get("updated_at")),
+      project=mapDashboardOrganizationsInstancesUpdateOutputProject.from_dict(
+        data.get("project")
+      )
+      if data.get("project")
+      else None,
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
     )
 
   @staticmethod
   def to_dict(
-    value: Union[DashboardOrganizationsInstancesUpdateOutput, Dict[str, Any], None],
+    value: Union[DashboardOrganizationsInstancesUpdateOutput, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None
@@ -64,19 +99,9 @@ class mapDashboardOrganizationsInstancesUpdateOutput:
     return dataclasses.asdict(value)
 
 
-from dataclasses import dataclass
-from typing import Any, Dict, List, Optional, Union
-from datetime import datetime
-
-
 @dataclass
 class DashboardOrganizationsInstancesUpdateBody:
   name: Optional[str] = None
-
-
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
-import dataclasses
 
 
 class mapDashboardOrganizationsInstancesUpdateBody:
@@ -86,7 +111,7 @@ class mapDashboardOrganizationsInstancesUpdateBody:
 
   @staticmethod
   def to_dict(
-    value: Union[DashboardOrganizationsInstancesUpdateBody, Dict[str, Any], None],
+    value: Union[DashboardOrganizationsInstancesUpdateBody, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None

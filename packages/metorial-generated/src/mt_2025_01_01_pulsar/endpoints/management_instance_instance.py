@@ -15,7 +15,7 @@ class MetorialManagementInstanceInstanceEndpoint(BaseMetorialEndpoint):
   def __init__(self, config: MetorialEndpointManager):
     super().__init__(config)
 
-  def get(self, instanceId: str):
+  def get(self, instanceId: str) -> DashboardInstanceInstanceGetOutput:
     """
     Get instance details
     Retrieves metadata and configuration details for a specific instance.

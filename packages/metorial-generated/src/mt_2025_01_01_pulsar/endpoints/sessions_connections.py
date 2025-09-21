@@ -20,10 +20,8 @@ class MetorialSessionsConnectionsEndpoint(BaseMetorialEndpoint):
     super().__init__(config)
 
   def list(
-    self,
-    sessionId: str,
-    query: DashboardInstanceSessionsConnectionsListQuery = None,
-  ):
+    self, sessionId: str, query: DashboardInstanceSessionsConnectionsListQuery = None
+  ) -> DashboardInstanceSessionsConnectionsListOutput:
     """
     List session connections
     List all session connections
@@ -34,17 +32,17 @@ class MetorialSessionsConnectionsEndpoint(BaseMetorialEndpoint):
     """
     request = MetorialRequest(
       path=["sessions", sessionId, "connections"],
-      query=(
-        mapDashboardInstanceSessionsConnectionsListQuery.to_dict(query)
-        if query is not None
-        else None
-      ),
+      query=mapDashboardInstanceSessionsConnectionsListQuery.to_dict(query)
+      if query is not None
+      else None,
     )
     return self._get(request).transform(
       mapDashboardInstanceSessionsConnectionsListOutput.from_dict
     )
 
-  def get(self, sessionId: str, sessionConnectionId: str):
+  def get(
+    self, sessionId: str, sessionConnectionId: str
+  ) -> DashboardInstanceSessionsConnectionsGetOutput:
     """
     Get session connection
     Get the information of a specific session connection

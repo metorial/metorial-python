@@ -1,12 +1,9 @@
+from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
-
-SessionsCreateOutput = Union[Dict[str, Any], Dict[str, Any]]
-
-
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
 import dataclasses
+
+SessionsCreateOutput = Dict[str, Any]
 
 
 class mapSessionsCreateOutput:
@@ -16,7 +13,7 @@ class mapSessionsCreateOutput:
 
   @staticmethod
   def to_dict(
-    value: Union[SessionsCreateOutput, Dict[str, Any], None],
+    value: Union[SessionsCreateOutput, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None
@@ -26,15 +23,7 @@ class mapSessionsCreateOutput:
     return dataclasses.asdict(value)
 
 
-from typing import Any, Dict, List, Optional, Union
-from datetime import datetime
-
-SessionsCreateBody = Union[Dict[str, Any], Dict[str, Any]]
-
-
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
-import dataclasses
+SessionsCreateBody = Dict[str, Any]
 
 
 class mapSessionsCreateBody:
@@ -44,7 +33,7 @@ class mapSessionsCreateBody:
 
   @staticmethod
   def to_dict(
-    value: Union[SessionsCreateBody, Dict[str, Any], None],
+    value: Union[SessionsCreateBody, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None

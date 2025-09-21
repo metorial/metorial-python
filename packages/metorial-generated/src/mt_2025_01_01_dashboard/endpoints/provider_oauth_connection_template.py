@@ -20,10 +20,8 @@ class MetorialProviderOauthConnectionTemplateEndpoint(BaseMetorialEndpoint):
     super().__init__(config)
 
   def list(
-    self,
-    organizationId: str,
-    query: ProviderOauthConnectionTemplateListQuery = None,
-  ):
+    self, organizationId: str, query: ProviderOauthConnectionTemplateListQuery = None
+  ) -> ProviderOauthConnectionTemplateListOutput:
     """
     List oauth connection templates
     List all oauth connection templates
@@ -39,17 +37,17 @@ class MetorialProviderOauthConnectionTemplateEndpoint(BaseMetorialEndpoint):
         organizationId,
         "provider-oauth-connection-template",
       ],
-      query=(
-        mapProviderOauthConnectionTemplateListQuery.to_dict(query)
-        if query is not None
-        else None
-      ),
+      query=mapProviderOauthConnectionTemplateListQuery.to_dict(query)
+      if query is not None
+      else None,
     )
     return self._get(request).transform(
       mapProviderOauthConnectionTemplateListOutput.from_dict
     )
 
-  def get(self, organizationId: str, oauthTemplateId: str):
+  def get(
+    self, organizationId: str, oauthTemplateId: str
+  ) -> ProviderOauthConnectionTemplateGetOutput:
     """
     Get oauth connection template
     Get the information of a specific oauth connection template

@@ -1,17 +1,77 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+import dataclasses
+
+
+@dataclass
+class ServersListingsCategoriesListOutputItems:
+  object: str
+  id: str
+  name: str
+  slug: str
+  description: str
+  created_at: datetime
+  updated_at: datetime
+
+
+@dataclass
+class ServersListingsCategoriesListOutputPagination:
+  has_more_before: bool
+  has_more_after: bool
 
 
 @dataclass
 class ServersListingsCategoriesListOutput:
-  items: List[Dict[str, Any]]
-  pagination: Dict[str, Any]
+  items: List[ServersListingsCategoriesListOutputItems]
+  pagination: ServersListingsCategoriesListOutputPagination
 
 
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
-import dataclasses
+class mapServersListingsCategoriesListOutputItems:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> ServersListingsCategoriesListOutputItems:
+    return ServersListingsCategoriesListOutputItems(
+      object=data.get("object"),
+      id=data.get("id"),
+      name=data.get("name"),
+      slug=data.get("slug"),
+      description=data.get("description"),
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[ServersListingsCategoriesListOutputItems, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapServersListingsCategoriesListOutputPagination:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> ServersListingsCategoriesListOutputPagination:
+    return ServersListingsCategoriesListOutputPagination(
+      has_more_before=data.get("has_more_before"),
+      has_more_after=data.get("has_more_after"),
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[ServersListingsCategoriesListOutputPagination, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
 
 
 class mapServersListingsCategoriesListOutput:
@@ -19,29 +79,20 @@ class mapServersListingsCategoriesListOutput:
   def from_dict(data: Dict[str, Any]) -> ServersListingsCategoriesListOutput:
     return ServersListingsCategoriesListOutput(
       items=[
-        {
-          "object": item.get("object"),
-          "id": item.get("id"),
-          "name": item.get("name"),
-          "slug": item.get("slug"),
-          "description": item.get("description"),
-          "created_at": item.get("created_at")
-          and datetime.fromisoformat(item.get("created_at")),
-          "updated_at": item.get("updated_at")
-          and datetime.fromisoformat(item.get("updated_at")),
-        }
+        mapServersListingsCategoriesListOutputItems.from_dict(item)
         for item in data.get("items", [])
+        if item
       ],
-      pagination=data.get("pagination")
-      and {
-        "has_more_before": data.get("pagination", {}).get("has_more_before"),
-        "has_more_after": data.get("pagination", {}).get("has_more_after"),
-      },
+      pagination=mapServersListingsCategoriesListOutputPagination.from_dict(
+        data.get("pagination")
+      )
+      if data.get("pagination")
+      else None,
     )
 
   @staticmethod
   def to_dict(
-    value: Union[ServersListingsCategoriesListOutput, Dict[str, Any], None],
+    value: Union[ServersListingsCategoriesListOutput, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None
@@ -51,15 +102,7 @@ class mapServersListingsCategoriesListOutput:
     return dataclasses.asdict(value)
 
 
-from typing import Any, Dict, List, Optional, Union
-from datetime import datetime
-
 ServersListingsCategoriesListQuery = Any
-
-
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
-import dataclasses
 
 
 class mapServersListingsCategoriesListQuery:
@@ -69,7 +112,7 @@ class mapServersListingsCategoriesListQuery:
 
   @staticmethod
   def to_dict(
-    value: Union[ServersListingsCategoriesListQuery, Dict[str, Any], None],
+    value: Union[ServersListingsCategoriesListQuery, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None

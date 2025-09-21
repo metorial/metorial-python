@@ -1,6 +1,29 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+import dataclasses
+
+
+@dataclass
+class ServersVersionsGetOutputSchema:
+  id: str
+  fingerprint: str
+  schema: Dict[str, Any]
+  server_id: str
+  server_variant_id: str
+  server_version_id: str
+  created_at: datetime
+
+
+@dataclass
+class ServersVersionsGetOutputServer:
+  object: str
+  id: str
+  name: str
+  type: str
+  created_at: datetime
+  updated_at: datetime
+  description: Optional[str] = None
 
 
 @dataclass
@@ -11,15 +34,64 @@ class ServersVersionsGetOutput:
   server_id: str
   server_variant_id: str
   get_launch_params: str
-  source: Union[Dict[str, Any], Dict[str, Any]]
-  schema: Dict[str, Any]
-  server: Dict[str, Any]
+  source: Dict[str, Any]
+  schema: ServersVersionsGetOutputSchema
+  server: ServersVersionsGetOutputServer
   created_at: datetime
 
 
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
-import dataclasses
+class mapServersVersionsGetOutputSchema:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> ServersVersionsGetOutputSchema:
+    return ServersVersionsGetOutputSchema(
+      id=data.get("id"),
+      fingerprint=data.get("fingerprint"),
+      schema=data.get("schema"),
+      server_id=data.get("server_id"),
+      server_variant_id=data.get("server_variant_id"),
+      server_version_id=data.get("server_version_id"),
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[ServersVersionsGetOutputSchema, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapServersVersionsGetOutputServer:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> ServersVersionsGetOutputServer:
+    return ServersVersionsGetOutputServer(
+      object=data.get("object"),
+      id=data.get("id"),
+      name=data.get("name"),
+      description=data.get("description"),
+      type=data.get("type"),
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[ServersVersionsGetOutputServer, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
 
 
 class mapServersVersionsGetOutput:
@@ -33,36 +105,20 @@ class mapServersVersionsGetOutput:
       server_variant_id=data.get("server_variant_id"),
       get_launch_params=data.get("get_launch_params"),
       source=data.get("source"),
-      schema=data.get("schema")
-      and {
-        "id": data.get("schema", {}).get("id"),
-        "fingerprint": data.get("schema", {}).get("fingerprint"),
-        "schema": data.get("schema", {}).get("schema"),
-        "server_id": data.get("schema", {}).get("server_id"),
-        "server_variant_id": data.get("schema", {}).get("server_variant_id"),
-        "server_version_id": data.get("schema", {}).get("server_version_id"),
-        "created_at": data.get("schema", {}).get("created_at")
-        and datetime.fromisoformat(data.get("schema", {}).get("created_at")),
-      },
-      server=data.get("server")
-      and {
-        "object": data.get("server", {}).get("object"),
-        "id": data.get("server", {}).get("id"),
-        "name": data.get("server", {}).get("name"),
-        "description": data.get("server", {}).get("description"),
-        "type": data.get("server", {}).get("type"),
-        "created_at": data.get("server", {}).get("created_at")
-        and datetime.fromisoformat(data.get("server", {}).get("created_at")),
-        "updated_at": data.get("server", {}).get("updated_at")
-        and datetime.fromisoformat(data.get("server", {}).get("updated_at")),
-      },
-      created_at=data.get("created_at")
-      and datetime.fromisoformat(data.get("created_at")),
+      schema=mapServersVersionsGetOutputSchema.from_dict(data.get("schema"))
+      if data.get("schema")
+      else None,
+      server=mapServersVersionsGetOutputServer.from_dict(data.get("server"))
+      if data.get("server")
+      else None,
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
     )
 
   @staticmethod
   def to_dict(
-    value: Union[ServersVersionsGetOutput, Dict[str, Any], None],
+    value: Union[ServersVersionsGetOutput, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None

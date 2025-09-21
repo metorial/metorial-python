@@ -18,10 +18,8 @@ class MetorialDashboardInstanceServersCapabilitiesEndpoint(BaseMetorialEndpoint)
     super().__init__(config)
 
   def list(
-    self,
-    instanceId: str,
-    query: DashboardInstanceServersCapabilitiesListQuery = None,
-  ):
+    self, instanceId: str, query: DashboardInstanceServersCapabilitiesListQuery = None
+  ) -> DashboardInstanceServersCapabilitiesListOutput:
     """
     List server capabilities
     Returns a list of server capabilities, filterable by server attributes such as deployment, variant, or version.
@@ -32,11 +30,9 @@ class MetorialDashboardInstanceServersCapabilitiesEndpoint(BaseMetorialEndpoint)
     """
     request = MetorialRequest(
       path=["dashboard", "instances", instanceId, "server-capabilities"],
-      query=(
-        mapDashboardInstanceServersCapabilitiesListQuery.to_dict(query)
-        if query is not None
-        else None
-      ),
+      query=mapDashboardInstanceServersCapabilitiesListQuery.to_dict(query)
+      if query is not None
+      else None,
     )
     return self._get(request).transform(
       mapDashboardInstanceServersCapabilitiesListOutput.from_dict

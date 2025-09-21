@@ -23,7 +23,7 @@ class MetorialProviderOauthConnectionsProfilesEndpoint(BaseMetorialEndpoint):
     self,
     connectionId: str,
     query: DashboardInstanceProviderOauthConnectionsProfilesListQuery = None,
-  ):
+  ) -> DashboardInstanceProviderOauthConnectionsProfilesListOutput:
     """
     List provider OAuth connection profiles
     List provider OAuth connection profiles for a specific connection
@@ -34,17 +34,17 @@ class MetorialProviderOauthConnectionsProfilesEndpoint(BaseMetorialEndpoint):
     """
     request = MetorialRequest(
       path=["provider-oauth", "connections", connectionId, "profiles"],
-      query=(
-        mapDashboardInstanceProviderOauthConnectionsProfilesListQuery.to_dict(query)
-        if query is not None
-        else None
-      ),
+      query=mapDashboardInstanceProviderOauthConnectionsProfilesListQuery.to_dict(query)
+      if query is not None
+      else None,
     )
     return self._get(request).transform(
       mapDashboardInstanceProviderOauthConnectionsProfilesListOutput.from_dict
     )
 
-  def get(self, connectionId: str, profileId: str):
+  def get(
+    self, connectionId: str, profileId: str
+  ) -> DashboardInstanceProviderOauthConnectionsProfilesGetOutput:
     """
     Get provider OAuth connection profile
     Get the information of a specific provider OAuth connection profile

@@ -29,7 +29,9 @@ class MetorialManagementOrganizationProjectsEndpoint(BaseMetorialEndpoint):
   def __init__(self, config: MetorialEndpointManager):
     super().__init__(config)
 
-  def list(self, query: DashboardOrganizationsProjectsListQuery = None):
+  def list(
+    self, query: DashboardOrganizationsProjectsListQuery = None
+  ) -> DashboardOrganizationsProjectsListOutput:
     """
     List organization projects
     List all organization projects
@@ -39,17 +41,15 @@ class MetorialManagementOrganizationProjectsEndpoint(BaseMetorialEndpoint):
     """
     request = MetorialRequest(
       path=["organization", "projects"],
-      query=(
-        mapDashboardOrganizationsProjectsListQuery.to_dict(query)
-        if query is not None
-        else None
-      ),
+      query=mapDashboardOrganizationsProjectsListQuery.to_dict(query)
+      if query is not None
+      else None,
     )
     return self._get(request).transform(
       mapDashboardOrganizationsProjectsListOutput.from_dict
     )
 
-  def get(self, projectId: str):
+  def get(self, projectId: str) -> DashboardOrganizationsProjectsGetOutput:
     """
     Get organization project
     Get the information of a specific organization project
@@ -62,7 +62,9 @@ class MetorialManagementOrganizationProjectsEndpoint(BaseMetorialEndpoint):
       mapDashboardOrganizationsProjectsGetOutput.from_dict
     )
 
-  def create(self, body: DashboardOrganizationsProjectsCreateBody):
+  def create(
+    self, body: DashboardOrganizationsProjectsCreateBody
+  ) -> DashboardOrganizationsProjectsCreateOutput:
     """
     Create organization project
     Create a new organization project
@@ -78,7 +80,7 @@ class MetorialManagementOrganizationProjectsEndpoint(BaseMetorialEndpoint):
       mapDashboardOrganizationsProjectsCreateOutput.from_dict
     )
 
-  def delete(self, projectId: str):
+  def delete(self, projectId: str) -> DashboardOrganizationsProjectsDeleteOutput:
     """
     Delete organization project
     Remove an organization project
@@ -91,7 +93,9 @@ class MetorialManagementOrganizationProjectsEndpoint(BaseMetorialEndpoint):
       mapDashboardOrganizationsProjectsDeleteOutput.from_dict
     )
 
-  def update(self, projectId: str, body: DashboardOrganizationsProjectsUpdateBody):
+  def update(
+    self, projectId: str, body: DashboardOrganizationsProjectsUpdateBody
+  ) -> DashboardOrganizationsProjectsUpdateOutput:
     """
     Update organization project
     Update the role of an organization project

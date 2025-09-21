@@ -17,7 +17,9 @@ class MetorialDashboardUsageEndpoint(BaseMetorialEndpoint):
   def __init__(self, config: MetorialEndpointManager):
     super().__init__(config)
 
-  def timeline(self, organizationId: str, query: DashboardUsageTimelineQuery = None):
+  def timeline(
+    self, organizationId: str, query: DashboardUsageTimelineQuery = None
+  ) -> DashboardUsageTimelineOutput:
     """
     Get organization
     Get the current organization information
@@ -28,8 +30,8 @@ class MetorialDashboardUsageEndpoint(BaseMetorialEndpoint):
     """
     request = MetorialRequest(
       path=["dashboard", "organizations", organizationId, "usage", "timeline"],
-      query=(
-        mapDashboardUsageTimelineQuery.to_dict(query) if query is not None else None
-      ),
+      query=mapDashboardUsageTimelineQuery.to_dict(query)
+      if query is not None
+      else None,
     )
     return self._get(request).transform(mapDashboardUsageTimelineOutput.from_dict)

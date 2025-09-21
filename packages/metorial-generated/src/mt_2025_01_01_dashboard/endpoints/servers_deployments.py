@@ -29,7 +29,9 @@ class MetorialServersDeploymentsEndpoint(BaseMetorialEndpoint):
   def __init__(self, config: MetorialEndpointManager):
     super().__init__(config)
 
-  def list(self, query: DashboardInstanceServersDeploymentsListQuery = None):
+  def list(
+    self, query: DashboardInstanceServersDeploymentsListQuery = None
+  ) -> DashboardInstanceServersDeploymentsListOutput:
     """
     List server deployments
     Retrieve a list of server deployments within the instance. Supports filtering by status, server, variant, and session.
@@ -39,17 +41,17 @@ class MetorialServersDeploymentsEndpoint(BaseMetorialEndpoint):
     """
     request = MetorialRequest(
       path=["server-deployments"],
-      query=(
-        mapDashboardInstanceServersDeploymentsListQuery.to_dict(query)
-        if query is not None
-        else None
-      ),
+      query=mapDashboardInstanceServersDeploymentsListQuery.to_dict(query)
+      if query is not None
+      else None,
     )
     return self._get(request).transform(
       mapDashboardInstanceServersDeploymentsListOutput.from_dict
     )
 
-  def get(self, serverDeploymentId: str):
+  def get(
+    self, serverDeploymentId: str
+  ) -> DashboardInstanceServersDeploymentsGetOutput:
     """
     Get server deployment
     Fetch detailed information about a specific server deployment.
@@ -62,7 +64,9 @@ class MetorialServersDeploymentsEndpoint(BaseMetorialEndpoint):
       mapDashboardInstanceServersDeploymentsGetOutput.from_dict
     )
 
-  def create(self, body: DashboardInstanceServersDeploymentsCreateBody):
+  def create(
+    self, body: DashboardInstanceServersDeploymentsCreateBody
+  ) -> DashboardInstanceServersDeploymentsCreateOutput:
     """
     Create server deployment
     Create a new server deployment using an existing or newly defined server implementation.
@@ -79,10 +83,8 @@ class MetorialServersDeploymentsEndpoint(BaseMetorialEndpoint):
     )
 
   def update(
-    self,
-    serverDeploymentId: str,
-    body: DashboardInstanceServersDeploymentsUpdateBody,
-  ):
+    self, serverDeploymentId: str, body: DashboardInstanceServersDeploymentsUpdateBody
+  ) -> DashboardInstanceServersDeploymentsUpdateOutput:
     """
     Update server deployment
     Update metadata, configuration, or other properties of a server deployment.
@@ -99,7 +101,9 @@ class MetorialServersDeploymentsEndpoint(BaseMetorialEndpoint):
       mapDashboardInstanceServersDeploymentsUpdateOutput.from_dict
     )
 
-  def delete(self, serverDeploymentId: str):
+  def delete(
+    self, serverDeploymentId: str
+  ) -> DashboardInstanceServersDeploymentsDeleteOutput:
     """
     Delete server deployment
     Delete a server deployment from the instance.

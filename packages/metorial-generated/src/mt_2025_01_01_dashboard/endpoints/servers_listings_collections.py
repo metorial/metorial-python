@@ -19,7 +19,9 @@ class MetorialServersListingsCollectionsEndpoint(BaseMetorialEndpoint):
   def __init__(self, config: MetorialEndpointManager):
     super().__init__(config)
 
-  def list(self, query: ServersListingsCollectionsListQuery = None):
+  def list(
+    self, query: ServersListingsCollectionsListQuery = None
+  ) -> ServersListingsCollectionsListOutput:
     """
     List server listing collections
     List all server listing collections
@@ -29,17 +31,15 @@ class MetorialServersListingsCollectionsEndpoint(BaseMetorialEndpoint):
     """
     request = MetorialRequest(
       path=["server-listing-collections"],
-      query=(
-        mapServersListingsCollectionsListQuery.to_dict(query)
-        if query is not None
-        else None
-      ),
+      query=mapServersListingsCollectionsListQuery.to_dict(query)
+      if query is not None
+      else None,
     )
     return self._get(request).transform(
       mapServersListingsCollectionsListOutput.from_dict
     )
 
-  def get(self, serverListingCollectionId: str):
+  def get(self, serverListingCollectionId: str) -> ServersListingsCollectionsGetOutput:
     """
     Get server listing collection
     Get the information of a specific server listing collection

@@ -25,7 +25,9 @@ class MetorialManagementInstanceSessionsEndpoint(BaseMetorialEndpoint):
   def __init__(self, config: MetorialEndpointManager):
     super().__init__(config)
 
-  def list(self, instanceId: str, query: DashboardInstanceSessionsListQuery = None):
+  def list(
+    self, instanceId: str, query: DashboardInstanceSessionsListQuery = None
+  ) -> DashboardInstanceSessionsListOutput:
     """
     List sessions
     List all sessions
@@ -36,17 +38,15 @@ class MetorialManagementInstanceSessionsEndpoint(BaseMetorialEndpoint):
     """
     request = MetorialRequest(
       path=["instances", instanceId, "sessions"],
-      query=(
-        mapDashboardInstanceSessionsListQuery.to_dict(query)
-        if query is not None
-        else None
-      ),
+      query=mapDashboardInstanceSessionsListQuery.to_dict(query)
+      if query is not None
+      else None,
     )
     return self._get(request).transform(
       mapDashboardInstanceSessionsListOutput.from_dict
     )
 
-  def get(self, instanceId: str, sessionId: str):
+  def get(self, instanceId: str, sessionId: str) -> DashboardInstanceSessionsGetOutput:
     """
     Get session
     Get the information of a specific session
@@ -58,7 +58,9 @@ class MetorialManagementInstanceSessionsEndpoint(BaseMetorialEndpoint):
     request = MetorialRequest(path=["instances", instanceId, "sessions", sessionId])
     return self._get(request).transform(mapDashboardInstanceSessionsGetOutput.from_dict)
 
-  def create(self, instanceId: str, body: DashboardInstanceSessionsCreateBody):
+  def create(
+    self, instanceId: str, body: DashboardInstanceSessionsCreateBody
+  ) -> DashboardInstanceSessionsCreateOutput:
     """
     Create session
     Create a new session
@@ -75,7 +77,9 @@ class MetorialManagementInstanceSessionsEndpoint(BaseMetorialEndpoint):
       mapDashboardInstanceSessionsCreateOutput.from_dict
     )
 
-  def delete(self, instanceId: str, sessionId: str):
+  def delete(
+    self, instanceId: str, sessionId: str
+  ) -> DashboardInstanceSessionsDeleteOutput:
     """
     Delete session
     Delete a session

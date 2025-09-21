@@ -1,17 +1,91 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+import dataclasses
+
+
+@dataclass
+class ProviderOauthConnectionsProfilesListOutputItems:
+  object: str
+  id: str
+  status: str
+  sub: str
+  connection_id: str
+  created_at: datetime
+  last_used_at: datetime
+  updated_at: datetime
+  name: Optional[str] = None
+  email: Optional[str] = None
+
+
+@dataclass
+class ProviderOauthConnectionsProfilesListOutputPagination:
+  has_more_before: bool
+  has_more_after: bool
 
 
 @dataclass
 class ProviderOauthConnectionsProfilesListOutput:
-  items: List[Dict[str, Any]]
-  pagination: Dict[str, Any]
+  items: List[ProviderOauthConnectionsProfilesListOutputItems]
+  pagination: ProviderOauthConnectionsProfilesListOutputPagination
 
 
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
-import dataclasses
+class mapProviderOauthConnectionsProfilesListOutputItems:
+  @staticmethod
+  def from_dict(
+    data: Dict[str, Any]
+  ) -> ProviderOauthConnectionsProfilesListOutputItems:
+    return ProviderOauthConnectionsProfilesListOutputItems(
+      object=data.get("object"),
+      id=data.get("id"),
+      status=data.get("status"),
+      sub=data.get("sub"),
+      name=data.get("name"),
+      email=data.get("email"),
+      connection_id=data.get("connection_id"),
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      last_used_at=datetime.fromisoformat(data.get("last_used_at"))
+      if data.get("last_used_at")
+      else None,
+      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[ProviderOauthConnectionsProfilesListOutputItems, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapProviderOauthConnectionsProfilesListOutputPagination:
+  @staticmethod
+  def from_dict(
+    data: Dict[str, Any]
+  ) -> ProviderOauthConnectionsProfilesListOutputPagination:
+    return ProviderOauthConnectionsProfilesListOutputPagination(
+      has_more_before=data.get("has_more_before"),
+      has_more_after=data.get("has_more_after"),
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[
+      ProviderOauthConnectionsProfilesListOutputPagination, Dict[str, Any], None
+    ]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
 
 
 class mapProviderOauthConnectionsProfilesListOutput:
@@ -19,33 +93,20 @@ class mapProviderOauthConnectionsProfilesListOutput:
   def from_dict(data: Dict[str, Any]) -> ProviderOauthConnectionsProfilesListOutput:
     return ProviderOauthConnectionsProfilesListOutput(
       items=[
-        {
-          "object": item.get("object"),
-          "id": item.get("id"),
-          "status": item.get("status"),
-          "sub": item.get("sub"),
-          "name": item.get("name"),
-          "email": item.get("email"),
-          "connection_id": item.get("connection_id"),
-          "created_at": item.get("created_at")
-          and datetime.fromisoformat(item.get("created_at")),
-          "last_used_at": item.get("last_used_at")
-          and datetime.fromisoformat(item.get("last_used_at")),
-          "updated_at": item.get("updated_at")
-          and datetime.fromisoformat(item.get("updated_at")),
-        }
+        mapProviderOauthConnectionsProfilesListOutputItems.from_dict(item)
         for item in data.get("items", [])
+        if item
       ],
-      pagination=data.get("pagination")
-      and {
-        "has_more_before": data.get("pagination", {}).get("has_more_before"),
-        "has_more_after": data.get("pagination", {}).get("has_more_after"),
-      },
+      pagination=mapProviderOauthConnectionsProfilesListOutputPagination.from_dict(
+        data.get("pagination")
+      )
+      if data.get("pagination")
+      else None,
     )
 
   @staticmethod
   def to_dict(
-    value: Union[ProviderOauthConnectionsProfilesListOutput, Dict[str, Any], None],
+    value: Union[ProviderOauthConnectionsProfilesListOutput, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None
@@ -55,15 +116,7 @@ class mapProviderOauthConnectionsProfilesListOutput:
     return dataclasses.asdict(value)
 
 
-from typing import Any, Dict, List, Optional, Union
-from datetime import datetime
-
 ProviderOauthConnectionsProfilesListQuery = Any
-
-
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
-import dataclasses
 
 
 class mapProviderOauthConnectionsProfilesListQuery:
@@ -73,7 +126,7 @@ class mapProviderOauthConnectionsProfilesListQuery:
 
   @staticmethod
   def to_dict(
-    value: Union[ProviderOauthConnectionsProfilesListQuery, Dict[str, Any], None],
+    value: Union[ProviderOauthConnectionsProfilesListQuery, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None

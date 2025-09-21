@@ -27,7 +27,7 @@ class MetorialLinksEndpoint(BaseMetorialEndpoint):
   def __init__(self, config: MetorialEndpointManager):
     super().__init__(config)
 
-  def list(self, fileId: str):
+  def list(self, fileId: str) -> DashboardInstanceLinksListOutput:
     """
     List file links
     Returns a list of links associated with a specific file.
@@ -38,7 +38,7 @@ class MetorialLinksEndpoint(BaseMetorialEndpoint):
     request = MetorialRequest(path=["files", fileId, "links"])
     return self._get(request).transform(mapDashboardInstanceLinksListOutput.from_dict)
 
-  def get(self, fileId: str, linkId: str):
+  def get(self, fileId: str, linkId: str) -> DashboardInstanceLinksGetOutput:
     """
     Get file link by ID
     Retrieves the details of a specific file link by its ID.
@@ -50,7 +50,9 @@ class MetorialLinksEndpoint(BaseMetorialEndpoint):
     request = MetorialRequest(path=["files", fileId, "links", linkId])
     return self._get(request).transform(mapDashboardInstanceLinksGetOutput.from_dict)
 
-  def create(self, fileId: str, body: DashboardInstanceLinksCreateBody):
+  def create(
+    self, fileId: str, body: DashboardInstanceLinksCreateBody
+  ) -> DashboardInstanceLinksCreateOutput:
     """
     Create file link
     Creates a new link for a specific file.
@@ -67,7 +69,9 @@ class MetorialLinksEndpoint(BaseMetorialEndpoint):
       mapDashboardInstanceLinksCreateOutput.from_dict
     )
 
-  def update(self, fileId: str, linkId: str, body: DashboardInstanceLinksUpdateBody):
+  def update(
+    self, fileId: str, linkId: str, body: DashboardInstanceLinksUpdateBody
+  ) -> DashboardInstanceLinksUpdateOutput:
     """
     Update file link by ID
     Updates a file link’s properties, such as expiration.
@@ -85,7 +89,7 @@ class MetorialLinksEndpoint(BaseMetorialEndpoint):
       mapDashboardInstanceLinksUpdateOutput.from_dict
     )
 
-  def delete(self, fileId: str, linkId: str):
+  def delete(self, fileId: str, linkId: str) -> DashboardInstanceLinksDeleteOutput:
     """
     Delete file link by ID
     Deletes a specific file link by its ID.

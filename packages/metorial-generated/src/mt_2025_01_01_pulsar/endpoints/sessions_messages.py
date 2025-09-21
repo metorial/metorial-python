@@ -21,7 +21,7 @@ class MetorialSessionsMessagesEndpoint(BaseMetorialEndpoint):
 
   def list(
     self, sessionId: str, query: DashboardInstanceSessionsMessagesListQuery = None
-  ):
+  ) -> DashboardInstanceSessionsMessagesListOutput:
     """
     List session messages
     List all messages for a specific session
@@ -32,17 +32,17 @@ class MetorialSessionsMessagesEndpoint(BaseMetorialEndpoint):
     """
     request = MetorialRequest(
       path=["sessions", sessionId, "messages"],
-      query=(
-        mapDashboardInstanceSessionsMessagesListQuery.to_dict(query)
-        if query is not None
-        else None
-      ),
+      query=mapDashboardInstanceSessionsMessagesListQuery.to_dict(query)
+      if query is not None
+      else None,
     )
     return self._get(request).transform(
       mapDashboardInstanceSessionsMessagesListOutput.from_dict
     )
 
-  def get(self, sessionId: str, sessionMessageId: str):
+  def get(
+    self, sessionId: str, sessionMessageId: str
+  ) -> DashboardInstanceSessionsMessagesGetOutput:
     """
     Get session message
     Get details of a specific session message

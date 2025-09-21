@@ -35,7 +35,9 @@ class MetorialApiKeysEndpoint(BaseMetorialEndpoint):
   def __init__(self, config: MetorialEndpointManager):
     super().__init__(config)
 
-  def list(self, organizationId: str, query: ApiKeysListQuery = None):
+  def list(
+    self, organizationId: str, query: ApiKeysListQuery = None
+  ) -> ApiKeysListOutput:
     """
     Get user
     Get the current user information
@@ -50,7 +52,7 @@ class MetorialApiKeysEndpoint(BaseMetorialEndpoint):
     )
     return self._get(request).transform(mapApiKeysListOutput.from_dict)
 
-  def get(self, organizationId: str, apiKeyId: str):
+  def get(self, organizationId: str, apiKeyId: str) -> ApiKeysGetOutput:
     """
     Get API key
     Get the information of a specific API key
@@ -64,7 +66,7 @@ class MetorialApiKeysEndpoint(BaseMetorialEndpoint):
     )
     return self._get(request).transform(mapApiKeysGetOutput.from_dict)
 
-  def create(self, organizationId: str, body: ApiKeysCreateBody):
+  def create(self, organizationId: str, body: ApiKeysCreateBody) -> ApiKeysCreateOutput:
     """
     Create API key
     Create a new API key
@@ -79,7 +81,9 @@ class MetorialApiKeysEndpoint(BaseMetorialEndpoint):
     )
     return self._post(request).transform(mapApiKeysCreateOutput.from_dict)
 
-  def update(self, organizationId: str, apiKeyId: str, body: ApiKeysUpdateBody):
+  def update(
+    self, organizationId: str, apiKeyId: str, body: ApiKeysUpdateBody
+  ) -> ApiKeysUpdateOutput:
     """
     Update API key
     Update the information of a specific API key
@@ -95,7 +99,7 @@ class MetorialApiKeysEndpoint(BaseMetorialEndpoint):
     )
     return self._post(request).transform(mapApiKeysUpdateOutput.from_dict)
 
-  def revoke(self, organizationId: str, apiKeyId: str):
+  def revoke(self, organizationId: str, apiKeyId: str) -> ApiKeysRevokeOutput:
     """
     Revoke API key
     Revoke a specific API key
@@ -109,7 +113,9 @@ class MetorialApiKeysEndpoint(BaseMetorialEndpoint):
     )
     return self._delete(request).transform(mapApiKeysRevokeOutput.from_dict)
 
-  def rotate(self, organizationId: str, apiKeyId: str, body: ApiKeysRotateBody):
+  def rotate(
+    self, organizationId: str, apiKeyId: str, body: ApiKeysRotateBody
+  ) -> ApiKeysRotateOutput:
     """
     Rotate API key
     Rotate a specific API key
@@ -132,7 +138,7 @@ class MetorialApiKeysEndpoint(BaseMetorialEndpoint):
     )
     return self._post(request).transform(mapApiKeysRotateOutput.from_dict)
 
-  def reveal(self, organizationId: str, apiKeyId: str):
+  def reveal(self, organizationId: str, apiKeyId: str) -> ApiKeysRevealOutput:
     """
     Reveal API key
     Reveal a specific API key

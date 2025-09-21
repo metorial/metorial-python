@@ -24,7 +24,7 @@ class MetorialDashboardInstanceSessionsEventsEndpoint(BaseMetorialEndpoint):
     instanceId: str,
     sessionId: str,
     query: DashboardInstanceSessionsEventsListQuery = None,
-  ):
+  ) -> DashboardInstanceSessionsEventsListOutput:
     """
     List session events
     List all events for a specific session
@@ -35,25 +35,18 @@ class MetorialDashboardInstanceSessionsEventsEndpoint(BaseMetorialEndpoint):
     :return: DashboardInstanceSessionsEventsListOutput
     """
     request = MetorialRequest(
-      path=[
-        "dashboard",
-        "instances",
-        instanceId,
-        "sessions",
-        sessionId,
-        "events",
-      ],
-      query=(
-        mapDashboardInstanceSessionsEventsListQuery.to_dict(query)
-        if query is not None
-        else None
-      ),
+      path=["dashboard", "instances", instanceId, "sessions", sessionId, "events"],
+      query=mapDashboardInstanceSessionsEventsListQuery.to_dict(query)
+      if query is not None
+      else None,
     )
     return self._get(request).transform(
       mapDashboardInstanceSessionsEventsListOutput.from_dict
     )
 
-  def get(self, instanceId: str, sessionId: str, sessionEventId: str):
+  def get(
+    self, instanceId: str, sessionId: str, sessionEventId: str
+  ) -> DashboardInstanceSessionsEventsGetOutput:
     """
     Get session event
     Get details of a specific session event

@@ -20,10 +20,8 @@ class MetorialManagementInstanceServerRunErrorGroupsEndpoint(BaseMetorialEndpoin
     super().__init__(config)
 
   def list(
-    self,
-    instanceId: str,
-    query: DashboardInstanceServerRunErrorGroupsListQuery = None,
-  ):
+    self, instanceId: str, query: DashboardInstanceServerRunErrorGroupsListQuery = None
+  ) -> DashboardInstanceServerRunErrorGroupsListOutput:
     """
     List server run error groups
     List all server run error groups
@@ -34,17 +32,17 @@ class MetorialManagementInstanceServerRunErrorGroupsEndpoint(BaseMetorialEndpoin
     """
     request = MetorialRequest(
       path=["instances", instanceId, "server-run-error-groups"],
-      query=(
-        mapDashboardInstanceServerRunErrorGroupsListQuery.to_dict(query)
-        if query is not None
-        else None
-      ),
+      query=mapDashboardInstanceServerRunErrorGroupsListQuery.to_dict(query)
+      if query is not None
+      else None,
     )
     return self._get(request).transform(
       mapDashboardInstanceServerRunErrorGroupsListOutput.from_dict
     )
 
-  def get(self, instanceId: str, serverRunErrorGroupId: str):
+  def get(
+    self, instanceId: str, serverRunErrorGroupId: str
+  ) -> DashboardInstanceServerRunErrorGroupsGetOutput:
     """
     Get server run error group
     Get the information of a specific server run error group
@@ -54,12 +52,7 @@ class MetorialManagementInstanceServerRunErrorGroupsEndpoint(BaseMetorialEndpoin
     :return: DashboardInstanceServerRunErrorGroupsGetOutput
     """
     request = MetorialRequest(
-      path=[
-        "instances",
-        instanceId,
-        "server-run-error-groups",
-        serverRunErrorGroupId,
-      ]
+      path=["instances", instanceId, "server-run-error-groups", serverRunErrorGroupId]
     )
     return self._get(request).transform(
       mapDashboardInstanceServerRunErrorGroupsGetOutput.from_dict

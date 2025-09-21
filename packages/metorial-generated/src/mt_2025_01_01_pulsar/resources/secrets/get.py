@@ -1,6 +1,13 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+import dataclasses
+
+
+@dataclass
+class SecretsGetOutputType:
+  identifier: str
+  name: str
 
 
 @dataclass
@@ -8,7 +15,7 @@ class SecretsGetOutput:
   object: str
   id: str
   status: str
-  type: Dict[str, Any]
+  type: SecretsGetOutputType
   description: str
   metadata: Dict[str, Any]
   organization_id: str
@@ -18,9 +25,22 @@ class SecretsGetOutput:
   last_used_at: Optional[datetime] = None
 
 
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
-import dataclasses
+class mapSecretsGetOutputType:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> SecretsGetOutputType:
+    return SecretsGetOutputType(
+      identifier=data.get("identifier"), name=data.get("name")
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[SecretsGetOutputType, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
 
 
 class mapSecretsGetOutput:
@@ -30,25 +50,25 @@ class mapSecretsGetOutput:
       object=data.get("object"),
       id=data.get("id"),
       status=data.get("status"),
-      type=data.get("type")
-      and {
-        "identifier": data.get("type", {}).get("identifier"),
-        "name": data.get("type", {}).get("name"),
-      },
+      type=mapSecretsGetOutputType.from_dict(data.get("type"))
+      if data.get("type")
+      else None,
       description=data.get("description"),
       metadata=data.get("metadata"),
       organization_id=data.get("organization_id"),
       instance_id=data.get("instance_id"),
       fingerprint=data.get("fingerprint"),
-      last_used_at=data.get("last_used_at")
-      and datetime.fromisoformat(data.get("last_used_at")),
-      created_at=data.get("created_at")
-      and datetime.fromisoformat(data.get("created_at")),
+      last_used_at=datetime.fromisoformat(data.get("last_used_at"))
+      if data.get("last_used_at")
+      else None,
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
     )
 
   @staticmethod
   def to_dict(
-    value: Union[SecretsGetOutput, Dict[str, Any], None],
+    value: Union[SecretsGetOutput, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None

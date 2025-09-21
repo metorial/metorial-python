@@ -19,7 +19,7 @@ class MetorialManagementOrganizationEndpoint(BaseMetorialEndpoint):
   def __init__(self, config: MetorialEndpointManager):
     super().__init__(config)
 
-  def get(self):
+  def get(self) -> ManagementOrganizationGetOutput:
     """
     Get organization
     Get the current organization information
@@ -30,7 +30,9 @@ class MetorialManagementOrganizationEndpoint(BaseMetorialEndpoint):
     request = MetorialRequest(path=["organization"])
     return self._get(request).transform(mapManagementOrganizationGetOutput.from_dict)
 
-  def update(self, body: ManagementOrganizationUpdateBody):
+  def update(
+    self, body: ManagementOrganizationUpdateBody
+  ) -> ManagementOrganizationUpdateOutput:
     """
     Update organization
     Update the current organization information

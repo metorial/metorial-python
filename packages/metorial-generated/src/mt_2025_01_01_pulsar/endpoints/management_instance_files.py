@@ -25,7 +25,9 @@ class MetorialManagementInstanceFilesEndpoint(BaseMetorialEndpoint):
   def __init__(self, config: MetorialEndpointManager):
     super().__init__(config)
 
-  def list(self, instanceId: str, query: DashboardInstanceFilesListQuery = None):
+  def list(
+    self, instanceId: str, query: DashboardInstanceFilesListQuery = None
+  ) -> DashboardInstanceFilesListOutput:
     """
     List instance files
     Returns a paginated list of files owned by the instance.
@@ -36,13 +38,13 @@ class MetorialManagementInstanceFilesEndpoint(BaseMetorialEndpoint):
     """
     request = MetorialRequest(
       path=["instances", instanceId, "files"],
-      query=(
-        mapDashboardInstanceFilesListQuery.to_dict(query) if query is not None else None
-      ),
+      query=mapDashboardInstanceFilesListQuery.to_dict(query)
+      if query is not None
+      else None,
     )
     return self._get(request).transform(mapDashboardInstanceFilesListOutput.from_dict)
 
-  def get(self, instanceId: str, fileId: str):
+  def get(self, instanceId: str, fileId: str) -> DashboardInstanceFilesGetOutput:
     """
     Get file by ID
     Retrieves details for a specific file by its ID.
@@ -56,7 +58,7 @@ class MetorialManagementInstanceFilesEndpoint(BaseMetorialEndpoint):
 
   def update(
     self, instanceId: str, fileId: str, body: DashboardInstanceFilesUpdateBody
-  ):
+  ) -> DashboardInstanceFilesUpdateOutput:
     """
     Update file by ID
     Updates editable fields of a specific file by its ID.
@@ -74,7 +76,7 @@ class MetorialManagementInstanceFilesEndpoint(BaseMetorialEndpoint):
       mapDashboardInstanceFilesUpdateOutput.from_dict
     )
 
-  def delete(self, instanceId: str, fileId: str):
+  def delete(self, instanceId: str, fileId: str) -> DashboardInstanceFilesDeleteOutput:
     """
     Delete file by ID
     Deletes a specific file by its ID.

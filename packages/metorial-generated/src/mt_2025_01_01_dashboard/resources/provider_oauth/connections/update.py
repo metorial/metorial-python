@@ -1,6 +1,14 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+import dataclasses
+
+
+@dataclass
+class ProviderOauthConnectionsUpdateOutputProvider:
+  id: str
+  name: str
+  url: str
 
 
 @dataclass
@@ -9,7 +17,7 @@ class ProviderOauthConnectionsUpdateOutput:
   id: str
   status: str
   name: str
-  provider: Dict[str, Any]
+  provider: ProviderOauthConnectionsUpdateOutputProvider
   config: Dict[str, Any]
   scopes: List[str]
   client_id: str
@@ -19,9 +27,22 @@ class ProviderOauthConnectionsUpdateOutput:
   template_id: Optional[str] = None
 
 
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
-import dataclasses
+class mapProviderOauthConnectionsUpdateOutputProvider:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> ProviderOauthConnectionsUpdateOutputProvider:
+    return ProviderOauthConnectionsUpdateOutputProvider(
+      id=data.get("id"), name=data.get("name"), url=data.get("url")
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[ProviderOauthConnectionsUpdateOutputProvider, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
 
 
 class mapProviderOauthConnectionsUpdateOutput:
@@ -32,26 +53,27 @@ class mapProviderOauthConnectionsUpdateOutput:
       id=data.get("id"),
       status=data.get("status"),
       name=data.get("name"),
-      provider=data.get("provider")
-      and {
-        "id": data.get("provider", {}).get("id"),
-        "name": data.get("provider", {}).get("name"),
-        "url": data.get("provider", {}).get("url"),
-      },
+      provider=mapProviderOauthConnectionsUpdateOutputProvider.from_dict(
+        data.get("provider")
+      )
+      if data.get("provider")
+      else None,
       config=data.get("config"),
-      scopes=[item for item in data.get("scopes", [])],
+      scopes=data.get("scopes", []),
       client_id=data.get("client_id"),
       instance_id=data.get("instance_id"),
       template_id=data.get("template_id"),
-      created_at=data.get("created_at")
-      and datetime.fromisoformat(data.get("created_at")),
-      updated_at=data.get("updated_at")
-      and datetime.fromisoformat(data.get("updated_at")),
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
     )
 
   @staticmethod
   def to_dict(
-    value: Union[ProviderOauthConnectionsUpdateOutput, Dict[str, Any], None],
+    value: Union[ProviderOauthConnectionsUpdateOutput, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None
@@ -59,11 +81,6 @@ class mapProviderOauthConnectionsUpdateOutput:
       return value
     # assume dataclass for generated models
     return dataclasses.asdict(value)
-
-
-from dataclasses import dataclass
-from typing import Any, Dict, List, Optional, Union
-from datetime import datetime
 
 
 @dataclass
@@ -75,11 +92,6 @@ class ProviderOauthConnectionsUpdateBody:
   scopes: Optional[List[str]] = None
 
 
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
-import dataclasses
-
-
 class mapProviderOauthConnectionsUpdateBody:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> ProviderOauthConnectionsUpdateBody:
@@ -88,12 +100,12 @@ class mapProviderOauthConnectionsUpdateBody:
       config=data.get("config"),
       client_id=data.get("client_id"),
       client_secret=data.get("client_secret"),
-      scopes=[item for item in data.get("scopes", [])],
+      scopes=data.get("scopes", []),
     )
 
   @staticmethod
   def to_dict(
-    value: Union[ProviderOauthConnectionsUpdateBody, Dict[str, Any], None],
+    value: Union[ProviderOauthConnectionsUpdateBody, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None

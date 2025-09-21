@@ -31,7 +31,9 @@ class MetorialDashboardOrganizationsEndpoint(BaseMetorialEndpoint):
   def __init__(self, config: MetorialEndpointManager):
     super().__init__(config)
 
-  def create(self, body: DashboardOrganizationsCreateBody):
+  def create(
+    self, body: DashboardOrganizationsCreateBody
+  ) -> DashboardOrganizationsCreateOutput:
     """
     Create organization
     Create a new organization
@@ -47,7 +49,9 @@ class MetorialDashboardOrganizationsEndpoint(BaseMetorialEndpoint):
       mapDashboardOrganizationsCreateOutput.from_dict
     )
 
-  def list(self, query: DashboardOrganizationsListQuery = None):
+  def list(
+    self, query: DashboardOrganizationsListQuery = None
+  ) -> DashboardOrganizationsListOutput:
     """
     List organizations
     List all organizations
@@ -57,13 +61,13 @@ class MetorialDashboardOrganizationsEndpoint(BaseMetorialEndpoint):
     """
     request = MetorialRequest(
       path=["dashboard", "organizations"],
-      query=(
-        mapDashboardOrganizationsListQuery.to_dict(query) if query is not None else None
-      ),
+      query=mapDashboardOrganizationsListQuery.to_dict(query)
+      if query is not None
+      else None,
     )
     return self._get(request).transform(mapDashboardOrganizationsListOutput.from_dict)
 
-  def get(self, organizationId: str):
+  def get(self, organizationId: str) -> DashboardOrganizationsGetOutput:
     """
     Get organization
     Get the current organization information
@@ -74,7 +78,9 @@ class MetorialDashboardOrganizationsEndpoint(BaseMetorialEndpoint):
     request = MetorialRequest(path=["dashboard", "organizations", organizationId])
     return self._get(request).transform(mapDashboardOrganizationsGetOutput.from_dict)
 
-  def update(self, organizationId: str, body: DashboardOrganizationsUpdateBody):
+  def update(
+    self, organizationId: str, body: DashboardOrganizationsUpdateBody
+  ) -> DashboardOrganizationsUpdateOutput:
     """
     Update organization
     Update the current organization information
@@ -91,7 +97,7 @@ class MetorialDashboardOrganizationsEndpoint(BaseMetorialEndpoint):
       mapDashboardOrganizationsUpdateOutput.from_dict
     )
 
-  def delete(self, organizationId: str):
+  def delete(self, organizationId: str) -> DashboardOrganizationsDeleteOutput:
     """
     Delete organization
     Delete the current organization
@@ -104,7 +110,9 @@ class MetorialDashboardOrganizationsEndpoint(BaseMetorialEndpoint):
       mapDashboardOrganizationsDeleteOutput.from_dict
     )
 
-  def get_membership(self, organizationId: str):
+  def get_membership(
+    self, organizationId: str
+  ) -> DashboardOrganizationsGetMembershipOutput:
     """
     Get organization
     Get the current organization information

@@ -1,17 +1,79 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+import dataclasses
+
+
+@dataclass
+class ProviderOauthConnectionsEventsListOutputItems:
+  object: str
+  id: str
+  status: str
+  type: str
+  metadata: Dict[str, Any]
+  connection_id: str
+  created_at: datetime
+
+
+@dataclass
+class ProviderOauthConnectionsEventsListOutputPagination:
+  has_more_before: bool
+  has_more_after: bool
 
 
 @dataclass
 class ProviderOauthConnectionsEventsListOutput:
-  items: List[Dict[str, Any]]
-  pagination: Dict[str, Any]
+  items: List[ProviderOauthConnectionsEventsListOutputItems]
+  pagination: ProviderOauthConnectionsEventsListOutputPagination
 
 
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
-import dataclasses
+class mapProviderOauthConnectionsEventsListOutputItems:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> ProviderOauthConnectionsEventsListOutputItems:
+    return ProviderOauthConnectionsEventsListOutputItems(
+      object=data.get("object"),
+      id=data.get("id"),
+      status=data.get("status"),
+      type=data.get("type"),
+      metadata=data.get("metadata"),
+      connection_id=data.get("connection_id"),
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[ProviderOauthConnectionsEventsListOutputItems, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapProviderOauthConnectionsEventsListOutputPagination:
+  @staticmethod
+  def from_dict(
+    data: Dict[str, Any]
+  ) -> ProviderOauthConnectionsEventsListOutputPagination:
+    return ProviderOauthConnectionsEventsListOutputPagination(
+      has_more_before=data.get("has_more_before"),
+      has_more_after=data.get("has_more_after"),
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[
+      ProviderOauthConnectionsEventsListOutputPagination, Dict[str, Any], None
+    ]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
 
 
 class mapProviderOauthConnectionsEventsListOutput:
@@ -19,28 +81,20 @@ class mapProviderOauthConnectionsEventsListOutput:
   def from_dict(data: Dict[str, Any]) -> ProviderOauthConnectionsEventsListOutput:
     return ProviderOauthConnectionsEventsListOutput(
       items=[
-        {
-          "object": item.get("object"),
-          "id": item.get("id"),
-          "status": item.get("status"),
-          "type": item.get("type"),
-          "metadata": item.get("metadata"),
-          "connection_id": item.get("connection_id"),
-          "created_at": item.get("created_at")
-          and datetime.fromisoformat(item.get("created_at")),
-        }
+        mapProviderOauthConnectionsEventsListOutputItems.from_dict(item)
         for item in data.get("items", [])
+        if item
       ],
-      pagination=data.get("pagination")
-      and {
-        "has_more_before": data.get("pagination", {}).get("has_more_before"),
-        "has_more_after": data.get("pagination", {}).get("has_more_after"),
-      },
+      pagination=mapProviderOauthConnectionsEventsListOutputPagination.from_dict(
+        data.get("pagination")
+      )
+      if data.get("pagination")
+      else None,
     )
 
   @staticmethod
   def to_dict(
-    value: Union[ProviderOauthConnectionsEventsListOutput, Dict[str, Any], None],
+    value: Union[ProviderOauthConnectionsEventsListOutput, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None
@@ -50,15 +104,7 @@ class mapProviderOauthConnectionsEventsListOutput:
     return dataclasses.asdict(value)
 
 
-from typing import Any, Dict, List, Optional, Union
-from datetime import datetime
-
 ProviderOauthConnectionsEventsListQuery = Any
-
-
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
-import dataclasses
 
 
 class mapProviderOauthConnectionsEventsListQuery:
@@ -68,7 +114,7 @@ class mapProviderOauthConnectionsEventsListQuery:
 
   @staticmethod
   def to_dict(
-    value: Union[ProviderOauthConnectionsEventsListQuery, Dict[str, Any], None],
+    value: Union[ProviderOauthConnectionsEventsListQuery, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None

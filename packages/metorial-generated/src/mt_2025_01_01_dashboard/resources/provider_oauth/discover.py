@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+import dataclasses
 
 
 @dataclass
@@ -14,11 +15,6 @@ class ProviderOauthDiscoverOutput:
   refreshed_at: datetime
 
 
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
-import dataclasses
-
-
 class mapProviderOauthDiscoverOutput:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> ProviderOauthDiscoverOutput:
@@ -28,15 +24,17 @@ class mapProviderOauthDiscoverOutput:
       provider_name=data.get("provider_name"),
       provider_url=data.get("provider_url"),
       config=data.get("config"),
-      created_at=data.get("created_at")
-      and datetime.fromisoformat(data.get("created_at")),
-      refreshed_at=data.get("refreshed_at")
-      and datetime.fromisoformat(data.get("refreshed_at")),
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      refreshed_at=datetime.fromisoformat(data.get("refreshed_at"))
+      if data.get("refreshed_at")
+      else None,
     )
 
   @staticmethod
   def to_dict(
-    value: Union[ProviderOauthDiscoverOutput, Dict[str, Any], None],
+    value: Union[ProviderOauthDiscoverOutput, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None
@@ -46,19 +44,9 @@ class mapProviderOauthDiscoverOutput:
     return dataclasses.asdict(value)
 
 
-from dataclasses import dataclass
-from typing import Any, Dict, List, Optional, Union
-from datetime import datetime
-
-
 @dataclass
 class ProviderOauthDiscoverBody:
   discovery_url: str
-
-
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
-import dataclasses
 
 
 class mapProviderOauthDiscoverBody:
@@ -68,7 +56,7 @@ class mapProviderOauthDiscoverBody:
 
   @staticmethod
   def to_dict(
-    value: Union[ProviderOauthDiscoverBody, Dict[str, Any], None],
+    value: Union[ProviderOauthDiscoverBody, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None

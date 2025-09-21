@@ -1,6 +1,99 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+import dataclasses
+
+
+@dataclass
+class ApiKeysCreateOutputMachineAccessActor:
+  object: str
+  id: str
+  type: str
+  organization_id: str
+  actor_id: str
+  name: str
+  image_url: str
+  created_at: datetime
+  updated_at: datetime
+  email: Optional[str] = None
+
+
+@dataclass
+class ApiKeysCreateOutputMachineAccessInstanceProject:
+  object: str
+  id: str
+  status: str
+  slug: str
+  name: str
+  organization_id: str
+  created_at: datetime
+  updated_at: datetime
+
+
+@dataclass
+class ApiKeysCreateOutputMachineAccessInstance:
+  object: str
+  id: str
+  status: str
+  slug: str
+  name: str
+  type: str
+  organization_id: str
+  project: ApiKeysCreateOutputMachineAccessInstanceProject
+  created_at: datetime
+  updated_at: datetime
+
+
+@dataclass
+class ApiKeysCreateOutputMachineAccessOrganization:
+  object: str
+  id: str
+  status: str
+  type: str
+  slug: str
+  name: str
+  organization_id: str
+  image_url: str
+  created_at: datetime
+  updated_at: datetime
+
+
+@dataclass
+class ApiKeysCreateOutputMachineAccessUser:
+  object: str
+  id: str
+  status: str
+  type: str
+  email: str
+  name: str
+  first_name: str
+  last_name: str
+  image_url: str
+  created_at: datetime
+  updated_at: datetime
+
+
+@dataclass
+class ApiKeysCreateOutputMachineAccess:
+  object: str
+  id: str
+  status: str
+  type: str
+  name: str
+  deleted_at: datetime
+  last_used_at: datetime
+  created_at: datetime
+  updated_at: datetime
+  actor: Optional[ApiKeysCreateOutputMachineAccessActor] = None
+  instance: Optional[ApiKeysCreateOutputMachineAccessInstance] = None
+  organization: Optional[ApiKeysCreateOutputMachineAccessOrganization] = None
+  user: Optional[ApiKeysCreateOutputMachineAccessUser] = None
+
+
+@dataclass
+class ApiKeysCreateOutputRevealInfo:
+  until: datetime
+  forever: bool
 
 
 @dataclass
@@ -12,7 +105,7 @@ class ApiKeysCreateOutput:
   secret_redacted_long: str
   type: str
   name: str
-  machine_access: Dict[str, Any]
+  machine_access: ApiKeysCreateOutputMachineAccess
   created_at: datetime
   updated_at: datetime
   secret: Optional[str] = None
@@ -20,12 +113,236 @@ class ApiKeysCreateOutput:
   deleted_at: Optional[datetime] = None
   last_used_at: Optional[datetime] = None
   expires_at: Optional[datetime] = None
-  reveal_info: Optional[Dict[str, Any]] = None
+  reveal_info: Optional[ApiKeysCreateOutputRevealInfo] = None
 
 
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
-import dataclasses
+class mapApiKeysCreateOutputMachineAccessActor:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> ApiKeysCreateOutputMachineAccessActor:
+    return ApiKeysCreateOutputMachineAccessActor(
+      object=data.get("object"),
+      id=data.get("id"),
+      type=data.get("type"),
+      organization_id=data.get("organization_id"),
+      actor_id=data.get("actor_id"),
+      name=data.get("name"),
+      email=data.get("email"),
+      image_url=data.get("image_url"),
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[ApiKeysCreateOutputMachineAccessActor, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapApiKeysCreateOutputMachineAccessInstanceProject:
+  @staticmethod
+  def from_dict(
+    data: Dict[str, Any]
+  ) -> ApiKeysCreateOutputMachineAccessInstanceProject:
+    return ApiKeysCreateOutputMachineAccessInstanceProject(
+      object=data.get("object"),
+      id=data.get("id"),
+      status=data.get("status"),
+      slug=data.get("slug"),
+      name=data.get("name"),
+      organization_id=data.get("organization_id"),
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[ApiKeysCreateOutputMachineAccessInstanceProject, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapApiKeysCreateOutputMachineAccessInstance:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> ApiKeysCreateOutputMachineAccessInstance:
+    return ApiKeysCreateOutputMachineAccessInstance(
+      object=data.get("object"),
+      id=data.get("id"),
+      status=data.get("status"),
+      slug=data.get("slug"),
+      name=data.get("name"),
+      type=data.get("type"),
+      organization_id=data.get("organization_id"),
+      project=mapApiKeysCreateOutputMachineAccessInstanceProject.from_dict(
+        data.get("project")
+      )
+      if data.get("project")
+      else None,
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[ApiKeysCreateOutputMachineAccessInstance, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapApiKeysCreateOutputMachineAccessOrganization:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> ApiKeysCreateOutputMachineAccessOrganization:
+    return ApiKeysCreateOutputMachineAccessOrganization(
+      object=data.get("object"),
+      id=data.get("id"),
+      status=data.get("status"),
+      type=data.get("type"),
+      slug=data.get("slug"),
+      name=data.get("name"),
+      organization_id=data.get("organization_id"),
+      image_url=data.get("image_url"),
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[ApiKeysCreateOutputMachineAccessOrganization, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapApiKeysCreateOutputMachineAccessUser:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> ApiKeysCreateOutputMachineAccessUser:
+    return ApiKeysCreateOutputMachineAccessUser(
+      object=data.get("object"),
+      id=data.get("id"),
+      status=data.get("status"),
+      type=data.get("type"),
+      email=data.get("email"),
+      name=data.get("name"),
+      first_name=data.get("first_name"),
+      last_name=data.get("last_name"),
+      image_url=data.get("image_url"),
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[ApiKeysCreateOutputMachineAccessUser, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapApiKeysCreateOutputMachineAccess:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> ApiKeysCreateOutputMachineAccess:
+    return ApiKeysCreateOutputMachineAccess(
+      object=data.get("object"),
+      id=data.get("id"),
+      status=data.get("status"),
+      type=data.get("type"),
+      name=data.get("name"),
+      actor=mapApiKeysCreateOutputMachineAccessActor.from_dict(data.get("actor"))
+      if data.get("actor")
+      else None,
+      instance=mapApiKeysCreateOutputMachineAccessInstance.from_dict(
+        data.get("instance")
+      )
+      if data.get("instance")
+      else None,
+      organization=mapApiKeysCreateOutputMachineAccessOrganization.from_dict(
+        data.get("organization")
+      )
+      if data.get("organization")
+      else None,
+      user=mapApiKeysCreateOutputMachineAccessUser.from_dict(data.get("user"))
+      if data.get("user")
+      else None,
+      deleted_at=datetime.fromisoformat(data.get("deleted_at"))
+      if data.get("deleted_at")
+      else None,
+      last_used_at=datetime.fromisoformat(data.get("last_used_at"))
+      if data.get("last_used_at")
+      else None,
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[ApiKeysCreateOutputMachineAccess, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapApiKeysCreateOutputRevealInfo:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> ApiKeysCreateOutputRevealInfo:
+    return ApiKeysCreateOutputRevealInfo(
+      until=datetime.fromisoformat(data.get("until")) if data.get("until") else None,
+      forever=data.get("forever"),
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[ApiKeysCreateOutputRevealInfo, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
 
 
 class mapApiKeysCreateOutput:
@@ -41,192 +358,34 @@ class mapApiKeysCreateOutput:
       type=data.get("type"),
       name=data.get("name"),
       description=data.get("description"),
-      machine_access=data.get("machine_access")
-      and {
-        "object": data.get("machine_access", {}).get("object"),
-        "id": data.get("machine_access", {}).get("id"),
-        "status": data.get("machine_access", {}).get("status"),
-        "type": data.get("machine_access", {}).get("type"),
-        "name": data.get("machine_access", {}).get("name"),
-        "actor": data.get("machine_access", {}).get("actor")
-        and {
-          "object": data.get("machine_access", {}).get("actor", {}).get("object"),
-          "id": data.get("machine_access", {}).get("actor", {}).get("id"),
-          "type": data.get("machine_access", {}).get("actor", {}).get("type"),
-          "organization_id": data.get("machine_access", {})
-          .get("actor", {})
-          .get("organization_id"),
-          "actor_id": data.get("machine_access", {}).get("actor", {}).get("actor_id"),
-          "name": data.get("machine_access", {}).get("actor", {}).get("name"),
-          "email": data.get("machine_access", {}).get("actor", {}).get("email"),
-          "image_url": data.get("machine_access", {}).get("actor", {}).get("image_url"),
-          "created_at": data.get("machine_access", {})
-          .get("actor", {})
-          .get("created_at")
-          and datetime.fromisoformat(
-            data.get("machine_access", {}).get("actor", {}).get("created_at")
-          ),
-          "updated_at": data.get("machine_access", {})
-          .get("actor", {})
-          .get("updated_at")
-          and datetime.fromisoformat(
-            data.get("machine_access", {}).get("actor", {}).get("updated_at")
-          ),
-        },
-        "instance": data.get("machine_access", {}).get("instance")
-        and {
-          "object": data.get("machine_access", {}).get("instance", {}).get("object"),
-          "id": data.get("machine_access", {}).get("instance", {}).get("id"),
-          "status": data.get("machine_access", {}).get("instance", {}).get("status"),
-          "slug": data.get("machine_access", {}).get("instance", {}).get("slug"),
-          "name": data.get("machine_access", {}).get("instance", {}).get("name"),
-          "type": data.get("machine_access", {}).get("instance", {}).get("type"),
-          "organization_id": data.get("machine_access", {})
-          .get("instance", {})
-          .get("organization_id"),
-          "project": data.get("machine_access", {}).get("instance", {}).get("project")
-          and {
-            "object": data.get("machine_access", {})
-            .get("instance", {})
-            .get("project", {})
-            .get("object"),
-            "id": data.get("machine_access", {})
-            .get("instance", {})
-            .get("project", {})
-            .get("id"),
-            "status": data.get("machine_access", {})
-            .get("instance", {})
-            .get("project", {})
-            .get("status"),
-            "slug": data.get("machine_access", {})
-            .get("instance", {})
-            .get("project", {})
-            .get("slug"),
-            "name": data.get("machine_access", {})
-            .get("instance", {})
-            .get("project", {})
-            .get("name"),
-            "organization_id": data.get("machine_access", {})
-            .get("instance", {})
-            .get("project", {})
-            .get("organization_id"),
-            "created_at": data.get("machine_access", {})
-            .get("instance", {})
-            .get("project", {})
-            .get("created_at")
-            and datetime.fromisoformat(
-              data.get("machine_access", {})
-              .get("instance", {})
-              .get("project", {})
-              .get("created_at")
-            ),
-            "updated_at": data.get("machine_access", {})
-            .get("instance", {})
-            .get("project", {})
-            .get("updated_at")
-            and datetime.fromisoformat(
-              data.get("machine_access", {})
-              .get("instance", {})
-              .get("project", {})
-              .get("updated_at")
-            ),
-          },
-          "created_at": data.get("machine_access", {})
-          .get("instance", {})
-          .get("created_at")
-          and datetime.fromisoformat(
-            data.get("machine_access", {}).get("instance", {}).get("created_at")
-          ),
-          "updated_at": data.get("machine_access", {})
-          .get("instance", {})
-          .get("updated_at")
-          and datetime.fromisoformat(
-            data.get("machine_access", {}).get("instance", {}).get("updated_at")
-          ),
-        },
-        "organization": data.get("machine_access", {}).get("organization")
-        and {
-          "object": data.get("machine_access", {})
-          .get("organization", {})
-          .get("object"),
-          "id": data.get("machine_access", {}).get("organization", {}).get("id"),
-          "status": data.get("machine_access", {})
-          .get("organization", {})
-          .get("status"),
-          "type": data.get("machine_access", {}).get("organization", {}).get("type"),
-          "slug": data.get("machine_access", {}).get("organization", {}).get("slug"),
-          "name": data.get("machine_access", {}).get("organization", {}).get("name"),
-          "organization_id": data.get("machine_access", {})
-          .get("organization", {})
-          .get("organization_id"),
-          "image_url": data.get("machine_access", {})
-          .get("organization", {})
-          .get("image_url"),
-          "created_at": data.get("machine_access", {})
-          .get("organization", {})
-          .get("created_at")
-          and datetime.fromisoformat(
-            data.get("machine_access", {}).get("organization", {}).get("created_at")
-          ),
-          "updated_at": data.get("machine_access", {})
-          .get("organization", {})
-          .get("updated_at")
-          and datetime.fromisoformat(
-            data.get("machine_access", {}).get("organization", {}).get("updated_at")
-          ),
-        },
-        "user": data.get("machine_access", {}).get("user")
-        and {
-          "object": data.get("machine_access", {}).get("user", {}).get("object"),
-          "id": data.get("machine_access", {}).get("user", {}).get("id"),
-          "status": data.get("machine_access", {}).get("user", {}).get("status"),
-          "type": data.get("machine_access", {}).get("user", {}).get("type"),
-          "email": data.get("machine_access", {}).get("user", {}).get("email"),
-          "name": data.get("machine_access", {}).get("user", {}).get("name"),
-          "first_name": data.get("machine_access", {})
-          .get("user", {})
-          .get("first_name"),
-          "last_name": data.get("machine_access", {}).get("user", {}).get("last_name"),
-          "image_url": data.get("machine_access", {}).get("user", {}).get("image_url"),
-          "created_at": data.get("machine_access", {}).get("user", {}).get("created_at")
-          and datetime.fromisoformat(
-            data.get("machine_access", {}).get("user", {}).get("created_at")
-          ),
-          "updated_at": data.get("machine_access", {}).get("user", {}).get("updated_at")
-          and datetime.fromisoformat(
-            data.get("machine_access", {}).get("user", {}).get("updated_at")
-          ),
-        },
-        "deleted_at": data.get("machine_access", {}).get("deleted_at")
-        and datetime.fromisoformat(data.get("machine_access", {}).get("deleted_at")),
-        "last_used_at": data.get("machine_access", {}).get("last_used_at")
-        and datetime.fromisoformat(data.get("machine_access", {}).get("last_used_at")),
-        "created_at": data.get("machine_access", {}).get("created_at")
-        and datetime.fromisoformat(data.get("machine_access", {}).get("created_at")),
-        "updated_at": data.get("machine_access", {}).get("updated_at")
-        and datetime.fromisoformat(data.get("machine_access", {}).get("updated_at")),
-      },
-      deleted_at=data.get("deleted_at")
-      and datetime.fromisoformat(data.get("deleted_at")),
-      last_used_at=data.get("last_used_at")
-      and datetime.fromisoformat(data.get("last_used_at")),
-      expires_at=data.get("expires_at")
-      and datetime.fromisoformat(data.get("expires_at")),
-      created_at=data.get("created_at")
-      and datetime.fromisoformat(data.get("created_at")),
-      updated_at=data.get("updated_at")
-      and datetime.fromisoformat(data.get("updated_at")),
-      reveal_info=data.get("reveal_info")
-      and {
-        "until": data.get("reveal_info", {}).get("until")
-        and datetime.fromisoformat(data.get("reveal_info", {}).get("until")),
-        "forever": data.get("reveal_info", {}).get("forever"),
-      },
+      machine_access=mapApiKeysCreateOutputMachineAccess.from_dict(
+        data.get("machine_access")
+      )
+      if data.get("machine_access")
+      else None,
+      deleted_at=datetime.fromisoformat(data.get("deleted_at"))
+      if data.get("deleted_at")
+      else None,
+      last_used_at=datetime.fromisoformat(data.get("last_used_at"))
+      if data.get("last_used_at")
+      else None,
+      expires_at=datetime.fromisoformat(data.get("expires_at"))
+      if data.get("expires_at")
+      else None,
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
+      reveal_info=mapApiKeysCreateOutputRevealInfo.from_dict(data.get("reveal_info"))
+      if data.get("reveal_info")
+      else None,
     )
 
   @staticmethod
   def to_dict(
-    value: Union[ApiKeysCreateOutput, Dict[str, Any], None],
+    value: Union[ApiKeysCreateOutput, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None
@@ -236,15 +395,7 @@ class mapApiKeysCreateOutput:
     return dataclasses.asdict(value)
 
 
-from typing import Any, Dict, List, Optional, Union
-from datetime import datetime
-
 ApiKeysCreateBody = Any
-
-
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
-import dataclasses
 
 
 class mapApiKeysCreateBody:
@@ -254,7 +405,7 @@ class mapApiKeysCreateBody:
 
   @staticmethod
   def to_dict(
-    value: Union[ApiKeysCreateBody, Dict[str, Any], None],
+    value: Union[ApiKeysCreateBody, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None

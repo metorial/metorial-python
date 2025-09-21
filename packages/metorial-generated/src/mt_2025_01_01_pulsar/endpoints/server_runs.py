@@ -19,7 +19,9 @@ class MetorialServerRunsEndpoint(BaseMetorialEndpoint):
   def __init__(self, config: MetorialEndpointManager):
     super().__init__(config)
 
-  def list(self, query: DashboardInstanceServerRunsListQuery = None):
+  def list(
+    self, query: DashboardInstanceServerRunsListQuery = None
+  ) -> DashboardInstanceServerRunsListOutput:
     """
     List server runs
     List all server runs
@@ -29,17 +31,15 @@ class MetorialServerRunsEndpoint(BaseMetorialEndpoint):
     """
     request = MetorialRequest(
       path=["server-runs"],
-      query=(
-        mapDashboardInstanceServerRunsListQuery.to_dict(query)
-        if query is not None
-        else None
-      ),
+      query=mapDashboardInstanceServerRunsListQuery.to_dict(query)
+      if query is not None
+      else None,
     )
     return self._get(request).transform(
       mapDashboardInstanceServerRunsListOutput.from_dict
     )
 
-  def get(self, serverRunId: str):
+  def get(self, serverRunId: str) -> DashboardInstanceServerRunsGetOutput:
     """
     Get server run
     Get the information of a specific server run

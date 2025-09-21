@@ -23,7 +23,7 @@ class MetorialManagementUserEndpoint(BaseMetorialEndpoint):
   def __init__(self, config: MetorialEndpointManager):
     super().__init__(config)
 
-  def get(self):
+  def get(self) -> ManagementUserGetOutput:
     """
     Get user
     Get the current user information
@@ -34,7 +34,7 @@ class MetorialManagementUserEndpoint(BaseMetorialEndpoint):
     request = MetorialRequest(path=["user"])
     return self._get(request).transform(mapManagementUserGetOutput.from_dict)
 
-  def update(self, body: ManagementUserUpdateBody):
+  def update(self, body: ManagementUserUpdateBody) -> ManagementUserUpdateOutput:
     """
     Update user
     Update the current user information
@@ -48,7 +48,7 @@ class MetorialManagementUserEndpoint(BaseMetorialEndpoint):
     )
     return self._post(request).transform(mapManagementUserUpdateOutput.from_dict)
 
-  def delete(self, body: ManagementUserDeleteBody):
+  def delete(self, body: ManagementUserDeleteBody) -> ManagementUserDeleteOutput:
     """
     Update user
     Update the current user information

@@ -24,7 +24,7 @@ class MetorialDashboardInstanceSessionsServerSessionsEndpoint(BaseMetorialEndpoi
     instanceId: str,
     sessionId: str,
     query: DashboardInstanceSessionsServerSessionsListQuery = None,
-  ):
+  ) -> DashboardInstanceSessionsServerSessionsListOutput:
     """
     List server sessions
     List all server sessions
@@ -43,17 +43,17 @@ class MetorialDashboardInstanceSessionsServerSessionsEndpoint(BaseMetorialEndpoi
         sessionId,
         "server-sessions",
       ],
-      query=(
-        mapDashboardInstanceSessionsServerSessionsListQuery.to_dict(query)
-        if query is not None
-        else None
-      ),
+      query=mapDashboardInstanceSessionsServerSessionsListQuery.to_dict(query)
+      if query is not None
+      else None,
     )
     return self._get(request).transform(
       mapDashboardInstanceSessionsServerSessionsListOutput.from_dict
     )
 
-  def get(self, instanceId: str, sessionId: str, serverSessionId: str):
+  def get(
+    self, instanceId: str, sessionId: str, serverSessionId: str
+  ) -> DashboardInstanceSessionsServerSessionsGetOutput:
     """
     Get server session
     Get the information of a specific server session

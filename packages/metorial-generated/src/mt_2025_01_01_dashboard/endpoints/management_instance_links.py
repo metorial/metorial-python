@@ -27,7 +27,7 @@ class MetorialManagementInstanceLinksEndpoint(BaseMetorialEndpoint):
   def __init__(self, config: MetorialEndpointManager):
     super().__init__(config)
 
-  def list(self, instanceId: str, fileId: str):
+  def list(self, instanceId: str, fileId: str) -> DashboardInstanceLinksListOutput:
     """
     List file links
     Returns a list of links associated with a specific file.
@@ -39,7 +39,9 @@ class MetorialManagementInstanceLinksEndpoint(BaseMetorialEndpoint):
     request = MetorialRequest(path=["instances", instanceId, "files", fileId, "links"])
     return self._get(request).transform(mapDashboardInstanceLinksListOutput.from_dict)
 
-  def get(self, instanceId: str, fileId: str, linkId: str):
+  def get(
+    self, instanceId: str, fileId: str, linkId: str
+  ) -> DashboardInstanceLinksGetOutput:
     """
     Get file link by ID
     Retrieves the details of a specific file link by its ID.
@@ -56,7 +58,7 @@ class MetorialManagementInstanceLinksEndpoint(BaseMetorialEndpoint):
 
   def create(
     self, instanceId: str, fileId: str, body: DashboardInstanceLinksCreateBody
-  ):
+  ) -> DashboardInstanceLinksCreateOutput:
     """
     Create file link
     Creates a new link for a specific file.
@@ -80,7 +82,7 @@ class MetorialManagementInstanceLinksEndpoint(BaseMetorialEndpoint):
     fileId: str,
     linkId: str,
     body: DashboardInstanceLinksUpdateBody,
-  ):
+  ) -> DashboardInstanceLinksUpdateOutput:
     """
     Update file link by ID
     Updates a file link’s properties, such as expiration.
@@ -99,7 +101,9 @@ class MetorialManagementInstanceLinksEndpoint(BaseMetorialEndpoint):
       mapDashboardInstanceLinksUpdateOutput.from_dict
     )
 
-  def delete(self, instanceId: str, fileId: str, linkId: str):
+  def delete(
+    self, instanceId: str, fileId: str, linkId: str
+  ) -> DashboardInstanceLinksDeleteOutput:
     """
     Delete file link by ID
     Deletes a specific file link by its ID.

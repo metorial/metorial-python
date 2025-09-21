@@ -15,7 +15,7 @@ class MetorialServersEndpoint(BaseMetorialEndpoint):
   def __init__(self, config: MetorialEndpointManager):
     super().__init__(config)
 
-  def get(self, serverId: str):
+  def get(self, serverId: str) -> DashboardInstanceServersGetOutput:
     """
     Get server by ID
     Retrieves detailed information for a server identified by its ID.

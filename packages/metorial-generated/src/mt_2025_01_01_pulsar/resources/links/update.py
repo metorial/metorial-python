@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+import dataclasses
 
 
 @dataclass
@@ -13,11 +14,6 @@ class LinksUpdateOutput:
   expires_at: Optional[datetime] = None
 
 
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
-import dataclasses
-
-
 class mapLinksUpdateOutput:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> LinksUpdateOutput:
@@ -26,15 +22,17 @@ class mapLinksUpdateOutput:
       id=data.get("id"),
       file_id=data.get("file_id"),
       url=data.get("url"),
-      created_at=data.get("created_at")
-      and datetime.fromisoformat(data.get("created_at")),
-      expires_at=data.get("expires_at")
-      and datetime.fromisoformat(data.get("expires_at")),
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      expires_at=datetime.fromisoformat(data.get("expires_at"))
+      if data.get("expires_at")
+      else None,
     )
 
   @staticmethod
   def to_dict(
-    value: Union[LinksUpdateOutput, Dict[str, Any], None],
+    value: Union[LinksUpdateOutput, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None
@@ -44,32 +42,23 @@ class mapLinksUpdateOutput:
     return dataclasses.asdict(value)
 
 
-from dataclasses import dataclass
-from typing import Any, Dict, List, Optional, Union
-from datetime import datetime
-
-
 @dataclass
 class LinksUpdateBody:
   expires_at: Optional[datetime] = None
-
-
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
-import dataclasses
 
 
 class mapLinksUpdateBody:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> LinksUpdateBody:
     return LinksUpdateBody(
-      expires_at=data.get("expires_at")
-      and datetime.fromisoformat(data.get("expires_at"))
+      expires_at=datetime.fromisoformat(data.get("expires_at"))
+      if data.get("expires_at")
+      else None
     )
 
   @staticmethod
   def to_dict(
-    value: Union[LinksUpdateBody, Dict[str, Any], None],
+    value: Union[LinksUpdateBody, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None

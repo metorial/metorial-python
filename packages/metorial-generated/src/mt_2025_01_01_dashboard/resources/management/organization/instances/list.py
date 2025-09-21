@@ -1,17 +1,136 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+import dataclasses
+
+
+@dataclass
+class ManagementOrganizationInstancesListOutputItemsProject:
+  object: str
+  id: str
+  status: str
+  slug: str
+  name: str
+  organization_id: str
+  created_at: datetime
+  updated_at: datetime
+
+
+@dataclass
+class ManagementOrganizationInstancesListOutputItems:
+  object: str
+  id: str
+  status: str
+  slug: str
+  name: str
+  type: str
+  organization_id: str
+  project: ManagementOrganizationInstancesListOutputItemsProject
+  created_at: datetime
+  updated_at: datetime
+
+
+@dataclass
+class ManagementOrganizationInstancesListOutputPagination:
+  has_more_before: bool
+  has_more_after: bool
 
 
 @dataclass
 class ManagementOrganizationInstancesListOutput:
-  items: List[Dict[str, Any]]
-  pagination: Dict[str, Any]
+  items: List[ManagementOrganizationInstancesListOutputItems]
+  pagination: ManagementOrganizationInstancesListOutputPagination
 
 
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
-import dataclasses
+class mapManagementOrganizationInstancesListOutputItemsProject:
+  @staticmethod
+  def from_dict(
+    data: Dict[str, Any]
+  ) -> ManagementOrganizationInstancesListOutputItemsProject:
+    return ManagementOrganizationInstancesListOutputItemsProject(
+      object=data.get("object"),
+      id=data.get("id"),
+      status=data.get("status"),
+      slug=data.get("slug"),
+      name=data.get("name"),
+      organization_id=data.get("organization_id"),
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[
+      ManagementOrganizationInstancesListOutputItemsProject, Dict[str, Any], None
+    ]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapManagementOrganizationInstancesListOutputItems:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> ManagementOrganizationInstancesListOutputItems:
+    return ManagementOrganizationInstancesListOutputItems(
+      object=data.get("object"),
+      id=data.get("id"),
+      status=data.get("status"),
+      slug=data.get("slug"),
+      name=data.get("name"),
+      type=data.get("type"),
+      organization_id=data.get("organization_id"),
+      project=mapManagementOrganizationInstancesListOutputItemsProject.from_dict(
+        data.get("project")
+      )
+      if data.get("project")
+      else None,
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[ManagementOrganizationInstancesListOutputItems, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapManagementOrganizationInstancesListOutputPagination:
+  @staticmethod
+  def from_dict(
+    data: Dict[str, Any]
+  ) -> ManagementOrganizationInstancesListOutputPagination:
+    return ManagementOrganizationInstancesListOutputPagination(
+      has_more_before=data.get("has_more_before"),
+      has_more_after=data.get("has_more_after"),
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[
+      ManagementOrganizationInstancesListOutputPagination, Dict[str, Any], None
+    ]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
 
 
 class mapManagementOrganizationInstancesListOutput:
@@ -19,44 +138,20 @@ class mapManagementOrganizationInstancesListOutput:
   def from_dict(data: Dict[str, Any]) -> ManagementOrganizationInstancesListOutput:
     return ManagementOrganizationInstancesListOutput(
       items=[
-        {
-          "object": item.get("object"),
-          "id": item.get("id"),
-          "status": item.get("status"),
-          "slug": item.get("slug"),
-          "name": item.get("name"),
-          "type": item.get("type"),
-          "organization_id": item.get("organization_id"),
-          "project": item.get("project")
-          and {
-            "object": item.get("project", {}).get("object"),
-            "id": item.get("project", {}).get("id"),
-            "status": item.get("project", {}).get("status"),
-            "slug": item.get("project", {}).get("slug"),
-            "name": item.get("project", {}).get("name"),
-            "organization_id": item.get("project", {}).get("organization_id"),
-            "created_at": item.get("project", {}).get("created_at")
-            and datetime.fromisoformat(item.get("project", {}).get("created_at")),
-            "updated_at": item.get("project", {}).get("updated_at")
-            and datetime.fromisoformat(item.get("project", {}).get("updated_at")),
-          },
-          "created_at": item.get("created_at")
-          and datetime.fromisoformat(item.get("created_at")),
-          "updated_at": item.get("updated_at")
-          and datetime.fromisoformat(item.get("updated_at")),
-        }
+        mapManagementOrganizationInstancesListOutputItems.from_dict(item)
         for item in data.get("items", [])
+        if item
       ],
-      pagination=data.get("pagination")
-      and {
-        "has_more_before": data.get("pagination", {}).get("has_more_before"),
-        "has_more_after": data.get("pagination", {}).get("has_more_after"),
-      },
+      pagination=mapManagementOrganizationInstancesListOutputPagination.from_dict(
+        data.get("pagination")
+      )
+      if data.get("pagination")
+      else None,
     )
 
   @staticmethod
   def to_dict(
-    value: Union[ManagementOrganizationInstancesListOutput, Dict[str, Any], None],
+    value: Union[ManagementOrganizationInstancesListOutput, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None
@@ -66,15 +161,7 @@ class mapManagementOrganizationInstancesListOutput:
     return dataclasses.asdict(value)
 
 
-from typing import Any, Dict, List, Optional, Union
-from datetime import datetime
-
 ManagementOrganizationInstancesListQuery = Any
-
-
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
-import dataclasses
 
 
 class mapManagementOrganizationInstancesListQuery:
@@ -84,7 +171,7 @@ class mapManagementOrganizationInstancesListQuery:
 
   @staticmethod
   def to_dict(
-    value: Union[ManagementOrganizationInstancesListQuery, Dict[str, Any], None],
+    value: Union[ManagementOrganizationInstancesListQuery, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None

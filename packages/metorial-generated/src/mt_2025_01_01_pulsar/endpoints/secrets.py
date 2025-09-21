@@ -19,7 +19,9 @@ class MetorialSecretsEndpoint(BaseMetorialEndpoint):
   def __init__(self, config: MetorialEndpointManager):
     super().__init__(config)
 
-  def list(self, query: DashboardInstanceSecretsListQuery = None):
+  def list(
+    self, query: DashboardInstanceSecretsListQuery = None
+  ) -> DashboardInstanceSecretsListOutput:
     """
     List secrets
     Returns a paginated list of secrets for the instance, optionally filtered by type or status.
@@ -29,15 +31,13 @@ class MetorialSecretsEndpoint(BaseMetorialEndpoint):
     """
     request = MetorialRequest(
       path=["secrets"],
-      query=(
-        mapDashboardInstanceSecretsListQuery.to_dict(query)
-        if query is not None
-        else None
-      ),
+      query=mapDashboardInstanceSecretsListQuery.to_dict(query)
+      if query is not None
+      else None,
     )
     return self._get(request).transform(mapDashboardInstanceSecretsListOutput.from_dict)
 
-  def get(self, secretId: str):
+  def get(self, secretId: str) -> DashboardInstanceSecretsGetOutput:
     """
     Get secret by ID
     Retrieves detailed information about a specific secret by ID.

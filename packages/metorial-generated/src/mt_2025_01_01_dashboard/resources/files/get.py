@@ -1,6 +1,13 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+import dataclasses
+
+
+@dataclass
+class FilesGetOutputPurpose:
+  name: str
+  identifier: str
 
 
 @dataclass
@@ -11,15 +18,28 @@ class FilesGetOutput:
   file_name: str
   file_size: float
   file_type: str
-  purpose: Dict[str, Any]
+  purpose: FilesGetOutputPurpose
   created_at: datetime
   updated_at: datetime
   title: Optional[str] = None
 
 
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
-import dataclasses
+class mapFilesGetOutputPurpose:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> FilesGetOutputPurpose:
+    return FilesGetOutputPurpose(
+      name=data.get("name"), identifier=data.get("identifier")
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[FilesGetOutputPurpose, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
 
 
 class mapFilesGetOutput:
@@ -33,20 +53,20 @@ class mapFilesGetOutput:
       file_size=data.get("file_size"),
       file_type=data.get("file_type"),
       title=data.get("title"),
-      purpose=data.get("purpose")
-      and {
-        "name": data.get("purpose", {}).get("name"),
-        "identifier": data.get("purpose", {}).get("identifier"),
-      },
-      created_at=data.get("created_at")
-      and datetime.fromisoformat(data.get("created_at")),
-      updated_at=data.get("updated_at")
-      and datetime.fromisoformat(data.get("updated_at")),
+      purpose=mapFilesGetOutputPurpose.from_dict(data.get("purpose"))
+      if data.get("purpose")
+      else None,
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
     )
 
   @staticmethod
   def to_dict(
-    value: Union[FilesGetOutput, Dict[str, Any], None],
+    value: Union[FilesGetOutput, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None

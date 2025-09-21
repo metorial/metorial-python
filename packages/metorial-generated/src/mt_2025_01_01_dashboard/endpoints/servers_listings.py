@@ -19,7 +19,7 @@ class MetorialServersListingsEndpoint(BaseMetorialEndpoint):
   def __init__(self, config: MetorialEndpointManager):
     super().__init__(config)
 
-  def list(self, query: ServersListingsListQuery = None):
+  def list(self, query: ServersListingsListQuery = None) -> ServersListingsListOutput:
     """
     List server listings
     Returns a paginated list of server listings, filterable by collection, category, profile, or instance.
@@ -29,11 +29,11 @@ class MetorialServersListingsEndpoint(BaseMetorialEndpoint):
     """
     request = MetorialRequest(
       path=["server-listings"],
-      query=(mapServersListingsListQuery.to_dict(query) if query is not None else None),
+      query=mapServersListingsListQuery.to_dict(query) if query is not None else None,
     )
     return self._get(request).transform(mapServersListingsListOutput.from_dict)
 
-  def get(self, serverListingId: str):
+  def get(self, serverListingId: str) -> ServersListingsGetOutput:
     """
     Get server listing
     Returns metadata and readme content for a specific server listing.

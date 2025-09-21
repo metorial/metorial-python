@@ -19,7 +19,9 @@ class MetorialServersListingsCategoriesEndpoint(BaseMetorialEndpoint):
   def __init__(self, config: MetorialEndpointManager):
     super().__init__(config)
 
-  def list(self, query: ServersListingsCategoriesListQuery = None):
+  def list(
+    self, query: ServersListingsCategoriesListQuery = None
+  ) -> ServersListingsCategoriesListOutput:
     """
     List server listing categories
     Returns a list of all available server listing categories.
@@ -29,17 +31,15 @@ class MetorialServersListingsCategoriesEndpoint(BaseMetorialEndpoint):
     """
     request = MetorialRequest(
       path=["server-listing-categories"],
-      query=(
-        mapServersListingsCategoriesListQuery.to_dict(query)
-        if query is not None
-        else None
-      ),
+      query=mapServersListingsCategoriesListQuery.to_dict(query)
+      if query is not None
+      else None,
     )
     return self._get(request).transform(
       mapServersListingsCategoriesListOutput.from_dict
     )
 
-  def get(self, serverListingCategoryId: str):
+  def get(self, serverListingCategoryId: str) -> ServersListingsCategoriesGetOutput:
     """
     Get server listing category
     Returns information for a specific server listing category.

@@ -29,7 +29,9 @@ class MetorialServersImplementationsEndpoint(BaseMetorialEndpoint):
   def __init__(self, config: MetorialEndpointManager):
     super().__init__(config)
 
-  def list(self, query: DashboardInstanceServersImplementationsListQuery = None):
+  def list(
+    self, query: DashboardInstanceServersImplementationsListQuery = None
+  ) -> DashboardInstanceServersImplementationsListOutput:
     """
     List server implementations
     Retrieve all server implementations in the instance. Supports filtering by status, server, or variant.
@@ -39,17 +41,17 @@ class MetorialServersImplementationsEndpoint(BaseMetorialEndpoint):
     """
     request = MetorialRequest(
       path=["server-implementations"],
-      query=(
-        mapDashboardInstanceServersImplementationsListQuery.to_dict(query)
-        if query is not None
-        else None
-      ),
+      query=mapDashboardInstanceServersImplementationsListQuery.to_dict(query)
+      if query is not None
+      else None,
     )
     return self._get(request).transform(
       mapDashboardInstanceServersImplementationsListOutput.from_dict
     )
 
-  def get(self, serverImplementationId: str):
+  def get(
+    self, serverImplementationId: str
+  ) -> DashboardInstanceServersImplementationsGetOutput:
     """
     Get server implementation
     Fetch detailed information about a specific server implementation.
@@ -62,7 +64,9 @@ class MetorialServersImplementationsEndpoint(BaseMetorialEndpoint):
       mapDashboardInstanceServersImplementationsGetOutput.from_dict
     )
 
-  def create(self, body: DashboardInstanceServersImplementationsCreateBody):
+  def create(
+    self, body: DashboardInstanceServersImplementationsCreateBody
+  ) -> DashboardInstanceServersImplementationsCreateOutput:
     """
     Create server implementation
     Create a new server implementation for a specific server or server variant.
@@ -82,7 +86,7 @@ class MetorialServersImplementationsEndpoint(BaseMetorialEndpoint):
     self,
     serverImplementationId: str,
     body: DashboardInstanceServersImplementationsUpdateBody,
-  ):
+  ) -> DashboardInstanceServersImplementationsUpdateOutput:
     """
     Update server implementation
     Update metadata, launch parameters, or other fields of a server implementation.
@@ -99,7 +103,9 @@ class MetorialServersImplementationsEndpoint(BaseMetorialEndpoint):
       mapDashboardInstanceServersImplementationsUpdateOutput.from_dict
     )
 
-  def delete(self, serverImplementationId: str):
+  def delete(
+    self, serverImplementationId: str
+  ) -> DashboardInstanceServersImplementationsDeleteOutput:
     """
     Delete server implementation
     Delete a specific server implementation from the instance.

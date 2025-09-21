@@ -25,7 +25,9 @@ class MetorialDashboardOrganizationsJoinEndpoint(BaseMetorialEndpoint):
   def __init__(self, config: MetorialEndpointManager):
     super().__init__(config)
 
-  def get(self, query: DashboardOrganizationsJoinGetQuery = None):
+  def get(
+    self, query: DashboardOrganizationsJoinGetQuery = None
+  ) -> DashboardOrganizationsJoinGetOutput:
     """
     Join organization
     Join an organization
@@ -35,17 +37,17 @@ class MetorialDashboardOrganizationsJoinEndpoint(BaseMetorialEndpoint):
     """
     request = MetorialRequest(
       path=["dashboard", "organization-join", "find"],
-      query=(
-        mapDashboardOrganizationsJoinGetQuery.to_dict(query)
-        if query is not None
-        else None
-      ),
+      query=mapDashboardOrganizationsJoinGetQuery.to_dict(query)
+      if query is not None
+      else None,
     )
     return self._get(request).transform(
       mapDashboardOrganizationsJoinGetOutput.from_dict
     )
 
-  def accept(self, body: DashboardOrganizationsJoinAcceptBody):
+  def accept(
+    self, body: DashboardOrganizationsJoinAcceptBody
+  ) -> DashboardOrganizationsJoinAcceptOutput:
     """
     Join organization
     Join an organization
@@ -61,7 +63,9 @@ class MetorialDashboardOrganizationsJoinEndpoint(BaseMetorialEndpoint):
       mapDashboardOrganizationsJoinAcceptOutput.from_dict
     )
 
-  def reject(self, body: DashboardOrganizationsJoinRejectBody):
+  def reject(
+    self, body: DashboardOrganizationsJoinRejectBody
+  ) -> DashboardOrganizationsJoinRejectOutput:
     """
     Reject organization invite
     Reject an organization invite

@@ -26,7 +26,7 @@ class MetorialManagementInstanceProviderOauthConnectionsEventsEndpoint(
     instanceId: str,
     connectionId: str,
     query: DashboardInstanceProviderOauthConnectionsEventsListQuery = None,
-  ):
+  ) -> DashboardInstanceProviderOauthConnectionsEventsListOutput:
     """
     List provider OAuth connection events
     List provider OAuth connection events for a specific connection
@@ -45,17 +45,17 @@ class MetorialManagementInstanceProviderOauthConnectionsEventsEndpoint(
         connectionId,
         "events",
       ],
-      query=(
-        mapDashboardInstanceProviderOauthConnectionsEventsListQuery.to_dict(query)
-        if query is not None
-        else None
-      ),
+      query=mapDashboardInstanceProviderOauthConnectionsEventsListQuery.to_dict(query)
+      if query is not None
+      else None,
     )
     return self._get(request).transform(
       mapDashboardInstanceProviderOauthConnectionsEventsListOutput.from_dict
     )
 
-  def get(self, instanceId: str, connectionId: str, eventId: str):
+  def get(
+    self, instanceId: str, connectionId: str, eventId: str
+  ) -> DashboardInstanceProviderOauthConnectionsEventsGetOutput:
     """
     Get provider OAuth connection event
     Get the information of a specific provider OAuth connection event

@@ -33,7 +33,7 @@ class MetorialDashboardInstanceProviderOauthConnectionsEndpoint(BaseMetorialEndp
     self,
     instanceId: str,
     query: DashboardInstanceProviderOauthConnectionsListQuery = None,
-  ):
+  ) -> DashboardInstanceProviderOauthConnectionsListOutput:
     """
     List provider OAuth connections
     List all provider OAuth connections
@@ -43,18 +43,10 @@ class MetorialDashboardInstanceProviderOauthConnectionsEndpoint(BaseMetorialEndp
     :return: DashboardInstanceProviderOauthConnectionsListOutput
     """
     request = MetorialRequest(
-      path=[
-        "dashboard",
-        "instances",
-        instanceId,
-        "provider-oauth",
-        "connections",
-      ],
-      query=(
-        mapDashboardInstanceProviderOauthConnectionsListQuery.to_dict(query)
-        if query is not None
-        else None
-      ),
+      path=["dashboard", "instances", instanceId, "provider-oauth", "connections"],
+      query=mapDashboardInstanceProviderOauthConnectionsListQuery.to_dict(query)
+      if query is not None
+      else None,
     )
     return self._get(request).transform(
       mapDashboardInstanceProviderOauthConnectionsListOutput.from_dict
@@ -62,7 +54,7 @@ class MetorialDashboardInstanceProviderOauthConnectionsEndpoint(BaseMetorialEndp
 
   def create(
     self, instanceId: str, body: DashboardInstanceProviderOauthConnectionsCreateBody
-  ):
+  ) -> DashboardInstanceProviderOauthConnectionsCreateOutput:
     """
     Create provider OAuth connection
     Create a new provider OAuth connection
@@ -72,20 +64,16 @@ class MetorialDashboardInstanceProviderOauthConnectionsEndpoint(BaseMetorialEndp
     :return: DashboardInstanceProviderOauthConnectionsCreateOutput
     """
     request = MetorialRequest(
-      path=[
-        "dashboard",
-        "instances",
-        instanceId,
-        "provider-oauth",
-        "connections",
-      ],
+      path=["dashboard", "instances", instanceId, "provider-oauth", "connections"],
       body=mapDashboardInstanceProviderOauthConnectionsCreateBody.to_dict(body),
     )
     return self._post(request).transform(
       mapDashboardInstanceProviderOauthConnectionsCreateOutput.from_dict
     )
 
-  def get(self, instanceId: str, connectionId: str):
+  def get(
+    self, instanceId: str, connectionId: str
+  ) -> DashboardInstanceProviderOauthConnectionsGetOutput:
     """
     Get provider OAuth connection
     Get information for a specific provider OAuth connection
@@ -113,7 +101,7 @@ class MetorialDashboardInstanceProviderOauthConnectionsEndpoint(BaseMetorialEndp
     instanceId: str,
     connectionId: str,
     body: DashboardInstanceProviderOauthConnectionsUpdateBody,
-  ):
+  ) -> DashboardInstanceProviderOauthConnectionsUpdateOutput:
     """
     Update provider OAuth connection
     Update a provider OAuth connection
@@ -138,7 +126,9 @@ class MetorialDashboardInstanceProviderOauthConnectionsEndpoint(BaseMetorialEndp
       mapDashboardInstanceProviderOauthConnectionsUpdateOutput.from_dict
     )
 
-  def delete(self, instanceId: str, connectionId: str):
+  def delete(
+    self, instanceId: str, connectionId: str
+  ) -> DashboardInstanceProviderOauthConnectionsDeleteOutput:
     """
     Delete provider OAuth connection
     Delete a provider OAuth connection

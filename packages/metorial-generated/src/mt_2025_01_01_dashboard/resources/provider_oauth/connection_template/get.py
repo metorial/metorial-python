@@ -1,6 +1,51 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+import dataclasses
+
+
+@dataclass
+class ProviderOauthConnectionTemplateGetOutputProvider:
+  name: str
+  url: str
+
+
+@dataclass
+class ProviderOauthConnectionTemplateGetOutputScopes:
+  id: str
+  identifier: str
+  description: str
+
+
+@dataclass
+class ProviderOauthConnectionTemplateGetOutputVariables:
+  id: str
+  key: str
+  type: str
+  label: str
+  description: Optional[str] = None
+
+
+@dataclass
+class ProviderOauthConnectionTemplateGetOutputProfileBadges:
+  type: str
+  name: str
+
+
+@dataclass
+class ProviderOauthConnectionTemplateGetOutputProfile:
+  object: str
+  id: str
+  name: str
+  slug: str
+  image_url: str
+  is_official: bool
+  is_metorial: bool
+  is_verified: bool
+  badges: List[ProviderOauthConnectionTemplateGetOutputProfileBadges]
+  created_at: datetime
+  updated_at: datetime
+  description: Optional[str] = None
 
 
 @dataclass
@@ -10,17 +55,139 @@ class ProviderOauthConnectionTemplateGetOutput:
   status: str
   slug: str
   name: str
-  provider: Dict[str, Any]
-  scopes: List[Dict[str, Any]]
-  variables: List[Dict[str, Any]]
-  profile: Dict[str, Any]
+  provider: ProviderOauthConnectionTemplateGetOutputProvider
+  scopes: List[ProviderOauthConnectionTemplateGetOutputScopes]
+  variables: List[ProviderOauthConnectionTemplateGetOutputVariables]
+  profile: ProviderOauthConnectionTemplateGetOutputProfile
   created_at: datetime
   updated_at: datetime
 
 
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
-import dataclasses
+class mapProviderOauthConnectionTemplateGetOutputProvider:
+  @staticmethod
+  def from_dict(
+    data: Dict[str, Any]
+  ) -> ProviderOauthConnectionTemplateGetOutputProvider:
+    return ProviderOauthConnectionTemplateGetOutputProvider(
+      name=data.get("name"), url=data.get("url")
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[ProviderOauthConnectionTemplateGetOutputProvider, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapProviderOauthConnectionTemplateGetOutputScopes:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> ProviderOauthConnectionTemplateGetOutputScopes:
+    return ProviderOauthConnectionTemplateGetOutputScopes(
+      id=data.get("id"),
+      identifier=data.get("identifier"),
+      description=data.get("description"),
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[ProviderOauthConnectionTemplateGetOutputScopes, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapProviderOauthConnectionTemplateGetOutputVariables:
+  @staticmethod
+  def from_dict(
+    data: Dict[str, Any]
+  ) -> ProviderOauthConnectionTemplateGetOutputVariables:
+    return ProviderOauthConnectionTemplateGetOutputVariables(
+      id=data.get("id"),
+      key=data.get("key"),
+      type=data.get("type"),
+      label=data.get("label"),
+      description=data.get("description"),
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[
+      ProviderOauthConnectionTemplateGetOutputVariables, Dict[str, Any], None
+    ]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapProviderOauthConnectionTemplateGetOutputProfileBadges:
+  @staticmethod
+  def from_dict(
+    data: Dict[str, Any]
+  ) -> ProviderOauthConnectionTemplateGetOutputProfileBadges:
+    return ProviderOauthConnectionTemplateGetOutputProfileBadges(
+      type=data.get("type"), name=data.get("name")
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[
+      ProviderOauthConnectionTemplateGetOutputProfileBadges, Dict[str, Any], None
+    ]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapProviderOauthConnectionTemplateGetOutputProfile:
+  @staticmethod
+  def from_dict(
+    data: Dict[str, Any]
+  ) -> ProviderOauthConnectionTemplateGetOutputProfile:
+    return ProviderOauthConnectionTemplateGetOutputProfile(
+      object=data.get("object"),
+      id=data.get("id"),
+      name=data.get("name"),
+      description=data.get("description"),
+      slug=data.get("slug"),
+      image_url=data.get("image_url"),
+      is_official=data.get("is_official"),
+      is_metorial=data.get("is_metorial"),
+      is_verified=data.get("is_verified"),
+      badges=[
+        mapProviderOauthConnectionTemplateGetOutputProfileBadges.from_dict(item)
+        for item in data.get("badges", [])
+        if item
+      ],
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[ProviderOauthConnectionTemplateGetOutputProfile, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
 
 
 class mapProviderOauthConnectionTemplateGetOutput:
@@ -32,58 +199,37 @@ class mapProviderOauthConnectionTemplateGetOutput:
       status=data.get("status"),
       slug=data.get("slug"),
       name=data.get("name"),
-      provider=data.get("provider")
-      and {
-        "name": data.get("provider", {}).get("name"),
-        "url": data.get("provider", {}).get("url"),
-      },
+      provider=mapProviderOauthConnectionTemplateGetOutputProvider.from_dict(
+        data.get("provider")
+      )
+      if data.get("provider")
+      else None,
       scopes=[
-        {
-          "id": item.get("id"),
-          "identifier": item.get("identifier"),
-          "description": item.get("description"),
-        }
+        mapProviderOauthConnectionTemplateGetOutputScopes.from_dict(item)
         for item in data.get("scopes", [])
+        if item
       ],
       variables=[
-        {
-          "id": item.get("id"),
-          "key": item.get("key"),
-          "type": item.get("type"),
-          "label": item.get("label"),
-          "description": item.get("description"),
-        }
+        mapProviderOauthConnectionTemplateGetOutputVariables.from_dict(item)
         for item in data.get("variables", [])
+        if item
       ],
-      profile=data.get("profile")
-      and {
-        "object": data.get("profile", {}).get("object"),
-        "id": data.get("profile", {}).get("id"),
-        "name": data.get("profile", {}).get("name"),
-        "description": data.get("profile", {}).get("description"),
-        "slug": data.get("profile", {}).get("slug"),
-        "image_url": data.get("profile", {}).get("image_url"),
-        "is_official": data.get("profile", {}).get("is_official"),
-        "is_metorial": data.get("profile", {}).get("is_metorial"),
-        "is_verified": data.get("profile", {}).get("is_verified"),
-        "badges": [
-          {"type": item.get("type"), "name": item.get("name")}
-          for item in data.get("profile", {}).get("badges", [])
-        ],
-        "created_at": data.get("profile", {}).get("created_at")
-        and datetime.fromisoformat(data.get("profile", {}).get("created_at")),
-        "updated_at": data.get("profile", {}).get("updated_at")
-        and datetime.fromisoformat(data.get("profile", {}).get("updated_at")),
-      },
-      created_at=data.get("created_at")
-      and datetime.fromisoformat(data.get("created_at")),
-      updated_at=data.get("updated_at")
-      and datetime.fromisoformat(data.get("updated_at")),
+      profile=mapProviderOauthConnectionTemplateGetOutputProfile.from_dict(
+        data.get("profile")
+      )
+      if data.get("profile")
+      else None,
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
     )
 
   @staticmethod
   def to_dict(
-    value: Union[ProviderOauthConnectionTemplateGetOutput, Dict[str, Any], None],
+    value: Union[ProviderOauthConnectionTemplateGetOutput, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None

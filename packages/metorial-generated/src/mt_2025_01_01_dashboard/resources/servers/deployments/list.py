@@ -1,17 +1,310 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+import dataclasses
+
+
+@dataclass
+class ServersDeploymentsListOutputItemsServer:
+  object: str
+  id: str
+  name: str
+  type: str
+  created_at: datetime
+  updated_at: datetime
+  description: Optional[str] = None
+
+
+@dataclass
+class ServersDeploymentsListOutputItemsConfig:
+  object: str
+  id: str
+  status: str
+  secret_id: str
+  created_at: datetime
+
+
+@dataclass
+class ServersDeploymentsListOutputItemsServerImplementationServerVariant:
+  object: str
+  id: str
+  identifier: str
+  server_id: str
+  source: Dict[str, Any]
+  created_at: datetime
+
+
+@dataclass
+class ServersDeploymentsListOutputItemsServerImplementationServer:
+  object: str
+  id: str
+  name: str
+  type: str
+  created_at: datetime
+  updated_at: datetime
+  description: Optional[str] = None
+
+
+@dataclass
+class ServersDeploymentsListOutputItemsServerImplementation:
+  object: str
+  id: str
+  status: str
+  name: str
+  metadata: Dict[str, Any]
+  server_variant: ServersDeploymentsListOutputItemsServerImplementationServerVariant
+  server: ServersDeploymentsListOutputItemsServerImplementationServer
+  created_at: datetime
+  updated_at: datetime
+  description: Optional[str] = None
+  get_launch_params: Optional[str] = None
+
+
+@dataclass
+class ServersDeploymentsListOutputItems:
+  object: str
+  id: str
+  status: str
+  name: str
+  metadata: Dict[str, Any]
+  secret_id: str
+  server: ServersDeploymentsListOutputItemsServer
+  config: ServersDeploymentsListOutputItemsConfig
+  server_implementation: ServersDeploymentsListOutputItemsServerImplementation
+  created_at: datetime
+  updated_at: datetime
+  description: Optional[str] = None
+
+
+@dataclass
+class ServersDeploymentsListOutputPagination:
+  has_more_before: bool
+  has_more_after: bool
 
 
 @dataclass
 class ServersDeploymentsListOutput:
-  items: List[Dict[str, Any]]
-  pagination: Dict[str, Any]
+  items: List[ServersDeploymentsListOutputItems]
+  pagination: ServersDeploymentsListOutputPagination
 
 
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
-import dataclasses
+class mapServersDeploymentsListOutputItemsServer:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> ServersDeploymentsListOutputItemsServer:
+    return ServersDeploymentsListOutputItemsServer(
+      object=data.get("object"),
+      id=data.get("id"),
+      name=data.get("name"),
+      description=data.get("description"),
+      type=data.get("type"),
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[ServersDeploymentsListOutputItemsServer, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapServersDeploymentsListOutputItemsConfig:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> ServersDeploymentsListOutputItemsConfig:
+    return ServersDeploymentsListOutputItemsConfig(
+      object=data.get("object"),
+      id=data.get("id"),
+      status=data.get("status"),
+      secret_id=data.get("secret_id"),
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[ServersDeploymentsListOutputItemsConfig, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapServersDeploymentsListOutputItemsServerImplementationServerVariant:
+  @staticmethod
+  def from_dict(
+    data: Dict[str, Any]
+  ) -> ServersDeploymentsListOutputItemsServerImplementationServerVariant:
+    return ServersDeploymentsListOutputItemsServerImplementationServerVariant(
+      object=data.get("object"),
+      id=data.get("id"),
+      identifier=data.get("identifier"),
+      server_id=data.get("server_id"),
+      source=data.get("source"),
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[
+      ServersDeploymentsListOutputItemsServerImplementationServerVariant,
+      Dict[str, Any],
+      None,
+    ]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapServersDeploymentsListOutputItemsServerImplementationServer:
+  @staticmethod
+  def from_dict(
+    data: Dict[str, Any]
+  ) -> ServersDeploymentsListOutputItemsServerImplementationServer:
+    return ServersDeploymentsListOutputItemsServerImplementationServer(
+      object=data.get("object"),
+      id=data.get("id"),
+      name=data.get("name"),
+      description=data.get("description"),
+      type=data.get("type"),
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[
+      ServersDeploymentsListOutputItemsServerImplementationServer, Dict[str, Any], None
+    ]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapServersDeploymentsListOutputItemsServerImplementation:
+  @staticmethod
+  def from_dict(
+    data: Dict[str, Any]
+  ) -> ServersDeploymentsListOutputItemsServerImplementation:
+    return ServersDeploymentsListOutputItemsServerImplementation(
+      object=data.get("object"),
+      id=data.get("id"),
+      status=data.get("status"),
+      name=data.get("name"),
+      description=data.get("description"),
+      metadata=data.get("metadata"),
+      get_launch_params=data.get("get_launch_params"),
+      server_variant=mapServersDeploymentsListOutputItemsServerImplementationServerVariant.from_dict(
+        data.get("server_variant")
+      )
+      if data.get("server_variant")
+      else None,
+      server=mapServersDeploymentsListOutputItemsServerImplementationServer.from_dict(
+        data.get("server")
+      )
+      if data.get("server")
+      else None,
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[
+      ServersDeploymentsListOutputItemsServerImplementation, Dict[str, Any], None
+    ]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapServersDeploymentsListOutputItems:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> ServersDeploymentsListOutputItems:
+    return ServersDeploymentsListOutputItems(
+      object=data.get("object"),
+      id=data.get("id"),
+      status=data.get("status"),
+      name=data.get("name"),
+      description=data.get("description"),
+      metadata=data.get("metadata"),
+      secret_id=data.get("secret_id"),
+      server=mapServersDeploymentsListOutputItemsServer.from_dict(data.get("server"))
+      if data.get("server")
+      else None,
+      config=mapServersDeploymentsListOutputItemsConfig.from_dict(data.get("config"))
+      if data.get("config")
+      else None,
+      server_implementation=mapServersDeploymentsListOutputItemsServerImplementation.from_dict(
+        data.get("server_implementation")
+      )
+      if data.get("server_implementation")
+      else None,
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[ServersDeploymentsListOutputItems, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapServersDeploymentsListOutputPagination:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> ServersDeploymentsListOutputPagination:
+    return ServersDeploymentsListOutputPagination(
+      has_more_before=data.get("has_more_before"),
+      has_more_after=data.get("has_more_after"),
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[ServersDeploymentsListOutputPagination, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
 
 
 class mapServersDeploymentsListOutput:
@@ -19,132 +312,20 @@ class mapServersDeploymentsListOutput:
   def from_dict(data: Dict[str, Any]) -> ServersDeploymentsListOutput:
     return ServersDeploymentsListOutput(
       items=[
-        {
-          "object": item.get("object"),
-          "id": item.get("id"),
-          "status": item.get("status"),
-          "name": item.get("name"),
-          "description": item.get("description"),
-          "metadata": item.get("metadata"),
-          "secret_id": item.get("secret_id"),
-          "server": item.get("server")
-          and {
-            "object": item.get("server", {}).get("object"),
-            "id": item.get("server", {}).get("id"),
-            "name": item.get("server", {}).get("name"),
-            "description": item.get("server", {}).get("description"),
-            "type": item.get("server", {}).get("type"),
-            "created_at": item.get("server", {}).get("created_at")
-            and datetime.fromisoformat(item.get("server", {}).get("created_at")),
-            "updated_at": item.get("server", {}).get("updated_at")
-            and datetime.fromisoformat(item.get("server", {}).get("updated_at")),
-          },
-          "config": item.get("config")
-          and {
-            "object": item.get("config", {}).get("object"),
-            "id": item.get("config", {}).get("id"),
-            "status": item.get("config", {}).get("status"),
-            "secret_id": item.get("config", {}).get("secret_id"),
-            "created_at": item.get("config", {}).get("created_at")
-            and datetime.fromisoformat(item.get("config", {}).get("created_at")),
-          },
-          "server_implementation": item.get("server_implementation")
-          and {
-            "object": item.get("server_implementation", {}).get("object"),
-            "id": item.get("server_implementation", {}).get("id"),
-            "status": item.get("server_implementation", {}).get("status"),
-            "name": item.get("server_implementation", {}).get("name"),
-            "description": item.get("server_implementation", {}).get("description"),
-            "metadata": item.get("server_implementation", {}).get("metadata"),
-            "get_launch_params": item.get("server_implementation", {}).get(
-              "get_launch_params"
-            ),
-            "server_variant": item.get("server_implementation", {}).get(
-              "server_variant"
-            )
-            and {
-              "object": item.get("server_implementation", {})
-              .get("server_variant", {})
-              .get("object"),
-              "id": item.get("server_implementation", {})
-              .get("server_variant", {})
-              .get("id"),
-              "identifier": item.get("server_implementation", {})
-              .get("server_variant", {})
-              .get("identifier"),
-              "server_id": item.get("server_implementation", {})
-              .get("server_variant", {})
-              .get("server_id"),
-              "source": item.get("server_implementation", {})
-              .get("server_variant", {})
-              .get("source"),
-              "created_at": item.get("server_implementation", {})
-              .get("server_variant", {})
-              .get("created_at")
-              and datetime.fromisoformat(
-                item.get("server_implementation", {})
-                .get("server_variant", {})
-                .get("created_at")
-              ),
-            },
-            "server": item.get("server_implementation", {}).get("server")
-            and {
-              "object": item.get("server_implementation", {})
-              .get("server", {})
-              .get("object"),
-              "id": item.get("server_implementation", {}).get("server", {}).get("id"),
-              "name": item.get("server_implementation", {})
-              .get("server", {})
-              .get("name"),
-              "description": item.get("server_implementation", {})
-              .get("server", {})
-              .get("description"),
-              "type": item.get("server_implementation", {})
-              .get("server", {})
-              .get("type"),
-              "created_at": item.get("server_implementation", {})
-              .get("server", {})
-              .get("created_at")
-              and datetime.fromisoformat(
-                item.get("server_implementation", {})
-                .get("server", {})
-                .get("created_at")
-              ),
-              "updated_at": item.get("server_implementation", {})
-              .get("server", {})
-              .get("updated_at")
-              and datetime.fromisoformat(
-                item.get("server_implementation", {})
-                .get("server", {})
-                .get("updated_at")
-              ),
-            },
-            "created_at": item.get("server_implementation", {}).get("created_at")
-            and datetime.fromisoformat(
-              item.get("server_implementation", {}).get("created_at")
-            ),
-            "updated_at": item.get("server_implementation", {}).get("updated_at")
-            and datetime.fromisoformat(
-              item.get("server_implementation", {}).get("updated_at")
-            ),
-          },
-          "created_at": item.get("created_at")
-          and datetime.fromisoformat(item.get("created_at")),
-          "updated_at": item.get("updated_at")
-          and datetime.fromisoformat(item.get("updated_at")),
-        }
+        mapServersDeploymentsListOutputItems.from_dict(item)
         for item in data.get("items", [])
+        if item
       ],
-      pagination=data.get("pagination")
-      and {
-        "has_more_before": data.get("pagination", {}).get("has_more_before"),
-        "has_more_after": data.get("pagination", {}).get("has_more_after"),
-      },
+      pagination=mapServersDeploymentsListOutputPagination.from_dict(
+        data.get("pagination")
+      )
+      if data.get("pagination")
+      else None,
     )
 
   @staticmethod
   def to_dict(
-    value: Union[ServersDeploymentsListOutput, Dict[str, Any], None],
+    value: Union[ServersDeploymentsListOutput, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None
@@ -154,15 +335,7 @@ class mapServersDeploymentsListOutput:
     return dataclasses.asdict(value)
 
 
-from typing import Any, Dict, List, Optional, Union
-from datetime import datetime
-
 ServersDeploymentsListQuery = Any
-
-
-from typing import Any, Dict, Optional, Union
-from datetime import datetime
-import dataclasses
 
 
 class mapServersDeploymentsListQuery:
@@ -172,7 +345,7 @@ class mapServersDeploymentsListQuery:
 
   @staticmethod
   def to_dict(
-    value: Union[ServersDeploymentsListQuery, Dict[str, Any], None],
+    value: Union[ServersDeploymentsListQuery, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None

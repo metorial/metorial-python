@@ -21,7 +21,7 @@ class MetorialDashboardInstanceServerRunErrorsEndpoint(BaseMetorialEndpoint):
 
   def list(
     self, instanceId: str, query: DashboardInstanceServerRunErrorsListQuery = None
-  ):
+  ) -> DashboardInstanceServerRunErrorsListOutput:
     """
     List server run errors
     List all server run errors
@@ -32,17 +32,17 @@ class MetorialDashboardInstanceServerRunErrorsEndpoint(BaseMetorialEndpoint):
     """
     request = MetorialRequest(
       path=["dashboard", "instances", instanceId, "server-run-errors"],
-      query=(
-        mapDashboardInstanceServerRunErrorsListQuery.to_dict(query)
-        if query is not None
-        else None
-      ),
+      query=mapDashboardInstanceServerRunErrorsListQuery.to_dict(query)
+      if query is not None
+      else None,
     )
     return self._get(request).transform(
       mapDashboardInstanceServerRunErrorsListOutput.from_dict
     )
 
-  def get(self, instanceId: str, serverRunErrorId: str):
+  def get(
+    self, instanceId: str, serverRunErrorId: str
+  ) -> DashboardInstanceServerRunErrorsGetOutput:
     """
     Get server run error
     Get the information of a specific server run error
@@ -52,13 +52,7 @@ class MetorialDashboardInstanceServerRunErrorsEndpoint(BaseMetorialEndpoint):
     :return: DashboardInstanceServerRunErrorsGetOutput
     """
     request = MetorialRequest(
-      path=[
-        "dashboard",
-        "instances",
-        instanceId,
-        "server-run-errors",
-        serverRunErrorId,
-      ]
+      path=["dashboard", "instances", instanceId, "server-run-errors", serverRunErrorId]
     )
     return self._get(request).transform(
       mapDashboardInstanceServerRunErrorsGetOutput.from_dict

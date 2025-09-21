@@ -17,7 +17,7 @@ class MetorialDashboardEndpoint(BaseMetorialEndpoint):
   def __init__(self, config: MetorialEndpointManager):
     super().__init__(config)
 
-  def boot(self, body: DashboardBootBody):
+  def boot(self, body: DashboardBootBody) -> DashboardBootOutput:
     """
     Create organization
     Create a new organization
