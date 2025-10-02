@@ -12,7 +12,7 @@ class SessionsListOutputPagination:
 
 @dataclass
 class SessionsListOutput:
-  items: List[Dict[str, Any]]
+  items: List[Any]
   pagination: SessionsListOutputPagination
 
 

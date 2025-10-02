@@ -13,7 +13,12 @@ class MetorialError(Exception):
   __typename = "metorial.error"
   __is_metorial_error = True
 
-  def __init__(self, message: str, error_code: Optional[str] = None, details: Optional[Dict[str, Any]] = None):
+  def __init__(
+    self,
+    message: str,
+    error_code: Optional[str] = None,
+    details: Optional[Dict[str, Any]] = None,
+  ):
     Exception.__init__(self, f"[METORIAL ERROR]: {message}")
     self._message = message
     self.error_code = error_code
@@ -102,12 +107,13 @@ class MetorialSDKError(MetorialError):
 class MetorialAPIError(MetorialSDKError):
   """API-related errors - alias for MetorialSDKError for backward compatibility"""
 
-  def __init__(self, message: str, status_code: Optional[int] = None, response_data: Optional[Dict[str, Any]] = None):
-    data = {
-      "message": message,
-      "status": status_code or 0,
-      "code": "API_ERROR"
-    }
+  def __init__(
+    self,
+    message: str,
+    status_code: Optional[int] = None,
+    response_data: Optional[Dict[str, Any]] = None,
+  ):
+    data = {"message": message, "status": status_code or 0, "code": "API_ERROR"}
     if response_data:
       data.update(response_data)
     super().__init__(data)
@@ -119,11 +125,17 @@ class MetorialAPIError(MetorialSDKError):
 class MetorialToolError(MetorialError):
   """Tool execution errors"""
 
-  def __init__(self, message: str, tool_name: Optional[str] = None, tool_args: Optional[Dict[str, Any]] = None):
-    super().__init__(message, error_code="TOOL_ERROR", details={
-      "tool_name": tool_name,
-      "tool_args": tool_args or {}
-    })
+  def __init__(
+    self,
+    message: str,
+    tool_name: Optional[str] = None,
+    tool_args: Optional[Dict[str, Any]] = None,
+  ):
+    super().__init__(
+      message,
+      error_code="TOOL_ERROR",
+      details={"tool_name": tool_name, "tool_args": tool_args or {}},
+    )
     self.tool_name = tool_name
     self.tool_args = tool_args or {}
 
@@ -137,18 +149,26 @@ class MetorialToolError(MetorialError):
 class MetorialTimeoutError(MetorialError):
   """Timeout errors"""
 
-  def __init__(self, message: str, timeout_duration: Optional[float] = None, operation: Optional[str] = None):
-    super().__init__(message, error_code="TIMEOUT_ERROR", details={
-      "timeout_duration": timeout_duration,
-      "operation": operation
-    })
+  def __init__(
+    self,
+    message: str,
+    timeout_duration: Optional[float] = None,
+    operation: Optional[str] = None,
+  ):
+    super().__init__(
+      message,
+      error_code="TIMEOUT_ERROR",
+      details={"timeout_duration": timeout_duration, "operation": operation},
+    )
     self.timeout_duration = timeout_duration
     self.operation = operation
 
   def __str__(self) -> str:
     base_msg = super().__str__()
     if self.timeout_duration and self.operation:
-      return f"{base_msg} (Operation: {self.operation}, Timeout: {self.timeout_duration}s)"
+      return (
+        f"{base_msg} (Operation: {self.operation}, Timeout: {self.timeout_duration}s)"
+      )
     elif self.timeout_duration:
       return f"{base_msg} (Timeout: {self.timeout_duration}s)"
     return base_msg
@@ -158,7 +178,9 @@ class MetorialDuplicateToolError(MetorialError):
   """Error for duplicate tool names"""
 
   def __init__(self, message: str, tool_name: Optional[str] = None):
-    super().__init__(message, error_code="DUPLICATE_TOOL_ERROR", details={"tool_name": tool_name})
+    super().__init__(
+      message, error_code="DUPLICATE_TOOL_ERROR", details={"tool_name": tool_name}
+    )
     self.tool_name = tool_name
 
 

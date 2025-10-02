@@ -5,17 +5,6 @@ import dataclasses
 
 
 @dataclass
-class ServersVersionsGetOutputSchema:
-  id: str
-  fingerprint: str
-  schema: Dict[str, Any]
-  server_id: str
-  server_variant_id: str
-  server_version_id: str
-  created_at: datetime
-
-
-@dataclass
 class ServersVersionsGetOutputServer:
   object: str
   id: str
@@ -35,35 +24,9 @@ class ServersVersionsGetOutput:
   server_variant_id: str
   get_launch_params: str
   source: Dict[str, Any]
-  schema: ServersVersionsGetOutputSchema
+  schema: Dict[str, Any]
   server: ServersVersionsGetOutputServer
   created_at: datetime
-
-
-class mapServersVersionsGetOutputSchema:
-  @staticmethod
-  def from_dict(data: Dict[str, Any]) -> ServersVersionsGetOutputSchema:
-    return ServersVersionsGetOutputSchema(
-      id=data.get("id"),
-      fingerprint=data.get("fingerprint"),
-      schema=data.get("schema"),
-      server_id=data.get("server_id"),
-      server_variant_id=data.get("server_variant_id"),
-      server_version_id=data.get("server_version_id"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
-      if data.get("created_at")
-      else None,
-    )
-
-  @staticmethod
-  def to_dict(
-    value: Union[ServersVersionsGetOutputSchema, Dict[str, Any], None]
-  ) -> Optional[Dict[str, Any]]:
-    if value is None:
-      return None
-    if isinstance(value, dict):
-      return value
-    return dataclasses.asdict(value)
 
 
 class mapServersVersionsGetOutputServer:
@@ -105,9 +68,7 @@ class mapServersVersionsGetOutput:
       server_variant_id=data.get("server_variant_id"),
       get_launch_params=data.get("get_launch_params"),
       source=data.get("source"),
-      schema=mapServersVersionsGetOutputSchema.from_dict(data.get("schema"))
-      if data.get("schema")
-      else None,
+      schema=data.get("schema"),
       server=mapServersVersionsGetOutputServer.from_dict(data.get("server"))
       if data.get("server")
       else None,

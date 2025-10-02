@@ -1,4 +1,3 @@
-from typing import Optional, Dict, Any, List, Union
 from metorial_util_endpoint import (
   BaseMetorialEndpoint,
   MetorialEndpointManager,
@@ -64,30 +63,18 @@ class MetorialManagementOrganizationInstancesEndpoint(BaseMetorialEndpoint):
     )
 
   def create(
-    self,
-    *,
-    name: Optional[str] = None,
-    type: Optional[str] = None,
-    project_id: Optional[str] = None
+    self, body: DashboardOrganizationsInstancesCreateBody
   ) -> DashboardOrganizationsInstancesCreateOutput:
     """
     Create organization instance
     Create a new organization instance
 
-    :param name: str (optional)
-    :param type: str (optional)
-    :param project_id: str (optional)
+    :param body: DashboardOrganizationsInstancesCreateBody
     :return: DashboardOrganizationsInstancesCreateOutput
     """
-    _params = {"name": name, "type": type, "project_id": project_id}
-    body = {k: v for k, v in _params.items() if v is not None}
-
-    if not body:
-      raise ValueError("No fields to update. At least one parameter must be provided.")
-
     request = MetorialRequest(
       path=["organization", "instances"],
-      body=body,
+      body=mapDashboardOrganizationsInstancesCreateBody.to_dict(body),
     )
     return self._post(request).transform(
       mapDashboardOrganizationsInstancesCreateOutput.from_dict
@@ -107,25 +94,19 @@ class MetorialManagementOrganizationInstancesEndpoint(BaseMetorialEndpoint):
     )
 
   def update(
-    self, instanceId: str, *, name: Optional[str] = None
+    self, instanceId: str, body: DashboardOrganizationsInstancesUpdateBody
   ) -> DashboardOrganizationsInstancesUpdateOutput:
     """
     Update organization instance
     Update the role of an organization instance
 
     :param instanceId: str
-    :param name: str (optional)
+    :param body: DashboardOrganizationsInstancesUpdateBody
     :return: DashboardOrganizationsInstancesUpdateOutput
     """
-    _params = {"name": name}
-    body = {k: v for k, v in _params.items() if v is not None}
-
-    if not body:
-      raise ValueError("No fields to update. At least one parameter must be provided.")
-
     request = MetorialRequest(
       path=["organization", "instances", instanceId],
-      body=body,
+      body=mapDashboardOrganizationsInstancesUpdateBody.to_dict(body),
     )
     return self._post(request).transform(
       mapDashboardOrganizationsInstancesUpdateOutput.from_dict

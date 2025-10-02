@@ -4,6 +4,7 @@ from .dashboard_instance_links import *
 from .dashboard_instance_provider_oauth_connections import *
 from .dashboard_instance_provider_oauth_connections_authentications import *
 from .dashboard_instance_provider_oauth_connections_profiles import *
+from .dashboard_instance_provider_oauth_sessions import *
 from .dashboard_instance_secrets import *
 from .dashboard_instance_server_run_errors import *
 from .dashboard_instance_server_runs import *
@@ -25,6 +26,7 @@ from .management_instance_links import *
 from .management_instance_provider_oauth_connections import *
 from .management_instance_provider_oauth_connections_authentications import *
 from .management_instance_provider_oauth_connections_profiles import *
+from .management_instance_provider_oauth_sessions import *
 from .management_instance_secrets import *
 from .management_instance_server_run_errors import *
 from .management_instance_server_runs import *
@@ -40,6 +42,7 @@ from .management_instance_sessions_messages import *
 from .provider_oauth_connections import *
 from .provider_oauth_connections_authentications import *
 from .provider_oauth_connections_profiles import *
+from .provider_oauth_sessions import *
 from .secrets import *
 from .server_run_errors import *
 from .server_runs import *

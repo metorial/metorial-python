@@ -13,6 +13,7 @@ class ProviderOauthDiscoverOutput:
   config: Dict[str, Any]
   created_at: datetime
   refreshed_at: datetime
+  auto_registration_id: Optional[str] = None
 
 
 class mapProviderOauthDiscoverOutput:
@@ -30,6 +31,7 @@ class mapProviderOauthDiscoverOutput:
       refreshed_at=datetime.fromisoformat(data.get("refreshed_at"))
       if data.get("refreshed_at")
       else None,
+      auto_registration_id=data.get("auto_registration_id"),
     )
 
   @staticmethod
@@ -47,12 +49,15 @@ class mapProviderOauthDiscoverOutput:
 @dataclass
 class ProviderOauthDiscoverBody:
   discovery_url: str
+  client_name: str
 
 
 class mapProviderOauthDiscoverBody:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> ProviderOauthDiscoverBody:
-    return ProviderOauthDiscoverBody(discovery_url=data.get("discovery_url"))
+    return ProviderOauthDiscoverBody(
+      discovery_url=data.get("discovery_url"), client_name=data.get("client_name")
+    )
 
   @staticmethod
   def to_dict(

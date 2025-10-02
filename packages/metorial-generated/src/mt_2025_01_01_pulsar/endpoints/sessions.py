@@ -1,4 +1,3 @@
-from typing import Optional, Dict, Any, List, Union
 from metorial_util_endpoint import (
   BaseMetorialEndpoint,
   MetorialEndpointManager,
@@ -57,19 +56,19 @@ class MetorialSessionsEndpoint(BaseMetorialEndpoint):
     request = MetorialRequest(path=["sessions", sessionId])
     return self._get(request).transform(mapDashboardInstanceSessionsGetOutput.from_dict)
 
-  def create(self) -> DashboardInstanceSessionsCreateOutput:
+  def create(
+    self, body: DashboardInstanceSessionsCreateBody
+  ) -> DashboardInstanceSessionsCreateOutput:
     """
     Create session
     Create a new session
 
-
+    :param body: DashboardInstanceSessionsCreateBody
     :return: DashboardInstanceSessionsCreateOutput
     """
-    {}
-
     request = MetorialRequest(
       path=["sessions"],
-      body=body,
+      body=mapDashboardInstanceSessionsCreateBody.to_dict(body),
     )
     return self._post(request).transform(
       mapDashboardInstanceSessionsCreateOutput.from_dict

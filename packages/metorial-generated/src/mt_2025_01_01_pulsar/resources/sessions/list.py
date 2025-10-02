@@ -41,6 +41,7 @@ class SessionsListOutputItemsServerDeployments:
   server: SessionsListOutputItemsServerDeploymentsServer
   connection_urls: SessionsListOutputItemsServerDeploymentsConnectionUrls
   name: Optional[str] = None
+  oauth_session_id: Optional[str] = None
   description: Optional[str] = None
 
 
@@ -160,6 +161,7 @@ class mapSessionsListOutputItemsServerDeployments:
       object=data.get("object"),
       id=data.get("id"),
       name=data.get("name"),
+      oauth_session_id=data.get("oauth_session_id"),
       description=data.get("description"),
       metadata=data.get("metadata"),
       created_at=datetime.fromisoformat(data.get("created_at"))

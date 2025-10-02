@@ -1,4 +1,3 @@
-from typing import Optional, Dict, Any, List, Union
 from metorial_util_endpoint import (
   BaseMetorialEndpoint,
   MetorialEndpointManager,
@@ -56,25 +55,19 @@ class MetorialFilesEndpoint(BaseMetorialEndpoint):
     return self._get(request).transform(mapDashboardInstanceFilesGetOutput.from_dict)
 
   def update(
-    self, fileId: str, *, title: Optional[str] = None
+    self, fileId: str, body: DashboardInstanceFilesUpdateBody
   ) -> DashboardInstanceFilesUpdateOutput:
     """
     Update file by ID
     Updates editable fields of a specific file by its ID.
 
     :param fileId: str
-    :param title: str (optional)
+    :param body: DashboardInstanceFilesUpdateBody
     :return: DashboardInstanceFilesUpdateOutput
     """
-    _params = {"title": title}
-    body = {k: v for k, v in _params.items() if v is not None}
-
-    if not body:
-      raise ValueError("No fields to update. At least one parameter must be provided.")
-
     request = MetorialRequest(
       path=["files", fileId],
-      body=body,
+      body=mapDashboardInstanceFilesUpdateBody.to_dict(body),
     )
     return self._patch(request).transform(
       mapDashboardInstanceFilesUpdateOutput.from_dict

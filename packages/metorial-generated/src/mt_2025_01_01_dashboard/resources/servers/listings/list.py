@@ -12,7 +12,7 @@ class ServersListingsListOutputPagination:
 
 @dataclass
 class ServersListingsListOutput:
-  items: List[Dict[str, Any]]
+  items: List[Any]
   pagination: ServersListingsListOutputPagination
 
 

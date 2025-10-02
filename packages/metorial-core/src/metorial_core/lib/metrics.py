@@ -9,6 +9,7 @@ from dataclasses import dataclass
 @dataclass
 class ChatMetrics:
   """Chat completion metrics"""
+
   start_time: float
   end_time: Optional[float] = None
   iterations: int = 0

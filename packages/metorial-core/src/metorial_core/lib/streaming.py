@@ -9,6 +9,7 @@ from enum import Enum
 
 class StreamEventType(Enum):
   """Types of streaming events"""
+
   CONTENT = "content"
   TOOL_CALL = "tool_call"
   COMPLETE = "complete"
@@ -18,6 +19,7 @@ class StreamEventType(Enum):
 @dataclass
 class StreamEvent:
   """Streaming event data"""
+
   type: StreamEventType
   content: Optional[str] = None
   tool_calls: Optional[List[Dict]] = None

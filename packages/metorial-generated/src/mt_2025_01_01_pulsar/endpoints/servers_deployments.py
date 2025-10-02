@@ -1,4 +1,3 @@
-from typing import Optional, Dict, Any, List, Union
 from metorial_util_endpoint import (
   BaseMetorialEndpoint,
   MetorialEndpointManager,
@@ -65,58 +64,38 @@ class MetorialServersDeploymentsEndpoint(BaseMetorialEndpoint):
       mapDashboardInstanceServersDeploymentsGetOutput.from_dict
     )
 
-  def create(self) -> DashboardInstanceServersDeploymentsCreateOutput:
+  def create(
+    self, body: DashboardInstanceServersDeploymentsCreateBody
+  ) -> DashboardInstanceServersDeploymentsCreateOutput:
     """
     Create server deployment
     Create a new server deployment using an existing or newly defined server implementation.
 
-
+    :param body: DashboardInstanceServersDeploymentsCreateBody
     :return: DashboardInstanceServersDeploymentsCreateOutput
     """
-    {}
-
     request = MetorialRequest(
       path=["server-deployments"],
-      body=body,
+      body=mapDashboardInstanceServersDeploymentsCreateBody.to_dict(body),
     )
     return self._post(request).transform(
       mapDashboardInstanceServersDeploymentsCreateOutput.from_dict
     )
 
   def update(
-    self,
-    serverDeploymentId: str,
-    *,
-    name: Optional[str] = None,
-    description: Optional[str] = None,
-    metadata: Optional[Dict[str, Any]] = None,
-    config: Optional[Dict[str, Any]] = None
+    self, serverDeploymentId: str, body: DashboardInstanceServersDeploymentsUpdateBody
   ) -> DashboardInstanceServersDeploymentsUpdateOutput:
     """
     Update server deployment
     Update metadata, configuration, or other properties of a server deployment.
 
     :param serverDeploymentId: str
-    :param name: str (optional)
-    :param description: str (optional)
-    :param metadata: Dict[str, Any] (optional)
-    :param config: Dict[str, Any] (optional)
+    :param body: DashboardInstanceServersDeploymentsUpdateBody
     :return: DashboardInstanceServersDeploymentsUpdateOutput
     """
-    _params = {
-      "name": name,
-      "description": description,
-      "metadata": metadata,
-      "config": config,
-    }
-    body = {k: v for k, v in _params.items() if v is not None}
-
-    if not body:
-      raise ValueError("No fields to update. At least one parameter must be provided.")
-
     request = MetorialRequest(
       path=["server-deployments", serverDeploymentId],
-      body=body,
+      body=mapDashboardInstanceServersDeploymentsUpdateBody.to_dict(body),
     )
     return self._patch(request).transform(
       mapDashboardInstanceServersDeploymentsUpdateOutput.from_dict

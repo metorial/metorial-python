@@ -3,7 +3,7 @@ from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
 import dataclasses
 
-SessionsCreateOutput = Dict[str, Any]
+SessionsCreateOutput = Any
 
 
 class mapSessionsCreateOutput:
@@ -23,13 +23,15 @@ class mapSessionsCreateOutput:
     return dataclasses.asdict(value)
 
 
-SessionsCreateBody = Dict[str, Any]
+@dataclass
+class SessionsCreateBody:
+  server_deployments: List[Union[Any, str, Dict[str, Any]]]
 
 
 class mapSessionsCreateBody:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> SessionsCreateBody:
-    data
+    return SessionsCreateBody(server_deployments=data.get("server_deployments", []))
 
   @staticmethod
   def to_dict(

@@ -1,4 +1,3 @@
-from typing import Optional, Dict, Any, List, Union
 from metorial_util_endpoint import (
   BaseMetorialEndpoint,
   MetorialEndpointManager,
@@ -35,48 +34,30 @@ class MetorialManagementUserEndpoint(BaseMetorialEndpoint):
     request = MetorialRequest(path=["user"])
     return self._get(request).transform(mapManagementUserGetOutput.from_dict)
 
-  def update(
-    self, *, name: Optional[str] = None, email: Optional[str] = None
-  ) -> ManagementUserUpdateOutput:
+  def update(self, body: ManagementUserUpdateBody) -> ManagementUserUpdateOutput:
     """
     Update user
     Update the current user information
 
-    :param name: str (optional)
-    :param email: str (optional)
+    :param body: ManagementUserUpdateBody
     :return: ManagementUserUpdateOutput
     """
-    _params = {"name": name, "email": email}
-    body = {k: v for k, v in _params.items() if v is not None}
-
-    if not body:
-      raise ValueError("No fields to update. At least one parameter must be provided.")
-
     request = MetorialRequest(
       path=["user"],
-      body=body,
+      body=mapManagementUserUpdateBody.to_dict(body),
     )
     return self._post(request).transform(mapManagementUserUpdateOutput.from_dict)
 
-  def delete(
-    self, *, name: Optional[str] = None, email: Optional[str] = None
-  ) -> ManagementUserDeleteOutput:
+  def delete(self, body: ManagementUserDeleteBody) -> ManagementUserDeleteOutput:
     """
     Update user
     Update the current user information
 
-    :param name: str (optional)
-    :param email: str (optional)
+    :param body: ManagementUserDeleteBody
     :return: ManagementUserDeleteOutput
     """
-    _params = {"name": name, "email": email}
-    body = {k: v for k, v in _params.items() if v is not None}
-
-    if not body:
-      raise ValueError("No fields to update. At least one parameter must be provided.")
-
     request = MetorialRequest(
       path=["user"],
-      body=body,
+      body=mapManagementUserDeleteBody.to_dict(body),
     )
     return self._post(request).transform(mapManagementUserDeleteOutput.from_dict)

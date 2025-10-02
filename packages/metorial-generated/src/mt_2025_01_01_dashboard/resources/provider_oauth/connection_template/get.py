@@ -8,6 +8,7 @@ import dataclasses
 class ProviderOauthConnectionTemplateGetOutputProvider:
   name: str
   url: str
+  image_url: str
 
 
 @dataclass
@@ -69,7 +70,7 @@ class mapProviderOauthConnectionTemplateGetOutputProvider:
     data: Dict[str, Any]
   ) -> ProviderOauthConnectionTemplateGetOutputProvider:
     return ProviderOauthConnectionTemplateGetOutputProvider(
-      name=data.get("name"), url=data.get("url")
+      name=data.get("name"), url=data.get("url"), image_url=data.get("image_url")
     )
 
   @staticmethod

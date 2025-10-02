@@ -1,4 +1,3 @@
-from typing import Optional, Dict, Any, List, Union
 from metorial_util_endpoint import (
   BaseMetorialEndpoint,
   MetorialEndpointManager,
@@ -18,18 +17,16 @@ class MetorialDashboardEndpoint(BaseMetorialEndpoint):
   def __init__(self, config: MetorialEndpointManager):
     super().__init__(config)
 
-  def boot(self) -> DashboardBootOutput:
+  def boot(self, body: DashboardBootBody) -> DashboardBootOutput:
     """
     Create organization
     Create a new organization
 
-
+    :param body: DashboardBootBody
     :return: DashboardBootOutput
     """
-    body = {}
-
     request = MetorialRequest(
       path=["dashboard", "boot"],
-      body=body,
+      body=mapDashboardBootBody.to_dict(body),
     )
     return self._post(request).transform(mapDashboardBootOutput.from_dict)

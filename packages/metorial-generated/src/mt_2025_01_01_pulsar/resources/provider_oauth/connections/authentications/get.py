@@ -39,9 +39,9 @@ class ProviderOauthConnectionsAuthenticationsGetOutput:
   status: str
   events: List[ProviderOauthConnectionsAuthenticationsGetOutputEvents]
   connection_id: str
-  profile: ProviderOauthConnectionsAuthenticationsGetOutputProfile
   created_at: datetime
   error: Optional[ProviderOauthConnectionsAuthenticationsGetOutputError] = None
+  profile: Optional[ProviderOauthConnectionsAuthenticationsGetOutputProfile] = None
 
 
 class mapProviderOauthConnectionsAuthenticationsGetOutputError:

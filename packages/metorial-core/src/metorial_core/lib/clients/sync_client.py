@@ -27,19 +27,31 @@ class MetorialSync(MetorialBase):
         return await session.get_client({"deploymentId": deployments[0]["id"]})
       except Exception as e:
         if attempt == self._config["maxRetries"] - 1:
-          raise MetorialAPIError(f"Failed to create MCP connection after {self._config['maxRetries']} attempts: {e}")
-        await asyncio.sleep(2 ** attempt)
+          raise MetorialAPIError(
+            f"Failed to create MCP connection after {self._config['maxRetries']} attempts: {e}"
+          )
+        await asyncio.sleep(2**attempt)
 
-  def with_session(self, init: Union[Dict[str, Any], str, List[str]], action: Callable[[MetorialSession], Any]):
+  def with_session(
+    self,
+    init: Union[Dict[str, Any], str, List[str]],
+    action: Callable[[MetorialSession], Any],
+  ):
     """Synchronous wrapper for with_session"""
+
     async def async_action_wrapper(session):
       if asyncio.iscoroutinefunction(action):
         return await action(session)
       else:
         return action(session)
+
     return asyncio.run(self._with_session_async(init, async_action_wrapper))
 
-  async def _with_session_async(self, init: Union[Dict[str, Any], str, List[str]], action: Callable[[MetorialSession], Any]):
+  async def _with_session_async(
+    self,
+    init: Union[Dict[str, Any], str, List[str]],
+    action: Callable[[MetorialSession], Any],
+  ):
     session = None
     try:
       # Convert string or list of strings to proper init format
@@ -60,13 +72,21 @@ class MetorialSync(MetorialBase):
         except Exception as e:
           self.logger.warning(f"Failed to close session: {e}")
 
-  def with_provider_session(self, provider: Callable[[MetorialSession], Any],
-                            init: Union[Dict[str, Any], str, List[str]], action: Callable):
+  def with_provider_session(
+    self,
+    provider: Callable[[MetorialSession], Any],
+    init: Union[Dict[str, Any], str, List[str]],
+    action: Callable,
+  ):
     """Synchronous wrapper for with_provider_session"""
     return asyncio.run(self._with_provider_session_async(provider, init, action))
 
-  async def _with_provider_session_async(self, provider: Callable[[MetorialSession], Any],
-                                         init: Union[Dict[str, Any], str, List[str]], action: Callable):
+  async def _with_provider_session_async(
+    self,
+    provider: Callable[[MetorialSession], Any],
+    init: Union[Dict[str, Any], str, List[str]],
+    action: Callable,
+  ):
     if isinstance(init, str):
       init = {"serverDeployments": [init]}
     elif isinstance(init, list):
@@ -80,7 +100,7 @@ class MetorialSync(MetorialBase):
           "tools": provider_data.get("tools"),
           "callTools": lambda tool_calls: session.execute_tools(tool_calls),
           "getToolManager": lambda: session.get_tool_manager(),
-          **provider_data
+          **provider_data,
         }
 
         return action(simplified_session)
@@ -91,8 +111,14 @@ class MetorialSync(MetorialBase):
 
     return await self._with_session_async(init, session_action)
 
-  def run(self, message: str, deployment_id: Union[str, List[str]],
-          provider_client, provider_type: Optional[str] = None, max_iterations: int = 5) -> str:
+  def run(
+    self,
+    message: str,
+    deployment_id: Union[str, List[str]],
+    provider_client,
+    provider_type: Optional[str] = None,
+    max_iterations: int = 5,
+  ) -> str:
     """Quick one-liner for simple sync chat testing with metrics - now provider-agnostic!
 
     Args:
@@ -105,6 +131,7 @@ class MetorialSync(MetorialBase):
     metrics = ChatMetrics(start_time=time.time())
 
     try:
+
       async def chat_action(session):
         tool_manager = await session.get_tool_manager()
         adapter = create_provider_adapter(provider_type, provider_client, tool_manager)
@@ -115,7 +142,9 @@ class MetorialSync(MetorialBase):
       result = self.with_session(deployment_id, chat_action)
 
       metrics.end_time = time.time()
-      self.logger.info(f"Quick chat (sync) completed in {metrics.duration:.2f}s, {metrics.iterations} iterations, {metrics.tool_calls} tool calls")
+      self.logger.info(
+        f"Quick chat (sync) completed in {metrics.duration:.2f}s, {metrics.iterations} iterations, {metrics.tool_calls} tool calls"
+      )
 
       return result  # type: ignore[no-any-return]
 
@@ -125,8 +154,13 @@ class MetorialSync(MetorialBase):
       self.logger.error(f"Quick chat (sync) failed after {metrics.duration:.2f}s: {e}")
       raise
 
-  def chat_loop(self, adapter: ProviderAdapter, messages: List[ChatMessage],
-                          max_iterations: int = 10, metrics: Optional[ChatMetrics] = None) -> str:
+  def chat_loop(
+    self,
+    adapter: ProviderAdapter,
+    messages: List[ChatMessage],
+    max_iterations: int = 10,
+    metrics: Optional[ChatMetrics] = None,
+  ) -> str:
     """New synchronous provider-agnostic chat loop implementation"""
     if metrics is None:
       metrics = ChatMetrics(start_time=time.time())
@@ -141,8 +175,7 @@ class MetorialSync(MetorialBase):
 
           # Create chat completion using the adapter
           response = await adapter.create_chat_completion(
-            messages=messages,
-            tools=tools
+            messages=messages, tools=tools
           )
 
           # Track token usage if available
@@ -159,21 +192,21 @@ class MetorialSync(MetorialBase):
           metrics.tool_calls += len(response.tool_calls)
 
           # Add assistant message with tool calls and tool responses to the message history
-          messages.append(ChatMessage(
-            role="assistant",
-            tool_calls=response.tool_calls
-          ))
+          messages.append(ChatMessage(role="assistant", tool_calls=response.tool_calls))
           messages.extend(tool_responses)
 
         except Exception as e:
           self.logger.error(f"Chat loop iteration {i + 1} failed: {e}")
           raise MetorialAPIError(f"Chat loop failed at iteration {i + 1}: {e}")
 
-      raise MetorialAPIError(f"No final response received after {max_iterations} iterations")
+      raise MetorialAPIError(
+        f"No final response received after {max_iterations} iterations"
+      )
 
     try:
       # We're in an async context, use ThreadPoolExecutor
       import concurrent.futures
+
       with concurrent.futures.ThreadPoolExecutor() as executor:
         future = executor.submit(asyncio.run, async_chat_loop())
         return future.result()  # type: ignore[no-any-return]
@@ -181,20 +214,31 @@ class MetorialSync(MetorialBase):
       # No running loop, we can use asyncio.run
       return asyncio.run(async_chat_loop())  # type: ignore[no-any-return]
 
-  def batch_run(self, messages: List[str], deployment_id: Union[str, List[str]],
-                provider_client, provider_type: Optional[str] = None, max_iterations: int = 5) -> List[str]:
+  def batch_run(
+    self,
+    messages: List[str],
+    deployment_id: Union[str, List[str]],
+    provider_client,
+    provider_type: Optional[str] = None,
+    max_iterations: int = 5,
+  ) -> List[str]:
     """Process multiple chat messages concurrently (sync version) - now provider-agnostic!"""
+
     async def async_batch_chat():
       async def process_single_chat(message: str) -> str:
-        return self.run(message, deployment_id, provider_client, provider_type, max_iterations)
+        return self.run(
+          message, deployment_id, provider_client, provider_type, max_iterations
+        )
 
-      return await asyncio.gather(*[
-        process_single_chat(message) for message in messages
-      ])
+      return await asyncio.gather(
+        *[process_single_chat(message) for message in messages]
+      )
 
     try:
       results = asyncio.run(async_batch_chat())
-      self.logger.info(f"Batch chat (sync) completed: {len(messages)} messages processed")
+      self.logger.info(
+        f"Batch chat (sync) completed: {len(messages)} messages processed"
+      )
       return results  # type: ignore[no-any-return]
     except Exception as e:
       self.logger.error(f"Batch chat (sync) failed: {e}")

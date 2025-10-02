@@ -9,6 +9,7 @@ class ProviderOauthConnectionsCreateOutputProvider:
   id: str
   name: str
   url: str
+  image_url: str
 
 
 @dataclass
@@ -17,6 +18,7 @@ class ProviderOauthConnectionsCreateOutput:
   id: str
   status: str
   name: str
+  metadata: Dict[str, Any]
   provider: ProviderOauthConnectionsCreateOutputProvider
   config: Dict[str, Any]
   scopes: List[str]
@@ -24,6 +26,7 @@ class ProviderOauthConnectionsCreateOutput:
   instance_id: str
   created_at: datetime
   updated_at: datetime
+  description: Optional[str] = None
   template_id: Optional[str] = None
 
 
@@ -31,7 +34,10 @@ class mapProviderOauthConnectionsCreateOutputProvider:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> ProviderOauthConnectionsCreateOutputProvider:
     return ProviderOauthConnectionsCreateOutputProvider(
-      id=data.get("id"), name=data.get("name"), url=data.get("url")
+      id=data.get("id"),
+      name=data.get("name"),
+      url=data.get("url"),
+      image_url=data.get("image_url"),
     )
 
   @staticmethod
@@ -53,6 +59,8 @@ class mapProviderOauthConnectionsCreateOutput:
       id=data.get("id"),
       status=data.get("status"),
       name=data.get("name"),
+      description=data.get("description"),
+      metadata=data.get("metadata"),
       provider=mapProviderOauthConnectionsCreateOutputProvider.from_dict(
         data.get("provider")
       )
@@ -85,12 +93,14 @@ class mapProviderOauthConnectionsCreateOutput:
 
 @dataclass
 class ProviderOauthConnectionsCreateBody:
-  name: str
   config: Dict[str, Any]
   client_id: str
   client_secret: str
   scopes: List[str]
+  name: Optional[str] = None
+  description: Optional[str] = None
   discovery_url: Optional[str] = None
+  metadata: Optional[Dict[str, Any]] = None
 
 
 class mapProviderOauthConnectionsCreateBody:
@@ -98,11 +108,13 @@ class mapProviderOauthConnectionsCreateBody:
   def from_dict(data: Dict[str, Any]) -> ProviderOauthConnectionsCreateBody:
     return ProviderOauthConnectionsCreateBody(
       name=data.get("name"),
+      description=data.get("description"),
       discovery_url=data.get("discovery_url"),
       config=data.get("config"),
       client_id=data.get("client_id"),
       client_secret=data.get("client_secret"),
       scopes=data.get("scopes", []),
+      metadata=data.get("metadata"),
     )
 
   @staticmethod

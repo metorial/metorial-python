@@ -1,4 +1,3 @@
-from typing import Optional, Dict, Any, List, Union
 from metorial_util_endpoint import (
   BaseMetorialEndpoint,
   MetorialEndpointManager,
@@ -84,7 +83,10 @@ class MetorialDashboardOrganizationsMembersEndpoint(BaseMetorialEndpoint):
     )
 
   def update(
-    self, organizationId: str, memberId: str, *, role: Optional[str] = None
+    self,
+    organizationId: str,
+    memberId: str,
+    body: DashboardOrganizationsMembersUpdateBody,
   ) -> DashboardOrganizationsMembersUpdateOutput:
     """
     Update organization member
@@ -92,18 +94,12 @@ class MetorialDashboardOrganizationsMembersEndpoint(BaseMetorialEndpoint):
 
     :param organizationId: str
     :param memberId: str
-    :param role: str (optional)
+    :param body: DashboardOrganizationsMembersUpdateBody
     :return: DashboardOrganizationsMembersUpdateOutput
     """
-    _params = {"role": role}
-    body = {k: v for k, v in _params.items() if v is not None}
-
-    if not body:
-      raise ValueError("No fields to update. At least one parameter must be provided.")
-
     request = MetorialRequest(
       path=["dashboard", "organizations", organizationId, "members", memberId],
-      body=body,
+      body=mapDashboardOrganizationsMembersUpdateBody.to_dict(body),
     )
     return self._post(request).transform(
       mapDashboardOrganizationsMembersUpdateOutput.from_dict

@@ -41,6 +41,7 @@ class SessionsCreateOutputServerDeployments:
   server: SessionsCreateOutputServerDeploymentsServer
   connection_urls: SessionsCreateOutputServerDeploymentsConnectionUrls
   name: Optional[str] = None
+  oauth_session_id: Optional[str] = None
   description: Optional[str] = None
 
 
@@ -148,6 +149,7 @@ class mapSessionsCreateOutputServerDeployments:
       object=data.get("object"),
       id=data.get("id"),
       name=data.get("name"),
+      oauth_session_id=data.get("oauth_session_id"),
       description=data.get("description"),
       metadata=data.get("metadata"),
       created_at=datetime.fromisoformat(data.get("created_at"))
@@ -245,13 +247,15 @@ class mapSessionsCreateOutput:
     return dataclasses.asdict(value)
 
 
-SessionsCreateBody = Dict[str, Any]
+@dataclass
+class SessionsCreateBody:
+  server_deployments: List[Union[Any, str, Dict[str, Any]]]
 
 
 class mapSessionsCreateBody:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> SessionsCreateBody:
-    data
+    return SessionsCreateBody(server_deployments=data.get("server_deployments", []))
 
   @staticmethod
   def to_dict(

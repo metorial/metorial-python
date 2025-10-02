@@ -3,7 +3,7 @@ from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
 import dataclasses
 
-SessionsGetOutput = Dict[str, Any]
+SessionsGetOutput = Any
 
 
 class mapSessionsGetOutput:

@@ -39,9 +39,11 @@ class ProviderOauthConnectionsAuthenticationsListOutputItems:
   status: str
   events: List[ProviderOauthConnectionsAuthenticationsListOutputItemsEvents]
   connection_id: str
-  profile: ProviderOauthConnectionsAuthenticationsListOutputItemsProfile
   created_at: datetime
   error: Optional[ProviderOauthConnectionsAuthenticationsListOutputItemsError] = None
+  profile: Optional[
+    ProviderOauthConnectionsAuthenticationsListOutputItemsProfile
+  ] = None
 
 
 @dataclass

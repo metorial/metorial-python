@@ -16,17 +16,6 @@ class ServersVariantsListOutputItemsServer:
 
 
 @dataclass
-class ServersVariantsListOutputItemsCurrentVersionSchema:
-  id: str
-  fingerprint: str
-  schema: Dict[str, Any]
-  server_id: str
-  server_variant_id: str
-  server_version_id: str
-  created_at: datetime
-
-
-@dataclass
 class ServersVariantsListOutputItemsCurrentVersionServer:
   object: str
   id: str
@@ -46,7 +35,7 @@ class ServersVariantsListOutputItemsCurrentVersion:
   server_variant_id: str
   get_launch_params: str
   source: Dict[str, Any]
-  schema: ServersVariantsListOutputItemsCurrentVersionSchema
+  schema: Dict[str, Any]
   server: ServersVariantsListOutputItemsCurrentVersionServer
   created_at: datetime
 
@@ -55,6 +44,7 @@ class ServersVariantsListOutputItemsCurrentVersion:
 class ServersVariantsListOutputItems:
   object: str
   id: str
+  status: str
   identifier: str
   server: ServersVariantsListOutputItemsServer
   source: Dict[str, Any]
@@ -94,36 +84,6 @@ class mapServersVariantsListOutputItemsServer:
   @staticmethod
   def to_dict(
     value: Union[ServersVariantsListOutputItemsServer, Dict[str, Any], None]
-  ) -> Optional[Dict[str, Any]]:
-    if value is None:
-      return None
-    if isinstance(value, dict):
-      return value
-    return dataclasses.asdict(value)
-
-
-class mapServersVariantsListOutputItemsCurrentVersionSchema:
-  @staticmethod
-  def from_dict(
-    data: Dict[str, Any]
-  ) -> ServersVariantsListOutputItemsCurrentVersionSchema:
-    return ServersVariantsListOutputItemsCurrentVersionSchema(
-      id=data.get("id"),
-      fingerprint=data.get("fingerprint"),
-      schema=data.get("schema"),
-      server_id=data.get("server_id"),
-      server_variant_id=data.get("server_variant_id"),
-      server_version_id=data.get("server_version_id"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
-      if data.get("created_at")
-      else None,
-    )
-
-  @staticmethod
-  def to_dict(
-    value: Union[
-      ServersVariantsListOutputItemsCurrentVersionSchema, Dict[str, Any], None
-    ]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None
@@ -175,11 +135,7 @@ class mapServersVariantsListOutputItemsCurrentVersion:
       server_variant_id=data.get("server_variant_id"),
       get_launch_params=data.get("get_launch_params"),
       source=data.get("source"),
-      schema=mapServersVariantsListOutputItemsCurrentVersionSchema.from_dict(
-        data.get("schema")
-      )
-      if data.get("schema")
-      else None,
+      schema=data.get("schema"),
       server=mapServersVariantsListOutputItemsCurrentVersionServer.from_dict(
         data.get("server")
       )
@@ -207,6 +163,7 @@ class mapServersVariantsListOutputItems:
     return ServersVariantsListOutputItems(
       object=data.get("object"),
       id=data.get("id"),
+      status=data.get("status"),
       identifier=data.get("identifier"),
       server=mapServersVariantsListOutputItemsServer.from_dict(data.get("server"))
       if data.get("server")

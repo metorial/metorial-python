@@ -9,6 +9,7 @@ class ProviderOauthConnectionsListOutputItemsProvider:
   id: str
   name: str
   url: str
+  image_url: str
 
 
 @dataclass
@@ -17,6 +18,7 @@ class ProviderOauthConnectionsListOutputItems:
   id: str
   status: str
   name: str
+  metadata: Dict[str, Any]
   provider: ProviderOauthConnectionsListOutputItemsProvider
   config: Dict[str, Any]
   scopes: List[str]
@@ -24,6 +26,7 @@ class ProviderOauthConnectionsListOutputItems:
   instance_id: str
   created_at: datetime
   updated_at: datetime
+  description: Optional[str] = None
   template_id: Optional[str] = None
 
 
@@ -45,7 +48,10 @@ class mapProviderOauthConnectionsListOutputItemsProvider:
     data: Dict[str, Any]
   ) -> ProviderOauthConnectionsListOutputItemsProvider:
     return ProviderOauthConnectionsListOutputItemsProvider(
-      id=data.get("id"), name=data.get("name"), url=data.get("url")
+      id=data.get("id"),
+      name=data.get("name"),
+      url=data.get("url"),
+      image_url=data.get("image_url"),
     )
 
   @staticmethod
@@ -67,6 +73,8 @@ class mapProviderOauthConnectionsListOutputItems:
       id=data.get("id"),
       status=data.get("status"),
       name=data.get("name"),
+      description=data.get("description"),
+      metadata=data.get("metadata"),
       provider=mapProviderOauthConnectionsListOutputItemsProvider.from_dict(
         data.get("provider")
       )

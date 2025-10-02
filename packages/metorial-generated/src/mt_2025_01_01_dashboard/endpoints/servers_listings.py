@@ -1,4 +1,3 @@
-from typing import Optional, Dict, Any, List, Union
 from metorial_util_endpoint import (
   BaseMetorialEndpoint,
   MetorialEndpointManager,
@@ -11,6 +10,8 @@ from ..resources import (
   ServersListingsListQuery,
   mapServersListingsGetOutput,
   ServersListingsGetOutput,
+  mapServersListingsGetQuery,
+  ServersListingsGetQuery,
 )
 
 
@@ -34,13 +35,19 @@ class MetorialServersListingsEndpoint(BaseMetorialEndpoint):
     )
     return self._get(request).transform(mapServersListingsListOutput.from_dict)
 
-  def get(self, serverListingId: str) -> ServersListingsGetOutput:
+  def get(
+    self, serverListingId: str, query: ServersListingsGetQuery = None
+  ) -> ServersListingsGetOutput:
     """
     Get server listing
     Returns metadata and readme content for a specific server listing.
 
     :param serverListingId: str
+    :param query: ServersListingsGetQuery
     :return: ServersListingsGetOutput
     """
-    request = MetorialRequest(path=["server-listings", serverListingId])
+    request = MetorialRequest(
+      path=["server-listings", serverListingId],
+      query=mapServersListingsGetQuery.to_dict(query) if query is not None else None,
+    )
     return self._get(request).transform(mapServersListingsGetOutput.from_dict)

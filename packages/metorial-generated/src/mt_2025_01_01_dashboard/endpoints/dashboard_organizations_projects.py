@@ -1,4 +1,3 @@
-from typing import Optional, Dict, Any, List, Union
 from metorial_util_endpoint import (
   BaseMetorialEndpoint,
   MetorialEndpointManager,
@@ -70,25 +69,19 @@ class MetorialDashboardOrganizationsProjectsEndpoint(BaseMetorialEndpoint):
     )
 
   def create(
-    self, organizationId: str, *, name: Optional[str] = None
+    self, organizationId: str, body: DashboardOrganizationsProjectsCreateBody
   ) -> DashboardOrganizationsProjectsCreateOutput:
     """
     Create organization project
     Create a new organization project
 
     :param organizationId: str
-    :param name: str (optional)
+    :param body: DashboardOrganizationsProjectsCreateBody
     :return: DashboardOrganizationsProjectsCreateOutput
     """
-    _params = {"name": name}
-    body = {k: v for k, v in _params.items() if v is not None}
-
-    if not body:
-      raise ValueError("No fields to update. At least one parameter must be provided.")
-
     request = MetorialRequest(
       path=["dashboard", "organizations", organizationId, "projects"],
-      body=body,
+      body=mapDashboardOrganizationsProjectsCreateBody.to_dict(body),
     )
     return self._post(request).transform(
       mapDashboardOrganizationsProjectsCreateOutput.from_dict
@@ -113,7 +106,10 @@ class MetorialDashboardOrganizationsProjectsEndpoint(BaseMetorialEndpoint):
     )
 
   def update(
-    self, organizationId: str, projectId: str, *, name: Optional[str] = None
+    self,
+    organizationId: str,
+    projectId: str,
+    body: DashboardOrganizationsProjectsUpdateBody,
   ) -> DashboardOrganizationsProjectsUpdateOutput:
     """
     Update organization project
@@ -121,18 +117,12 @@ class MetorialDashboardOrganizationsProjectsEndpoint(BaseMetorialEndpoint):
 
     :param organizationId: str
     :param projectId: str
-    :param name: str (optional)
+    :param body: DashboardOrganizationsProjectsUpdateBody
     :return: DashboardOrganizationsProjectsUpdateOutput
     """
-    _params = {"name": name}
-    body = {k: v for k, v in _params.items() if v is not None}
-
-    if not body:
-      raise ValueError("No fields to update. At least one parameter must be provided.")
-
     request = MetorialRequest(
       path=["dashboard", "organizations", organizationId, "projects", projectId],
-      body=body,
+      body=mapDashboardOrganizationsProjectsUpdateBody.to_dict(body),
     )
     return self._post(request).transform(
       mapDashboardOrganizationsProjectsUpdateOutput.from_dict

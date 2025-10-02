@@ -341,8 +341,8 @@ class mapServersCapabilitiesListOutputTools:
       mcp_server_id=data.get("mcp_server_id"),
       name=data.get("name"),
       description=data.get("description"),
-      input_schema=data.get("inputSchema"),
-      output_schema=data.get("outputSchema"),
+      input_schema=data.get("input_schema"),
+      output_schema=data.get("output_schema"),
       annotations=data.get("annotations"),
     )
 
@@ -383,10 +383,10 @@ class mapServersCapabilitiesListOutputResourceTemplates:
   def from_dict(data: Dict[str, Any]) -> ServersCapabilitiesListOutputResourceTemplates:
     return ServersCapabilitiesListOutputResourceTemplates(
       mcp_server_id=data.get("mcp_server_id"),
-      uri_template=data.get("uriTemplate"),
+      uri_template=data.get("uri_template"),
       name=data.get("name"),
       description=data.get("description"),
-      mime_type=data.get("mimeType"),
+      mime_type=data.get("mime_type"),
     )
 
   @staticmethod
@@ -422,7 +422,7 @@ class mapServersCapabilitiesListOutput:
       ],
       resource_templates=[
         mapServersCapabilitiesListOutputResourceTemplates.from_dict(item)
-        for item in data.get("resourceTemplates", [])
+        for item in data.get("resource_templates", [])
         if item
       ],
     )

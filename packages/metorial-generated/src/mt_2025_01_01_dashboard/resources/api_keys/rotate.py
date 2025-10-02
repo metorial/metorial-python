@@ -10,7 +10,6 @@ class ApiKeysRotateOutputMachineAccessActor:
   id: str
   type: str
   organization_id: str
-  actor_id: str
   name: str
   image_url: str
   created_at: datetime
@@ -124,7 +123,6 @@ class mapApiKeysRotateOutputMachineAccessActor:
       id=data.get("id"),
       type=data.get("type"),
       organization_id=data.get("organization_id"),
-      actor_id=data.get("actor_id"),
       name=data.get("name"),
       email=data.get("email"),
       image_url=data.get("image_url"),

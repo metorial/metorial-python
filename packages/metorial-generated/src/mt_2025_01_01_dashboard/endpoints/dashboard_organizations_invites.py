@@ -1,4 +1,3 @@
-from typing import Optional, Dict, Any, List, Union
 from metorial_util_endpoint import (
   BaseMetorialEndpoint,
   MetorialEndpointManager,
@@ -71,19 +70,20 @@ class MetorialDashboardOrganizationsInvitesEndpoint(BaseMetorialEndpoint):
       mapDashboardOrganizationsInvitesGetOutput.from_dict
     )
 
-  def create(self, organizationId: str) -> DashboardOrganizationsInvitesCreateOutput:
+  def create(
+    self, organizationId: str, body: DashboardOrganizationsInvitesCreateBody
+  ) -> DashboardOrganizationsInvitesCreateOutput:
     """
     Create organization invite
     Create a new organization invite
 
     :param organizationId: str
+    :param body: DashboardOrganizationsInvitesCreateBody
     :return: DashboardOrganizationsInvitesCreateOutput
     """
-    {}
-
     request = MetorialRequest(
       path=["dashboard", "organizations", organizationId, "invites"],
-      body=body,
+      body=mapDashboardOrganizationsInvitesCreateBody.to_dict(body),
     )
     return self._post(request).transform(
       mapDashboardOrganizationsInvitesCreateOutput.from_dict
@@ -125,7 +125,10 @@ class MetorialDashboardOrganizationsInvitesEndpoint(BaseMetorialEndpoint):
     )
 
   def update(
-    self, organizationId: str, inviteId: str, *, role: Optional[str] = None
+    self,
+    organizationId: str,
+    inviteId: str,
+    body: DashboardOrganizationsInvitesUpdateBody,
   ) -> DashboardOrganizationsInvitesUpdateOutput:
     """
     Update organization invite
@@ -133,18 +136,12 @@ class MetorialDashboardOrganizationsInvitesEndpoint(BaseMetorialEndpoint):
 
     :param organizationId: str
     :param inviteId: str
-    :param role: str (optional)
+    :param body: DashboardOrganizationsInvitesUpdateBody
     :return: DashboardOrganizationsInvitesUpdateOutput
     """
-    _params = {"role": role}
-    body = {k: v for k, v in _params.items() if v is not None}
-
-    if not body:
-      raise ValueError("No fields to update. At least one parameter must be provided.")
-
     request = MetorialRequest(
       path=["dashboard", "organizations", organizationId, "invites", inviteId],
-      body=body,
+      body=mapDashboardOrganizationsInvitesUpdateBody.to_dict(body),
     )
     return self._post(request).transform(
       mapDashboardOrganizationsInvitesUpdateOutput.from_dict

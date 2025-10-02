@@ -1,0 +1,23 @@
+from dataclasses import dataclass
+from typing import Any, Dict, List, Optional, Union
+from datetime import datetime
+import dataclasses
+
+CustomServersVersionsGetOutput = Any
+
+
+class mapCustomServersVersionsGetOutput:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> CustomServersVersionsGetOutput:
+    data
+
+  @staticmethod
+  def to_dict(
+    value: Union[CustomServersVersionsGetOutput, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    # assume dataclass for generated models
+    return dataclasses.asdict(value)

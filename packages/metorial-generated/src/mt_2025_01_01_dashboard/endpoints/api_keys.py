@@ -1,4 +1,3 @@
-from typing import Optional, Dict, Any, List, Union
 from metorial_util_endpoint import (
   BaseMetorialEndpoint,
   MetorialEndpointManager,
@@ -67,30 +66,23 @@ class MetorialApiKeysEndpoint(BaseMetorialEndpoint):
     )
     return self._get(request).transform(mapApiKeysGetOutput.from_dict)
 
-  def create(self, organizationId: str) -> ApiKeysCreateOutput:
+  def create(self, organizationId: str, body: ApiKeysCreateBody) -> ApiKeysCreateOutput:
     """
     Create API key
     Create a new API key
 
     :param organizationId: str
+    :param body: ApiKeysCreateBody
     :return: ApiKeysCreateOutput
     """
-    {}
-
     request = MetorialRequest(
       path=["dashboard", "organizations", organizationId, "api-keys"],
-      body=body,
+      body=mapApiKeysCreateBody.to_dict(body),
     )
     return self._post(request).transform(mapApiKeysCreateOutput.from_dict)
 
   def update(
-    self,
-    organizationId: str,
-    apiKeyId: str,
-    *,
-    name: Optional[str] = None,
-    description: Optional[str] = None,
-    expires_at: Optional[str] = None
+    self, organizationId: str, apiKeyId: str, body: ApiKeysUpdateBody
   ) -> ApiKeysUpdateOutput:
     """
     Update API key
@@ -98,20 +90,12 @@ class MetorialApiKeysEndpoint(BaseMetorialEndpoint):
 
     :param organizationId: str
     :param apiKeyId: str
-    :param name: str (optional)
-    :param description: str (optional)
-    :param expires_at: str (optional)
+    :param body: ApiKeysUpdateBody
     :return: ApiKeysUpdateOutput
     """
-    _params = {"name": name, "description": description, "expires_at": expires_at}
-    body = {k: v for k, v in _params.items() if v is not None}
-
-    if not body:
-      raise ValueError("No fields to update. At least one parameter must be provided.")
-
     request = MetorialRequest(
       path=["dashboard", "organizations", organizationId, "api-keys", apiKeyId],
-      body=body,
+      body=mapApiKeysUpdateBody.to_dict(body),
     )
     return self._post(request).transform(mapApiKeysUpdateOutput.from_dict)
 
@@ -130,11 +114,7 @@ class MetorialApiKeysEndpoint(BaseMetorialEndpoint):
     return self._delete(request).transform(mapApiKeysRevokeOutput.from_dict)
 
   def rotate(
-    self,
-    organizationId: str,
-    apiKeyId: str,
-    *,
-    current_expires_at: Optional[str] = None
+    self, organizationId: str, apiKeyId: str, body: ApiKeysRotateBody
   ) -> ApiKeysRotateOutput:
     """
     Rotate API key
@@ -142,15 +122,9 @@ class MetorialApiKeysEndpoint(BaseMetorialEndpoint):
 
     :param organizationId: str
     :param apiKeyId: str
-    :param current_expires_at: str (optional)
+    :param body: ApiKeysRotateBody
     :return: ApiKeysRotateOutput
     """
-    _params = {"current_expires_at": current_expires_at}
-    body = {k: v for k, v in _params.items() if v is not None}
-
-    if not body:
-      raise ValueError("No fields to update. At least one parameter must be provided.")
-
     request = MetorialRequest(
       path=[
         "dashboard",
@@ -160,7 +134,7 @@ class MetorialApiKeysEndpoint(BaseMetorialEndpoint):
         apiKeyId,
         "rotate",
       ],
-      body=body,
+      body=mapApiKeysRotateBody.to_dict(body),
     )
     return self._post(request).transform(mapApiKeysRotateOutput.from_dict)
 

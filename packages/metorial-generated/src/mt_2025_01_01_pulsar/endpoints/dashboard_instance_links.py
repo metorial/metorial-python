@@ -1,4 +1,3 @@
-from typing import Optional, Dict, Any, List, Union
 from metorial_util_endpoint import (
   BaseMetorialEndpoint,
   MetorialEndpointManager,
@@ -60,7 +59,7 @@ class MetorialDashboardInstanceLinksEndpoint(BaseMetorialEndpoint):
     return self._get(request).transform(mapDashboardInstanceLinksGetOutput.from_dict)
 
   def create(
-    self, instanceId: str, fileId: str, *, expires_at: Optional[str] = None
+    self, instanceId: str, fileId: str, body: DashboardInstanceLinksCreateBody
   ) -> DashboardInstanceLinksCreateOutput:
     """
     Create file link
@@ -68,25 +67,23 @@ class MetorialDashboardInstanceLinksEndpoint(BaseMetorialEndpoint):
 
     :param instanceId: str
     :param fileId: str
-    :param expires_at: str (optional)
+    :param body: DashboardInstanceLinksCreateBody
     :return: DashboardInstanceLinksCreateOutput
     """
-    _params = {"expires_at": expires_at}
-    body = {k: v for k, v in _params.items() if v is not None}
-
-    if not body:
-      raise ValueError("No fields to update. At least one parameter must be provided.")
-
     request = MetorialRequest(
       path=["dashboard", "instances", instanceId, "files", fileId, "links"],
-      body=body,
+      body=mapDashboardInstanceLinksCreateBody.to_dict(body),
     )
     return self._post(request).transform(
       mapDashboardInstanceLinksCreateOutput.from_dict
     )
 
   def update(
-    self, instanceId: str, fileId: str, linkId: str, *, expires_at: Optional[str] = None
+    self,
+    instanceId: str,
+    fileId: str,
+    linkId: str,
+    body: DashboardInstanceLinksUpdateBody,
   ) -> DashboardInstanceLinksUpdateOutput:
     """
     Update file link by ID
@@ -95,18 +92,12 @@ class MetorialDashboardInstanceLinksEndpoint(BaseMetorialEndpoint):
     :param instanceId: str
     :param fileId: str
     :param linkId: str
-    :param expires_at: str (optional)
+    :param body: DashboardInstanceLinksUpdateBody
     :return: DashboardInstanceLinksUpdateOutput
     """
-    _params = {"expires_at": expires_at}
-    body = {k: v for k, v in _params.items() if v is not None}
-
-    if not body:
-      raise ValueError("No fields to update. At least one parameter must be provided.")
-
     request = MetorialRequest(
       path=["dashboard", "instances", instanceId, "files", fileId, "links", linkId],
-      body=body,
+      body=mapDashboardInstanceLinksUpdateBody.to_dict(body),
     )
     return self._patch(request).transform(
       mapDashboardInstanceLinksUpdateOutput.from_dict

@@ -1,4 +1,3 @@
-from typing import Optional, Dict, Any, List, Union
 from metorial_util_endpoint import (
   BaseMetorialEndpoint,
   MetorialEndpointManager,
@@ -11,6 +10,10 @@ from ..resources import (
   ProviderOauthConnectionTemplateListQuery,
   mapProviderOauthConnectionTemplateGetOutput,
   ProviderOauthConnectionTemplateGetOutput,
+  mapProviderOauthConnectionTemplateEvaluateOutput,
+  ProviderOauthConnectionTemplateEvaluateOutput,
+  mapProviderOauthConnectionTemplateEvaluateBody,
+  ProviderOauthConnectionTemplateEvaluateBody,
 )
 
 
@@ -68,4 +71,23 @@ class MetorialProviderOauthConnectionTemplateEndpoint(BaseMetorialEndpoint):
     )
     return self._get(request).transform(
       mapProviderOauthConnectionTemplateGetOutput.from_dict
+    )
+
+  def evaluate(
+    self, oauthTemplateId: str, body: ProviderOauthConnectionTemplateEvaluateBody
+  ) -> ProviderOauthConnectionTemplateEvaluateOutput:
+    """
+    Evaluate oauth connection template
+    Evaluate the configuration of an oauth connection template
+
+    :param oauthTemplateId: str
+    :param body: ProviderOauthConnectionTemplateEvaluateBody
+    :return: ProviderOauthConnectionTemplateEvaluateOutput
+    """
+    request = MetorialRequest(
+      path=["provider-oauth-connection-template", oauthTemplateId, "evaluate"],
+      body=mapProviderOauthConnectionTemplateEvaluateBody.to_dict(body),
+    )
+    return self._post(request).transform(
+      mapProviderOauthConnectionTemplateEvaluateOutput.from_dict
     )

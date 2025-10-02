@@ -9,6 +9,7 @@ class ProviderOauthConnectionsDeleteOutputProvider:
   id: str
   name: str
   url: str
+  image_url: str
 
 
 @dataclass
@@ -17,6 +18,7 @@ class ProviderOauthConnectionsDeleteOutput:
   id: str
   status: str
   name: str
+  metadata: Dict[str, Any]
   provider: ProviderOauthConnectionsDeleteOutputProvider
   config: Dict[str, Any]
   scopes: List[str]
@@ -24,6 +26,7 @@ class ProviderOauthConnectionsDeleteOutput:
   instance_id: str
   created_at: datetime
   updated_at: datetime
+  description: Optional[str] = None
   template_id: Optional[str] = None
 
 
@@ -31,7 +34,10 @@ class mapProviderOauthConnectionsDeleteOutputProvider:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> ProviderOauthConnectionsDeleteOutputProvider:
     return ProviderOauthConnectionsDeleteOutputProvider(
-      id=data.get("id"), name=data.get("name"), url=data.get("url")
+      id=data.get("id"),
+      name=data.get("name"),
+      url=data.get("url"),
+      image_url=data.get("image_url"),
     )
 
   @staticmethod
@@ -53,6 +59,8 @@ class mapProviderOauthConnectionsDeleteOutput:
       id=data.get("id"),
       status=data.get("status"),
       name=data.get("name"),
+      description=data.get("description"),
+      metadata=data.get("metadata"),
       provider=mapProviderOauthConnectionsDeleteOutputProvider.from_dict(
         data.get("provider")
       )

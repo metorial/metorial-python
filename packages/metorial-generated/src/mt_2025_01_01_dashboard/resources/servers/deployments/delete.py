@@ -5,6 +5,32 @@ import dataclasses
 
 
 @dataclass
+class ServersDeploymentsDeleteOutputOauthConnectionProvider:
+  id: str
+  name: str
+  url: str
+  image_url: str
+
+
+@dataclass
+class ServersDeploymentsDeleteOutputOauthConnection:
+  object: str
+  id: str
+  status: str
+  name: str
+  metadata: Dict[str, Any]
+  provider: ServersDeploymentsDeleteOutputOauthConnectionProvider
+  config: Dict[str, Any]
+  scopes: List[str]
+  client_id: str
+  instance_id: str
+  created_at: datetime
+  updated_at: datetime
+  description: Optional[str] = None
+  template_id: Optional[str] = None
+
+
+@dataclass
 class ServersDeploymentsDeleteOutputServer:
   object: str
   id: str
@@ -66,6 +92,7 @@ class ServersDeploymentsDeleteOutput:
   id: str
   status: str
   name: str
+  result: Dict[str, Any]
   metadata: Dict[str, Any]
   secret_id: str
   server: ServersDeploymentsDeleteOutputServer
@@ -74,6 +101,71 @@ class ServersDeploymentsDeleteOutput:
   created_at: datetime
   updated_at: datetime
   description: Optional[str] = None
+  oauth_connection: Optional[ServersDeploymentsDeleteOutputOauthConnection] = None
+
+
+class mapServersDeploymentsDeleteOutputOauthConnectionProvider:
+  @staticmethod
+  def from_dict(
+    data: Dict[str, Any]
+  ) -> ServersDeploymentsDeleteOutputOauthConnectionProvider:
+    return ServersDeploymentsDeleteOutputOauthConnectionProvider(
+      id=data.get("id"),
+      name=data.get("name"),
+      url=data.get("url"),
+      image_url=data.get("image_url"),
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[
+      ServersDeploymentsDeleteOutputOauthConnectionProvider, Dict[str, Any], None
+    ]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapServersDeploymentsDeleteOutputOauthConnection:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> ServersDeploymentsDeleteOutputOauthConnection:
+    return ServersDeploymentsDeleteOutputOauthConnection(
+      object=data.get("object"),
+      id=data.get("id"),
+      status=data.get("status"),
+      name=data.get("name"),
+      description=data.get("description"),
+      metadata=data.get("metadata"),
+      provider=mapServersDeploymentsDeleteOutputOauthConnectionProvider.from_dict(
+        data.get("provider")
+      )
+      if data.get("provider")
+      else None,
+      config=data.get("config"),
+      scopes=data.get("scopes", []),
+      client_id=data.get("client_id"),
+      instance_id=data.get("instance_id"),
+      template_id=data.get("template_id"),
+      created_at=datetime.fromisoformat(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[ServersDeploymentsDeleteOutputOauthConnection, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
 
 
 class mapServersDeploymentsDeleteOutputServer:
@@ -244,6 +336,12 @@ class mapServersDeploymentsDeleteOutput:
       status=data.get("status"),
       name=data.get("name"),
       description=data.get("description"),
+      oauth_connection=mapServersDeploymentsDeleteOutputOauthConnection.from_dict(
+        data.get("oauth_connection")
+      )
+      if data.get("oauth_connection")
+      else None,
+      result=data.get("result"),
       metadata=data.get("metadata"),
       secret_id=data.get("secret_id"),
       server=mapServersDeploymentsDeleteOutputServer.from_dict(data.get("server"))

@@ -59,6 +59,24 @@ class SessionsGroup(_DelegatingGroup):
     self.connections = connections
 
 
+class ProviderOauthConnectionsGroup(_DelegatingGroup):
+  __slots__ = ("authentications", "profiles")
+
+  def __init__(self, root, authentications, profiles):
+    super().__init__(root)
+    self.authentications = authentications
+    self.profiles = profiles
+
+
+class ProviderOauthGroup(_DelegatingGroup):
+  __slots__ = ("connections", "sessions")
+
+  def __init__(self, root, connections, sessions):
+    super().__init__(root)
+    self.connections = connections
+    self.sessions = sessions
+
+
 class RunsGroup(_DelegatingGroup):
   __slots__ = ("errors",)
 
@@ -98,6 +116,7 @@ class SDK:
   sessions: MetorialSessionsEndpoint
   files: MetorialFilesEndpoint
   links: MetorialLinksEndpoint
+  provider_oauth: Any
 
 
 def get_config(soft: Dict[str, Any]) -> Dict[str, Any]:
@@ -139,13 +158,16 @@ def get_endpoints(manager: MetorialEndpointManager) -> Dict[str, Any]:
   from .typed_endpoints import (
     TypedMetorialServersEndpoint,
     TypedMetorialSessionsEndpoint,
+    TypedMetorialProviderOauthEndpoint,
   )
 
   servers = TypedMetorialServersEndpoint(manager)
   sessions = TypedMetorialSessionsEndpoint(manager)
+  provider_oauth = TypedMetorialProviderOauthEndpoint(manager)
 
   endpoints["servers"] = servers
   endpoints["sessions"] = sessions
+  endpoints["provider_oauth"] = provider_oauth
   return endpoints
 
 
@@ -164,6 +186,7 @@ def _to_typed_sdk(raw: Dict[str, Any]) -> SDK:
 
   servers_root = raw["servers"]
   sessions_root = raw["sessions"]
+  provider_oauth_root = raw["provider_oauth"]
 
   servers_group = ServersGroup(
     servers_root,
@@ -181,6 +204,18 @@ def _to_typed_sdk(raw: Dict[str, Any]) -> SDK:
     sessions_root.connections,
   )
 
+  provider_oauth_connections_group = ProviderOauthConnectionsGroup(
+    provider_oauth_root.connections,
+    provider_oauth_root.connections.authentications,
+    provider_oauth_root.connections.profiles,
+  )
+
+  provider_oauth_group = ProviderOauthGroup(
+    provider_oauth_root,
+    provider_oauth_connections_group,
+    provider_oauth_root.sessions,
+  )
+
   return SDK(
     _config=SDKConfig(
       apiKey=_cfg["apiKey"],
@@ -193,6 +228,7 @@ def _to_typed_sdk(raw: Dict[str, Any]) -> SDK:
     sessions=sessions_group,
     files=raw["files"],
     links=raw["links"],
+    provider_oauth=provider_oauth_group,
   )
 
 
