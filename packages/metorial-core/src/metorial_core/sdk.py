@@ -3,7 +3,7 @@ Metorial SDK core implementation with typed endpoints and configuration.
 """
 
 from dataclasses import dataclass
-from typing import TypedDict, Dict, Any
+from typing import TypedDict, Dict, Any, TYPE_CHECKING
 
 from .sdk_builder import MetorialSDKBuilder
 from metorial_util_endpoint import MetorialEndpointManager
@@ -16,6 +16,24 @@ from mt_2025_01_01_pulsar.endpoints.servers import MetorialServersEndpoint
 from mt_2025_01_01_pulsar.endpoints.sessions import MetorialSessionsEndpoint
 from mt_2025_01_01_pulsar.endpoints.files import MetorialFilesEndpoint
 from mt_2025_01_01_pulsar.endpoints.links import MetorialLinksEndpoint
+
+if TYPE_CHECKING:
+  # Import for type checking to inherit all methods from base endpoints
+  from .typed_endpoints import (
+    TypedMetorialServersEndpoint as _TypedServersBase,
+    TypedMetorialSessionsEndpoint as _TypedSessionsBase,
+    TypedMetorialProviderOauthConnectionsEndpoint as _TypedProviderOauthConnectionsBase,
+  )
+  from mt_2025_01_01_pulsar.endpoints.server_runs import MetorialServerRunsEndpoint as _TypedServerRunsBase
+  # No base for ProviderOauth since it's just a grouping construct
+  _TypedProviderOauthBase = object
+else:
+  # At runtime, use object as base for all
+  _TypedServersBase = object
+  _TypedSessionsBase = object
+  _TypedProviderOauthBase = object
+  _TypedProviderOauthConnectionsBase = object
+  _TypedServerRunsBase = object
 
 
 class SDKConfig(TypedDict):
@@ -50,8 +68,8 @@ class _DelegatingGroup:
     return getattr(self._root, name)
 
 
-class SessionsGroup(_DelegatingGroup):
-  __slots__ = ("messages", "connections")
+class SessionsGroup(_DelegatingGroup, _TypedSessionsBase):
+  __slots__ = ("messages", "connections", "list", "get", "create", "delete")
 
   def __init__(self, root, messages, connections):
     super().__init__(root)
@@ -59,8 +77,8 @@ class SessionsGroup(_DelegatingGroup):
     self.connections = connections
 
 
-class ProviderOauthConnectionsGroup(_DelegatingGroup):
-  __slots__ = ("authentications", "profiles")
+class ProviderOauthConnectionsGroup(_DelegatingGroup, _TypedProviderOauthConnectionsBase):
+  __slots__ = ("authentications", "profiles", "list", "get", "create", "update", "delete")
 
   def __init__(self, root, authentications, profiles):
     super().__init__(root)
@@ -68,24 +86,27 @@ class ProviderOauthConnectionsGroup(_DelegatingGroup):
     self.profiles = profiles
 
 
-class ProviderOauthGroup(_DelegatingGroup):
-  __slots__ = ("connections", "sessions")
+class ProviderOauthGroup(_DelegatingGroup, _TypedProviderOauthBase):
+  __slots__ = ("connections", "sessions", "profiles", "authentications")
 
-  def __init__(self, root, connections, sessions):
+  def __init__(self, root, connections_endpoint, sessions_endpoint, profiles_endpoint, authentications_endpoint):
     super().__init__(root)
-    self.connections = connections
-    self.sessions = sessions
+    # Use direct endpoint classes instead of wrapper groups for better autocomplete
+    self.connections = connections_endpoint
+    self.sessions = sessions_endpoint
+    self.profiles = profiles_endpoint
+    self.authentications = authentications_endpoint
 
 
-class RunsGroup(_DelegatingGroup):
-  __slots__ = ("errors",)
+class RunsGroup(_DelegatingGroup, _TypedServerRunsBase):
+  __slots__ = ("errors", "list", "get")
 
   def __init__(self, root, errors):
     super().__init__(root)
     self.errors = errors
 
 
-class ServersGroup(_DelegatingGroup):
+class ServersGroup(_DelegatingGroup, _TypedServersBase):
   __slots__ = (
     "variants",
     "versions",
@@ -93,6 +114,7 @@ class ServersGroup(_DelegatingGroup):
     "implementations",
     "capabilities",
     "runs",
+    "get",  # Add base methods to __slots__
   )
 
   def __init__(
@@ -112,11 +134,11 @@ class SDK:
   _config: SDKConfig
   instance: MetorialInstanceEndpoint
   secrets: MetorialSecretsEndpoint
-  servers: MetorialServersEndpoint
-  sessions: MetorialSessionsEndpoint
+  servers: "ServersGroup"
+  sessions: "SessionsGroup"
   files: MetorialFilesEndpoint
   links: MetorialLinksEndpoint
-  provider_oauth: Any
+  oauth: "ProviderOauthGroup"
 
 
 def get_config(soft: Dict[str, Any]) -> Dict[str, Any]:
@@ -167,7 +189,7 @@ def get_endpoints(manager: MetorialEndpointManager) -> Dict[str, Any]:
 
   endpoints["servers"] = servers
   endpoints["sessions"] = sessions
-  endpoints["provider_oauth"] = provider_oauth
+  endpoints["oauth"] = provider_oauth
   return endpoints
 
 
@@ -186,7 +208,7 @@ def _to_typed_sdk(raw: Dict[str, Any]) -> SDK:
 
   servers_root = raw["servers"]
   sessions_root = raw["sessions"]
-  provider_oauth_root = raw["provider_oauth"]
+  provider_oauth_root = raw["oauth"]
 
   servers_group = ServersGroup(
     servers_root,
@@ -204,16 +226,13 @@ def _to_typed_sdk(raw: Dict[str, Any]) -> SDK:
     sessions_root.connections,
   )
 
-  provider_oauth_connections_group = ProviderOauthConnectionsGroup(
-    provider_oauth_root.connections,
-    provider_oauth_root.connections.authentications,
-    provider_oauth_root.connections.profiles,
-  )
-
+  # Use direct endpoint classes for better autocomplete (like servers sub-endpoints)
   provider_oauth_group = ProviderOauthGroup(
     provider_oauth_root,
-    provider_oauth_connections_group,
-    provider_oauth_root.sessions,
+    provider_oauth_root.connections,              # Direct endpoint class
+    provider_oauth_root.sessions,                 # Direct endpoint class
+    provider_oauth_root.profiles,                 # Direct endpoint class from TypedMetorialProviderOauthEndpoint
+    provider_oauth_root.authentications,          # Direct endpoint class from TypedMetorialProviderOauthEndpoint
   )
 
   return SDK(
@@ -228,7 +247,7 @@ def _to_typed_sdk(raw: Dict[str, Any]) -> SDK:
     sessions=sessions_group,
     files=raw["files"],
     links=raw["links"],
-    provider_oauth=provider_oauth_group,
+    oauth=provider_oauth_group,
   )
 
 

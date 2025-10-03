@@ -39,10 +39,27 @@ if TYPE_CHECKING:
   )
 
 
-class TypedMetorialServersEndpoint:
+if TYPE_CHECKING:
+  # Import base endpoint classes for type checking only
+  from mt_2025_01_01_pulsar.endpoints.servers import MetorialServersEndpoint as _MetorialServersEndpointBase
+  from mt_2025_01_01_pulsar.endpoints.sessions import MetorialSessionsEndpoint as _MetorialSessionsEndpointBase
+  from mt_2025_01_01_pulsar.endpoints.provider_oauth_connections import MetorialProviderOauthConnectionsEndpoint as _MetorialProviderOauthConnectionsEndpointBase
+  
+  # For type checkers, make the typed endpoints inherit from base to get all methods
+  _TypedServersBase = _MetorialServersEndpointBase
+  _TypedSessionsBase = _MetorialSessionsEndpointBase
+  _TypedProviderOauthConnectionsBase = _MetorialProviderOauthConnectionsEndpointBase
+else:
+  # At runtime, just use object as base
+  _TypedServersBase = object
+  _TypedSessionsBase = object
+  _TypedProviderOauthConnectionsBase = object
+
+
+class TypedMetorialServersEndpoint(_TypedServersBase):
   """Typed servers endpoint with all sub-endpoints"""
 
-  # Type annotations for IDE support
+  # Type annotations for IDE support - sub-endpoints
   variants: "MetorialServersVariantsEndpoint"
   versions: "MetorialServersVersionsEndpoint"
   deployments: "MetorialServersDeploymentsEndpoint"
@@ -93,7 +110,7 @@ class TypedMetorialServersEndpoint:
     return getattr(self._base_servers, name)
 
 
-class TypedMetorialSessionsEndpoint:
+class TypedMetorialSessionsEndpoint(_TypedSessionsBase):
   """Typed sessions endpoint with sub-endpoints"""
 
   # Type annotations for IDE support
@@ -121,7 +138,7 @@ class TypedMetorialSessionsEndpoint:
     return getattr(self._base_sessions, name)
 
 
-class TypedMetorialProviderOauthConnectionsEndpoint:
+class TypedMetorialProviderOauthConnectionsEndpoint(_TypedProviderOauthConnectionsBase):
   """Typed connections endpoint with nested authentications and profiles"""
   
   # Type annotations for IDE support
@@ -152,8 +169,10 @@ class TypedMetorialProviderOauthEndpoint:
   """Typed provider OAuth endpoint with sub-endpoints"""
 
   # Type annotations for IDE support
-  connections: "TypedMetorialProviderOauthConnectionsEndpoint"
+  connections: "MetorialProviderOauthConnectionsEndpoint"
   sessions: "MetorialProviderOauthSessionsEndpoint"
+  profiles: "MetorialProviderOauthConnectionsProfilesEndpoint"
+  authentications: "MetorialProviderOauthConnectionsAuthenticationsEndpoint"
 
   def __init__(self, manager: MetorialEndpointManager):
     from mt_2025_01_01_pulsar.endpoints.provider_oauth_connections import (
@@ -162,13 +181,17 @@ class TypedMetorialProviderOauthEndpoint:
     from mt_2025_01_01_pulsar.endpoints.provider_oauth_sessions import (
       MetorialProviderOauthSessionsEndpoint,
     )
+    from mt_2025_01_01_pulsar.endpoints.provider_oauth_connections_profiles import (
+      MetorialProviderOauthConnectionsProfilesEndpoint,
+    )
+    from mt_2025_01_01_pulsar.endpoints.provider_oauth_connections_authentications import (
+      MetorialProviderOauthConnectionsAuthenticationsEndpoint,
+    )
 
-    # Create connections endpoint with typed sub-endpoints
-    base_connections = MetorialProviderOauthConnectionsEndpoint(manager)
-    self.connections = TypedMetorialProviderOauthConnectionsEndpoint(base_connections, manager)
-
-    # Create sessions endpoint
+    self.connections = MetorialProviderOauthConnectionsEndpoint(manager)
     self.sessions = MetorialProviderOauthSessionsEndpoint(manager)
+    self.profiles = MetorialProviderOauthConnectionsProfilesEndpoint(manager)
+    self.authentications = MetorialProviderOauthConnectionsAuthenticationsEndpoint(manager)
 
 
 __all__ = [

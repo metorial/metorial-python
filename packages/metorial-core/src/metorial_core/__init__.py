@@ -53,6 +53,21 @@ from .main import (
   TypedMetorialSessionsEndpoint,
 )
 
+# Import Group classes separately to avoid circular imports
+from .sdk import (
+  ServersGroup,
+  SessionsGroup, 
+  ProviderOauthGroup,
+  ProviderOauthConnectionsGroup,
+  RunsGroup,
+)
+
+# Import additional typed endpoints
+from .typed_endpoints import (
+  TypedMetorialProviderOauthEndpoint,
+  TypedMetorialProviderOauthConnectionsEndpoint,
+)
+
 __version__ = "1.0.0"
 
 __all__ = [
@@ -100,7 +115,16 @@ __all__ = [
   "SDK",
   "create_metorial_sdk",
   "create_auth_headers",
+  # Group classes for type checking
+  "ServersGroup",
+  "SessionsGroup", 
+  "ProviderOauthGroup",
+  "ProviderOauthConnectionsGroup",
+  "RunsGroup",
+  # Typed endpoint classes
   "TypedMetorialServersEndpoint",
   "TypedMetorialSessionsEndpoint",
+  "TypedMetorialProviderOauthEndpoint",
+  "TypedMetorialProviderOauthConnectionsEndpoint",
   "__version__",
 ]

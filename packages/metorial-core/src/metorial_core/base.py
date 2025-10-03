@@ -4,15 +4,32 @@ Metorial Base Client
 
 import os
 import logging
-from typing import Optional, Union, Dict, Any
+from typing import Optional, Union, Dict, Any, TYPE_CHECKING
 import httpx
 from metorial_mcp_session import MetorialMcpSession, MetorialMcpSessionInit
 from .session import MetorialSession, SessionFactory
 from .sdk import create_metorial_sdk
 
+if TYPE_CHECKING:
+  from .sdk import ServersGroup, SessionsGroup, ProviderOauthGroup
+  from mt_2025_01_01_pulsar.endpoints.instance import MetorialInstanceEndpoint
+  from mt_2025_01_01_pulsar.endpoints.secrets import MetorialSecretsEndpoint
+  from mt_2025_01_01_pulsar.endpoints.files import MetorialFilesEndpoint
+  from mt_2025_01_01_pulsar.endpoints.links import MetorialLinksEndpoint
+
 
 class MetorialBase:
   """Base class with shared initialization and configuration logic."""
+  
+  # Type annotations for IDE support - using non-string annotations for better resolution
+  if TYPE_CHECKING:
+    instance: Optional[MetorialInstanceEndpoint]
+    secrets: Optional[MetorialSecretsEndpoint]
+    servers: Optional[ServersGroup]
+    sessions: Optional[SessionsGroup]
+    files: Optional[MetorialFilesEndpoint]
+    links: Optional[MetorialLinksEndpoint]
+    oauth: Optional[ProviderOauthGroup]
 
   def __init__(
     self,
@@ -118,6 +135,7 @@ class MetorialBase:
       self._sessions = sdk.sessions
       self._files = sdk.files
       self._links = sdk.links
+      self._oauth = sdk.oauth
     except Exception as e:
       self.logger.warning(f"Failed to initialize SDK endpoints: {e}")
 
@@ -128,30 +146,35 @@ class MetorialBase:
       self._sessions = None
       self._files = None
       self._links = None
+      self._oauth = None
 
   @property
-  def instance(self):
+  def instance(self) -> Optional["MetorialInstanceEndpoint"]:
     return self._instance
 
   @property
-  def secrets(self):
+  def secrets(self) -> Optional["MetorialSecretsEndpoint"]:
     return self._secrets
 
   @property
-  def servers(self):
+  def servers(self) -> Optional["ServersGroup"]:
     return self._servers
 
   @property
-  def sessions(self):
+  def sessions(self) -> Optional["SessionsGroup"]:
     return self._sessions
 
   @property
-  def files(self):
+  def files(self) -> Optional["MetorialFilesEndpoint"]:
     return self._files
 
   @property
-  def links(self):
+  def links(self) -> Optional["MetorialLinksEndpoint"]:
     return self._links
+
+  @property
+  def oauth(self) -> Optional["ProviderOauthGroup"]:
+    return self._oauth
 
   @property
   def _config(self):
