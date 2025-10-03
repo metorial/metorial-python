@@ -580,13 +580,27 @@ class mapServerRunErrorGroupsListOutput:
     return dataclasses.asdict(value)
 
 
-ServerRunErrorGroupsListQuery = Any
+@dataclass
+class ServerRunErrorGroupsListQuery:
+  limit: Optional[float] = None
+  after: Optional[str] = None
+  before: Optional[str] = None
+  cursor: Optional[str] = None
+  order: Optional[str] = None
+  server_id: Optional[Union[str, List[str]]] = None
 
 
 class mapServerRunErrorGroupsListQuery:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> ServerRunErrorGroupsListQuery:
-    data
+    return ServerRunErrorGroupsListQuery(
+      limit=data.get("limit"),
+      after=data.get("after"),
+      before=data.get("before"),
+      cursor=data.get("cursor"),
+      order=data.get("order"),
+      server_id=data.get("server_id"),
+    )
 
   @staticmethod
   def to_dict(

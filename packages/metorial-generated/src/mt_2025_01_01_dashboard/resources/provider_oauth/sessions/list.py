@@ -206,13 +206,25 @@ class mapProviderOauthSessionsListOutput:
     return dataclasses.asdict(value)
 
 
-ProviderOauthSessionsListQuery = Any
+@dataclass
+class ProviderOauthSessionsListQuery:
+  limit: Optional[float] = None
+  after: Optional[str] = None
+  before: Optional[str] = None
+  cursor: Optional[str] = None
+  order: Optional[str] = None
 
 
 class mapProviderOauthSessionsListQuery:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> ProviderOauthSessionsListQuery:
-    data
+    return ProviderOauthSessionsListQuery(
+      limit=data.get("limit"),
+      after=data.get("after"),
+      before=data.get("before"),
+      cursor=data.get("cursor"),
+      order=data.get("order"),
+    )
 
   @staticmethod
   def to_dict(

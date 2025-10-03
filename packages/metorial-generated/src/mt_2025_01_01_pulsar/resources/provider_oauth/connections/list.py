@@ -151,13 +151,25 @@ class mapProviderOauthConnectionsListOutput:
     return dataclasses.asdict(value)
 
 
-ProviderOauthConnectionsListQuery = Any
+@dataclass
+class ProviderOauthConnectionsListQuery:
+  limit: Optional[float] = None
+  after: Optional[str] = None
+  before: Optional[str] = None
+  cursor: Optional[str] = None
+  order: Optional[str] = None
 
 
 class mapProviderOauthConnectionsListQuery:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> ProviderOauthConnectionsListQuery:
-    data
+    return ProviderOauthConnectionsListQuery(
+      limit=data.get("limit"),
+      after=data.get("after"),
+      before=data.get("before"),
+      cursor=data.get("cursor"),
+      order=data.get("order"),
+    )
 
   @staticmethod
   def to_dict(

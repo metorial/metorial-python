@@ -1,3 +1,4 @@
+from typing import Any, Dict, List, Optional, Union
 from metorial_util_endpoint import (
   BaseMetorialEndpoint,
   MetorialEndpointManager,
@@ -20,30 +21,56 @@ class MetorialSecretsEndpoint(BaseMetorialEndpoint):
     super().__init__(config)
 
   def list(
-    self, query: DashboardInstanceSecretsListQuery = None
+    self,
+    *,
+    limit: Optional[float] = None,
+    after: Optional[str] = None,
+    before: Optional[str] = None,
+    cursor: Optional[str] = None,
+    order: Optional[str] = None,
+    type: Optional[Union[str, List[str]]] = None,
+    status: Optional[Union[str, List[str]]] = None
   ) -> DashboardInstanceSecretsListOutput:
     """
     List secrets
     Returns a paginated list of secrets for the instance, optionally filtered by type or status.
 
-    :param query: DashboardInstanceSecretsListQuery
+    :param limit: Optional[float] (optional)
+    :param after: Optional[str] (optional)
+    :param before: Optional[str] (optional)
+    :param cursor: Optional[str] (optional)
+    :param order: Optional[str] (optional)
+    :param type: Optional[Union[str, List[str]]] (optional)
+    :param status: Optional[Union[str, List[str]]] (optional)
     :return: DashboardInstanceSecretsListOutput
     """
-    request = MetorialRequest(
-      path=["secrets"],
-      query=mapDashboardInstanceSecretsListQuery.to_dict(query)
-      if query is not None
-      else None,
-    )
+    # Build query parameters from keyword arguments
+    query_dict = {}
+    if limit is not None:
+      query_dict["limit"] = limit
+    if after is not None:
+      query_dict["after"] = after
+    if before is not None:
+      query_dict["before"] = before
+    if cursor is not None:
+      query_dict["cursor"] = cursor
+    if order is not None:
+      query_dict["order"] = order
+    if type is not None:
+      query_dict["type"] = type
+    if status is not None:
+      query_dict["status"] = status
+
+    request = MetorialRequest(path=["secrets"], query=query_dict)
     return self._get(request).transform(mapDashboardInstanceSecretsListOutput.from_dict)
 
-  def get(self, secretId: str) -> DashboardInstanceSecretsGetOutput:
+  def get(self, secret_id: str) -> DashboardInstanceSecretsGetOutput:
     """
     Get secret by ID
     Retrieves detailed information about a specific secret by ID.
 
-    :param secretId: str
+    :param secret_id: str
     :return: DashboardInstanceSecretsGetOutput
     """
-    request = MetorialRequest(path=["secrets", secretId])
+    request = MetorialRequest(path=["secrets", secret_id])
     return self._get(request).transform(mapDashboardInstanceSecretsGetOutput.from_dict)

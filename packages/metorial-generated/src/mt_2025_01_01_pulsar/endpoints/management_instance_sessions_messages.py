@@ -1,3 +1,4 @@
+from typing import Any, Dict, List, Optional, Union
 from metorial_util_endpoint import (
   BaseMetorialEndpoint,
   MetorialEndpointManager,
@@ -21,49 +22,77 @@ class MetorialManagementInstanceSessionsMessagesEndpoint(BaseMetorialEndpoint):
 
   def list(
     self,
-    instanceId: str,
-    sessionId: str,
-    query: DashboardInstanceSessionsMessagesListQuery = None,
+    instance_id: str,
+    session_id: str,
+    *,
+    limit: Optional[float] = None,
+    after: Optional[str] = None,
+    before: Optional[str] = None,
+    cursor: Optional[str] = None,
+    order: Optional[str] = None,
+    server_run_id: Optional[Union[str, List[str]]] = None,
+    server_session_id: Optional[Union[str, List[str]]] = None
   ) -> DashboardInstanceSessionsMessagesListOutput:
     """
     List session messages
     List all messages for a specific session
 
-    :param instanceId: str
-    :param sessionId: str
-    :param query: DashboardInstanceSessionsMessagesListQuery
+    :param instance_id: str
+    :param session_id: str
+    :param limit: Optional[float] (optional)
+    :param after: Optional[str] (optional)
+    :param before: Optional[str] (optional)
+    :param cursor: Optional[str] (optional)
+    :param order: Optional[str] (optional)
+    :param server_run_id: Optional[Union[str, List[str]]] (optional)
+    :param server_session_id: Optional[Union[str, List[str]]] (optional)
     :return: DashboardInstanceSessionsMessagesListOutput
     """
+    # Build query parameters from keyword arguments
+    query_dict = {}
+    if limit is not None:
+      query_dict["limit"] = limit
+    if after is not None:
+      query_dict["after"] = after
+    if before is not None:
+      query_dict["before"] = before
+    if cursor is not None:
+      query_dict["cursor"] = cursor
+    if order is not None:
+      query_dict["order"] = order
+    if server_run_id is not None:
+      query_dict["server_run_id"] = server_run_id
+    if server_session_id is not None:
+      query_dict["server_session_id"] = server_session_id
+
     request = MetorialRequest(
-      path=["instances", instanceId, "sessions", sessionId, "messages"],
-      query=mapDashboardInstanceSessionsMessagesListQuery.to_dict(query)
-      if query is not None
-      else None,
+      path=["instances", instance_id, "sessions", session_id, "messages"],
+      query=query_dict,
     )
     return self._get(request).transform(
       mapDashboardInstanceSessionsMessagesListOutput.from_dict
     )
 
   def get(
-    self, instanceId: str, sessionId: str, sessionMessageId: str
+    self, instance_id: str, session_id: str, session_message_id: str
   ) -> DashboardInstanceSessionsMessagesGetOutput:
     """
     Get session message
     Get details of a specific session message
 
-    :param instanceId: str
-    :param sessionId: str
-    :param sessionMessageId: str
+    :param instance_id: str
+    :param session_id: str
+    :param session_message_id: str
     :return: DashboardInstanceSessionsMessagesGetOutput
     """
     request = MetorialRequest(
       path=[
         "instances",
-        instanceId,
+        instance_id,
         "sessions",
-        sessionId,
+        session_id,
         "messages",
-        sessionMessageId,
+        session_message_id,
       ]
     )
     return self._get(request).transform(

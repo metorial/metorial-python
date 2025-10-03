@@ -134,13 +134,25 @@ class mapCustomServersRemoteServersListOutput:
     return dataclasses.asdict(value)
 
 
-CustomServersRemoteServersListQuery = Any
+@dataclass
+class CustomServersRemoteServersListQuery:
+  limit: Optional[float] = None
+  after: Optional[str] = None
+  before: Optional[str] = None
+  cursor: Optional[str] = None
+  order: Optional[str] = None
 
 
 class mapCustomServersRemoteServersListQuery:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> CustomServersRemoteServersListQuery:
-    data
+    return CustomServersRemoteServersListQuery(
+      limit=data.get("limit"),
+      after=data.get("after"),
+      before=data.get("before"),
+      cursor=data.get("cursor"),
+      order=data.get("order"),
+    )
 
   @staticmethod
   def to_dict(

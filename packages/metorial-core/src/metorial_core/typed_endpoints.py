@@ -41,10 +41,16 @@ if TYPE_CHECKING:
 
 if TYPE_CHECKING:
   # Import base endpoint classes for type checking only
-  from mt_2025_01_01_pulsar.endpoints.servers import MetorialServersEndpoint as _MetorialServersEndpointBase
-  from mt_2025_01_01_pulsar.endpoints.sessions import MetorialSessionsEndpoint as _MetorialSessionsEndpointBase
-  from mt_2025_01_01_pulsar.endpoints.provider_oauth_connections import MetorialProviderOauthConnectionsEndpoint as _MetorialProviderOauthConnectionsEndpointBase
-  
+  from mt_2025_01_01_pulsar.endpoints.servers import (
+    MetorialServersEndpoint as _MetorialServersEndpointBase,
+  )
+  from mt_2025_01_01_pulsar.endpoints.sessions import (
+    MetorialSessionsEndpoint as _MetorialSessionsEndpointBase,
+  )
+  from mt_2025_01_01_pulsar.endpoints.provider_oauth_connections import (
+    MetorialProviderOauthConnectionsEndpoint as _MetorialProviderOauthConnectionsEndpointBase,
+  )
+
   # For type checkers, make the typed endpoints inherit from base to get all methods
   _TypedServersBase = _MetorialServersEndpointBase
   _TypedSessionsBase = _MetorialSessionsEndpointBase
@@ -140,11 +146,11 @@ class TypedMetorialSessionsEndpoint(_TypedSessionsBase):
 
 class TypedMetorialProviderOauthConnectionsEndpoint(_TypedProviderOauthConnectionsBase):
   """Typed connections endpoint with nested authentications and profiles"""
-  
+
   # Type annotations for IDE support
   authentications: "MetorialProviderOauthConnectionsAuthenticationsEndpoint"
   profiles: "MetorialProviderOauthConnectionsProfilesEndpoint"
-  
+
   def __init__(self, base_endpoint, manager: MetorialEndpointManager):
     from mt_2025_01_01_pulsar.endpoints.provider_oauth_connections_authentications import (
       MetorialProviderOauthConnectionsAuthenticationsEndpoint,
@@ -152,14 +158,16 @@ class TypedMetorialProviderOauthConnectionsEndpoint(_TypedProviderOauthConnectio
     from mt_2025_01_01_pulsar.endpoints.provider_oauth_connections_profiles import (
       MetorialProviderOauthConnectionsProfilesEndpoint,
     )
-    
+
     # Store base endpoint for delegation
     self._base = base_endpoint
-    
+
     # Add sub-endpoints
-    self.authentications = MetorialProviderOauthConnectionsAuthenticationsEndpoint(manager)
+    self.authentications = MetorialProviderOauthConnectionsAuthenticationsEndpoint(
+      manager
+    )
     self.profiles = MetorialProviderOauthConnectionsProfilesEndpoint(manager)
-  
+
   def __getattr__(self, name):
     """Delegate unknown attributes to the base connections endpoint"""
     return getattr(self._base, name)
@@ -191,12 +199,14 @@ class TypedMetorialProviderOauthEndpoint:
     self.connections = MetorialProviderOauthConnectionsEndpoint(manager)
     self.sessions = MetorialProviderOauthSessionsEndpoint(manager)
     self.profiles = MetorialProviderOauthConnectionsProfilesEndpoint(manager)
-    self.authentications = MetorialProviderOauthConnectionsAuthenticationsEndpoint(manager)
+    self.authentications = MetorialProviderOauthConnectionsAuthenticationsEndpoint(
+      manager
+    )
 
 
 __all__ = [
-  "TypedMetorialServersEndpoint", 
-  "TypedMetorialSessionsEndpoint", 
+  "TypedMetorialServersEndpoint",
+  "TypedMetorialSessionsEndpoint",
   "TypedMetorialProviderOauthEndpoint",
   "TypedMetorialProviderOauthConnectionsEndpoint",
 ]

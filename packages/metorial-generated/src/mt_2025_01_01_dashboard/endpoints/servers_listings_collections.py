@@ -1,3 +1,4 @@
+from typing import Any, Dict, List, Optional, Union
 from metorial_util_endpoint import (
   BaseMetorialEndpoint,
   MetorialEndpointManager,
@@ -20,35 +21,55 @@ class MetorialServersListingsCollectionsEndpoint(BaseMetorialEndpoint):
     super().__init__(config)
 
   def list(
-    self, query: ServersListingsCollectionsListQuery = None
+    self,
+    *,
+    limit: Optional[float] = None,
+    after: Optional[str] = None,
+    before: Optional[str] = None,
+    cursor: Optional[str] = None,
+    order: Optional[str] = None
   ) -> ServersListingsCollectionsListOutput:
     """
     List server listing collections
     List all server listing collections
 
-    :param query: ServersListingsCollectionsListQuery
+    :param limit: Optional[float] (optional)
+    :param after: Optional[str] (optional)
+    :param before: Optional[str] (optional)
+    :param cursor: Optional[str] (optional)
+    :param order: Optional[str] (optional)
     :return: ServersListingsCollectionsListOutput
     """
-    request = MetorialRequest(
-      path=["server-listing-collections"],
-      query=mapServersListingsCollectionsListQuery.to_dict(query)
-      if query is not None
-      else None,
-    )
+    # Build query parameters from keyword arguments
+    query_dict = {}
+    if limit is not None:
+      query_dict["limit"] = limit
+    if after is not None:
+      query_dict["after"] = after
+    if before is not None:
+      query_dict["before"] = before
+    if cursor is not None:
+      query_dict["cursor"] = cursor
+    if order is not None:
+      query_dict["order"] = order
+
+    request = MetorialRequest(path=["server-listing-collections"], query=query_dict)
     return self._get(request).transform(
       mapServersListingsCollectionsListOutput.from_dict
     )
 
-  def get(self, serverListingCollectionId: str) -> ServersListingsCollectionsGetOutput:
+  def get(
+    self, server_listing_collection_id: str
+  ) -> ServersListingsCollectionsGetOutput:
     """
     Get server listing collection
     Get the information of a specific server listing collection
 
-    :param serverListingCollectionId: str
+    :param server_listing_collection_id: str
     :return: ServersListingsCollectionsGetOutput
     """
     request = MetorialRequest(
-      path=["server-listing-collections", serverListingCollectionId]
+      path=["server-listing-collections", server_listing_collection_id]
     )
     return self._get(request).transform(
       mapServersListingsCollectionsGetOutput.from_dict

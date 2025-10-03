@@ -7,8 +7,10 @@ echo "Installing Metorial Python packages for development..."
 PACKAGES=(
     "packages/metorial-util-endpoint"
     "packages/metorial-core"
+    "packages/metorial-generated"
     "packages/metorial-mcp-session"
     "packages/metorial-openai"
+    "packages/metorial-anthropic"
     "packages/metorial"
 )
 

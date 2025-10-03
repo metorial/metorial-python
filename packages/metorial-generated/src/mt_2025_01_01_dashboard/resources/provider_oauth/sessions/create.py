@@ -148,13 +148,23 @@ class mapProviderOauthSessionsCreateOutput:
     return dataclasses.asdict(value)
 
 
-ProviderOauthSessionsCreateBody = Any
+@dataclass
+class ProviderOauthSessionsCreateBody:
+  metadata: Optional[Dict[str, Any]] = None
+  redirect_uri: Optional[str] = None
+  server_deployment_id: Optional[str] = None
+  connection_id: Optional[str] = None
 
 
 class mapProviderOauthSessionsCreateBody:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> ProviderOauthSessionsCreateBody:
-    data
+    return ProviderOauthSessionsCreateBody(
+      metadata=data.get("metadata"),
+      redirect_uri=data.get("redirect_uri"),
+      server_deployment_id=data.get("server_deployment_id"),
+      connection_id=data.get("connection_id"),
+    )
 
   @staticmethod
   def to_dict(

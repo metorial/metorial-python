@@ -6,7 +6,7 @@ import time
 
 import requests
 
-from metorial_core.lib.exceptions import MetorialSDKError
+from metorial_exceptions import MetorialSDKError
 from .request import MetorialRequest
 
 import urllib3

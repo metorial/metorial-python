@@ -453,13 +453,29 @@ class mapApiKeysListOutput:
     return dataclasses.asdict(value)
 
 
-ApiKeysListQuery = Any
+@dataclass
+class ApiKeysListQuery:
+  limit: Optional[float] = None
+  after: Optional[str] = None
+  before: Optional[str] = None
+  cursor: Optional[str] = None
+  order: Optional[str] = None
+  type: Optional[str] = None
+  instance_id: Optional[str] = None
 
 
 class mapApiKeysListQuery:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> ApiKeysListQuery:
-    data
+    return ApiKeysListQuery(
+      limit=data.get("limit"),
+      after=data.get("after"),
+      before=data.get("before"),
+      cursor=data.get("cursor"),
+      order=data.get("order"),
+      type=data.get("type"),
+      instance_id=data.get("instance_id"),
+    )
 
   @staticmethod
   def to_dict(

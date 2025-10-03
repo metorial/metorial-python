@@ -251,13 +251,27 @@ class mapCustomServersDeploymentsListOutput:
     return dataclasses.asdict(value)
 
 
-CustomServersDeploymentsListQuery = Any
+@dataclass
+class CustomServersDeploymentsListQuery:
+  limit: Optional[float] = None
+  after: Optional[str] = None
+  before: Optional[str] = None
+  cursor: Optional[str] = None
+  order: Optional[str] = None
+  version_id: Optional[Union[str, List[str]]] = None
 
 
 class mapCustomServersDeploymentsListQuery:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> CustomServersDeploymentsListQuery:
-    data
+    return CustomServersDeploymentsListQuery(
+      limit=data.get("limit"),
+      after=data.get("after"),
+      before=data.get("before"),
+      cursor=data.get("cursor"),
+      order=data.get("order"),
+      version_id=data.get("version_id"),
+    )
 
   @staticmethod
   def to_dict(

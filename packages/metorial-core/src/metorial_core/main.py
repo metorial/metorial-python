@@ -8,8 +8,9 @@ from .lib.clients.sync_client import MetorialSync
 from .base import MetorialBase
 
 # Core types and utilities
-from .lib.exceptions import (
+from metorial_exceptions import (
   MetorialError,
+  MetorialSDKError,
   MetorialAPIError,
   MetorialToolError,
   MetorialTimeoutError,
@@ -75,6 +76,7 @@ __all__ = [
   "MetorialBase",
   # Exception classes
   "MetorialError",
+  "MetorialSDKError",
   "MetorialAPIError",
   "MetorialToolError",
   "MetorialTimeoutError",

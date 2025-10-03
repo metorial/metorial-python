@@ -1,3 +1,4 @@
+from typing import Any, Dict, List, Optional, Union
 from metorial_util_endpoint import (
   BaseMetorialEndpoint,
   MetorialEndpointManager,
@@ -21,40 +22,60 @@ class MetorialProviderOauthConnectionsProfilesEndpoint(BaseMetorialEndpoint):
 
   def list(
     self,
-    connectionId: str,
-    query: DashboardInstanceProviderOauthConnectionsProfilesListQuery = None,
+    connection_id: str,
+    *,
+    limit: Optional[float] = None,
+    after: Optional[str] = None,
+    before: Optional[str] = None,
+    cursor: Optional[str] = None,
+    order: Optional[str] = None
   ) -> DashboardInstanceProviderOauthConnectionsProfilesListOutput:
     """
     List provider OAuth connection profiles
     List provider OAuth connection profiles for a specific connection
 
-    :param connectionId: str
-    :param query: DashboardInstanceProviderOauthConnectionsProfilesListQuery
+    :param connection_id: str
+    :param limit: Optional[float] (optional)
+    :param after: Optional[str] (optional)
+    :param before: Optional[str] (optional)
+    :param cursor: Optional[str] (optional)
+    :param order: Optional[str] (optional)
     :return: DashboardInstanceProviderOauthConnectionsProfilesListOutput
     """
+    # Build query parameters from keyword arguments
+    query_dict = {}
+    if limit is not None:
+      query_dict["limit"] = limit
+    if after is not None:
+      query_dict["after"] = after
+    if before is not None:
+      query_dict["before"] = before
+    if cursor is not None:
+      query_dict["cursor"] = cursor
+    if order is not None:
+      query_dict["order"] = order
+
     request = MetorialRequest(
-      path=["provider-oauth", "connections", connectionId, "profiles"],
-      query=mapDashboardInstanceProviderOauthConnectionsProfilesListQuery.to_dict(query)
-      if query is not None
-      else None,
+      path=["provider-oauth", "connections", connection_id, "profiles"],
+      query=query_dict,
     )
     return self._get(request).transform(
       mapDashboardInstanceProviderOauthConnectionsProfilesListOutput.from_dict
     )
 
   def get(
-    self, connectionId: str, profileId: str
+    self, connection_id: str, profile_id: str
   ) -> DashboardInstanceProviderOauthConnectionsProfilesGetOutput:
     """
     Get provider OAuth connection profile
     Get the information of a specific provider OAuth connection profile
 
-    :param connectionId: str
-    :param profileId: str
+    :param connection_id: str
+    :param profile_id: str
     :return: DashboardInstanceProviderOauthConnectionsProfilesGetOutput
     """
     request = MetorialRequest(
-      path=["provider-oauth", "connections", connectionId, "profiles", profileId]
+      path=["provider-oauth", "connections", connection_id, "profiles", profile_id]
     )
     return self._get(request).transform(
       mapDashboardInstanceProviderOauthConnectionsProfilesGetOutput.from_dict

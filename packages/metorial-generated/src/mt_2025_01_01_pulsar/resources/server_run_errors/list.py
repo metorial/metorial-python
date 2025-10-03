@@ -499,13 +499,35 @@ class mapServerRunErrorsListOutput:
     return dataclasses.asdict(value)
 
 
-ServerRunErrorsListQuery = Any
+@dataclass
+class ServerRunErrorsListQuery:
+  limit: Optional[float] = None
+  after: Optional[str] = None
+  before: Optional[str] = None
+  cursor: Optional[str] = None
+  order: Optional[str] = None
+  server_session_id: Optional[Union[str, List[str]]] = None
+  server_implementation_id: Optional[Union[str, List[str]]] = None
+  server_deployment_id: Optional[Union[str, List[str]]] = None
+  server_run_id: Optional[Union[str, List[str]]] = None
+  server_run_error_group_id: Optional[Union[str, List[str]]] = None
 
 
 class mapServerRunErrorsListQuery:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> ServerRunErrorsListQuery:
-    data
+    return ServerRunErrorsListQuery(
+      limit=data.get("limit"),
+      after=data.get("after"),
+      before=data.get("before"),
+      cursor=data.get("cursor"),
+      order=data.get("order"),
+      server_session_id=data.get("server_session_id"),
+      server_implementation_id=data.get("server_implementation_id"),
+      server_deployment_id=data.get("server_deployment_id"),
+      server_run_id=data.get("server_run_id"),
+      server_run_error_group_id=data.get("server_run_error_group_id"),
+    )
 
   @staticmethod
   def to_dict(

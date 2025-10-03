@@ -138,13 +138,27 @@ class mapServersImplementationsCreateOutput:
     return dataclasses.asdict(value)
 
 
-ServersImplementationsCreateBody = Any
+@dataclass
+class ServersImplementationsCreateBody:
+  name: Optional[str] = None
+  description: Optional[str] = None
+  metadata: Optional[Dict[str, Any]] = None
+  get_launch_params: Optional[str] = None
+  server_id: Optional[str] = None
+  server_variant_id: Optional[str] = None
 
 
 class mapServersImplementationsCreateBody:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> ServersImplementationsCreateBody:
-    data
+    return ServersImplementationsCreateBody(
+      name=data.get("name"),
+      description=data.get("description"),
+      metadata=data.get("metadata"),
+      get_launch_params=data.get("get_launch_params"),
+      server_id=data.get("server_id"),
+      server_variant_id=data.get("server_variant_id"),
+    )
 
   @staticmethod
   def to_dict(

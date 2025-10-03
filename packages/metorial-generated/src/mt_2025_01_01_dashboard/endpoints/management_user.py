@@ -1,3 +1,4 @@
+from typing import Any, Dict, List, Optional, Union
 from metorial_util_endpoint import (
   BaseMetorialEndpoint,
   MetorialEndpointManager,
@@ -34,30 +35,44 @@ class MetorialManagementUserEndpoint(BaseMetorialEndpoint):
     request = MetorialRequest(path=["user"])
     return self._get(request).transform(mapManagementUserGetOutput.from_dict)
 
-  def update(self, body: ManagementUserUpdateBody) -> ManagementUserUpdateOutput:
+  def update(
+    self, *, name: Optional[str] = None, email: Optional[str] = None
+  ) -> ManagementUserUpdateOutput:
     """
     Update user
     Update the current user information
 
-    :param body: ManagementUserUpdateBody
+    :param name: Optional[str] (optional)
+    :param email: Optional[str] (optional)
     :return: ManagementUserUpdateOutput
     """
-    request = MetorialRequest(
-      path=["user"],
-      body=mapManagementUserUpdateBody.to_dict(body),
-    )
+    # Build body parameters from keyword arguments
+    body_dict = {}
+    if name is not None:
+      body_dict["name"] = name
+    if email is not None:
+      body_dict["email"] = email
+
+    request = MetorialRequest(path=["user"], body=body_dict)
     return self._post(request).transform(mapManagementUserUpdateOutput.from_dict)
 
-  def delete(self, body: ManagementUserDeleteBody) -> ManagementUserDeleteOutput:
+  def delete(
+    self, *, name: Optional[str] = None, email: Optional[str] = None
+  ) -> ManagementUserDeleteOutput:
     """
     Update user
     Update the current user information
 
-    :param body: ManagementUserDeleteBody
+    :param name: Optional[str] (optional)
+    :param email: Optional[str] (optional)
     :return: ManagementUserDeleteOutput
     """
-    request = MetorialRequest(
-      path=["user"],
-      body=mapManagementUserDeleteBody.to_dict(body),
-    )
+    # Build body parameters from keyword arguments
+    body_dict = {}
+    if name is not None:
+      body_dict["name"] = name
+    if email is not None:
+      body_dict["email"] = email
+
+    request = MetorialRequest(path=["user"], body=body_dict)
     return self._post(request).transform(mapManagementUserDeleteOutput.from_dict)

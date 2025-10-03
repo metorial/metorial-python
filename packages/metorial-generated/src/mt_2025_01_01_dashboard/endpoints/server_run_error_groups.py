@@ -1,3 +1,4 @@
+from typing import Any, Dict, List, Optional, Union
 from metorial_util_endpoint import (
   BaseMetorialEndpoint,
   MetorialEndpointManager,
@@ -20,36 +21,60 @@ class MetorialServerRunErrorGroupsEndpoint(BaseMetorialEndpoint):
     super().__init__(config)
 
   def list(
-    self, query: DashboardInstanceServerRunErrorGroupsListQuery = None
+    self,
+    *,
+    limit: Optional[float] = None,
+    after: Optional[str] = None,
+    before: Optional[str] = None,
+    cursor: Optional[str] = None,
+    order: Optional[str] = None,
+    server_id: Optional[Union[str, List[str]]] = None
   ) -> DashboardInstanceServerRunErrorGroupsListOutput:
     """
     List server run error groups
     List all server run error groups
 
-    :param query: DashboardInstanceServerRunErrorGroupsListQuery
+    :param limit: Optional[float] (optional)
+    :param after: Optional[str] (optional)
+    :param before: Optional[str] (optional)
+    :param cursor: Optional[str] (optional)
+    :param order: Optional[str] (optional)
+    :param server_id: Optional[Union[str, List[str]]] (optional)
     :return: DashboardInstanceServerRunErrorGroupsListOutput
     """
-    request = MetorialRequest(
-      path=["server-run-error-groups"],
-      query=mapDashboardInstanceServerRunErrorGroupsListQuery.to_dict(query)
-      if query is not None
-      else None,
-    )
+    # Build query parameters from keyword arguments
+    query_dict = {}
+    if limit is not None:
+      query_dict["limit"] = limit
+    if after is not None:
+      query_dict["after"] = after
+    if before is not None:
+      query_dict["before"] = before
+    if cursor is not None:
+      query_dict["cursor"] = cursor
+    if order is not None:
+      query_dict["order"] = order
+    if server_id is not None:
+      query_dict["server_id"] = server_id
+
+    request = MetorialRequest(path=["server-run-error-groups"], query=query_dict)
     return self._get(request).transform(
       mapDashboardInstanceServerRunErrorGroupsListOutput.from_dict
     )
 
   def get(
-    self, serverRunErrorGroupId: str
+    self, server_run_error_group_id: str
   ) -> DashboardInstanceServerRunErrorGroupsGetOutput:
     """
     Get server run error group
     Get the information of a specific server run error group
 
-    :param serverRunErrorGroupId: str
+    :param server_run_error_group_id: str
     :return: DashboardInstanceServerRunErrorGroupsGetOutput
     """
-    request = MetorialRequest(path=["server-run-error-groups", serverRunErrorGroupId])
+    request = MetorialRequest(
+      path=["server-run-error-groups", server_run_error_group_id]
+    )
     return self._get(request).transform(
       mapDashboardInstanceServerRunErrorGroupsGetOutput.from_dict
     )

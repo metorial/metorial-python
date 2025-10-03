@@ -1,3 +1,5 @@
+from typing import Any, Dict, List, Optional, Union
+from datetime import datetime
 from metorial_util_endpoint import (
   BaseMetorialEndpoint,
   MetorialEndpointManager,
@@ -18,20 +20,34 @@ class MetorialDashboardUsageEndpoint(BaseMetorialEndpoint):
     super().__init__(config)
 
   def timeline(
-    self, organizationId: str, query: DashboardUsageTimelineQuery = None
+    self,
+    organization_id: str,
+    *,
+    entities: List[Dict[str, Any]],
+    from_: datetime,
+    to: datetime,
+    interval: Dict[str, Any]
   ) -> DashboardUsageTimelineOutput:
     """
     Get organization
     Get the current organization information
 
-    :param organizationId: str
-    :param query: DashboardUsageTimelineQuery
+    :param organization_id: str
+    :param entities: List[Dict[str, Any]]
+    :param from_: datetime
+    :param to: datetime
+    :param interval: Dict[str, Any]
     :return: DashboardUsageTimelineOutput
     """
+    # Build query parameters from keyword arguments
+    query_dict = {}
+    query_dict["entities"] = entities
+    query_dict["from"] = from_
+    query_dict["to"] = to
+    query_dict["interval"] = interval
+
     request = MetorialRequest(
-      path=["dashboard", "organizations", organizationId, "usage", "timeline"],
-      query=mapDashboardUsageTimelineQuery.to_dict(query)
-      if query is not None
-      else None,
+      path=["dashboard", "organizations", organization_id, "usage", "timeline"],
+      query=query_dict,
     )
     return self._get(request).transform(mapDashboardUsageTimelineOutput.from_dict)

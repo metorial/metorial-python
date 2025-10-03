@@ -244,7 +244,13 @@ class mapProviderOauthConnectionsAuthenticationsListOutput:
     return dataclasses.asdict(value)
 
 
-ProviderOauthConnectionsAuthenticationsListQuery = Any
+@dataclass
+class ProviderOauthConnectionsAuthenticationsListQuery:
+  limit: Optional[float] = None
+  after: Optional[str] = None
+  before: Optional[str] = None
+  cursor: Optional[str] = None
+  order: Optional[str] = None
 
 
 class mapProviderOauthConnectionsAuthenticationsListQuery:
@@ -252,7 +258,13 @@ class mapProviderOauthConnectionsAuthenticationsListQuery:
   def from_dict(
     data: Dict[str, Any]
   ) -> ProviderOauthConnectionsAuthenticationsListQuery:
-    data
+    return ProviderOauthConnectionsAuthenticationsListQuery(
+      limit=data.get("limit"),
+      after=data.get("after"),
+      before=data.get("before"),
+      cursor=data.get("cursor"),
+      order=data.get("order"),
+    )
 
   @staticmethod
   def to_dict(

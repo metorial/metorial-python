@@ -104,13 +104,25 @@ class mapCustomServersManagedServerTemplatesListOutput:
     return dataclasses.asdict(value)
 
 
-CustomServersManagedServerTemplatesListQuery = Any
+@dataclass
+class CustomServersManagedServerTemplatesListQuery:
+  limit: Optional[float] = None
+  after: Optional[str] = None
+  before: Optional[str] = None
+  cursor: Optional[str] = None
+  order: Optional[str] = None
 
 
 class mapCustomServersManagedServerTemplatesListQuery:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> CustomServersManagedServerTemplatesListQuery:
-    data
+    return CustomServersManagedServerTemplatesListQuery(
+      limit=data.get("limit"),
+      after=data.get("after"),
+      before=data.get("before"),
+      cursor=data.get("cursor"),
+      order=data.get("order"),
+    )
 
   @staticmethod
   def to_dict(

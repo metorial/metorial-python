@@ -2,7 +2,7 @@
 [tool.uv.workspace]
 members = [
     "packages/metorial",
-    "packages/metorial-core", 
+    "packages/metorial-core",
     "packages/metorial-openai",
     "packages/metorial-anthropic",
     "packages/metorial-google",
@@ -14,7 +14,11 @@ members = [
     "packages/metorial-mcp-session",
     "packages/metorial-util-endpoint",
     "packages/metorial-generated",
+    "packages/metorial-exceptions",
 ]
+
+[tool.uv.sources]
+metorial-exceptions = { workspace = true }
 
 # cblack configuration (Black with 2-space indentation)
 [tool.cblack]

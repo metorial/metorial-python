@@ -1,3 +1,4 @@
+from typing import Any, Dict, List, Optional, Union
 from metorial_util_endpoint import (
   BaseMetorialEndpoint,
   MetorialEndpointManager,
@@ -26,69 +27,118 @@ class MetorialManagementInstanceSessionsEndpoint(BaseMetorialEndpoint):
     super().__init__(config)
 
   def list(
-    self, instanceId: str, query: DashboardInstanceSessionsListQuery = None
+    self,
+    instance_id: str,
+    *,
+    limit: Optional[float] = None,
+    after: Optional[str] = None,
+    before: Optional[str] = None,
+    cursor: Optional[str] = None,
+    order: Optional[str] = None,
+    status: Optional[Union[str, List[str]]] = None,
+    server_id: Optional[Union[str, List[str]]] = None,
+    server_variant_id: Optional[Union[str, List[str]]] = None,
+    server_implementation_id: Optional[Union[str, List[str]]] = None,
+    server_deployment_id: Optional[Union[str, List[str]]] = None
   ) -> DashboardInstanceSessionsListOutput:
     """
     List sessions
     List all sessions
 
-    :param instanceId: str
-    :param query: DashboardInstanceSessionsListQuery
+    :param instance_id: str
+    :param limit: Optional[float] (optional)
+    :param after: Optional[str] (optional)
+    :param before: Optional[str] (optional)
+    :param cursor: Optional[str] (optional)
+    :param order: Optional[str] (optional)
+    :param status: Optional[Union[str, List[str]]] (optional)
+    :param server_id: Optional[Union[str, List[str]]] (optional)
+    :param server_variant_id: Optional[Union[str, List[str]]] (optional)
+    :param server_implementation_id: Optional[Union[str, List[str]]] (optional)
+    :param server_deployment_id: Optional[Union[str, List[str]]] (optional)
     :return: DashboardInstanceSessionsListOutput
     """
+    # Build query parameters from keyword arguments
+    query_dict = {}
+    if limit is not None:
+      query_dict["limit"] = limit
+    if after is not None:
+      query_dict["after"] = after
+    if before is not None:
+      query_dict["before"] = before
+    if cursor is not None:
+      query_dict["cursor"] = cursor
+    if order is not None:
+      query_dict["order"] = order
+    if status is not None:
+      query_dict["status"] = status
+    if server_id is not None:
+      query_dict["server_id"] = server_id
+    if server_variant_id is not None:
+      query_dict["server_variant_id"] = server_variant_id
+    if server_implementation_id is not None:
+      query_dict["server_implementation_id"] = server_implementation_id
+    if server_deployment_id is not None:
+      query_dict["server_deployment_id"] = server_deployment_id
+
     request = MetorialRequest(
-      path=["instances", instanceId, "sessions"],
-      query=mapDashboardInstanceSessionsListQuery.to_dict(query)
-      if query is not None
-      else None,
+      path=["instances", instance_id, "sessions"], query=query_dict
     )
     return self._get(request).transform(
       mapDashboardInstanceSessionsListOutput.from_dict
     )
 
-  def get(self, instanceId: str, sessionId: str) -> DashboardInstanceSessionsGetOutput:
+  def get(
+    self, instance_id: str, session_id: str
+  ) -> DashboardInstanceSessionsGetOutput:
     """
     Get session
     Get the information of a specific session
 
-    :param instanceId: str
-    :param sessionId: str
+    :param instance_id: str
+    :param session_id: str
     :return: DashboardInstanceSessionsGetOutput
     """
-    request = MetorialRequest(path=["instances", instanceId, "sessions", sessionId])
+    request = MetorialRequest(path=["instances", instance_id, "sessions", session_id])
     return self._get(request).transform(mapDashboardInstanceSessionsGetOutput.from_dict)
 
   def create(
-    self, instanceId: str, body: DashboardInstanceSessionsCreateBody
+    self,
+    instance_id: str,
+    *,
+    server_deployments: List[Union[Dict[str, Any], str, Dict[str, Any]]]
   ) -> DashboardInstanceSessionsCreateOutput:
     """
     Create session
     Create a new session
 
-    :param instanceId: str
-    :param body: DashboardInstanceSessionsCreateBody
+    :param instance_id: str
+    :param server_deployments: List[Union[Dict[str, Any], str, Dict[str, Any]]]
     :return: DashboardInstanceSessionsCreateOutput
     """
+    # Build body parameters from keyword arguments
+    body_dict = {}
+    body_dict["server_deployments"] = server_deployments
+
     request = MetorialRequest(
-      path=["instances", instanceId, "sessions"],
-      body=mapDashboardInstanceSessionsCreateBody.to_dict(body),
+      path=["instances", instance_id, "sessions"], body=body_dict
     )
     return self._post(request).transform(
       mapDashboardInstanceSessionsCreateOutput.from_dict
     )
 
   def delete(
-    self, instanceId: str, sessionId: str
+    self, instance_id: str, session_id: str
   ) -> DashboardInstanceSessionsDeleteOutput:
     """
     Delete session
     Delete a session
 
-    :param instanceId: str
-    :param sessionId: str
+    :param instance_id: str
+    :param session_id: str
     :return: DashboardInstanceSessionsDeleteOutput
     """
-    request = MetorialRequest(path=["instances", instanceId, "sessions", sessionId])
+    request = MetorialRequest(path=["instances", instance_id, "sessions", session_id])
     return self._delete(request).transform(
       mapDashboardInstanceSessionsDeleteOutput.from_dict
     )

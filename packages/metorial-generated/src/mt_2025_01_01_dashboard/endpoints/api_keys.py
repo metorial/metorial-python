@@ -1,3 +1,5 @@
+from typing import Any, Dict, List, Optional, Union
+from datetime import datetime
 from metorial_util_endpoint import (
   BaseMetorialEndpoint,
   MetorialEndpointManager,
@@ -36,124 +38,205 @@ class MetorialApiKeysEndpoint(BaseMetorialEndpoint):
     super().__init__(config)
 
   def list(
-    self, organizationId: str, query: ApiKeysListQuery = None
+    self,
+    organization_id: str,
+    *,
+    limit: Optional[float] = None,
+    after: Optional[str] = None,
+    before: Optional[str] = None,
+    cursor: Optional[str] = None,
+    order: Optional[str] = None,
+    type: Any = None,
+    instance_id: str = None
   ) -> ApiKeysListOutput:
     """
     Get user
     Get the current user information
 
-    :param organizationId: str
-    :param query: ApiKeysListQuery
+    :param organization_id: str
+    :param limit: Optional[float] (optional)
+    :param after: Optional[str] (optional)
+    :param before: Optional[str] (optional)
+    :param cursor: Optional[str] (optional)
+    :param order: Optional[str] (optional)
+    :param type: Any (optional)
+    :param instance_id: str (optional)
     :return: ApiKeysListOutput
     """
+    # Build query parameters from keyword arguments
+    query_dict = {}
+    if limit is not None:
+      query_dict["limit"] = limit
+    if after is not None:
+      query_dict["after"] = after
+    if before is not None:
+      query_dict["before"] = before
+    if cursor is not None:
+      query_dict["cursor"] = cursor
+    if order is not None:
+      query_dict["order"] = order
+    if type is not None:
+      query_dict["type"] = type
+    if instance_id is not None:
+      query_dict["instance_id"] = instance_id
+
     request = MetorialRequest(
-      path=["dashboard", "organizations", organizationId, "api-keys"],
-      query=mapApiKeysListQuery.to_dict(query) if query is not None else None,
+      path=["dashboard", "organizations", organization_id, "api-keys"], query=query_dict
     )
     return self._get(request).transform(mapApiKeysListOutput.from_dict)
 
-  def get(self, organizationId: str, apiKeyId: str) -> ApiKeysGetOutput:
+  def get(self, organization_id: str, api_key_id: str) -> ApiKeysGetOutput:
     """
     Get API key
     Get the information of a specific API key
 
-    :param organizationId: str
-    :param apiKeyId: str
+    :param organization_id: str
+    :param api_key_id: str
     :return: ApiKeysGetOutput
     """
     request = MetorialRequest(
-      path=["dashboard", "organizations", organizationId, "api-keys", apiKeyId]
+      path=["dashboard", "organizations", organization_id, "api-keys", api_key_id]
     )
     return self._get(request).transform(mapApiKeysGetOutput.from_dict)
 
-  def create(self, organizationId: str, body: ApiKeysCreateBody) -> ApiKeysCreateOutput:
+  def create(
+    self,
+    organization_id: str,
+    *,
+    name: str,
+    type: Any = None,
+    instance_id: str = None,
+    description: Optional[str] = None,
+    expires_at: Optional[datetime] = None
+  ) -> ApiKeysCreateOutput:
     """
     Create API key
     Create a new API key
 
-    :param organizationId: str
-    :param body: ApiKeysCreateBody
+    :param organization_id: str
+    :param type: Any (optional)
+    :param instance_id: str (optional)
+    :param name: str
+    :param description: Optional[str] (optional)
+    :param expires_at: Optional[datetime] (optional)
     :return: ApiKeysCreateOutput
     """
+    # Build body parameters from keyword arguments
+    body_dict = {}
+    if type is not None:
+      body_dict["type"] = type
+    if instance_id is not None:
+      body_dict["instance_id"] = instance_id
+    body_dict["name"] = name
+    if description is not None:
+      body_dict["description"] = description
+    if expires_at is not None:
+      body_dict["expires_at"] = expires_at
+
     request = MetorialRequest(
-      path=["dashboard", "organizations", organizationId, "api-keys"],
-      body=mapApiKeysCreateBody.to_dict(body),
+      path=["dashboard", "organizations", organization_id, "api-keys"], body=body_dict
     )
     return self._post(request).transform(mapApiKeysCreateOutput.from_dict)
 
   def update(
-    self, organizationId: str, apiKeyId: str, body: ApiKeysUpdateBody
+    self,
+    organization_id: str,
+    api_key_id: str,
+    *,
+    name: Optional[str] = None,
+    description: Optional[str] = None,
+    expires_at: Optional[datetime] = None
   ) -> ApiKeysUpdateOutput:
     """
     Update API key
     Update the information of a specific API key
 
-    :param organizationId: str
-    :param apiKeyId: str
-    :param body: ApiKeysUpdateBody
+    :param organization_id: str
+    :param api_key_id: str
+    :param name: Optional[str] (optional)
+    :param description: Optional[str] (optional)
+    :param expires_at: Optional[datetime] (optional)
     :return: ApiKeysUpdateOutput
     """
+    # Build body parameters from keyword arguments
+    body_dict = {}
+    if name is not None:
+      body_dict["name"] = name
+    if description is not None:
+      body_dict["description"] = description
+    if expires_at is not None:
+      body_dict["expires_at"] = expires_at
+
     request = MetorialRequest(
-      path=["dashboard", "organizations", organizationId, "api-keys", apiKeyId],
-      body=mapApiKeysUpdateBody.to_dict(body),
+      path=["dashboard", "organizations", organization_id, "api-keys", api_key_id],
+      body=body_dict,
     )
     return self._post(request).transform(mapApiKeysUpdateOutput.from_dict)
 
-  def revoke(self, organizationId: str, apiKeyId: str) -> ApiKeysRevokeOutput:
+  def revoke(self, organization_id: str, api_key_id: str) -> ApiKeysRevokeOutput:
     """
     Revoke API key
     Revoke a specific API key
 
-    :param organizationId: str
-    :param apiKeyId: str
+    :param organization_id: str
+    :param api_key_id: str
     :return: ApiKeysRevokeOutput
     """
     request = MetorialRequest(
-      path=["dashboard", "organizations", organizationId, "api-keys", apiKeyId]
+      path=["dashboard", "organizations", organization_id, "api-keys", api_key_id]
     )
     return self._delete(request).transform(mapApiKeysRevokeOutput.from_dict)
 
   def rotate(
-    self, organizationId: str, apiKeyId: str, body: ApiKeysRotateBody
+    self,
+    organization_id: str,
+    api_key_id: str,
+    *,
+    current_expires_at: Optional[datetime] = None
   ) -> ApiKeysRotateOutput:
     """
     Rotate API key
     Rotate a specific API key
 
-    :param organizationId: str
-    :param apiKeyId: str
-    :param body: ApiKeysRotateBody
+    :param organization_id: str
+    :param api_key_id: str
+    :param current_expires_at: Optional[datetime] (optional)
     :return: ApiKeysRotateOutput
     """
+    # Build body parameters from keyword arguments
+    body_dict = {}
+    if current_expires_at is not None:
+      body_dict["current_expires_at"] = current_expires_at
+
     request = MetorialRequest(
       path=[
         "dashboard",
         "organizations",
-        organizationId,
+        organization_id,
         "api-keys",
-        apiKeyId,
+        api_key_id,
         "rotate",
       ],
-      body=mapApiKeysRotateBody.to_dict(body),
+      body=body_dict,
     )
     return self._post(request).transform(mapApiKeysRotateOutput.from_dict)
 
-  def reveal(self, organizationId: str, apiKeyId: str) -> ApiKeysRevealOutput:
+  def reveal(self, organization_id: str, api_key_id: str) -> ApiKeysRevealOutput:
     """
     Reveal API key
     Reveal a specific API key
 
-    :param organizationId: str
-    :param apiKeyId: str
+    :param organization_id: str
+    :param api_key_id: str
     :return: ApiKeysRevealOutput
     """
     request = MetorialRequest(
       path=[
         "dashboard",
         "organizations",
-        organizationId,
+        organization_id,
         "api-keys",
-        apiKeyId,
+        api_key_id,
         "reveal",
       ]
     )

@@ -12,7 +12,7 @@ class ServersListingsListOutputPagination:
 
 @dataclass
 class ServersListingsListOutput:
-  items: List[Any]
+  items: List[Dict[str, Any]]
   pagination: ServersListingsListOutputPagination
 
 
@@ -59,13 +59,41 @@ class mapServersListingsListOutput:
     return dataclasses.asdict(value)
 
 
-ServersListingsListQuery = Any
+@dataclass
+class ServersListingsListQuery:
+  limit: Optional[float] = None
+  after: Optional[str] = None
+  before: Optional[str] = None
+  cursor: Optional[str] = None
+  order: Optional[str] = None
+  search: Optional[str] = None
+  collection_id: Optional[Union[List[str], str]] = None
+  category_id: Optional[Union[List[str], str]] = None
+  profile_id: Optional[Union[List[str], str]] = None
+  instance_id: Optional[str] = None
+  order_by_rank: Optional[bool] = None
+  is_public: Optional[bool] = None
+  only_from_organization: Optional[bool] = None
 
 
 class mapServersListingsListQuery:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> ServersListingsListQuery:
-    data
+    return ServersListingsListQuery(
+      limit=data.get("limit"),
+      after=data.get("after"),
+      before=data.get("before"),
+      cursor=data.get("cursor"),
+      order=data.get("order"),
+      search=data.get("search"),
+      collection_id=data.get("collection_id"),
+      category_id=data.get("category_id"),
+      profile_id=data.get("profile_id"),
+      instance_id=data.get("instance_id"),
+      order_by_rank=data.get("order_by_rank"),
+      is_public=data.get("is_public"),
+      only_from_organization=data.get("only_from_organization"),
+    )
 
   @staticmethod
   def to_dict(

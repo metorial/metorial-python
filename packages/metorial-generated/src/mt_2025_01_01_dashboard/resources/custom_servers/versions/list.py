@@ -12,7 +12,7 @@ class CustomServersVersionsListOutputPagination:
 
 @dataclass
 class CustomServersVersionsListOutput:
-  items: List[Any]
+  items: List[Dict[str, Any]]
   pagination: CustomServersVersionsListOutputPagination
 
 
@@ -59,13 +59,25 @@ class mapCustomServersVersionsListOutput:
     return dataclasses.asdict(value)
 
 
-CustomServersVersionsListQuery = Any
+@dataclass
+class CustomServersVersionsListQuery:
+  limit: Optional[float] = None
+  after: Optional[str] = None
+  before: Optional[str] = None
+  cursor: Optional[str] = None
+  order: Optional[str] = None
 
 
 class mapCustomServersVersionsListQuery:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> CustomServersVersionsListQuery:
-    data
+    return CustomServersVersionsListQuery(
+      limit=data.get("limit"),
+      after=data.get("after"),
+      before=data.get("before"),
+      cursor=data.get("cursor"),
+      order=data.get("order"),
+    )
 
   @staticmethod
   def to_dict(

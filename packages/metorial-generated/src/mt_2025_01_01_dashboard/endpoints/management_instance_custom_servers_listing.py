@@ -1,3 +1,4 @@
+from typing import Any, Dict, List, Optional, Union
 from metorial_util_endpoint import (
   BaseMetorialEndpoint,
   MetorialEndpointManager,
@@ -20,41 +21,36 @@ class MetorialManagementInstanceCustomServersListingEndpoint(BaseMetorialEndpoin
     super().__init__(config)
 
   def get(
-    self, instanceId: str, customServerId: str
+    self, instance_id: str, custom_server_id: str
   ) -> DashboardInstanceCustomServersListingGetOutput:
     """
     Get custom server listing
     Get a custom server listing
 
-    :param instanceId: str
-    :param customServerId: str
+    :param instance_id: str
+    :param custom_server_id: str
     :return: DashboardInstanceCustomServersListingGetOutput
     """
     request = MetorialRequest(
-      path=["instances", instanceId, "custom-servers", customServerId, "listing"]
+      path=["instances", instance_id, "custom-servers", custom_server_id, "listing"]
     )
     return self._get(request).transform(
       mapDashboardInstanceCustomServersListingGetOutput.from_dict
     )
 
   def update(
-    self,
-    instanceId: str,
-    customServerId: str,
-    body: DashboardInstanceCustomServersListingUpdateBody,
+    self, instance_id: str, custom_server_id: str
   ) -> DashboardInstanceCustomServersListingUpdateOutput:
     """
     Update custom server listing
     Update a custom server listing
 
-    :param instanceId: str
-    :param customServerId: str
-    :param body: DashboardInstanceCustomServersListingUpdateBody
+    :param instance_id: str
+    :param custom_server_id: str
     :return: DashboardInstanceCustomServersListingUpdateOutput
     """
     request = MetorialRequest(
-      path=["instances", instanceId, "custom-servers", customServerId, "listing"],
-      body=mapDashboardInstanceCustomServersListingUpdateBody.to_dict(body),
+      path=["instances", instance_id, "custom-servers", custom_server_id, "listing"]
     )
     return self._patch(request).transform(
       mapDashboardInstanceCustomServersListingUpdateOutput.from_dict

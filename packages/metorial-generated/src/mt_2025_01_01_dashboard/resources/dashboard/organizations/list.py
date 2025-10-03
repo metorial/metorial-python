@@ -108,13 +108,25 @@ class mapDashboardOrganizationsListOutput:
     return dataclasses.asdict(value)
 
 
-DashboardOrganizationsListQuery = Any
+@dataclass
+class DashboardOrganizationsListQuery:
+  limit: Optional[float] = None
+  after: Optional[str] = None
+  before: Optional[str] = None
+  cursor: Optional[str] = None
+  order: Optional[str] = None
 
 
 class mapDashboardOrganizationsListQuery:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> DashboardOrganizationsListQuery:
-    data
+    return DashboardOrganizationsListQuery(
+      limit=data.get("limit"),
+      after=data.get("after"),
+      before=data.get("before"),
+      cursor=data.get("cursor"),
+      order=data.get("order"),
+    )
 
   @staticmethod
   def to_dict(

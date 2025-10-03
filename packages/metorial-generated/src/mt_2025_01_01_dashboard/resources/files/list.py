@@ -132,13 +132,29 @@ class mapFilesListOutput:
     return dataclasses.asdict(value)
 
 
-FilesListQuery = Any
+@dataclass
+class FilesListQuery:
+  limit: Optional[float] = None
+  after: Optional[str] = None
+  before: Optional[str] = None
+  cursor: Optional[str] = None
+  order: Optional[str] = None
+  purpose: Optional[str] = None
+  organization_id: Optional[str] = None
 
 
 class mapFilesListQuery:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> FilesListQuery:
-    data
+    return FilesListQuery(
+      limit=data.get("limit"),
+      after=data.get("after"),
+      before=data.get("before"),
+      cursor=data.get("cursor"),
+      order=data.get("order"),
+      purpose=data.get("purpose"),
+      organization_id=data.get("organization_id"),
+    )
 
   @staticmethod
   def to_dict(

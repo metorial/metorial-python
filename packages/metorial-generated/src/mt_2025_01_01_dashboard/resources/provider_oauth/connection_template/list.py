@@ -310,13 +310,27 @@ class mapProviderOauthConnectionTemplateListOutput:
     return dataclasses.asdict(value)
 
 
-ProviderOauthConnectionTemplateListQuery = Any
+@dataclass
+class ProviderOauthConnectionTemplateListQuery:
+  limit: Optional[float] = None
+  after: Optional[str] = None
+  before: Optional[str] = None
+  cursor: Optional[str] = None
+  order: Optional[str] = None
+  profile_id: Optional[Union[List[str], str]] = None
 
 
 class mapProviderOauthConnectionTemplateListQuery:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> ProviderOauthConnectionTemplateListQuery:
-    data
+    return ProviderOauthConnectionTemplateListQuery(
+      limit=data.get("limit"),
+      after=data.get("after"),
+      before=data.get("before"),
+      cursor=data.get("cursor"),
+      order=data.get("order"),
+      profile_id=data.get("profile_id"),
+    )
 
   @staticmethod
   def to_dict(

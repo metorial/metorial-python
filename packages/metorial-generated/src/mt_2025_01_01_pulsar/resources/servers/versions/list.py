@@ -147,13 +147,27 @@ class mapServersVersionsListOutput:
     return dataclasses.asdict(value)
 
 
-ServersVersionsListQuery = Any
+@dataclass
+class ServersVersionsListQuery:
+  limit: Optional[float] = None
+  after: Optional[str] = None
+  before: Optional[str] = None
+  cursor: Optional[str] = None
+  order: Optional[str] = None
+  variant_id: Optional[str] = None
 
 
 class mapServersVersionsListQuery:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> ServersVersionsListQuery:
-    data
+    return ServersVersionsListQuery(
+      limit=data.get("limit"),
+      after=data.get("after"),
+      before=data.get("before"),
+      cursor=data.get("cursor"),
+      order=data.get("order"),
+      variant_id=data.get("variant_id"),
+    )
 
   @staticmethod
   def to_dict(

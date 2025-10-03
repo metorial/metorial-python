@@ -15,13 +15,13 @@ class MetorialDashboardInstanceInstanceEndpoint(BaseMetorialEndpoint):
   def __init__(self, config: MetorialEndpointManager):
     super().__init__(config)
 
-  def get(self, instanceId: str) -> DashboardInstanceInstanceGetOutput:
+  def get(self, instance_id: str) -> DashboardInstanceInstanceGetOutput:
     """
     Get instance details
     Retrieves metadata and configuration details for a specific instance.
 
-    :param instanceId: str
+    :param instance_id: str
     :return: DashboardInstanceInstanceGetOutput
     """
-    request = MetorialRequest(path=["dashboard", "instances", instanceId, "instance"])
+    request = MetorialRequest(path=["dashboard", "instances", instance_id, "instance"])
     return self._get(request).transform(mapDashboardInstanceInstanceGetOutput.from_dict)

@@ -439,13 +439,35 @@ class mapServersCapabilitiesListOutput:
     return dataclasses.asdict(value)
 
 
-ServersCapabilitiesListQuery = Any
+@dataclass
+class ServersCapabilitiesListQuery:
+  limit: Optional[float] = None
+  after: Optional[str] = None
+  before: Optional[str] = None
+  cursor: Optional[str] = None
+  order: Optional[str] = None
+  server_deployment_id: Optional[Union[str, List[str]]] = None
+  server_variant_id: Optional[Union[str, List[str]]] = None
+  server_id: Optional[Union[str, List[str]]] = None
+  server_version_id: Optional[Union[str, List[str]]] = None
+  server_implementation_id: Optional[Union[str, List[str]]] = None
 
 
 class mapServersCapabilitiesListQuery:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> ServersCapabilitiesListQuery:
-    data
+    return ServersCapabilitiesListQuery(
+      limit=data.get("limit"),
+      after=data.get("after"),
+      before=data.get("before"),
+      cursor=data.get("cursor"),
+      order=data.get("order"),
+      server_deployment_id=data.get("server_deployment_id"),
+      server_variant_id=data.get("server_variant_id"),
+      server_id=data.get("server_id"),
+      server_version_id=data.get("server_version_id"),
+      server_implementation_id=data.get("server_implementation_id"),
+    )
 
   @staticmethod
   def to_dict(

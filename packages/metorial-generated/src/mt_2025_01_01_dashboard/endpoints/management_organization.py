@@ -1,3 +1,4 @@
+from typing import Any, Dict, List, Optional, Union
 from metorial_util_endpoint import (
   BaseMetorialEndpoint,
   MetorialEndpointManager,
@@ -30,20 +31,20 @@ class MetorialManagementOrganizationEndpoint(BaseMetorialEndpoint):
     request = MetorialRequest(path=["organization"])
     return self._get(request).transform(mapManagementOrganizationGetOutput.from_dict)
 
-  def update(
-    self, body: ManagementOrganizationUpdateBody
-  ) -> ManagementOrganizationUpdateOutput:
+  def update(self, *, name: Optional[str] = None) -> ManagementOrganizationUpdateOutput:
     """
     Update organization
     Update the current organization information
 
-    :param body: ManagementOrganizationUpdateBody
+    :param name: Optional[str] (optional)
     :return: ManagementOrganizationUpdateOutput
     """
-    request = MetorialRequest(
-      path=["organization"],
-      body=mapManagementOrganizationUpdateBody.to_dict(body),
-    )
+    # Build body parameters from keyword arguments
+    body_dict = {}
+    if name is not None:
+      body_dict["name"] = name
+
+    request = MetorialRequest(path=["organization"], body=body_dict)
     return self._patch(request).transform(
       mapManagementOrganizationUpdateOutput.from_dict
     )

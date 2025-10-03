@@ -1,3 +1,4 @@
+from typing import Any, Dict, List, Optional, Union
 from metorial_util_endpoint import (
   BaseMetorialEndpoint,
   MetorialEndpointManager,
@@ -20,38 +21,59 @@ class MetorialServersVariantsEndpoint(BaseMetorialEndpoint):
     super().__init__(config)
 
   def list(
-    self, serverId: str, query: DashboardInstanceServersVariantsListQuery = None
+    self,
+    server_id: str,
+    *,
+    limit: Optional[float] = None,
+    after: Optional[str] = None,
+    before: Optional[str] = None,
+    cursor: Optional[str] = None,
+    order: Optional[str] = None
   ) -> DashboardInstanceServersVariantsListOutput:
     """
     List server variants
     Retrieve all variants for a given server
 
-    :param serverId: str
-    :param query: DashboardInstanceServersVariantsListQuery
+    :param server_id: str
+    :param limit: Optional[float] (optional)
+    :param after: Optional[str] (optional)
+    :param before: Optional[str] (optional)
+    :param cursor: Optional[str] (optional)
+    :param order: Optional[str] (optional)
     :return: DashboardInstanceServersVariantsListOutput
     """
-    request = MetorialRequest(
-      path=["servers", serverId, "variants"],
-      query=mapDashboardInstanceServersVariantsListQuery.to_dict(query)
-      if query is not None
-      else None,
-    )
+    # Build query parameters from keyword arguments
+    query_dict = {}
+    if limit is not None:
+      query_dict["limit"] = limit
+    if after is not None:
+      query_dict["after"] = after
+    if before is not None:
+      query_dict["before"] = before
+    if cursor is not None:
+      query_dict["cursor"] = cursor
+    if order is not None:
+      query_dict["order"] = order
+
+    request = MetorialRequest(path=["servers", server_id, "variants"], query=query_dict)
     return self._get(request).transform(
       mapDashboardInstanceServersVariantsListOutput.from_dict
     )
 
   def get(
-    self, serverId: str, serverVariantId: str
+    self, server_id: str, server_variant_id: str
   ) -> DashboardInstanceServersVariantsGetOutput:
     """
     Get server variant
     Retrieve details for a specific server variant
 
-    :param serverId: str
-    :param serverVariantId: str
+    :param server_id: str
+    :param server_variant_id: str
     :return: DashboardInstanceServersVariantsGetOutput
     """
-    request = MetorialRequest(path=["servers", serverId, "variants", serverVariantId])
+    request = MetorialRequest(
+      path=["servers", server_id, "variants", server_variant_id]
+    )
     return self._get(request).transform(
       mapDashboardInstanceServersVariantsGetOutput.from_dict
     )

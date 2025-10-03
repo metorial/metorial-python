@@ -16,23 +16,23 @@ class MetorialDashboardInstanceCustomServersCodeEndpoint(BaseMetorialEndpoint):
     super().__init__(config)
 
   def get_code_editor_token(
-    self, instanceId: str, customServerId: str
+    self, instance_id: str, custom_server_id: str
   ) -> DashboardInstanceCustomServersCodeGetCodeEditorTokenOutput:
     """
     Get code editor token
     Get a token to access the code editor for a custom server
 
-    :param instanceId: str
-    :param customServerId: str
+    :param instance_id: str
+    :param custom_server_id: str
     :return: DashboardInstanceCustomServersCodeGetCodeEditorTokenOutput
     """
     request = MetorialRequest(
       path=[
         "dashboard",
         "instances",
-        instanceId,
+        instance_id,
         "custom-servers",
-        customServerId,
+        custom_server_id,
         "code-editor-token",
       ]
     )

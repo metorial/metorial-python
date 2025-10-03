@@ -249,7 +249,7 @@ class mapSessionsCreateOutput:
 
 @dataclass
 class SessionsCreateBody:
-  server_deployments: List[Union[Any, str, Dict[str, Any]]]
+  server_deployments: List[Union[Dict[str, Any], str]]
 
 
 class mapSessionsCreateBody:

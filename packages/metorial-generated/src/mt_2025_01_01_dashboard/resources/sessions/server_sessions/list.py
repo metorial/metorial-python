@@ -539,13 +539,25 @@ class mapSessionsServerSessionsListOutput:
     return dataclasses.asdict(value)
 
 
-SessionsServerSessionsListQuery = Any
+@dataclass
+class SessionsServerSessionsListQuery:
+  limit: Optional[float] = None
+  after: Optional[str] = None
+  before: Optional[str] = None
+  cursor: Optional[str] = None
+  order: Optional[str] = None
 
 
 class mapSessionsServerSessionsListQuery:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> SessionsServerSessionsListQuery:
-    data
+    return SessionsServerSessionsListQuery(
+      limit=data.get("limit"),
+      after=data.get("after"),
+      before=data.get("before"),
+      cursor=data.get("cursor"),
+      order=data.get("order"),
+    )
 
   @staticmethod
   def to_dict(

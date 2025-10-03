@@ -393,13 +393,27 @@ class mapApiKeysCreateOutput:
     return dataclasses.asdict(value)
 
 
-ApiKeysCreateBody = Any
+@dataclass
+class ApiKeysCreateBody:
+  name: str
+  type: Optional[str] = None
+  instance_id: Optional[str] = None
+  description: Optional[str] = None
+  expires_at: Optional[datetime] = None
 
 
 class mapApiKeysCreateBody:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> ApiKeysCreateBody:
-    data
+    return ApiKeysCreateBody(
+      type=data.get("type"),
+      instance_id=data.get("instance_id"),
+      name=data.get("name"),
+      description=data.get("description"),
+      expires_at=datetime.fromisoformat(data.get("expires_at"))
+      if data.get("expires_at")
+      else None,
+    )
 
   @staticmethod
   def to_dict(

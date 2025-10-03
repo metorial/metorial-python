@@ -422,13 +422,35 @@ class mapServerRunsListOutput:
     return dataclasses.asdict(value)
 
 
-ServerRunsListQuery = Any
+@dataclass
+class ServerRunsListQuery:
+  limit: Optional[float] = None
+  after: Optional[str] = None
+  before: Optional[str] = None
+  cursor: Optional[str] = None
+  order: Optional[str] = None
+  status: Optional[Union[str, List[str]]] = None
+  server_session_id: Optional[Union[str, List[str]]] = None
+  server_implementation_id: Optional[Union[str, List[str]]] = None
+  server_deployment_id: Optional[Union[str, List[str]]] = None
+  session_id: Optional[Union[str, List[str]]] = None
 
 
 class mapServerRunsListQuery:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> ServerRunsListQuery:
-    data
+    return ServerRunsListQuery(
+      limit=data.get("limit"),
+      after=data.get("after"),
+      before=data.get("before"),
+      cursor=data.get("cursor"),
+      order=data.get("order"),
+      status=data.get("status"),
+      server_session_id=data.get("server_session_id"),
+      server_implementation_id=data.get("server_implementation_id"),
+      server_deployment_id=data.get("server_deployment_id"),
+      session_id=data.get("session_id"),
+    )
 
   @staticmethod
   def to_dict(

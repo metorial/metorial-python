@@ -15,14 +15,14 @@ class MetorialManagementInstanceServersEndpoint(BaseMetorialEndpoint):
   def __init__(self, config: MetorialEndpointManager):
     super().__init__(config)
 
-  def get(self, instanceId: str, serverId: str) -> DashboardInstanceServersGetOutput:
+  def get(self, instance_id: str, server_id: str) -> DashboardInstanceServersGetOutput:
     """
     Get server by ID
     Retrieves detailed information for a server identified by its ID.
 
-    :param instanceId: str
-    :param serverId: str
+    :param instance_id: str
+    :param server_id: str
     :return: DashboardInstanceServersGetOutput
     """
-    request = MetorialRequest(path=["instances", instanceId, "servers", serverId])
+    request = MetorialRequest(path=["instances", instance_id, "servers", server_id])
     return self._get(request).transform(mapDashboardInstanceServersGetOutput.from_dict)

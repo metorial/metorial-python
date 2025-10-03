@@ -91,13 +91,35 @@ class mapProviderOauthConnectionsCreateOutput:
     return dataclasses.asdict(value)
 
 
-ProviderOauthConnectionsCreateBody = Any
+@dataclass
+class ProviderOauthConnectionsCreateBody:
+  config: Dict[str, Any]
+  scopes: List[str]
+  template_id: Optional[str] = None
+  name: Optional[str] = None
+  description: Optional[str] = None
+  discovery_url: Optional[str] = None
+  metadata: Optional[Dict[str, Any]] = None
+  client_id: Optional[str] = None
+  client_secret: Optional[str] = None
+  auto_registration_id: Optional[str] = None
 
 
 class mapProviderOauthConnectionsCreateBody:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> ProviderOauthConnectionsCreateBody:
-    data
+    return ProviderOauthConnectionsCreateBody(
+      template_id=data.get("template_id"),
+      name=data.get("name"),
+      description=data.get("description"),
+      discovery_url=data.get("discovery_url"),
+      config=data.get("config"),
+      scopes=data.get("scopes", []),
+      metadata=data.get("metadata"),
+      client_id=data.get("client_id"),
+      client_secret=data.get("client_secret"),
+      auto_registration_id=data.get("auto_registration_id"),
+    )
 
   @staticmethod
   def to_dict(

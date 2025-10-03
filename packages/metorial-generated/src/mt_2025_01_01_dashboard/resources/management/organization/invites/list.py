@@ -277,13 +277,25 @@ class mapManagementOrganizationInvitesListOutput:
     return dataclasses.asdict(value)
 
 
-ManagementOrganizationInvitesListQuery = Any
+@dataclass
+class ManagementOrganizationInvitesListQuery:
+  limit: Optional[float] = None
+  after: Optional[str] = None
+  before: Optional[str] = None
+  cursor: Optional[str] = None
+  order: Optional[str] = None
 
 
 class mapManagementOrganizationInvitesListQuery:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> ManagementOrganizationInvitesListQuery:
-    data
+    return ManagementOrganizationInvitesListQuery(
+      limit=data.get("limit"),
+      after=data.get("after"),
+      before=data.get("before"),
+      cursor=data.get("cursor"),
+      order=data.get("order"),
+    )
 
   @staticmethod
   def to_dict(

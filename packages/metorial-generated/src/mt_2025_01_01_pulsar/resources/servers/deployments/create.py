@@ -375,13 +375,43 @@ class mapServersDeploymentsCreateOutput:
     return dataclasses.asdict(value)
 
 
-ServersDeploymentsCreateBody = Any
+@dataclass
+class ServersDeploymentsCreateBodyOauthConfig:
+  client_id: str
+  client_secret: str
+
+
+@dataclass
+class ServersDeploymentsCreateBody:
+  config: Dict[str, Any]
+  name: Optional[str] = None
+  description: Optional[str] = None
+  metadata: Optional[Dict[str, Any]] = None
+  oauth_config: Optional[ServersDeploymentsCreateBodyOauthConfig] = None
+  server_implementation: Optional[Dict[str, Any]] = None
+  server_implementation_id: Optional[str] = None
+  server_variant_id: Optional[str] = None
+  server_id: Optional[str] = None
 
 
 class mapServersDeploymentsCreateBody:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> ServersDeploymentsCreateBody:
-    data
+    return ServersDeploymentsCreateBody(
+      name=data.get("name"),
+      description=data.get("description"),
+      metadata=data.get("metadata"),
+      config=data.get("config"),
+      oauth_config=mapServersDeploymentsCreateBodyOauthConfig.from_dict(
+        data.get("oauth_config")
+      )
+      if data.get("oauth_config")
+      else None,
+      server_implementation=data.get("server_implementation"),
+      server_implementation_id=data.get("server_implementation_id"),
+      server_variant_id=data.get("server_variant_id"),
+      server_id=data.get("server_id"),
+    )
 
   @staticmethod
   def to_dict(

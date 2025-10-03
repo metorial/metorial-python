@@ -30,6 +30,7 @@ dependencies = [
     "metorial-util-endpoint>=1.0.0",
     "metorial-generated>=1.0.0",
     "metorial-mcp-session>=1.0.0",
+    "metorial-exceptions>=1.0.0",
 ]
 
 [project.urls]
@@ -51,3 +52,4 @@ include = [
 metorial-util-endpoint = { workspace = true }
 metorial-generated = { workspace = true }
 metorial-mcp-session = { workspace = true }
+metorial-exceptions = { workspace = true }

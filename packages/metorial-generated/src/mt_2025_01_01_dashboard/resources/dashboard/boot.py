@@ -23,9 +23,9 @@ class DashboardBootOutputUser:
 class DashboardBootOutput:
   object: str
   user: DashboardBootOutputUser
-  organizations: List[Any]
-  projects: List[Any]
-  instances: List[Any]
+  organizations: List[Dict[str, Any]]
+  projects: List[Dict[str, Any]]
+  instances: List[Dict[str, Any]]
 
 
 class mapDashboardBootOutputUser:

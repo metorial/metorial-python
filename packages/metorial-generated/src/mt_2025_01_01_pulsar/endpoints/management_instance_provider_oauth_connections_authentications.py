@@ -1,3 +1,4 @@
+from typing import Any, Dict, List, Optional, Union
 from metorial_util_endpoint import (
   BaseMetorialEndpoint,
   MetorialEndpointManager,
@@ -23,59 +24,77 @@ class MetorialManagementInstanceProviderOauthConnectionsAuthenticationsEndpoint(
 
   def list(
     self,
-    instanceId: str,
-    connectionId: str,
-    query: DashboardInstanceProviderOauthConnectionsAuthenticationsListQuery = None,
+    instance_id: str,
+    connection_id: str,
+    *,
+    limit: Optional[float] = None,
+    after: Optional[str] = None,
+    before: Optional[str] = None,
+    cursor: Optional[str] = None,
+    order: Optional[str] = None
   ) -> DashboardInstanceProviderOauthConnectionsAuthenticationsListOutput:
     """
     List provider OAuth connection authentications
     List provider OAuth connection authentications for a specific connection
 
-    :param instanceId: str
-    :param connectionId: str
-    :param query: DashboardInstanceProviderOauthConnectionsAuthenticationsListQuery
+    :param instance_id: str
+    :param connection_id: str
+    :param limit: Optional[float] (optional)
+    :param after: Optional[str] (optional)
+    :param before: Optional[str] (optional)
+    :param cursor: Optional[str] (optional)
+    :param order: Optional[str] (optional)
     :return: DashboardInstanceProviderOauthConnectionsAuthenticationsListOutput
     """
+    # Build query parameters from keyword arguments
+    query_dict = {}
+    if limit is not None:
+      query_dict["limit"] = limit
+    if after is not None:
+      query_dict["after"] = after
+    if before is not None:
+      query_dict["before"] = before
+    if cursor is not None:
+      query_dict["cursor"] = cursor
+    if order is not None:
+      query_dict["order"] = order
+
     request = MetorialRequest(
       path=[
         "instances",
-        instanceId,
+        instance_id,
         "provider-oauth",
         "connections",
-        connectionId,
+        connection_id,
         "authentications",
       ],
-      query=mapDashboardInstanceProviderOauthConnectionsAuthenticationsListQuery.to_dict(
-        query
-      )
-      if query is not None
-      else None,
+      query=query_dict,
     )
     return self._get(request).transform(
       mapDashboardInstanceProviderOauthConnectionsAuthenticationsListOutput.from_dict
     )
 
   def get(
-    self, instanceId: str, connectionId: str, authenticationId: str
+    self, instance_id: str, connection_id: str, authentication_id: str
   ) -> DashboardInstanceProviderOauthConnectionsAuthenticationsGetOutput:
     """
     Get provider OAuth connection authentication
     Get the information of a specific provider OAuth connection authentication
 
-    :param instanceId: str
-    :param connectionId: str
-    :param authenticationId: str
+    :param instance_id: str
+    :param connection_id: str
+    :param authentication_id: str
     :return: DashboardInstanceProviderOauthConnectionsAuthenticationsGetOutput
     """
     request = MetorialRequest(
       path=[
         "instances",
-        instanceId,
+        instance_id,
         "provider-oauth",
         "connections",
-        connectionId,
+        connection_id,
         "authentications",
-        authenticationId,
+        authentication_id,
       ]
     )
     return self._get(request).transform(

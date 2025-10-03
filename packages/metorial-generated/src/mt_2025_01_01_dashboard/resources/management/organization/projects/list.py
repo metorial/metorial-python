@@ -108,13 +108,25 @@ class mapManagementOrganizationProjectsListOutput:
     return dataclasses.asdict(value)
 
 
-ManagementOrganizationProjectsListQuery = Any
+@dataclass
+class ManagementOrganizationProjectsListQuery:
+  limit: Optional[float] = None
+  after: Optional[str] = None
+  before: Optional[str] = None
+  cursor: Optional[str] = None
+  order: Optional[str] = None
 
 
 class mapManagementOrganizationProjectsListQuery:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> ManagementOrganizationProjectsListQuery:
-    data
+    return ManagementOrganizationProjectsListQuery(
+      limit=data.get("limit"),
+      after=data.get("after"),
+      before=data.get("before"),
+      cursor=data.get("cursor"),
+      order=data.get("order"),
+    )
 
   @staticmethod
   def to_dict(

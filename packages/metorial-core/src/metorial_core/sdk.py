@@ -24,7 +24,10 @@ if TYPE_CHECKING:
     TypedMetorialSessionsEndpoint as _TypedSessionsBase,
     TypedMetorialProviderOauthConnectionsEndpoint as _TypedProviderOauthConnectionsBase,
   )
-  from mt_2025_01_01_pulsar.endpoints.server_runs import MetorialServerRunsEndpoint as _TypedServerRunsBase
+  from mt_2025_01_01_pulsar.endpoints.server_runs import (
+    MetorialServerRunsEndpoint as _TypedServerRunsBase,
+  )
+
   # No base for ProviderOauth since it's just a grouping construct
   _TypedProviderOauthBase = object
 else:
@@ -77,8 +80,18 @@ class SessionsGroup(_DelegatingGroup, _TypedSessionsBase):
     self.connections = connections
 
 
-class ProviderOauthConnectionsGroup(_DelegatingGroup, _TypedProviderOauthConnectionsBase):
-  __slots__ = ("authentications", "profiles", "list", "get", "create", "update", "delete")
+class ProviderOauthConnectionsGroup(
+  _DelegatingGroup, _TypedProviderOauthConnectionsBase
+):
+  __slots__ = (
+    "authentications",
+    "profiles",
+    "list",
+    "get",
+    "create",
+    "update",
+    "delete",
+  )
 
   def __init__(self, root, authentications, profiles):
     super().__init__(root)
@@ -89,7 +102,14 @@ class ProviderOauthConnectionsGroup(_DelegatingGroup, _TypedProviderOauthConnect
 class ProviderOauthGroup(_DelegatingGroup, _TypedProviderOauthBase):
   __slots__ = ("connections", "sessions", "profiles", "authentications")
 
-  def __init__(self, root, connections_endpoint, sessions_endpoint, profiles_endpoint, authentications_endpoint):
+  def __init__(
+    self,
+    root,
+    connections_endpoint,
+    sessions_endpoint,
+    profiles_endpoint,
+    authentications_endpoint,
+  ):
     super().__init__(root)
     # Use direct endpoint classes instead of wrapper groups for better autocomplete
     self.connections = connections_endpoint
@@ -229,10 +249,10 @@ def _to_typed_sdk(raw: Dict[str, Any]) -> SDK:
   # Use direct endpoint classes for better autocomplete (like servers sub-endpoints)
   provider_oauth_group = ProviderOauthGroup(
     provider_oauth_root,
-    provider_oauth_root.connections,              # Direct endpoint class
-    provider_oauth_root.sessions,                 # Direct endpoint class
-    provider_oauth_root.profiles,                 # Direct endpoint class from TypedMetorialProviderOauthEndpoint
-    provider_oauth_root.authentications,          # Direct endpoint class from TypedMetorialProviderOauthEndpoint
+    provider_oauth_root.connections,  # Direct endpoint class
+    provider_oauth_root.sessions,  # Direct endpoint class
+    provider_oauth_root.profiles,  # Direct endpoint class from TypedMetorialProviderOauthEndpoint
+    provider_oauth_root.authentications,  # Direct endpoint class from TypedMetorialProviderOauthEndpoint
   )
 
   return SDK(

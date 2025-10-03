@@ -1,3 +1,4 @@
+from typing import Any, Dict, List, Optional, Union
 from metorial_util_endpoint import (
   BaseMetorialEndpoint,
   MetorialEndpointManager,
@@ -26,69 +27,104 @@ class MetorialDashboardInstanceFilesEndpoint(BaseMetorialEndpoint):
     super().__init__(config)
 
   def list(
-    self, instanceId: str, query: DashboardInstanceFilesListQuery = None
+    self,
+    instance_id: str,
+    *,
+    limit: Optional[float] = None,
+    after: Optional[str] = None,
+    before: Optional[str] = None,
+    cursor: Optional[str] = None,
+    order: Optional[str] = None,
+    purpose: Optional[str] = None,
+    organization_id: Optional[str] = None
   ) -> DashboardInstanceFilesListOutput:
     """
     List instance files
     Returns a paginated list of files owned by the instance.
 
-    :param instanceId: str
-    :param query: DashboardInstanceFilesListQuery
+    :param instance_id: str
+    :param limit: Optional[float] (optional)
+    :param after: Optional[str] (optional)
+    :param before: Optional[str] (optional)
+    :param cursor: Optional[str] (optional)
+    :param order: Optional[str] (optional)
+    :param purpose: Optional[str] (optional)
+    :param organization_id: Optional[str] (optional)
     :return: DashboardInstanceFilesListOutput
     """
+    # Build query parameters from keyword arguments
+    query_dict = {}
+    if limit is not None:
+      query_dict["limit"] = limit
+    if after is not None:
+      query_dict["after"] = after
+    if before is not None:
+      query_dict["before"] = before
+    if cursor is not None:
+      query_dict["cursor"] = cursor
+    if order is not None:
+      query_dict["order"] = order
+    if purpose is not None:
+      query_dict["purpose"] = purpose
+    if organization_id is not None:
+      query_dict["organization_id"] = organization_id
+
     request = MetorialRequest(
-      path=["dashboard", "instances", instanceId, "files"],
-      query=mapDashboardInstanceFilesListQuery.to_dict(query)
-      if query is not None
-      else None,
+      path=["dashboard", "instances", instance_id, "files"], query=query_dict
     )
     return self._get(request).transform(mapDashboardInstanceFilesListOutput.from_dict)
 
-  def get(self, instanceId: str, fileId: str) -> DashboardInstanceFilesGetOutput:
+  def get(self, instance_id: str, file_id: str) -> DashboardInstanceFilesGetOutput:
     """
     Get file by ID
     Retrieves details for a specific file by its ID.
 
-    :param instanceId: str
-    :param fileId: str
+    :param instance_id: str
+    :param file_id: str
     :return: DashboardInstanceFilesGetOutput
     """
     request = MetorialRequest(
-      path=["dashboard", "instances", instanceId, "files", fileId]
+      path=["dashboard", "instances", instance_id, "files", file_id]
     )
     return self._get(request).transform(mapDashboardInstanceFilesGetOutput.from_dict)
 
   def update(
-    self, instanceId: str, fileId: str, body: DashboardInstanceFilesUpdateBody
+    self, instance_id: str, file_id: str, *, title: Optional[str] = None
   ) -> DashboardInstanceFilesUpdateOutput:
     """
     Update file by ID
     Updates editable fields of a specific file by its ID.
 
-    :param instanceId: str
-    :param fileId: str
-    :param body: DashboardInstanceFilesUpdateBody
+    :param instance_id: str
+    :param file_id: str
+    :param title: Optional[str] (optional)
     :return: DashboardInstanceFilesUpdateOutput
     """
+    # Build body parameters from keyword arguments
+    body_dict = {}
+    if title is not None:
+      body_dict["title"] = title
+
     request = MetorialRequest(
-      path=["dashboard", "instances", instanceId, "files", fileId],
-      body=mapDashboardInstanceFilesUpdateBody.to_dict(body),
+      path=["dashboard", "instances", instance_id, "files", file_id], body=body_dict
     )
     return self._patch(request).transform(
       mapDashboardInstanceFilesUpdateOutput.from_dict
     )
 
-  def delete(self, instanceId: str, fileId: str) -> DashboardInstanceFilesDeleteOutput:
+  def delete(
+    self, instance_id: str, file_id: str
+  ) -> DashboardInstanceFilesDeleteOutput:
     """
     Delete file by ID
     Deletes a specific file by its ID.
 
-    :param instanceId: str
-    :param fileId: str
+    :param instance_id: str
+    :param file_id: str
     :return: DashboardInstanceFilesDeleteOutput
     """
     request = MetorialRequest(
-      path=["dashboard", "instances", instanceId, "files", fileId]
+      path=["dashboard", "instances", instance_id, "files", file_id]
     )
     return self._delete(request).transform(
       mapDashboardInstanceFilesDeleteOutput.from_dict

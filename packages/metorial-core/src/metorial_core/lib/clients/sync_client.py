@@ -8,7 +8,7 @@ from typing import Dict, Any, List, Optional, Callable, Union
 from ...base import MetorialBase
 from ...session import MetorialSession
 from ...adapters import ProviderAdapter, ChatMessage, create_provider_adapter
-from ..exceptions import MetorialAPIError
+from metorial_exceptions import MetorialAPIError
 from ..metrics import ChatMetrics
 
 

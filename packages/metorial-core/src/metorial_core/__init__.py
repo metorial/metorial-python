@@ -9,6 +9,7 @@ from .main import (
   MetorialSync,
   MetorialBase,
   MetorialError,
+  MetorialSDKError,
   MetorialAPIError,
   MetorialToolError,
   MetorialTimeoutError,
@@ -56,7 +57,7 @@ from .main import (
 # Import Group classes separately to avoid circular imports
 from .sdk import (
   ServersGroup,
-  SessionsGroup, 
+  SessionsGroup,
   ProviderOauthGroup,
   ProviderOauthConnectionsGroup,
   RunsGroup,
@@ -75,6 +76,7 @@ __all__ = [
   "MetorialSync",
   "MetorialBase",
   "MetorialError",
+  "MetorialSDKError",
   "MetorialAPIError",
   "MetorialToolError",
   "MetorialTimeoutError",
@@ -117,7 +119,7 @@ __all__ = [
   "create_auth_headers",
   # Group classes for type checking
   "ServersGroup",
-  "SessionsGroup", 
+  "SessionsGroup",
   "ProviderOauthGroup",
   "ProviderOauthConnectionsGroup",
   "RunsGroup",

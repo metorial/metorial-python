@@ -134,13 +134,29 @@ class mapSecretsListOutput:
     return dataclasses.asdict(value)
 
 
-SecretsListQuery = Any
+@dataclass
+class SecretsListQuery:
+  limit: Optional[float] = None
+  after: Optional[str] = None
+  before: Optional[str] = None
+  cursor: Optional[str] = None
+  order: Optional[str] = None
+  type: Optional[Union[str, List[str]]] = None
+  status: Optional[Union[str, List[str]]] = None
 
 
 class mapSecretsListQuery:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> SecretsListQuery:
-    data
+    return SecretsListQuery(
+      limit=data.get("limit"),
+      after=data.get("after"),
+      before=data.get("before"),
+      cursor=data.get("cursor"),
+      order=data.get("order"),
+      type=data.get("type"),
+      status=data.get("status"),
+    )
 
   @staticmethod
   def to_dict(

@@ -1,3 +1,4 @@
+from typing import Any, Dict, List, Optional, Union
 from metorial_util_endpoint import (
   BaseMetorialEndpoint,
   MetorialEndpointManager,
@@ -24,49 +25,75 @@ class MetorialProviderOauthConnectionTemplateEndpoint(BaseMetorialEndpoint):
     super().__init__(config)
 
   def list(
-    self, organizationId: str, query: ProviderOauthConnectionTemplateListQuery = None
+    self,
+    organization_id: str,
+    *,
+    limit: Optional[float] = None,
+    after: Optional[str] = None,
+    before: Optional[str] = None,
+    cursor: Optional[str] = None,
+    order: Optional[str] = None,
+    profile_id: Optional[Union[List[str], str]] = None
   ) -> ProviderOauthConnectionTemplateListOutput:
     """
     List oauth connection templates
     List all oauth connection templates
 
-    :param organizationId: str
-    :param query: ProviderOauthConnectionTemplateListQuery
+    :param organization_id: str
+    :param limit: Optional[float] (optional)
+    :param after: Optional[str] (optional)
+    :param before: Optional[str] (optional)
+    :param cursor: Optional[str] (optional)
+    :param order: Optional[str] (optional)
+    :param profile_id: Optional[Union[List[str], str]] (optional)
     :return: ProviderOauthConnectionTemplateListOutput
     """
+    # Build query parameters from keyword arguments
+    query_dict = {}
+    if limit is not None:
+      query_dict["limit"] = limit
+    if after is not None:
+      query_dict["after"] = after
+    if before is not None:
+      query_dict["before"] = before
+    if cursor is not None:
+      query_dict["cursor"] = cursor
+    if order is not None:
+      query_dict["order"] = order
+    if profile_id is not None:
+      query_dict["profile_id"] = profile_id
+
     request = MetorialRequest(
       path=[
         "dashboard",
         "organizations",
-        organizationId,
+        organization_id,
         "provider-oauth-connection-template",
       ],
-      query=mapProviderOauthConnectionTemplateListQuery.to_dict(query)
-      if query is not None
-      else None,
+      query=query_dict,
     )
     return self._get(request).transform(
       mapProviderOauthConnectionTemplateListOutput.from_dict
     )
 
   def get(
-    self, organizationId: str, oauthTemplateId: str
+    self, organization_id: str, oauth_template_id: str
   ) -> ProviderOauthConnectionTemplateGetOutput:
     """
     Get oauth connection template
     Get the information of a specific oauth connection template
 
-    :param organizationId: str
-    :param oauthTemplateId: str
+    :param organization_id: str
+    :param oauth_template_id: str
     :return: ProviderOauthConnectionTemplateGetOutput
     """
     request = MetorialRequest(
       path=[
         "dashboard",
         "organizations",
-        organizationId,
+        organization_id,
         "provider-oauth-connection-template",
-        oauthTemplateId,
+        oauth_template_id,
       ]
     )
     return self._get(request).transform(
@@ -74,19 +101,23 @@ class MetorialProviderOauthConnectionTemplateEndpoint(BaseMetorialEndpoint):
     )
 
   def evaluate(
-    self, oauthTemplateId: str, body: ProviderOauthConnectionTemplateEvaluateBody
+    self, oauth_template_id: str, *, data: Dict[str, Any]
   ) -> ProviderOauthConnectionTemplateEvaluateOutput:
     """
     Evaluate oauth connection template
     Evaluate the configuration of an oauth connection template
 
-    :param oauthTemplateId: str
-    :param body: ProviderOauthConnectionTemplateEvaluateBody
+    :param oauth_template_id: str
+    :param data: Dict[str, Any]
     :return: ProviderOauthConnectionTemplateEvaluateOutput
     """
+    # Build body parameters from keyword arguments
+    body_dict = {}
+    body_dict["data"] = data
+
     request = MetorialRequest(
-      path=["provider-oauth-connection-template", oauthTemplateId, "evaluate"],
-      body=mapProviderOauthConnectionTemplateEvaluateBody.to_dict(body),
+      path=["provider-oauth-connection-template", oauth_template_id, "evaluate"],
+      body=body_dict,
     )
     return self._post(request).transform(
       mapProviderOauthConnectionTemplateEvaluateOutput.from_dict

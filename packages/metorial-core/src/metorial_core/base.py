@@ -20,7 +20,7 @@ if TYPE_CHECKING:
 
 class MetorialBase:
   """Base class with shared initialization and configuration logic."""
-  
+
   # Type annotations for IDE support - using non-string annotations for better resolution
   if TYPE_CHECKING:
     instance: Optional[MetorialInstanceEndpoint]
@@ -214,7 +214,7 @@ class MetorialBase:
       return SessionFactory.create_session(mcp_session)
     except Exception as e:
       self.logger.error(f"Failed to create MCP session: {e}")
-      from metorial_core.lib.exceptions import MetorialSDKError
+      from metorial_exceptions import MetorialSDKError
 
       raise MetorialSDKError(f"Failed to create MCP session: {e}")  # type: ignore[arg-type]
 

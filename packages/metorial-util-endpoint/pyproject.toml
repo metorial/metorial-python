@@ -29,6 +29,7 @@ dependencies = [
     "typing-extensions>=4.0.0",
     "requests>=2.25.0",
     "truststore>=0.8.0",
+    "metorial-exceptions>=1.0.0",
 ]
 
 [project.urls]

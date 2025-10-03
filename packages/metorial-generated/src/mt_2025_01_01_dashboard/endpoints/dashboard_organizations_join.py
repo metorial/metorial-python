@@ -1,3 +1,4 @@
+from typing import Any, Dict, List, Optional, Union
 from metorial_util_endpoint import (
   BaseMetorialEndpoint,
   MetorialEndpointManager,
@@ -25,57 +26,58 @@ class MetorialDashboardOrganizationsJoinEndpoint(BaseMetorialEndpoint):
   def __init__(self, config: MetorialEndpointManager):
     super().__init__(config)
 
-  def get(
-    self, query: DashboardOrganizationsJoinGetQuery = None
-  ) -> DashboardOrganizationsJoinGetOutput:
+  def get(self, *, invite_key: str) -> DashboardOrganizationsJoinGetOutput:
     """
     Join organization
     Join an organization
 
-    :param query: DashboardOrganizationsJoinGetQuery
+    :param invite_key: str
     :return: DashboardOrganizationsJoinGetOutput
     """
+    # Build query parameters from keyword arguments
+    query_dict = {}
+    query_dict["inviteKey"] = invite_key
+
     request = MetorialRequest(
-      path=["dashboard", "organization-join", "find"],
-      query=mapDashboardOrganizationsJoinGetQuery.to_dict(query)
-      if query is not None
-      else None,
+      path=["dashboard", "organization-join", "find"], query=query_dict
     )
     return self._get(request).transform(
       mapDashboardOrganizationsJoinGetOutput.from_dict
     )
 
-  def accept(
-    self, body: DashboardOrganizationsJoinAcceptBody
-  ) -> DashboardOrganizationsJoinAcceptOutput:
+  def accept(self, *, invite_key: str) -> DashboardOrganizationsJoinAcceptOutput:
     """
     Join organization
     Join an organization
 
-    :param body: DashboardOrganizationsJoinAcceptBody
+    :param invite_key: str
     :return: DashboardOrganizationsJoinAcceptOutput
     """
+    # Build body parameters from keyword arguments
+    body_dict = {}
+    body_dict["invite_key"] = invite_key
+
     request = MetorialRequest(
-      path=["dashboard", "organization-join", "accept"],
-      body=mapDashboardOrganizationsJoinAcceptBody.to_dict(body),
+      path=["dashboard", "organization-join", "accept"], body=body_dict
     )
     return self._post(request).transform(
       mapDashboardOrganizationsJoinAcceptOutput.from_dict
     )
 
-  def reject(
-    self, body: DashboardOrganizationsJoinRejectBody
-  ) -> DashboardOrganizationsJoinRejectOutput:
+  def reject(self, *, invite_key: str) -> DashboardOrganizationsJoinRejectOutput:
     """
     Reject organization invite
     Reject an organization invite
 
-    :param body: DashboardOrganizationsJoinRejectBody
+    :param invite_key: str
     :return: DashboardOrganizationsJoinRejectOutput
     """
+    # Build body parameters from keyword arguments
+    body_dict = {}
+    body_dict["invite_key"] = invite_key
+
     request = MetorialRequest(
-      path=["dashboard", "organization-join", "reject"],
-      body=mapDashboardOrganizationsJoinRejectBody.to_dict(body),
+      path=["dashboard", "organization-join", "reject"], body=body_dict
     )
     return self._post(request).transform(
       mapDashboardOrganizationsJoinRejectOutput.from_dict
