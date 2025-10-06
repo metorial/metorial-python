@@ -52,7 +52,7 @@ class ToolManager:
     if self._openai_tools_cache is not None:
       cache_age = current_time - self._cache_timestamp
       if force_refresh:
-        logger.info("🔄 Cache force refresh requested")
+        logger.debug("🔄 Cache force refresh requested")
       else:
         logger.warning(
           f"⚠️ Cache invalidated (age: {cache_age:.1f}s > TTL: {self._cache_ttl}s)"

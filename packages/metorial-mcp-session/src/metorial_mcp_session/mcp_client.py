@@ -26,33 +26,6 @@ from mcp.client.sse import sse_client
 from mcp.client.streamable_http import streamablehttp_client
 from contextlib import suppress
 
-import requests
-import json
-
-
-def create_session(
-  *,
-  api_key: str,
-  api_host: str,
-  server_deployment_ids: List[str],
-  client_name: str = "metorial-python",
-  client_version: str = "0.1.0",
-  metadata: Optional[Dict[str, Any]] = None,
-) -> Dict[str, Any]:
-  body: Dict[str, Any] = {
-    "server_deployment_ids": server_deployment_ids,
-    "client": {"name": client_name, "version": client_version},
-  }
-  if metadata:
-    body["metadata"] = metadata
-
-  headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
-  url = f"{api_host.rstrip('/')}/sessions"
-  resp = requests.post(url, headers=headers, data=json.dumps(body))
-  if resp.status_code >= 400:
-    raise RuntimeError(f"Session create failed: {resp.status_code} {resp.text}")
-  return resp.json()  # type: ignore[no-any-return]
-
 
 try:
   import anyio
@@ -62,6 +35,11 @@ except ImportError:  # pragma: no cover
 T = TypeVar("T")
 
 logger = logging.getLogger("metorial.mcp.client")
+
+def _log_info(message, **kwargs):
+  """Conditionally log info messages only if debug logging is enabled."""
+  if logger.isEnabledFor(logging.DEBUG):
+    logger.info(message, **kwargs)
 
 
 @dataclass
@@ -116,7 +94,7 @@ class MetorialMcpClient:
     base = host if host.endswith("/") else host + "/"
     url = urljoin(base, path) + f"?{query}"
 
-    logger.info(
+    _log_info(
       "Connecting to MCP endpoint",
       extra={
         "url": url,
@@ -165,7 +143,7 @@ class MetorialMcpClient:
 
     try:
       await asyncio.wait_for(session_cm.initialize(), timeout=handshake_timeout)
-      logger.info("MCP session initialized")
+      _log_info("MCP session initialized")
     except Exception:
       logger.exception("Initialize failed, cleaning up")
       await session_cm.__aexit__(None, None, None)

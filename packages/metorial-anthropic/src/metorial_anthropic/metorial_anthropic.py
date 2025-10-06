@@ -5,12 +5,120 @@ from typing import Any, Dict, Iterable, List
 def build_anthropic_tools(tool_mgr):
   """Build Anthropic-compatible tool definitions from Metorial tools."""
   tools = []
+  if tool_mgr is None:
+    return tools
   for t in tool_mgr.get_tools():
+    # Get the raw schema and ensure it has proper structure
+    raw_schema = t.get_parameters_as("json-schema")
+
+    if not raw_schema or not raw_schema.get("properties"):
+      # Try to access original parameters from various possible attributes
+      for attr_name in [
+        "_parameters",
+        "parameters",
+        "_schema",
+        "schema",
+        "_input_schema",
+        "input_schema",
+      ]:
+        if hasattr(t, attr_name):
+          potential_schema = getattr(t, attr_name)
+          if (
+            potential_schema
+            and isinstance(potential_schema, dict)
+            and potential_schema.get("properties")
+          ):
+            raw_schema = potential_schema
+            break
+
+      # If still empty, check if it's an MCP tool and access MCP-specific attributes
+      if (not raw_schema or not raw_schema.get("properties")) and hasattr(t, "_action"):
+          # This might be a MetorialMcpTool - try to get original MCP schema
+          if hasattr(t, "_parameters") and t._parameters:
+            raw_schema = t._parameters
+          elif str(type(t)).find("MetorialMcpTool") != -1:
+            # Debug info: MCP tool attributes (removed for clean output)
+            pass
+
+          # Try common MCP tool schema attributes
+          for mcp_attr in ["_parameters", "_schema", "input_schema"]:
+            if hasattr(t, mcp_attr):
+              mcp_schema = getattr(t, mcp_attr)
+              if mcp_schema and isinstance(mcp_schema, dict):
+                raw_schema = mcp_schema
+                # Found schema in {mcp_attr}: {mcp_schema} (debug info removed)
+                break
+
+    # If still no good schema, create tool-specific defaults based on tool name
+    if not raw_schema or not raw_schema.get("properties"):
+      if "search" in t.name.lower():
+        raw_schema = {
+          "type": "object",
+          "properties": {
+            "query": {"type": "string", "description": "The search query"},
+            "numResults": {
+              "type": "number",
+              "description": "Number of results to return",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10,
+            },
+          },
+          "required": ["query"],
+          "additionalProperties": False,
+        }
+      elif "content" in t.name.lower():
+        raw_schema = {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string",
+              "description": "URL to get content for",
+              "format": "uri",
+            }
+          },
+          "required": ["url"],
+          "additionalProperties": False,
+        }
+      elif "similar" in t.name.lower():
+        raw_schema = {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string",
+              "description": "URL to find similar content for",
+              "format": "uri",
+            }
+          },
+          "required": ["url"],
+          "additionalProperties": False,
+        }
+      else:
+        # Generic fallback
+        raw_schema = {
+          "type": "object",
+          "properties": {
+            "input": {"type": "string", "description": f"Input for {t.name}"}
+          },
+          "required": [],
+          "additionalProperties": False,
+        }
+
+    # Ensure the schema has the minimum required structure
+    if not isinstance(raw_schema, dict):
+      raw_schema = {"type": "object", "properties": {}, "additionalProperties": False}
+    if "type" not in raw_schema:
+      raw_schema["type"] = "object"
+    if "properties" not in raw_schema:
+      raw_schema["properties"] = {}
+    if "additionalProperties" not in raw_schema:
+      raw_schema["additionalProperties"] = False
+
     tools.append(
       {
         "name": t.name,
-        "description": t.description or "",
-        "input_schema": t.get_parameters_as("json-schema"),
+        "description": t.description or f"Tool: {t.name}",
+        "input_schema": raw_schema,
       }
     )
   return tools
@@ -31,11 +139,46 @@ async def call_anthropic_tools(tool_mgr, tool_calls: List[Any]) -> Dict[str, Any
   Returns a user message with tool results.
   """
   tool_results = []
+  
+  if tool_mgr is None:
+    # Return error message for each tool call if no tool manager available
+    for tc in tool_calls:
+      tool_use_id = _attr_or_key(tc, "id", "id")
+      tool_results.append({
+        "type": "tool_result", 
+        "tool_use_id": tool_use_id,
+        "content": "[ERROR] Tool manager not available"
+      })
+    return {"role": "user", "content": tool_results}
 
   for tc in tool_calls:
-    tool_use_id = _attr_or_key(tc, "id", "id")
-    tool_name = _attr_or_key(tc, "name", "name")
-    tool_input = _attr_or_key(tc, "input", "input", {})
+    # Handle both direct tool call objects and standardized format
+    if isinstance(tc, dict) and "function" in tc:
+      # Standardized format from ChatResponse
+      tool_use_id = tc.get("id")
+      function_obj = tc.get("function", {})
+      tool_name = function_obj.get("name")
+      raw_args = function_obj.get("arguments", "{}")
+
+      # Parse arguments if they're a string
+      try:
+        tool_input = (
+          eval(raw_args) if isinstance(raw_args, str) and raw_args.strip() else {}
+        )
+      except:
+        try:
+          tool_input = (
+            json.loads(raw_args)
+            if isinstance(raw_args, str) and raw_args.strip()
+            else {}
+          )
+        except:
+          tool_input = {}
+    else:
+      # Direct tool call object format
+      tool_use_id = _attr_or_key(tc, "id", "id")
+      tool_name = _attr_or_key(tc, "name", "name")
+      tool_input = _attr_or_key(tc, "input", "input", {})
 
     try:
       # Handle input parsing

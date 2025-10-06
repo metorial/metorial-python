@@ -5,11 +5,19 @@ echo "Building all Metorial Python packages..."
 
 # List of packages to build
 PACKAGES=(
+    "packages/metorial-exceptions"
     "packages/metorial-util-endpoint"
     "packages/metorial-generated"
     "packages/metorial-core"
     "packages/metorial-mcp-session"
     "packages/metorial-openai"
+    "packages/metorial-anthropic"
+    "packages/metorial-google"
+    "packages/metorial-mistral"
+    "packages/metorial-deepseek"
+    "packages/metorial-togetherai"
+    "packages/metorial-xai"
+    "packages/metorial-openai-compatible"
     "packages/metorial"  # Main package should be built last
 )
 

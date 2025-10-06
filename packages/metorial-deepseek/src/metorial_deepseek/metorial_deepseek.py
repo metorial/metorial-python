@@ -11,11 +11,15 @@ class MetorialDeepSeekSession(MetorialOpenAICompatibleSession):
 
 def build_deepseek_tools(tool_mgr):
   """Build DeepSeek-compatible tool definitions from Metorial tools."""
+  if tool_mgr is None:
+    return []
   session = MetorialDeepSeekSession(tool_mgr)
   return session.tools
 
 
 async def call_deepseek_tools(tool_mgr, tool_calls):
   """Call Metorial tools from DeepSeek tool calls."""
+  if tool_mgr is None:
+    return []
   session = MetorialDeepSeekSession(tool_mgr)
   return await session.call_tools(tool_calls)

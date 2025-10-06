@@ -9,21 +9,14 @@ from .mcp_tool import Capability
 
 logger = logging.getLogger(__name__)
 
+def _should_log_debug():
+  """Check if debug logging should be enabled by examining logger level."""
+  return logger.isEnabledFor(logging.DEBUG)
 
-def build_session_body(
-  server_deployment_ids: List[str],
-  *,
-  client_name="metorial-python",
-  client_version="0.1.0",
-  metadata: Optional[Dict[str, Any]] = None,
-) -> Dict[str, Any]:
-  body = {
-    "server_deployment_ids": server_deployment_ids,
-    "client": {"name": client_name, "version": client_version},
-  }
-  if metadata:
-    body["metadata"] = metadata
-  return body
+def _log_info(message):
+  """Conditionally log info messages only if debug logging is enabled."""
+  if _should_log_debug():
+    logger.info(message)
 
 
 class _ServerDeployment(TypedDict):
@@ -135,11 +128,20 @@ class MetorialMcpSession:
 
   def get_session(self) -> _SessionResponse:
     if self._session is None:
+      # Use TypeScript-compatible format: {serverDeployments: [{serverDeploymentId, oauthSessionId?}]}
+      server_deployments = []
+      for dep in self._init.get("serverDeployments", []):
+        if isinstance(dep, dict):
+          server_deployment_id = dep.get("serverDeploymentId") or dep.get("id")
+          deployment_obj = {"serverDeploymentId": server_deployment_id}
+          if "oauthSessionId" in dep:
+            deployment_obj["oauthSessionId"] = dep["oauthSessionId"]
+          server_deployments.append(deployment_obj)
+        else:
+          server_deployments.append({"serverDeploymentId": dep})
+
       api_payload = {
-        "server_deployment_ids": [
-          dep["id"] if isinstance(dep, dict) else dep
-          for dep in self._init.get("serverDeployments", [])
-        ],
+        "serverDeployments": server_deployments,
         "client": self._init.get(
           "client", {"name": "metorial-python", "version": "1.0.0"}
         ),
@@ -147,9 +149,27 @@ class MetorialMcpSession:
       if "metadata" in self._init:
         api_payload["metadata"] = self._init["metadata"]
 
-      logger.info(f"🔄 Creating session with API payload: {api_payload}")
+      _log_info(f"🔄 Creating session with API payload: {api_payload}")
       try:
-        session_response = self._sdk.sessions.create(api_payload)  # type: ignore[arg-type]
+        api_compatible_deployments = []
+        for dep in server_deployments:
+          if isinstance(dep, dict):
+            transformed_dep = {}
+            if "serverDeploymentId" in dep:
+              transformed_dep["server_deployment_id"] = dep["serverDeploymentId"]
+            if "oauthSessionId" in dep:
+              transformed_dep["oauth_session_id"] = dep["oauthSessionId"]
+            for key, value in dep.items():
+              if key not in ["serverDeploymentId", "oauthSessionId"]:
+                transformed_dep[key] = value
+            api_compatible_deployments.append(transformed_dep)
+          else:
+            # String format stays as-is
+            api_compatible_deployments.append(dep)
+
+        session_response = self._sdk.sessions.create(
+          server_deployments=api_compatible_deployments
+        )
         logger.debug(f"Session response type: {type(session_response)}")
         logger.debug(f"Session response: {session_response}")
 
@@ -187,7 +207,7 @@ class MetorialMcpSession:
             else {}
           ),
         }
-        logger.info(f"✅ Session created: {self._session.get('id', 'unknown')}")
+        _log_info(f"✅ Session created: {self._session.get('id', 'unknown')}")
       except Exception as e:
         logger.error(f"❌ Failed to create session: {e}")
         logger.error(f"📊 Request payload was: {api_payload}")
@@ -199,19 +219,43 @@ class MetorialMcpSession:
     return ses.get("server_deployments") or ses.get("serverDeployments") or []  # type: ignore[return-value]
 
   async def get_capabilities(self) -> List[Capability]:
-    logger.info("📋 Getting server deployments...")
+    _log_info("📋 Getting server deployments...")
     deployments = self.get_server_deployments()
-    logger.info(
+    _log_info(
       f"✅ Got {len(deployments)} deployments: {[d['id'] for d in deployments]}"
     )
 
-    logger.info("🔍 Fetching capabilities from SDK...")
+    _log_info("🔍 Fetching capabilities from SDK...")
     try:
       capabilities: _CapabilitiesResponse = self._sdk.servers.capabilities.list(  # type: ignore[assignment]
-        {"server_deployment_id": [dep["id"] for dep in deployments]}
+        server_deployment_id=[dep["id"] for dep in deployments]
       )
-      logger.info(
-        f"✅ Got capabilities response: {len(capabilities.tools)} tools, {len(capabilities.mcp_servers)} servers"  # type: ignore[attr-defined]
+
+      # Handle both dict-like and object-like responses
+      mcp_servers = (
+        capabilities.mcp_servers
+        if hasattr(capabilities, "mcp_servers")
+        else capabilities.get("mcp_servers", [])
+        if hasattr(capabilities, "get")
+        else capabilities["mcp_servers"]
+      )
+      tools = (
+        capabilities.tools
+        if hasattr(capabilities, "tools")
+        else capabilities.get("tools", [])
+        if hasattr(capabilities, "get")
+        else capabilities.get("tools", [])
+      )
+      resource_templates = (
+        capabilities.resource_templates
+        if hasattr(capabilities, "resource_templates")
+        else capabilities.get("resource_templates", [])
+        if hasattr(capabilities, "get")
+        else capabilities.get("resource_templates", [])
+      )
+
+      _log_info(
+        f"✅ Got capabilities response: {len(tools)} tools, {len(mcp_servers)} servers"
       )
     except Exception as e:
       logger.error(f"❌ Failed to get capabilities from SDK: {e}")
@@ -219,14 +263,14 @@ class MetorialMcpSession:
 
     servers_map = {
       server.id if hasattr(server, "id") else server["id"]: server
-      for server in capabilities.mcp_servers
-    }  # type: ignore[attr-defined]
+      for server in mcp_servers
+    }
 
     # Group capabilities by deployment ID
     capabilities_by_deployment_id: dict[str, Any] = {}
 
     # Process tool capabilities
-    for capability in capabilities.tools:  # type: ignore[attr-defined]
+    for capability in tools:
       server = servers_map.get(
         capability.mcp_server_id
         if hasattr(capability, "mcp_server_id")
@@ -235,14 +279,18 @@ class MetorialMcpSession:
       if not server or not (
         server.server_deployment
         if hasattr(server, "server_deployment")
-        else server.get("server_deployment")
+        else (server.get("server_deployment") if hasattr(server, "get") else None)
       ):
         continue
 
       server_deployment = (
         server.server_deployment
         if hasattr(server, "server_deployment")
-        else server.get("server_deployment")
+        else (
+          server.get("server_deployment")
+          if hasattr(server, "get")
+          else server["server_deployment"]
+        )
       )
       deployment_id = (
         server_deployment.id
@@ -261,17 +309,25 @@ class MetorialMcpSession:
             else capability["name"],
             "description": capability.description
             if hasattr(capability, "description")
-            else capability.get("description"),
+            else (
+              capability.get("description")
+              if hasattr(capability, "get")
+              else capability["description"]
+            ),
             "inputSchema": capability.input_schema
             if hasattr(capability, "input_schema")
-            else capability.get("input_schema"),
+            else (
+              capability.get("input_schema")
+              if hasattr(capability, "get")
+              else capability["input_schema"]
+            ),
           },
           "serverDeployment": {"id": deployment_id},
         }
       )
 
     # Process resource template capabilities
-    for capability in capabilities.resource_templates:  # type: ignore[attr-defined]
+    for capability in resource_templates:
       server = servers_map.get(
         capability.mcp_server_id
         if hasattr(capability, "mcp_server_id")
@@ -280,14 +336,18 @@ class MetorialMcpSession:
       if not server or not (
         server.server_deployment
         if hasattr(server, "server_deployment")
-        else server.get("server_deployment")
+        else (server.get("server_deployment") if hasattr(server, "get") else None)
       ):
         continue
 
       server_deployment = (
         server.server_deployment
         if hasattr(server, "server_deployment")
-        else server.get("server_deployment")
+        else (
+          server.get("server_deployment")
+          if hasattr(server, "get")
+          else server["server_deployment"]
+        )
       )
       deployment_id = (
         server_deployment.id
@@ -306,10 +366,18 @@ class MetorialMcpSession:
             else capability["name"],
             "description": capability.description
             if hasattr(capability, "description")
-            else capability.get("description"),
-            "inputSchema": capability.input_schema
-            if hasattr(capability, "input_schema")
-            else capability.get("input_schema"),
+            else (
+              capability.get("description")
+              if hasattr(capability, "get")
+              else capability["description"]
+            ),
+            "uriTemplate": capability.uri_template
+            if hasattr(capability, "uri_template")
+            else (
+              capability.get("uri_template")
+              if hasattr(capability, "get")
+              else capability["uri_template"]
+            ),
           },
           "serverDeployment": {"id": deployment_id},
         }
@@ -369,10 +437,10 @@ class MetorialMcpSession:
 
     # If no capabilities found for specific deployments, log warning but don't return all capabilities
     if not deployment_capabilities:
-      logger.warning(
+      logger.debug(
         f"⚠️ No capabilities found for requested deployments: {[d['id'] for d in deployments]}"
       )
-      logger.info(
+      _log_info(
         f"📊 Available deployment IDs with capabilities: {list(capabilities_by_deployment_id.keys())}"
       )
 
@@ -381,14 +449,81 @@ class MetorialMcpSession:
   async def get_tool_manager(self):
     from .mcp_tool_manager import MetorialMcpToolManager
 
-    logger.info("🔧 Getting capabilities for tool manager...")
+    _log_info("🔧 Getting capabilities for tool manager...")
     try:
       caps = await self.get_capabilities()
-      logger.info(f"✅ Got {len(caps)} capabilities")
+      _log_info(f"✅ Got {len(caps)} capabilities")
+
+      # If capabilities API returns empty tools, try direct MCP tool discovery
+      if not caps:
+        logger.debug(
+          "❌ Capabilities API returned empty, trying direct MCP tool discovery..."
+        )
+        caps = await self._get_tools_via_direct_mcp()
+        _log_info(f"Direct MCP discovery found {len(caps)} capabilities")
+
       return await MetorialMcpToolManager.from_capabilities(self, caps)
     except Exception as e:
       logger.error(f"❌ Failed to get tool manager: {e}")
-      raise
+      # Try direct MCP as fallback
+      try:
+        logger.warning("🔄 Falling back to direct MCP tool discovery...")
+        caps = await self._get_tools_via_direct_mcp()
+        _log_info(f"🎯 Fallback MCP discovery found {len(caps)} capabilities")
+        return await MetorialMcpToolManager.from_capabilities(self, caps)
+      except Exception as fallback_error:
+        logger.error(f"❌ Fallback MCP discovery also failed: {fallback_error}")
+        raise e  # Raise the original error
+
+  async def _get_tools_via_direct_mcp(self) -> List[Capability]:
+    """Get tools by connecting directly to MCP server, bypassing capabilities API."""
+    _log_info("🔧 Starting direct MCP tool discovery...")
+
+    capabilities = []
+
+    for deployment_id in self.server_deployment_ids:
+      try:
+        _log_info(f"🔗 Connecting directly to MCP for deployment: {deployment_id}")
+
+        client = await self.get_client({"deploymentId": deployment_id})
+
+        tools_response = await client.list_tools()
+
+        if hasattr(tools_response, "tools"):
+          tools = tools_response.tools
+        elif isinstance(tools_response, dict):
+          tools = tools_response.get("tools", [])
+        else:
+          tools = []
+
+        templates_response = await client.list_resource_templates()
+
+        if hasattr(templates_response, "resourceTemplates"):
+          templates = templates_response.resourceTemplates
+        elif isinstance(templates_response, dict):
+          templates = templates_response.get("resourceTemplates", [])
+        else:
+          templates = []
+
+        _log_info(
+          f"🎯 Direct MCP found {len(tools)} tools and {len(templates)} templates for {deployment_id}"
+        )
+
+        for tool in tools:
+          capabilities.append(
+            {"type": "tool", "tool": tool, "serverDeployment": {"id": deployment_id}}
+          )
+
+        # TODO: Implement resource template support
+
+      except Exception as e:
+        logger.warning(f"⚠️ Direct MCP discovery failed for {deployment_id}: {e}")
+        continue
+
+    _log_info(
+      f"🎯 Direct MCP discovery completed: {len(capabilities)} total capabilities"
+    )
+    return capabilities
 
   async def get_client(self, opts: Dict[str, str]) -> MetorialMcpClient:
     dep_id = opts["deploymentId"]

@@ -3,6 +3,60 @@ Metorial Core SDK - Internal implementation
 Generally not for public use: use 'metorial' package instead
 """
 
+import logging
+
+# Enable logging with: logging.getLogger('metorial_core').setLevel(logging.DEBUG)
+
+_metorial_logger_prefixes = ["metorial", "mcp", "httpx", "urllib3"]
+
+
+def _configure_sdk_logging():
+  """Configure SDK logging to be silent by default."""
+
+  # Set all loggers with our prefixes to CRITICAL level
+  for name, logger in logging.Logger.manager.loggerDict.items():
+    if isinstance(logger, logging.Logger):
+      for prefix in _metorial_logger_prefixes:
+        if name.startswith(prefix):
+          logger.setLevel(logging.CRITICAL)
+          logger.propagate = False
+
+  # Explicitly silence critical loggers that generate noise
+  critical_loggers = [
+    "metorial_core",
+    "metorial_core.base", 
+    "metorial_core.lib.clients.async_client",
+    "metorial_core.lib.clients.sync_client",
+    "metorial_mcp_session",
+    "metorial_mcp_session.mcp_session",
+    "metorial_mcp_session.mcp_client",
+    "metorial.mcp.client",
+    "mcp.client.sse", 
+    "httpx",
+    "urllib3",
+  ]
+
+  for logger_name in critical_loggers:
+    logger = logging.getLogger(logger_name)
+    logger.setLevel(logging.CRITICAL)
+    logger.propagate = False
+    
+    # Also silence any child loggers
+    for name in logging.Logger.manager.loggerDict:
+      if name.startswith(logger_name + "."):
+        child_logger = logging.getLogger(name)
+        if isinstance(child_logger, logging.Logger):
+          child_logger.setLevel(logging.CRITICAL)
+          child_logger.propagate = False
+
+
+_configure_sdk_logging()
+
+
+def _ensure_quiet_logging():
+  _configure_sdk_logging()
+
+
 # Import everything from main module
 from .main import (
   Metorial,

@@ -12,11 +12,15 @@ class MetorialTogetherAISession(MetorialOpenAICompatibleSession):
 # Convenience functions
 def build_togetherai_tools(tool_mgr):
   """Build TogetherAI-compatible tool definitions from Metorial tools."""
+  if tool_mgr is None:
+    return []
   session = MetorialTogetherAISession(tool_mgr)
   return session.tools
 
 
 async def call_togetherai_tools(tool_mgr, tool_calls):
   """Call Metorial tools from TogetherAI tool calls."""
+  if tool_mgr is None:
+    return []
   session = MetorialTogetherAISession(tool_mgr)
   return await session.call_tools(tool_calls)

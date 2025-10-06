@@ -5,12 +5,19 @@ echo "Installing Metorial Python packages for development..."
 
 # Install in development mode in dependency order
 PACKAGES=(
+    "packages/metorial-exceptions"
     "packages/metorial-util-endpoint"
     "packages/metorial-core"
     "packages/metorial-generated"
     "packages/metorial-mcp-session"
     "packages/metorial-openai"
     "packages/metorial-anthropic"
+    "packages/metorial-google"
+    "packages/metorial-mistral"
+    "packages/metorial-deepseek"
+    "packages/metorial-togetherai"
+    "packages/metorial-xai"
+    "packages/metorial-openai-compatible"
     "packages/metorial"
 )
 

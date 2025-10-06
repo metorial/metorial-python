@@ -5,6 +5,8 @@ from typing import Any, Dict, Iterable, List
 def build_openai_compatible_tools(tool_mgr, with_strict: bool = False):
   """Build OpenAI-compatible tool definitions from Metorial tools."""
   tools = []
+  if tool_mgr is None:
+    return tools
   for t in tool_mgr.get_tools():
     function_def: Dict[str, Any] = {
       "name": t.name,
@@ -39,6 +41,17 @@ async def call_openai_compatible_tools(
   Returns a list of tool messages.
   """
   messages = []
+  
+  if tool_mgr is None:
+    # Return error message for each tool call if no tool manager available
+    for tc in tool_calls:
+      tool_call_id = _attr_or_key(tc, "id", "id")
+      messages.append({
+        "role": "tool",
+        "tool_call_id": tool_call_id,
+        "content": "[ERROR] Tool manager not available"
+      })
+    return messages
 
   for tc in tool_calls:
     tool_call_id = _attr_or_key(tc, "id", "id")

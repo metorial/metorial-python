@@ -11,11 +11,15 @@ class MetorialXAISession(MetorialOpenAICompatibleSession):
 
 def build_xai_tools(tool_mgr):
   """Build XAI-compatible tool definitions from Metorial tools."""
+  if tool_mgr is None:
+    return []
   session = MetorialXAISession(tool_mgr)
   return session.tools
 
 
 async def call_xai_tools(tool_mgr, tool_calls):
   """Call Metorial tools from XAI tool calls."""
+  if tool_mgr is None:
+    return []
   session = MetorialXAISession(tool_mgr)
   return await session.call_tools(tool_calls)

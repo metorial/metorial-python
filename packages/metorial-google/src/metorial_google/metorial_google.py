@@ -5,6 +5,8 @@ from typing import Any, Dict, Iterable, List
 def build_google_tools(tool_mgr):
   """Build Google Gemini-compatible tool definitions from Metorial tools."""
   function_declarations = []
+  if tool_mgr is None:
+    return [{"function_declarations": function_declarations}]
   for t in tool_mgr.get_tools():
     function_declarations.append(
       {
@@ -34,6 +36,20 @@ async def call_google_tools(tool_mgr, function_calls: List[Any]) -> Dict[str, An
   Returns a user content with function responses.
   """
   parts = []
+  
+  if tool_mgr is None:
+    # Return error message for each function call if no tool manager available
+    for fc in function_calls:
+      call_id = _attr_or_key(fc, "id", "id")
+      call_name = _attr_or_key(fc, "name", "name")
+      parts.append({
+        "function_response": {
+          "id": call_id,
+          "name": call_name,
+          "response": {"error": "[ERROR] Tool manager not available"}
+        }
+      })
+    return {"role": "user", "parts": parts}
 
   for fc in function_calls:
     call_id = _attr_or_key(fc, "id", "id")

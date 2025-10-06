@@ -46,20 +46,30 @@ class AnthropicAdapter(ProviderAdapter):
     tool_calls = []
     if response.content:
       for content_block in response.content:
-        if hasattr(content_block, "tool_use"):
+        if hasattr(content_block, "type") and content_block.type == "tool_use":
           tool_calls.append(
             {
-              "id": content_block.tool_use.id,
+              "id": content_block.id,
               "type": "function",
               "function": {
-                "name": content_block.tool_use.name,
-                "arguments": str(content_block.tool_use.input),
+                "name": content_block.name,
+                "arguments": str(content_block.input),
               },
             }
           )
 
+    text_content = None
+    if response.content:
+      for content_block in response.content:
+        if hasattr(content_block, "text"):
+          text_content = content_block.text
+          break
+
+    if tool_calls and not text_content:
+      text_content = f"Called {len(tool_calls)} tool(s)"
+
     return ChatResponse(
-      content=response.content[0].text if response.content else None,
+      content=text_content,
       tool_calls=tool_calls if tool_calls else None,
       usage=response.usage.dict() if response.usage else None,
     )
@@ -108,5 +118,7 @@ class AnthropicAdapter(ProviderAdapter):
     if build_anthropic_tools is None:
       raise ImportError("metorial-anthropic package is required for Anthropic adapter")
 
-    result = build_anthropic_tools(self.tool_manager)
-    return result  # type: ignore[no-any-return]
+    tools = build_anthropic_tools(self.tool_manager)
+    # Remove duplicate tools by name
+    unique_tools = list({t["name"]: t for t in tools}.values())
+    return unique_tools

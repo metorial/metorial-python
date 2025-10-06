@@ -3,6 +3,7 @@ Metorial session manager with error handling and fallback mechanisms.
 """
 
 import asyncio
+import logging
 from typing import Dict, Any, Optional, List, TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -12,6 +13,8 @@ else:
 
 from .tool_manager import ToolManager as ToolManagerWrapper
 from .tool_adapters import ToolStatistics
+
+logger = logging.getLogger(__name__)
 
 
 class MetorialSession:
@@ -38,14 +41,14 @@ class MetorialSession:
       return self._tool_manager
 
     except asyncio.TimeoutError:
-      print("⏰ Timeout getting tool manager, using fallback")
+      logger.debug("⏰ Timeout getting tool manager, using fallback")
       if enable_fallback:
         return self._create_fallback_tool_manager()
       else:
         raise RuntimeError("Tool manager timeout and fallback disabled")
 
     except Exception as e:
-      print(f"❌ Error getting tool manager: {e}")
+      logger.debug(f"❌ Error getting tool manager: {e}")
       if enable_fallback:
         return self._create_fallback_tool_manager()
       else:
@@ -53,7 +56,7 @@ class MetorialSession:
 
   def _create_fallback_tool_manager(self) -> Optional[ToolManagerWrapper]:
     """Create a fallback tool manager when real tools are unavailable."""
-    print("🔄 No fallback tool manager available")
+    logger.debug("🔄 No fallback tool manager available")
     self._fallback_mode = True
     return None
 

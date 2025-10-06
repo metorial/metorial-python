@@ -58,7 +58,9 @@ Capability = Union[ToolCapability, ResourceTemplateCapability]
 _slug_re = re.compile(r"[^a-z0 - 9]+")
 
 
-def slugify(text: str) -> str:
+def slugify(text: Optional[str]) -> str:
+  if text is None:
+    return "tool"
   s = text.strip().lower()
   s = _slug_re.sub("-", s)
   return s.strip("-") or "tool"
@@ -232,6 +234,19 @@ class MetorialMcpTool:
       tool_description = tool.description
       tool_input_schema = tool.inputSchema
 
+    # Handle None input schema with sensible defaults based on tool name
+    if tool_input_schema is None:
+      if "search" in tool_name.lower():
+        tool_input_schema = {
+          "type": "object",
+          "properties": {"query": {"type": "string", "description": "Search query"}},
+          "required": ["query"],
+        }
+      elif "get_" in tool_name and ("stories" in tool_name or "items" in tool_name):
+        tool_input_schema = {"type": "object", "properties": {}, "required": []}
+      else:
+        tool_input_schema = {"type": "object", "properties": {}, "required": []}
+
     return MetorialMcpTool(
       session=session,
       _id=slugify(tool_name),
@@ -264,6 +279,22 @@ class MetorialMcpTool:
       uri_template = rt["uriTemplate"]
     else:
       uri_template = rt.uriTemplate
+
+    # Handle None uriTemplate with sensible defaults based on resource name
+    if uri_template is None:
+      rt_name = rt["name"] if isinstance(rt, dict) else rt.name
+      if rt_name == "story":
+        uri_template = "hn://story/{id}"
+      elif rt_name == "comment":
+        uri_template = "hn://comment/{id}"
+      elif rt_name == "user":
+        uri_template = "hn://user/{username}"
+      elif rt_name == "item":
+        uri_template = "hn://item/{id}"
+      elif rt_name == "poll":
+        uri_template = "hn://poll/{id}"
+      else:
+        uri_template = ""
 
     uri = McpUriTemplate(uri_template)
 

@@ -3,6 +3,8 @@ Metorial Base Client
 """
 
 import os
+import time
+import asyncio
 import logging
 from typing import Optional, Union, Dict, Any, TYPE_CHECKING
 import httpx
@@ -39,9 +41,32 @@ class MetorialBase:
     logger: Optional[logging.Logger] = None,
     timeout: float = 30.0,
     max_retries: int = 3,
+    enable_debug_logging: bool = False,
     **kwargs,
   ):
     """Initialize Metorial client with enhanced configuration."""
+
+    # Store debug logging preference
+    self.enable_debug_logging = enable_debug_logging
+    
+    # Configure logging based on debug setting
+    if not enable_debug_logging:
+      # Ensure SDK logging is quiet by default (run on each initialization)
+      from . import _configure_sdk_logging
+      _configure_sdk_logging()
+    else:
+      # Enable debug logging for troubleshooting
+      _debug_loggers = [
+        "metorial_core.base",
+        "metorial_core.lib.clients.async_client",
+        "metorial_mcp_session.mcp_session",
+        "metorial.mcp.client",
+        "mcp.client.sse",
+      ]
+      for logger_name in _debug_loggers:
+        logger_obj = logging.getLogger(logger_name)
+        logger_obj.setLevel(logging.DEBUG)
+        logger_obj.propagate = True
 
     # Support both direct parameters and config dict
     if isinstance(api_key, dict):
@@ -173,8 +198,73 @@ class MetorialBase:
     return self._links
 
   @property
-  def oauth(self) -> Optional["ProviderOauthGroup"]:
-    return self._oauth
+  def oauth(self):
+    """Access to OAuth-related endpoints with wait_for_completion method."""
+    if self._oauth is None:
+      return None
+
+    # Add wait_for_completion method to oauth interface
+    class OAuthWithWaitForCompletion:
+      def __init__(self, oauth_group, metorial_instance):
+        self._oauth = oauth_group
+        self._metorial = metorial_instance
+
+        # Delegate all oauth group methods
+        for attr_name in ["connections", "sessions", "profiles", "authentications"]:
+          if hasattr(oauth_group, attr_name):
+            setattr(self, attr_name, getattr(oauth_group, attr_name))
+
+      async def wait_for_completion(self, sessions, options=None):
+        """Wait for OAuth sessions to complete authentication (like TypeScript version)."""
+        poll_interval = (
+          max((options or {}).get("pollInterval", 5000), 2000) / 1000
+        )  # Convert to seconds, min 2s
+        timeout = (options or {}).get(
+          "timeout", 600000
+        ) / 1000  # Convert to seconds, default 10 min
+        start_time = time.time()
+
+        if not sessions:
+          return
+
+        while True:
+          if time.time() - start_time > timeout:
+            raise Exception(f"OAuth authentication timeout after {timeout} seconds")
+
+          try:
+            all_completed = True
+            failed_sessions = []
+
+            for session in sessions:
+              try:
+                session_id = session.id if hasattr(session, "id") else session["id"]
+                status = self.sessions.get(session_id)
+
+                if status.status == "failed":
+                  failed_sessions.append(session)
+                elif status.status != "completed":
+                  all_completed = False
+              except Exception:
+                all_completed = False  # Session check failed, keep polling
+
+            if failed_sessions:
+              raise Exception(
+                f"OAuth authentication failed for {len(failed_sessions)} session(s)"
+              )
+
+            if all_completed:
+              return
+
+            # Wait before next poll
+            await asyncio.sleep(poll_interval)
+
+          except Exception as error:
+            if "OAuth authentication" in str(error):
+              raise  # Re-raise OAuth-specific errors
+            # For other errors, continue polling
+            await asyncio.sleep(poll_interval)
+
+    return OAuthWithWaitForCompletion(self._oauth, self)
 
   @property
   def _config(self):
@@ -192,17 +282,26 @@ class MetorialBase:
   def create_mcp_session(self, init: MetorialMcpSessionInit) -> MetorialSession:
     """Create MCP session with enhanced error handling"""
     try:
-      server_deployment_ids = init.get("serverDeployments", [])
-      if isinstance(server_deployment_ids, list) and server_deployment_ids:
-        ids = [
-          dep["id"] if isinstance(dep, dict) else dep for dep in server_deployment_ids
-        ]
-      else:
-        ids = []
+      server_deployment_data = init.get("serverDeployments", [])
 
-      # Create MCP session init object
+      deployments = []
+      for dep in server_deployment_data:
+        if isinstance(dep, dict):
+          deployment_obj = {}
+          if "id" in dep:
+            deployment_obj["id"] = dep["id"]
+          elif "serverDeploymentId" in dep:
+            deployment_obj["id"] = dep["serverDeploymentId"]
+
+          if "oauthSessionId" in dep:
+            deployment_obj["oauthSessionId"] = dep["oauthSessionId"]
+
+          deployments.append(deployment_obj)
+        else:
+          deployments.append({"id": dep})
+
       mcp_init = {
-        "serverDeployments": [{"id": dep_id} for dep_id in ids],
+        "serverDeployments": deployments,
         "client": {
           "name": init.get("client", {}).get("name", "metorial-python"),
           "version": init.get("client", {}).get("version", "1.0.0"),

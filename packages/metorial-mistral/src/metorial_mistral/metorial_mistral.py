@@ -5,6 +5,8 @@ from typing import Any, Dict, Iterable, List
 def build_mistral_tools(tool_mgr):
   """Build Mistral-compatible tool definitions from Metorial tools."""
   tools = []
+  if tool_mgr is None:
+    return tools
   for t in tool_mgr.get_tools():
     tools.append(
       {
@@ -35,6 +37,17 @@ async def call_mistral_tools(tool_mgr, tool_calls: List[Any]) -> List[Dict[str, 
   Returns a list of tool messages.
   """
   messages = []
+  
+  if tool_mgr is None:
+    # Return error message for each tool call if no tool manager available
+    for tc in tool_calls:
+      tool_call_id = _attr_or_key(tc, "id", "id")
+      messages.append({
+        "tool_call_id": tool_call_id,
+        "role": "tool", 
+        "content": "[ERROR] Tool manager not available"
+      })
+    return messages
 
   for tc in tool_calls:
     tool_call_id = _attr_or_key(tc, "id", "id")

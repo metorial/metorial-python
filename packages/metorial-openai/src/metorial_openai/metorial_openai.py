@@ -4,6 +4,8 @@ from typing import Any, Dict, Iterable, List
 
 def build_openai_tools(tool_mgr):
   tools = []
+  if tool_mgr is None:
+    return tools
   for t in tool_mgr.get_tools():
     tools.append(
       {
@@ -28,6 +30,17 @@ def _attr_or_key(obj, attr, key, default=None):
 
 async def call_openai_tools(tool_mgr, tool_calls: List[Any]) -> List[Dict[str, Any]]:
   msgs: List[Dict[str, Any]] = []
+  
+  if tool_mgr is None:
+    # Return error message for each tool call if no tool manager available
+    for tc in tool_calls:
+      tc_id = _attr_or_key(tc, "id", "id")
+      msgs.append({
+        "role": "tool",
+        "tool_call_id": tc_id,
+        "content": "[ERROR] Tool manager not available"
+      })
+    return msgs
 
   for tc in tool_calls:
     tc_id = _attr_or_key(tc, "id", "id")
