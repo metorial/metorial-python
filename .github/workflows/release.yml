@@ -59,6 +59,7 @@ jobs:
           - packages/metorial-xai
           - packages/metorial-deepseek
           - packages/metorial-togetherai
+          - packages/metorial-exceptions
           - packages/metorial
     steps:
       - uses: actions/checkout@v4
