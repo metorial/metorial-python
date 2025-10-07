@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "metorial-generated"
-version = "1.0.2"
+version = "1.0.3"
 description = "Generated SDK endpoints and resources for Metorial"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -37,9 +37,15 @@ Repository = "https://github.com/metorial/metorial-python"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
+include-package-data = true
 
 [tool.setuptools.packages.find]
 where = ["src"]
+include = ["mt_2025_01_01_*"]
+
+[tool.setuptools.package-data]
+"mt_2025_01_01_pulsar" = ["**/*.py"]
+"mt_2025_01_01_dashboard" = ["**/*.py"]
 
 [tool.uv.sources]
 metorial-core = { workspace = true }
