@@ -1,6 +1,6 @@
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "metorial-generated"
@@ -35,14 +35,11 @@ Homepage = "https://metorial.com"
 Documentation = "https://metorial.com/docs"
 Repository = "https://github.com/metorial/metorial-python"
 
-[tool.hatch.build.targets.wheel]
-packages = ["src/mt_2025_01_01_dashboard", "src/mt_2025_01_01_pulsar"]
+[tool.setuptools]
+package-dir = {"" = "src"}
 
-[tool.hatch.build.targets.sdist]
-include = [
-    "/src",
-    "/LICENSE",
-]
+[tool.setuptools.packages.find]
+where = ["src"]
 
 [tool.uv.sources]
 metorial-core = { workspace = true }
