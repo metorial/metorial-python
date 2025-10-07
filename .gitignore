@@ -62,7 +62,10 @@ db.sqlite3
 db.sqlite3-journal
 
 # Flask stuff:
-instance/
+# Note: Don't ignore metorial package instance directories
+**/app/instance/
+**/flask_app/instance/
+flask_instance/
 .webassets-cache
 
 # Scrapy stuff:
