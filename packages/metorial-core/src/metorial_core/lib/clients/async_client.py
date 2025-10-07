@@ -1,6 +1,6 @@
 import asyncio
 import time
-from typing import Dict, Any, List, Optional, Callable, Union, AsyncGenerator, TypedDict
+from typing import Dict, Any, List, Optional, Callable, Union, AsyncGenerator
 from ...base import MetorialBase
 from ...session import MetorialSession
 from ...adapters import ProviderAdapter, ChatMessage, create_provider_adapter
@@ -8,11 +8,7 @@ from metorial_exceptions import MetorialAPIError
 from ..metrics import ChatMetrics
 from ..streaming import StreamEvent, StreamEventType
 from ...adapters.factory import infer_provider_type
-
-
-class RunResult(TypedDict):
-  text: str
-  steps: int
+from ...types import RunResult
 
 
 class Metorial(MetorialBase):

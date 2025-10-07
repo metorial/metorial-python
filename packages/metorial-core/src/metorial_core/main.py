@@ -16,6 +16,7 @@ from metorial_exceptions import (
   MetorialTimeoutError,
   MetorialDuplicateToolError,
 )
+from .types import RunResult, DictAttributeAccess
 from .lib.streaming import StreamEvent, StreamEventType
 from .lib.metrics import ChatMetrics
 
@@ -84,6 +85,9 @@ __all__ = [
   # Streaming types
   "StreamEvent",
   "StreamEventType",
+  # Result types  
+  "RunResult",
+  "DictAttributeAccess",
   # Metrics
   "ChatMetrics",
   # Tool management

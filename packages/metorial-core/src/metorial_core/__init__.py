@@ -108,6 +108,9 @@ from .main import (
   TypedMetorialSessionsEndpoint,
 )
 
+# Import types
+from .types import RunResult, DictAttributeAccess
+
 # Import Group classes separately to avoid circular imports
 from .sdk import (
   ServersGroup,
@@ -166,11 +169,14 @@ __all__ = [
   "OpenAICompatibleAdapter",
   "create_provider_adapter",
   "infer_provider_type",
-  "MetorialSDKBuilder",
+  "MetorialSDKBuilder", 
   "SDKConfig",
   "SDK",
   "create_metorial_sdk",
   "create_auth_headers",
+  # Result types
+  "RunResult",
+  "DictAttributeAccess",
   # Group classes for type checking
   "ServersGroup",
   "SessionsGroup",
