@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "metorial-anthropic"
-version = "1.0.1"
+version = "1.0.2"
 description = "Anthropic (Claude) provider for Metorial"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -24,8 +24,8 @@ classifiers = [
 ]
 keywords = ["metorial", "anthropic", "claude", "llm", "ai"]
 dependencies = [
-    "anthropic>=0.40.0",
-    "metorial-mcp-session>=1.0.0",
+    "anthropic>=0.69.0",
+    "metorial-mcp-session>=1.0.2",
     "typing-extensions>=4.0.0",
 ]
 
