@@ -107,3 +107,34 @@ class MetorialGoogleSession:
   async def call_tools(self, function_calls: Iterable[Any]) -> Dict[str, Any]:
     """Execute function calls and return Google-compatible content."""
     return await call_google_tools(self._tool_mgr, list(function_calls))
+
+  @staticmethod
+  async def chat_completions(session) -> Dict[str, Any]:
+    """Convenience provider for with_provider_session.
+
+    Example:
+      await metorial.with_provider_session(
+        MetorialGoogleSession.chat_completions,
+        ["your-deployment-id"],
+        action
+      )
+    """
+    tool_mgr = await session.get_tool_manager()
+    provider_session = MetorialGoogleSession(tool_mgr)
+    return {"tools": provider_session.tools}
+
+
+async def chat_completions(session) -> Dict[str, Any]:
+  """Module-level convenience provider to pass into with_provider_session.
+
+  Usage:
+    import metorial_google as mgoogle
+    await metorial.with_provider_session(
+      mgoogle.chat_completions,
+      ["your-deployment-id"],
+      action
+    )
+  """
+  tool_mgr = await session.get_tool_manager()
+  provider_session = MetorialGoogleSession(tool_mgr)
+  return {"tools": provider_session.tools}

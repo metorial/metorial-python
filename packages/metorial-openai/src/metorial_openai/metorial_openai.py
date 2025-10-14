@@ -88,3 +88,34 @@ class MetorialOpenAISession:
 
   async def call_tools(self, tool_calls: Iterable[Any]) -> List[Dict[str, Any]]:
     return await call_openai_tools(self._tool_mgr, list(tool_calls))
+
+  @staticmethod
+  async def chat_completions(session) -> Dict[str, Any]:
+    """Convenience provider for with_provider_session.
+
+    Example:
+      await metorial.with_provider_session(
+        MetorialOpenAISession.chat_completions,
+        ["your-deployment-id"],
+        action
+      )
+    """
+    tool_mgr = await session.get_tool_manager()
+    provider_session = MetorialOpenAISession(tool_mgr)
+    return {"tools": provider_session.tools}
+
+
+async def chat_completions(session) -> Dict[str, Any]:
+  """Module-level convenience provider to pass into with_provider_session.
+
+  Usage:
+    import metorial_openai as mopenai
+    await metorial.with_provider_session(
+      mopenai.chat_completions,
+      ["your-deployment-id"],
+      action
+    )
+  """
+  tool_mgr = await session.get_tool_manager()
+  provider_session = MetorialOpenAISession(tool_mgr)
+  return {"tools": provider_session.tools}

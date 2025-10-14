@@ -228,3 +228,34 @@ class MetorialAnthropicSession:
   async def call_tools(self, tool_calls: Iterable[Any]) -> Dict[str, Any]:
     """Execute tool calls and return Anthropic-compatible message."""
     return await call_anthropic_tools(self._tool_mgr, list(tool_calls))
+
+  @staticmethod
+  async def chat_completions(session) -> Dict[str, Any]:
+    """Convenience provider for with_provider_session.
+
+    Example:
+      await metorial.with_provider_session(
+        MetorialAnthropicSession.chat_completions,
+        ["your-deployment-id"],
+        action
+      )
+    """
+    tool_mgr = await session.get_tool_manager()
+    provider_session = MetorialAnthropicSession(tool_mgr)
+    return {"tools": provider_session.tools}
+
+
+async def chat_completions(session) -> Dict[str, Any]:
+  """Module-level convenience provider to pass into with_provider_session.
+
+  Usage:
+    import metorial_anthropic as manthro
+    await metorial.with_provider_session(
+      manthro.chat_completions,
+      ["your-deployment-id"],
+      action
+    )
+  """
+  tool_mgr = await session.get_tool_manager()
+  provider_session = MetorialAnthropicSession(tool_mgr)
+  return {"tools": provider_session.tools}

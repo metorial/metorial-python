@@ -107,6 +107,59 @@ That's it! `metorial.run()` automatically:
 - Manages tool execution
 - Returns the final response
 
+### Advanced Usage with Provider Sessions
+
+For more control over the conversation flow, you can use `with_provider_session`:
+
+```python
+import asyncio
+from metorial import Metorial, MetorialOpenAI
+from openai import AsyncOpenAI
+
+async def main():
+  metorial = Metorial(api_key="your-metorial-api-key")
+  openai = AsyncOpenAI(api_key="your-openai-api-key")
+
+  messages = [
+    {"role": "user", "content": "What are the top hackernews posts?"}
+  ]
+
+  async def session_action(session):
+    for i in range(10):
+      response = await openai.chat.completions.create(
+        messages=messages,
+        model="gpt-4o",
+        tools=session["tools"]
+      )
+
+      choice = response.choices[0]
+      tool_calls = choice.message.tool_calls
+
+      if not tool_calls:
+        print(choice.message.content)
+        return
+
+      # Execute tools through Metorial
+      tool_responses = await session["callTools"](tool_calls)
+
+      # Add to conversation
+      messages.append({
+        "role": "assistant", 
+        "tool_calls": choice.message.tool_calls
+      })
+      messages.extend(tool_responses)
+
+  await metorial.with_provider_session(
+    MetorialOpenAI.chat_completions,
+    [{"serverDeploymentId": "your-deployment-id"}],
+    session_action
+  )
+
+asyncio.run(main())
+```
+
+This approach gives you full control over the conversation loop while still benefiting from Metorial's tool management.
+
 ## Provider Examples
 
 Metorial works with all major AI providers. Here are examples using `metorial.run()`:
