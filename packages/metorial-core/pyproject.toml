@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "metorial-core"
-version = "1.0.8"
+version = "1.0.9"
 description = "Core components for Metorial Python SDK"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -27,7 +27,7 @@ dependencies = [
     "typing-extensions>=4.0.0",
     "metorial-util-endpoint>=1.0.4",
     "metorial-generated>=1.0.8",
-    "metorial-mcp-session>=1.0.4",
+    "metorial-mcp-session>=1.0.5",
     "metorial-exceptions>=1.0.4",
 ]
 

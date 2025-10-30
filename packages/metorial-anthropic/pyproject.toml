@@ -23,7 +23,7 @@ classifiers = [
 keywords = ["metorial", "anthropic", "claude", "llm", "ai"]
 dependencies = [
     "anthropic>=0.69.0",
-    "metorial-mcp-session>=1.0.3",
+    "metorial-mcp-session>=1.0.5",
     "typing-extensions>=4.0.0",
 ]
 

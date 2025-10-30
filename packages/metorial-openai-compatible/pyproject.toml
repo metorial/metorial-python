@@ -24,7 +24,7 @@ classifiers = [
 ]
 keywords = ["metorial", "openai", "llm", "ai", "compatible"]
 dependencies = [
-    "metorial-core>=1.0.3",
+    "metorial-core>=1.0.9",
     "typing-extensions>=4.0.0",
 ]
 

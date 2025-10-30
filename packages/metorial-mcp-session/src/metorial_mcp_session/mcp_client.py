@@ -61,7 +61,16 @@ class MetorialMcpClient:
     self._transport_closer = transport_closer
     self._closed = False
     self._default_timeout = default_timeout
+    self._tasks: set[asyncio.Task] = set()  # Track background tasks
     logger.debug("MetorialMcpClient instantiated default_timeout=%s", default_timeout)
+
+  async def __aenter__(self):
+    """Async context manager entry"""
+    return self
+
+  async def __aexit__(self, exc_type, exc_val, exc_tb):
+    """Async context manager exit with proper cleanup"""
+    await self.close()
 
   @classmethod
   async def create(
@@ -379,44 +388,37 @@ class MetorialMcpClient:
     self._closed = True
 
     try:
-      # Give pending operations a moment to complete
-      await asyncio.sleep(0.05)
+      # Cancel and wait for background tasks first
+      for task in list(self._tasks):
+        if not task.done():
+          task.cancel()
+      
+      if self._tasks:
+        await asyncio.gather(*self._tasks, return_exceptions=True)
+        self._tasks.clear()
 
-      # Close the session first if it has a close method
-      if hasattr(self._session, "close") and callable(self._session.close):
+      # Close the session properly with aclose if available
+      if hasattr(self._session, 'aclose') and callable(self._session.aclose):
+        try:
+          await asyncio.wait_for(self._session.aclose(), timeout=2.0)
+        except (asyncio.TimeoutError, Exception):
+          pass  # Silent cleanup
+      elif hasattr(self._session, "close") and callable(self._session.close):
         try:
           await asyncio.wait_for(self._session.close(), timeout=2.0)
         except (asyncio.TimeoutError, Exception):
-          pass  # Ignore close errors during cleanup
+          pass  # Silent cleanup
 
       # Close the transport gracefully
       if self._transport_closer:
         try:
           await asyncio.wait_for(self._transport_closer(), timeout=1.0)
         except (asyncio.TimeoutError, Exception):
-          pass  # Ignore transport close errors
+          pass  # Silent cleanup
 
     except Exception:
       # All cleanup should be resilient and not raise
       pass
-
-    # Final cleanup - ensure session exit
-    try:
-      from contextlib import suppress
-
-      with suppress(Exception):
-        if hasattr(self._session, "__aexit__"):
-          aexit_result = self._session.__aexit__(None, None, None)
-          if asyncio.iscoroutine(aexit_result):
-            await asyncio.wait_for(aexit_result, timeout=1.0)
-    except Exception:
-      pass  # Final safety net
-      # If it's not a coroutine, it might be a dictionary or other value, just ignore it
-    with suppress(Exception):
-      transport_result = self._transport_closer()
-      if asyncio.iscoroutine(transport_result):
-        await transport_result
-      # If it's not a coroutine, it might be a dictionary or other value, just ignore it
 
   def close_sync(self) -> None:
     try:

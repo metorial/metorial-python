@@ -25,7 +25,7 @@ classifiers = [
 keywords = ["metorial", "mistral", "llm", "ai"]
 dependencies = [
     "mistralai>=1.0.0",
-    "metorial-core>=1.0.3",
+    "metorial-core>=1.0.9",
     "typing-extensions>=4.0.0",
 ]
 
