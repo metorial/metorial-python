@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+from metorial_core.utils import parse_iso_datetime
 import dataclasses
 
 
@@ -28,7 +29,6 @@ class SessionsDeleteOutputServerDeploymentsServer:
 class SessionsDeleteOutputServerDeploymentsConnectionUrls:
   sse: str
   streamable_http: str
-  websocket: str
 
 
 @dataclass
@@ -74,7 +74,7 @@ class mapSessionsDeleteOutputClientSecret:
       type=data.get("type"),
       id=data.get("id"),
       secret=data.get("secret"),
-      expires_at=datetime.fromisoformat(data.get("expires_at"))
+      expires_at=parse_iso_datetime(data.get("expires_at"))
       if data.get("expires_at")
       else None,
     )
@@ -99,10 +99,10 @@ class mapSessionsDeleteOutputServerDeploymentsServer:
       name=data.get("name"),
       description=data.get("description"),
       type=data.get("type"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )
@@ -124,9 +124,7 @@ class mapSessionsDeleteOutputServerDeploymentsConnectionUrls:
     data: Dict[str, Any]
   ) -> SessionsDeleteOutputServerDeploymentsConnectionUrls:
     return SessionsDeleteOutputServerDeploymentsConnectionUrls(
-      sse=data.get("sse"),
-      streamable_http=data.get("streamable_http"),
-      websocket=data.get("websocket"),
+      sse=data.get("sse"), streamable_http=data.get("streamable_http")
     )
 
   @staticmethod
@@ -152,10 +150,10 @@ class mapSessionsDeleteOutputServerDeployments:
       oauth_session_id=data.get("oauth_session_id"),
       description=data.get("description"),
       metadata=data.get("metadata"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
       server=mapSessionsDeleteOutputServerDeploymentsServer.from_dict(
@@ -227,10 +225,10 @@ class mapSessionsDeleteOutput:
       if data.get("usage")
       else None,
       metadata=data.get("metadata"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )

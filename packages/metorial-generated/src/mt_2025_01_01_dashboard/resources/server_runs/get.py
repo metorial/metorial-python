@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+from metorial_core.utils import parse_iso_datetime
 import dataclasses
 
 
@@ -106,10 +107,10 @@ class mapServerRunsGetOutputServer:
       name=data.get("name"),
       description=data.get("description"),
       type=data.get("type"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )
@@ -134,10 +135,10 @@ class mapServerRunsGetOutputServerDeploymentServer:
       name=data.get("name"),
       description=data.get("description"),
       type=data.get("type"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )
@@ -162,10 +163,10 @@ class mapServerRunsGetOutputServerDeployment:
       name=data.get("name"),
       description=data.get("description"),
       metadata=data.get("metadata"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
       server=mapServerRunsGetOutputServerDeploymentServer.from_dict(data.get("server"))
@@ -290,7 +291,7 @@ class mapServerRunsGetOutputServerSession:
       if data.get("usage")
       else None,
       session_id=data.get("session_id"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
     )
@@ -328,16 +329,16 @@ class mapServerRunsGetOutput:
       )
       if data.get("server_session")
       else None,
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
-      started_at=datetime.fromisoformat(data.get("started_at"))
+      started_at=parse_iso_datetime(data.get("started_at"))
       if data.get("started_at")
       else None,
-      stopped_at=datetime.fromisoformat(data.get("stopped_at"))
+      stopped_at=parse_iso_datetime(data.get("stopped_at"))
       if data.get("stopped_at")
       else None,
     )

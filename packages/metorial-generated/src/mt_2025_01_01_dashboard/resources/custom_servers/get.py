@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+from metorial_core.utils import parse_iso_datetime
 import dataclasses
 
 
@@ -26,6 +27,18 @@ class CustomServersGetOutputServerVariant:
 
 
 @dataclass
+class CustomServersGetOutputRepository:
+  object: str
+  id: str
+  name: str
+  owner: str
+  url: str
+  default_branch: str
+  created_at: datetime
+  updated_at: datetime
+
+
+@dataclass
 class CustomServersGetOutput:
   object: str
   id: str
@@ -38,62 +51,11 @@ class CustomServersGetOutput:
   server_variant: CustomServersGetOutputServerVariant
   created_at: datetime
   updated_at: datetime
+  fork: Dict[str, Any]
   description: Optional[str] = None
   current_version_id: Optional[str] = None
   deleted_at: Optional[datetime] = None
-
-
-class mapCustomServersGetOutputServer:
-  @staticmethod
-  def from_dict(data: Dict[str, Any]) -> CustomServersGetOutputServer:
-    return CustomServersGetOutputServer(
-      object=data.get("object"),
-      id=data.get("id"),
-      name=data.get("name"),
-      description=data.get("description"),
-      type=data.get("type"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
-      if data.get("created_at")
-      else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
-      if data.get("updated_at")
-      else None,
-    )
-
-  @staticmethod
-  def to_dict(
-    value: Union[CustomServersGetOutputServer, Dict[str, Any], None]
-  ) -> Optional[Dict[str, Any]]:
-    if value is None:
-      return None
-    if isinstance(value, dict):
-      return value
-    return dataclasses.asdict(value)
-
-
-class mapCustomServersGetOutputServerVariant:
-  @staticmethod
-  def from_dict(data: Dict[str, Any]) -> CustomServersGetOutputServerVariant:
-    return CustomServersGetOutputServerVariant(
-      object=data.get("object"),
-      id=data.get("id"),
-      identifier=data.get("identifier"),
-      server_id=data.get("server_id"),
-      source=data.get("source"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
-      if data.get("created_at")
-      else None,
-    )
-
-  @staticmethod
-  def to_dict(
-    value: Union[CustomServersGetOutputServerVariant, Dict[str, Any], None]
-  ) -> Optional[Dict[str, Any]]:
-    if value is None:
-      return None
-    if isinstance(value, dict):
-      return value
-    return dataclasses.asdict(value)
+  repository: Optional[CustomServersGetOutputRepository] = None
 
 
 class mapCustomServersGetOutput:
@@ -117,14 +79,18 @@ class mapCustomServersGetOutput:
       if data.get("server_variant")
       else None,
       current_version_id=data.get("current_version_id"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
-      deleted_at=datetime.fromisoformat(data.get("deleted_at"))
+      deleted_at=parse_iso_datetime(data.get("deleted_at"))
       if data.get("deleted_at")
+      else None,
+      fork=data.get("fork"),
+      repository=mapCustomServersGetOutputRepository.from_dict(data.get("repository"))
+      if data.get("repository")
       else None,
     )
 

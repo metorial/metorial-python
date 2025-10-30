@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+from metorial_core.utils import parse_iso_datetime
 import dataclasses
 
 
@@ -21,13 +22,32 @@ class ServersDeploymentsListOutputItemsOauthConnection:
   metadata: Dict[str, Any]
   provider: ServersDeploymentsListOutputItemsOauthConnectionProvider
   config: Dict[str, Any]
-  scopes: List[str]
   client_id: str
   instance_id: str
   created_at: datetime
   updated_at: datetime
   description: Optional[str] = None
   template_id: Optional[str] = None
+
+
+@dataclass
+class ServersDeploymentsListOutputItemsCallbackSchedule:
+  object: str
+  interval_seconds: float
+  next_run_at: datetime
+
+
+@dataclass
+class ServersDeploymentsListOutputItemsCallback:
+  object: str
+  id: str
+  type: str
+  schedule: ServersDeploymentsListOutputItemsCallbackSchedule
+  created_at: datetime
+  updated_at: datetime
+  url: Optional[str] = None
+  name: Optional[str] = None
+  description: Optional[str] = None
 
 
 @dataclass
@@ -87,6 +107,11 @@ class ServersDeploymentsListOutputItemsServerImplementation:
 
 
 @dataclass
+class ServersDeploymentsListOutputItemsAccess:
+  ip_allowlist: Dict[str, Any]
+
+
+@dataclass
 class ServersDeploymentsListOutputItems:
   object: str
   id: str
@@ -102,6 +127,8 @@ class ServersDeploymentsListOutputItems:
   updated_at: datetime
   description: Optional[str] = None
   oauth_connection: Optional[ServersDeploymentsListOutputItemsOauthConnection] = None
+  callback: Optional[ServersDeploymentsListOutputItemsCallback] = None
+  access: Optional[ServersDeploymentsListOutputItemsAccess] = None
 
 
 @dataclass
@@ -159,14 +186,13 @@ class mapServersDeploymentsListOutputItemsOauthConnection:
       if data.get("provider")
       else None,
       config=data.get("config"),
-      scopes=data.get("scopes", []),
       client_id=data.get("client_id"),
       instance_id=data.get("instance_id"),
       template_id=data.get("template_id"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )
@@ -174,6 +200,66 @@ class mapServersDeploymentsListOutputItemsOauthConnection:
   @staticmethod
   def to_dict(
     value: Union[ServersDeploymentsListOutputItemsOauthConnection, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapServersDeploymentsListOutputItemsCallbackSchedule:
+  @staticmethod
+  def from_dict(
+    data: Dict[str, Any]
+  ) -> ServersDeploymentsListOutputItemsCallbackSchedule:
+    return ServersDeploymentsListOutputItemsCallbackSchedule(
+      object=data.get("object"),
+      interval_seconds=data.get("interval_seconds"),
+      next_run_at=parse_iso_datetime(data.get("next_run_at"))
+      if data.get("next_run_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[
+      ServersDeploymentsListOutputItemsCallbackSchedule, Dict[str, Any], None
+    ]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapServersDeploymentsListOutputItemsCallback:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> ServersDeploymentsListOutputItemsCallback:
+    return ServersDeploymentsListOutputItemsCallback(
+      object=data.get("object"),
+      id=data.get("id"),
+      url=data.get("url"),
+      name=data.get("name"),
+      description=data.get("description"),
+      type=data.get("type"),
+      schedule=mapServersDeploymentsListOutputItemsCallbackSchedule.from_dict(
+        data.get("schedule")
+      )
+      if data.get("schedule")
+      else None,
+      created_at=parse_iso_datetime(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=parse_iso_datetime(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[ServersDeploymentsListOutputItemsCallback, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None
@@ -191,10 +277,10 @@ class mapServersDeploymentsListOutputItemsServer:
       name=data.get("name"),
       description=data.get("description"),
       type=data.get("type"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )
@@ -218,7 +304,7 @@ class mapServersDeploymentsListOutputItemsConfig:
       id=data.get("id"),
       status=data.get("status"),
       secret_id=data.get("secret_id"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
     )
@@ -245,7 +331,7 @@ class mapServersDeploymentsListOutputItemsServerImplementationServerVariant:
       identifier=data.get("identifier"),
       server_id=data.get("server_id"),
       source=data.get("source"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
     )
@@ -276,10 +362,10 @@ class mapServersDeploymentsListOutputItemsServerImplementationServer:
       name=data.get("name"),
       description=data.get("description"),
       type=data.get("type"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )
@@ -320,10 +406,10 @@ class mapServersDeploymentsListOutputItemsServerImplementation:
       )
       if data.get("server")
       else None,
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )
@@ -333,6 +419,24 @@ class mapServersDeploymentsListOutputItemsServerImplementation:
     value: Union[
       ServersDeploymentsListOutputItemsServerImplementation, Dict[str, Any], None
     ]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapServersDeploymentsListOutputItemsAccess:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> ServersDeploymentsListOutputItemsAccess:
+    return ServersDeploymentsListOutputItemsAccess(
+      ip_allowlist=data.get("ip_allowlist")
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[ServersDeploymentsListOutputItemsAccess, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None
@@ -355,6 +459,11 @@ class mapServersDeploymentsListOutputItems:
       )
       if data.get("oauth_connection")
       else None,
+      callback=mapServersDeploymentsListOutputItemsCallback.from_dict(
+        data.get("callback")
+      )
+      if data.get("callback")
+      else None,
       result=data.get("result"),
       metadata=data.get("metadata"),
       secret_id=data.get("secret_id"),
@@ -369,10 +478,13 @@ class mapServersDeploymentsListOutputItems:
       )
       if data.get("server_implementation")
       else None,
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      access=mapServersDeploymentsListOutputItemsAccess.from_dict(data.get("access"))
+      if data.get("access")
+      else None,
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )
@@ -447,6 +559,7 @@ class ServersDeploymentsListQuery:
   server_variant_id: Optional[Union[str, List[str]]] = None
   server_implementation_id: Optional[Union[str, List[str]]] = None
   session_id: Optional[Union[str, List[str]]] = None
+  search: Optional[str] = None
 
 
 class mapServersDeploymentsListQuery:
@@ -463,6 +576,7 @@ class mapServersDeploymentsListQuery:
       server_variant_id=data.get("server_variant_id"),
       server_implementation_id=data.get("server_implementation_id"),
       session_id=data.get("session_id"),
+      search=data.get("search"),
     )
 
   @staticmethod

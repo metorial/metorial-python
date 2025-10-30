@@ -33,21 +33,21 @@ def build_anthropic_tools(tool_mgr):
 
       # If still empty, check if it's an MCP tool and access MCP-specific attributes
       if (not raw_schema or not raw_schema.get("properties")) and hasattr(t, "_action"):
-          # This might be a MetorialMcpTool - try to get original MCP schema
-          if hasattr(t, "_parameters") and t._parameters:
-            raw_schema = t._parameters
-          elif str(type(t)).find("MetorialMcpTool") != -1:
-            # Debug info: MCP tool attributes (removed for clean output)
-            pass
+        # This might be a MetorialMcpTool - try to get original MCP schema
+        if hasattr(t, "_parameters") and t._parameters:
+          raw_schema = t._parameters
+        elif str(type(t)).find("MetorialMcpTool") != -1:
+          # Debug info: MCP tool attributes (removed for clean output)
+          pass
 
-          # Try common MCP tool schema attributes
-          for mcp_attr in ["_parameters", "_schema", "input_schema"]:
-            if hasattr(t, mcp_attr):
-              mcp_schema = getattr(t, mcp_attr)
-              if mcp_schema and isinstance(mcp_schema, dict):
-                raw_schema = mcp_schema
-                # Found schema in {mcp_attr}: {mcp_schema} (debug info removed)
-                break
+        # Try common MCP tool schema attributes
+        for mcp_attr in ["_parameters", "_schema", "input_schema"]:
+          if hasattr(t, mcp_attr):
+            mcp_schema = getattr(t, mcp_attr)
+            if mcp_schema and isinstance(mcp_schema, dict):
+              raw_schema = mcp_schema
+              # Found schema in {mcp_attr}: {mcp_schema} (debug info removed)
+              break
 
     # If still no good schema, create tool-specific defaults based on tool name
     if not raw_schema or not raw_schema.get("properties"):
@@ -139,16 +139,18 @@ async def call_anthropic_tools(tool_mgr, tool_calls: List[Any]) -> Dict[str, Any
   Returns a user message with tool results.
   """
   tool_results = []
-  
+
   if tool_mgr is None:
     # Return error message for each tool call if no tool manager available
     for tc in tool_calls:
       tool_use_id = _attr_or_key(tc, "id", "id")
-      tool_results.append({
-        "type": "tool_result", 
-        "tool_use_id": tool_use_id,
-        "content": "[ERROR] Tool manager not available"
-      })
+      tool_results.append(
+        {
+          "type": "tool_result",
+          "tool_use_id": tool_use_id,
+          "content": "[ERROR] Tool manager not available",
+        }
+      )
     return {"role": "user", "content": tool_results}
 
   for tc in tool_calls:

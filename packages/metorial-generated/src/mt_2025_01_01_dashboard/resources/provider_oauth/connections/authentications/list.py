@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+from metorial_core.utils import parse_iso_datetime
 import dataclasses
 
 
@@ -89,7 +90,7 @@ class mapProviderOauthConnectionsAuthenticationsListOutputItemsEvents:
       id=data.get("id"),
       type=data.get("type"),
       metadata=data.get("metadata"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
     )
@@ -120,13 +121,13 @@ class mapProviderOauthConnectionsAuthenticationsListOutputItemsProfile:
       name=data.get("name"),
       email=data.get("email"),
       connection_id=data.get("connection_id"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      last_used_at=datetime.fromisoformat(data.get("last_used_at"))
+      last_used_at=parse_iso_datetime(data.get("last_used_at"))
       if data.get("last_used_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )
@@ -171,7 +172,7 @@ class mapProviderOauthConnectionsAuthenticationsListOutputItems:
       )
       if data.get("profile")
       else None,
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
     )

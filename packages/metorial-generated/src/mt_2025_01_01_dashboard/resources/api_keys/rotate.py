@@ -1,7 +1,18 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+from metorial_core.utils import parse_iso_datetime
 import dataclasses
+
+
+@dataclass
+class ApiKeysRotateOutputMachineAccessActorTeams:
+  id: str
+  name: str
+  slug: str
+  assignment_id: str
+  created_at: datetime
+  updated_at: datetime
 
 
 @dataclass
@@ -12,6 +23,7 @@ class ApiKeysRotateOutputMachineAccessActor:
   organization_id: str
   name: str
   image_url: str
+  teams: List[ApiKeysRotateOutputMachineAccessActorTeams]
   created_at: datetime
   updated_at: datetime
   email: Optional[str] = None
@@ -115,6 +127,33 @@ class ApiKeysRotateOutput:
   reveal_info: Optional[ApiKeysRotateOutputRevealInfo] = None
 
 
+class mapApiKeysRotateOutputMachineAccessActorTeams:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> ApiKeysRotateOutputMachineAccessActorTeams:
+    return ApiKeysRotateOutputMachineAccessActorTeams(
+      id=data.get("id"),
+      name=data.get("name"),
+      slug=data.get("slug"),
+      assignment_id=data.get("assignment_id"),
+      created_at=parse_iso_datetime(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=parse_iso_datetime(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[ApiKeysRotateOutputMachineAccessActorTeams, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
 class mapApiKeysRotateOutputMachineAccessActor:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> ApiKeysRotateOutputMachineAccessActor:
@@ -126,10 +165,15 @@ class mapApiKeysRotateOutputMachineAccessActor:
       name=data.get("name"),
       email=data.get("email"),
       image_url=data.get("image_url"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      teams=[
+        mapApiKeysRotateOutputMachineAccessActorTeams.from_dict(item)
+        for item in data.get("teams", [])
+        if item
+      ],
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )
@@ -157,10 +201,10 @@ class mapApiKeysRotateOutputMachineAccessInstanceProject:
       slug=data.get("slug"),
       name=data.get("name"),
       organization_id=data.get("organization_id"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )
@@ -192,10 +236,10 @@ class mapApiKeysRotateOutputMachineAccessInstance:
       )
       if data.get("project")
       else None,
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )
@@ -223,10 +267,10 @@ class mapApiKeysRotateOutputMachineAccessOrganization:
       name=data.get("name"),
       organization_id=data.get("organization_id"),
       image_url=data.get("image_url"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )
@@ -255,10 +299,10 @@ class mapApiKeysRotateOutputMachineAccessUser:
       first_name=data.get("first_name"),
       last_name=data.get("last_name"),
       image_url=data.get("image_url"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )
@@ -299,16 +343,16 @@ class mapApiKeysRotateOutputMachineAccess:
       user=mapApiKeysRotateOutputMachineAccessUser.from_dict(data.get("user"))
       if data.get("user")
       else None,
-      deleted_at=datetime.fromisoformat(data.get("deleted_at"))
+      deleted_at=parse_iso_datetime(data.get("deleted_at"))
       if data.get("deleted_at")
       else None,
-      last_used_at=datetime.fromisoformat(data.get("last_used_at"))
+      last_used_at=parse_iso_datetime(data.get("last_used_at"))
       if data.get("last_used_at")
       else None,
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )
@@ -328,7 +372,7 @@ class mapApiKeysRotateOutputRevealInfo:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> ApiKeysRotateOutputRevealInfo:
     return ApiKeysRotateOutputRevealInfo(
-      until=datetime.fromisoformat(data.get("until")) if data.get("until") else None,
+      until=parse_iso_datetime(data.get("until")) if data.get("until") else None,
       forever=data.get("forever"),
     )
 
@@ -361,19 +405,19 @@ class mapApiKeysRotateOutput:
       )
       if data.get("machine_access")
       else None,
-      deleted_at=datetime.fromisoformat(data.get("deleted_at"))
+      deleted_at=parse_iso_datetime(data.get("deleted_at"))
       if data.get("deleted_at")
       else None,
-      last_used_at=datetime.fromisoformat(data.get("last_used_at"))
+      last_used_at=parse_iso_datetime(data.get("last_used_at"))
       if data.get("last_used_at")
       else None,
-      expires_at=datetime.fromisoformat(data.get("expires_at"))
+      expires_at=parse_iso_datetime(data.get("expires_at"))
       if data.get("expires_at")
       else None,
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
       reveal_info=mapApiKeysRotateOutputRevealInfo.from_dict(data.get("reveal_info"))
@@ -402,7 +446,7 @@ class mapApiKeysRotateBody:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> ApiKeysRotateBody:
     return ApiKeysRotateBody(
-      current_expires_at=datetime.fromisoformat(data.get("current_expires_at"))
+      current_expires_at=parse_iso_datetime(data.get("current_expires_at"))
       if data.get("current_expires_at")
       else None
     )

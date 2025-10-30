@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+from metorial_core.utils import parse_iso_datetime
 import dataclasses
 
 
@@ -19,6 +20,16 @@ class ManagementOrganizationInvitesGetOutputOrganization:
 
 
 @dataclass
+class ManagementOrganizationInvitesGetOutputInvitedByTeams:
+  id: str
+  name: str
+  slug: str
+  assignment_id: str
+  created_at: datetime
+  updated_at: datetime
+
+
+@dataclass
 class ManagementOrganizationInvitesGetOutputInvitedBy:
   object: str
   id: str
@@ -26,6 +37,7 @@ class ManagementOrganizationInvitesGetOutputInvitedBy:
   organization_id: str
   name: str
   image_url: str
+  teams: List[ManagementOrganizationInvitesGetOutputInvitedByTeams]
   created_at: datetime
   updated_at: datetime
   email: Optional[str] = None
@@ -74,10 +86,10 @@ class mapManagementOrganizationInvitesGetOutputOrganization:
       name=data.get("name"),
       organization_id=data.get("organization_id"),
       image_url=data.get("image_url"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )
@@ -86,6 +98,37 @@ class mapManagementOrganizationInvitesGetOutputOrganization:
   def to_dict(
     value: Union[
       ManagementOrganizationInvitesGetOutputOrganization, Dict[str, Any], None
+    ]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapManagementOrganizationInvitesGetOutputInvitedByTeams:
+  @staticmethod
+  def from_dict(
+    data: Dict[str, Any]
+  ) -> ManagementOrganizationInvitesGetOutputInvitedByTeams:
+    return ManagementOrganizationInvitesGetOutputInvitedByTeams(
+      id=data.get("id"),
+      name=data.get("name"),
+      slug=data.get("slug"),
+      assignment_id=data.get("assignment_id"),
+      created_at=parse_iso_datetime(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=parse_iso_datetime(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[
+      ManagementOrganizationInvitesGetOutputInvitedByTeams, Dict[str, Any], None
     ]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
@@ -108,10 +151,15 @@ class mapManagementOrganizationInvitesGetOutputInvitedBy:
       name=data.get("name"),
       email=data.get("email"),
       image_url=data.get("image_url"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      teams=[
+        mapManagementOrganizationInvitesGetOutputInvitedByTeams.from_dict(item)
+        for item in data.get("teams", [])
+        if item
+      ],
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )
@@ -138,7 +186,7 @@ class mapManagementOrganizationInvitesGetOutputInviteLink:
       key=data.get("key"),
       key_redacted=data.get("key_redacted"),
       url=data.get("url"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
     )
@@ -179,22 +227,22 @@ class mapManagementOrganizationInvitesGetOutput:
       )
       if data.get("invite_link")
       else None,
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
-      deleted_at=datetime.fromisoformat(data.get("deleted_at"))
+      deleted_at=parse_iso_datetime(data.get("deleted_at"))
       if data.get("deleted_at")
       else None,
-      expires_at=datetime.fromisoformat(data.get("expires_at"))
+      expires_at=parse_iso_datetime(data.get("expires_at"))
       if data.get("expires_at")
       else None,
-      accepted_at=datetime.fromisoformat(data.get("accepted_at"))
+      accepted_at=parse_iso_datetime(data.get("accepted_at"))
       if data.get("accepted_at")
       else None,
-      rejected_at=datetime.fromisoformat(data.get("rejected_at"))
+      rejected_at=parse_iso_datetime(data.get("rejected_at"))
       if data.get("rejected_at")
       else None,
     )

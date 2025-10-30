@@ -9,9 +9,11 @@ from .mcp_tool import Capability
 
 logger = logging.getLogger(__name__)
 
+
 def _should_log_debug():
   """Check if debug logging should be enabled by examining logger level."""
   return logger.isEnabledFor(logging.DEBUG)
+
 
 def _log_info(message):
   """Conditionally log info messages only if debug logging is enabled."""
@@ -102,7 +104,12 @@ class MetorialMcpSession:
     self._sdk = sdk
     self._init = init
     self._session: Optional[Dict[str, Any]] = None
-    self._client_tasks: Dict[str, asyncio.Task[MetorialMcpClient]] = {}
+    self._session_promise: Optional[
+      asyncio.Task
+    ] = None
+    self._client_promises: Dict[
+      str, asyncio.Task[MetorialMcpClient]
+    ] = {}
 
     # Extract server deployment IDs from init
     server_deployments = init.get("serverDeployments", [])
@@ -128,7 +135,6 @@ class MetorialMcpSession:
 
   def get_session(self) -> _SessionResponse:
     if self._session is None:
-      # Use TypeScript-compatible format: {serverDeployments: [{serverDeploymentId, oauthSessionId?}]}
       server_deployments = []
       for dep in self._init.get("serverDeployments", []):
         if isinstance(dep, dict):
@@ -215,15 +221,14 @@ class MetorialMcpSession:
     return self._session  # type: ignore[return-value]
 
   def get_server_deployments(self) -> List[Dict[str, Any]]:
+    """Get server deployments using cached session"""
     ses = self.get_session()
     return ses.get("server_deployments") or ses.get("serverDeployments") or []  # type: ignore[return-value]
 
   async def get_capabilities(self) -> List[Capability]:
     _log_info("📋 Getting server deployments...")
     deployments = self.get_server_deployments()
-    _log_info(
-      f"✅ Got {len(deployments)} deployments: {[d['id'] for d in deployments]}"
-    )
+    _log_info(f"✅ Got {len(deployments)} deployments: {[d['id'] for d in deployments]}")
 
     _log_info("🔍 Fetching capabilities from SDK...")
     try:
@@ -450,29 +455,46 @@ class MetorialMcpSession:
     from .mcp_tool_manager import MetorialMcpToolManager
 
     _log_info("🔧 Getting capabilities for tool manager...")
+
+    try:
+      logger.debug("🎯 Trying direct MCP tool discovery first...")
+      caps = await self._get_tools_via_direct_mcp()
+      _log_info(f"✅ Direct MCP discovery found {len(caps)} capabilities")
+
+      if caps:
+        return await MetorialMcpToolManager.from_capabilities(self, caps)
+      else:
+        logger.debug(
+          "❌ Direct MCP discovery returned empty, trying capabilities API..."
+        )
+
+    except Exception as direct_error:
+      logger.warning(f"⚠️ Direct MCP discovery failed: {direct_error}")
+
+    # Fallback to capabilities API if direct MCP fails
     try:
       caps = await self.get_capabilities()
-      _log_info(f"✅ Got {len(caps)} capabilities")
+      _log_info(f"✅ Got {len(caps)} capabilities from API")
 
-      # If capabilities API returns empty tools, try direct MCP tool discovery
+      # If capabilities API returns empty tools, try direct MCP tool discovery again
       if not caps:
         logger.debug(
-          "❌ Capabilities API returned empty, trying direct MCP tool discovery..."
+          "❌ Capabilities API returned empty, retrying direct MCP tool discovery..."
         )
         caps = await self._get_tools_via_direct_mcp()
-        _log_info(f"Direct MCP discovery found {len(caps)} capabilities")
+        _log_info(f"Retry direct MCP discovery found {len(caps)} capabilities")
 
       return await MetorialMcpToolManager.from_capabilities(self, caps)
     except Exception as e:
-      logger.error(f"❌ Failed to get tool manager: {e}")
-      # Try direct MCP as fallback
+      logger.error(f"❌ Failed to get tool manager via capabilities API: {e}")
+      # Final fallback to direct MCP
       try:
-        logger.warning("🔄 Falling back to direct MCP tool discovery...")
+        logger.warning("🔄 Final fallback to direct MCP tool discovery...")
         caps = await self._get_tools_via_direct_mcp()
-        _log_info(f"🎯 Fallback MCP discovery found {len(caps)} capabilities")
+        _log_info(f"🎯 Final fallback MCP discovery found {len(caps)} capabilities")
         return await MetorialMcpToolManager.from_capabilities(self, caps)
       except Exception as fallback_error:
-        logger.error(f"❌ Fallback MCP discovery also failed: {fallback_error}")
+        logger.error(f"❌ All tool discovery methods failed: {fallback_error}")
         raise e  # Raise the original error
 
   async def _get_tools_via_direct_mcp(self) -> List[Capability]:
@@ -527,10 +549,13 @@ class MetorialMcpSession:
 
   async def get_client(self, opts: Dict[str, str]) -> MetorialMcpClient:
     dep_id = opts["deploymentId"]
-    if dep_id not in self._client_tasks:
 
-      async def _create() -> MetorialMcpClient:
-        ses = self.get_session()
+
+    if dep_id not in self._client_promises:
+
+      async def _create_client() -> MetorialMcpClient:
+        ses = self.get_session()  # Use persistent cached session
+
         return await MetorialMcpClient.create(
           types.SimpleNamespace(
             id=ses["id"],
@@ -545,9 +570,9 @@ class MetorialMcpSession:
           log_raw_messages=False,
         )
 
-      self._client_tasks[dep_id] = asyncio.create_task(_create())
+      self._client_promises[dep_id] = asyncio.create_task(_create_client())
 
-    return await self._client_tasks[dep_id]
+    return await self._client_promises[dep_id]
 
   @property
   def _mcp_host(self) -> str:
@@ -567,11 +592,27 @@ class MetorialMcpSession:
     return urlunparse(parsed)
 
   async def close(self) -> None:
-    await asyncio.gather(
-      *[
-        t.result().close()
-        for t in self._client_tasks.values()
-        if t.done() and not t.cancelled()
-      ],
-      return_exceptions=True,
-    )
+    # Close all client promises gracefully
+    close_tasks = []
+    for client_promise in list(self._client_promises.values()):
+      if client_promise.done() and not client_promise.cancelled():
+        try:
+          client = client_promise.result()
+          close_tasks.append(client.close())
+        except Exception:
+          # Skip clients that failed to create
+          continue
+
+    if close_tasks:
+      # Close all clients with timeout and exception handling
+      try:
+        await asyncio.wait_for(
+          asyncio.gather(*close_tasks, return_exceptions=True), timeout=5.0
+        )
+      except asyncio.TimeoutError:
+        logger.debug("MCP session close timeout - continuing cleanup")
+      except Exception as e:
+        logger.debug(f"MCP session close warning: {e}")
+
+    # Clear the client promises
+    self._client_promises.clear()

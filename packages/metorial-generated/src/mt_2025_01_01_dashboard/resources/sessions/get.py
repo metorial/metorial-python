@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+from metorial_core.utils import parse_iso_datetime
 import dataclasses
 
 
@@ -28,7 +29,6 @@ class SessionsGetOutputServerDeploymentsServer:
 class SessionsGetOutputServerDeploymentsConnectionUrls:
   sse: str
   streamable_http: str
-  websocket: str
 
 
 @dataclass
@@ -101,10 +101,10 @@ class mapSessionsGetOutput:
       if data.get("usage")
       else None,
       metadata=data.get("metadata"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
       client=mapSessionsGetOutputClient.from_dict(data.get("client"))

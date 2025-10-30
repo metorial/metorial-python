@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+from metorial_core.utils import parse_iso_datetime
 import dataclasses
 
 
@@ -30,27 +31,14 @@ class CustomServersVersionsGetOutputServerVersion:
 
 
 @dataclass
-class CustomServersVersionsGetOutputServerInstanceRemoteServerProviderOauth:
-  config: Dict[str, Any]
-  scopes: List[str]
-
-
-@dataclass
 class CustomServersVersionsGetOutputServerInstanceRemoteServer:
   object: str
   id: str
   remote_url: str
+  remote_protocol: str
   created_at: datetime
   updated_at: datetime
-  provider_oauth: Optional[
-    CustomServersVersionsGetOutputServerInstanceRemoteServerProviderOauth
-  ] = None
-
-
-@dataclass
-class CustomServersVersionsGetOutputServerInstanceManagedServerProviderOauth:
-  config: Dict[str, Any]
-  scopes: List[str]
+  provider_oauth: Optional[Dict[str, Any]] = None
 
 
 @dataclass
@@ -59,9 +47,7 @@ class CustomServersVersionsGetOutputServerInstanceManagedServer:
   id: str
   created_at: datetime
   updated_at: datetime
-  provider_oauth: Optional[
-    CustomServersVersionsGetOutputServerInstanceManagedServerProviderOauth
-  ] = None
+  provider_oauth: Optional[Dict[str, Any]] = None
 
 
 @dataclass
@@ -73,6 +59,18 @@ class CustomServersVersionsGetOutputServerInstance:
   managed_server: Optional[
     CustomServersVersionsGetOutputServerInstanceManagedServer
   ] = None
+
+
+@dataclass
+class CustomServersVersionsGetOutputPush:
+  object: str
+  id: str
+  branch: str
+  commit_sha: str
+  commit_message: str
+  author_email: str
+  author_name: str
+  created_at: datetime
 
 
 @dataclass
@@ -90,6 +88,7 @@ class CustomServersVersionsGetOutput:
   version_hash: str
   server_version: Optional[CustomServersVersionsGetOutputServerVersion] = None
   deployment_id: Optional[str] = None
+  push: Optional[CustomServersVersionsGetOutputPush] = None
 
 
 class mapCustomServersVersionsGetOutput:
@@ -113,14 +112,17 @@ class mapCustomServersVersionsGetOutput:
       if data.get("server_instance")
       else None,
       custom_server_id=data.get("custom_server_id"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
       version_hash=data.get("version_hash"),
       deployment_id=data.get("deployment_id"),
+      push=mapCustomServersVersionsGetOutputPush.from_dict(data.get("push"))
+      if data.get("push")
+      else None,
     )
 
   @staticmethod

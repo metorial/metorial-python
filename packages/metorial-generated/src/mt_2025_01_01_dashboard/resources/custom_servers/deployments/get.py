@@ -1,7 +1,18 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+from metorial_core.utils import parse_iso_datetime
 import dataclasses
+
+
+@dataclass
+class CustomServersDeploymentsGetOutputCreatorActorTeams:
+  id: str
+  name: str
+  slug: str
+  assignment_id: str
+  created_at: datetime
+  updated_at: datetime
 
 
 @dataclass
@@ -12,6 +23,7 @@ class CustomServersDeploymentsGetOutputCreatorActor:
   organization_id: str
   name: str
   image_url: str
+  teams: List[CustomServersDeploymentsGetOutputCreatorActorTeams]
   created_at: datetime
   updated_at: datetime
   email: Optional[str] = None
@@ -53,6 +65,37 @@ class CustomServersDeploymentsGetOutput:
   ended_at: Optional[datetime] = None
 
 
+class mapCustomServersDeploymentsGetOutputCreatorActorTeams:
+  @staticmethod
+  def from_dict(
+    data: Dict[str, Any]
+  ) -> CustomServersDeploymentsGetOutputCreatorActorTeams:
+    return CustomServersDeploymentsGetOutputCreatorActorTeams(
+      id=data.get("id"),
+      name=data.get("name"),
+      slug=data.get("slug"),
+      assignment_id=data.get("assignment_id"),
+      created_at=parse_iso_datetime(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=parse_iso_datetime(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[
+      CustomServersDeploymentsGetOutputCreatorActorTeams, Dict[str, Any], None
+    ]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
 class mapCustomServersDeploymentsGetOutputCreatorActor:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> CustomServersDeploymentsGetOutputCreatorActor:
@@ -64,10 +107,15 @@ class mapCustomServersDeploymentsGetOutputCreatorActor:
       name=data.get("name"),
       email=data.get("email"),
       image_url=data.get("image_url"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      teams=[
+        mapCustomServersDeploymentsGetOutputCreatorActorTeams.from_dict(item)
+        for item in data.get("teams", [])
+        if item
+      ],
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )
@@ -87,7 +135,7 @@ class mapCustomServersDeploymentsGetOutputStepsLogs:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> CustomServersDeploymentsGetOutputStepsLogs:
     return CustomServersDeploymentsGetOutputStepsLogs(
-      timestamp=datetime.fromisoformat(data.get("timestamp"))
+      timestamp=parse_iso_datetime(data.get("timestamp"))
       if data.get("timestamp")
       else None,
       line=data.get("line"),
@@ -119,13 +167,13 @@ class mapCustomServersDeploymentsGetOutputSteps:
         for item in data.get("logs", [])
         if item
       ],
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      started_at=datetime.fromisoformat(data.get("started_at"))
+      started_at=parse_iso_datetime(data.get("started_at"))
       if data.get("started_at")
       else None,
-      ended_at=datetime.fromisoformat(data.get("ended_at"))
+      ended_at=parse_iso_datetime(data.get("ended_at"))
       if data.get("ended_at")
       else None,
     )
@@ -156,16 +204,16 @@ class mapCustomServersDeploymentsGetOutput:
       else None,
       custom_server_id=data.get("custom_server_id"),
       custom_server_version_id=data.get("custom_server_version_id"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
-      started_at=datetime.fromisoformat(data.get("started_at"))
+      started_at=parse_iso_datetime(data.get("started_at"))
       if data.get("started_at")
       else None,
-      ended_at=datetime.fromisoformat(data.get("ended_at"))
+      ended_at=parse_iso_datetime(data.get("ended_at"))
       if data.get("ended_at")
       else None,
       steps=[

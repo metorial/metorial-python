@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+from metorial_core.utils import parse_iso_datetime
 import dataclasses
 
 
@@ -28,7 +29,7 @@ class mapDashboardUsageTimelineOutputTimelineEntries:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> DashboardUsageTimelineOutputTimelineEntries:
     return DashboardUsageTimelineOutputTimelineEntries(
-      ts=datetime.fromisoformat(data.get("ts")) if data.get("ts") else None,
+      ts=parse_iso_datetime(data.get("ts")) if data.get("ts") else None,
       count=data.get("count"),
     )
 
@@ -155,8 +156,8 @@ class mapDashboardUsageTimelineQuery:
         for item in data.get("entities", [])
         if item
       ],
-      from_=datetime.fromisoformat(data.get("from")) if data.get("from") else None,
-      to=datetime.fromisoformat(data.get("to")) if data.get("to") else None,
+      from_=parse_iso_datetime(data.get("from")) if data.get("from") else None,
+      to=parse_iso_datetime(data.get("to")) if data.get("to") else None,
       interval=mapDashboardUsageTimelineQueryInterval.from_dict(data.get("interval"))
       if data.get("interval")
       else None,

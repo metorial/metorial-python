@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+from metorial_core.utils import parse_iso_datetime
 import dataclasses
 
 
@@ -21,7 +22,6 @@ class ProviderOauthConnectionsGetOutput:
   metadata: Dict[str, Any]
   provider: ProviderOauthConnectionsGetOutputProvider
   config: Dict[str, Any]
-  scopes: List[str]
   client_id: str
   instance_id: str
   created_at: datetime
@@ -67,14 +67,13 @@ class mapProviderOauthConnectionsGetOutput:
       if data.get("provider")
       else None,
       config=data.get("config"),
-      scopes=data.get("scopes", []),
       client_id=data.get("client_id"),
       instance_id=data.get("instance_id"),
       template_id=data.get("template_id"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )

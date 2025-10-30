@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+from metorial_core.utils import parse_iso_datetime
 import dataclasses
 
 
@@ -51,7 +52,7 @@ class mapServersImplementationsDeleteOutputServerVariant:
       identifier=data.get("identifier"),
       server_id=data.get("server_id"),
       source=data.get("source"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
     )
@@ -76,10 +77,10 @@ class mapServersImplementationsDeleteOutputServer:
       name=data.get("name"),
       description=data.get("description"),
       type=data.get("type"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )
@@ -114,10 +115,10 @@ class mapServersImplementationsDeleteOutput:
       server=mapServersImplementationsDeleteOutputServer.from_dict(data.get("server"))
       if data.get("server")
       else None,
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )

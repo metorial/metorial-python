@@ -61,24 +61,17 @@ class Metorial(MetorialBase):
     init: Union[Dict[str, Any], str, List[str]],
     action: Callable[[MetorialSession], Any],
   ):
-    session = None
-    try:
-      if isinstance(init, str):
-        init = {"serverDeployments": [init]}
-      elif isinstance(init, list):
-        init = {"serverDeployments": init}
+    if isinstance(init, str):
+      init = {"serverDeployments": [init]}
+    elif isinstance(init, list):
+      init = {"serverDeployments": init}
 
-      session = self.create_mcp_session(init)
+    session = self.create_mcp_session(init)
+    try:
       return await action(session)
     except Exception as e:
       self.logger.error(f"Session action failed: {e}")
       raise
-    finally:
-      if session:
-        try:
-          await session.close()
-        except Exception as e:
-          self.logger.warning(f"Failed to close session: {e}")
 
   async def with_provider_session(
     self,
@@ -99,6 +92,19 @@ class Metorial(MetorialBase):
           "tools": provider_data.get("tools"),
           "callTools": lambda tool_calls: session.execute_tools(tool_calls),
           "getToolManager": lambda: session.get_tool_manager(),
+          "session": session,
+          "getSession": session.get_session
+          if hasattr(session, "get_session")
+          else lambda: session._mcp_session.get_session(),
+          "getCapabilities": session.get_capabilities
+          if hasattr(session, "get_capabilities")
+          else lambda: session._mcp_session.get_capabilities(),
+          "getClient": session.get_client
+          if hasattr(session, "get_client")
+          else lambda opts: session._mcp_session.get_client(opts),
+          "getServerDeployments": session.get_server_deployments
+          if hasattr(session, "get_server_deployments")
+          else lambda: session._mcp_session.get_server_deployments(),
           **provider_data,
         }
 

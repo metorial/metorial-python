@@ -38,7 +38,8 @@ class MetorialDashboardOrganizationsProjectsEndpoint(BaseMetorialEndpoint):
     after: Optional[str] = None,
     before: Optional[str] = None,
     cursor: Optional[str] = None,
-    order: Optional[str] = None
+    order: Optional[str] = None,
+    team_id: Optional[Union[str, List[str]]] = None
   ) -> DashboardOrganizationsProjectsListOutput:
     """
     List organization projects
@@ -50,6 +51,7 @@ class MetorialDashboardOrganizationsProjectsEndpoint(BaseMetorialEndpoint):
     :param before: Optional[str] (optional)
     :param cursor: Optional[str] (optional)
     :param order: Optional[str] (optional)
+    :param team_id: Optional[Union[str, List[str]]] (optional)
     :return: DashboardOrganizationsProjectsListOutput
     """
     # Build query parameters from keyword arguments
@@ -64,6 +66,8 @@ class MetorialDashboardOrganizationsProjectsEndpoint(BaseMetorialEndpoint):
       query_dict["cursor"] = cursor
     if order is not None:
       query_dict["order"] = order
+    if team_id is not None:
+      query_dict["team_id"] = team_id
 
     request = MetorialRequest(
       path=["dashboard", "organizations", organization_id, "projects"], query=query_dict

@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+from metorial_core.utils import parse_iso_datetime
 import dataclasses
 
 
@@ -38,10 +39,10 @@ class mapDashboardOrganizationsProjectsListOutputItems:
       slug=data.get("slug"),
       name=data.get("name"),
       organization_id=data.get("organization_id"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )
@@ -115,6 +116,7 @@ class DashboardOrganizationsProjectsListQuery:
   before: Optional[str] = None
   cursor: Optional[str] = None
   order: Optional[str] = None
+  team_id: Optional[Union[str, List[str]]] = None
 
 
 class mapDashboardOrganizationsProjectsListQuery:
@@ -126,6 +128,7 @@ class mapDashboardOrganizationsProjectsListQuery:
       before=data.get("before"),
       cursor=data.get("cursor"),
       order=data.get("order"),
+      team_id=data.get("team_id"),
     )
 
   @staticmethod

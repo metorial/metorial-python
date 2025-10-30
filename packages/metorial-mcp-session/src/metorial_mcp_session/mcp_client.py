@@ -36,6 +36,7 @@ T = TypeVar("T")
 
 logger = logging.getLogger("metorial.mcp.client")
 
+
 def _log_info(message, **kwargs):
   """Conditionally log info messages only if debug logging is enabled."""
   if logger.isEnabledFor(logging.DEBUG):
@@ -373,11 +374,43 @@ class MetorialMcpClient:
   async def close(self) -> None:
     if self._closed:
       return
+
+    # Mark as closed immediately to prevent multiple close attempts
     self._closed = True
-    with suppress(Exception):
-      aexit_result = self._session.__aexit__(None, None, None)
-      if asyncio.iscoroutine(aexit_result):
-        await aexit_result
+
+    try:
+      # Give pending operations a moment to complete
+      await asyncio.sleep(0.05)
+
+      # Close the session first if it has a close method
+      if hasattr(self._session, "close") and callable(self._session.close):
+        try:
+          await asyncio.wait_for(self._session.close(), timeout=2.0)
+        except (asyncio.TimeoutError, Exception):
+          pass  # Ignore close errors during cleanup
+
+      # Close the transport gracefully
+      if self._transport_closer:
+        try:
+          await asyncio.wait_for(self._transport_closer(), timeout=1.0)
+        except (asyncio.TimeoutError, Exception):
+          pass  # Ignore transport close errors
+
+    except Exception:
+      # All cleanup should be resilient and not raise
+      pass
+
+    # Final cleanup - ensure session exit
+    try:
+      from contextlib import suppress
+
+      with suppress(Exception):
+        if hasattr(self._session, "__aexit__"):
+          aexit_result = self._session.__aexit__(None, None, None)
+          if asyncio.iscoroutine(aexit_result):
+            await asyncio.wait_for(aexit_result, timeout=1.0)
+    except Exception:
+      pass  # Final safety net
       # If it's not a coroutine, it might be a dictionary or other value, just ignore it
     with suppress(Exception):
       transport_result = self._transport_closer()

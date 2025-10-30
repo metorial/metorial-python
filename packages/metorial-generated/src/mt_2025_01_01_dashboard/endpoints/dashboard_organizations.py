@@ -21,8 +21,6 @@ from ..resources import (
   DashboardOrganizationsUpdateBody,
   mapDashboardOrganizationsDeleteOutput,
   DashboardOrganizationsDeleteOutput,
-  mapDashboardOrganizationsGetMembershipOutput,
-  DashboardOrganizationsGetMembershipOutput,
 )
 
 
@@ -130,21 +128,4 @@ class MetorialDashboardOrganizationsEndpoint(BaseMetorialEndpoint):
     request = MetorialRequest(path=["dashboard", "organizations", organization_id])
     return self._delete(request).transform(
       mapDashboardOrganizationsDeleteOutput.from_dict
-    )
-
-  def get_membership(
-    self, organization_id: str
-  ) -> DashboardOrganizationsGetMembershipOutput:
-    """
-    Get organization
-    Get the current organization information
-
-    :param organization_id: str
-    :return: DashboardOrganizationsGetMembershipOutput
-    """
-    request = MetorialRequest(
-      path=["dashboard", "organizations", organization_id, "membership"]
-    )
-    return self._get(request).transform(
-      mapDashboardOrganizationsGetMembershipOutput.from_dict
     )

@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+from metorial_core.utils import parse_iso_datetime
 import dataclasses
 
 
@@ -205,10 +206,10 @@ class mapSessionsConnectionsGetOutputServer:
       name=data.get("name"),
       description=data.get("description"),
       type=data.get("type"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )
@@ -260,10 +261,10 @@ class mapSessionsConnectionsGetOutputSession:
       if data.get("usage")
       else None,
       metadata=data.get("metadata"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )
@@ -290,10 +291,10 @@ class mapSessionsConnectionsGetOutputServerDeploymentServer:
       name=data.get("name"),
       description=data.get("description"),
       type=data.get("type"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )
@@ -320,10 +321,10 @@ class mapSessionsConnectionsGetOutputServerDeployment:
       name=data.get("name"),
       description=data.get("description"),
       metadata=data.get("metadata"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
       server=mapSessionsConnectionsGetOutputServerDeploymentServer.from_dict(
@@ -368,13 +369,13 @@ class mapSessionsConnectionsGetOutput:
       )
       if data.get("server_deployment")
       else None,
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      started_at=datetime.fromisoformat(data.get("started_at"))
+      started_at=parse_iso_datetime(data.get("started_at"))
       if data.get("started_at")
       else None,
-      ended_at=datetime.fromisoformat(data.get("ended_at"))
+      ended_at=parse_iso_datetime(data.get("ended_at"))
       if data.get("ended_at")
       else None,
     )

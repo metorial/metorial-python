@@ -110,7 +110,8 @@ class MetorialCustomServersEndpoint(BaseMetorialEndpoint):
     *,
     name: Optional[str] = None,
     description: Optional[str] = None,
-    metadata: Optional[Dict[str, Any]] = None
+    metadata: Optional[Dict[str, Any]] = None,
+    is_forkable: Optional[bool] = None
   ) -> DashboardInstanceCustomServersUpdateOutput:
     """
     Update custom server
@@ -120,6 +121,7 @@ class MetorialCustomServersEndpoint(BaseMetorialEndpoint):
     :param name: Optional[str] (optional)
     :param description: Optional[str] (optional)
     :param metadata: Optional[Dict[str, Any]] (optional)
+    :param is_forkable: Optional[bool] (optional)
     :return: DashboardInstanceCustomServersUpdateOutput
     """
     # Build body parameters from keyword arguments
@@ -130,6 +132,8 @@ class MetorialCustomServersEndpoint(BaseMetorialEndpoint):
       body_dict["description"] = description
     if metadata is not None:
       body_dict["metadata"] = metadata
+    if is_forkable is not None:
+      body_dict["is_forkable"] = is_forkable
 
     request = MetorialRequest(path=["custom-servers", custom_server_id], body=body_dict)
     return self._patch(request).transform(

@@ -93,19 +93,23 @@ class MetorialSession:
     return getattr(self._mcp_session, name)
 
   async def close(self):
-    """Close the session and clean up resources."""
+    """Close the session and clean up resources gracefully."""
     if self._tool_manager is not None:
       self._tool_manager.refresh_cache()
 
     if hasattr(self._mcp_session, "close"):
       try:
+        # Close with timeout to prevent hanging
         close_result = self._mcp_session.close()
         if asyncio.iscoroutine(close_result):
-          await close_result
+          await asyncio.wait_for(close_result, timeout=3.0)
         # If it's not a coroutine, it might be a dictionary or other value, just ignore it
+      except asyncio.TimeoutError:
+        # Timeout is acceptable during cleanup
+        logger.debug("MCP session close timeout - continuing")
       except Exception as e:
         # Log the error but don't raise it to avoid breaking the session cleanup
-        print(f"Warning: Error closing MCP session: {e}")
+        logger.debug(f"Warning: Error closing MCP session: {e}")
 
 
 class SessionFactory:

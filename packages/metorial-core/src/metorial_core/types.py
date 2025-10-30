@@ -7,24 +7,28 @@ from typing import TypedDict, Union, List, Optional, Dict, Any
 
 class DictAttributeAccess(dict):
   """Base class that supports both dictionary and attribute access."""
-  
+
   def __getattr__(self, name: str) -> Any:
     """Allow attribute access to dictionary keys."""
     try:
       return self[name]
     except KeyError:
-      raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'")
-  
+      raise AttributeError(
+        f"'{self.__class__.__name__}' object has no attribute '{name}'"
+      )
+
   def __setattr__(self, name: str, value: Any) -> None:
     """Allow setting attributes as dictionary keys."""
     self[name] = value
-  
+
   def __delattr__(self, name: str) -> None:
     """Allow deleting attributes as dictionary keys."""
     try:
       del self[name]
     except KeyError:
-      raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'")
+      raise AttributeError(
+        f"'{self.__class__.__name__}' object has no attribute '{name}'"
+      )
 
 
 class ServerDeployment(TypedDict, total=False):
@@ -49,12 +53,12 @@ class MetorialRunParams(TypedDict, total=False):
 
 class RunResult(DictAttributeAccess):
   """Result from metorial.run() function with hybrid dict/attribute access.
-  
+
   Supports both:
   - Dictionary access: result["text"], result["steps"]
   - Attribute access: result.text, result.steps
   """
-  
+
   def __init__(self, text: str, steps: int):
     super().__init__(text=text, steps=steps)
     # Explicit attributes for better IDE support
@@ -75,7 +79,7 @@ MetorialClient = Any
 
 __all__ = [
   "DictAttributeAccess",
-  "ServerDeployment", 
+  "ServerDeployment",
   "MetorialRunParams",
   "RunResult",
   "OAuthSession",

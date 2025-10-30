@@ -28,7 +28,6 @@ class SessionsListOutputItemsServerDeploymentsServer:
 class SessionsListOutputItemsServerDeploymentsConnectionUrls:
   sse: str
   streamable_http: str
-  websocket: str
 
 
 @dataclass
@@ -86,7 +85,7 @@ class mapSessionsListOutputItemsClientSecret:
       type=data.get("type"),
       id=data.get("id"),
       secret=data.get("secret"),
-      expires_at=datetime.fromisoformat(data.get("expires_at"))
+      expires_at=parse_iso_datetime(data.get("expires_at"))
       if data.get("expires_at")
       else None,
     )
@@ -111,10 +110,10 @@ class mapSessionsListOutputItemsServerDeploymentsServer:
       name=data.get("name"),
       description=data.get("description"),
       type=data.get("type"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )
@@ -136,9 +135,7 @@ class mapSessionsListOutputItemsServerDeploymentsConnectionUrls:
     data: Dict[str, Any]
   ) -> SessionsListOutputItemsServerDeploymentsConnectionUrls:
     return SessionsListOutputItemsServerDeploymentsConnectionUrls(
-      sse=data.get("sse"),
-      streamable_http=data.get("streamable_http"),
-      websocket=data.get("websocket"),
+      sse=data.get("sse"), streamable_http=data.get("streamable_http")
     )
 
   @staticmethod
@@ -164,10 +161,10 @@ class mapSessionsListOutputItemsServerDeployments:
       oauth_session_id=data.get("oauth_session_id"),
       description=data.get("description"),
       metadata=data.get("metadata"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
       server=mapSessionsListOutputItemsServerDeploymentsServer.from_dict(
@@ -239,10 +236,10 @@ class mapSessionsListOutputItems:
       if data.get("usage")
       else None,
       metadata=data.get("metadata"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )

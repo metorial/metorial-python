@@ -2,9 +2,9 @@
 Metorial Base Client
 """
 
+import asyncio
 import os
 import time
-import asyncio
 import logging
 from typing import Optional, Union, Dict, Any, TYPE_CHECKING
 import httpx
@@ -48,11 +48,15 @@ class MetorialBase:
 
     # Store debug logging preference
     self.enable_debug_logging = enable_debug_logging
-    
+
+    self._session_promises: Dict[str, asyncio.Task] = {}
+    self._session_cache: Dict[str, MetorialSession] = {}
+
     # Configure logging based on debug setting
     if not enable_debug_logging:
       # Ensure SDK logging is quiet by default (run on each initialization)
       from . import _configure_sdk_logging
+
       _configure_sdk_logging()
     else:
       # Enable debug logging for troubleshooting
@@ -280,10 +284,31 @@ class MetorialBase:
     }
 
   def create_mcp_session(self, init: MetorialMcpSessionInit) -> MetorialSession:
-    """Create MCP session with enhanced error handling"""
-    try:
-      server_deployment_data = init.get("serverDeployments", [])
+    # Create cache key based on deployment configuration
+    deployment_ids = []
+    oauth_sessions = []
 
+    server_deployment_data = init.get("serverDeployments", [])
+    for dep in server_deployment_data:
+      if isinstance(dep, dict):
+        dep_id = dep.get("id") or dep.get("serverDeploymentId")
+        oauth_id = dep.get("oauthSessionId")
+        if dep_id:
+          deployment_ids.append(dep_id)
+        if oauth_id:
+          oauth_sessions.append(oauth_id)
+      else:
+        deployment_ids.append(dep)
+
+    # Create cache key from sorted deployment config
+    cache_key = f"{':'.join(sorted(deployment_ids))}|{':'.join(sorted(oauth_sessions))}"
+
+    if cache_key in self._session_cache:
+      cached_session = self._session_cache[cache_key]
+      self.logger.debug(f"♻️ Reusing cached session for deployments: {deployment_ids}")
+      return cached_session
+
+    try:
       deployments = []
       for dep in server_deployment_data:
         if isinstance(dep, dict):
@@ -308,9 +333,15 @@ class MetorialBase:
         },
       }
 
-      mcp_session = MetorialMcpSession(sdk=self, init=mcp_init)  # type: ignore[arg-type]  # Pass the SDK instance
+      mcp_session = MetorialMcpSession(sdk=self, init=mcp_init)  # type: ignore[arg-type]
+      session = SessionFactory.create_session(mcp_session)
 
-      return SessionFactory.create_session(mcp_session)
+      self._session_cache[cache_key] = session
+      self.logger.debug(
+        f"🆕 Created and cached new session for deployments: {deployment_ids}"
+      )
+
+      return session
     except Exception as e:
       self.logger.error(f"Failed to create MCP session: {e}")
       from metorial_exceptions import MetorialSDKError
@@ -322,5 +353,33 @@ class MetorialBase:
     return SessionFactory.create_mock_session()  # type: ignore[no-any-return,attr-defined]
 
   async def close(self):
-    """Close HTTP client and cleanup resources"""
-    await self._http_client.aclose()
+    # Close all cached sessions gracefully with timeout
+    if hasattr(self, "_session_cache"):
+      close_tasks = []
+      for session in list(self._session_cache.values()):
+        try:
+          close_tasks.append(session.close())
+        except Exception:
+          continue
+
+      if close_tasks:
+        try:
+          await asyncio.wait_for(
+            asyncio.gather(*close_tasks, return_exceptions=True), timeout=5.0
+          )
+        except asyncio.TimeoutError:
+          self.logger.debug("Session cleanup timeout - continuing")
+        except Exception as e:
+          self.logger.debug(f"Session cleanup warning: {e}")
+
+    # Clear caches safely
+    if hasattr(self, "_session_cache"):
+      self._session_cache.clear()
+    if hasattr(self, "_session_promises"):
+      self._session_promises.clear()
+
+    # Close HTTP client gracefully
+    try:
+      await self._http_client.aclose()
+    except Exception as e:
+      self.logger.debug(f"HTTP client close warning: {e}")

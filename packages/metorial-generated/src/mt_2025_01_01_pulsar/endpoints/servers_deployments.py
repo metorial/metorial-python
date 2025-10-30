@@ -42,7 +42,8 @@ class MetorialServersDeploymentsEndpoint(BaseMetorialEndpoint):
     server_id: Optional[Union[str, List[str]]] = None,
     server_variant_id: Optional[Union[str, List[str]]] = None,
     server_implementation_id: Optional[Union[str, List[str]]] = None,
-    session_id: Optional[Union[str, List[str]]] = None
+    session_id: Optional[Union[str, List[str]]] = None,
+    search: Optional[str] = None
   ) -> DashboardInstanceServersDeploymentsListOutput:
     """
     List server deployments
@@ -58,6 +59,7 @@ class MetorialServersDeploymentsEndpoint(BaseMetorialEndpoint):
     :param server_variant_id: Optional[Union[str, List[str]]] (optional)
     :param server_implementation_id: Optional[Union[str, List[str]]] (optional)
     :param session_id: Optional[Union[str, List[str]]] (optional)
+    :param search: Optional[str] (optional)
     :return: DashboardInstanceServersDeploymentsListOutput
     """
     # Build query parameters from keyword arguments
@@ -82,6 +84,8 @@ class MetorialServersDeploymentsEndpoint(BaseMetorialEndpoint):
       query_dict["server_implementation_id"] = server_implementation_id
     if session_id is not None:
       query_dict["session_id"] = session_id
+    if search is not None:
+      query_dict["search"] = search
 
     request = MetorialRequest(path=["server-deployments"], query=query_dict)
     return self._get(request).transform(
@@ -106,11 +110,6 @@ class MetorialServersDeploymentsEndpoint(BaseMetorialEndpoint):
   def create(
     self,
     *,
-    config: Dict[str, Any],
-    name: Optional[str] = None,
-    description: Optional[str] = None,
-    metadata: Optional[Dict[str, Any]] = None,
-    oauth_config: Optional[Dict[str, Any]] = None,
     server_implementation: Dict[str, Any] = None,
     server_implementation_id: str = None,
     server_variant_id: str = None,
@@ -120,11 +119,6 @@ class MetorialServersDeploymentsEndpoint(BaseMetorialEndpoint):
     Create server deployment
     Create a new server deployment using an existing or newly defined server implementation.
 
-    :param name: Optional[str] (optional)
-    :param description: Optional[str] (optional)
-    :param metadata: Optional[Dict[str, Any]] (optional)
-    :param config: Dict[str, Any]
-    :param oauth_config: Optional[Dict[str, Any]] (optional)
     :param server_implementation: Dict[str, Any] (optional)
     :param server_implementation_id: str (optional)
     :param server_variant_id: str (optional)
@@ -133,15 +127,6 @@ class MetorialServersDeploymentsEndpoint(BaseMetorialEndpoint):
     """
     # Build body parameters from keyword arguments
     body_dict = {}
-    if name is not None:
-      body_dict["name"] = name
-    if description is not None:
-      body_dict["description"] = description
-    if metadata is not None:
-      body_dict["metadata"] = metadata
-    body_dict["config"] = config
-    if oauth_config is not None:
-      body_dict["oauth_config"] = oauth_config
     if server_implementation is not None:
       body_dict["server_implementation"] = server_implementation
     if server_implementation_id is not None:
@@ -163,7 +148,8 @@ class MetorialServersDeploymentsEndpoint(BaseMetorialEndpoint):
     name: Optional[str] = None,
     description: Optional[str] = None,
     metadata: Optional[Dict[str, Any]] = None,
-    config: Optional[Dict[str, Any]] = None
+    config: Optional[Dict[str, Any]] = None,
+    access: Optional[Dict[str, Any]] = None
   ) -> DashboardInstanceServersDeploymentsUpdateOutput:
     """
     Update server deployment
@@ -174,6 +160,7 @@ class MetorialServersDeploymentsEndpoint(BaseMetorialEndpoint):
     :param description: Optional[str] (optional)
     :param metadata: Optional[Dict[str, Any]] (optional)
     :param config: Optional[Dict[str, Any]] (optional)
+    :param access: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceServersDeploymentsUpdateOutput
     """
     # Build body parameters from keyword arguments
@@ -186,6 +173,8 @@ class MetorialServersDeploymentsEndpoint(BaseMetorialEndpoint):
       body_dict["metadata"] = metadata
     if config is not None:
       body_dict["config"] = config
+    if access is not None:
+      body_dict["access"] = access
 
     request = MetorialRequest(
       path=["server-deployments", server_deployment_id], body=body_dict

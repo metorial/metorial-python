@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+from metorial_core.utils import parse_iso_datetime
 import dataclasses
 
 
@@ -113,10 +114,12 @@ class CustomServersListingGetOutput:
   server: CustomServersListingGetOutputServer
   created_at: datetime
   updated_at: datetime
+  fork: Dict[str, Any]
   profile: Optional[CustomServersListingGetOutputProfile] = None
   vendor: Optional[CustomServersListingGetOutputVendor] = None
   repository: Optional[CustomServersListingGetOutputRepository] = None
   installation: Optional[CustomServersListingGetOutputInstallation] = None
+  oauth_explainer: Optional[str] = None
   readme_html: Optional[str] = None
 
 
@@ -162,12 +165,14 @@ class mapCustomServersListingGetOutput:
       )
       if data.get("installation")
       else None,
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
+      fork=data.get("fork"),
+      oauth_explainer=data.get("oauth_explainer"),
       readme_html=data.get("readme_html"),
     )
 

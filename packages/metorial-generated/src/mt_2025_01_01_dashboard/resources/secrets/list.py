@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+from metorial_core.utils import parse_iso_datetime
 import dataclasses
 
 
@@ -70,10 +71,10 @@ class mapSecretsListOutputItems:
       organization_id=data.get("organization_id"),
       instance_id=data.get("instance_id"),
       fingerprint=data.get("fingerprint"),
-      last_used_at=datetime.fromisoformat(data.get("last_used_at"))
+      last_used_at=parse_iso_datetime(data.get("last_used_at"))
       if data.get("last_used_at")
       else None,
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
     )

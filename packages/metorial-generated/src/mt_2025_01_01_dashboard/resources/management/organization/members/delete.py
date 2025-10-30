@@ -1,7 +1,18 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+from metorial_core.utils import parse_iso_datetime
 import dataclasses
+
+
+@dataclass
+class ManagementOrganizationMembersDeleteOutputActorTeams:
+  id: str
+  name: str
+  slug: str
+  assignment_id: str
+  created_at: datetime
+  updated_at: datetime
 
 
 @dataclass
@@ -12,6 +23,7 @@ class ManagementOrganizationMembersDeleteOutputActor:
   organization_id: str
   name: str
   image_url: str
+  teams: List[ManagementOrganizationMembersDeleteOutputActorTeams]
   created_at: datetime
   updated_at: datetime
   email: Optional[str] = None
@@ -33,6 +45,37 @@ class ManagementOrganizationMembersDeleteOutput:
   updated_at: datetime
 
 
+class mapManagementOrganizationMembersDeleteOutputActorTeams:
+  @staticmethod
+  def from_dict(
+    data: Dict[str, Any]
+  ) -> ManagementOrganizationMembersDeleteOutputActorTeams:
+    return ManagementOrganizationMembersDeleteOutputActorTeams(
+      id=data.get("id"),
+      name=data.get("name"),
+      slug=data.get("slug"),
+      assignment_id=data.get("assignment_id"),
+      created_at=parse_iso_datetime(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=parse_iso_datetime(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[
+      ManagementOrganizationMembersDeleteOutputActorTeams, Dict[str, Any], None
+    ]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
 class mapManagementOrganizationMembersDeleteOutputActor:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> ManagementOrganizationMembersDeleteOutputActor:
@@ -44,10 +87,15 @@ class mapManagementOrganizationMembersDeleteOutputActor:
       name=data.get("name"),
       email=data.get("email"),
       image_url=data.get("image_url"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      teams=[
+        mapManagementOrganizationMembersDeleteOutputActorTeams.from_dict(item)
+        for item in data.get("teams", [])
+        if item
+      ],
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )
@@ -79,16 +127,16 @@ class mapManagementOrganizationMembersDeleteOutput:
       )
       if data.get("actor")
       else None,
-      last_active_at=datetime.fromisoformat(data.get("last_active_at"))
+      last_active_at=parse_iso_datetime(data.get("last_active_at"))
       if data.get("last_active_at")
       else None,
-      deleted_at=datetime.fromisoformat(data.get("deleted_at"))
+      deleted_at=parse_iso_datetime(data.get("deleted_at"))
       if data.get("deleted_at")
       else None,
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )

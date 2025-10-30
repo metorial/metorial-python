@@ -41,7 +41,8 @@ class MetorialManagementInstanceServersImplementationsEndpoint(BaseMetorialEndpo
     order: Optional[str] = None,
     status: Optional[Union[str, List[str]]] = None,
     server_id: Optional[Union[str, List[str]]] = None,
-    server_variant_id: Optional[Union[str, List[str]]] = None
+    server_variant_id: Optional[Union[str, List[str]]] = None,
+    search: Optional[str] = None
   ) -> DashboardInstanceServersImplementationsListOutput:
     """
     List server implementations
@@ -56,6 +57,7 @@ class MetorialManagementInstanceServersImplementationsEndpoint(BaseMetorialEndpo
     :param status: Optional[Union[str, List[str]]] (optional)
     :param server_id: Optional[Union[str, List[str]]] (optional)
     :param server_variant_id: Optional[Union[str, List[str]]] (optional)
+    :param search: Optional[str] (optional)
     :return: DashboardInstanceServersImplementationsListOutput
     """
     # Build query parameters from keyword arguments
@@ -76,6 +78,8 @@ class MetorialManagementInstanceServersImplementationsEndpoint(BaseMetorialEndpo
       query_dict["server_id"] = server_id
     if server_variant_id is not None:
       query_dict["server_variant_id"] = server_variant_id
+    if search is not None:
+      query_dict["search"] = search
 
     request = MetorialRequest(
       path=["instances", instance_id, "server-implementations"], query=query_dict

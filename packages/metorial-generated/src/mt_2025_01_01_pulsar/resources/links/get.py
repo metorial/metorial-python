@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+from metorial_core.utils import parse_iso_datetime
 import dataclasses
 
 
@@ -22,10 +23,10 @@ class mapLinksGetOutput:
       id=data.get("id"),
       file_id=data.get("file_id"),
       url=data.get("url"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      expires_at=datetime.fromisoformat(data.get("expires_at"))
+      expires_at=parse_iso_datetime(data.get("expires_at"))
       if data.get("expires_at")
       else None,
     )

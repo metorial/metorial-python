@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+from metorial_core.utils import parse_iso_datetime
 import dataclasses
 
 
@@ -63,7 +64,7 @@ class mapServersImplementationsListOutputItemsServerVariant:
       identifier=data.get("identifier"),
       server_id=data.get("server_id"),
       source=data.get("source"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
     )
@@ -90,10 +91,10 @@ class mapServersImplementationsListOutputItemsServer:
       name=data.get("name"),
       description=data.get("description"),
       type=data.get("type"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )
@@ -130,10 +131,10 @@ class mapServersImplementationsListOutputItems:
       )
       if data.get("server")
       else None,
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )
@@ -206,6 +207,7 @@ class ServersImplementationsListQuery:
   status: Optional[Union[str, List[str]]] = None
   server_id: Optional[Union[str, List[str]]] = None
   server_variant_id: Optional[Union[str, List[str]]] = None
+  search: Optional[str] = None
 
 
 class mapServersImplementationsListQuery:
@@ -220,6 +222,7 @@ class mapServersImplementationsListQuery:
       status=data.get("status"),
       server_id=data.get("server_id"),
       server_variant_id=data.get("server_variant_id"),
+      search=data.get("search"),
     )
 
   @staticmethod

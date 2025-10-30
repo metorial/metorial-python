@@ -188,41 +188,58 @@ class MetorialMcpTool:
       raise TypeError(f"Expected capability type 'tool', got {capability_type}")
 
     async def _action(params: Any) -> Any:
-      try:
-        logger.debug(f"🔧 MCP Tool: _action called with params: {params}")
-        # Handle both dict and object responses for dep
-        dep_id = dep["id"] if isinstance(dep, dict) else dep.id
-        logger.debug(
-          f"🔧 MCP Tool: About to call session.get_client with deploymentId: {dep_id}"
-        )
+      MAX_RETRIES = 10
+      last_error = None
 
-        # Check if get_client returns an awaitable
-        get_client_result = session.get_client({"deploymentId": dep_id})
-        logger.debug(
-          f"🔧 MCP Tool: session.get_client returned: {get_client_result} (type: {type(get_client_result)})"
-        )
+      for attempt in range(MAX_RETRIES):
+        try:
+          logger.debug(
+            f"🔧 MCP Tool: _action called with params: {params} (attempt {attempt + 1}/{MAX_RETRIES})"
+          )
 
-        if asyncio.iscoroutine(get_client_result):
-          client = await get_client_result
-          logger.debug(f"🔧 MCP Tool: Got client after await: {client}")
-        else:
-          client = get_client_result  # type: ignore[unreachable]
-          logger.debug(f"🔧 MCP Tool: Got client directly: {client}")
+          dep_id = dep["id"] if isinstance(dep, dict) else dep.id
 
-        # Handle both dict and object responses for tool
-        tool_name = tool["name"] if isinstance(tool, dict) else tool.name
-        logger.debug(
-          f"🔧 MCP Tool: Calling client.call_tool with name='{tool_name}', params={params}"
-        )
+          get_client_result = session.get_client({"deploymentId": dep_id})
+          if asyncio.iscoroutine(get_client_result):
+            client = await get_client_result
+          else:
+            client = get_client_result  # type: ignore[unreachable]
 
-        # The MCP client's call_tool method is async, so we need to await it
-        result = await client.call_tool({"name": tool_name, "arguments": params})  # type: ignore[arg-type]
-        logger.debug(f"🔧 MCP Tool: Tool execution completed: {result}")
-        return result
-      except Exception as e:
-        logger.error(f"🔧 MCP Tool: Error in _action: {e}")
-        logger.error(f"🔧 MCP Tool: Exception type: {type(e)}")
-        raise
+          tool_name = tool["name"] if isinstance(tool, dict) else tool.name
+
+          await asyncio.sleep(0.1)  # Small delay to ensure session is ready
+
+          result = await client.call_tool({"name": tool_name, "arguments": params})  # type: ignore[arg-type]
+          logger.debug(f"🔧 MCP Tool: Tool execution completed: {result}")
+          return result
+
+        except Exception as e:
+          last_error = e
+          error_str = str(e).lower()
+
+          # Check if this is a retryable session error
+          if (
+            "invalid api key" in error_str
+            or "401" in error_str
+            or "timeout" in error_str
+          ) and attempt < MAX_RETRIES - 1:
+            logger.warning(
+              f"🔧 MCP Tool: Retryable session error (attempt {attempt + 1}/{MAX_RETRIES}): {e}"
+            )
+            await asyncio.sleep(
+              0.5 * (attempt + 1)
+            )
+            continue
+          else:
+            logger.error(f"🔧 MCP Tool: Error in _action: {e}")
+            logger.error(f"🔧 MCP Tool: Exception type: {type(e)}")
+            raise
+
+      # If we get here, all retries failed
+      logger.error(
+        f"🔧 MCP Tool: All {MAX_RETRIES} attempts failed. Last error: {last_error}"
+      )
+      raise last_error
 
     # Handle both dict and object responses for tool data
     if isinstance(tool, dict):

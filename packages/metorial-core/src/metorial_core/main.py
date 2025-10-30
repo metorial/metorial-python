@@ -85,7 +85,7 @@ __all__ = [
   # Streaming types
   "StreamEvent",
   "StreamEventType",
-  # Result types  
+  # Result types
   "RunResult",
   "DictAttributeAccess",
   # Metrics

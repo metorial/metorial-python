@@ -41,16 +41,18 @@ async def call_openai_compatible_tools(
   Returns a list of tool messages.
   """
   messages = []
-  
+
   if tool_mgr is None:
     # Return error message for each tool call if no tool manager available
     for tc in tool_calls:
       tool_call_id = _attr_or_key(tc, "id", "id")
-      messages.append({
-        "role": "tool",
-        "tool_call_id": tool_call_id,
-        "content": "[ERROR] Tool manager not available"
-      })
+      messages.append(
+        {
+          "role": "tool",
+          "tool_call_id": tool_call_id,
+          "content": "[ERROR] Tool manager not available",
+        }
+      )
     return messages
 
   for tc in tool_calls:

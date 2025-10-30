@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+from metorial_core.utils import parse_iso_datetime
 import dataclasses
 
 
@@ -25,10 +26,10 @@ class mapProviderOauthDiscoverOutput:
       provider_name=data.get("provider_name"),
       provider_url=data.get("provider_url"),
       config=data.get("config"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      refreshed_at=datetime.fromisoformat(data.get("refreshed_at"))
+      refreshed_at=parse_iso_datetime(data.get("refreshed_at"))
       if data.get("refreshed_at")
       else None,
       auto_registration_id=data.get("auto_registration_id"),

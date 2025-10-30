@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+from metorial_core.utils import parse_iso_datetime
 import dataclasses
 
 
@@ -149,10 +150,10 @@ class mapServerRunErrorGroupsListOutputItemsDefaultErrorServerRunServer:
       name=data.get("name"),
       description=data.get("description"),
       type=data.get("type"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )
@@ -184,10 +185,10 @@ class mapServerRunErrorGroupsListOutputItemsDefaultErrorServerRunServerDeploymen
         name=data.get("name"),
         description=data.get("description"),
         type=data.get("type"),
-        created_at=datetime.fromisoformat(data.get("created_at"))
+        created_at=parse_iso_datetime(data.get("created_at"))
         if data.get("created_at")
         else None,
-        updated_at=datetime.fromisoformat(data.get("updated_at"))
+        updated_at=parse_iso_datetime(data.get("updated_at"))
         if data.get("updated_at")
         else None,
       )
@@ -219,10 +220,10 @@ class mapServerRunErrorGroupsListOutputItemsDefaultErrorServerRunServerDeploymen
       name=data.get("name"),
       description=data.get("description"),
       metadata=data.get("metadata"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
       server=mapServerRunErrorGroupsListOutputItemsDefaultErrorServerRunServerDeploymentServer.from_dict(
@@ -391,7 +392,7 @@ class mapServerRunErrorGroupsListOutputItemsDefaultErrorServerRunServerSession:
       if data.get("usage")
       else None,
       session_id=data.get("session_id"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
     )
@@ -437,16 +438,16 @@ class mapServerRunErrorGroupsListOutputItemsDefaultErrorServerRun:
       )
       if data.get("server_session")
       else None,
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
-      started_at=datetime.fromisoformat(data.get("started_at"))
+      started_at=parse_iso_datetime(data.get("started_at"))
       if data.get("started_at")
       else None,
-      stopped_at=datetime.fromisoformat(data.get("stopped_at"))
+      stopped_at=parse_iso_datetime(data.get("stopped_at"))
       if data.get("stopped_at")
       else None,
     )
@@ -480,7 +481,7 @@ class mapServerRunErrorGroupsListOutputItemsDefaultError:
       )
       if data.get("server_run")
       else None,
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
     )
@@ -511,13 +512,13 @@ class mapServerRunErrorGroupsListOutputItems:
       )
       if data.get("default_error")
       else None,
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      first_seen_at=datetime.fromisoformat(data.get("first_seen_at"))
+      first_seen_at=parse_iso_datetime(data.get("first_seen_at"))
       if data.get("first_seen_at")
       else None,
-      last_seen_at=datetime.fromisoformat(data.get("last_seen_at"))
+      last_seen_at=parse_iso_datetime(data.get("last_seen_at"))
       if data.get("last_seen_at")
       else None,
     )

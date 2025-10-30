@@ -24,14 +24,14 @@ def _configure_sdk_logging():
   # Explicitly silence critical loggers that generate noise
   critical_loggers = [
     "metorial_core",
-    "metorial_core.base", 
+    "metorial_core.base",
     "metorial_core.lib.clients.async_client",
     "metorial_core.lib.clients.sync_client",
     "metorial_mcp_session",
     "metorial_mcp_session.mcp_session",
     "metorial_mcp_session.mcp_client",
     "metorial.mcp.client",
-    "mcp.client.sse", 
+    "mcp.client.sse",
     "httpx",
     "urllib3",
   ]
@@ -40,7 +40,7 @@ def _configure_sdk_logging():
     logger = logging.getLogger(logger_name)
     logger.setLevel(logging.CRITICAL)
     logger.propagate = False
-    
+
     # Also silence any child loggers
     for name in logging.Logger.manager.loggerDict:
       if name.startswith(logger_name + "."):
@@ -169,7 +169,7 @@ __all__ = [
   "OpenAICompatibleAdapter",
   "create_provider_adapter",
   "infer_provider_type",
-  "MetorialSDKBuilder", 
+  "MetorialSDKBuilder",
   "SDKConfig",
   "SDK",
   "create_metorial_sdk",

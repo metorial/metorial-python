@@ -1,13 +1,8 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+from metorial_core.utils import parse_iso_datetime
 import dataclasses
-
-
-@dataclass
-class CustomServersRemoteServersListOutputItemsProviderOauth:
-  config: Dict[str, Any]
-  scopes: List[str]
 
 
 @dataclass
@@ -15,11 +10,10 @@ class CustomServersRemoteServersListOutputItems:
   object: str
   id: str
   remote_url: str
+  remote_protocol: str
   created_at: datetime
   updated_at: datetime
-  provider_oauth: Optional[
-    CustomServersRemoteServersListOutputItemsProviderOauth
-  ] = None
+  provider_oauth: Optional[Dict[str, Any]] = None
 
 
 @dataclass
@@ -34,28 +28,6 @@ class CustomServersRemoteServersListOutput:
   pagination: CustomServersRemoteServersListOutputPagination
 
 
-class mapCustomServersRemoteServersListOutputItemsProviderOauth:
-  @staticmethod
-  def from_dict(
-    data: Dict[str, Any]
-  ) -> CustomServersRemoteServersListOutputItemsProviderOauth:
-    return CustomServersRemoteServersListOutputItemsProviderOauth(
-      config=data.get("config"), scopes=data.get("scopes", [])
-    )
-
-  @staticmethod
-  def to_dict(
-    value: Union[
-      CustomServersRemoteServersListOutputItemsProviderOauth, Dict[str, Any], None
-    ]
-  ) -> Optional[Dict[str, Any]]:
-    if value is None:
-      return None
-    if isinstance(value, dict):
-      return value
-    return dataclasses.asdict(value)
-
-
 class mapCustomServersRemoteServersListOutputItems:
   @staticmethod
   def from_dict(data: Dict[str, Any]) -> CustomServersRemoteServersListOutputItems:
@@ -63,15 +35,12 @@ class mapCustomServersRemoteServersListOutputItems:
       object=data.get("object"),
       id=data.get("id"),
       remote_url=data.get("remote_url"),
-      provider_oauth=mapCustomServersRemoteServersListOutputItemsProviderOauth.from_dict(
-        data.get("provider_oauth")
-      )
-      if data.get("provider_oauth")
-      else None,
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      remote_protocol=data.get("remote_protocol"),
+      provider_oauth=data.get("provider_oauth"),
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )

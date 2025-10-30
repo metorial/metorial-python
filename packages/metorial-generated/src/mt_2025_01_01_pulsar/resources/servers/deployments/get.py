@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+from metorial_core.utils import parse_iso_datetime
 import dataclasses
 
 
@@ -21,13 +22,32 @@ class ServersDeploymentsGetOutputOauthConnection:
   metadata: Dict[str, Any]
   provider: ServersDeploymentsGetOutputOauthConnectionProvider
   config: Dict[str, Any]
-  scopes: List[str]
   client_id: str
   instance_id: str
   created_at: datetime
   updated_at: datetime
   description: Optional[str] = None
   template_id: Optional[str] = None
+
+
+@dataclass
+class ServersDeploymentsGetOutputCallbackSchedule:
+  object: str
+  interval_seconds: float
+  next_run_at: datetime
+
+
+@dataclass
+class ServersDeploymentsGetOutputCallback:
+  object: str
+  id: str
+  type: str
+  schedule: ServersDeploymentsGetOutputCallbackSchedule
+  created_at: datetime
+  updated_at: datetime
+  url: Optional[str] = None
+  name: Optional[str] = None
+  description: Optional[str] = None
 
 
 @dataclass
@@ -87,6 +107,11 @@ class ServersDeploymentsGetOutputServerImplementation:
 
 
 @dataclass
+class ServersDeploymentsGetOutputAccess:
+  ip_allowlist: Dict[str, Any]
+
+
+@dataclass
 class ServersDeploymentsGetOutput:
   object: str
   id: str
@@ -102,6 +127,8 @@ class ServersDeploymentsGetOutput:
   updated_at: datetime
   description: Optional[str] = None
   oauth_connection: Optional[ServersDeploymentsGetOutputOauthConnection] = None
+  callback: Optional[ServersDeploymentsGetOutputCallback] = None
+  access: Optional[ServersDeploymentsGetOutputAccess] = None
 
 
 class mapServersDeploymentsGetOutputOauthConnectionProvider:
@@ -145,14 +172,13 @@ class mapServersDeploymentsGetOutputOauthConnection:
       if data.get("provider")
       else None,
       config=data.get("config"),
-      scopes=data.get("scopes", []),
       client_id=data.get("client_id"),
       instance_id=data.get("instance_id"),
       template_id=data.get("template_id"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )
@@ -160,6 +186,62 @@ class mapServersDeploymentsGetOutputOauthConnection:
   @staticmethod
   def to_dict(
     value: Union[ServersDeploymentsGetOutputOauthConnection, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapServersDeploymentsGetOutputCallbackSchedule:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> ServersDeploymentsGetOutputCallbackSchedule:
+    return ServersDeploymentsGetOutputCallbackSchedule(
+      object=data.get("object"),
+      interval_seconds=data.get("interval_seconds"),
+      next_run_at=parse_iso_datetime(data.get("next_run_at"))
+      if data.get("next_run_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[ServersDeploymentsGetOutputCallbackSchedule, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapServersDeploymentsGetOutputCallback:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> ServersDeploymentsGetOutputCallback:
+    return ServersDeploymentsGetOutputCallback(
+      object=data.get("object"),
+      id=data.get("id"),
+      url=data.get("url"),
+      name=data.get("name"),
+      description=data.get("description"),
+      type=data.get("type"),
+      schedule=mapServersDeploymentsGetOutputCallbackSchedule.from_dict(
+        data.get("schedule")
+      )
+      if data.get("schedule")
+      else None,
+      created_at=parse_iso_datetime(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=parse_iso_datetime(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[ServersDeploymentsGetOutputCallback, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None
@@ -177,10 +259,10 @@ class mapServersDeploymentsGetOutputServer:
       name=data.get("name"),
       description=data.get("description"),
       type=data.get("type"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )
@@ -204,7 +286,7 @@ class mapServersDeploymentsGetOutputConfig:
       id=data.get("id"),
       status=data.get("status"),
       secret_id=data.get("secret_id"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
     )
@@ -231,7 +313,7 @@ class mapServersDeploymentsGetOutputServerImplementationServerVariant:
       identifier=data.get("identifier"),
       server_id=data.get("server_id"),
       source=data.get("source"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
     )
@@ -260,10 +342,10 @@ class mapServersDeploymentsGetOutputServerImplementationServer:
       name=data.get("name"),
       description=data.get("description"),
       type=data.get("type"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )
@@ -304,10 +386,10 @@ class mapServersDeploymentsGetOutputServerImplementation:
       )
       if data.get("server")
       else None,
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )
@@ -315,6 +397,22 @@ class mapServersDeploymentsGetOutputServerImplementation:
   @staticmethod
   def to_dict(
     value: Union[ServersDeploymentsGetOutputServerImplementation, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapServersDeploymentsGetOutputAccess:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> ServersDeploymentsGetOutputAccess:
+    return ServersDeploymentsGetOutputAccess(ip_allowlist=data.get("ip_allowlist"))
+
+  @staticmethod
+  def to_dict(
+    value: Union[ServersDeploymentsGetOutputAccess, Dict[str, Any], None]
   ) -> Optional[Dict[str, Any]]:
     if value is None:
       return None
@@ -337,6 +435,9 @@ class mapServersDeploymentsGetOutput:
       )
       if data.get("oauth_connection")
       else None,
+      callback=mapServersDeploymentsGetOutputCallback.from_dict(data.get("callback"))
+      if data.get("callback")
+      else None,
       result=data.get("result"),
       metadata=data.get("metadata"),
       secret_id=data.get("secret_id"),
@@ -351,10 +452,13 @@ class mapServersDeploymentsGetOutput:
       )
       if data.get("server_implementation")
       else None,
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      access=mapServersDeploymentsGetOutputAccess.from_dict(data.get("access"))
+      if data.get("access")
+      else None,
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
-      updated_at=datetime.fromisoformat(data.get("updated_at"))
+      updated_at=parse_iso_datetime(data.get("updated_at"))
       if data.get("updated_at")
       else None,
     )

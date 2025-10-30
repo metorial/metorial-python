@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+from metorial_core.utils import parse_iso_datetime
 import dataclasses
 
 
@@ -37,7 +38,7 @@ class mapProviderOauthConnectionsEventsListOutputItems:
       type=data.get("type"),
       metadata=data.get("metadata"),
       connection_id=data.get("connection_id"),
-      created_at=datetime.fromisoformat(data.get("created_at"))
+      created_at=parse_iso_datetime(data.get("created_at"))
       if data.get("created_at")
       else None,
     )

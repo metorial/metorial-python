@@ -37,8 +37,7 @@ class MetorialManagementOrganizationInstancesEndpoint(BaseMetorialEndpoint):
     after: Optional[str] = None,
     before: Optional[str] = None,
     cursor: Optional[str] = None,
-    order: Optional[str] = None,
-    project_id: Optional[str] = None
+    order: Optional[str] = None
   ) -> DashboardOrganizationsInstancesListOutput:
     """
     List organization instances
@@ -49,7 +48,6 @@ class MetorialManagementOrganizationInstancesEndpoint(BaseMetorialEndpoint):
     :param before: Optional[str] (optional)
     :param cursor: Optional[str] (optional)
     :param order: Optional[str] (optional)
-    :param project_id: Optional[str] (optional)
     :return: DashboardOrganizationsInstancesListOutput
     """
     # Build query parameters from keyword arguments
@@ -64,8 +62,6 @@ class MetorialManagementOrganizationInstancesEndpoint(BaseMetorialEndpoint):
       query_dict["cursor"] = cursor
     if order is not None:
       query_dict["order"] = order
-    if project_id is not None:
-      query_dict["project_id"] = project_id
 
     request = MetorialRequest(path=["organization", "instances"], query=query_dict)
     return self._get(request).transform(

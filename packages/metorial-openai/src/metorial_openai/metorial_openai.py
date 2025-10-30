@@ -30,16 +30,18 @@ def _attr_or_key(obj, attr, key, default=None):
 
 async def call_openai_tools(tool_mgr, tool_calls: List[Any]) -> List[Dict[str, Any]]:
   msgs: List[Dict[str, Any]] = []
-  
+
   if tool_mgr is None:
     # Return error message for each tool call if no tool manager available
     for tc in tool_calls:
       tc_id = _attr_or_key(tc, "id", "id")
-      msgs.append({
-        "role": "tool",
-        "tool_call_id": tc_id,
-        "content": "[ERROR] Tool manager not available"
-      })
+      msgs.append(
+        {
+          "role": "tool",
+          "tool_call_id": tc_id,
+          "content": "[ERROR] Tool manager not available",
+        }
+      )
     return msgs
 
   for tc in tool_calls:
@@ -102,7 +104,7 @@ class MetorialOpenAISession:
     """
     tool_mgr = await session.get_tool_manager()
     provider_session = MetorialOpenAISession(tool_mgr)
-    return {"tools": provider_session.tools}
+    return {"tools": provider_session.tools, "callTools": provider_session.call_tools}
 
 
 async def chat_completions(session) -> Dict[str, Any]:
