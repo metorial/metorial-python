@@ -114,7 +114,20 @@ class Metorial(MetorialBase):
         self.logger.error(f"Error in provider session: {e}")
         raise
 
-    return await self.with_session(init, session_action)
+    # Automatically apply safe cleanup for provider sessions
+    try:
+      from ..safe_cleanup import quiet_asyncio_shutdown, drain_pending_tasks
+    except ImportError:
+      from contextlib import nullcontext as quiet_asyncio_shutdown
+      async def drain_pending_tasks(): pass
+
+    with quiet_asyncio_shutdown():
+      try:
+        return await self.with_session(init, session_action)
+      finally:
+        # Ensure cleanup happens automatically
+        await asyncio.create_task(self.close())
+        await drain_pending_tasks(timeout=0.2)
 
   async def with_oauth_session(
     self,

@@ -7,6 +7,15 @@ import logging
 
 # Enable logging with: logging.getLogger('metorial_core').setLevel(logging.DEBUG)
 
+# Automatically apply safe cleanup to prevent AsyncIO warnings in simple usage
+try:
+    from .lib.safe_cleanup import install_warning_filters, attach_noise_filters
+    # Apply safe cleanup automatically - no opt-in needed for basic usage
+    install_warning_filters()
+    attach_noise_filters()
+except ImportError:
+    pass  # Safe cleanup not available
+
 _metorial_logger_prefixes = ["metorial", "mcp", "httpx", "urllib3"]
 
 
