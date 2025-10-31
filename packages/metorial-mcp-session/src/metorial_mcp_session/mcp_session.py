@@ -457,45 +457,40 @@ class MetorialMcpSession:
     _log_info("🔧 Getting capabilities for tool manager...")
 
     try:
-      logger.debug("🎯 Trying direct MCP tool discovery first...")
-      caps = await self._get_tools_via_direct_mcp()
-      _log_info(f"✅ Direct MCP discovery found {len(caps)} capabilities")
+      caps = await self.get_capabilities()
+      _log_info(f"✅ Got {len(caps)} capabilities from API")
 
       if caps:
         return await MetorialMcpToolManager.from_capabilities(self, caps)
       else:
         logger.debug(
-          "❌ Direct MCP discovery returned empty, trying capabilities API..."
+          "❌ Capabilities API returned empty, trying direct MCP..."
         )
+
+    except Exception as api_error:
+      logger.warning(f"⚠️ Capabilities API failed: {api_error}")
+      # Add traceback for debugging
+      import traceback
+      logger.debug(f"Capabilities API error details: {traceback.format_exc()}")
+
+    # Fallback to direct MCP if capabilities API fails or returns empty
+    try:
+      logger.debug("🎯 Trying direct MCP tool discovery as fallback...")
+      caps = await self._get_tools_via_direct_mcp()
+      _log_info(f"✅ Direct MCP discovery found {len(caps)} capabilities")
+
+      if caps:
+        return await MetorialMcpToolManager.from_capabilities(self, caps)
 
     except Exception as direct_error:
-      logger.warning(f"⚠️ Direct MCP discovery failed: {direct_error}")
+      logger.warning(f"⚠️ Direct MCP discovery also failed: {direct_error}")
+      # Add traceback for debugging
+      import traceback
+      logger.debug(f"Direct MCP error details: {traceback.format_exc()}")
 
-    # Fallback to capabilities API if direct MCP fails
-    try:
-      caps = await self.get_capabilities()
-      _log_info(f"✅ Got {len(caps)} capabilities from API")
-
-      # If capabilities API returns empty tools, try direct MCP tool discovery again
-      if not caps:
-        logger.debug(
-          "❌ Capabilities API returned empty, retrying direct MCP tool discovery..."
-        )
-        caps = await self._get_tools_via_direct_mcp()
-        _log_info(f"Retry direct MCP discovery found {len(caps)} capabilities")
-
-      return await MetorialMcpToolManager.from_capabilities(self, caps)
-    except Exception as e:
-      logger.error(f"❌ Failed to get tool manager via capabilities API: {e}")
-      # Final fallback to direct MCP
-      try:
-        logger.warning("🔄 Final fallback to direct MCP tool discovery...")
-        caps = await self._get_tools_via_direct_mcp()
-        _log_info(f"🎯 Final fallback MCP discovery found {len(caps)} capabilities")
-        return await MetorialMcpToolManager.from_capabilities(self, caps)
-      except Exception as fallback_error:
-        logger.error(f"❌ All tool discovery methods failed: {fallback_error}")
-        raise e  # Raise the original error
+    # If both methods failed or returned empty, return an empty tool manager
+    logger.warning("⚠️ Both capabilities API and direct MCP failed, returning empty tool manager")
+    return await MetorialMcpToolManager.from_capabilities(self, [])
 
   async def _get_tools_via_direct_mcp(self) -> List[Capability]:
     """Get tools by connecting directly to MCP server, bypassing capabilities API."""
@@ -504,11 +499,19 @@ class MetorialMcpSession:
     capabilities = []
 
     for deployment_id in self.server_deployment_ids:
+      client = None
+      tools = []
+      
+      # Step 1: Get client
       try:
         _log_info(f"🔗 Connecting directly to MCP for deployment: {deployment_id}")
-
         client = await self.get_client({"deploymentId": deployment_id})
+      except Exception as e:
+        logger.warning(f"⚠️ Failed to get client for {deployment_id}: {e}")
+        continue
 
+      # Step 2: Get tools (this is the critical part)
+      try:
         tools_response = await client.list_tools()
 
         if hasattr(tools_response, "tools"):
@@ -517,7 +520,16 @@ class MetorialMcpSession:
           tools = tools_response.get("tools", [])
         else:
           tools = []
-
+          
+        _log_info(f"🎯 Direct MCP found {len(tools)} tools for {deployment_id}")
+        
+      except Exception as e:
+        logger.warning(f"⚠️ Failed to get tools for {deployment_id}: {e}")
+        # Don't continue, still try to get templates
+        
+      # Step 3: Get resource templates (less critical)
+      templates = []
+      try:
         templates_response = await client.list_resource_templates()
 
         if hasattr(templates_response, "resourceTemplates"):
@@ -526,21 +538,18 @@ class MetorialMcpSession:
           templates = templates_response.get("resourceTemplates", [])
         else:
           templates = []
-
-        _log_info(
-          f"🎯 Direct MCP found {len(tools)} tools and {len(templates)} templates for {deployment_id}"
-        )
-
-        for tool in tools:
-          capabilities.append(
-            {"type": "tool", "tool": tool, "serverDeployment": {"id": deployment_id}}
-          )
-
-        # TODO: Implement resource template support
-
       except Exception as e:
-        logger.warning(f"⚠️ Direct MCP discovery failed for {deployment_id}: {e}")
-        continue
+        logger.debug(f"⚠️ Failed to get resource templates for {deployment_id}: {e}")
+        # This is OK, we can proceed without templates
+
+      # Step 4: Process tools into capabilities
+      for tool in tools:
+        try:
+          capability = {"type": "tool", "tool": tool, "serverDeployment": {"id": deployment_id}}
+          capabilities.append(capability)
+        except Exception as e:
+          logger.warning(f"⚠️ Failed to process tool {tool}: {e}")
+          continue
 
     _log_info(
       f"🎯 Direct MCP discovery completed: {len(capabilities)} total capabilities"
@@ -550,29 +559,48 @@ class MetorialMcpSession:
   async def get_client(self, opts: Dict[str, str]) -> MetorialMcpClient:
     dep_id = opts["deploymentId"]
 
-
     if dep_id not in self._client_promises:
 
       async def _create_client() -> MetorialMcpClient:
-        ses = self.get_session()  # Use persistent cached session
+        try:
+          ses = self.get_session()  # Use persistent cached session
 
-        return await MetorialMcpClient.create(
-          types.SimpleNamespace(
-            id=ses["id"],
-            clientSecret=types.SimpleNamespace(secret=ses["client_secret"]["secret"]),
-          ),
-          host=self._mcp_host,
-          deployment_id=dep_id,
-          client_name=self.client_info["name"],
-          client_version=self.client_info["version"],
-          handshake_timeout=30.0,
-          use_http_stream=False,
-          log_raw_messages=False,
-        )
+          client = await MetorialMcpClient.create(
+            types.SimpleNamespace(
+              id=ses["id"],
+              clientSecret=types.SimpleNamespace(secret=ses["client_secret"]["secret"]),
+            ),
+            host=self._mcp_host,
+            deployment_id=dep_id,
+            client_name=self.client_info["name"],
+            client_version=self.client_info["version"],
+            handshake_timeout=30.0,
+            use_http_stream=False,
+            log_raw_messages=False,
+          )
+          return client
+        except Exception as e:
+          # Clean up the task from the cache on error
+          if dep_id in self._client_promises:
+            del self._client_promises[dep_id]
+          raise e
 
       self._client_promises[dep_id] = asyncio.create_task(_create_client())
 
-    return await self._client_promises[dep_id]
+    try:
+      return await self._client_promises[dep_id]
+    except Exception as e:
+      # Clean up failed task
+      if dep_id in self._client_promises:
+        task = self._client_promises[dep_id]
+        if not task.done():
+          task.cancel()
+          try:
+            await task
+          except asyncio.CancelledError:
+            pass
+        del self._client_promises[dep_id]
+      raise e
 
   @property
   def _mcp_host(self) -> str:

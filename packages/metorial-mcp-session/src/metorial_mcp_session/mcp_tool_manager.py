@@ -57,7 +57,14 @@ class MetorialMcpToolManager:
     session: MetorialMcpSession,
     capabilities: List[Capability],
   ) -> "MetorialMcpToolManager":
-    tools = [MetorialMcpTool.from_capability(session, cap) for cap in capabilities]
+    tools = []
+    for i, cap in enumerate(capabilities):
+      try:
+        tool = MetorialMcpTool.from_capability(session, cap)
+        tools.append(tool)
+      except Exception as e:
+        logger.error(f"❌ Failed to create tool from capability {i}: {e}")
+        continue
     return cls(session, tools)
 
   def get_tool(self, id_or_name: str) -> Optional[MetorialMcpTool]:
