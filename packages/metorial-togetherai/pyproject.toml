@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "metorial-togetherai"
-version = "1.0.4"
+version = "1.0.5"
 description = "Together AI provider for Metorial"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -25,7 +25,7 @@ classifiers = [
 keywords = ["metorial", "together", "ai", "llm"]
 dependencies = [
     "metorial-core>=1.0.9",
-    "metorial-openai-compatible>=1.0.4",
+    "metorial-openai-compatible>=1.0.5",
     "typing-extensions>=4.0.0",
 ]
 

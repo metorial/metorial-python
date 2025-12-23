@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "metorial-openai"
-version = "1.0.5"
+version = "1.0.6"
 description = "OpenAI provider for Metorial"
 readme = "README.md"
 requires-python = ">=3.10"

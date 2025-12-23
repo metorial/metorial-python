@@ -84,15 +84,24 @@ class Metorial(MetorialBase):
     elif isinstance(init, list):
       init = {"serverDeployments": init}
 
+    # Check if streaming mode is enabled
+    streaming = init.get("streaming", False) if isinstance(init, dict) else False
+
+    if streaming:
+      return await self._with_streaming_session(provider, init, action)
+
     async def session_action(session: MetorialSession):
       try:
         provider_data = await provider(session)
 
         simplified_session = {
           "tools": provider_data.get("tools"),
-          "callTools": lambda tool_calls: session.execute_tools(tool_calls),
+          "callTools": provider_data.get("callTools") or (lambda tool_calls: session.execute_tools(tool_calls)),
           "getToolManager": lambda: session.get_tool_manager(),
           "session": session,
+          "closeSession": session.close
+          if hasattr(session, "close")
+          else lambda: session._mcp_session.close(),
           "getSession": session.get_session
           if hasattr(session, "get_session")
           else lambda: session._mcp_session.get_session(),
@@ -128,6 +137,73 @@ class Metorial(MetorialBase):
         # Ensure cleanup happens automatically
         await asyncio.create_task(self.close())
         await drain_pending_tasks(timeout=0.2)
+
+  async def _with_streaming_session(
+    self,
+    provider: Callable[[MetorialSession], Any],
+    init: Dict[str, Any],
+    action: Callable,
+  ):
+    """
+    Streaming session that requires manual closeSession() call.
+    Used when streaming: True is set in the init config.
+    """
+    session = self.create_mcp_session(init)
+    session_closed = False
+
+    async def close_session():
+      nonlocal session_closed
+      if not session_closed:
+        session_closed = True
+        self.logger.debug("[Metorial] Closing streaming session")
+        if hasattr(session, "close"):
+          await session.close()
+        else:
+          await session._mcp_session.close()
+        await self.close()
+
+    try:
+      provider_data = await provider(session)
+
+      simplified_session = {
+        "tools": provider_data.get("tools"),
+        "callTools": provider_data.get("callTools") or (lambda tool_calls: session.execute_tools(tool_calls)),
+        "getToolManager": lambda: session.get_tool_manager(),
+        "session": session,
+        "closeSession": close_session,
+        "getSession": session.get_session
+        if hasattr(session, "get_session")
+        else lambda: session._mcp_session.get_session(),
+        "getCapabilities": session.get_capabilities
+        if hasattr(session, "get_capabilities")
+        else lambda: session._mcp_session.get_capabilities(),
+        "getClient": session.get_client
+        if hasattr(session, "get_client")
+        else lambda opts: session._mcp_session.get_client(opts),
+        "getServerDeployments": session.get_server_deployments
+        if hasattr(session, "get_server_deployments")
+        else lambda: session._mcp_session.get_server_deployments(),
+        **provider_data,
+      }
+
+      result = await action(simplified_session)
+
+      # Safety timeout: close session after 30 seconds if user forgot
+      async def safety_close():
+        await asyncio.sleep(30)
+        if not session_closed:
+          self.logger.warning("[Metorial] Streaming session not closed by user, closing automatically")
+          await close_session()
+
+      asyncio.create_task(safety_close())
+
+      return result
+
+    except Exception as e:
+      self.logger.error(f"Error in streaming session: {e}")
+      if not session_closed:
+        await close_session()
+      raise
 
   async def with_oauth_session(
     self,

@@ -1,296 +1,422 @@
 # Metorial Python SDK
 
-The official Python SDK for [Metorial](https://metorial.com).
+The official Python SDK for [Metorial](https://metorial.com) - Connect your AI agents to any MCP server with a single line of code. Deploy tools like Slack, GitHub, SAP, and hundreds more without managing infrastructure.
+
+[Sign up for a free account](https://app.metorial.com) to get started.
+
+## Complete API Documentation
+**[API Documentation](https://metorial.com/api)** - Complete API reference and guides
 
 ## Available Providers
 
-| Provider   | Format                       | Description                   |
-| ---------- | ---------------------------- | ----------------------------- |
-| OpenAI     | OpenAI function calling      | GPT-4, GPT-3.5, etc.          |
-| Anthropic  | Claude tool format           | Claude 3.5, Claude 3, etc.    |
-| Google     | Gemini function declarations | Gemini Pro, Gemini Flash      |
-| Mistral    | Mistral function calling     | Mistral Large, Codestral      |
-| DeepSeek   | OpenAI-compatible            | DeepSeek Chat, DeepSeek Coder |
-| TogetherAI | OpenAI-compatible            | Llama, Mixtral, etc.          |
-| XAI        | OpenAI-compatible            | Grok models                   |
-| AI SDK     | Framework tools              | Vercel AI SDK, etc.           |
+| Provider          | Import                      | Format                       | Models (non-exhaustive)                      |
+| ----------------- | --------------------------- | ---------------------------- | -------------------------------------------- |
+| OpenAI            | `MetorialOpenAI`            | OpenAI function calling      | `gpt-4.1`, `gpt-4o`, `o1`, `o3`              |
+| Anthropic         | `MetorialAnthropic`         | Claude tool format           | `claude-sonnet-4-5`, `claude-opus-4`         |
+| Google            | `MetorialGoogle`            | Gemini function declarations | `gemini-2.5-pro`, `gemini-2.5-flash`         |
+| Mistral           | `MetorialMistral`           | Mistral function calling     | `mistral-large-latest`, `codestral-latest`   |
+| DeepSeek          | `MetorialDeepSeek`          | OpenAI-compatible            | `deepseek-chat`, `deepseek-reasoner`         |
+| TogetherAI        | `MetorialTogetherAI`        | OpenAI-compatible            | `Llama-4`, `Qwen-3`                          |
+| XAI               | `MetorialXAI`               | OpenAI-compatible            | `grok-3`, `grok-3-mini`                      |
+| LangChain         | `MetorialLangChain`         | LangChain tools              | Any model via LangChain                      |
+| OpenAI-Compatible | `MetorialOpenAICompatible`  | OpenAI-compatible            | Any OpenAI-compatible API                    |
 
 ## Installation
 
 ```bash
-# Install core metorial package (includes all provider adapters)
 pip install metorial
-
-# Install with specific providers (includes provider client libraries)
-pip install metorial[openai,anthropic,google,mistral,deepseek,togetherai,xai]
 ```
 
 ## Quick Start
 
-### Simple Usage
-```python
-import asyncio
-from metorial import Metorial
-from openai import AsyncOpenAI
-
-async def main():
-  metorial = Metorial(api_key="your-metorial-api-key")
-  openai = AsyncOpenAI(api_key="your-openai-api-key")
-  
-  response = await metorial.run(
-    message="Search Hackernews for the latest AI discussions.",
-    server_deployments=["hacker-news-server-deployment"],
-    client=openai,
-    model="gpt-4o",
-    max_steps=25    # optional
-  )
-  
-  print("Response:", response.text)
-
-asyncio.run(main())
+```bash
+pip install metorial anthropic
 ```
 
-> **💡 Tip for Jupyter/Colab Users**: If you're running in a Jupyter notebook or Google Colab, you can skip the `async def main():` wrapper and `asyncio.run()` and just use `await` directly at the top level.
-
-### OAuth + Multiple Deployments
-For integrations requiring OAuth authentication (like Google Calendar) and multiple server deployments:
-
 ```python
 import asyncio
-import os
-from metorial import Metorial
+from metorial import Metorial, MetorialAnthropic
 from anthropic import AsyncAnthropic
 
+metorial = Metorial(api_key="your-metorial-api-key")
+anthropic = AsyncAnthropic(api_key="your-anthropic-api-key")
+
 async def main():
-  metorial = Metorial(api_key=os.getenv("METORIAL_API_KEY"))
-  anthropic = AsyncAnthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+    async def session_handler(session):
+        messages = [{"role": "user", "content": "What's the latest news on Hacker News?"}]
 
-  # Create OAuth session for authenticated services
-  google_cal_deployment_id = os.getenv("GOOGLE_CALENDAR_DEPLOYMENT_ID")
-  
-  print("🔗 Creating OAuth session...")
-  oauth_session = metorial.oauth.sessions.create(
-    server_deployment_id=google_cal_deployment_id
-  )
+        for _ in range(10):
+            response = await anthropic.messages.create(
+                model="claude-sonnet-4-5",
+                max_tokens=1024,
+                messages=messages,
+                tools=session["tools"]
+            )
 
-  print("OAuth URLs for user authentication:")
-  print(f"   Google Calendar: {oauth_session.url}")
+            tool_calls = [b for b in response.content if b.type == "tool_use"]
+            if not tool_calls:
+                print(response.content[0].text)
+                break
 
-  print("\n⏳ Waiting for OAuth completion...")
-  await metorial.oauth.wait_for_completion([oauth_session])
-  print("✅ OAuth session completed!")
+            tool_responses = await session["callTools"](tool_calls)
+            messages.append({"role": "assistant", "content": response.content})
+            messages.append(tool_responses)
 
-  # Use multiple server deployments with mixed auth
-  hackernews_deployment_id = os.getenv("HACKERNEWS_DEPLOYMENT_ID")
-  
-  result = await metorial.run(
-    message="""Search Hackernews for the latest AI discussions using the available tools. 
-    Then create a calendar event using Google Calendar tools with my@email.address for tomorrow at 2pm to discuss AI trends.""",
-    server_deployments=[
-      { "serverDeploymentId": google_cal_deployment_id, "oauthSessionId": oauth_session.id },
-      { "serverDeploymentId": hackernews_deployment_id },
-    ],
-    client=anthropic,
-    model="claude-sonnet-4-20250514",
-    max_tokens=4096,
-    max_steps=25,
-  )
-  print(result.text)
+        await session["closeSession"]()
+
+    await metorial.with_provider_session(
+        MetorialAnthropic,
+        {"serverDeployments": [{"serverDeploymentId": "your-server-deployment-id"}]},
+        session_handler
+    )
 
 asyncio.run(main())
 ```
 
-That's it! `metorial.run()` automatically:
-- Creates a session with your MCP server
-- Formats tools for your AI provider
-- Handles the execution loop
-- Manages tool execution
-- Returns the final response
+## Setting Up Server Deployments
 
-### Advanced Usage with Provider Sessions
+Server deployments are configured at [app.metorial.com](https://app.metorial.com). When you create a session from a deployment, we spin up an isolated serverless instance isolated to that user.
 
-For more control over the conversation flow, you can use `with_provider_session`:
+### Types of Deployments
+
+1. **Standard Deployments** (e.g., Exa or Tavily for web search)
+   - API key-based authentication
+   - Can be shared across all users
+   - No user authorization required
+
+2. **OAuth-Enabled Deployments** (e.g., Slack, GitHub, SAP)
+   - Requires user authorization
+   - Each user completes OAuth once
+   - Session is isolated per user
+
+### Enterprise: Bring Your Own (BYO) Credentials
+
+For enterprise deployments, you have flexible options:
+
+- **Shared deployment**: Deploy once and share with all users (works well for API key-based servers like Exa, Tavily)
+- **BYO OAuth**: For services like SAP, enterprises can bring their own OAuth app credentials
+- **Dynamic deployments**: Create server deployments programmatically via the [Server Deployment API](http://metorial.com/api/server-deployment)
+
+## OAuth Integration
+
+When working with services that require user authentication (like Google Calendar, Slack, etc.), Metorial provides OAuth session management to handle the authentication flow:
 
 ```python
 import asyncio
-from metorial import Metorial, MetorialOpenAI
-from openai import AsyncOpenAI
+from metorial import Metorial, MetorialAnthropic
+from anthropic import AsyncAnthropic
+
+metorial = Metorial(api_key="your-metorial-api-key")
+anthropic = AsyncAnthropic(api_key="your-anthropic-api-key")
 
 async def main():
-  metorial = Metorial(api_key="your-metorial-api-key")
-  openai = AsyncOpenAI(api_key="your-openai-api-key")
+    # Create OAuth sessions for services that require user authentication
+    # this just needs to be done once per user
+    google_cal_oauth_session, slack_oauth_session = await asyncio.gather(
+        metorial.oauth.sessions.create(
+            server_deployment_id="your-google-calendar-server-deployment-id"
+            # Optional: callback_uri="https://your-app.com/oauth/callback"
+        ),
+        metorial.oauth.sessions.create(
+            server_deployment_id="your-slack-server-deployment-id"
+            # Optional: callback_uri="https://your-app.com/oauth/callback"
+        )
+    )
 
-  messages = [
-    {"role": "user", "content": "What are the top hackernews posts?"}
-  ]
+    # Give user OAuth URLs for authentication
+    print("OAuth URLs for user authentication:")
+    print(f"   Google Calendar: {google_cal_oauth_session.url}")
+    print(f"   Slack: {slack_oauth_session.url}")
 
-  async def session_action(session):
-    for i in range(10):
-      response = await openai.chat.completions.create(
-        messages=messages,
-        model="gpt-4o",
-        tools=session["tools"]
-      )
+    # Wait for user to complete OAuth flow
+    await metorial.oauth.wait_for_completion([google_cal_oauth_session, slack_oauth_session])
 
-      choice = response.choices[0]
-      tool_calls = choice.message.tool_calls
+    print("OAuth sessions completed!")
 
-      if not tool_calls:
-        print(choice.message.content)
-        return
+    # Now use the authenticated sessions
+    async def session_handler(session):
+        tools = session["tools"]
+        call_tools = session["callTools"]
+        close_session = session["closeSession"]
 
-      # Execute tools through Metorial
-      tool_responses = await session["callTools"](tool_calls)
+        messages = [
+            {
+                "role": "user",
+                "content": """Look in Slack for mentions of potential partners. Use Exa to research their background, 
+                company, and email. Schedule a 30-minute intro call with them for an open slot on Dec 13th, 2025 
+                SF time and send me the calendar link."""
+            }
+        ]
 
-      # Add to conversation
-      messages.append({
-        "role": "assistant", 
-        "tool_calls": choice.message.tool_calls
-      })
-      messages.extend(tool_responses)
+        # Dedupe tools by name
+        unique_tools = list({t["name"]: t for t in tools}.values())
 
-  await metorial.with_provider_session(
-    MetorialOpenAI.chat_completions,
-    [{"serverDeploymentId": "your-deployment-id"}],
-    session_action
-  )
+        for i in range(10):
+            response = await anthropic.messages.create(
+                model="claude-sonnet-4-5",
+                max_tokens=1024,
+                messages=messages,
+                tools=unique_tools
+            )
+
+            tool_calls = [block for block in response.content if block.type == "tool_use"]
+
+            if not tool_calls:
+                final_text = "".join(
+                    block.text for block in response.content if block.type == "text"
+                )
+                print(final_text)
+                await close_session()
+                return
+
+            tool_responses = await call_tools(tool_calls)
+            messages.append({"role": "assistant", "content": response.content})
+            messages.append(tool_responses)
+
+        await close_session()
+
+    await metorial.with_provider_session(
+        MetorialAnthropic,
+        {
+            "serverDeployments": [
+                {
+                    "serverDeploymentId": "your-google-calendar-server-deployment-id",
+                    "oauthSessionId": google_cal_oauth_session.id
+                },
+                {
+                    "serverDeploymentId": "your-slack-server-deployment-id",
+                    "oauthSessionId": slack_oauth_session.id
+                },
+                {
+                    "serverDeploymentId": "your-exa-server-deployment-id"  # No OAuth needed for Exa
+                }
+            ],
+            # "streaming": True,  # Optional: enable for streaming with tool calls
+        },
+        session_handler
+    )
 
 asyncio.run(main())
 ```
 
-This approach gives you full control over the conversation loop while still benefiting from Metorial's tool management.
+### OAuth Flow Explained
 
-## Provider Examples
+1. **Create OAuth Sessions**: Call `metorial.oauth.sessions.create()` for each service requiring user authentication (only once per user)
+2. **Send URLs**: Show the OAuth URLs to users so they can authenticate in their browser
+3. **Wait for Completion**: Use `metorial.oauth.wait_for_completion()` to wait for users to complete the OAuth flow
+4. **Use Authenticated Sessions**: Pass the `oauthSessionId` when configuring `serverDeployments`
 
-Metorial works with all major AI providers. Here are examples using `metorial.run()`:
+## Session Options
 
-### Example OpenAI (GPT-4, GPT-3.5)
+### Streaming Mode
+
+When using streaming with tool calls, enable the `streaming` flag:
 
 ```python
-from metorial import Metorial
-from openai import AsyncOpenAI
-
-metorial = Metorial(api_key="your-metorial-api-key")
-openai = AsyncOpenAI(api_key="your-openai-api-key")
-
-response = await metorial.run(
-  message="What are the latest commits?",
-  server_deployments=["your-deployment-id"],
-  client=openai,
-  model="gpt-4o"
+await metorial.with_provider_session(
+    metorial_provider,
+    {
+        "serverDeployments": [...],
+        "streaming": True,  # Required for streaming with tool calls
+    },
+    session_handler
 )
 ```
+
+### Closing Sessions
+
+Always close your session when done to free up resources. The `closeSession` callback is provided in the session handler:
+
+```python
+async def session_handler(session):
+    tools = session["tools"]
+    close_session = session["closeSession"]
+
+    # Use tools...
+
+    # When finished, close the session
+    await close_session()
+```
+
+## Examples
+
+Check out the `examples/` directory for more comprehensive examples:
+
+- [`examples/python-anthropic/`](examples/python-anthropic/) - Anthropic integration (recommended)
+- [`examples/python-openai/`](examples/python-openai/) - OpenAI integration
+- [`examples/python-google/`](examples/python-google/) - Google Gemini integration
+- [`examples/python-deepseek/`](examples/python-deepseek/) - DeepSeek integration
+
+## Provider Examples
 
 ### Anthropic (Claude)
 
 ```python
-from metorial import Metorial
-import anthropic
+import asyncio
+from metorial import Metorial, MetorialAnthropic
+from anthropic import AsyncAnthropic
 
 metorial = Metorial(api_key="your-metorial-api-key")
-anthropic = anthropic.AsyncAnthropic(api_key="your-anthropic-api-key")
+anthropic = AsyncAnthropic(api_key="your-anthropic-api-key")
 
-response = await metorial.run(
-  message="What are the latest commits?",
-  server_deployments=["your-deployment-id"],
-  client=anthropic,
-  model="claude-3-5-sonnet-20241022"
-)
+async def main():
+    async def session_handler(session):
+        tools = session["tools"]
+        call_tools = session["callTools"]
+        close_session = session["closeSession"]
+
+        messages = [
+            {"role": "user", "content": "Help me with this GitHub task: ..."}
+        ]
+
+        # Dedupe tools by name
+        unique_tools = list({t["name"]: t for t in tools}.values())
+
+        response = await anthropic.messages.create(
+            model="claude-sonnet-4-5",
+            max_tokens=1024,
+            messages=messages,
+            tools=unique_tools
+        )
+
+        # Handle tool calls
+        tool_calls = [block for block in response.content if block.type == "tool_use"]
+
+        if tool_calls:
+            tool_responses = await call_tools(tool_calls)
+            messages.append({"role": "assistant", "content": response.content})
+            messages.append(tool_responses)
+
+        await close_session()  # Close session when done
+
+    await metorial.with_provider_session(
+        MetorialAnthropic,
+        {
+            "serverDeployments": ["your-server-deployment-id"],
+            # "streaming": True,  # Optional: enable for streaming with tool calls
+        },
+        session_handler
+    )
+
+asyncio.run(main())
 ```
 
 ### Google (Gemini)
 
 ```python
-from metorial import Metorial
+import asyncio
+from metorial import Metorial, MetorialGoogle
 import google.generativeai as genai
 
 metorial = Metorial(api_key="your-metorial-api-key")
 genai.configure(api_key="your-google-api-key")
-google = genai.GenerativeModel('gemini-pro')
 
-response = await metorial.run(
-  message="What are the latest commits?",
-  server_deployments=["your-deployment-id"],
-  client=google,
-  model="gemini-pro"
-)
+async def main():
+    async def session_handler(session):
+        tools = session["tools"]
+        close_session = session["closeSession"]
+
+        model = genai.GenerativeModel(
+            model_name="gemini-2.5-flash",
+            tools=tools
+        )
+
+        response = await model.generate_content_async("What can you help me with?")
+
+        # Handle function calls if present
+        # ... tool call handling logic
+
+        await close_session()  # Close session when done
+
+    await metorial.with_provider_session(
+        MetorialGoogle,
+        {
+            "serverDeployments": ["your-server-deployment-id"],
+            # "streaming": True,  # Optional: enable for streaming with tool calls
+        },
+        session_handler
+    )
+
+asyncio.run(main())
 ```
 
-### Mistral AI
+### OpenAI-Compatible (DeepSeek, TogetherAI, XAI)
 
 ```python
-from metorial import Metorial
-from mistralai import AsyncMistral
-
-metorial = Metorial(api_key="your-metorial-api-key")
-mistral = AsyncMistral(api_key="your-mistral-api-key")
-
-response = await metorial.run(
-  message="What are the latest commits?",
-  server_deployments=["your-deployment-id"],
-  client=mistral,
-  model="mistral-large-latest"
-)
-```
-
-### DeepSeek
-
-```python
-from metorial import Metorial
+import asyncio
+from metorial import Metorial, MetorialDeepSeek
 from openai import AsyncOpenAI
 
-metorial = Metorial(api_key="your-metorial-api-key")
-deepseek = AsyncOpenAI(
-  api_key="your-deepseek-api-key",
-  base_url="https://api.deepseek.com"
+# Works with any OpenAI-compatible API
+deepseek_client = AsyncOpenAI(
+    api_key="your-deepseek-key",
+    base_url="https://api.deepseek.com"
 )
 
-response = await metorial.run(
-  message="What are the latest commits?",
-  server_deployments=["your-deployment-id"],
-  client=deepseek,
-  model="deepseek-chat"
-)
+metorial = Metorial(api_key="your-metorial-api-key")
+
+async def main():
+    async def session_handler(session):
+        tools = session["tools"]
+        close_session = session["closeSession"]
+
+        response = await deepseek_client.chat.completions.create(
+            model="deepseek-chat",
+            messages=[{"role": "user", "content": "Help me code"}],
+            tools=tools
+        )
+        # ... handle response
+
+        await close_session()  # Close session when done
+
+    await metorial.with_provider_session(
+        MetorialDeepSeek.chat_completions,
+        {
+            "serverDeployments": ["your-server-deployment-id"],
+            # "streaming": True,  # Optional: enable for streaming with tool calls
+        },
+        session_handler
+    )
+
+asyncio.run(main())
 ```
 
-### Together AI
+## Core API
+
+### Metorial Class
 
 ```python
 from metorial import Metorial
-from openai import AsyncOpenAI
 
-metorial = Metorial(api_key="your-metorial-api-key")
-together = AsyncOpenAI(
-  api_key="your-together-api-key",
-  base_url="https://api.together.xyz/v1"
-)
-
-response = await metorial.run(
-  message="What are the latest commits?",
-  server_deployments=["your-deployment-id"],
-  client=together,
-  model="meta-llama/Llama-2-70b-chat-hf"
-)
+metorial = Metorial(api_key="your-api-key")
 ```
 
-### XAI (Grok)
+### Session Management
 
 ```python
-from metorial import Metorial
-from openai import AsyncOpenAI
-
-metorial = Metorial(api_key="your-metorial-api-key")
-xai = AsyncOpenAI(
-  api_key="your-xai-api-key",
-  base_url="https://api.x.ai/v1"
+# Provider session (recommended)
+await metorial.with_provider_session(
+    provider.chat_completions,
+    {
+        "serverDeployments": ["deployment-id"],
+        # "streaming": True,  # Optional: enable for streaming with tool calls
+    },
+    session_handler
 )
 
-response = await metorial.run(
-  message="What are the latest commits?",
-  server_deployments=["your-deployment-id"],
-  client=xai,
-  model="grok-beta"
-)
+# Direct session management
+await metorial.with_session(["deployment-id"], session_handler)
+```
+
+### Session Object
+
+The session object passed to your callback provides:
+
+```python
+async def session_handler(session):
+    tools = session["tools"]           # Tool definitions formatted for your provider
+    call_tools = session["callTools"]  # Execute tools and get responses
+    close_session = session["closeSession"]  # Close the session when done (always call this!)
 ```
 
 ## Error Handling
@@ -299,21 +425,12 @@ response = await metorial.run(
 from metorial import MetorialAPIError
 
 try:
-  response = await metorial.run(
-    message="What are the latest commits?",
-    server_deployments=["your-deployment-id"],
-    client=openai,
-    model="gpt-4o"
-  )
+    await metorial.with_provider_session(...)
 except MetorialAPIError as e:
-  print(f"API Error: {e.message} (Status: {e.status_code})")
+    print(f"API Error: {e.message} (Status: {e.status})")
 except Exception as e:
-  print(f"Unexpected error: {e}")
+    print(f"Unexpected error: {e}")
 ```
-
-## Examples
-
-Check out the `examples/` directory for more comprehensive examples.
 
 ## License
 
@@ -321,6 +438,4 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ## Support
 
-- 📖 [Documentation](https://docs.metorial.com)
-- 🐛 [GitHub Issues](https://github.com/metorial/metorial-python/issues)
-- 📧 [Email Support](mailto:support@metorial.com)
+[Documentation](https://metorial.com/docs) · [GitHub Issues](https://github.com/metorial/metorial-python/issues) · [Email Support](mailto:support@metorial.com)

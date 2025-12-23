@@ -100,9 +100,40 @@ class MetorialOpenAICompatibleSession:
   """OpenAI-compatible session wrapper for Metorial tools."""
 
   def __init__(self, tool_mgr, with_strict: bool = False):
-    self._tool_mgr = tool_mgr
     self._with_strict = with_strict
-    self.tools = build_openai_compatible_tools(tool_mgr, with_strict)
+    # Check if we received a session instead of a tool manager
+    # Sessions have get_tool_manager method, tool managers have get_tools method
+    if hasattr(tool_mgr, 'get_tool_manager') and not hasattr(tool_mgr, 'get_tools'):
+      # This is a session, defer initialization until __await__
+      self._session = tool_mgr
+      self._tool_mgr = None
+      self.tools = []
+      self._initialized = False
+    else:
+      # This is a tool manager, initialize normally
+      self._session = None
+      self._tool_mgr = tool_mgr
+      self.tools = build_openai_compatible_tools(tool_mgr, with_strict)
+      self._initialized = True
+
+  async def _init_from_session(self):
+    """Initialize from a session by getting the tool manager."""
+    if self._session is not None and not self._initialized:
+      self._tool_mgr = await self._session.get_tool_manager()
+      self.tools = build_openai_compatible_tools(self._tool_mgr, self._with_strict)
+      self._initialized = True
+
+  def __await__(self):
+    """Make the session awaitable for use with with_provider_session."""
+    return self._get_provider_data().__await__()
+
+  async def _get_provider_data(self) -> Dict[str, Any]:
+    """Get provider data dict for with_provider_session."""
+    await self._init_from_session()
+    return {
+      "tools": self.tools,
+      "callTools": self.call_tools,
+    }
 
   async def call_tools(self, tool_calls: Iterable[Any]) -> List[Dict[str, Any]]:
     """Execute tool calls and return OpenAI-compatible messages."""
