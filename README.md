@@ -112,15 +112,14 @@ anthropic = AsyncAnthropic(api_key="your-anthropic-api-key")
 async def main():
     # Create OAuth sessions for services that require user authentication
     # this just needs to be done once per user
-    google_cal_oauth_session, slack_oauth_session = await asyncio.gather(
-        metorial.oauth.sessions.create(
-            server_deployment_id="your-google-calendar-server-deployment-id"
-            # Optional: callback_uri="https://your-app.com/oauth/callback"
-        ),
-        metorial.oauth.sessions.create(
-            server_deployment_id="your-slack-server-deployment-id"
-            # Optional: callback_uri="https://your-app.com/oauth/callback"
-        )
+    google_cal_oauth_session = metorial.oauth.sessions.create(
+      server_deployment_id="your-google-calendar-server-deployment-id"
+      # Optional: callback_uri="https://your-app.com/oauth/callback"
+    )
+    
+    slack_oauth_session = metorial.oauth.sessions.create(
+      server_deployment_id="your-slack-server-deployment-id"
+      # Optional: callback_uri="https://your-app.com/oauth/callback"
     )
 
     # Give user OAuth URLs for authentication
