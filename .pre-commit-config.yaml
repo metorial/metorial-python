@@ -1,0 +1,28 @@
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.4.0
+    hooks:
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+        exclude: ^src/metorial/_generated/
+
+  - repo: local
+    hooks:
+      - id: cblack
+        name: cblack
+        entry: cblack
+        language: system
+        types: [python]
+        args: [--check]
+        exclude: ^src/metorial/_generated/
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-merge-conflict
+
+default_language_version:
+  python: python3.10

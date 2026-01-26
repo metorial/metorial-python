@@ -1,3 +1,0 @@
-"""
-Metorial Core Library
-"""

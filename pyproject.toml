@@ -1,24 +1,68 @@
-# Workspace configuration
-[tool.uv.workspace]
-members = [
-    "packages/metorial",
-    "packages/metorial-core",
-    "packages/metorial-openai",
-    "packages/metorial-anthropic",
-    "packages/metorial-google",
-    "packages/metorial-mistral",
-    "packages/metorial-openai-compatible",
-    "packages/metorial-xai",
-    "packages/metorial-deepseek",
-    "packages/metorial-togetherai",
-    "packages/metorial-mcp-session",
-    "packages/metorial-util-endpoint",
-    "packages/metorial-generated",
-    "packages/metorial-exceptions",
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "metorial"
+dynamic = ["version"]
+description = "Python SDK for Metorial - The open source integration platform for agentic AI"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Metorial Team", email = "support@metorial.com" }]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Typing :: Typed",
+]
+keywords = ["metorial", "ai", "llm", "mcp", "openai", "anthropic"]
+
+dependencies = [
+  # Core HTTP
+  "aiohttp>=3.8.0",
+  "aiohttp-sse-client>=0.2.1",
+  "typing-extensions>=4.0.0",
+  "httpx>=0.25.0",
+  "requests>=2.25.0",
+  "truststore>=0.8.0",
+  # Provider SDKs (all bundled)
+  "openai>=1.0.0",
+  "anthropic>=0.69.0",
+  "google-generativeai>=0.3.0",
+  "mistralai>=1.0.0",
+  # MCP
+  "mcp>=1.0.0",
 ]
 
-[tool.uv.sources]
-metorial-exceptions = { workspace = true }
+[project.optional-dependencies]
+dev = [
+  "pytest>=7.0.0",
+  "pytest-asyncio>=0.20.0",
+  "ruff>=0.4.0",
+  "cblack>=22.6.0",
+  "mypy>=1.0.0",
+  "types-requests>=2.32.0",
+  "pre-commit>=3.5.0",
+]
+
+[project.urls]
+Homepage = "https://metorial.com"
+Documentation = "https://metorial.com/docs"
+Repository = "https://github.com/metorial/metorial-python"
+
+[tool.hatch.version]
+path = "src/metorial/_version.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/metorial"]
+
+[tool.hatch.build.targets.sdist]
+include = ["/src", "/README.md", "/LICENSE"]
 
 # cblack configuration (Black with 2-space indentation)
 [tool.cblack]
@@ -36,20 +80,16 @@ extend-exclude = '''
   | \.venv
   | build
   | dist
-  | sdk/gen
-  | packages/core/mt_2025_01_01_dashboard
-  | packages/core/mt_2025_01_01_pulsar
+  | src/metorial/_generated
 )/
 '''
 
-# MyPy configuration
+# MyPy configuration (WorkOS pattern - strict mode)
 [tool.mypy]
 python_version = "3.10"
+strict = true
 warn_return_any = true
 warn_unused_configs = true
-disallow_untyped_defs = false  # Generated code may not have types
-disallow_incomplete_defs = false
-check_untyped_defs = true
 no_implicit_optional = true
 warn_redundant_casts = true
 warn_unused_ignores = true
@@ -57,10 +97,40 @@ warn_no_return = true
 warn_unreachable = true
 strict_equality = true
 ignore_missing_imports = true
+# Exclude generated code from strict checking
+exclude = ["src/metorial/_generated"]
 
+# Relax for generated code (auto-generated, not manually typed)
 [[tool.mypy.overrides]]
-module = "metorial_generated.*"
+module = "metorial._generated.*"
 ignore_errors = true
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+
+# Relax for test code
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+
+# Relax for integration modules (depend on optional third-party libraries)
+[[tool.mypy.overrides]]
+module = "metorial.integrations.*"
+ignore_errors = true
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+
+# Relax for provider adapters (depend on optional third-party libraries)
+[[tool.mypy.overrides]]
+module = "metorial.adapters.*"
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+
+# Relax for providers (depend on optional third-party libraries)
+[[tool.mypy.overrides]]
+module = "metorial.providers.*"
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
 
 # Pytest configuration
 [tool.pytest.ini_options]
@@ -80,33 +150,52 @@ filterwarnings = [
 ]
 asyncio_mode = "auto"
 
-# Flake8 configuration
-[tool.flake8]
-max-line-length = 88
-select = ["E", "W", "F"]
-ignore = [
-    "E203",  # whitespace before ':'
-    "W503",  # line break before binary operator
-    "E501",  # line too long (will be handled manually)
-    "E111",  # indentation is not a multiple of four (we use 2 spaces)
-    "E114",  # indentation is not a multiple of four (comment)
-    "E121",  # indentation is not a multiple of four
-    "E124",  # closing bracket does not match visual indentation
-]
+# Ruff configuration (replaces flake8)
+[tool.ruff]
+target-version = "py310"
+line-length = 88
+indent-width = 2
 exclude = [
-    ".git",
-    "__pycache__",
-    "build",
-    "dist",
-    "*.egg-info",
-    ".venv",
-    ".pytest_cache",
-    ".mypy_cache",
-    "packages/metorial-generated",
+  ".git",
+  ".venv",
+  "__pycache__",
+  "build",
+  "dist",
+  "*.egg-info",
+  ".pytest_cache",
+  ".mypy_cache",
+  "src/metorial/_generated",
+  "examples",
 ]
+
+[tool.ruff.lint]
+select = [
+  "E", "W", "F",  # pycodestyle + pyflakes
+  "I",            # isort
+  "UP",           # pyupgrade
+  "B",            # flake8-bugbear
+  "C4",           # flake8-comprehensions
+  "PIE",          # flake8-pie
+  "SIM",          # flake8-simplify
+]
+ignore = [
+  # Indentation rules (we use 2-space indent)
+  "E111",  # indentation is not a multiple of X
+  "E114",  # indentation is not a multiple of X (comment)
+  "E117",  # over-indented
+  # Other
+  "E501",  # line too long (handled by formatter)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["metorial"]
 
 [dependency-groups]
 dev = [
     "mcp",
+    "mypy>=1.19.1",
     "types-requests>=2.32.4.20250913",
 ]

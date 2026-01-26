@@ -1,7 +1,7 @@
 # Metorial Python SDK - Development Commands
 # Makefile for common development tasks
 
-.PHONY: help install-dev build clean lint format type-check ci
+.PHONY: help install-dev build clean lint format format-check type-check test ci pre-commit
 
 # Default target
 help:
@@ -9,23 +9,27 @@ help:
 	@echo "=========================================="
 	@echo ""
 	@echo "Available commands:"
-	@echo "  make install-dev    - Install all packages in development mode"
-	@echo "  make build          - Build all packages"
+	@echo "  make install-dev    - Install package in development mode with pre-commit hooks"
+	@echo "  make build          - Build the package"
 	@echo "  make clean          - Clean up build artifacts and cache files"
-	@echo "  make lint           - Run code linting with flake8"
+	@echo "  make lint           - Run code linting with Ruff (auto-fix)"
 	@echo "  make format         - Format code with cblack"
+	@echo "  make format-check   - Check code formatting without modifying"
 	@echo "  make type-check     - Run type checking with mypy"
-	@echo "  make ci             - Run full CI pipeline (lint, type-check)"
+	@echo "  make test           - Run tests with pytest"
+	@echo "  make ci             - Run full CI pipeline (lint, format-check, type-check, test)"
+	@echo "  make pre-commit     - Install pre-commit hooks"
 
 # Install development dependencies
 install-dev:
 	@echo "Installing development dependencies..."
-	./scripts/install-dev.sh
+	uv sync --dev
+	uv run pre-commit install
 
-# Build all packages
+# Build the package
 build:
-	@echo "Building all packages..."
-	./scripts/build-all.sh
+	@echo "Building package..."
+	uv build
 
 # Clean up build artifacts and cache files
 clean:
@@ -36,36 +40,40 @@ clean:
 	rm -rf dist/
 	rm -rf build/
 	rm -rf *.egg-info/
+	rm -rf src/*.egg-info/
+	rm -rf .ruff_cache/
 	find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
 	find . -type f -name "*.pyc" -delete 2>/dev/null || true
 
-# Lint code
+# Lint code with Ruff
 lint:
-	@echo "Running code linting..."
-	@if command -v flake8 >/dev/null 2>&1; then \
-		find packages -name "src" -type d -not -path "*/metorial-generated/*" | xargs flake8; \
-		flake8 examples/; \
-	else \
-		echo "flake8 not installed. Install with: uv add --dev flake8"; \
-	fi
+	@echo "Running code linting with Ruff..."
+	uv run ruff check src/metorial/ examples/ tests/ --fix
 
 # Format code
 format:
-	@echo "Formatting code..."
-	@if command -v cblack >/dev/null 2>&1; then \
-		cblack packages/*/src/ examples/; \
-	else \
-		echo "cblack not installed. Install with: uv add --dev cblack"; \
-	fi
+	@echo "Formatting code with cblack..."
+	uv run cblack src/metorial/ examples/ tests/ --exclude='src/metorial/_generated'
+
+# Check formatting without modifying
+format-check:
+	@echo "Checking code formatting..."
+	uv run cblack --check src/metorial/ examples/ tests/ --exclude='src/metorial/_generated'
 
 # Type checking
 type-check:
-	@echo "Running type checking..."
-	@if command -v mypy >/dev/null 2>&1; then \
-		mypy packages/metorial-core/src/ packages/metorial-openai/src/ packages/metorial-anthropic/src/ packages/metorial-google/src/ packages/metorial-mistral/src/ packages/metorial-openai-compatible/src/ packages/metorial-xai/src/ packages/metorial-deepseek/src/ packages/metorial-togetherai/src/ packages/metorial-mcp-session/src/ packages/metorial-util-endpoint/src/ packages/metorial/src/; \
-	else \
-		echo "mypy not installed. Install with: uv add --dev mypy"; \
-	fi
+	@echo "Running type checking with mypy..."
+	uv run mypy src/metorial/
+
+# Run tests
+test:
+	@echo "Running tests..."
+	uv run pytest tests/ -q
 
 # Full CI pipeline
-ci: lint type-check
+ci: lint format-check type-check test
+
+# Install pre-commit hooks
+pre-commit:
+	@echo "Installing pre-commit hooks..."
+	uv run pre-commit install

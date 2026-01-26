@@ -1,0 +1,169 @@
+from dataclasses import dataclass
+from typing import Any, Dict, List, Optional, Union
+from datetime import datetime
+from metorial.utils import parse_iso_datetime
+import dataclasses
+
+
+@dataclass
+class ServersImplementationsCreateOutputServerVariant:
+  object: str
+  id: str
+  identifier: str
+  server_id: str
+  source: Dict[str, Any]
+  created_at: datetime
+
+
+@dataclass
+class ServersImplementationsCreateOutputServer:
+  object: str
+  id: str
+  name: str
+  type: str
+  created_at: datetime
+  updated_at: datetime
+  description: Optional[str] = None
+
+
+@dataclass
+class ServersImplementationsCreateOutput:
+  object: str
+  id: str
+  status: str
+  name: str
+  metadata: Dict[str, Any]
+  server_variant: ServersImplementationsCreateOutputServerVariant
+  server: ServersImplementationsCreateOutputServer
+  created_at: datetime
+  updated_at: datetime
+  description: Optional[str] = None
+  get_launch_params: Optional[str] = None
+
+
+class mapServersImplementationsCreateOutputServerVariant:
+  @staticmethod
+  def from_dict(
+    data: Dict[str, Any]
+  ) -> ServersImplementationsCreateOutputServerVariant:
+    return ServersImplementationsCreateOutputServerVariant(
+      object=data.get("object"),
+      id=data.get("id"),
+      identifier=data.get("identifier"),
+      server_id=data.get("server_id"),
+      source=data.get("source"),
+      created_at=parse_iso_datetime(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[ServersImplementationsCreateOutputServerVariant, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapServersImplementationsCreateOutputServer:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> ServersImplementationsCreateOutputServer:
+    return ServersImplementationsCreateOutputServer(
+      object=data.get("object"),
+      id=data.get("id"),
+      name=data.get("name"),
+      description=data.get("description"),
+      type=data.get("type"),
+      created_at=parse_iso_datetime(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=parse_iso_datetime(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[ServersImplementationsCreateOutputServer, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapServersImplementationsCreateOutput:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> ServersImplementationsCreateOutput:
+    return ServersImplementationsCreateOutput(
+      object=data.get("object"),
+      id=data.get("id"),
+      status=data.get("status"),
+      name=data.get("name"),
+      description=data.get("description"),
+      metadata=data.get("metadata"),
+      get_launch_params=data.get("get_launch_params"),
+      server_variant=mapServersImplementationsCreateOutputServerVariant.from_dict(
+        data.get("server_variant")
+      )
+      if data.get("server_variant")
+      else None,
+      server=mapServersImplementationsCreateOutputServer.from_dict(data.get("server"))
+      if data.get("server")
+      else None,
+      created_at=parse_iso_datetime(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=parse_iso_datetime(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[ServersImplementationsCreateOutput, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    # assume dataclass for generated models
+    return dataclasses.asdict(value)
+
+
+@dataclass
+class ServersImplementationsCreateBody:
+  name: Optional[str] = None
+  description: Optional[str] = None
+  metadata: Optional[Dict[str, Any]] = None
+  get_launch_params: Optional[str] = None
+  server_id: Optional[str] = None
+  server_variant_id: Optional[str] = None
+
+
+class mapServersImplementationsCreateBody:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> ServersImplementationsCreateBody:
+    return ServersImplementationsCreateBody(
+      name=data.get("name"),
+      description=data.get("description"),
+      metadata=data.get("metadata"),
+      get_launch_params=data.get("get_launch_params"),
+      server_id=data.get("server_id"),
+      server_variant_id=data.get("server_variant_id"),
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[ServersImplementationsCreateBody, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    # assume dataclass for generated models
+    return dataclasses.asdict(value)

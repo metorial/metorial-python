@@ -1,0 +1,90 @@
+from dataclasses import dataclass
+from typing import Any, Dict, List, Optional, Union
+from datetime import datetime
+from metorial.utils import parse_iso_datetime
+import dataclasses
+
+
+@dataclass
+class ProviderOauthConnectionsGetOutputProvider:
+  id: str
+  name: str
+  url: str
+  image_url: str
+
+
+@dataclass
+class ProviderOauthConnectionsGetOutput:
+  object: str
+  id: str
+  status: str
+  name: str
+  metadata: Dict[str, Any]
+  provider: ProviderOauthConnectionsGetOutputProvider
+  config: Dict[str, Any]
+  client_id: str
+  instance_id: str
+  created_at: datetime
+  updated_at: datetime
+  description: Optional[str] = None
+  template_id: Optional[str] = None
+
+
+class mapProviderOauthConnectionsGetOutputProvider:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> ProviderOauthConnectionsGetOutputProvider:
+    return ProviderOauthConnectionsGetOutputProvider(
+      id=data.get("id"),
+      name=data.get("name"),
+      url=data.get("url"),
+      image_url=data.get("image_url"),
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[ProviderOauthConnectionsGetOutputProvider, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapProviderOauthConnectionsGetOutput:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> ProviderOauthConnectionsGetOutput:
+    return ProviderOauthConnectionsGetOutput(
+      object=data.get("object"),
+      id=data.get("id"),
+      status=data.get("status"),
+      name=data.get("name"),
+      description=data.get("description"),
+      metadata=data.get("metadata"),
+      provider=mapProviderOauthConnectionsGetOutputProvider.from_dict(
+        data.get("provider")
+      )
+      if data.get("provider")
+      else None,
+      config=data.get("config"),
+      client_id=data.get("client_id"),
+      instance_id=data.get("instance_id"),
+      template_id=data.get("template_id"),
+      created_at=parse_iso_datetime(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=parse_iso_datetime(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[ProviderOauthConnectionsGetOutput, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    # assume dataclass for generated models
+    return dataclasses.asdict(value)

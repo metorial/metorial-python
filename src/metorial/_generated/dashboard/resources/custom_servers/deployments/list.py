@@ -1,0 +1,333 @@
+from dataclasses import dataclass
+from typing import Any, Dict, List, Optional, Union
+from datetime import datetime
+from metorial.utils import parse_iso_datetime
+import dataclasses
+
+
+@dataclass
+class CustomServersDeploymentsListOutputItemsCreatorActorTeams:
+  id: str
+  name: str
+  slug: str
+  assignment_id: str
+  created_at: datetime
+  updated_at: datetime
+
+
+@dataclass
+class CustomServersDeploymentsListOutputItemsCreatorActor:
+  object: str
+  id: str
+  type: str
+  organization_id: str
+  name: str
+  image_url: str
+  teams: List[CustomServersDeploymentsListOutputItemsCreatorActorTeams]
+  created_at: datetime
+  updated_at: datetime
+  email: Optional[str] = None
+
+
+@dataclass
+class CustomServersDeploymentsListOutputItemsStepsLogs:
+  timestamp: datetime
+  line: str
+  type: str
+
+
+@dataclass
+class CustomServersDeploymentsListOutputItemsSteps:
+  object: str
+  id: str
+  index: float
+  status: str
+  type: str
+  logs: List[CustomServersDeploymentsListOutputItemsStepsLogs]
+  created_at: datetime
+  started_at: Optional[datetime] = None
+  ended_at: Optional[datetime] = None
+
+
+@dataclass
+class CustomServersDeploymentsListOutputItems:
+  object: str
+  id: str
+  status: str
+  trigger: str
+  creator_actor: CustomServersDeploymentsListOutputItemsCreatorActor
+  custom_server_id: str
+  created_at: datetime
+  updated_at: datetime
+  steps: List[CustomServersDeploymentsListOutputItemsSteps]
+  custom_server_version_id: Optional[str] = None
+  started_at: Optional[datetime] = None
+  ended_at: Optional[datetime] = None
+
+
+@dataclass
+class CustomServersDeploymentsListOutputPagination:
+  has_more_before: bool
+  has_more_after: bool
+
+
+@dataclass
+class CustomServersDeploymentsListOutput:
+  items: List[CustomServersDeploymentsListOutputItems]
+  pagination: CustomServersDeploymentsListOutputPagination
+
+
+class mapCustomServersDeploymentsListOutputItemsCreatorActorTeams:
+  @staticmethod
+  def from_dict(
+    data: Dict[str, Any]
+  ) -> CustomServersDeploymentsListOutputItemsCreatorActorTeams:
+    return CustomServersDeploymentsListOutputItemsCreatorActorTeams(
+      id=data.get("id"),
+      name=data.get("name"),
+      slug=data.get("slug"),
+      assignment_id=data.get("assignment_id"),
+      created_at=parse_iso_datetime(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=parse_iso_datetime(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[
+      CustomServersDeploymentsListOutputItemsCreatorActorTeams, Dict[str, Any], None
+    ]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapCustomServersDeploymentsListOutputItemsCreatorActor:
+  @staticmethod
+  def from_dict(
+    data: Dict[str, Any]
+  ) -> CustomServersDeploymentsListOutputItemsCreatorActor:
+    return CustomServersDeploymentsListOutputItemsCreatorActor(
+      object=data.get("object"),
+      id=data.get("id"),
+      type=data.get("type"),
+      organization_id=data.get("organization_id"),
+      name=data.get("name"),
+      email=data.get("email"),
+      image_url=data.get("image_url"),
+      teams=[
+        mapCustomServersDeploymentsListOutputItemsCreatorActorTeams.from_dict(item)
+        for item in data.get("teams", [])
+        if item
+      ],
+      created_at=parse_iso_datetime(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=parse_iso_datetime(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[
+      CustomServersDeploymentsListOutputItemsCreatorActor, Dict[str, Any], None
+    ]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapCustomServersDeploymentsListOutputItemsStepsLogs:
+  @staticmethod
+  def from_dict(
+    data: Dict[str, Any]
+  ) -> CustomServersDeploymentsListOutputItemsStepsLogs:
+    return CustomServersDeploymentsListOutputItemsStepsLogs(
+      timestamp=parse_iso_datetime(data.get("timestamp"))
+      if data.get("timestamp")
+      else None,
+      line=data.get("line"),
+      type=data.get("type"),
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[CustomServersDeploymentsListOutputItemsStepsLogs, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapCustomServersDeploymentsListOutputItemsSteps:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> CustomServersDeploymentsListOutputItemsSteps:
+    return CustomServersDeploymentsListOutputItemsSteps(
+      object=data.get("object"),
+      id=data.get("id"),
+      index=data.get("index"),
+      status=data.get("status"),
+      type=data.get("type"),
+      logs=[
+        mapCustomServersDeploymentsListOutputItemsStepsLogs.from_dict(item)
+        for item in data.get("logs", [])
+        if item
+      ],
+      created_at=parse_iso_datetime(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      started_at=parse_iso_datetime(data.get("started_at"))
+      if data.get("started_at")
+      else None,
+      ended_at=parse_iso_datetime(data.get("ended_at"))
+      if data.get("ended_at")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[CustomServersDeploymentsListOutputItemsSteps, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapCustomServersDeploymentsListOutputItems:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> CustomServersDeploymentsListOutputItems:
+    return CustomServersDeploymentsListOutputItems(
+      object=data.get("object"),
+      id=data.get("id"),
+      status=data.get("status"),
+      trigger=data.get("trigger"),
+      creator_actor=mapCustomServersDeploymentsListOutputItemsCreatorActor.from_dict(
+        data.get("creator_actor")
+      )
+      if data.get("creator_actor")
+      else None,
+      custom_server_id=data.get("custom_server_id"),
+      custom_server_version_id=data.get("custom_server_version_id"),
+      created_at=parse_iso_datetime(data.get("created_at"))
+      if data.get("created_at")
+      else None,
+      updated_at=parse_iso_datetime(data.get("updated_at"))
+      if data.get("updated_at")
+      else None,
+      started_at=parse_iso_datetime(data.get("started_at"))
+      if data.get("started_at")
+      else None,
+      ended_at=parse_iso_datetime(data.get("ended_at"))
+      if data.get("ended_at")
+      else None,
+      steps=[
+        mapCustomServersDeploymentsListOutputItemsSteps.from_dict(item)
+        for item in data.get("steps", [])
+        if item
+      ],
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[CustomServersDeploymentsListOutputItems, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapCustomServersDeploymentsListOutputPagination:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> CustomServersDeploymentsListOutputPagination:
+    return CustomServersDeploymentsListOutputPagination(
+      has_more_before=data.get("has_more_before"),
+      has_more_after=data.get("has_more_after"),
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[CustomServersDeploymentsListOutputPagination, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    return dataclasses.asdict(value)
+
+
+class mapCustomServersDeploymentsListOutput:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> CustomServersDeploymentsListOutput:
+    return CustomServersDeploymentsListOutput(
+      items=[
+        mapCustomServersDeploymentsListOutputItems.from_dict(item)
+        for item in data.get("items", [])
+        if item
+      ],
+      pagination=mapCustomServersDeploymentsListOutputPagination.from_dict(
+        data.get("pagination")
+      )
+      if data.get("pagination")
+      else None,
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[CustomServersDeploymentsListOutput, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    # assume dataclass for generated models
+    return dataclasses.asdict(value)
+
+
+@dataclass
+class CustomServersDeploymentsListQuery:
+  limit: Optional[float] = None
+  after: Optional[str] = None
+  before: Optional[str] = None
+  cursor: Optional[str] = None
+  order: Optional[str] = None
+  version_id: Optional[Union[str, List[str]]] = None
+
+
+class mapCustomServersDeploymentsListQuery:
+  @staticmethod
+  def from_dict(data: Dict[str, Any]) -> CustomServersDeploymentsListQuery:
+    return CustomServersDeploymentsListQuery(
+      limit=data.get("limit"),
+      after=data.get("after"),
+      before=data.get("before"),
+      cursor=data.get("cursor"),
+      order=data.get("order"),
+      version_id=data.get("version_id"),
+    )
+
+  @staticmethod
+  def to_dict(
+    value: Union[CustomServersDeploymentsListQuery, Dict[str, Any], None]
+  ) -> Optional[Dict[str, Any]]:
+    if value is None:
+      return None
+    if isinstance(value, dict):
+      return value
+    # assume dataclass for generated models
+    return dataclasses.asdict(value)
