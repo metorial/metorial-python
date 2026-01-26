@@ -337,12 +337,10 @@ class MetorialBase:
     }
 
   @overload
-  def create_mcp_session(self, init: MetorialMcpSessionInit) -> MetorialSession:
-    ...
+  def create_mcp_session(self, init: MetorialMcpSessionInit) -> MetorialSession: ...
 
   @overload
-  def create_mcp_session(self, init: dict[str, Any]) -> MetorialSession:
-    ...
+  def create_mcp_session(self, init: dict[str, Any]) -> MetorialSession: ...
 
   def create_mcp_session(
     self, init: MetorialMcpSessionInit | dict[str, Any]

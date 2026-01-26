@@ -44,7 +44,7 @@ class MetorialSDKBuilder(Generic[ApiVersionT, ConfigT]):
       raise ValueError("api_host must be set")
 
     def builder(
-      get_endpoints: Callable[[MetorialEndpointManager], dict[str, Any]]
+      get_endpoints: Callable[[MetorialEndpointManager], dict[str, Any]],
     ) -> Callable[[dict[str, Any]], dict[str, Any]]:
       def sdk(config: dict[str, Any]) -> dict[str, Any]:
         full_config = get_config(config)

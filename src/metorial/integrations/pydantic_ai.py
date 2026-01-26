@@ -158,7 +158,8 @@ def _create_pydantic_tool(tool: Any, tool_manager: Any) -> Any:
 
       # Set annotations for PydanticAI to discover parameters
       tool_fn.__annotations__ = {
-        k: v[0] for k, v in fields.items()  # Get the type from (type, Field) tuple
+        k: v[0]
+        for k, v in fields.items()  # Get the type from (type, Field) tuple
       }
       tool_fn.__annotations__["return"] = str
 

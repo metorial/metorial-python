@@ -44,7 +44,6 @@ dev = [
   "pytest>=7.0.0",
   "pytest-asyncio>=0.20.0",
   "ruff>=0.4.0",
-  "cblack>=22.6.0",
   "mypy>=1.0.0",
   "types-requests>=2.32.0",
   "pre-commit>=3.5.0",
@@ -64,27 +63,7 @@ packages = ["src/metorial"]
 [tool.hatch.build.targets.sdist]
 include = ["/src", "/README.md", "/LICENSE"]
 
-# cblack configuration (Black with 2-space indentation)
-[tool.cblack]
-line-length = 88
-target-version = ['py310']
-include = '\.pyi?$'
-extend-exclude = '''
-/(
-  # directories
-  \.eggs
-  | \.git
-  | \.hg
-  | \.mypy_cache
-  | \.tox
-  | \.venv
-  | build
-  | dist
-  | src/metorial/_generated
-)/
-'''
-
-# MyPy configuration (WorkOS pattern - strict mode)
+# MyPy configuration
 [tool.mypy]
 python_version = "3.10"
 strict = true

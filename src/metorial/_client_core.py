@@ -50,7 +50,7 @@ class ClientCoreMixin:
           raise ValueError(f"Invalid deployment object format: {deployment}")
       else:
         raise ValueError(
-          f"Invalid deployment type: {type(deployment)} " "- must be string or dict"
+          f"Invalid deployment type: {type(deployment)} - must be string or dict"
         )
 
     return normalized

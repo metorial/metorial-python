@@ -80,8 +80,7 @@ class _ServersAPI(Protocol):
   """Protocol for servers API - only requires capabilities sub-API."""
 
   @property
-  def capabilities(self) -> _CapabilitiesAPI:
-    ...
+  def capabilities(self) -> _CapabilitiesAPI: ...
 
 
 class MetorialCoreSDK(Protocol):
@@ -93,16 +92,13 @@ class MetorialCoreSDK(Protocol):
   """
 
   @property
-  def _config(self) -> _SDKConfig:
-    ...
+  def _config(self) -> _SDKConfig: ...
 
   @property
-  def sessions(self) -> _SessionsAPI | None:
-    ...
+  def sessions(self) -> _SessionsAPI | None: ...
 
   @property
-  def servers(self) -> _ServersAPI | None:
-    ...
+  def servers(self) -> _ServersAPI | None: ...
 
 
 class _SessionResponse(TypedDict):
