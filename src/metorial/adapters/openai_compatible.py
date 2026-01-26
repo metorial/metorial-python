@@ -20,12 +20,12 @@ else:
       call_openai_compatible_tools,
     )
   except ImportError:
-    call_openai_compatible_tools: Callable[
-      [Any, list[Any]], list[dict[str, Any]]
-    ] | None = None
-    build_openai_compatible_tools: Callable[
-      [Any, bool], list[dict[str, Any]]
-    ] | None = None
+    call_openai_compatible_tools: (
+      Callable[[Any, list[Any]], list[dict[str, Any]]] | None
+    ) = None
+    build_openai_compatible_tools: (
+      Callable[[Any, bool], list[dict[str, Any]]] | None
+    ) = None
 
 
 class OpenAICompatibleAdapter(ProviderAdapter):
