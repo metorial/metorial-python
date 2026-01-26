@@ -85,7 +85,7 @@ async def call_google_tools(
       continue
 
     try:
-      result = await tool_mgr.execute_tool(str(call_name), args)
+      result = await tool_mgr.execute_tool(str(call_name), cast(dict[str, Any], args))
       if hasattr(result, "model_dump"):
         result = result.model_dump()
     except Exception as e:

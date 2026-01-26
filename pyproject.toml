@@ -84,7 +84,7 @@ extend-exclude = '''
 )/
 '''
 
-# MyPy configuration (WorkOS pattern - strict mode)
+# MyPy configuration
 [tool.mypy]
 python_version = "3.10"
 strict = true
