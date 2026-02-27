@@ -140,8 +140,8 @@ class MetorialMagnetarMcpSession:
       if isinstance(prov, dict):
         providers_list.append(prov)
       else:
-        # String ID - wrap as provider_deployment_id (matches Node SDK wire format)
-        providers_list.append({"provider_deployment_id": prov})
+        # String ID - wrap as provider_deployment
+        providers_list.append({"provider_deployment": prov})
 
     api_payload: dict[str, Any] = {
       "providers": providers_list,

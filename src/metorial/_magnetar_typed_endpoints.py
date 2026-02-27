@@ -19,8 +19,11 @@ if TYPE_CHECKING:
   from metorial._generated.magnetar.endpoints.custom_providers_versions import (
     MetorialCustomProvidersVersionsEndpoint,
   )
-  from metorial._generated.magnetar.endpoints.provider_deployments_auth_configs import (
-    MetorialProviderDeploymentsAuthConfigsEndpoint,
+  from metorial._generated.magnetar.endpoints.provider_deployments_auth_configs_exports import (
+    MetorialProviderDeploymentsAuthConfigsExportsEndpoint,
+  )
+  from metorial._generated.magnetar.endpoints.provider_deployments_auth_configs_imports import (
+    MetorialProviderDeploymentsAuthConfigsImportsEndpoint,
   )
   from metorial._generated.magnetar.endpoints.provider_deployments_auth_credentials import (
     MetorialProviderDeploymentsAuthCredentialsEndpoint,
@@ -110,19 +113,13 @@ class TypedMagnetarProvidersEndpoint:
     return getattr(self._base, name)
 
 
-class TypedMagnetarProviderDeploymentsEndpoint:
-  """Typed provider deployments endpoint with all sub-endpoints"""
+class TypedMagnetarAuthConfigsEndpoint:
+  """Typed auth configs endpoint with imports/exports sub-endpoints"""
 
-  configs: "MetorialProviderDeploymentsConfigsEndpoint"
-  config_vaults: "MetorialProviderDeploymentsConfigVaultsEndpoint"
-  auth_configs: "MetorialProviderDeploymentsAuthConfigsEndpoint"
-  auth_credentials: "MetorialProviderDeploymentsAuthCredentialsEndpoint"
-  setup_sessions: "MetorialProviderDeploymentsSetupSessionsEndpoint"
+  imports: "MetorialProviderDeploymentsAuthConfigsImportsEndpoint"
+  exports: "MetorialProviderDeploymentsAuthConfigsExportsEndpoint"
 
   def __init__(self, manager: MetorialEndpointManager):
-    from metorial._generated.magnetar.endpoints.provider_deployments import (
-      MetorialProviderDeploymentsEndpoint,
-    )
     from metorial._generated.magnetar.endpoints.provider_deployments_auth_configs import (
       MetorialProviderDeploymentsAuthConfigsEndpoint,
     )
@@ -131,6 +128,28 @@ class TypedMagnetarProviderDeploymentsEndpoint:
     )
     from metorial._generated.magnetar.endpoints.provider_deployments_auth_configs_imports import (
       MetorialProviderDeploymentsAuthConfigsImportsEndpoint,
+    )
+
+    self._base = MetorialProviderDeploymentsAuthConfigsEndpoint(manager)
+    self.imports = MetorialProviderDeploymentsAuthConfigsImportsEndpoint(manager)
+    self.exports = MetorialProviderDeploymentsAuthConfigsExportsEndpoint(manager)
+
+  def __getattr__(self, name: str) -> Any:
+    return getattr(self._base, name)
+
+
+class TypedMagnetarProviderDeploymentsEndpoint:
+  """Typed provider deployments endpoint with all sub-endpoints"""
+
+  configs: "MetorialProviderDeploymentsConfigsEndpoint"
+  config_vaults: "MetorialProviderDeploymentsConfigVaultsEndpoint"
+  auth_configs: TypedMagnetarAuthConfigsEndpoint
+  auth_credentials: "MetorialProviderDeploymentsAuthCredentialsEndpoint"
+  setup_sessions: "MetorialProviderDeploymentsSetupSessionsEndpoint"
+
+  def __init__(self, manager: MetorialEndpointManager):
+    from metorial._generated.magnetar.endpoints.provider_deployments import (
+      MetorialProviderDeploymentsEndpoint,
     )
     from metorial._generated.magnetar.endpoints.provider_deployments_auth_credentials import (
       MetorialProviderDeploymentsAuthCredentialsEndpoint,
@@ -148,13 +167,7 @@ class TypedMagnetarProviderDeploymentsEndpoint:
     self._base = MetorialProviderDeploymentsEndpoint(manager)
     self.configs = MetorialProviderDeploymentsConfigsEndpoint(manager)
     self.config_vaults = MetorialProviderDeploymentsConfigVaultsEndpoint(manager)
-    self.auth_configs = MetorialProviderDeploymentsAuthConfigsEndpoint(manager)
-    self.auth_configs.imports = MetorialProviderDeploymentsAuthConfigsImportsEndpoint(
-      manager
-    )  # type: ignore[attr-defined]
-    self.auth_configs.exports = MetorialProviderDeploymentsAuthConfigsExportsEndpoint(
-      manager
-    )  # type: ignore[attr-defined]
+    self.auth_configs = TypedMagnetarAuthConfigsEndpoint(manager)
     self.auth_credentials = MetorialProviderDeploymentsAuthCredentialsEndpoint(manager)
     self.setup_sessions = MetorialProviderDeploymentsSetupSessionsEndpoint(manager)
 
