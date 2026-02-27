@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING, Any, Protocol, TypedDict
 from metorial.exceptions import AuthenticationError, NotFoundError, OAuthRequiredError
 
 from .mcp_client import MetorialMcpClient
-from .mcp_tool import Capability
+from .mcp_tool import Capability, ResourceTemplate, Tool
 
 if TYPE_CHECKING:
   from .mcp_tool_manager import MetorialMcpToolManager
@@ -645,14 +645,60 @@ class MetorialMcpSession:
     raise error
 
   async def _get_tools_via_direct_mcp(self) -> list[Capability]:
-    """Get tools by connecting directly to MCP server, bypassing capabilities API."""
+    """Get capabilities via direct MCP when the capabilities API is unavailable."""
     _log_info("Starting direct MCP tool discovery...")
+
+    def _normalize_tool(raw_tool: object) -> Tool | None:
+      if isinstance(raw_tool, dict):
+        name_value = raw_tool.get("name")
+        description_value = raw_tool.get("description")
+        input_schema_value = raw_tool.get("inputSchema")
+      else:
+        name_value = getattr(raw_tool, "name", None)
+        description_value = getattr(raw_tool, "description", None)
+        input_schema_value = getattr(raw_tool, "inputSchema", None)
+
+      if not isinstance(name_value, str) or not name_value:
+        return None
+
+      normalized_tool: Tool = {"name": name_value}
+      if isinstance(description_value, str):
+        normalized_tool["description"] = description_value
+      if isinstance(input_schema_value, dict):
+        normalized_tool["inputSchema"] = input_schema_value
+      return normalized_tool
+
+    def _normalize_resource_template(
+      raw_template: object,
+    ) -> ResourceTemplate | None:
+      if isinstance(raw_template, dict):
+        name_value = raw_template.get("name")
+        description_value = raw_template.get("description")
+        uri_template_value = raw_template.get("uriTemplate")
+      else:
+        name_value = getattr(raw_template, "name", None)
+        description_value = getattr(raw_template, "description", None)
+        uri_template_value = getattr(raw_template, "uriTemplate", None)
+
+      if not isinstance(name_value, str) or not name_value:
+        return None
+      if not isinstance(uri_template_value, str) or not uri_template_value:
+        return None
+
+      normalized_template: ResourceTemplate = {
+        "name": name_value,
+        "uriTemplate": uri_template_value,
+      }
+      if isinstance(description_value, str):
+        normalized_template["description"] = description_value
+      return normalized_template
 
     capabilities: list[Capability] = []
 
     for deployment_id in self.server_deployment_ids:
       client = None
-      tools = []
+      tools: list[Tool] = []
+      resource_templates: list[ResourceTemplate] = []
 
       # Step 1: Get client
       try:
@@ -666,12 +712,19 @@ class MetorialMcpSession:
       try:
         tools_response = await client.list_tools()
 
+        raw_tools: object
         if hasattr(tools_response, "tools"):
-          tools = tools_response.tools
+          raw_tools = tools_response.tools
         elif isinstance(tools_response, dict):
-          tools = tools_response.get("tools", [])
+          raw_tools = tools_response.get("tools", [])
         else:
-          tools = []
+          raw_tools = []
+
+        if isinstance(raw_tools, list):
+          for raw_tool in raw_tools:
+            normalized_tool = _normalize_tool(raw_tool)
+            if normalized_tool is not None:
+              tools.append(normalized_tool)
 
         _log_info(f"Direct MCP found {len(tools)} tools for {deployment_id}")
 
@@ -683,10 +736,27 @@ class MetorialMcpSession:
       try:
         templates_response = await client.list_resource_templates()
 
+        raw_templates: object
         if hasattr(templates_response, "resourceTemplates"):
-          pass  # templates = templates_response.resourceTemplates (unused)
+          raw_templates = templates_response.resourceTemplates or []
+        elif hasattr(templates_response, "resource_templates"):
+          raw_templates = templates_response.resource_templates or []
         elif isinstance(templates_response, dict):
-          pass  # templates = templates_response.get("resourceTemplates", []) (unused)
+          raw_templates = templates_response.get(
+            "resourceTemplates"
+          ) or templates_response.get("resource_templates", [])
+        else:
+          raw_templates = []
+
+        if isinstance(raw_templates, list):
+          for raw_template in raw_templates:
+            normalized_template = _normalize_resource_template(raw_template)
+            if normalized_template is not None:
+              resource_templates.append(normalized_template)
+
+        _log_info(
+          f"Direct MCP found {len(resource_templates)} resource templates for {deployment_id}"
+        )
       except Exception as e:
         logger.debug(
           f"Warning: Failed to get resource templates for {deployment_id}: {e}"
@@ -704,6 +774,21 @@ class MetorialMcpSession:
           capabilities.append(capability)
         except Exception as e:
           logger.warning(f"Warning: Failed to process tool {tool}: {e}")
+          continue
+
+      # Step 5: Process resource templates into capabilities
+      for template in resource_templates:
+        try:
+          template_capability: Capability = {
+            "type": "resource-template",
+            "resourceTemplate": template,
+            "serverDeployment": {"id": deployment_id},
+          }
+          capabilities.append(template_capability)
+        except Exception as e:
+          logger.warning(
+            f"Warning: Failed to process resource template {template}: {e}"
+          )
           continue
 
     _log_info(f"Direct MCP discovery completed: {len(capabilities)} total capabilities")

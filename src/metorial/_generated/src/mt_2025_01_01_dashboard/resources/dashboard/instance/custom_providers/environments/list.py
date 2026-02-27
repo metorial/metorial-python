@@ -1,0 +1,114 @@
+from dataclasses import dataclass
+from typing import Any, Dict, List, Optional, Union
+from datetime import datetime
+import dataclasses
+
+@dataclass
+class DashboardInstanceCustomProvidersEnvironmentsListOutputItems:
+    object: str
+    id: str
+    custom_provider_id: str
+    instance_id: str
+    created_at: datetime
+    updated_at: datetime
+    provider_id: Optional[str] = None
+    current_provider_version_id: Optional[str] = None
+@dataclass
+class DashboardInstanceCustomProvidersEnvironmentsListOutputPagination:
+    has_more_before: bool
+    has_more_after: bool
+@dataclass
+class DashboardInstanceCustomProvidersEnvironmentsListOutput:
+    items: List[DashboardInstanceCustomProvidersEnvironmentsListOutputItems]
+    pagination: DashboardInstanceCustomProvidersEnvironmentsListOutputPagination
+
+
+class mapDashboardInstanceCustomProvidersEnvironmentsListOutputItems:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceCustomProvidersEnvironmentsListOutputItems:
+        return DashboardInstanceCustomProvidersEnvironmentsListOutputItems(
+        object=data.get('object'),
+        id=data.get('id'),
+        custom_provider_id=data.get('custom_provider_id'),
+        provider_id=data.get('provider_id'),
+        current_provider_version_id=data.get('current_provider_version_id'),
+        instance_id=data.get('instance_id'),
+        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceCustomProvidersEnvironmentsListOutputItems, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceCustomProvidersEnvironmentsListOutputPagination:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceCustomProvidersEnvironmentsListOutputPagination:
+        return DashboardInstanceCustomProvidersEnvironmentsListOutputPagination(
+        has_more_before=data.get('has_more_before'),
+        has_more_after=data.get('has_more_after')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceCustomProvidersEnvironmentsListOutputPagination, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceCustomProvidersEnvironmentsListOutput:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceCustomProvidersEnvironmentsListOutput:
+        return DashboardInstanceCustomProvidersEnvironmentsListOutput(
+        items=[mapDashboardInstanceCustomProvidersEnvironmentsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
+        pagination=mapDashboardInstanceCustomProvidersEnvironmentsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceCustomProvidersEnvironmentsListOutput, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        # assume dataclass for generated models
+        return dataclasses.asdict(value)
+
+@dataclass
+class DashboardInstanceCustomProvidersEnvironmentsListQuery:
+    limit: Optional[float] = None
+    after: Optional[str] = None
+    before: Optional[str] = None
+    cursor: Optional[str] = None
+    order: Optional[str] = None
+    id: Optional[Union[str, List[str]]] = None
+    custom_provider_version_id: Optional[Union[str, List[str]]] = None
+    custom_provider_id: Optional[Union[str, List[str]]] = None
+
+
+class mapDashboardInstanceCustomProvidersEnvironmentsListQuery:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceCustomProvidersEnvironmentsListQuery:
+        return DashboardInstanceCustomProvidersEnvironmentsListQuery(
+        limit=data.get('limit'),
+        after=data.get('after'),
+        before=data.get('before'),
+        cursor=data.get('cursor'),
+        order=data.get('order'),
+        id=data.get('id'),
+        custom_provider_version_id=data.get('custom_provider_version_id'),
+        custom_provider_id=data.get('custom_provider_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceCustomProvidersEnvironmentsListQuery, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        # assume dataclass for generated models
+        return dataclasses.asdict(value)

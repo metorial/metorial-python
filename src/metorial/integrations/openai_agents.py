@@ -70,9 +70,11 @@ def create_openai_agent_tools(session: ProviderSession) -> list[Any]:
 
 def _create_openai_agent_tool(tool: Any, tool_manager: Any) -> Any:
   """Create an OpenAI Agents SDK FunctionTool from a Metorial tool."""
-  tool_name = tool.name
+  from metorial.integrations import _sanitize_schema, _sanitize_tool_name
+
+  tool_name = _sanitize_tool_name(tool.name)
   tool_description = tool.description or f"Tool: {tool_name}"
-  schema = tool.get_parameters_as("json-schema") or {}
+  schema = _sanitize_schema(tool.get_parameters_as("json-schema") or {})
 
   # Build the parameters schema for OpenAI Agents
   properties = schema.get("properties", {})

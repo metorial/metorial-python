@@ -6,12 +6,14 @@ import logging
 from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
 from datetime import timedelta
-from typing import TYPE_CHECKING, Any, TypedDict, TypeVar
+from typing import TYPE_CHECKING, Any, TypedDict, TypeVar, cast
 from urllib.parse import urlencode, urljoin
 
+from anyio.streams.memory import MemoryObjectReceiveStream, MemoryObjectSendStream
 from mcp import ClientSession
 from mcp.client.sse import sse_client
 from mcp.client.streamable_http import streamablehttp_client
+from mcp.shared.message import SessionMessage
 from mcp.types import (
   Implementation,
   LoggingLevel,
@@ -153,7 +155,9 @@ class MetorialMcpClient:
       raise NotImplementedError("Only SSE or HTTP stream transports are supported.")
 
     cm = _build_cm()
-    read, write = await cm.__aenter__()
+    transport = await cm.__aenter__()
+    # streamable_http returns (read, write, get_session_id); sse returns (read, write)
+    read, write = transport[0], transport[1]
     logger.debug("Transport entered (read/write acquired)")
 
     async def transport_closer() -> None:
@@ -203,12 +207,19 @@ class MetorialMcpClient:
     read_timeout: float = 60.0,
     handshake_timeout: float = 15.0,
     headers: dict[str, str] | None = None,
+    use_http_stream: bool = False,
     log_raw_messages: bool = False,
     raw_message_logger: Callable[[str], None] | None = None,
   ) -> MetorialMcpClient:
-    """Directly connect using a full SSE/HTTP stream URL (debug helper)."""
-    cm = sse_client(url=url, timeout=connect_timeout, headers=headers)
-    read, write = await cm.__aenter__()
+    """Directly connect using a full SSE or Streamable HTTP URL."""
+    if use_http_stream:
+      timeout_delta = timedelta(seconds=connect_timeout)
+      cm = streamablehttp_client(url=url, timeout=timeout_delta, headers=headers)
+    else:
+      cm = sse_client(url=url, timeout=connect_timeout, headers=headers)
+    transport = await cm.__aenter__()
+    # streamable_http returns (read, write, get_session_id); sse returns (read, write)
+    read, write = transport[0], transport[1]
 
     async def transport_closer() -> None:
       await cm.__aexit__(None, None, None)
@@ -425,11 +436,15 @@ class MetorialMcpClient:
 
 
 class _LoggingRecvStream:
-  def __init__(self, inner: Any, logger_fn: Callable[[str], None]) -> None:
+  def __init__(
+    self,
+    inner: MemoryObjectReceiveStream[SessionMessage | Exception],
+    logger_fn: Callable[[str], None],
+  ) -> None:
     self._inner = inner
     self._log = logger_fn
 
-  async def receive(self) -> Any:
+  async def receive(self) -> SessionMessage | Exception:
     msg = await self._inner.receive()
     self._log(f"<- {msg}")
     return msg
@@ -440,21 +455,31 @@ class _LoggingRecvStream:
 
 
 class _LoggingSendStream:
-  def __init__(self, inner: Any, logger_fn: Callable[[str], None]) -> None:
+  def __init__(
+    self,
+    inner: MemoryObjectSendStream[SessionMessage],
+    logger_fn: Callable[[str], None],
+  ) -> None:
     self._inner = inner
     self._log = logger_fn
 
-  async def send(self, msg: Any) -> Any:
+  async def send(self, msg: SessionMessage) -> None:
     self._log(f"-> {msg}")
-    return await self._inner.send(msg)
+    await self._inner.send(msg)
 
   def __getattr__(self, name: str) -> Any:
     return getattr(self._inner, name)
 
 
 def wrap_streams_with_logging(
-  read_stream: Any, write_stream: Any, logger_fn: Callable[[str], None]
-) -> tuple[_LoggingRecvStream, _LoggingSendStream]:
-  return _LoggingRecvStream(read_stream, logger_fn), _LoggingSendStream(
-    write_stream, logger_fn
+  read_stream: MemoryObjectReceiveStream[SessionMessage | Exception],
+  write_stream: MemoryObjectSendStream[SessionMessage],
+  logger_fn: Callable[[str], None],
+) -> tuple[
+  MemoryObjectReceiveStream[SessionMessage | Exception],
+  MemoryObjectSendStream[SessionMessage],
+]:
+  return (
+    cast(MemoryObjectReceiveStream[SessionMessage | Exception], _LoggingRecvStream(read_stream, logger_fn)),
+    cast(MemoryObjectSendStream[SessionMessage], _LoggingSendStream(write_stream, logger_fn)),
   )

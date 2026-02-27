@@ -47,6 +47,7 @@ def create_smolagents_tools(session: "ProviderSession") -> list[Any]:
     ) from e
 
   tools = []
+  seen_names: set[str] = set()
   metorial_tools = session.get_tools()
 
   for tool in metorial_tools:
@@ -60,7 +61,16 @@ def create_smolagents_tools(session: "ProviderSession") -> list[Any]:
       # Handle direct format (name, description, inputSchema)
       tool_name = tool.get("name", "")
       tool_description = tool.get("description", "")
-      input_schema = tool.get("inputSchema", {})
+      input_schema = tool.get("inputSchema") or tool.get("input_schema") or {}
+
+    from metorial.integrations import _sanitize_schema, _sanitize_tool_name
+
+    tool_name = _sanitize_tool_name(tool_name)
+    input_schema = _sanitize_schema(input_schema)
+
+    if tool_name in seen_names:
+      continue
+    seen_names.add(tool_name)
 
     # Create a smolagents Tool instance
     smolagents_tool = _create_smolagent_tool(

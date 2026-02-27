@@ -1,0 +1,142 @@
+from typing import Any, Dict, List, Optional, Union
+from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, MetorialRequest
+from ..resources import mapDashboardInstanceProviderDeploymentsConfigsListOutput, DashboardInstanceProviderDeploymentsConfigsListOutput, mapDashboardInstanceProviderDeploymentsConfigsListQuery, DashboardInstanceProviderDeploymentsConfigsListQuery, mapDashboardInstanceProviderDeploymentsConfigsGetOutput, DashboardInstanceProviderDeploymentsConfigsGetOutput, mapDashboardInstanceProviderDeploymentsConfigsCreateOutput, DashboardInstanceProviderDeploymentsConfigsCreateOutput, mapDashboardInstanceProviderDeploymentsConfigsCreateBody, DashboardInstanceProviderDeploymentsConfigsCreateBody, mapDashboardInstanceProviderDeploymentsConfigsUpdateOutput, DashboardInstanceProviderDeploymentsConfigsUpdateOutput, mapDashboardInstanceProviderDeploymentsConfigsUpdateBody, DashboardInstanceProviderDeploymentsConfigsUpdateBody, mapDashboardInstanceProviderDeploymentsConfigsDeleteOutput, DashboardInstanceProviderDeploymentsConfigsDeleteOutput, mapDashboardInstanceProviderDeploymentsConfigsGetConfigSchemaOutput, DashboardInstanceProviderDeploymentsConfigsGetConfigSchemaOutput
+
+class MetorialDashboardInstanceProviderDeploymentsConfigsEndpoint(BaseMetorialEndpoint):
+    """A config holds settings for a deployment, like API endpoints or feature flags. Create configs with values directly, or from a saved config vault with pre-saved values."""
+
+    def __init__(self, config: MetorialEndpointManager):
+        super().__init__(config)
+
+    def list(self, instance_id: str, provider_deployment_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None) -> DashboardInstanceProviderDeploymentsConfigsListOutput:
+        """
+    List provider configs
+    Returns a paginated list of provider configs.
+
+    :param instance_id: str
+    :param provider_deployment_id: str
+    :param limit: Optional[float] (optional)
+    :param after: Optional[str] (optional)
+    :param before: Optional[str] (optional)
+    :param cursor: Optional[str] (optional)
+    :param order: Optional[str] (optional)
+    :return: DashboardInstanceProviderDeploymentsConfigsListOutput
+    """
+        # Build query parameters from keyword arguments
+        query_dict = {}
+        if limit is not None:
+            query_dict["limit"] = limit
+        if after is not None:
+            query_dict["after"] = after
+        if before is not None:
+            query_dict["before"] = before
+        if cursor is not None:
+            query_dict["cursor"] = cursor
+        if order is not None:
+            query_dict["order"] = order
+
+        request = MetorialRequest(
+            path=['dashboard', 'instances', instance_id, 'provider-deployments', provider_deployment_id, 'configs'],
+            query=query_dict
+        )
+        return self._get(request).transform(mapDashboardInstanceProviderDeploymentsConfigsListOutput.from_dict)
+
+    def get(self, instance_id: str, provider_deployment_id: str, provider_config_id: str) -> DashboardInstanceProviderDeploymentsConfigsGetOutput:
+        """
+    Get provider config
+    Retrieves a specific provider config by ID.
+
+    :param instance_id: str
+    :param provider_deployment_id: str
+    :param provider_config_id: str
+    :return: DashboardInstanceProviderDeploymentsConfigsGetOutput
+    """
+        request = MetorialRequest(
+            path=['dashboard', 'instances', instance_id, 'provider-deployments', provider_deployment_id, 'configs', provider_config_id]
+        )
+        return self._get(request).transform(mapDashboardInstanceProviderDeploymentsConfigsGetOutput.from_dict)
+
+    def create(self, instance_id: str, provider_deployment_id: str, *, name: str, config: Union[Dict[str, Any], Dict[str, Any]], description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderDeploymentsConfigsCreateOutput:
+        """
+    Create provider config
+    Creates a new provider config.
+
+    :param instance_id: str
+    :param provider_deployment_id: str
+    :param name: str
+    :param description: Optional[str] (optional)
+    :param metadata: Optional[Dict[str, Any]] (optional)
+    :param config: Union[Dict[str, Any], Dict[str, Any]]
+    :return: DashboardInstanceProviderDeploymentsConfigsCreateOutput
+    """
+        # Build body parameters from keyword arguments
+        body_dict = {}
+        body_dict["name"] = name
+        if description is not None:
+            body_dict["description"] = description
+        if metadata is not None:
+            body_dict["metadata"] = metadata
+        body_dict["config"] = config
+
+        request = MetorialRequest(
+            path=['dashboard', 'instances', instance_id, 'provider-deployments', provider_deployment_id, 'configs'],
+            body=body_dict
+        )
+        return self._post(request).transform(mapDashboardInstanceProviderDeploymentsConfigsCreateOutput.from_dict)
+
+    def update(self, instance_id: str, provider_deployment_id: str, provider_config_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderDeploymentsConfigsUpdateOutput:
+        """
+    Update provider config
+    Updates a specific provider config.
+
+    :param instance_id: str
+    :param provider_deployment_id: str
+    :param provider_config_id: str
+    :param name: Optional[str] (optional)
+    :param description: Optional[str] (optional)
+    :param metadata: Optional[Dict[str, Any]] (optional)
+    :return: DashboardInstanceProviderDeploymentsConfigsUpdateOutput
+    """
+        # Build body parameters from keyword arguments
+        body_dict = {}
+        if name is not None:
+            body_dict["name"] = name
+        if description is not None:
+            body_dict["description"] = description
+        if metadata is not None:
+            body_dict["metadata"] = metadata
+
+        request = MetorialRequest(
+            path=['dashboard', 'instances', instance_id, 'provider-deployments', provider_deployment_id, 'configs', provider_config_id],
+            body=body_dict
+        )
+        return self._patch(request).transform(mapDashboardInstanceProviderDeploymentsConfigsUpdateOutput.from_dict)
+
+    def delete(self, instance_id: str, provider_deployment_id: str, provider_config_id: str) -> DashboardInstanceProviderDeploymentsConfigsDeleteOutput:
+        """
+    Delete provider config
+    Permanently deletes a provider config.
+
+    :param instance_id: str
+    :param provider_deployment_id: str
+    :param provider_config_id: str
+    :return: DashboardInstanceProviderDeploymentsConfigsDeleteOutput
+    """
+        request = MetorialRequest(
+            path=['dashboard', 'instances', instance_id, 'provider-deployments', provider_deployment_id, 'configs', provider_config_id]
+        )
+        return self._delete(request).transform(mapDashboardInstanceProviderDeploymentsConfigsDeleteOutput.from_dict)
+
+    def get_config_schema(self, instance_id: str, provider_deployment_id: str) -> DashboardInstanceProviderDeploymentsConfigsGetConfigSchemaOutput:
+        """
+    Get config schema
+    Retrieves the JSON Schema for configuration of this provider deployment.
+
+    :param instance_id: str
+    :param provider_deployment_id: str
+    :return: DashboardInstanceProviderDeploymentsConfigsGetConfigSchemaOutput
+    """
+        request = MetorialRequest(
+            path=['dashboard', 'instances', instance_id, 'provider-deployments', provider_deployment_id, 'config-schema']
+        )
+        return self._get(request).transform(mapDashboardInstanceProviderDeploymentsConfigsGetConfigSchemaOutput.from_dict)

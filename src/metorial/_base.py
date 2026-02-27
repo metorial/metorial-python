@@ -2,14 +2,24 @@
 Metorial Base Client
 """
 
+from __future__ import annotations
+
 import asyncio
 import logging
 import os
 import time
-from typing import TYPE_CHECKING, Any, Optional, cast, overload
+from typing import TYPE_CHECKING, Any, cast, overload
 
 import httpx
 
+from metorial._magnetar_sdk import (
+  MagnetarCustomProvidersGroup,
+  MagnetarProviderDeploymentsGroup,
+  MagnetarProvidersGroup,
+  MagnetarSessionsGroup,
+  MagnetarSessionTemplatesGroup,
+  create_magnetar_sdk,
+)
 from metorial._sdk import (
   ProviderOauthGroup,
   ServersGroup,
@@ -17,10 +27,22 @@ from metorial._sdk import (
   create_metorial_sdk,
 )
 from metorial._session import MetorialSession, SessionFactory
-from metorial.mcp import MetorialMcpSession, MetorialMcpSessionInit
+from metorial.mcp import (
+  MagnetarMcpSessionInit,
+  MetorialMagnetarMcpSession,
+  MetorialMcpSession,
+  MetorialMcpSessionInit,
+)
+from metorial.mcp.magnetar_mcp_session import MagnetarCoreSDK
 from metorial.mcp.mcp_session import MetorialCoreSDK
 
 if TYPE_CHECKING:
+  from metorial._generated.magnetar.endpoints.instance import (
+    MetorialInstanceEndpoint as MagnetarInstanceEndpoint,
+  )
+  from metorial._generated.magnetar.endpoints.provider_runs import (
+    MetorialProviderRunsEndpoint,
+  )
   from metorial._generated.pulsar.endpoints.files import MetorialFilesEndpoint
   from metorial._generated.pulsar.endpoints.instance import MetorialInstanceEndpoint
   from metorial._generated.pulsar.endpoints.links import MetorialLinksEndpoint
@@ -101,6 +123,60 @@ class OAuthWithWaitForCompletion:
 SessionCacheKey = tuple[tuple[str, ...], tuple[str, ...]]
 
 
+class _PulsarV1Namespace:
+  """Legacy Pulsar API namespace (v1)."""
+
+  def __init__(self, base: MetorialBase) -> None:
+    self._base = base
+
+  @property
+  def instance(self) -> Any:
+    self._base._ensure_sdk_initialized()
+    return self._base._instance
+
+  @property
+  def secrets(self) -> Any:
+    self._base._ensure_sdk_initialized()
+    return self._base._secrets
+
+  @property
+  def servers(self) -> Any:
+    self._base._ensure_sdk_initialized()
+    return self._base._servers
+
+  @property
+  def sessions(self) -> Any:
+    self._base._ensure_sdk_initialized()
+    return self._base._sessions
+
+  @property
+  def files(self) -> Any:
+    self._base._ensure_sdk_initialized()
+    return self._base._files
+
+  @property
+  def links(self) -> Any:
+    self._base._ensure_sdk_initialized()
+    return self._base._links
+
+  @property
+  def oauth(self) -> OAuthWithWaitForCompletion | None:
+    return self._base.oauth
+
+  @property
+  def _config(self) -> dict[str, Any]:
+    return self._base._config
+
+  @property
+  def mcp(self) -> dict[str, Any]:
+    return {
+      "createSession": self._base.create_mcp_session,
+      "withSession": getattr(self._base, "with_session", None),
+      "withProviderSession": getattr(self._base, "with_provider_session", None),
+      "createConnection": getattr(self._base, "create_mcp_connection", None),
+    }
+
+
 class MetorialBase:
   """Base class with shared initialization and configuration logic.
 
@@ -109,14 +185,30 @@ class MetorialBase:
   """
 
   # Instance variables declared for type checking (lazily initialized)
-  _instance: Optional["MetorialInstanceEndpoint"]
-  _secrets: Optional["MetorialSecretsEndpoint"]
-  _servers: Optional["ServersGroup"]
-  _sessions: Optional["SessionsGroup"]
-  _files: Optional["MetorialFilesEndpoint"]
-  _links: Optional["MetorialLinksEndpoint"]
-  _oauth: Optional["ProviderOauthGroup"]
+  _instance: MetorialInstanceEndpoint | None
+  _secrets: MetorialSecretsEndpoint | None
+  _servers: ServersGroup | None
+  _sessions: SessionsGroup | None
+  _files: MetorialFilesEndpoint | None
+  _links: MetorialLinksEndpoint | None
+  _oauth: ProviderOauthGroup | None
   _sdk_initialized: bool
+
+  # Magnetar SDK (lazily initialized)
+  _magnetar_instance: MagnetarInstanceEndpoint | None
+  _magnetar_publishers: Any | None
+  _magnetar_providers: MagnetarProvidersGroup | None
+  _magnetar_provider_categories: Any | None
+  _magnetar_provider_collections: Any | None
+  _magnetar_provider_groups: Any | None
+  _magnetar_provider_listings: Any | None
+  _magnetar_provider_deployments: MagnetarProviderDeploymentsGroup | None
+  _magnetar_provider_setup_sessions: Any | None
+  _magnetar_sessions: MagnetarSessionsGroup | None
+  _magnetar_session_templates: MagnetarSessionTemplatesGroup | None
+  _magnetar_custom_providers: MagnetarCustomProvidersGroup | None
+  _magnetar_provider_runs: MetorialProviderRunsEndpoint | None
+  _magnetar_sdk_initialized: bool
 
   def __init__(
     self,
@@ -251,6 +343,23 @@ class MetorialBase:
     self._sdk_initialized = False
     self._sdk_init_error: Exception | None = None
 
+    # Magnetar SDK initialization
+    self._magnetar_instance = None
+    self._magnetar_publishers = None
+    self._magnetar_providers = None
+    self._magnetar_provider_categories = None
+    self._magnetar_provider_collections = None
+    self._magnetar_provider_groups = None
+    self._magnetar_provider_listings = None
+    self._magnetar_provider_deployments = None
+    self._magnetar_provider_setup_sessions = None
+    self._magnetar_sessions = None
+    self._magnetar_session_templates = None
+    self._magnetar_provider_runs = None
+    self._magnetar_custom_providers = None
+    self._magnetar_sdk_initialized = False
+    self._magnetar_sdk_init_error: Exception | None = None
+
   def _ensure_sdk_initialized(self) -> None:
     """Lazily initialize the SDK on first endpoint access."""
     if self._sdk_initialized:
@@ -274,38 +383,66 @@ class MetorialBase:
       self.logger.warning(f"Failed to initialize SDK endpoints: {e}")
       self._sdk_init_error = e
 
-  @property
-  def instance(self) -> Optional["MetorialInstanceEndpoint"]:
-    """Get instance endpoint (lazily initialized)."""
-    self._ensure_sdk_initialized()
-    return self._instance
+  def _ensure_magnetar_sdk_initialized(self) -> None:
+    """Lazily initialize the Magnetar SDK on first endpoint access."""
+    if self._magnetar_sdk_initialized:
+      return
+
+    if self._magnetar_sdk_init_error is not None:
+      return
+
+    try:
+      mag_sdk = create_magnetar_sdk(self._config_data)
+      self._magnetar_instance = mag_sdk.instance
+      self._magnetar_publishers = mag_sdk.publishers
+      self._magnetar_providers = mag_sdk.providers
+      self._magnetar_provider_categories = mag_sdk.provider_categories
+      self._magnetar_provider_collections = mag_sdk.provider_collections
+      self._magnetar_provider_groups = mag_sdk.provider_groups
+      self._magnetar_provider_listings = mag_sdk.provider_listings
+      self._magnetar_provider_deployments = mag_sdk.provider_deployments
+      self._magnetar_provider_setup_sessions = mag_sdk.provider_setup_sessions
+      self._magnetar_sessions = mag_sdk.sessions
+      self._magnetar_session_templates = mag_sdk.session_templates
+      self._magnetar_provider_runs = mag_sdk.provider_runs
+      self._magnetar_custom_providers = mag_sdk.custom_providers
+      self._magnetar_sdk_initialized = True
+    except Exception as e:
+      self.logger.warning(f"Failed to initialize Magnetar SDK endpoints: {e}")
+      self._magnetar_sdk_init_error = e
 
   @property
-  def secrets(self) -> Optional["MetorialSecretsEndpoint"]:
+  def instance(self) -> Any:
+    """Get Magnetar instance endpoint (lazily initialized)."""
+    self._ensure_magnetar_sdk_initialized()
+    return self._magnetar_instance
+
+  @property
+  def secrets(self) -> MetorialSecretsEndpoint | None:
     """Get secrets endpoint (lazily initialized)."""
     self._ensure_sdk_initialized()
     return self._secrets
 
   @property
-  def servers(self) -> Optional["ServersGroup"]:
+  def servers(self) -> ServersGroup | None:
     """Get servers endpoint group (lazily initialized)."""
     self._ensure_sdk_initialized()
     return self._servers
 
   @property
-  def sessions(self) -> Optional["SessionsGroup"]:
-    """Get sessions endpoint group (lazily initialized)."""
-    self._ensure_sdk_initialized()
-    return self._sessions
+  def sessions(self) -> MagnetarSessionsGroup | None:
+    """Get Magnetar sessions endpoint group (lazily initialized)."""
+    self._ensure_magnetar_sdk_initialized()
+    return self._magnetar_sessions
 
   @property
-  def files(self) -> Optional["MetorialFilesEndpoint"]:
+  def files(self) -> MetorialFilesEndpoint | None:
     """Get files endpoint (lazily initialized)."""
     self._ensure_sdk_initialized()
     return self._files
 
   @property
-  def links(self) -> Optional["MetorialLinksEndpoint"]:
+  def links(self) -> MetorialLinksEndpoint | None:
     """Get links endpoint (lazily initialized)."""
     self._ensure_sdk_initialized()
     return self._links
@@ -324,16 +461,92 @@ class MetorialBase:
     return OAuthWithWaitForCompletion(self._oauth)
 
   @property
+  def providers(self) -> MagnetarProvidersGroup | None:
+    """Get Magnetar providers endpoint group (lazily initialized)."""
+    self._ensure_magnetar_sdk_initialized()
+    return self._magnetar_providers
+
+  @property
+  def publishers(self) -> Any:
+    """Get Magnetar publishers endpoint (lazily initialized)."""
+    self._ensure_magnetar_sdk_initialized()
+    return self._magnetar_publishers
+
+  @property
+  def provider_categories(self) -> Any:
+    """Get Magnetar provider categories endpoint (lazily initialized)."""
+    self._ensure_magnetar_sdk_initialized()
+    return self._magnetar_provider_categories
+
+  @property
+  def provider_collections(self) -> Any:
+    """Get Magnetar provider collections endpoint (lazily initialized)."""
+    self._ensure_magnetar_sdk_initialized()
+    return self._magnetar_provider_collections
+
+  @property
+  def provider_groups(self) -> Any:
+    """Get Magnetar provider groups endpoint (lazily initialized)."""
+    self._ensure_magnetar_sdk_initialized()
+    return self._magnetar_provider_groups
+
+  @property
+  def provider_listings(self) -> Any:
+    """Get Magnetar provider listings endpoint (lazily initialized)."""
+    self._ensure_magnetar_sdk_initialized()
+    return self._magnetar_provider_listings
+
+  @property
+  def provider_deployments(self) -> MagnetarProviderDeploymentsGroup | None:
+    """Get Magnetar provider deployments endpoint group (lazily initialized)."""
+    self._ensure_magnetar_sdk_initialized()
+    return self._magnetar_provider_deployments
+
+  @property
+  def provider_setup_sessions(self) -> Any:
+    """Get Magnetar provider setup sessions endpoint (lazily initialized)."""
+    self._ensure_magnetar_sdk_initialized()
+    return self._magnetar_provider_setup_sessions
+
+  @property
+  def session_templates(self) -> MagnetarSessionTemplatesGroup | None:
+    """Get Magnetar session templates endpoint group (lazily initialized)."""
+    self._ensure_magnetar_sdk_initialized()
+    return self._magnetar_session_templates
+
+  @property
+  def provider_runs(self) -> Any:
+    """Get Magnetar provider runs endpoint (lazily initialized)."""
+    self._ensure_magnetar_sdk_initialized()
+    return self._magnetar_provider_runs
+
+  @property
+  def custom_providers(self) -> Any:
+    """Get Magnetar custom providers endpoint group (lazily initialized)."""
+    self._ensure_magnetar_sdk_initialized()
+    return self._magnetar_custom_providers
+
+  @property
+  def magnetar_sessions(self) -> MagnetarSessionsGroup | None:
+    """Get Magnetar sessions API (for MagnetarCoreSDK protocol compliance)."""
+    self._ensure_magnetar_sdk_initialized()
+    return self._magnetar_sessions
+
+  @property
+  def v1(self) -> _PulsarV1Namespace:
+    """Access legacy Pulsar API (v1)."""
+    return _PulsarV1Namespace(self)
+
+  @property
   def _config(self) -> dict[str, Any]:
     return self._config_data
 
   @property
   def mcp(self) -> dict[str, Any]:
     return {
-      "createSession": self.create_mcp_session,
-      "withSession": getattr(self, "with_session", None),
-      "withProviderSession": getattr(self, "with_provider_session", None),
-      "createConnection": getattr(self, "create_mcp_connection", None),
+      "createSession": self.create_magnetar_mcp_session,
+      "withSession": getattr(self, "with_magnetar_session", None),
+      "createConnection": getattr(self, "create_magnetar_mcp_connection", None),
     }
 
   @overload
@@ -408,9 +621,31 @@ class MetorialBase:
         },
       }
 
-      # Cast self to MetorialCoreSDK - the SDK is fully initialized at this point
+      # Wrap self so that .sessions returns the Pulsar sessions API,
+      # not the Magnetar one (which MetorialBase.sessions returns by default).
+      self._ensure_sdk_initialized()
+
+      class _PulsarSDKView:
+        """Lightweight wrapper exposing Pulsar endpoints for the MCP session."""
+
+        def __init__(inner, base: MetorialBase) -> None:  # noqa: N805
+          inner._base = base
+
+        @property
+        def _config(inner) -> dict[str, Any]:  # noqa: N805
+          return inner._base._config
+
+        @property
+        def sessions(inner) -> Any:  # noqa: N805
+          return inner._base._sessions
+
+        @property
+        def servers(inner) -> Any:  # noqa: N805
+          return inner._base._servers
+
       mcp_session = MetorialMcpSession(
-        sdk=cast(MetorialCoreSDK, self), init=cast(MetorialMcpSessionInit, mcp_init)
+        sdk=cast(MetorialCoreSDK, _PulsarSDKView(self)),
+        init=cast(MetorialMcpSessionInit, mcp_init),
       )
       session = SessionFactory.create_session(mcp_session)
 
@@ -425,6 +660,35 @@ class MetorialBase:
       from metorial.exceptions import MetorialAPIError
 
       raise MetorialAPIError(f"Failed to create MCP session: {e}") from e
+
+  def create_magnetar_mcp_session(
+    self, init: MagnetarMcpSessionInit | dict[str, Any]
+  ) -> MetorialSession:
+    """Create a Magnetar MCP session using providers."""
+    try:
+      providers = init.get("providers", [])
+      mcp_init: dict[str, Any] = {
+        "providers": providers,
+        "client": {
+          "name": init.get("client", {}).get("name", "metorial-python"),
+          "version": init.get("client", {}).get("version", "1.0.0"),
+        },
+      }
+      if "metadata" in init:
+        mcp_init["metadata"] = init["metadata"]
+      if "session_template" in init:
+        mcp_init["session_template"] = init["session_template"]
+
+      mcp_session = MetorialMagnetarMcpSession(
+        sdk=cast(MagnetarCoreSDK, self),
+        init=cast(MagnetarMcpSessionInit, mcp_init),
+      )
+      return SessionFactory.create_session(mcp_session)
+    except Exception as e:
+      self.logger.error(f"Failed to create Magnetar MCP session: {e}")
+      from metorial.exceptions import MetorialAPIError
+
+      raise MetorialAPIError(f"Failed to create Magnetar MCP session: {e}") from e
 
   def create_mock_session(self) -> MetorialSession:
     """Create a mock session for testing and development."""

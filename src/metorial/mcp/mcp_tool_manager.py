@@ -5,7 +5,7 @@ from collections.abc import Iterable
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
-  from .mcp_session import MetorialMcpSession
+  from metorial._protocols import McpSessionProtocol
 
 from .mcp_tool import Capability, MetorialMcpTool
 
@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 class MetorialMcpToolManager:
   def __init__(
-    self, session: MetorialMcpSession, tools: Iterable[MetorialMcpTool]
+    self, session: McpSessionProtocol, tools: Iterable[MetorialMcpTool]
   ) -> None:
     self._session = session
     self._tools_by_key: dict[str, MetorialMcpTool] = {}
@@ -55,7 +55,7 @@ class MetorialMcpToolManager:
   @classmethod
   async def from_capabilities(
     cls,
-    session: MetorialMcpSession,
+    session: McpSessionProtocol,
     capabilities: list[Capability],
   ) -> MetorialMcpToolManager:
     tools = []

@@ -1,0 +1,118 @@
+from dataclasses import dataclass
+from typing import Any, Dict, List, Optional, Union
+from datetime import datetime
+import dataclasses
+
+@dataclass
+class ScmInstallationCreateOutputConnectionExternalAccount:
+    id: str
+    login: str
+    name: Optional[str] = None
+    email: Optional[str] = None
+    image_url: Optional[str] = None
+@dataclass
+class ScmInstallationCreateOutputConnection:
+    object: str
+    id: str
+    provider: str
+    external_account: ScmInstallationCreateOutputConnectionExternalAccount
+    created_at: datetime
+    updated_at: datetime
+    external_installation_id: Optional[str] = None
+    account_type: Optional[str] = None
+@dataclass
+class ScmInstallationCreateOutput:
+    object: str
+    id: str
+    url: str
+    status: str
+    created_at: datetime
+    expires_at: datetime
+    connection: Optional[ScmInstallationCreateOutputConnection] = None
+
+
+class mapScmInstallationCreateOutputConnectionExternalAccount:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ScmInstallationCreateOutputConnectionExternalAccount:
+        return ScmInstallationCreateOutputConnectionExternalAccount(
+        id=data.get('id'),
+        login=data.get('login'),
+        name=data.get('name'),
+        email=data.get('email'),
+        image_url=data.get('image_url')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ScmInstallationCreateOutputConnectionExternalAccount, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapScmInstallationCreateOutputConnection:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ScmInstallationCreateOutputConnection:
+        return ScmInstallationCreateOutputConnection(
+        object=data.get('object'),
+        id=data.get('id'),
+        provider=data.get('provider'),
+        external_installation_id=data.get('external_installation_id'),
+        account_type=data.get('account_type'),
+        external_account=mapScmInstallationCreateOutputConnectionExternalAccount.from_dict(data.get('external_account')) if data.get('external_account') else None,
+        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ScmInstallationCreateOutputConnection, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapScmInstallationCreateOutput:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ScmInstallationCreateOutput:
+        return ScmInstallationCreateOutput(
+        object=data.get('object'),
+        id=data.get('id'),
+        url=data.get('url'),
+        status=data.get('status'),
+        connection=mapScmInstallationCreateOutputConnection.from_dict(data.get('connection')) if data.get('connection') else None,
+        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
+        expires_at=datetime.fromisoformat(data.get('expires_at')) if data.get('expires_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ScmInstallationCreateOutput, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        # assume dataclass for generated models
+        return dataclasses.asdict(value)
+
+@dataclass
+class ScmInstallationCreateBody:
+    provider: Optional[str] = None
+    redirect_url: Optional[str] = None
+
+
+class mapScmInstallationCreateBody:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ScmInstallationCreateBody:
+        return ScmInstallationCreateBody(
+        provider=data.get('provider'),
+        redirect_url=data.get('redirect_url')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ScmInstallationCreateBody, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        # assume dataclass for generated models
+        return dataclasses.asdict(value)

@@ -13,7 +13,7 @@ from typing import (
 )
 
 if TYPE_CHECKING:
-  from .mcp_session import MetorialMcpSession
+  from metorial._protocols import McpSessionProtocol
 
 logger = logging.getLogger(__name__)
 
@@ -116,7 +116,7 @@ def json_schema_to_openapi(
 
 @dataclass
 class MetorialMcpTool:
-  session: MetorialMcpSession
+  session: McpSessionProtocol
   _id: str
   _name: str
   _description: str | None
@@ -169,7 +169,7 @@ class MetorialMcpTool:
 
   @staticmethod
   def from_tool(
-    session: MetorialMcpSession, capability: Capability | Any
+    session: McpSessionProtocol, capability: Capability | Any
   ) -> MetorialMcpTool:
     # Handle both dict and object responses (SDK can return either)
     if isinstance(capability, dict):
@@ -271,7 +271,7 @@ class MetorialMcpTool:
 
   @staticmethod
   def from_resource_template(
-    session: MetorialMcpSession, capability: Capability | Any
+    session: McpSessionProtocol, capability: Capability | Any
   ) -> MetorialMcpTool:
     # Handle both dict and object responses (SDK can return either)
     if isinstance(capability, dict):
@@ -348,7 +348,7 @@ class MetorialMcpTool:
 
   @staticmethod
   def from_capability(
-    session: MetorialMcpSession, capability: Capability | Any
+    session: McpSessionProtocol, capability: Capability | Any
   ) -> MetorialMcpTool:
     # Handle both dict and object responses (SDK can return either)
     if isinstance(capability, dict):
