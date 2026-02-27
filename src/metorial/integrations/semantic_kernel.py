@@ -62,7 +62,12 @@ def register_metorial_plugin(
       # Handle direct format (name, description, inputSchema)
       tool_name = tool.get("name", "")
       tool_description = tool.get("description", "")
-      input_schema = tool.get("inputSchema", {})
+      input_schema = tool.get("inputSchema") or tool.get("input_schema") or {}
+
+    from metorial.integrations import _sanitize_schema, _sanitize_tool_name
+
+    tool_name = _sanitize_tool_name(tool_name)
+    input_schema = _sanitize_schema(input_schema)
 
     # Create a kernel function for each tool
     fn = _create_kernel_function(session, tool_name, tool_description, input_schema)

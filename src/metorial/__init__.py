@@ -21,6 +21,15 @@ from ._config import (
   load_config_from_env,
   validate_config,
 )
+from ._magnetar_sdk import (
+  MagnetarCustomProvidersGroup,
+  MagnetarProviderDeploymentsGroup,
+  MagnetarProvidersGroup,
+  MagnetarSDK,
+  MagnetarSessionsGroup,
+  MagnetarSessionTemplatesGroup,
+  create_magnetar_sdk,
+)
 
 # Raw response wrapper
 from ._raw_response import RawResponse
@@ -102,6 +111,8 @@ from .exceptions import (
 
 # MCP Session (public)
 from .mcp import (
+  MagnetarMcpSessionInit,
+  MetorialMagnetarMcpSession,
   MetorialMcpClient,
   MetorialMcpSession,
   MetorialMcpSessionInit,
@@ -224,9 +235,19 @@ __all__ = [
   "ProviderOauthGroup",
   "RunsGroup",
   "OAuthWithWaitForCompletion",
+  # Magnetar SDK
+  "MagnetarSDK",
+  "MagnetarProvidersGroup",
+  "MagnetarProviderDeploymentsGroup",
+  "MagnetarSessionsGroup",
+  "MagnetarSessionTemplatesGroup",
+  "MagnetarCustomProvidersGroup",
+  "create_magnetar_sdk",
   # MCP
   "MetorialMcpSession",
   "MetorialMcpSessionInit",
+  "MetorialMagnetarMcpSession",
+  "MagnetarMcpSessionInit",
   "MetorialMcpToolManager",
   "MetorialMcpTool",
   "MetorialMcpClient",

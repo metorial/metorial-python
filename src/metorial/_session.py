@@ -7,13 +7,9 @@ from __future__ import annotations
 import asyncio
 import logging
 from types import TracebackType
-from typing import TYPE_CHECKING, Any
+from typing import Any
 
-if TYPE_CHECKING:
-  from metorial.mcp import MetorialMcpSession
-else:
-  MetorialMcpSession = Any
-
+from metorial._protocols import McpSessionProtocol
 from metorial._tool_adapters import ToolStatistics
 from metorial._tool_manager import ToolManager as ToolManagerWrapper
 from metorial.exceptions import AuthenticationError, NotFoundError, OAuthRequiredError
@@ -33,7 +29,7 @@ class MetorialSession:
       # Session is automatically closed
   """
 
-  def __init__(self, mcp_session: MetorialMcpSession):
+  def __init__(self, mcp_session: McpSessionProtocol):
     """Initialize with an MCP session."""
     self._mcp_session = mcp_session
     self._tool_manager: ToolManagerWrapper | None = None
@@ -177,6 +173,6 @@ class SessionFactory:
   """Factory for creating sessions."""
 
   @staticmethod
-  def create_session(mcp_session: MetorialMcpSession) -> MetorialSession:
+  def create_session(mcp_session: McpSessionProtocol) -> MetorialSession:
     """Create a session from an MCP session."""
     return MetorialSession(mcp_session)

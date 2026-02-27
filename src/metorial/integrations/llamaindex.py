@@ -57,7 +57,12 @@ def create_llamaindex_tools(session: "ProviderSession") -> list[Any]:
       # Handle direct format (name, description, inputSchema)
       tool_name = tool.get("name", "")
       tool_description = tool.get("description", "")
-      input_schema = tool.get("inputSchema", {})
+      input_schema = tool.get("inputSchema") or tool.get("input_schema") or {}
+
+    from metorial.integrations import _sanitize_schema, _sanitize_tool_name
+
+    tool_name = _sanitize_tool_name(tool_name)
+    input_schema = _sanitize_schema(input_schema)
 
     # Create the tool function with proper name
     tool_fn = _create_tool_function(session, tool_name)

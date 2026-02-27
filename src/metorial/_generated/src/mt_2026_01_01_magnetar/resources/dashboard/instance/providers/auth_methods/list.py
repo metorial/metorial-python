@@ -1,0 +1,188 @@
+from dataclasses import dataclass
+from typing import Any, Dict, List, Optional, Union
+from datetime import datetime
+import dataclasses
+
+@dataclass
+class DashboardInstanceProvidersAuthMethodsListOutputItemsInputSchema:
+    type: str
+    schema: Dict[str, Any]
+@dataclass
+class DashboardInstanceProvidersAuthMethodsListOutputItemsOutputSchema:
+    type: str
+    schema: Dict[str, Any]
+@dataclass
+class DashboardInstanceProvidersAuthMethodsListOutputItemsScopes:
+    object: str
+    id: str
+    scope: str
+    name: str
+    description: Optional[str] = None
+@dataclass
+class DashboardInstanceProvidersAuthMethodsListOutputItems:
+    object: str
+    id: str
+    type: str
+    key: str
+    name: str
+    capabilities: Dict[str, Any]
+    provider_id: str
+    provider_specification_id: str
+    created_at: datetime
+    updated_at: datetime
+    description: Optional[str] = None
+    input_schema: Optional[DashboardInstanceProvidersAuthMethodsListOutputItemsInputSchema] = None
+    output_schema: Optional[DashboardInstanceProvidersAuthMethodsListOutputItemsOutputSchema] = None
+    scopes: Optional[List[DashboardInstanceProvidersAuthMethodsListOutputItemsScopes]] = None
+@dataclass
+class DashboardInstanceProvidersAuthMethodsListOutputPagination:
+    has_more_before: bool
+    has_more_after: bool
+@dataclass
+class DashboardInstanceProvidersAuthMethodsListOutput:
+    items: List[DashboardInstanceProvidersAuthMethodsListOutputItems]
+    pagination: DashboardInstanceProvidersAuthMethodsListOutputPagination
+
+
+class mapDashboardInstanceProvidersAuthMethodsListOutputItemsInputSchema:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProvidersAuthMethodsListOutputItemsInputSchema:
+        return DashboardInstanceProvidersAuthMethodsListOutputItemsInputSchema(
+        type=data.get('type'),
+        schema=data.get('schema')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceProvidersAuthMethodsListOutputItemsInputSchema, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceProvidersAuthMethodsListOutputItemsOutputSchema:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProvidersAuthMethodsListOutputItemsOutputSchema:
+        return DashboardInstanceProvidersAuthMethodsListOutputItemsOutputSchema(
+        type=data.get('type'),
+        schema=data.get('schema')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceProvidersAuthMethodsListOutputItemsOutputSchema, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceProvidersAuthMethodsListOutputItemsScopes:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProvidersAuthMethodsListOutputItemsScopes:
+        return DashboardInstanceProvidersAuthMethodsListOutputItemsScopes(
+        object=data.get('object'),
+        id=data.get('id'),
+        scope=data.get('scope'),
+        name=data.get('name'),
+        description=data.get('description')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceProvidersAuthMethodsListOutputItemsScopes, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceProvidersAuthMethodsListOutputItems:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProvidersAuthMethodsListOutputItems:
+        return DashboardInstanceProvidersAuthMethodsListOutputItems(
+        object=data.get('object'),
+        id=data.get('id'),
+        type=data.get('type'),
+        key=data.get('key'),
+        name=data.get('name'),
+        description=data.get('description'),
+        capabilities=data.get('capabilities'),
+        input_schema=mapDashboardInstanceProvidersAuthMethodsListOutputItemsInputSchema.from_dict(data.get('input_schema')) if data.get('input_schema') else None,
+        output_schema=mapDashboardInstanceProvidersAuthMethodsListOutputItemsOutputSchema.from_dict(data.get('output_schema')) if data.get('output_schema') else None,
+        scopes=[mapDashboardInstanceProvidersAuthMethodsListOutputItemsScopes.from_dict(item) for item in data.get('scopes', []) if item],
+        provider_id=data.get('provider_id'),
+        provider_specification_id=data.get('provider_specification_id'),
+        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceProvidersAuthMethodsListOutputItems, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceProvidersAuthMethodsListOutputPagination:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProvidersAuthMethodsListOutputPagination:
+        return DashboardInstanceProvidersAuthMethodsListOutputPagination(
+        has_more_before=data.get('has_more_before'),
+        has_more_after=data.get('has_more_after')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceProvidersAuthMethodsListOutputPagination, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceProvidersAuthMethodsListOutput:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProvidersAuthMethodsListOutput:
+        return DashboardInstanceProvidersAuthMethodsListOutput(
+        items=[mapDashboardInstanceProvidersAuthMethodsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
+        pagination=mapDashboardInstanceProvidersAuthMethodsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceProvidersAuthMethodsListOutput, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        # assume dataclass for generated models
+        return dataclasses.asdict(value)
+
+@dataclass
+class DashboardInstanceProvidersAuthMethodsListQuery:
+    provider_version_id: str
+    limit: Optional[float] = None
+    after: Optional[str] = None
+    before: Optional[str] = None
+    cursor: Optional[str] = None
+    order: Optional[str] = None
+
+
+class mapDashboardInstanceProvidersAuthMethodsListQuery:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProvidersAuthMethodsListQuery:
+        return DashboardInstanceProvidersAuthMethodsListQuery(
+        limit=data.get('limit'),
+        after=data.get('after'),
+        before=data.get('before'),
+        cursor=data.get('cursor'),
+        order=data.get('order'),
+        provider_version_id=data.get('provider_version_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceProvidersAuthMethodsListQuery, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        # assume dataclass for generated models
+        return dataclasses.asdict(value)

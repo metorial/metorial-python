@@ -6,7 +6,20 @@ from collections.abc import Awaitable, Coroutine
 from typing import TYPE_CHECKING, Any, Protocol, runtime_checkable
 
 if TYPE_CHECKING:
+  from metorial.mcp.mcp_client import MetorialMcpClient
   from metorial.mcp.mcp_tool import MetorialMcpTool
+  from metorial.mcp.mcp_tool_manager import MetorialMcpToolManager
+
+
+class McpSessionProtocol(Protocol):
+  """Protocol unifying MetorialMcpSession and MetorialMagnetarMcpSession."""
+
+  def get_client(self, opts: dict[str, str]) -> Awaitable[MetorialMcpClient]: ...
+  async def get_tool_manager(self) -> MetorialMcpToolManager: ...
+  def get_session(self) -> dict[str, Any]: ...
+  def get_server_deployments(self) -> list[dict[str, Any]]: ...
+  async def get_capabilities(self) -> list[Any]: ...
+  async def close(self) -> None: ...
 
 
 class ToolLike(Protocol):
