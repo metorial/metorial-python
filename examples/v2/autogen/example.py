@@ -32,7 +32,13 @@ async def main():
     tool_executor = get_autogen_tool_executor(session)
 
     llm_config = {
-      "config_list": [{"model": "claude-sonnet-4-20250514", "api_key": os.getenv("ANTHROPIC_API_KEY"), "api_type": "anthropic"}],
+      "config_list": [
+        {
+          "model": "claude-sonnet-4-20250514",
+          "api_key": os.getenv("ANTHROPIC_API_KEY"),
+          "api_type": "anthropic",
+        }
+      ],
       "tools": tools,
     }
 

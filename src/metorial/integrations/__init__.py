@@ -24,7 +24,9 @@ def _sanitize_tool_name(name: str) -> str:
   return re.sub(r"[^a-zA-Z0-9_]", "_", name)
 
 
-def _dedupe_tools(tools: list[dict[str, Any]], name_key: str = "name") -> list[dict[str, Any]]:
+def _dedupe_tools(
+  tools: list[dict[str, Any]], name_key: str = "name"
+) -> list[dict[str, Any]]:
   """Remove duplicate tools by name, keeping the first occurrence."""
   seen: set[str] = set()
   result: list[dict[str, Any]] = []

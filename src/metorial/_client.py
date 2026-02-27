@@ -339,7 +339,10 @@ class Metorial(ClientCoreMixin, MetorialBase):
             result = await session.call_tools(tool_calls)
     """
     return ProviderSession(
-      self, provider, providers=providers, session_template=session_template,
+      self,
+      provider,
+      providers=providers,
+      session_template=session_template,
     )
 
   async def wait_for_setup_session(
@@ -397,9 +400,7 @@ class Metorial(ClientCoreMixin, MetorialBase):
           raise RuntimeError(f"Unexpected status type: {type(status)}")
 
         if session_status == "failed":
-          raise RuntimeError(
-            f"Setup session {session_id} failed"
-          )
+          raise RuntimeError(f"Setup session {session_id} failed")
         elif session_status != "completed":
           all_completed = False
 

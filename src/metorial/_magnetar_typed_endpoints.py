@@ -149,8 +149,12 @@ class TypedMagnetarProviderDeploymentsEndpoint:
     self.configs = MetorialProviderDeploymentsConfigsEndpoint(manager)
     self.config_vaults = MetorialProviderDeploymentsConfigVaultsEndpoint(manager)
     self.auth_configs = MetorialProviderDeploymentsAuthConfigsEndpoint(manager)
-    setattr(self.auth_configs, "imports", MetorialProviderDeploymentsAuthConfigsImportsEndpoint(manager))  # noqa: B010
-    setattr(self.auth_configs, "exports", MetorialProviderDeploymentsAuthConfigsExportsEndpoint(manager))  # noqa: B010
+    self.auth_configs.imports = MetorialProviderDeploymentsAuthConfigsImportsEndpoint(
+      manager
+    )  # type: ignore[attr-defined]
+    self.auth_configs.exports = MetorialProviderDeploymentsAuthConfigsExportsEndpoint(
+      manager
+    )  # type: ignore[attr-defined]
     self.auth_credentials = MetorialProviderDeploymentsAuthCredentialsEndpoint(manager)
     self.setup_sessions = MetorialProviderDeploymentsSetupSessionsEndpoint(manager)
 

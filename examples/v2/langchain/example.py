@@ -18,9 +18,10 @@ from langchain.agents import create_agent
 from metorial import Metorial
 from metorial.integrations.langchain import create_langchain_tools
 
+
 async def main():
   metorial = Metorial(api_key=os.getenv("METORIAL_API_KEY"))
-  
+
   async with metorial.provider_session(
     provider="anthropic",
     providers=[os.getenv("EXA_PROVIDER_DEPLOYMENT_ID")],

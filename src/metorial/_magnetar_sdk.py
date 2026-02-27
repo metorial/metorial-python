@@ -209,7 +209,9 @@ def get_magnetar_endpoints(manager: MetorialEndpointManager) -> dict[str, Any]:
     "provider_groups": MetorialProviderGroupsEndpoint(manager),
     "provider_listings": MetorialProviderListingsEndpoint(manager),
     "provider_deployments": TypedMagnetarProviderDeploymentsEndpoint(manager),
-    "provider_setup_sessions": MetorialProviderDeploymentsSetupSessionsEndpoint(manager),
+    "provider_setup_sessions": MetorialProviderDeploymentsSetupSessionsEndpoint(
+      manager
+    ),
     "sessions": TypedMagnetarSessionsEndpoint(manager),
     "session_templates": TypedMagnetarSessionTemplatesEndpoint(manager),
     "provider_runs": MetorialProviderRunsEndpoint(manager),

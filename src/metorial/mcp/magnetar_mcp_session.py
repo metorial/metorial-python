@@ -114,10 +114,21 @@ class MetorialMagnetarMcpSession:
       try:
         st_api = self._sdk.session_templates
         if st_api is not None:
-          template_providers = st_api.providers.list(session_template_id=session_template)
-          items = template_providers.items if hasattr(template_providers, "items") else template_providers
+          template_providers = st_api.providers.list(
+            session_template_id=session_template
+          )
+          items = (
+            template_providers.items
+            if hasattr(template_providers, "items")
+            else template_providers
+          )
           providers_input = [
-            {"provider_deployment": item.provider_deployment_id if hasattr(item, "provider_deployment_id") else item["provider_deployment_id"], "session_template_id": session_template}
+            {
+              "provider_deployment": item.provider_deployment_id
+              if hasattr(item, "provider_deployment_id")
+              else item["provider_deployment_id"],
+              "session_template_id": session_template,
+            }
             for item in items
           ]
       except Exception as e:
@@ -151,14 +162,16 @@ class MetorialMagnetarMcpSession:
       try:
         from metorial._endpoint import MetorialRequest
 
-        root = getattr(sessions_api, '_root', None)
-        base = getattr(root, '_base', None) if root is not None else None
-        manager = getattr(base, 'manager', None) if base is not None else None
+        root = getattr(sessions_api, "_root", None)
+        base = getattr(root, "_base", None) if root is not None else None
+        manager = getattr(base, "manager", None) if base is not None else None
         if manager is None:
           raise AttributeError("Cannot access endpoint manager")
         request = MetorialRequest(path=["sessions"], body=api_payload)
         raw_response = manager._request("POST", request)
-        logger.debug(f"Session raw response keys: {list(raw_response.keys()) if isinstance(raw_response, dict) else type(raw_response)}")
+        logger.debug(
+          f"Session raw response keys: {list(raw_response.keys()) if isinstance(raw_response, dict) else type(raw_response)}"
+        )
       except (AttributeError, ImportError):
         # Fall back to typed API (e.g., in tests with fake APIs)
         pass
@@ -173,10 +186,12 @@ class MetorialMagnetarMcpSession:
         for prov in raw_providers:
           deployment = prov.get("deployment") if isinstance(prov, dict) else None
           if deployment and isinstance(deployment, dict) and deployment.get("id"):
-            provider_deployments.append({
-              "id": deployment["id"],
-              "provider_deployment_id": deployment["id"],
-            })
+            provider_deployments.append(
+              {
+                "id": deployment["id"],
+                "provider_deployment_id": deployment["id"],
+              }
+            )
       else:
         # Fallback: use the typed API (may have empty provider_deployments
         # due to mapper bug, but works for tests/mocks)
@@ -193,12 +208,17 @@ class MetorialMagnetarMcpSession:
         provider_deployments = []
         for dep in raw_deps:
           dep_id = dep["id"] if isinstance(dep, dict) else dep.id
-          dep_pdid = (dep.get("provider_deployment_id") if isinstance(dep, dict)
-                      else getattr(dep, "provider_deployment_id", None))
-          provider_deployments.append({
-            "id": dep_id,
-            "provider_deployment_id": dep_pdid or dep_id,
-          })
+          dep_pdid = (
+            dep.get("provider_deployment_id")
+            if isinstance(dep, dict)
+            else getattr(dep, "provider_deployment_id", None)
+          )
+          provider_deployments.append(
+            {
+              "id": dep_id,
+              "provider_deployment_id": dep_pdid or dep_id,
+            }
+          )
 
       self._session = {
         "id": session_id,

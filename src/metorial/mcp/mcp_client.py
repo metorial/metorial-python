@@ -480,6 +480,12 @@ def wrap_streams_with_logging(
   MemoryObjectSendStream[SessionMessage],
 ]:
   return (
-    cast(MemoryObjectReceiveStream[SessionMessage | Exception], _LoggingRecvStream(read_stream, logger_fn)),
-    cast(MemoryObjectSendStream[SessionMessage], _LoggingSendStream(write_stream, logger_fn)),
+    cast(
+      MemoryObjectReceiveStream[SessionMessage | Exception],
+      _LoggingRecvStream(read_stream, logger_fn),
+    ),
+    cast(
+      MemoryObjectSendStream[SessionMessage],
+      _LoggingSendStream(write_stream, logger_fn),
+    ),
   )

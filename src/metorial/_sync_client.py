@@ -98,9 +98,7 @@ class MetorialSync(ClientCoreMixin, MetorialBase):
       init["providers"] = providers
     elif session_template is None:
       init["providers"] = []
-    return SyncSessionWrapper(
-      self.create_magnetar_mcp_session(init)
-    )
+    return SyncSessionWrapper(self.create_magnetar_mcp_session(init))
 
   def wait_for_setup_session(
     self,
@@ -167,9 +165,7 @@ class MetorialSync(ClientCoreMixin, MetorialBase):
           raise RuntimeError(f"Unexpected status type: {type(status)}")
 
         if session_status == "failed":
-          raise RuntimeError(
-            f"Setup session {session_id} failed"
-          )
+          raise RuntimeError(f"Setup session {session_id} failed")
         elif session_status != "completed":
           all_completed = False
 
