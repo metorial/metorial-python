@@ -70,9 +70,6 @@ if TYPE_CHECKING:
   from metorial._generated.magnetar.endpoints.sessions_participants import (
     MetorialSessionsParticipantsEndpoint,
   )
-  from metorial._generated.magnetar.endpoints.sessions_provider_runs import (
-    MetorialSessionsProviderRunsEndpoint,
-  )
   from metorial._generated.magnetar.endpoints.sessions_providers import (
     MetorialSessionsProvidersEndpoint,
   )
@@ -217,7 +214,6 @@ class TypedMagnetarSessionsEndpoint:
   connections: "MetorialSessionsConnectionsEndpoint"
   events: "MetorialSessionsEventsEndpoint"
   providers: "MetorialSessionsProvidersEndpoint"
-  provider_runs: "MetorialSessionsProviderRunsEndpoint"
   participants: "MetorialSessionsParticipantsEndpoint"
   errors: "MetorialSessionsErrorsEndpoint"
   error_groups: "MetorialSessionsErrorGroupsEndpoint"
@@ -244,9 +240,6 @@ class TypedMagnetarSessionsEndpoint:
     from metorial._generated.magnetar.endpoints.sessions_participants import (
       MetorialSessionsParticipantsEndpoint,
     )
-    from metorial._generated.magnetar.endpoints.sessions_provider_runs import (
-      MetorialSessionsProviderRunsEndpoint,
-    )
     from metorial._generated.magnetar.endpoints.sessions_providers import (
       MetorialSessionsProvidersEndpoint,
     )
@@ -256,7 +249,6 @@ class TypedMagnetarSessionsEndpoint:
     self.connections = MetorialSessionsConnectionsEndpoint(manager)
     self.events = MetorialSessionsEventsEndpoint(manager)
     self.providers = MetorialSessionsProvidersEndpoint(manager)
-    self.provider_runs = MetorialSessionsProviderRunsEndpoint(manager)
     self.participants = MetorialSessionsParticipantsEndpoint(manager)
     self.errors = MetorialSessionsErrorsEndpoint(manager)
     self.error_groups = MetorialSessionsErrorGroupsEndpoint(manager)

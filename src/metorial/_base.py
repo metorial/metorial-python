@@ -43,6 +43,9 @@ if TYPE_CHECKING:
   from metorial._generated.magnetar.endpoints.provider_runs import (
     MetorialProviderRunsEndpoint,
   )
+  from metorial._generated.magnetar.endpoints.tool_calls import (
+    MetorialToolCallsEndpoint,
+  )
   from metorial._generated.pulsar.endpoints.files import MetorialFilesEndpoint
   from metorial._generated.pulsar.endpoints.instance import MetorialInstanceEndpoint
   from metorial._generated.pulsar.endpoints.links import MetorialLinksEndpoint
@@ -208,6 +211,7 @@ class MetorialBase:
   _magnetar_session_templates: MagnetarSessionTemplatesGroup | None
   _magnetar_custom_providers: MagnetarCustomProvidersGroup | None
   _magnetar_provider_runs: MetorialProviderRunsEndpoint | None
+  _magnetar_tool_calls: MetorialToolCallsEndpoint | None
   _magnetar_sdk_initialized: bool
 
   def __init__(
@@ -356,6 +360,7 @@ class MetorialBase:
     self._magnetar_sessions = None
     self._magnetar_session_templates = None
     self._magnetar_provider_runs = None
+    self._magnetar_tool_calls = None
     self._magnetar_custom_providers = None
     self._magnetar_sdk_initialized = False
     self._magnetar_sdk_init_error: Exception | None = None
@@ -405,6 +410,7 @@ class MetorialBase:
       self._magnetar_sessions = mag_sdk.sessions
       self._magnetar_session_templates = mag_sdk.session_templates
       self._magnetar_provider_runs = mag_sdk.provider_runs
+      self._magnetar_tool_calls = mag_sdk.tool_calls
       self._magnetar_custom_providers = mag_sdk.custom_providers
       self._magnetar_sdk_initialized = True
     except Exception as e:
@@ -519,6 +525,12 @@ class MetorialBase:
     """Get Magnetar provider runs endpoint (lazily initialized)."""
     self._ensure_magnetar_sdk_initialized()
     return self._magnetar_provider_runs
+
+  @property
+  def tool_calls(self) -> Any:
+    """Get Magnetar tool calls endpoint (lazily initialized)."""
+    self._ensure_magnetar_sdk_initialized()
+    return self._magnetar_tool_calls
 
   @property
   def custom_providers(self) -> Any:
@@ -676,8 +688,6 @@ class MetorialBase:
       }
       if "metadata" in init:
         mcp_init["metadata"] = init["metadata"]
-      if "session_template" in init:
-        mcp_init["session_template"] = init["session_template"]
 
       mcp_session = MetorialMagnetarMcpSession(
         sdk=cast(MagnetarCoreSDK, self),

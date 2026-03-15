@@ -50,7 +50,7 @@ class ResourceTemplateCapability(TypedDict):
 
 Capability = ToolCapability | ResourceTemplateCapability
 
-_slug_re = re.compile(r"[^a-z0 - 9]+")
+_slug_re = re.compile(r"[^a-z0-9]+")
 
 
 def slugify(text: str | None) -> str:
@@ -185,6 +185,16 @@ class MetorialMcpTool:
     if capability_type != "tool":
       raise TypeError(f"Expected capability type 'tool', got {capability_type}")
 
+    dep_id: str = ""
+    if dep is not None:
+      dep_id = dep["id"] if isinstance(dep, dict) else getattr(dep, "id", "")
+
+    if not dep_id:
+      logger.warning(
+        f"Tool capability for '{tool.get('name') if isinstance(tool, dict) else getattr(tool, 'name', '?')}' "
+        "is missing serverDeployment.id"
+      )
+
     async def _action(params: Any) -> Any:
       MAX_RETRIES = 10
       last_error = None
@@ -194,8 +204,6 @@ class MetorialMcpTool:
           logger.debug(
             f"MCP Tool: _action called with params: {params} (attempt {attempt + 1}/{MAX_RETRIES})"
           )
-
-          dep_id: str = dep["id"] if isinstance(dep, dict) else getattr(dep, "id", "")
 
           client = await session.get_client({"deploymentId": dep_id})
 
@@ -288,6 +296,18 @@ class MetorialMcpTool:
       raise TypeError(
         f"Expected capability type 'resource-template', got {capability_type}"
       )
+
+    dep_id: str = ""
+    if dep is not None:
+      dep_id = dep["id"] if isinstance(dep, dict) else getattr(dep, "id", "")
+
+    if not dep_id:
+      rt_name_for_log = rt.get("name") if isinstance(rt, dict) else getattr(rt, "name", "?")
+      logger.warning(
+        f"Resource template capability for '{rt_name_for_log}' "
+        "is missing serverDeployment.id"
+      )
+
     # Handle both dict and object responses for rt
     if isinstance(rt, dict):
       uri_template = rt.get("uriTemplate")
@@ -323,8 +343,6 @@ class MetorialMcpTool:
     }
 
     async def _action(params: dict[str, Any]) -> Any:
-      # Handle both dict and object responses for dep
-      dep_id: str = dep["id"] if isinstance(dep, dict) else getattr(dep, "id", "")
       client = await session.get_client({"deploymentId": dep_id})
       final_uri = uri.expand(params)
       return await client.read_resource({"uri": final_uri})

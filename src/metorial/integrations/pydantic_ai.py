@@ -70,7 +70,10 @@ def _register_single_tool(agent: Any, tool: Any, tool_manager: Any) -> None:
     """Dynamic Metorial tool wrapper."""
     # Filter out None values
     filtered_kwargs = {k: v for k, v in kwargs.items() if v is not None}
-    result = await tool_manager.execute_tool(tool_name, filtered_kwargs)
+    try:
+      result = await tool_manager.execute_tool(tool_name, filtered_kwargs)
+    except Exception as e:
+      return json.dumps({"error": str(e)}, ensure_ascii=False)
     if hasattr(result, "model_dump"):
       result = result.model_dump()
     return json.dumps(result, ensure_ascii=False, default=str)
@@ -151,7 +154,10 @@ def _create_pydantic_tool(tool: Any, tool_manager: Any) -> Any:
       async def tool_fn(**kwargs: Any) -> str:
         # Filter out None values
         filtered_kwargs = {k: v for k, v in kwargs.items() if v is not None}
-        result = await mgr.execute_tool(name, filtered_kwargs)
+        try:
+          result = await mgr.execute_tool(name, filtered_kwargs)
+        except Exception as e:
+          return json.dumps({"error": str(e)}, ensure_ascii=False)
         if hasattr(result, "model_dump"):
           result = result.model_dump()
         return json.dumps(result, ensure_ascii=False, default=str)
@@ -166,7 +172,10 @@ def _create_pydantic_tool(tool: Any, tool_manager: Any) -> Any:
     else:
 
       async def tool_fn() -> str:
-        result = await mgr.execute_tool(name, {})
+        try:
+          result = await mgr.execute_tool(name, {})
+        except Exception as e:
+          return json.dumps({"error": str(e)}, ensure_ascii=False)
         if hasattr(result, "model_dump"):
           result = result.model_dump()
         return json.dumps(result, ensure_ascii=False, default=str)

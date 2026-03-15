@@ -40,13 +40,11 @@ class ProviderSession:
     provider: ProviderType,
     server_deployments: list[str | dict[str, Any]] | None = None,
     providers: list[str | dict[str, Any]] | None = None,
-    session_template: str | None = None,
   ) -> None:
     self._metorial = metorial
     self._provider = provider
     self._server_deployments = server_deployments
     self._providers = providers
-    self._session_template = session_template
     self._session: MetorialSession | None = None
     self._tool_manager: ToolManagerProtocol | None = None
     self._tools: list[dict[str, Any]] = []
@@ -108,13 +106,7 @@ class ProviderSession:
 
   async def __aenter__(self) -> "ProviderSession":
     """Initialize the session and load tools."""
-    if self._session_template is not None:
-      # Session template path
-      init: dict[str, Any] = {"session_template": self._session_template}
-      if self._providers is not None:
-        init["providers"] = self._providers
-      self._session = self._metorial.create_magnetar_mcp_session(init)
-    elif self._providers is not None:
+    if self._providers is not None:
       # Magnetar path
       self._session = self._metorial.create_magnetar_mcp_session(
         {"providers": self._providers}
@@ -277,15 +269,14 @@ class Metorial(ClientCoreMixin, MetorialBase):
   def session(
     self,
     providers: list[str | dict[str, Any]] | None = None,
-    session_template: str | None = None,
   ) -> MetorialSession:
     """Create a Magnetar session for use with async context manager.
 
     Args:
         providers: Provider deployment ID(s). Can be:
             - A list of provider deployment ID strings
-            - A list of provider config dicts
-        session_template: Session template ID (alternative to providers)
+            - A list of provider config dicts (with provider_deployment_id,
+              session_template_id, provider_auth_config_id, etc.)
 
     Returns:
         MetorialSession for use with `async with`
@@ -295,11 +286,9 @@ class Metorial(ClientCoreMixin, MetorialBase):
             tool_manager = await session.get_tool_manager()
     """
     init: dict[str, Any] = {}
-    if session_template is not None:
-      init["session_template"] = session_template
     if providers is not None:
       init["providers"] = providers
-    elif session_template is None:
+    else:
       init["providers"] = []
     return self.create_magnetar_mcp_session(init)
 
@@ -312,7 +301,6 @@ class Metorial(ClientCoreMixin, MetorialBase):
     self,
     provider: ProviderType,
     providers: list[str | dict[str, Any]] | None = None,
-    session_template: str | None = None,
   ) -> ProviderSession:
     """Create a Magnetar provider-specific session for use with async context manager.
 
@@ -323,8 +311,8 @@ class Metorial(ClientCoreMixin, MetorialBase):
         provider: The LLM provider type ("anthropic", "openai", "google", etc.)
         providers: Provider deployment ID(s). Can be:
             - A list of provider deployment ID strings
-            - A list of provider config dicts
-        session_template: Session template ID (alternative to providers)
+            - A list of provider config dicts (with provider_deployment_id,
+              session_template_id, provider_auth_config_id, etc.)
 
     Returns:
         ProviderSession for use with `async with`
@@ -332,7 +320,7 @@ class Metorial(ClientCoreMixin, MetorialBase):
     Example:
         async with metorial.provider_session(
             provider="anthropic",
-            providers=["provider-deployment-id"],
+            providers=[{"provider_deployment_id": "your-id"}],
         ) as session:
             tools = session.tools
             response = await anthropic.messages.create(tools=tools, ...)
@@ -342,7 +330,6 @@ class Metorial(ClientCoreMixin, MetorialBase):
       self,
       provider,
       providers=providers,
-      session_template=session_template,
     )
 
   async def wait_for_setup_session(

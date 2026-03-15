@@ -18,39 +18,21 @@ class MetorialMcpToolManager:
   ) -> None:
     self._session = session
     self._tools_by_key: dict[str, MetorialMcpTool] = {}
-    seen_names = set()
-    seen_ids = set()
-    duplicate_warnings = []
 
     for tool in tools:
-      # Check for duplicate names
-      if tool.name in seen_names:
-        duplicate_warnings.append(
-          f"Duplicate tool name: '{tool.name}' (last-wins behavior)"
+      if tool.name in self._tools_by_key:
+        logger.warning(
+          f"Duplicate tool name: '{tool.name}'. "
+          "The API should return unique tool names — this may indicate a bug."
         )
-      else:
-        seen_names.add(tool.name)
-
-      # Check for duplicate IDs
-      if tool.id in seen_ids:
-        duplicate_warnings.append(
-          f"Duplicate tool ID: '{tool.id}' (last-wins behavior)"
+      if tool.id in self._tools_by_key:
+        logger.warning(
+          f"Duplicate tool ID: '{tool.id}' (from tool '{tool.name}'). "
+          "The API should return unique tool names — this may indicate a bug."
         )
-      else:
-        seen_ids.add(tool.id)
 
-      # Prefer last-wins if duplicates collide
       self._tools_by_key[tool.id] = tool
       self._tools_by_key[tool.name] = tool
-
-    # Log warnings for duplicates
-    for warning in duplicate_warnings:
-      logger.warning(f"Warning: {warning}")
-
-    if duplicate_warnings:
-      logger.warning(
-        f"Warning: Found {len(duplicate_warnings)} duplicate tool(s). Using last-wins behavior."
-      )
 
   @classmethod
   async def from_capabilities(
@@ -80,22 +62,6 @@ class MetorialMcpToolManager:
         seen.add(id(tool))
         out.append(tool)
     return out
-
-  def get_duplicate_info(self) -> dict[str, list[str]]:
-    """Get information about duplicate tool names and IDs."""
-    name_counts: dict[str, int] = {}
-    id_counts: dict[str, int] = {}
-
-    for tool in self._tools_by_key.values():
-      name_counts[tool.name] = name_counts.get(tool.name, 0) + 1
-      id_counts[tool.id] = id_counts.get(tool.id, 0) + 1
-
-    duplicates = {
-      "duplicate_names": [name for name, count in name_counts.items() if count > 1],
-      "duplicate_ids": [tool_id for tool_id, count in id_counts.items() if count > 1],
-    }
-
-    return duplicates
 
   async def call_tool(self, id_or_name: str, args: Any) -> Any:
     tool = self.get_tool(id_or_name)

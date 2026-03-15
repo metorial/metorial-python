@@ -45,7 +45,6 @@ def create_haystack_tools(session: "ProviderSession") -> list[Any]:
     ) from e
 
   tools = []
-  seen_names: set[str] = set()
   metorial_tools = session.get_tools()
 
   for tool in metorial_tools:
@@ -66,10 +65,6 @@ def create_haystack_tools(session: "ProviderSession") -> list[Any]:
     tool_name = _sanitize_tool_name(tool_name)
     input_schema = _sanitize_schema(input_schema)
 
-    if tool_name in seen_names:
-      continue
-    seen_names.add(tool_name)
-
     # Create executor function for this tool
     tool_fn = _create_tool_function(session, tool_name)
 
@@ -85,8 +80,18 @@ def create_haystack_tools(session: "ProviderSession") -> list[Any]:
 
 
 def _create_tool_function(session: "ProviderSession", tool_name: str):
-  """Create a tool execution function for Haystack."""
+  """Create a tool execution function for Haystack.
+
+  Haystack's ToolInvoker calls tool functions synchronously (possibly from a
+  worker thread). We capture the event loop that owns the MCP session at
+  creation time and dispatch the async call back to it with
+  run_coroutine_threadsafe so the MCP read loop can process the response.
+  """
   import asyncio
+
+  # Capture the loop that owns the MCP session — must be called while
+  # the async context manager is active (i.e. inside provider_session).
+  _loop = asyncio.get_running_loop()
 
   def tool_fn(**kwargs: Any) -> str:
     async def call():
@@ -102,15 +107,10 @@ def _create_tool_function(session: "ProviderSession", tool_name: str):
         return str(content)
       return str(result)
 
-    try:
-      asyncio.get_running_loop()
-      import concurrent.futures
-
-      with concurrent.futures.ThreadPoolExecutor() as pool:
-        future = pool.submit(asyncio.run, call())
-        return future.result()
-    except RuntimeError:
-      return asyncio.run(call())
+    # Dispatch to the session's event loop from whatever thread Haystack
+    # calls us on, then block until the result is ready.
+    future = asyncio.run_coroutine_threadsafe(call(), _loop)
+    return future.result(timeout=120)
 
   return tool_fn
 

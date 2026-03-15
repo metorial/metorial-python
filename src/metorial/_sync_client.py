@@ -74,15 +74,14 @@ class MetorialSync(ClientCoreMixin, MetorialBase):
   def session(
     self,
     providers: list[str | dict[str, Any]] | None = None,
-    session_template: str | None = None,
   ) -> SyncSessionWrapper:
     """Create a Magnetar session for use with sync context manager.
 
     Args:
         providers: Provider deployment ID(s). Can be:
             - A list of provider deployment ID strings
-            - A list of provider config dicts
-        session_template: Session template ID (alternative to providers)
+            - A list of provider config dicts (with provider_deployment_id,
+              session_template_id, provider_auth_config_id, etc.)
 
     Returns:
         Session wrapper for use with `with`
@@ -92,11 +91,9 @@ class MetorialSync(ClientCoreMixin, MetorialBase):
             tool_manager = session.get_tool_manager()
     """
     init: dict[str, Any] = {}
-    if session_template is not None:
-      init["session_template"] = session_template
     if providers is not None:
       init["providers"] = providers
-    elif session_template is None:
+    else:
       init["providers"] = []
     return SyncSessionWrapper(self.create_magnetar_mcp_session(init))
 

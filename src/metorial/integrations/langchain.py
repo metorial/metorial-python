@@ -66,16 +66,18 @@ def create_langchain_tools(session: ProviderSession) -> list[Any]:
     # Capture tool_name in closure to avoid late binding issues
     def make_tool_fn(tool_name: str):
       async def tool_fn(**kwargs: Any) -> str:
-        # Filter out None values - LangChain includes these for optional params
         filtered_kwargs = {k: v for k, v in kwargs.items() if v is not None}
-        result = await tool_manager.execute_tool(tool_name, filtered_kwargs)
-        if hasattr(result, "model_dump"):
-          result = result.model_dump()
-        return json.dumps(result, ensure_ascii=False, default=str)
+        try:
+          result = await tool_manager.execute_tool(tool_name, filtered_kwargs)
+          if hasattr(result, "model_dump"):
+            result = result.model_dump()
+          return json.dumps(result, ensure_ascii=False, default=str)
+        except Exception as e:
+          return json.dumps({"error": str(e)}, ensure_ascii=False)
 
       return tool_fn
 
-    # Create the LangChain tool
+    # Create the LangChain tool (async only — use ainvoke/astream with the agent)
     lc_tool = StructuredTool.from_function(
       coroutine=make_tool_fn(tool.name),
       name=tool.name,

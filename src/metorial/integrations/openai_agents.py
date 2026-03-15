@@ -76,15 +76,18 @@ def _create_openai_agent_tool(tool: Any, tool_manager: Any) -> Any:
   tool_description = tool.description or f"Tool: {tool_name}"
   schema = _sanitize_schema(tool.get_parameters_as("json-schema") or {})
 
-  # Build the parameters schema for OpenAI Agents
+  # Build the parameters schema for OpenAI Agents.
+  # Note: FunctionTool enforces strict mode — it adds all properties to
+  # `required` and sets additionalProperties: false. We preserve the
+  # original required list so the invoke handler knows which params are
+  # truly required vs optional (added by strict mode).
   properties = schema.get("properties", {})
-  required = schema.get("required", [])
+  original_required = set(schema.get("required", []))
 
-  # Create a clean parameters schema without additionalProperties
   params_schema = {
     "type": "object",
     "properties": properties,
-    "required": required,
+    "required": list(original_required),
   }
 
   # Create the async function that will execute the tool
@@ -104,17 +107,24 @@ def _create_openai_agent_tool(tool: Any, tool_manager: Any) -> Any:
     name=tool_name,
     description=tool_description,
     params_json_schema=params_schema,
-    on_invoke_tool=_make_invoke_handler(tool_name, tool_manager),
+    on_invoke_tool=_make_invoke_handler(tool_name, tool_manager, original_required),
   )
 
 
-def _make_invoke_handler(tool_name: str, tool_manager: Any):
+def _make_invoke_handler(tool_name: str, tool_manager: Any, required_params: set[str]):
   """Create an invoke handler for the FunctionTool."""
 
   async def invoke_handler(ctx: Any, input_json: str) -> str:
     kwargs = json.loads(input_json) if input_json else {}
-    # Filter out None values
-    filtered_kwargs = {k: v for k, v in kwargs.items() if v is not None}
+    # FunctionTool's strict mode forces the LLM to send ALL properties
+    # (even optional ones) — strip optional params that are None or empty
+    # so the MCP server doesn't reject them against its schema.
+    filtered_kwargs = {}
+    for k, v in kwargs.items():
+      if k in required_params:
+        filtered_kwargs[k] = v
+      elif v is not None and v != "":
+        filtered_kwargs[k] = v
     result = await tool_manager.execute_tool(tool_name, filtered_kwargs)
     if hasattr(result, "model_dump"):
       result = result.model_dump()
