@@ -121,9 +121,7 @@ def _make_invoke_handler(tool_name: str, tool_manager: Any, required_params: set
     # so the MCP server doesn't reject them against its schema.
     filtered_kwargs = {}
     for k, v in kwargs.items():
-      if k in required_params:
-        filtered_kwargs[k] = v
-      elif v is not None and v != "":
+      if k in required_params or (v is not None and v != ""):
         filtered_kwargs[k] = v
     result = await tool_manager.execute_tool(tool_name, filtered_kwargs)
     if hasattr(result, "model_dump"):
