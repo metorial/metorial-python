@@ -302,7 +302,9 @@ class MetorialMcpTool:
       dep_id = dep["id"] if isinstance(dep, dict) else getattr(dep, "id", "")
 
     if not dep_id:
-      rt_name_for_log = rt.get("name") if isinstance(rt, dict) else getattr(rt, "name", "?")
+      rt_name_for_log = (
+        rt.get("name") if isinstance(rt, dict) else getattr(rt, "name", "?")
+      )
       logger.warning(
         f"Resource template capability for '{rt_name_for_log}' "
         "is missing serverDeployment.id"

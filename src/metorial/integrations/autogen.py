@@ -15,7 +15,7 @@ except ImportError:
   FunctionTool = None
 
 
-def create_autogen_tools(session: "ProviderSession") -> list[Any]:
+def create_autogen_tools(session: ProviderSession) -> list[Any]:
   """
   Convert Metorial session tools to Autogen FunctionTool objects.
 
@@ -102,8 +102,10 @@ def create_autogen_tools(session: "ProviderSession") -> list[Any]:
     # Dynamically create a function with explicit parameters
     # so autogen's FunctionTool can inspect the signature
     func_code = f"async def {func_name}({params_str}) -> str:\n"
-    func_code += f"  '''{ tool_description }'''\n"
-    func_code += f"  _kwargs = {{{', '.join(repr(p) + ': ' + p for p in properties)}}}\n"
+    func_code += f"  '''{tool_description}'''\n"
+    func_code += (
+      f"  _kwargs = {{{', '.join(repr(p) + ': ' + p for p in properties)}}}\n"
+    )
     func_code += "  _kwargs = {k: v for k, v in _kwargs.items() if v is not None}\n"
     func_code += "  return await _executor(_tool_name, _kwargs)\n"
 
@@ -116,9 +118,9 @@ def create_autogen_tools(session: "ProviderSession") -> list[Any]:
           return json.dumps(result, ensure_ascii=False, default=str)
         except Exception as e:
           return json.dumps({"error": str(e)}, ensure_ascii=False)
+
       return _executor
 
-    import asyncio
     # We can't await here, so create the executor synchronously
     def _make_executor_sync(name: str):
       async def _executor(tool_name_inner: str, kwargs: dict) -> str:
@@ -129,6 +131,7 @@ def create_autogen_tools(session: "ProviderSession") -> list[Any]:
           return json.dumps(result, ensure_ascii=False, default=str)
         except Exception as e:
           return json.dumps({"error": str(e)}, ensure_ascii=False)
+
       return _executor
 
     executor = _make_executor_sync(tool_name)
@@ -146,7 +149,7 @@ def create_autogen_tools(session: "ProviderSession") -> list[Any]:
   return tools
 
 
-def get_autogen_tool_executor(session: "ProviderSession") -> dict[str, Callable]:
+def get_autogen_tool_executor(session: ProviderSession) -> dict[str, Callable]:
   """
   Get a function map for legacy Autogen tool execution.
 

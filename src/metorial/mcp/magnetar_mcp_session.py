@@ -350,9 +350,7 @@ class MetorialMagnetarMcpSession:
           if normalized_template is not None:
             resource_templates.append(normalized_template)
     except Exception as e:
-      logger.debug(
-        f"Warning: Failed to get resource templates: {e}"
-      )
+      logger.debug(f"Warning: Failed to get resource templates: {e}")
 
     # Build capabilities
     for tool in tools:
