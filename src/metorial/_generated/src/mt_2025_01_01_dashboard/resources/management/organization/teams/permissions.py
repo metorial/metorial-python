@@ -5,8 +5,10 @@ import dataclasses
 
 @dataclass
 class ManagementOrganizationTeamsPermissionsOutputPermissions:
-    id: str
+    identifier: str
     name: str
+    description: str
+    dependencies: List[str]
 @dataclass
 class ManagementOrganizationTeamsPermissionsOutput:
     object: str
@@ -17,8 +19,10 @@ class mapManagementOrganizationTeamsPermissionsOutputPermissions:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementOrganizationTeamsPermissionsOutputPermissions:
         return ManagementOrganizationTeamsPermissionsOutputPermissions(
-        id=data.get('id'),
-        name=data.get('name')
+        identifier=data.get('identifier'),
+        name=data.get('name'),
+        description=data.get('description'),
+        dependencies=data.get('dependencies', [])
         )
 
     @staticmethod
@@ -45,3 +49,4 @@ class mapManagementOrganizationTeamsPermissionsOutput:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

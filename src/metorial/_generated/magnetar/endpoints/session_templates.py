@@ -8,7 +8,7 @@ class MetorialSessionTemplatesEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None) -> DashboardInstanceSessionTemplatesListOutput:
+    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, session_id: Optional[Union[str, List[str]]] = None, session_provider_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, provider_config_id: Optional[Union[str, List[str]]] = None, provider_auth_config_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceSessionTemplatesListOutput:
         """
     List session templates
     Returns a paginated list of session templates.
@@ -18,6 +18,14 @@ class MetorialSessionTemplatesEndpoint(BaseMetorialEndpoint):
     :param before: Optional[str] (optional)
     :param cursor: Optional[str] (optional)
     :param order: Optional[str] (optional)
+    :param status: Optional[Union[str, List[str]]] (optional)
+    :param id: Optional[Union[str, List[str]]] (optional)
+    :param session_id: Optional[Union[str, List[str]]] (optional)
+    :param session_provider_id: Optional[Union[str, List[str]]] (optional)
+    :param provider_id: Optional[Union[str, List[str]]] (optional)
+    :param provider_deployment_id: Optional[Union[str, List[str]]] (optional)
+    :param provider_config_id: Optional[Union[str, List[str]]] (optional)
+    :param provider_auth_config_id: Optional[Union[str, List[str]]] (optional)
     :return: DashboardInstanceSessionTemplatesListOutput
     """
         # Build query parameters from keyword arguments
@@ -32,6 +40,22 @@ class MetorialSessionTemplatesEndpoint(BaseMetorialEndpoint):
             query_dict["cursor"] = cursor
         if order is not None:
             query_dict["order"] = order
+        if status is not None:
+            query_dict["status"] = status
+        if id is not None:
+            query_dict["id"] = id
+        if session_id is not None:
+            query_dict["session_id"] = session_id
+        if session_provider_id is not None:
+            query_dict["session_provider_id"] = session_provider_id
+        if provider_id is not None:
+            query_dict["provider_id"] = provider_id
+        if provider_deployment_id is not None:
+            query_dict["provider_deployment_id"] = provider_deployment_id
+        if provider_config_id is not None:
+            query_dict["provider_config_id"] = provider_config_id
+        if provider_auth_config_id is not None:
+            query_dict["provider_auth_config_id"] = provider_auth_config_id
 
         request = MetorialRequest(
             path=['session-templates'],

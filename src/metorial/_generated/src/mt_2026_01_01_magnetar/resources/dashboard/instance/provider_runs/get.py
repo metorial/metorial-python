@@ -28,9 +28,9 @@ class mapDashboardInstanceProviderRunsGetOutput:
         session_provider_id=data.get('session_provider_id'),
         provider_id=data.get('provider_id'),
         connection_id=data.get('connection_id'),
-        completed_at=datetime.fromisoformat(data.get('completed_at')) if data.get('completed_at') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        completed_at=datetime.fromisoformat(data.get('completed_at').replace('Z', '+00:00')) if data.get('completed_at') else None,
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -41,3 +41,4 @@ class mapDashboardInstanceProviderRunsGetOutput:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

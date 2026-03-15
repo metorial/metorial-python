@@ -31,7 +31,7 @@ class mapDashboardInstanceCustomProvidersDeploymentsGetLogsOutputStepsLogs:
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceCustomProvidersDeploymentsGetLogsOutputStepsLogs:
         return DashboardInstanceCustomProvidersDeploymentsGetLogsOutputStepsLogs(
         object=data.get('object'),
-        timestamp=datetime.fromisoformat(data.get('timestamp')) if data.get('timestamp') else None,
+        timestamp=datetime.fromisoformat(data.get('timestamp').replace('Z', '+00:00')) if data.get('timestamp') else None,
         message=data.get('message')
         )
 
@@ -53,9 +53,9 @@ class mapDashboardInstanceCustomProvidersDeploymentsGetLogsOutputSteps:
         type=data.get('type'),
         status=data.get('status'),
         logs=[mapDashboardInstanceCustomProvidersDeploymentsGetLogsOutputStepsLogs.from_dict(item) for item in data.get('logs', []) if item],
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        started_at=datetime.fromisoformat(data.get('started_at')) if data.get('started_at') else None,
-        ended_at=datetime.fromisoformat(data.get('ended_at')) if data.get('ended_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        started_at=datetime.fromisoformat(data.get('started_at').replace('Z', '+00:00')) if data.get('started_at') else None,
+        ended_at=datetime.fromisoformat(data.get('ended_at').replace('Z', '+00:00')) if data.get('ended_at') else None
         )
 
     @staticmethod
@@ -83,3 +83,4 @@ class mapDashboardInstanceCustomProvidersDeploymentsGetLogsOutput:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

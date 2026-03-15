@@ -8,19 +8,18 @@ class MetorialDashboardInstanceProvidersToolsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, provider_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, provider_version_id: Optional[str] = None) -> DashboardInstanceProvidersToolsListOutput:
+    def list(self, instance_id: str, *, provider_version_id: str, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None) -> DashboardInstanceProvidersToolsListOutput:
         """
     List provider tools
     Returns a paginated list of provider tools. By default returns tools from the latest version. Use optional filters to get tools for a specific version.
 
     :param instance_id: str
-    :param provider_id: str
     :param limit: Optional[float] (optional)
     :param after: Optional[str] (optional)
     :param before: Optional[str] (optional)
     :param cursor: Optional[str] (optional)
     :param order: Optional[str] (optional)
-    :param provider_version_id: Optional[str] (optional)
+    :param provider_version_id: str
     :return: DashboardInstanceProvidersToolsListOutput
     """
         # Build query parameters from keyword arguments
@@ -35,26 +34,24 @@ class MetorialDashboardInstanceProvidersToolsEndpoint(BaseMetorialEndpoint):
             query_dict["cursor"] = cursor
         if order is not None:
             query_dict["order"] = order
-        if provider_version_id is not None:
-            query_dict["provider_version_id"] = provider_version_id
+        query_dict["provider_version_id"] = provider_version_id
 
         request = MetorialRequest(
-            path=['dashboard', 'instances', instance_id, 'providers', provider_id, 'tools'],
+            path=['dashboard', 'instances', instance_id, 'providers-tools'],
             query=query_dict
         )
         return self._get(request).transform(mapDashboardInstanceProvidersToolsListOutput.from_dict)
 
-    def get(self, instance_id: str, provider_id: str, provider_tool_id: str) -> DashboardInstanceProvidersToolsGetOutput:
+    def get(self, instance_id: str, provider_tool_id: str) -> DashboardInstanceProvidersToolsGetOutput:
         """
     Get provider tool
     Retrieves a specific provider tool by ID.
 
     :param instance_id: str
-    :param provider_id: str
     :param provider_tool_id: str
     :return: DashboardInstanceProvidersToolsGetOutput
     """
         request = MetorialRequest(
-            path=['dashboard', 'instances', instance_id, 'providers', provider_id, 'tools', provider_tool_id]
+            path=['dashboard', 'instances', instance_id, 'providers-tools', provider_tool_id]
         )
         return self._get(request).transform(mapDashboardInstanceProvidersToolsGetOutput.from_dict)

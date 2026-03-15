@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Optional, Union
 from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, MetorialRequest
-from ..resources import mapDashboardInstanceSessionsListOutput, DashboardInstanceSessionsListOutput, mapDashboardInstanceSessionsListQuery, DashboardInstanceSessionsListQuery, mapDashboardInstanceSessionsGetOutput, DashboardInstanceSessionsGetOutput, mapDashboardInstanceSessionsCreateOutput, DashboardInstanceSessionsCreateOutput, mapDashboardInstanceSessionsCreateBody, DashboardInstanceSessionsCreateBody, mapDashboardInstanceSessionsUpdateOutput, DashboardInstanceSessionsUpdateOutput, mapDashboardInstanceSessionsUpdateBody, DashboardInstanceSessionsUpdateBody, mapDashboardInstanceSessionsDeleteOutput, DashboardInstanceSessionsDeleteOutput
+from ..resources import mapDashboardInstanceSessionsListOutput, DashboardInstanceSessionsListOutput, mapDashboardInstanceSessionsListQuery, DashboardInstanceSessionsListQuery, mapDashboardInstanceSessionsGetOutput, DashboardInstanceSessionsGetOutput, mapDashboardInstanceSessionsCreateOutput, DashboardInstanceSessionsCreateOutput, mapDashboardInstanceSessionsCreateBody, DashboardInstanceSessionsCreateBody, mapDashboardInstanceSessionsUpdateOutput, DashboardInstanceSessionsUpdateOutput, mapDashboardInstanceSessionsUpdateBody, DashboardInstanceSessionsUpdateBody
 
 class MetorialDashboardInstanceSessionsEndpoint(BaseMetorialEndpoint):
     """Sessions are connections to providers that allow clients to interact with MCP servers. Each session can include one or more provider deployments."""
@@ -8,7 +8,7 @@ class MetorialDashboardInstanceSessionsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceSessionsListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, session_template_id: Optional[Union[str, List[str]]] = None, session_provider_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, provider_config_id: Optional[Union[str, List[str]]] = None, provider_auth_config_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceSessionsListOutput:
         """
     List sessions
     Returns a paginated list of sessions.
@@ -20,8 +20,13 @@ class MetorialDashboardInstanceSessionsEndpoint(BaseMetorialEndpoint):
     :param cursor: Optional[str] (optional)
     :param order: Optional[str] (optional)
     :param status: Optional[Union[str, List[str]]] (optional)
+    :param id: Optional[Union[str, List[str]]] (optional)
+    :param session_template_id: Optional[Union[str, List[str]]] (optional)
+    :param session_provider_id: Optional[Union[str, List[str]]] (optional)
     :param provider_id: Optional[Union[str, List[str]]] (optional)
     :param provider_deployment_id: Optional[Union[str, List[str]]] (optional)
+    :param provider_config_id: Optional[Union[str, List[str]]] (optional)
+    :param provider_auth_config_id: Optional[Union[str, List[str]]] (optional)
     :return: DashboardInstanceSessionsListOutput
     """
         # Build query parameters from keyword arguments
@@ -38,10 +43,20 @@ class MetorialDashboardInstanceSessionsEndpoint(BaseMetorialEndpoint):
             query_dict["order"] = order
         if status is not None:
             query_dict["status"] = status
+        if id is not None:
+            query_dict["id"] = id
+        if session_template_id is not None:
+            query_dict["session_template_id"] = session_template_id
+        if session_provider_id is not None:
+            query_dict["session_provider_id"] = session_provider_id
         if provider_id is not None:
             query_dict["provider_id"] = provider_id
         if provider_deployment_id is not None:
             query_dict["provider_deployment_id"] = provider_deployment_id
+        if provider_config_id is not None:
+            query_dict["provider_config_id"] = provider_config_id
+        if provider_auth_config_id is not None:
+            query_dict["provider_auth_config_id"] = provider_auth_config_id
 
         request = MetorialRequest(
             path=['dashboard', 'instances', instance_id, 'sessions'],
@@ -117,17 +132,3 @@ class MetorialDashboardInstanceSessionsEndpoint(BaseMetorialEndpoint):
             body=body_dict
         )
         return self._patch(request).transform(mapDashboardInstanceSessionsUpdateOutput.from_dict)
-
-    def delete(self, instance_id: str, session_id: str) -> DashboardInstanceSessionsDeleteOutput:
-        """
-    Delete session
-    Deletes a session.
-
-    :param instance_id: str
-    :param session_id: str
-    :return: DashboardInstanceSessionsDeleteOutput
-    """
-        request = MetorialRequest(
-            path=['dashboard', 'instances', instance_id, 'sessions', session_id]
-        )
-        return self._delete(request).transform(mapDashboardInstanceSessionsDeleteOutput.from_dict)

@@ -37,8 +37,8 @@ class mapManagementInstanceProviderDeploymentsAuthCredentialsListOutputItems:
         description=data.get('description'),
         metadata=data.get('metadata'),
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -92,6 +92,7 @@ class ManagementInstanceProviderDeploymentsAuthCredentialsListQuery:
     status: Optional[Union[str, List[str]]] = None
     id: Optional[Union[str, List[str]]] = None
     provider_id: Optional[Union[str, List[str]]] = None
+    search: Optional[str] = None
 
 
 class mapManagementInstanceProviderDeploymentsAuthCredentialsListQuery:
@@ -105,7 +106,8 @@ class mapManagementInstanceProviderDeploymentsAuthCredentialsListQuery:
         order=data.get('order'),
         status=data.get('status'),
         id=data.get('id'),
-        provider_id=data.get('provider_id')
+        provider_id=data.get('provider_id'),
+        search=data.get('search')
         )
 
     @staticmethod
@@ -116,3 +118,4 @@ class mapManagementInstanceProviderDeploymentsAuthCredentialsListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

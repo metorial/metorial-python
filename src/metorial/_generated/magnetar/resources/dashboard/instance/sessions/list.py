@@ -5,30 +5,71 @@ import dataclasses
 
 @dataclass
 class DashboardInstanceSessionsListOutputItemsUsage:
-    total_productive_message_count: float
     total_productive_client_message_count: float
-    total_productive_server_message_count: float
+    total_productive_provider_message_count: float
 @dataclass
-class DashboardInstanceSessionsListOutputItemsProviderDeployments:
+class DashboardInstanceSessionsListOutputItemsProvidersUsage:
+    total_productive_client_message_count: float
+    total_productive_provider_message_count: float
+@dataclass
+class DashboardInstanceSessionsListOutputItemsProvidersDeployment:
     object: str
     id: str
+    is_default: bool
     provider_id: str
-    name: Optional[str] = None
-    provider_deployment_id: Optional[str] = None
-@dataclass
-class DashboardInstanceSessionsListOutputItems:
-    object: str
-    id: str
-    connection_status: str
-    usage: DashboardInstanceSessionsListOutputItemsUsage
-    provider_deployments: List[DashboardInstanceSessionsListOutputItemsProviderDeployments]
     created_at: datetime
     updated_at: datetime
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
-    connection_url: Optional[str] = None
-    connection_key: Optional[str] = None
+@dataclass
+class DashboardInstanceSessionsListOutputItemsProvidersConfig:
+    object: str
+    id: str
+    is_default: bool
+    provider_id: str
+    created_at: datetime
+    updated_at: datetime
+    name: Optional[str] = None
+    description: Optional[str] = None
+    metadata: Optional[Dict[str, Any]] = None
+@dataclass
+class DashboardInstanceSessionsListOutputItemsProvidersAuthConfig:
+    object: str
+    id: str
+@dataclass
+class DashboardInstanceSessionsListOutputItemsProviders:
+    object: str
+    id: str
+    status: str
+    usage: DashboardInstanceSessionsListOutputItemsProvidersUsage
+    tool_filter: Dict[str, Any]
+    provider_id: str
+    session_id: str
+    deployment: DashboardInstanceSessionsListOutputItemsProvidersDeployment
+    config: DashboardInstanceSessionsListOutputItemsProvidersConfig
+    created_at: datetime
+    updated_at: datetime
+    from_template_id: Optional[str] = None
+    from_template_provider_id: Optional[str] = None
+    auth_config: Optional[DashboardInstanceSessionsListOutputItemsProvidersAuthConfig] = None
+@dataclass
+class DashboardInstanceSessionsListOutputItems:
+    object: str
+    id: str
+    connection_state: str
+    connection_url: str
+    usage: DashboardInstanceSessionsListOutputItemsUsage
+    providers: List[DashboardInstanceSessionsListOutputItemsProviders]
+    from_templates_ids: List[str]
+    has_errors: bool
+    has_warnings: bool
+    created_at: datetime
+    updated_at: datetime
+    name: Optional[str] = None
+    description: Optional[str] = None
+    metadata: Optional[Dict[str, Any]] = None
+    client_secret: Optional[str] = None
 @dataclass
 class DashboardInstanceSessionsListOutputPagination:
     has_more_before: bool
@@ -43,9 +84,8 @@ class mapDashboardInstanceSessionsListOutputItemsUsage:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionsListOutputItemsUsage:
         return DashboardInstanceSessionsListOutputItemsUsage(
-        total_productive_message_count=data.get('total_productive_message_count'),
         total_productive_client_message_count=data.get('total_productive_client_message_count'),
-        total_productive_server_message_count=data.get('total_productive_server_message_count')
+        total_productive_provider_message_count=data.get('total_productive_provider_message_count')
         )
 
     @staticmethod
@@ -56,19 +96,106 @@ class mapDashboardInstanceSessionsListOutputItemsUsage:
             return value
         return dataclasses.asdict(value)
 
-class mapDashboardInstanceSessionsListOutputItemsProviderDeployments:
+class mapDashboardInstanceSessionsListOutputItemsProvidersUsage:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionsListOutputItemsProviderDeployments:
-        return DashboardInstanceSessionsListOutputItemsProviderDeployments(
-        object=data.get('object'),
-        id=data.get('id'),
-        name=data.get('name'),
-        provider_id=data.get('provider_id'),
-        provider_deployment_id=data.get('provider_deployment_id')
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionsListOutputItemsProvidersUsage:
+        return DashboardInstanceSessionsListOutputItemsProvidersUsage(
+        total_productive_client_message_count=data.get('total_productive_client_message_count'),
+        total_productive_provider_message_count=data.get('total_productive_provider_message_count')
         )
 
     @staticmethod
-    def to_dict(value: Union[DashboardInstanceSessionsListOutputItemsProviderDeployments, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[DashboardInstanceSessionsListOutputItemsProvidersUsage, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceSessionsListOutputItemsProvidersDeployment:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionsListOutputItemsProvidersDeployment:
+        return DashboardInstanceSessionsListOutputItemsProvidersDeployment(
+        object=data.get('object'),
+        id=data.get('id'),
+        is_default=data.get('is_default'),
+        name=data.get('name'),
+        description=data.get('description'),
+        metadata=data.get('metadata'),
+        provider_id=data.get('provider_id'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSessionsListOutputItemsProvidersDeployment, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceSessionsListOutputItemsProvidersConfig:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionsListOutputItemsProvidersConfig:
+        return DashboardInstanceSessionsListOutputItemsProvidersConfig(
+        object=data.get('object'),
+        id=data.get('id'),
+        is_default=data.get('is_default'),
+        name=data.get('name'),
+        description=data.get('description'),
+        metadata=data.get('metadata'),
+        provider_id=data.get('provider_id'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSessionsListOutputItemsProvidersConfig, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceSessionsListOutputItemsProvidersAuthConfig:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionsListOutputItemsProvidersAuthConfig:
+        return DashboardInstanceSessionsListOutputItemsProvidersAuthConfig(
+        object=data.get('object'),
+        id=data.get('id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSessionsListOutputItemsProvidersAuthConfig, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceSessionsListOutputItemsProviders:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionsListOutputItemsProviders:
+        return DashboardInstanceSessionsListOutputItemsProviders(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        usage=mapDashboardInstanceSessionsListOutputItemsProvidersUsage.from_dict(data.get('usage')) if data.get('usage') else None,
+        tool_filter=data.get('tool_filter'),
+        provider_id=data.get('provider_id'),
+        session_id=data.get('session_id'),
+        from_template_id=data.get('from_template_id'),
+        from_template_provider_id=data.get('from_template_provider_id'),
+        deployment=mapDashboardInstanceSessionsListOutputItemsProvidersDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
+        config=mapDashboardInstanceSessionsListOutputItemsProvidersConfig.from_dict(data.get('config')) if data.get('config') else None,
+        auth_config=mapDashboardInstanceSessionsListOutputItemsProvidersAuthConfig.from_dict(data.get('auth_config')) if data.get('auth_config') else None,
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSessionsListOutputItemsProviders, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -83,14 +210,17 @@ class mapDashboardInstanceSessionsListOutputItems:
         id=data.get('id'),
         name=data.get('name'),
         description=data.get('description'),
-        connection_status=data.get('connection_status'),
-        usage=mapDashboardInstanceSessionsListOutputItemsUsage.from_dict(data.get('usage')) if data.get('usage') else None,
         metadata=data.get('metadata'),
+        connection_state=data.get('connection_state'),
         connection_url=data.get('connection_url'),
-        connection_key=data.get('connection_key'),
-        provider_deployments=[mapDashboardInstanceSessionsListOutputItemsProviderDeployments.from_dict(item) for item in data.get('provider_deployments', []) if item],
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        client_secret=data.get('client_secret'),
+        usage=mapDashboardInstanceSessionsListOutputItemsUsage.from_dict(data.get('usage')) if data.get('usage') else None,
+        providers=[mapDashboardInstanceSessionsListOutputItemsProviders.from_dict(item) for item in data.get('providers', []) if item],
+        from_templates_ids=data.get('from_templates_ids', []),
+        has_errors=data.get('has_errors'),
+        has_warnings=data.get('has_warnings'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -142,8 +272,13 @@ class DashboardInstanceSessionsListQuery:
     cursor: Optional[str] = None
     order: Optional[str] = None
     status: Optional[Union[str, List[str]]] = None
+    id: Optional[Union[str, List[str]]] = None
+    session_template_id: Optional[Union[str, List[str]]] = None
+    session_provider_id: Optional[Union[str, List[str]]] = None
     provider_id: Optional[Union[str, List[str]]] = None
     provider_deployment_id: Optional[Union[str, List[str]]] = None
+    provider_config_id: Optional[Union[str, List[str]]] = None
+    provider_auth_config_id: Optional[Union[str, List[str]]] = None
 
 
 class mapDashboardInstanceSessionsListQuery:
@@ -156,8 +291,13 @@ class mapDashboardInstanceSessionsListQuery:
         cursor=data.get('cursor'),
         order=data.get('order'),
         status=data.get('status'),
+        id=data.get('id'),
+        session_template_id=data.get('session_template_id'),
+        session_provider_id=data.get('session_provider_id'),
         provider_id=data.get('provider_id'),
-        provider_deployment_id=data.get('provider_deployment_id')
+        provider_deployment_id=data.get('provider_deployment_id'),
+        provider_config_id=data.get('provider_config_id'),
+        provider_auth_config_id=data.get('provider_auth_config_id')
         )
 
     @staticmethod
@@ -168,3 +308,4 @@ class mapDashboardInstanceSessionsListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

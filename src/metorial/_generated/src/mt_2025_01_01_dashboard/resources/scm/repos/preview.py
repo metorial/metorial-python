@@ -96,3 +96,4 @@ class mapScmReposPreviewBody:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

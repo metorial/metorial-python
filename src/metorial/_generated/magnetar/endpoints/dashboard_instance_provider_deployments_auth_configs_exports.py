@@ -8,19 +8,21 @@ class MetorialDashboardInstanceProviderDeploymentsAuthConfigsExportsEndpoint(Bas
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, provider_deployment_id: str, provider_auth_config_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None) -> DashboardInstanceProviderDeploymentsAuthConfigsExportsListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_auth_credentials_id: Optional[Union[str, List[str]]] = None, provider_auth_config_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceProviderDeploymentsAuthConfigsExportsListOutput:
         """
     List provider auth exports
     Returns a paginated list of provider auth exports.
 
     :param instance_id: str
-    :param provider_deployment_id: str
-    :param provider_auth_config_id: str
     :param limit: Optional[float] (optional)
     :param after: Optional[str] (optional)
     :param before: Optional[str] (optional)
     :param cursor: Optional[str] (optional)
     :param order: Optional[str] (optional)
+    :param id: Optional[Union[str, List[str]]] (optional)
+    :param provider_id: Optional[Union[str, List[str]]] (optional)
+    :param provider_auth_credentials_id: Optional[Union[str, List[str]]] (optional)
+    :param provider_auth_config_id: Optional[Union[str, List[str]]] (optional)
     :return: DashboardInstanceProviderDeploymentsAuthConfigsExportsListOutput
     """
         # Build query parameters from keyword arguments
@@ -35,36 +37,41 @@ class MetorialDashboardInstanceProviderDeploymentsAuthConfigsExportsEndpoint(Bas
             query_dict["cursor"] = cursor
         if order is not None:
             query_dict["order"] = order
+        if id is not None:
+            query_dict["id"] = id
+        if provider_id is not None:
+            query_dict["provider_id"] = provider_id
+        if provider_auth_credentials_id is not None:
+            query_dict["provider_auth_credentials_id"] = provider_auth_credentials_id
+        if provider_auth_config_id is not None:
+            query_dict["provider_auth_config_id"] = provider_auth_config_id
 
         request = MetorialRequest(
-            path=['dashboard', 'instances', instance_id, 'provider-deployments', provider_deployment_id, 'auth-configs', provider_auth_config_id, 'exports'],
+            path=['dashboard', 'instances', instance_id, 'provider-auth-config-exports'],
             query=query_dict
         )
         return self._get(request).transform(mapDashboardInstanceProviderDeploymentsAuthConfigsExportsListOutput.from_dict)
 
-    def get(self, instance_id: str, provider_deployment_id: str, provider_auth_config_id: str, provider_auth_export_id: str) -> DashboardInstanceProviderDeploymentsAuthConfigsExportsGetOutput:
+    def get(self, instance_id: str, provider_auth_export_id: str) -> DashboardInstanceProviderDeploymentsAuthConfigsExportsGetOutput:
         """
     Get provider auth export
     Retrieves a specific provider auth export by ID.
 
     :param instance_id: str
-    :param provider_deployment_id: str
-    :param provider_auth_config_id: str
     :param provider_auth_export_id: str
     :return: DashboardInstanceProviderDeploymentsAuthConfigsExportsGetOutput
     """
         request = MetorialRequest(
-            path=['dashboard', 'instances', instance_id, 'provider-deployments', provider_deployment_id, 'auth-configs', provider_auth_config_id, 'exports', provider_auth_export_id]
+            path=['dashboard', 'instances', instance_id, 'provider-auth-config-exports', provider_auth_export_id]
         )
         return self._get(request).transform(mapDashboardInstanceProviderDeploymentsAuthConfigsExportsGetOutput.from_dict)
 
-    def create(self, instance_id: str, provider_deployment_id: str, provider_auth_config_id: str, *, note: str, metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderDeploymentsAuthConfigsExportsCreateOutput:
+    def create(self, instance_id: str, *, provider_auth_config_id: str, note: str, metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderDeploymentsAuthConfigsExportsCreateOutput:
         """
     Create provider auth export
     Exports authentication credentials from a provider.
 
     :param instance_id: str
-    :param provider_deployment_id: str
     :param provider_auth_config_id: str
     :param note: str
     :param metadata: Optional[Dict[str, Any]] (optional)
@@ -72,12 +79,13 @@ class MetorialDashboardInstanceProviderDeploymentsAuthConfigsExportsEndpoint(Bas
     """
         # Build body parameters from keyword arguments
         body_dict = {}
+        body_dict["provider_auth_config_id"] = provider_auth_config_id
         body_dict["note"] = note
         if metadata is not None:
             body_dict["metadata"] = metadata
 
         request = MetorialRequest(
-            path=['dashboard', 'instances', instance_id, 'provider-deployments', provider_deployment_id, 'auth-configs', provider_auth_config_id, 'exports'],
+            path=['dashboard', 'instances', instance_id, 'provider-auth-config-exports'],
             body=body_dict
         )
         return self._post(request).transform(mapDashboardInstanceProviderDeploymentsAuthConfigsExportsCreateOutput.from_dict)

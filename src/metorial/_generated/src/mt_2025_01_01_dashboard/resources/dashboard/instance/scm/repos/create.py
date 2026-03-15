@@ -50,7 +50,7 @@ class mapDashboardInstanceScmReposCreateOutput:
         url=data.get('url'),
         is_private=data.get('is_private'),
         default_branch=data.get('default_branch'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -90,3 +90,4 @@ class mapDashboardInstanceScmReposCreateBody:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

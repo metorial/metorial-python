@@ -47,8 +47,8 @@ class mapDashboardOrganizationsMembersUpdateOutputActorTeams:
         name=data.get('name'),
         slug=data.get('slug'),
         assignment_id=data.get('assignment_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -71,8 +71,8 @@ class mapDashboardOrganizationsMembersUpdateOutputActor:
         email=data.get('email'),
         image_url=data.get('image_url'),
         teams=[mapDashboardOrganizationsMembersUpdateOutputActorTeams.from_dict(item) for item in data.get('teams', []) if item],
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -94,10 +94,10 @@ class mapDashboardOrganizationsMembersUpdateOutput:
         user_id=data.get('user_id'),
         organization_id=data.get('organization_id'),
         actor_id=data.get('actor_id'),
-        last_active_at=datetime.fromisoformat(data.get('last_active_at')) if data.get('last_active_at') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None,
-        deleted_at=datetime.fromisoformat(data.get('deleted_at')) if data.get('deleted_at') else None,
+        last_active_at=datetime.fromisoformat(data.get('last_active_at').replace('Z', '+00:00')) if data.get('last_active_at') else None,
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
+        deleted_at=datetime.fromisoformat(data.get('deleted_at').replace('Z', '+00:00')) if data.get('deleted_at') else None,
         actor=mapDashboardOrganizationsMembersUpdateOutputActor.from_dict(data.get('actor')) if data.get('actor') else None
         )
 
@@ -130,3 +130,4 @@ class mapDashboardOrganizationsMembersUpdateBody:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

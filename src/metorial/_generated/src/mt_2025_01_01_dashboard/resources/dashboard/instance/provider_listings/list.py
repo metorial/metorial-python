@@ -11,59 +11,14 @@ class DashboardInstanceProviderListingsListOutputItemsAttributes:
     is_verified: bool
     is_official: bool
 @dataclass
-class DashboardInstanceProviderListingsListOutputItemsProviderOwnerTenant:
-    object: str
-    id: str
-    identifier: str
-    name: str
-    created_at: datetime
-@dataclass
 class DashboardInstanceProviderListingsListOutputItemsProviderPublisher:
     object: str
     id: str
     name: str
-    slug: str
     image_url: str
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
-@dataclass
-class DashboardInstanceProviderListingsListOutputItemsProviderEntry:
-    object: str
-    id: str
-    identifier: str
-    name: str
-    created_at: datetime
-    updated_at: datetime
-    description: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None
-@dataclass
-class DashboardInstanceProviderListingsListOutputItemsProviderDefaultVariantCurrentVersion:
-    object: str
-    id: str
-    version: str
-    provider_id: str
-    is_current: bool
-    name: str
-    created_at: datetime
-    updated_at: datetime
-    description: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None
-    specification_id: Optional[str] = None
-@dataclass
-class DashboardInstanceProviderListingsListOutputItemsProviderDefaultVariant:
-    object: str
-    id: str
-    tag: str
-    identifier: str
-    provider_id: str
-    is_default: bool
-    name: str
-    created_at: datetime
-    updated_at: datetime
-    description: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None
-    current_version: Optional[DashboardInstanceProviderListingsListOutputItemsProviderDefaultVariantCurrentVersion] = None
 @dataclass
 class DashboardInstanceProviderListingsListOutputItemsProviderCurrentVersion:
     object: str
@@ -78,22 +33,13 @@ class DashboardInstanceProviderListingsListOutputItemsProviderCurrentVersion:
     metadata: Optional[Dict[str, Any]] = None
     specification_id: Optional[str] = None
 @dataclass
-class DashboardInstanceProviderListingsListOutputItemsProviderType:
-    object: str
-    id: str
-    name: str
-    config: Dict[str, Any]
-    triggers: Dict[str, Any]
-    auth: Dict[str, Any]
-    created_at: datetime
-@dataclass
 class DashboardInstanceProviderListingsListOutputItemsProviderOauthAutoRegistration:
     status: str
 @dataclass
 class DashboardInstanceProviderListingsListOutputItemsProviderOauth:
     status: str
+    auto_registration: DashboardInstanceProviderListingsListOutputItemsProviderOauthAutoRegistration
     callback_url: Optional[str] = None
-    auto_registration: Optional[DashboardInstanceProviderListingsListOutputItemsProviderOauthAutoRegistration] = None
 @dataclass
 class DashboardInstanceProviderListingsListOutputItemsProvider:
     object: str
@@ -101,16 +47,11 @@ class DashboardInstanceProviderListingsListOutputItemsProvider:
     access: str
     status: str
     publisher: DashboardInstanceProviderListingsListOutputItemsProviderPublisher
-    entry: DashboardInstanceProviderListingsListOutputItemsProviderEntry
-    type: DashboardInstanceProviderListingsListOutputItemsProviderType
     identifier: str
-    tag: str
     name: str
     slug: str
     created_at: datetime
     updated_at: datetime
-    owner_tenant: Optional[DashboardInstanceProviderListingsListOutputItemsProviderOwnerTenant] = None
-    default_variant: Optional[DashboardInstanceProviderListingsListOutputItemsProviderDefaultVariant] = None
     current_version: Optional[DashboardInstanceProviderListingsListOutputItemsProviderCurrentVersion] = None
     oauth: Optional[DashboardInstanceProviderListingsListOutputItemsProviderOauth] = None
     description: Optional[str] = None
@@ -188,25 +129,6 @@ class mapDashboardInstanceProviderListingsListOutputItemsAttributes:
             return value
         return dataclasses.asdict(value)
 
-class mapDashboardInstanceProviderListingsListOutputItemsProviderOwnerTenant:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderListingsListOutputItemsProviderOwnerTenant:
-        return DashboardInstanceProviderListingsListOutputItemsProviderOwnerTenant(
-        object=data.get('object'),
-        id=data.get('id'),
-        identifier=data.get('identifier'),
-        name=data.get('name'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[DashboardInstanceProviderListingsListOutputItemsProviderOwnerTenant, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
 class mapDashboardInstanceProviderListingsListOutputItemsProviderPublisher:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderListingsListOutputItemsProviderPublisher:
@@ -215,87 +137,13 @@ class mapDashboardInstanceProviderListingsListOutputItemsProviderPublisher:
         id=data.get('id'),
         name=data.get('name'),
         description=data.get('description'),
-        slug=data.get('slug'),
         image_url=data.get('image_url'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
     def to_dict(value: Union[DashboardInstanceProviderListingsListOutputItemsProviderPublisher, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapDashboardInstanceProviderListingsListOutputItemsProviderEntry:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderListingsListOutputItemsProviderEntry:
-        return DashboardInstanceProviderListingsListOutputItemsProviderEntry(
-        object=data.get('object'),
-        id=data.get('id'),
-        identifier=data.get('identifier'),
-        name=data.get('name'),
-        description=data.get('description'),
-        metadata=data.get('metadata'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[DashboardInstanceProviderListingsListOutputItemsProviderEntry, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapDashboardInstanceProviderListingsListOutputItemsProviderDefaultVariantCurrentVersion:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderListingsListOutputItemsProviderDefaultVariantCurrentVersion:
-        return DashboardInstanceProviderListingsListOutputItemsProviderDefaultVariantCurrentVersion(
-        object=data.get('object'),
-        id=data.get('id'),
-        version=data.get('version'),
-        provider_id=data.get('provider_id'),
-        is_current=data.get('is_current'),
-        name=data.get('name'),
-        description=data.get('description'),
-        metadata=data.get('metadata'),
-        specification_id=data.get('specification_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[DashboardInstanceProviderListingsListOutputItemsProviderDefaultVariantCurrentVersion, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapDashboardInstanceProviderListingsListOutputItemsProviderDefaultVariant:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderListingsListOutputItemsProviderDefaultVariant:
-        return DashboardInstanceProviderListingsListOutputItemsProviderDefaultVariant(
-        object=data.get('object'),
-        id=data.get('id'),
-        tag=data.get('tag'),
-        identifier=data.get('identifier'),
-        provider_id=data.get('provider_id'),
-        is_default=data.get('is_default'),
-        name=data.get('name'),
-        description=data.get('description'),
-        metadata=data.get('metadata'),
-        current_version=mapDashboardInstanceProviderListingsListOutputItemsProviderDefaultVariantCurrentVersion.from_dict(data.get('current_version')) if data.get('current_version') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[DashboardInstanceProviderListingsListOutputItemsProviderDefaultVariant, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -315,33 +163,12 @@ class mapDashboardInstanceProviderListingsListOutputItemsProviderCurrentVersion:
         description=data.get('description'),
         metadata=data.get('metadata'),
         specification_id=data.get('specification_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
     def to_dict(value: Union[DashboardInstanceProviderListingsListOutputItemsProviderCurrentVersion, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapDashboardInstanceProviderListingsListOutputItemsProviderType:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderListingsListOutputItemsProviderType:
-        return DashboardInstanceProviderListingsListOutputItemsProviderType(
-        object=data.get('object'),
-        id=data.get('id'),
-        name=data.get('name'),
-        config=data.get('config'),
-        triggers=data.get('triggers'),
-        auth=data.get('auth'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[DashboardInstanceProviderListingsListOutputItemsProviderType, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -388,21 +215,16 @@ class mapDashboardInstanceProviderListingsListOutputItemsProvider:
         id=data.get('id'),
         access=data.get('access'),
         status=data.get('status'),
-        owner_tenant=mapDashboardInstanceProviderListingsListOutputItemsProviderOwnerTenant.from_dict(data.get('owner_tenant')) if data.get('owner_tenant') else None,
         publisher=mapDashboardInstanceProviderListingsListOutputItemsProviderPublisher.from_dict(data.get('publisher')) if data.get('publisher') else None,
-        entry=mapDashboardInstanceProviderListingsListOutputItemsProviderEntry.from_dict(data.get('entry')) if data.get('entry') else None,
-        default_variant=mapDashboardInstanceProviderListingsListOutputItemsProviderDefaultVariant.from_dict(data.get('default_variant')) if data.get('default_variant') else None,
         current_version=mapDashboardInstanceProviderListingsListOutputItemsProviderCurrentVersion.from_dict(data.get('current_version')) if data.get('current_version') else None,
-        type=mapDashboardInstanceProviderListingsListOutputItemsProviderType.from_dict(data.get('type')) if data.get('type') else None,
         oauth=mapDashboardInstanceProviderListingsListOutputItemsProviderOauth.from_dict(data.get('oauth')) if data.get('oauth') else None,
         identifier=data.get('identifier'),
-        tag=data.get('tag'),
         name=data.get('name'),
         description=data.get('description'),
         slug=data.get('slug'),
         metadata=data.get('metadata'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -422,8 +244,8 @@ class mapDashboardInstanceProviderListingsListOutputItemsCategories:
         name=data.get('name'),
         description=data.get('description'),
         slug=data.get('slug'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -443,8 +265,8 @@ class mapDashboardInstanceProviderListingsListOutputItemsCollections:
         name=data.get('name'),
         description=data.get('description'),
         slug=data.get('slug'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -464,8 +286,8 @@ class mapDashboardInstanceProviderListingsListOutputItemsGroups:
         name=data.get('name'),
         description=data.get('description'),
         slug=data.get('slug'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -493,8 +315,8 @@ class mapDashboardInstanceProviderListingsListOutputItems:
         categories=[mapDashboardInstanceProviderListingsListOutputItemsCategories.from_dict(item) for item in data.get('categories', []) if item],
         collections=[mapDashboardInstanceProviderListingsListOutputItemsCollections.from_dict(item) for item in data.get('collections', []) if item],
         groups=[mapDashboardInstanceProviderListingsListOutputItemsGroups.from_dict(item) for item in data.get('groups', []) if item],
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -556,6 +378,7 @@ class DashboardInstanceProviderListingsListQuery:
     is_official: Optional[bool] = None
     is_metorial: Optional[bool] = None
     order_by_rank: Optional[bool] = None
+    order_by_use: Optional[str] = None
 
 
 class mapDashboardInstanceProviderListingsListQuery:
@@ -577,7 +400,8 @@ class mapDashboardInstanceProviderListingsListQuery:
         is_verified=data.get('is_verified'),
         is_official=data.get('is_official'),
         is_metorial=data.get('is_metorial'),
-        order_by_rank=data.get('order_by_rank')
+        order_by_rank=data.get('order_by_rank'),
+        order_by_use=data.get('order_by_use')
         )
 
     @staticmethod
@@ -588,3 +412,4 @@ class mapDashboardInstanceProviderListingsListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

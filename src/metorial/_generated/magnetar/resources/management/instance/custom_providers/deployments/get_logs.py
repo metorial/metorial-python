@@ -4,78 +4,35 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
-class ManagementInstanceCustomProvidersDeploymentsGetLogsOutputLogs:
-    type: str
-    line: str
-    timestamp: Optional[datetime] = None
-@dataclass
-class ManagementInstanceCustomProvidersDeploymentsGetLogsOutputStepsSource:
-    provider: Optional[str] = None
-    workflow_run_id: Optional[str] = None
-    workflow_id: Optional[str] = None
-    function_deployment_id: Optional[str] = None
-@dataclass
 class ManagementInstanceCustomProvidersDeploymentsGetLogsOutputStepsLogs:
-    type: str
-    line: str
-    timestamp: Optional[datetime] = None
+    object: str
+    timestamp: datetime
+    message: str
 @dataclass
 class ManagementInstanceCustomProvidersDeploymentsGetLogsOutputSteps:
+    object: str
+    id: str
+    name: str
+    type: str
+    status: str
     logs: List[ManagementInstanceCustomProvidersDeploymentsGetLogsOutputStepsLogs]
-    id: Optional[str] = None
-    type: Optional[str] = None
-    status: Optional[str] = None
-    source: Optional[ManagementInstanceCustomProvidersDeploymentsGetLogsOutputStepsSource] = None
-    created_at: Optional[datetime] = None
+    created_at: datetime
+    started_at: Optional[datetime] = None
+    ended_at: Optional[datetime] = None
 @dataclass
 class ManagementInstanceCustomProvidersDeploymentsGetLogsOutput:
     object: str
-    logs: List[ManagementInstanceCustomProvidersDeploymentsGetLogsOutputLogs]
+    custom_provider_deployment_id: str
     steps: List[ManagementInstanceCustomProvidersDeploymentsGetLogsOutputSteps]
 
-
-class mapManagementInstanceCustomProvidersDeploymentsGetLogsOutputLogs:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ManagementInstanceCustomProvidersDeploymentsGetLogsOutputLogs:
-        return ManagementInstanceCustomProvidersDeploymentsGetLogsOutputLogs(
-        type=data.get('type'),
-        line=data.get('line'),
-        timestamp=datetime.fromisoformat(data.get('timestamp')) if data.get('timestamp') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[ManagementInstanceCustomProvidersDeploymentsGetLogsOutputLogs, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapManagementInstanceCustomProvidersDeploymentsGetLogsOutputStepsSource:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ManagementInstanceCustomProvidersDeploymentsGetLogsOutputStepsSource:
-        return ManagementInstanceCustomProvidersDeploymentsGetLogsOutputStepsSource(
-        provider=data.get('provider'),
-        workflow_run_id=data.get('workflow_run_id'),
-        workflow_id=data.get('workflow_id'),
-        function_deployment_id=data.get('function_deployment_id')
-        )
-
-    @staticmethod
-    def to_dict(value: Union[ManagementInstanceCustomProvidersDeploymentsGetLogsOutputStepsSource, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
 
 class mapManagementInstanceCustomProvidersDeploymentsGetLogsOutputStepsLogs:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceCustomProvidersDeploymentsGetLogsOutputStepsLogs:
         return ManagementInstanceCustomProvidersDeploymentsGetLogsOutputStepsLogs(
-        type=data.get('type'),
-        line=data.get('line'),
-        timestamp=datetime.fromisoformat(data.get('timestamp')) if data.get('timestamp') else None
+        object=data.get('object'),
+        timestamp=datetime.fromisoformat(data.get('timestamp').replace('Z', '+00:00')) if data.get('timestamp') else None,
+        message=data.get('message')
         )
 
     @staticmethod
@@ -90,12 +47,15 @@ class mapManagementInstanceCustomProvidersDeploymentsGetLogsOutputSteps:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceCustomProvidersDeploymentsGetLogsOutputSteps:
         return ManagementInstanceCustomProvidersDeploymentsGetLogsOutputSteps(
+        object=data.get('object'),
         id=data.get('id'),
+        name=data.get('name'),
         type=data.get('type'),
         status=data.get('status'),
-        source=mapManagementInstanceCustomProvidersDeploymentsGetLogsOutputStepsSource.from_dict(data.get('source')) if data.get('source') else None,
         logs=[mapManagementInstanceCustomProvidersDeploymentsGetLogsOutputStepsLogs.from_dict(item) for item in data.get('logs', []) if item],
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        started_at=datetime.fromisoformat(data.get('started_at').replace('Z', '+00:00')) if data.get('started_at') else None,
+        ended_at=datetime.fromisoformat(data.get('ended_at').replace('Z', '+00:00')) if data.get('ended_at') else None
         )
 
     @staticmethod
@@ -111,7 +71,7 @@ class mapManagementInstanceCustomProvidersDeploymentsGetLogsOutput:
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceCustomProvidersDeploymentsGetLogsOutput:
         return ManagementInstanceCustomProvidersDeploymentsGetLogsOutput(
         object=data.get('object'),
-        logs=[mapManagementInstanceCustomProvidersDeploymentsGetLogsOutputLogs.from_dict(item) for item in data.get('logs', []) if item],
+        custom_provider_deployment_id=data.get('custom_provider_deployment_id'),
         steps=[mapManagementInstanceCustomProvidersDeploymentsGetLogsOutputSteps.from_dict(item) for item in data.get('steps', []) if item]
         )
 
@@ -123,3 +83,4 @@ class mapManagementInstanceCustomProvidersDeploymentsGetLogsOutput:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

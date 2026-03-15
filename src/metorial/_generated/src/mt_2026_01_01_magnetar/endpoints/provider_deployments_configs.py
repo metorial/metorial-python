@@ -8,7 +8,7 @@ class MetorialProviderDeploymentsConfigsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_specification_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, provider_config_vault_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceProviderDeploymentsConfigsListOutput:
+    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_specification_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, provider_config_vault_id: Optional[Union[str, List[str]]] = None, search: Optional[str] = None) -> DashboardInstanceProviderDeploymentsConfigsListOutput:
         """
     List provider configs
     Returns a paginated list of provider configs.
@@ -24,6 +24,7 @@ class MetorialProviderDeploymentsConfigsEndpoint(BaseMetorialEndpoint):
     :param provider_specification_id: Optional[Union[str, List[str]]] (optional)
     :param provider_deployment_id: Optional[Union[str, List[str]]] (optional)
     :param provider_config_vault_id: Optional[Union[str, List[str]]] (optional)
+    :param search: Optional[str] (optional)
     :return: DashboardInstanceProviderDeploymentsConfigsListOutput
     """
         # Build query parameters from keyword arguments
@@ -50,6 +51,8 @@ class MetorialProviderDeploymentsConfigsEndpoint(BaseMetorialEndpoint):
             query_dict["provider_deployment_id"] = provider_deployment_id
         if provider_config_vault_id is not None:
             query_dict["provider_config_vault_id"] = provider_config_vault_id
+        if search is not None:
+            query_dict["search"] = search
 
         request = MetorialRequest(
             path=['provider-configs'],
@@ -70,14 +73,14 @@ class MetorialProviderDeploymentsConfigsEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapDashboardInstanceProviderDeploymentsConfigsGetOutput.from_dict)
 
-    def create(self, *, provider_id: str, name: str, provider_deployment_id: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, value: Dict[str, Any] = None, provider_config_vault_id: str = None) -> DashboardInstanceProviderDeploymentsConfigsCreateOutput:
+    def create(self, *, provider_id: str, provider_deployment_id: Optional[str] = None, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, value: Dict[str, Any] = None, provider_config_vault_id: str = None) -> DashboardInstanceProviderDeploymentsConfigsCreateOutput:
         """
     Create provider config
     Creates a new provider config.
 
     :param provider_id: str
     :param provider_deployment_id: Optional[str] (optional)
-    :param name: str
+    :param name: Optional[str] (optional)
     :param description: Optional[str] (optional)
     :param metadata: Optional[Dict[str, Any]] (optional)
     :param value: Dict[str, Any] (optional)
@@ -89,7 +92,8 @@ class MetorialProviderDeploymentsConfigsEndpoint(BaseMetorialEndpoint):
         body_dict["provider_id"] = provider_id
         if provider_deployment_id is not None:
             body_dict["provider_deployment_id"] = provider_deployment_id
-        body_dict["name"] = name
+        if name is not None:
+            body_dict["name"] = name
         if description is not None:
             body_dict["description"] = description
         if metadata is not None:

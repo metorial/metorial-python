@@ -8,19 +8,22 @@ class MetorialManagementInstanceSessionsParticipantsEndpoint(BaseMetorialEndpoin
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, session_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, type: Optional[str] = None) -> DashboardInstanceSessionsParticipantsListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, type: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, session_id: Optional[Union[str, List[str]]] = None, session_connection_id: Optional[Union[str, List[str]]] = None, session_message_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceSessionsParticipantsListOutput:
         """
     List session participants
     Returns a paginated list of participants in a session.
 
     :param instance_id: str
-    :param session_id: str
     :param limit: Optional[float] (optional)
     :param after: Optional[str] (optional)
     :param before: Optional[str] (optional)
     :param cursor: Optional[str] (optional)
     :param order: Optional[str] (optional)
-    :param type: Optional[str] (optional)
+    :param type: Optional[Union[str, List[str]]] (optional)
+    :param id: Optional[Union[str, List[str]]] (optional)
+    :param session_id: Optional[Union[str, List[str]]] (optional)
+    :param session_connection_id: Optional[Union[str, List[str]]] (optional)
+    :param session_message_id: Optional[Union[str, List[str]]] (optional)
     :return: DashboardInstanceSessionsParticipantsListOutput
     """
         # Build query parameters from keyword arguments
@@ -37,24 +40,31 @@ class MetorialManagementInstanceSessionsParticipantsEndpoint(BaseMetorialEndpoin
             query_dict["order"] = order
         if type is not None:
             query_dict["type"] = type
+        if id is not None:
+            query_dict["id"] = id
+        if session_id is not None:
+            query_dict["session_id"] = session_id
+        if session_connection_id is not None:
+            query_dict["session_connection_id"] = session_connection_id
+        if session_message_id is not None:
+            query_dict["session_message_id"] = session_message_id
 
         request = MetorialRequest(
-            path=['instances', instance_id, 'sessions', session_id, 'participants'],
+            path=['instances', instance_id, 'session-participants'],
             query=query_dict
         )
         return self._get(request).transform(mapDashboardInstanceSessionsParticipantsListOutput.from_dict)
 
-    def get(self, instance_id: str, session_id: str, session_participant_id: str) -> DashboardInstanceSessionsParticipantsGetOutput:
+    def get(self, instance_id: str, session_participant_id: str) -> DashboardInstanceSessionsParticipantsGetOutput:
         """
     Get session participant
     Retrieves a specific participant in a session.
 
     :param instance_id: str
-    :param session_id: str
     :param session_participant_id: str
     :return: DashboardInstanceSessionsParticipantsGetOutput
     """
         request = MetorialRequest(
-            path=['instances', instance_id, 'sessions', session_id, 'participants', session_participant_id]
+            path=['instances', instance_id, 'session-participants', session_participant_id]
         )
         return self._get(request).transform(mapDashboardInstanceSessionsParticipantsGetOutput.from_dict)

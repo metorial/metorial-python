@@ -60,8 +60,8 @@ class mapManagementInstanceScmInstallationCreateOutputConnection:
         external_installation_id=data.get('external_installation_id'),
         account_type=data.get('account_type'),
         external_account=mapManagementInstanceScmInstallationCreateOutputConnectionExternalAccount.from_dict(data.get('external_account')) if data.get('external_account') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -81,8 +81,8 @@ class mapManagementInstanceScmInstallationCreateOutput:
         url=data.get('url'),
         status=data.get('status'),
         connection=mapManagementInstanceScmInstallationCreateOutputConnection.from_dict(data.get('connection')) if data.get('connection') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        expires_at=datetime.fromisoformat(data.get('expires_at')) if data.get('expires_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        expires_at=datetime.fromisoformat(data.get('expires_at').replace('Z', '+00:00')) if data.get('expires_at') else None
         )
 
     @staticmethod
@@ -116,3 +116,4 @@ class mapManagementInstanceScmInstallationCreateBody:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

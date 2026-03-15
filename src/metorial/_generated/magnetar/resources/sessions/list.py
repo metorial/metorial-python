@@ -5,30 +5,71 @@ import dataclasses
 
 @dataclass
 class SessionsListOutputItemsUsage:
-    total_productive_message_count: float
     total_productive_client_message_count: float
-    total_productive_server_message_count: float
+    total_productive_provider_message_count: float
 @dataclass
-class SessionsListOutputItemsProviderDeployments:
+class SessionsListOutputItemsProvidersUsage:
+    total_productive_client_message_count: float
+    total_productive_provider_message_count: float
+@dataclass
+class SessionsListOutputItemsProvidersDeployment:
     object: str
     id: str
+    is_default: bool
     provider_id: str
-    name: Optional[str] = None
-    provider_deployment_id: Optional[str] = None
-@dataclass
-class SessionsListOutputItems:
-    object: str
-    id: str
-    connection_status: str
-    usage: SessionsListOutputItemsUsage
-    provider_deployments: List[SessionsListOutputItemsProviderDeployments]
     created_at: datetime
     updated_at: datetime
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
-    connection_url: Optional[str] = None
-    connection_key: Optional[str] = None
+@dataclass
+class SessionsListOutputItemsProvidersConfig:
+    object: str
+    id: str
+    is_default: bool
+    provider_id: str
+    created_at: datetime
+    updated_at: datetime
+    name: Optional[str] = None
+    description: Optional[str] = None
+    metadata: Optional[Dict[str, Any]] = None
+@dataclass
+class SessionsListOutputItemsProvidersAuthConfig:
+    object: str
+    id: str
+@dataclass
+class SessionsListOutputItemsProviders:
+    object: str
+    id: str
+    status: str
+    usage: SessionsListOutputItemsProvidersUsage
+    tool_filter: Dict[str, Any]
+    provider_id: str
+    session_id: str
+    deployment: SessionsListOutputItemsProvidersDeployment
+    config: SessionsListOutputItemsProvidersConfig
+    created_at: datetime
+    updated_at: datetime
+    from_template_id: Optional[str] = None
+    from_template_provider_id: Optional[str] = None
+    auth_config: Optional[SessionsListOutputItemsProvidersAuthConfig] = None
+@dataclass
+class SessionsListOutputItems:
+    object: str
+    id: str
+    connection_state: str
+    connection_url: str
+    usage: SessionsListOutputItemsUsage
+    providers: List[SessionsListOutputItemsProviders]
+    from_templates_ids: List[str]
+    has_errors: bool
+    has_warnings: bool
+    created_at: datetime
+    updated_at: datetime
+    name: Optional[str] = None
+    description: Optional[str] = None
+    metadata: Optional[Dict[str, Any]] = None
+    client_secret: Optional[str] = None
 @dataclass
 class SessionsListOutputPagination:
     has_more_before: bool
@@ -43,9 +84,8 @@ class mapSessionsListOutputItemsUsage:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> SessionsListOutputItemsUsage:
         return SessionsListOutputItemsUsage(
-        total_productive_message_count=data.get('total_productive_message_count'),
         total_productive_client_message_count=data.get('total_productive_client_message_count'),
-        total_productive_server_message_count=data.get('total_productive_server_message_count')
+        total_productive_provider_message_count=data.get('total_productive_provider_message_count')
         )
 
     @staticmethod
@@ -56,19 +96,106 @@ class mapSessionsListOutputItemsUsage:
             return value
         return dataclasses.asdict(value)
 
-class mapSessionsListOutputItemsProviderDeployments:
+class mapSessionsListOutputItemsProvidersUsage:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> SessionsListOutputItemsProviderDeployments:
-        return SessionsListOutputItemsProviderDeployments(
-        object=data.get('object'),
-        id=data.get('id'),
-        name=data.get('name'),
-        provider_id=data.get('provider_id'),
-        provider_deployment_id=data.get('provider_deployment_id')
+    def from_dict(data: Dict[str, Any]) -> SessionsListOutputItemsProvidersUsage:
+        return SessionsListOutputItemsProvidersUsage(
+        total_productive_client_message_count=data.get('total_productive_client_message_count'),
+        total_productive_provider_message_count=data.get('total_productive_provider_message_count')
         )
 
     @staticmethod
-    def to_dict(value: Union[SessionsListOutputItemsProviderDeployments, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[SessionsListOutputItemsProvidersUsage, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapSessionsListOutputItemsProvidersDeployment:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> SessionsListOutputItemsProvidersDeployment:
+        return SessionsListOutputItemsProvidersDeployment(
+        object=data.get('object'),
+        id=data.get('id'),
+        is_default=data.get('is_default'),
+        name=data.get('name'),
+        description=data.get('description'),
+        metadata=data.get('metadata'),
+        provider_id=data.get('provider_id'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[SessionsListOutputItemsProvidersDeployment, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapSessionsListOutputItemsProvidersConfig:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> SessionsListOutputItemsProvidersConfig:
+        return SessionsListOutputItemsProvidersConfig(
+        object=data.get('object'),
+        id=data.get('id'),
+        is_default=data.get('is_default'),
+        name=data.get('name'),
+        description=data.get('description'),
+        metadata=data.get('metadata'),
+        provider_id=data.get('provider_id'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[SessionsListOutputItemsProvidersConfig, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapSessionsListOutputItemsProvidersAuthConfig:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> SessionsListOutputItemsProvidersAuthConfig:
+        return SessionsListOutputItemsProvidersAuthConfig(
+        object=data.get('object'),
+        id=data.get('id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[SessionsListOutputItemsProvidersAuthConfig, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapSessionsListOutputItemsProviders:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> SessionsListOutputItemsProviders:
+        return SessionsListOutputItemsProviders(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        usage=mapSessionsListOutputItemsProvidersUsage.from_dict(data.get('usage')) if data.get('usage') else None,
+        tool_filter=data.get('tool_filter'),
+        provider_id=data.get('provider_id'),
+        session_id=data.get('session_id'),
+        from_template_id=data.get('from_template_id'),
+        from_template_provider_id=data.get('from_template_provider_id'),
+        deployment=mapSessionsListOutputItemsProvidersDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
+        config=mapSessionsListOutputItemsProvidersConfig.from_dict(data.get('config')) if data.get('config') else None,
+        auth_config=mapSessionsListOutputItemsProvidersAuthConfig.from_dict(data.get('auth_config')) if data.get('auth_config') else None,
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[SessionsListOutputItemsProviders, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -83,14 +210,17 @@ class mapSessionsListOutputItems:
         id=data.get('id'),
         name=data.get('name'),
         description=data.get('description'),
-        connection_status=data.get('connection_status'),
-        usage=mapSessionsListOutputItemsUsage.from_dict(data.get('usage')) if data.get('usage') else None,
         metadata=data.get('metadata'),
+        connection_state=data.get('connection_state'),
         connection_url=data.get('connection_url'),
-        connection_key=data.get('connection_key'),
-        provider_deployments=[mapSessionsListOutputItemsProviderDeployments.from_dict(item) for item in data.get('provider_deployments', []) if item],
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        client_secret=data.get('client_secret'),
+        usage=mapSessionsListOutputItemsUsage.from_dict(data.get('usage')) if data.get('usage') else None,
+        providers=[mapSessionsListOutputItemsProviders.from_dict(item) for item in data.get('providers', []) if item],
+        from_templates_ids=data.get('from_templates_ids', []),
+        has_errors=data.get('has_errors'),
+        has_warnings=data.get('has_warnings'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -142,8 +272,13 @@ class SessionsListQuery:
     cursor: Optional[str] = None
     order: Optional[str] = None
     status: Optional[Union[str, List[str]]] = None
+    id: Optional[Union[str, List[str]]] = None
+    session_template_id: Optional[Union[str, List[str]]] = None
+    session_provider_id: Optional[Union[str, List[str]]] = None
     provider_id: Optional[Union[str, List[str]]] = None
     provider_deployment_id: Optional[Union[str, List[str]]] = None
+    provider_config_id: Optional[Union[str, List[str]]] = None
+    provider_auth_config_id: Optional[Union[str, List[str]]] = None
 
 
 class mapSessionsListQuery:
@@ -156,8 +291,13 @@ class mapSessionsListQuery:
         cursor=data.get('cursor'),
         order=data.get('order'),
         status=data.get('status'),
+        id=data.get('id'),
+        session_template_id=data.get('session_template_id'),
+        session_provider_id=data.get('session_provider_id'),
         provider_id=data.get('provider_id'),
-        provider_deployment_id=data.get('provider_deployment_id')
+        provider_deployment_id=data.get('provider_deployment_id'),
+        provider_config_id=data.get('provider_config_id'),
+        provider_auth_config_id=data.get('provider_auth_config_id')
         )
 
     @staticmethod
@@ -168,3 +308,4 @@ class mapSessionsListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

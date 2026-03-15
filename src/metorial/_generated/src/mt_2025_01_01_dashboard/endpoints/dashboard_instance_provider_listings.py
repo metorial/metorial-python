@@ -8,7 +8,7 @@ class MetorialDashboardInstanceProviderListingsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, search: Optional[str] = None, provider_category_id: Optional[Union[str, List[str]]] = None, provider_collection_id: Optional[Union[str, List[str]]] = None, provider_group_id: Optional[Union[str, List[str]]] = None, publisher_id: Optional[Union[str, List[str]]] = None, is_public: Optional[bool] = None, only_from_tenant: Optional[bool] = None, is_verified: Optional[bool] = None, is_official: Optional[bool] = None, is_metorial: Optional[bool] = None, order_by_rank: Optional[bool] = None) -> DashboardInstanceProviderListingsListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, search: Optional[str] = None, provider_category_id: Optional[Union[str, List[str]]] = None, provider_collection_id: Optional[Union[str, List[str]]] = None, provider_group_id: Optional[Union[str, List[str]]] = None, publisher_id: Optional[Union[str, List[str]]] = None, is_public: Optional[bool] = None, only_from_tenant: Optional[bool] = None, is_verified: Optional[bool] = None, is_official: Optional[bool] = None, is_metorial: Optional[bool] = None, order_by_rank: Optional[bool] = None, order_by_use: Optional[str] = None) -> DashboardInstanceProviderListingsListOutput:
         """
     List provider listings
     Returns a paginated list of provider listings.
@@ -30,6 +30,7 @@ class MetorialDashboardInstanceProviderListingsEndpoint(BaseMetorialEndpoint):
     :param is_official: Optional[bool] (optional)
     :param is_metorial: Optional[bool] (optional)
     :param order_by_rank: Optional[bool] (optional)
+    :param order_by_use: Optional[str] (optional)
     :return: DashboardInstanceProviderListingsListOutput
     """
         # Build query parameters from keyword arguments
@@ -66,6 +67,8 @@ class MetorialDashboardInstanceProviderListingsEndpoint(BaseMetorialEndpoint):
             query_dict["is_metorial"] = is_metorial
         if order_by_rank is not None:
             query_dict["order_by_rank"] = order_by_rank
+        if order_by_use is not None:
+            query_dict["order_by_use"] = order_by_use
 
         request = MetorialRequest(
             path=['dashboard', 'instances', instance_id, 'provider-listings'],

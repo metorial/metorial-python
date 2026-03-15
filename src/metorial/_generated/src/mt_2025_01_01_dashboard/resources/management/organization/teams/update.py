@@ -60,8 +60,8 @@ class mapManagementOrganizationTeamsUpdateOutputProjectsProject:
         slug=data.get('slug'),
         name=data.get('name'),
         organization_id=data.get('organization_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -83,8 +83,8 @@ class mapManagementOrganizationTeamsUpdateOutputProjectsRolesRole:
         slug=data.get('slug'),
         description=data.get('description'),
         permissions=data.get('permissions', []),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -101,8 +101,8 @@ class mapManagementOrganizationTeamsUpdateOutputProjectsRoles:
         return ManagementOrganizationTeamsUpdateOutputProjectsRoles(
         id=data.get('id'),
         role=mapManagementOrganizationTeamsUpdateOutputProjectsRolesRole.from_dict(data.get('role')) if data.get('role') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -118,8 +118,8 @@ class mapManagementOrganizationTeamsUpdateOutputProjects:
     def from_dict(data: Dict[str, Any]) -> ManagementOrganizationTeamsUpdateOutputProjects:
         return ManagementOrganizationTeamsUpdateOutputProjects(
         id=data.get('id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None,
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
         project=mapManagementOrganizationTeamsUpdateOutputProjectsProject.from_dict(data.get('project')) if data.get('project') else None,
         roles=[mapManagementOrganizationTeamsUpdateOutputProjectsRoles.from_dict(item) for item in data.get('roles', []) if item]
         )
@@ -143,8 +143,8 @@ class mapManagementOrganizationTeamsUpdateOutput:
         slug=data.get('slug'),
         description=data.get('description'),
         projects=[mapManagementOrganizationTeamsUpdateOutputProjects.from_dict(item) for item in data.get('projects', []) if item],
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -178,3 +178,4 @@ class mapManagementOrganizationTeamsUpdateBody:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

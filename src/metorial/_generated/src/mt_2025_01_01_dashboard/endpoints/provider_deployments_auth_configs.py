@@ -8,7 +8,7 @@ class MetorialProviderDeploymentsAuthConfigsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, provider_auth_credentials_id: Optional[Union[str, List[str]]] = None, provider_auth_method_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceProviderDeploymentsAuthConfigsListOutput:
+    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, provider_auth_credentials_id: Optional[Union[str, List[str]]] = None, provider_auth_method_id: Optional[Union[str, List[str]]] = None, search: Optional[str] = None) -> DashboardInstanceProviderDeploymentsAuthConfigsListOutput:
         """
     List provider auth configs
     Returns a paginated list of provider auth configs.
@@ -24,6 +24,7 @@ class MetorialProviderDeploymentsAuthConfigsEndpoint(BaseMetorialEndpoint):
     :param provider_deployment_id: Optional[Union[str, List[str]]] (optional)
     :param provider_auth_credentials_id: Optional[Union[str, List[str]]] (optional)
     :param provider_auth_method_id: Optional[Union[str, List[str]]] (optional)
+    :param search: Optional[str] (optional)
     :return: DashboardInstanceProviderDeploymentsAuthConfigsListOutput
     """
         # Build query parameters from keyword arguments
@@ -50,6 +51,8 @@ class MetorialProviderDeploymentsAuthConfigsEndpoint(BaseMetorialEndpoint):
             query_dict["provider_auth_credentials_id"] = provider_auth_credentials_id
         if provider_auth_method_id is not None:
             query_dict["provider_auth_method_id"] = provider_auth_method_id
+        if search is not None:
+            query_dict["search"] = search
 
         request = MetorialRequest(
             path=['provider-auth-configs'],
@@ -70,12 +73,12 @@ class MetorialProviderDeploymentsAuthConfigsEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapDashboardInstanceProviderDeploymentsAuthConfigsGetOutput.from_dict)
 
-    def create(self, *, name: str, provider_auth_method_id: str, value: Dict[str, Any], description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, provider_deployment_id: Optional[str] = None) -> DashboardInstanceProviderDeploymentsAuthConfigsCreateOutput:
+    def create(self, *, provider_auth_method_id: str, value: Dict[str, Any], name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, provider_deployment_id: Optional[str] = None) -> DashboardInstanceProviderDeploymentsAuthConfigsCreateOutput:
         """
     Create provider auth config
     Creates a new provider auth config.
 
-    :param name: str
+    :param name: Optional[str] (optional)
     :param description: Optional[str] (optional)
     :param metadata: Optional[Dict[str, Any]] (optional)
     :param provider_auth_method_id: str
@@ -85,7 +88,8 @@ class MetorialProviderDeploymentsAuthConfigsEndpoint(BaseMetorialEndpoint):
     """
         # Build body parameters from keyword arguments
         body_dict = {}
-        body_dict["name"] = name
+        if name is not None:
+            body_dict["name"] = name
         if description is not None:
             body_dict["description"] = description
         if metadata is not None:

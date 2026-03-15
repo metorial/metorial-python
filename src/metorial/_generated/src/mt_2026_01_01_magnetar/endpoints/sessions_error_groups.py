@@ -8,12 +8,11 @@ class MetorialSessionsErrorGroupsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, session_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, type: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, session_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceSessionsErrorGroupsListOutput:
+    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, type: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, session_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceSessionsErrorGroupsListOutput:
         """
-    List session error groups
-    Returns a paginated list of error groups for a session.
+    List all session error groups
+    Returns a paginated list of error groups across all sessions.
 
-    :param session_id: str
     :param limit: Optional[float] (optional)
     :param after: Optional[str] (optional)
     :param before: Optional[str] (optional)
@@ -47,21 +46,20 @@ class MetorialSessionsErrorGroupsEndpoint(BaseMetorialEndpoint):
             query_dict["provider_id"] = provider_id
 
         request = MetorialRequest(
-            path=['sessions', session_id, 'error-groups'],
+            path=['session-error-groups'],
             query=query_dict
         )
         return self._get(request).transform(mapDashboardInstanceSessionsErrorGroupsListOutput.from_dict)
 
-    def get(self, session_id: str, session_error_group_id: str) -> DashboardInstanceSessionsErrorGroupsGetOutput:
+    def get(self, session_error_group_id: str) -> DashboardInstanceSessionsErrorGroupsGetOutput:
         """
     Get session error group
-    Retrieves a specific error group for a session.
+    Retrieves a specific error group by ID across all sessions.
 
-    :param session_id: str
     :param session_error_group_id: str
     :return: DashboardInstanceSessionsErrorGroupsGetOutput
     """
         request = MetorialRequest(
-            path=['sessions', session_id, 'error-groups', session_error_group_id]
+            path=['session-error-groups', session_error_group_id]
         )
         return self._get(request).transform(mapDashboardInstanceSessionsErrorGroupsGetOutput.from_dict)

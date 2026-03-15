@@ -8,7 +8,7 @@ class MetorialDashboardInstanceProviderDeploymentsAuthCredentialsEndpoint(BaseMe
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceProviderDeploymentsAuthCredentialsListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, search: Optional[str] = None) -> DashboardInstanceProviderDeploymentsAuthCredentialsListOutput:
         """
     List provider auth credentials
     Returns a paginated list of provider auth credentials.
@@ -22,6 +22,7 @@ class MetorialDashboardInstanceProviderDeploymentsAuthCredentialsEndpoint(BaseMe
     :param status: Optional[Union[str, List[str]]] (optional)
     :param id: Optional[Union[str, List[str]]] (optional)
     :param provider_id: Optional[Union[str, List[str]]] (optional)
+    :param search: Optional[str] (optional)
     :return: DashboardInstanceProviderDeploymentsAuthCredentialsListOutput
     """
         # Build query parameters from keyword arguments
@@ -42,6 +43,8 @@ class MetorialDashboardInstanceProviderDeploymentsAuthCredentialsEndpoint(BaseMe
             query_dict["id"] = id
         if provider_id is not None:
             query_dict["provider_id"] = provider_id
+        if search is not None:
+            query_dict["search"] = search
 
         request = MetorialRequest(
             path=['dashboard', 'instances', instance_id, 'provider-auth-credentials'],
@@ -63,14 +66,14 @@ class MetorialDashboardInstanceProviderDeploymentsAuthCredentialsEndpoint(BaseMe
         )
         return self._get(request).transform(mapDashboardInstanceProviderDeploymentsAuthCredentialsGetOutput.from_dict)
 
-    def create(self, instance_id: str, *, provider_id: str, name: str, config: Dict[str, Any], description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderDeploymentsAuthCredentialsCreateOutput:
+    def create(self, instance_id: str, *, provider_id: str, config: Dict[str, Any], name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderDeploymentsAuthCredentialsCreateOutput:
         """
     Create provider auth credentials
     Creates new provider auth credentials.
 
     :param instance_id: str
     :param provider_id: str
-    :param name: str
+    :param name: Optional[str] (optional)
     :param description: Optional[str] (optional)
     :param metadata: Optional[Dict[str, Any]] (optional)
     :param config: Dict[str, Any]
@@ -79,7 +82,8 @@ class MetorialDashboardInstanceProviderDeploymentsAuthCredentialsEndpoint(BaseMe
         # Build body parameters from keyword arguments
         body_dict = {}
         body_dict["provider_id"] = provider_id
-        body_dict["name"] = name
+        if name is not None:
+            body_dict["name"] = name
         if description is not None:
             body_dict["description"] = description
         if metadata is not None:

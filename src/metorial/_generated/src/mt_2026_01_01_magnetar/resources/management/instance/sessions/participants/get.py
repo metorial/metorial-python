@@ -26,7 +26,7 @@ class mapManagementInstanceSessionsParticipantsGetOutput:
         name=data.get('name'),
         data=data.get('data'),
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -37,3 +37,4 @@ class mapManagementInstanceSessionsParticipantsGetOutput:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

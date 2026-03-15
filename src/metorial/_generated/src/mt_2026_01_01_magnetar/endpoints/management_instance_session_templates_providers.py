@@ -78,7 +78,7 @@ class MetorialManagementInstanceSessionTemplatesProvidersEndpoint(BaseMetorialEn
         )
         return self._get(request).transform(mapDashboardInstanceSessionTemplatesProvidersGetOutput.from_dict)
 
-    def create(self, instance_id: str, *, session_template_id: str, provider_deployment_id: Optional[str] = None, provider_config_id: Optional[str] = None, provider_auth_config_id: Optional[str] = None, tool_filters: Optional[Dict[str, Any]] = None) -> DashboardInstanceSessionTemplatesProvidersCreateOutput:
+    def create(self, instance_id: str, *, session_template_id: str, provider_deployment_id: Optional[str] = None, provider_config_id: Optional[str] = None, provider_config_vault_id: Optional[str] = None, provider_auth_config_id: Optional[str] = None, tool_filters: Optional[Dict[str, Any]] = None) -> DashboardInstanceSessionTemplatesProvidersCreateOutput:
         """
     Create session template provider
     Adds a new provider configuration to a session template.
@@ -87,6 +87,7 @@ class MetorialManagementInstanceSessionTemplatesProvidersEndpoint(BaseMetorialEn
     :param session_template_id: str
     :param provider_deployment_id: Optional[str] (optional)
     :param provider_config_id: Optional[str] (optional)
+    :param provider_config_vault_id: Optional[str] (optional)
     :param provider_auth_config_id: Optional[str] (optional)
     :param tool_filters: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceSessionTemplatesProvidersCreateOutput
@@ -98,6 +99,8 @@ class MetorialManagementInstanceSessionTemplatesProvidersEndpoint(BaseMetorialEn
             body_dict["provider_deployment_id"] = provider_deployment_id
         if provider_config_id is not None:
             body_dict["provider_config_id"] = provider_config_id
+        if provider_config_vault_id is not None:
+            body_dict["provider_config_vault_id"] = provider_config_vault_id
         if provider_auth_config_id is not None:
             body_dict["provider_auth_config_id"] = provider_auth_config_id
         if tool_filters is not None:

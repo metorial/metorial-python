@@ -8,11 +8,11 @@ class CustomProvidersEnvironmentsListOutputItems:
     object: str
     id: str
     custom_provider_id: str
+    instance_id: str
     created_at: datetime
     updated_at: datetime
     provider_id: Optional[str] = None
     current_provider_version_id: Optional[str] = None
-    instance_id: Optional[str] = None
 @dataclass
 class CustomProvidersEnvironmentsListOutputPagination:
     has_more_before: bool
@@ -33,8 +33,8 @@ class mapCustomProvidersEnvironmentsListOutputItems:
         provider_id=data.get('provider_id'),
         current_provider_version_id=data.get('current_provider_version_id'),
         instance_id=data.get('instance_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -85,8 +85,9 @@ class CustomProvidersEnvironmentsListQuery:
     before: Optional[str] = None
     cursor: Optional[str] = None
     order: Optional[str] = None
-    ids: Optional[Union[str, List[str]]] = None
-    custom_provider_version_ids: Optional[Union[str, List[str]]] = None
+    id: Optional[Union[str, List[str]]] = None
+    custom_provider_version_id: Optional[Union[str, List[str]]] = None
+    custom_provider_id: Optional[Union[str, List[str]]] = None
 
 
 class mapCustomProvidersEnvironmentsListQuery:
@@ -98,8 +99,9 @@ class mapCustomProvidersEnvironmentsListQuery:
         before=data.get('before'),
         cursor=data.get('cursor'),
         order=data.get('order'),
-        ids=data.get('ids'),
-        custom_provider_version_ids=data.get('custom_provider_version_ids')
+        id=data.get('id'),
+        custom_provider_version_id=data.get('custom_provider_version_id'),
+        custom_provider_id=data.get('custom_provider_id')
         )
 
     @staticmethod
@@ -110,3 +112,4 @@ class mapCustomProvidersEnvironmentsListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

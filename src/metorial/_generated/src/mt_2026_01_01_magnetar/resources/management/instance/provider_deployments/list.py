@@ -63,8 +63,8 @@ class mapManagementInstanceProviderDeploymentsListOutputItemsLockedVersion:
         description=data.get('description'),
         metadata=data.get('metadata'),
         specification_id=data.get('specification_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -86,8 +86,8 @@ class mapManagementInstanceProviderDeploymentsListOutputItemsDefaultConfig:
         description=data.get('description'),
         metadata=data.get('metadata'),
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -111,8 +111,8 @@ class mapManagementInstanceProviderDeploymentsListOutputItems:
         provider_id=data.get('provider_id'),
         locked_version=mapManagementInstanceProviderDeploymentsListOutputItemsLockedVersion.from_dict(data.get('locked_version')) if data.get('locked_version') else None,
         default_config=mapManagementInstanceProviderDeploymentsListOutputItemsDefaultConfig.from_dict(data.get('default_config')) if data.get('default_config') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -163,11 +163,11 @@ class ManagementInstanceProviderDeploymentsListQuery:
     before: Optional[str] = None
     cursor: Optional[str] = None
     order: Optional[str] = None
-    search: Optional[str] = None
     id: Optional[Union[str, List[str]]] = None
     provider_id: Optional[Union[str, List[str]]] = None
     provider_version_id: Optional[Union[str, List[str]]] = None
     status: Optional[Union[str, List[str]]] = None
+    search: Optional[str] = None
 
 
 class mapManagementInstanceProviderDeploymentsListQuery:
@@ -179,11 +179,11 @@ class mapManagementInstanceProviderDeploymentsListQuery:
         before=data.get('before'),
         cursor=data.get('cursor'),
         order=data.get('order'),
-        search=data.get('search'),
         id=data.get('id'),
         provider_id=data.get('provider_id'),
         provider_version_id=data.get('provider_version_id'),
-        status=data.get('status')
+        status=data.get('status'),
+        search=data.get('search')
         )
 
     @staticmethod
@@ -194,3 +194,4 @@ class mapManagementInstanceProviderDeploymentsListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

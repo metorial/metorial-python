@@ -8,7 +8,7 @@ class MetorialProviderDeploymentsConfigVaultsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, provider_config_id: Optional[Union[str, List[str]]] = None, provider_config_vault_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceProviderDeploymentsConfigVaultsListOutput:
+    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, provider_config_id: Optional[Union[str, List[str]]] = None, provider_config_vault_id: Optional[Union[str, List[str]]] = None, search: Optional[str] = None) -> DashboardInstanceProviderDeploymentsConfigVaultsListOutput:
         """
     List provider config vaults
     Returns a paginated list of provider config vaults.
@@ -24,6 +24,7 @@ class MetorialProviderDeploymentsConfigVaultsEndpoint(BaseMetorialEndpoint):
     :param provider_deployment_id: Optional[Union[str, List[str]]] (optional)
     :param provider_config_id: Optional[Union[str, List[str]]] (optional)
     :param provider_config_vault_id: Optional[Union[str, List[str]]] (optional)
+    :param search: Optional[str] (optional)
     :return: DashboardInstanceProviderDeploymentsConfigVaultsListOutput
     """
         # Build query parameters from keyword arguments
@@ -50,6 +51,8 @@ class MetorialProviderDeploymentsConfigVaultsEndpoint(BaseMetorialEndpoint):
             query_dict["provider_config_id"] = provider_config_id
         if provider_config_vault_id is not None:
             query_dict["provider_config_vault_id"] = provider_config_vault_id
+        if search is not None:
+            query_dict["search"] = search
 
         request = MetorialRequest(
             path=['provider-config-vaults'],

@@ -6,7 +6,7 @@ import dataclasses
 @dataclass
 class ManagementInstanceSessionsProvidersUpdateOutputUsage:
     total_productive_client_message_count: float
-    total_productive_server_message_count: float
+    total_productive_provider_message_count: float
 @dataclass
 class ManagementInstanceSessionsProvidersUpdateOutputDeployment:
     object: str
@@ -56,7 +56,7 @@ class mapManagementInstanceSessionsProvidersUpdateOutputUsage:
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceSessionsProvidersUpdateOutputUsage:
         return ManagementInstanceSessionsProvidersUpdateOutputUsage(
         total_productive_client_message_count=data.get('total_productive_client_message_count'),
-        total_productive_server_message_count=data.get('total_productive_server_message_count')
+        total_productive_provider_message_count=data.get('total_productive_provider_message_count')
         )
 
     @staticmethod
@@ -78,8 +78,8 @@ class mapManagementInstanceSessionsProvidersUpdateOutputDeployment:
         description=data.get('description'),
         metadata=data.get('metadata'),
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -101,8 +101,8 @@ class mapManagementInstanceSessionsProvidersUpdateOutputConfig:
         description=data.get('description'),
         metadata=data.get('metadata'),
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -145,8 +145,8 @@ class mapManagementInstanceSessionsProvidersUpdateOutput:
         deployment=mapManagementInstanceSessionsProvidersUpdateOutputDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         config=mapManagementInstanceSessionsProvidersUpdateOutputConfig.from_dict(data.get('config')) if data.get('config') else None,
         auth_config=mapManagementInstanceSessionsProvidersUpdateOutputAuthConfig.from_dict(data.get('auth_config')) if data.get('auth_config') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -178,3 +178,4 @@ class mapManagementInstanceSessionsProvidersUpdateBody:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

@@ -7,15 +7,16 @@ import dataclasses
 class DashboardInstanceSessionsErrorsListOutputItems:
     object: str
     id: str
+    code: str
+    message: str
+    data: Dict[str, Any]
+    status: str
     session_id: str
+    similar_error_count: float
     created_at: datetime
-    type: Optional[str] = None
-    name: Optional[str] = None
-    message: Optional[str] = None
-    stack: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None
-    session_error_group_id: Optional[str] = None
     provider_run_id: Optional[str] = None
+    connection_id: Optional[str] = None
+    group_id: Optional[str] = None
 @dataclass
 class DashboardInstanceSessionsErrorsListOutputPagination:
     has_more_before: bool
@@ -32,15 +33,16 @@ class mapDashboardInstanceSessionsErrorsListOutputItems:
         return DashboardInstanceSessionsErrorsListOutputItems(
         object=data.get('object'),
         id=data.get('id'),
-        type=data.get('type'),
-        name=data.get('name'),
+        code=data.get('code'),
         message=data.get('message'),
-        stack=data.get('stack'),
-        metadata=data.get('metadata'),
+        data=data.get('data'),
+        status=data.get('status'),
         session_id=data.get('session_id'),
-        session_error_group_id=data.get('session_error_group_id'),
         provider_run_id=data.get('provider_run_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        connection_id=data.get('connection_id'),
+        group_id=data.get('group_id'),
+        similar_error_count=data.get('similar_error_count'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -91,9 +93,15 @@ class DashboardInstanceSessionsErrorsListQuery:
     before: Optional[str] = None
     cursor: Optional[str] = None
     order: Optional[str] = None
-    type: Optional[str] = None
+    type: Optional[Union[str, List[str]]] = None
+    id: Optional[Union[str, List[str]]] = None
+    session_id: Optional[Union[str, List[str]]] = None
+    session_provider_id: Optional[Union[str, List[str]]] = None
+    session_connection_id: Optional[Union[str, List[str]]] = None
     session_error_group_id: Optional[Union[str, List[str]]] = None
     provider_run_id: Optional[Union[str, List[str]]] = None
+    provider_id: Optional[Union[str, List[str]]] = None
+    session_message_id: Optional[Union[str, List[str]]] = None
 
 
 class mapDashboardInstanceSessionsErrorsListQuery:
@@ -106,8 +114,14 @@ class mapDashboardInstanceSessionsErrorsListQuery:
         cursor=data.get('cursor'),
         order=data.get('order'),
         type=data.get('type'),
+        id=data.get('id'),
+        session_id=data.get('session_id'),
+        session_provider_id=data.get('session_provider_id'),
+        session_connection_id=data.get('session_connection_id'),
         session_error_group_id=data.get('session_error_group_id'),
-        provider_run_id=data.get('provider_run_id')
+        provider_run_id=data.get('provider_run_id'),
+        provider_id=data.get('provider_id'),
+        session_message_id=data.get('session_message_id')
         )
 
     @staticmethod
@@ -118,3 +132,4 @@ class mapDashboardInstanceSessionsErrorsListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

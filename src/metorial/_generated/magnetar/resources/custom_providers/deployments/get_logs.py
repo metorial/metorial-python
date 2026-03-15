@@ -4,78 +4,35 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
-class CustomProvidersDeploymentsGetLogsOutputLogs:
-    type: str
-    line: str
-    timestamp: Optional[datetime] = None
-@dataclass
-class CustomProvidersDeploymentsGetLogsOutputStepsSource:
-    provider: Optional[str] = None
-    workflow_run_id: Optional[str] = None
-    workflow_id: Optional[str] = None
-    function_deployment_id: Optional[str] = None
-@dataclass
 class CustomProvidersDeploymentsGetLogsOutputStepsLogs:
-    type: str
-    line: str
-    timestamp: Optional[datetime] = None
+    object: str
+    timestamp: datetime
+    message: str
 @dataclass
 class CustomProvidersDeploymentsGetLogsOutputSteps:
+    object: str
+    id: str
+    name: str
+    type: str
+    status: str
     logs: List[CustomProvidersDeploymentsGetLogsOutputStepsLogs]
-    id: Optional[str] = None
-    type: Optional[str] = None
-    status: Optional[str] = None
-    source: Optional[CustomProvidersDeploymentsGetLogsOutputStepsSource] = None
-    created_at: Optional[datetime] = None
+    created_at: datetime
+    started_at: Optional[datetime] = None
+    ended_at: Optional[datetime] = None
 @dataclass
 class CustomProvidersDeploymentsGetLogsOutput:
     object: str
-    logs: List[CustomProvidersDeploymentsGetLogsOutputLogs]
+    custom_provider_deployment_id: str
     steps: List[CustomProvidersDeploymentsGetLogsOutputSteps]
 
-
-class mapCustomProvidersDeploymentsGetLogsOutputLogs:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> CustomProvidersDeploymentsGetLogsOutputLogs:
-        return CustomProvidersDeploymentsGetLogsOutputLogs(
-        type=data.get('type'),
-        line=data.get('line'),
-        timestamp=datetime.fromisoformat(data.get('timestamp')) if data.get('timestamp') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[CustomProvidersDeploymentsGetLogsOutputLogs, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapCustomProvidersDeploymentsGetLogsOutputStepsSource:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> CustomProvidersDeploymentsGetLogsOutputStepsSource:
-        return CustomProvidersDeploymentsGetLogsOutputStepsSource(
-        provider=data.get('provider'),
-        workflow_run_id=data.get('workflow_run_id'),
-        workflow_id=data.get('workflow_id'),
-        function_deployment_id=data.get('function_deployment_id')
-        )
-
-    @staticmethod
-    def to_dict(value: Union[CustomProvidersDeploymentsGetLogsOutputStepsSource, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
 
 class mapCustomProvidersDeploymentsGetLogsOutputStepsLogs:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> CustomProvidersDeploymentsGetLogsOutputStepsLogs:
         return CustomProvidersDeploymentsGetLogsOutputStepsLogs(
-        type=data.get('type'),
-        line=data.get('line'),
-        timestamp=datetime.fromisoformat(data.get('timestamp')) if data.get('timestamp') else None
+        object=data.get('object'),
+        timestamp=datetime.fromisoformat(data.get('timestamp').replace('Z', '+00:00')) if data.get('timestamp') else None,
+        message=data.get('message')
         )
 
     @staticmethod
@@ -90,12 +47,15 @@ class mapCustomProvidersDeploymentsGetLogsOutputSteps:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> CustomProvidersDeploymentsGetLogsOutputSteps:
         return CustomProvidersDeploymentsGetLogsOutputSteps(
+        object=data.get('object'),
         id=data.get('id'),
+        name=data.get('name'),
         type=data.get('type'),
         status=data.get('status'),
-        source=mapCustomProvidersDeploymentsGetLogsOutputStepsSource.from_dict(data.get('source')) if data.get('source') else None,
         logs=[mapCustomProvidersDeploymentsGetLogsOutputStepsLogs.from_dict(item) for item in data.get('logs', []) if item],
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        started_at=datetime.fromisoformat(data.get('started_at').replace('Z', '+00:00')) if data.get('started_at') else None,
+        ended_at=datetime.fromisoformat(data.get('ended_at').replace('Z', '+00:00')) if data.get('ended_at') else None
         )
 
     @staticmethod
@@ -111,7 +71,7 @@ class mapCustomProvidersDeploymentsGetLogsOutput:
     def from_dict(data: Dict[str, Any]) -> CustomProvidersDeploymentsGetLogsOutput:
         return CustomProvidersDeploymentsGetLogsOutput(
         object=data.get('object'),
-        logs=[mapCustomProvidersDeploymentsGetLogsOutputLogs.from_dict(item) for item in data.get('logs', []) if item],
+        custom_provider_deployment_id=data.get('custom_provider_deployment_id'),
         steps=[mapCustomProvidersDeploymentsGetLogsOutputSteps.from_dict(item) for item in data.get('steps', []) if item]
         )
 
@@ -123,3 +83,4 @@ class mapCustomProvidersDeploymentsGetLogsOutput:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

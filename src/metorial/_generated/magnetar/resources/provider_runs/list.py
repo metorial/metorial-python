@@ -7,18 +7,13 @@ import dataclasses
 class ProviderRunsListOutputItems:
     object: str
     id: str
+    status: str
     session_id: str
+    session_provider_id: str
+    provider_id: str
+    connection_id: str
     created_at: datetime
     updated_at: datetime
-    status: Optional[str] = None
-    name: Optional[str] = None
-    description: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None
-    session_provider_id: Optional[str] = None
-    provider_id: Optional[str] = None
-    provider_deployment_id: Optional[str] = None
-    provider_version_id: Optional[str] = None
-    started_at: Optional[datetime] = None
     completed_at: Optional[datetime] = None
 @dataclass
 class ProviderRunsListOutputPagination:
@@ -37,18 +32,13 @@ class mapProviderRunsListOutputItems:
         object=data.get('object'),
         id=data.get('id'),
         status=data.get('status'),
-        name=data.get('name'),
-        description=data.get('description'),
-        metadata=data.get('metadata'),
         session_id=data.get('session_id'),
         session_provider_id=data.get('session_provider_id'),
         provider_id=data.get('provider_id'),
-        provider_deployment_id=data.get('provider_deployment_id'),
-        provider_version_id=data.get('provider_version_id'),
-        started_at=datetime.fromisoformat(data.get('started_at')) if data.get('started_at') else None,
-        completed_at=datetime.fromisoformat(data.get('completed_at')) if data.get('completed_at') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        connection_id=data.get('connection_id'),
+        completed_at=datetime.fromisoformat(data.get('completed_at').replace('Z', '+00:00')) if data.get('completed_at') else None,
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -99,10 +89,13 @@ class ProviderRunsListQuery:
     before: Optional[str] = None
     cursor: Optional[str] = None
     order: Optional[str] = None
-    status: Optional[str] = None
+    status: Optional[Union[str, List[str]]] = None
+    id: Optional[Union[str, List[str]]] = None
     session_id: Optional[Union[str, List[str]]] = None
     provider_id: Optional[Union[str, List[str]]] = None
     session_provider_id: Optional[Union[str, List[str]]] = None
+    session_connection_id: Optional[Union[str, List[str]]] = None
+    provider_version_id: Optional[Union[str, List[str]]] = None
 
 
 class mapProviderRunsListQuery:
@@ -115,9 +108,12 @@ class mapProviderRunsListQuery:
         cursor=data.get('cursor'),
         order=data.get('order'),
         status=data.get('status'),
+        id=data.get('id'),
         session_id=data.get('session_id'),
         provider_id=data.get('provider_id'),
-        session_provider_id=data.get('session_provider_id')
+        session_provider_id=data.get('session_provider_id'),
+        session_connection_id=data.get('session_connection_id'),
+        provider_version_id=data.get('provider_version_id')
         )
 
     @staticmethod
@@ -128,3 +124,4 @@ class mapProviderRunsListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

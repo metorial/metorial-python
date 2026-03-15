@@ -111,8 +111,8 @@ class mapProvidersAuthMethodsListOutputItems:
         scopes=[mapProvidersAuthMethodsListOutputItemsScopes.from_dict(item) for item in data.get('scopes', []) if item],
         provider_id=data.get('provider_id'),
         provider_specification_id=data.get('provider_specification_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -186,3 +186,4 @@ class mapProvidersAuthMethodsListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

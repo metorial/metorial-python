@@ -92,3 +92,4 @@ class mapManagementInstanceScmAccountsPreviewBody:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

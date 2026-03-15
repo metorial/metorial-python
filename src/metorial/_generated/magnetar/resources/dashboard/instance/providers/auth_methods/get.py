@@ -4,6 +4,14 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class DashboardInstanceProvidersAuthMethodsGetOutputInputSchema:
+    type: str
+    schema: Dict[str, Any]
+@dataclass
+class DashboardInstanceProvidersAuthMethodsGetOutputOutputSchema:
+    type: str
+    schema: Dict[str, Any]
+@dataclass
 class DashboardInstanceProvidersAuthMethodsGetOutputScopes:
     object: str
     id: str
@@ -15,15 +23,50 @@ class DashboardInstanceProvidersAuthMethodsGetOutput:
     object: str
     id: str
     type: str
+    key: str
     name: str
+    capabilities: Dict[str, Any]
     provider_id: str
     provider_specification_id: str
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
-    input_schema: Optional[Dict[str, Any]] = None
+    input_schema: Optional[DashboardInstanceProvidersAuthMethodsGetOutputInputSchema] = None
+    output_schema: Optional[DashboardInstanceProvidersAuthMethodsGetOutputOutputSchema] = None
     scopes: Optional[List[DashboardInstanceProvidersAuthMethodsGetOutputScopes]] = None
 
+
+class mapDashboardInstanceProvidersAuthMethodsGetOutputInputSchema:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProvidersAuthMethodsGetOutputInputSchema:
+        return DashboardInstanceProvidersAuthMethodsGetOutputInputSchema(
+        type=data.get('type'),
+        schema=data.get('schema')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceProvidersAuthMethodsGetOutputInputSchema, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceProvidersAuthMethodsGetOutputOutputSchema:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProvidersAuthMethodsGetOutputOutputSchema:
+        return DashboardInstanceProvidersAuthMethodsGetOutputOutputSchema(
+        type=data.get('type'),
+        schema=data.get('schema')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceProvidersAuthMethodsGetOutputOutputSchema, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapDashboardInstanceProvidersAuthMethodsGetOutputScopes:
     @staticmethod
@@ -51,14 +94,17 @@ class mapDashboardInstanceProvidersAuthMethodsGetOutput:
         object=data.get('object'),
         id=data.get('id'),
         type=data.get('type'),
+        key=data.get('key'),
         name=data.get('name'),
         description=data.get('description'),
-        input_schema=data.get('input_schema'),
+        capabilities=data.get('capabilities'),
+        input_schema=mapDashboardInstanceProvidersAuthMethodsGetOutputInputSchema.from_dict(data.get('input_schema')) if data.get('input_schema') else None,
+        output_schema=mapDashboardInstanceProvidersAuthMethodsGetOutputOutputSchema.from_dict(data.get('output_schema')) if data.get('output_schema') else None,
         scopes=[mapDashboardInstanceProvidersAuthMethodsGetOutputScopes.from_dict(item) for item in data.get('scopes', []) if item],
         provider_id=data.get('provider_id'),
         provider_specification_id=data.get('provider_specification_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -69,3 +115,4 @@ class mapDashboardInstanceProvidersAuthMethodsGetOutput:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

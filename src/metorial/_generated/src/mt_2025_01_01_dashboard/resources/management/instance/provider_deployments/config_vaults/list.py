@@ -46,8 +46,8 @@ class mapManagementInstanceProviderDeploymentsConfigVaultsListOutputItemsDeploym
         description=data.get('description'),
         metadata=data.get('metadata'),
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -69,8 +69,8 @@ class mapManagementInstanceProviderDeploymentsConfigVaultsListOutputItems:
         metadata=data.get('metadata'),
         provider_id=data.get('provider_id'),
         deployment=mapManagementInstanceProviderDeploymentsConfigVaultsListOutputItemsDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -127,6 +127,7 @@ class ManagementInstanceProviderDeploymentsConfigVaultsListQuery:
     provider_deployment_id: Optional[Union[str, List[str]]] = None
     provider_config_id: Optional[Union[str, List[str]]] = None
     provider_config_vault_id: Optional[Union[str, List[str]]] = None
+    search: Optional[str] = None
 
 
 class mapManagementInstanceProviderDeploymentsConfigVaultsListQuery:
@@ -143,7 +144,8 @@ class mapManagementInstanceProviderDeploymentsConfigVaultsListQuery:
         provider_id=data.get('provider_id'),
         provider_deployment_id=data.get('provider_deployment_id'),
         provider_config_id=data.get('provider_config_id'),
-        provider_config_vault_id=data.get('provider_config_vault_id')
+        provider_config_vault_id=data.get('provider_config_vault_id'),
+        search=data.get('search')
         )
 
     @staticmethod
@@ -154,3 +156,4 @@ class mapManagementInstanceProviderDeploymentsConfigVaultsListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

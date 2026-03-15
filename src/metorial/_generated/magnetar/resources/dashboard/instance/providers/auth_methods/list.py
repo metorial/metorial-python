@@ -4,6 +4,14 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class DashboardInstanceProvidersAuthMethodsListOutputItemsInputSchema:
+    type: str
+    schema: Dict[str, Any]
+@dataclass
+class DashboardInstanceProvidersAuthMethodsListOutputItemsOutputSchema:
+    type: str
+    schema: Dict[str, Any]
+@dataclass
 class DashboardInstanceProvidersAuthMethodsListOutputItemsScopes:
     object: str
     id: str
@@ -15,13 +23,16 @@ class DashboardInstanceProvidersAuthMethodsListOutputItems:
     object: str
     id: str
     type: str
+    key: str
     name: str
+    capabilities: Dict[str, Any]
     provider_id: str
     provider_specification_id: str
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
-    input_schema: Optional[Dict[str, Any]] = None
+    input_schema: Optional[DashboardInstanceProvidersAuthMethodsListOutputItemsInputSchema] = None
+    output_schema: Optional[DashboardInstanceProvidersAuthMethodsListOutputItemsOutputSchema] = None
     scopes: Optional[List[DashboardInstanceProvidersAuthMethodsListOutputItemsScopes]] = None
 @dataclass
 class DashboardInstanceProvidersAuthMethodsListOutputPagination:
@@ -32,6 +43,38 @@ class DashboardInstanceProvidersAuthMethodsListOutput:
     items: List[DashboardInstanceProvidersAuthMethodsListOutputItems]
     pagination: DashboardInstanceProvidersAuthMethodsListOutputPagination
 
+
+class mapDashboardInstanceProvidersAuthMethodsListOutputItemsInputSchema:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProvidersAuthMethodsListOutputItemsInputSchema:
+        return DashboardInstanceProvidersAuthMethodsListOutputItemsInputSchema(
+        type=data.get('type'),
+        schema=data.get('schema')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceProvidersAuthMethodsListOutputItemsInputSchema, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceProvidersAuthMethodsListOutputItemsOutputSchema:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProvidersAuthMethodsListOutputItemsOutputSchema:
+        return DashboardInstanceProvidersAuthMethodsListOutputItemsOutputSchema(
+        type=data.get('type'),
+        schema=data.get('schema')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceProvidersAuthMethodsListOutputItemsOutputSchema, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapDashboardInstanceProvidersAuthMethodsListOutputItemsScopes:
     @staticmethod
@@ -59,14 +102,17 @@ class mapDashboardInstanceProvidersAuthMethodsListOutputItems:
         object=data.get('object'),
         id=data.get('id'),
         type=data.get('type'),
+        key=data.get('key'),
         name=data.get('name'),
         description=data.get('description'),
-        input_schema=data.get('input_schema'),
+        capabilities=data.get('capabilities'),
+        input_schema=mapDashboardInstanceProvidersAuthMethodsListOutputItemsInputSchema.from_dict(data.get('input_schema')) if data.get('input_schema') else None,
+        output_schema=mapDashboardInstanceProvidersAuthMethodsListOutputItemsOutputSchema.from_dict(data.get('output_schema')) if data.get('output_schema') else None,
         scopes=[mapDashboardInstanceProvidersAuthMethodsListOutputItemsScopes.from_dict(item) for item in data.get('scopes', []) if item],
         provider_id=data.get('provider_id'),
         provider_specification_id=data.get('provider_specification_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -112,12 +158,12 @@ class mapDashboardInstanceProvidersAuthMethodsListOutput:
 
 @dataclass
 class DashboardInstanceProvidersAuthMethodsListQuery:
+    provider_version_id: str
     limit: Optional[float] = None
     after: Optional[str] = None
     before: Optional[str] = None
     cursor: Optional[str] = None
     order: Optional[str] = None
-    provider_version_id: Optional[str] = None
 
 
 class mapDashboardInstanceProvidersAuthMethodsListQuery:
@@ -140,3 +186,4 @@ class mapDashboardInstanceProvidersAuthMethodsListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

@@ -4,76 +4,209 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class ManagementInstanceCustomProvidersVersionsCreateOutputConfigSchema:
+    type: str
+    schema: Dict[str, Any]
+@dataclass
+class ManagementInstanceCustomProvidersVersionsCreateOutputConfig:
+    object: str
+    schema: ManagementInstanceCustomProvidersVersionsCreateOutputConfigSchema
+    transformer: str
+@dataclass
 class ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentCommit:
+    object: str
     id: str
+    type: str
     created_at: datetime
-    type: Optional[str] = None
     message: Optional[str] = None
 @dataclass
-class ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentActor:
+class ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentImmutableBucketScmRepoLinkRepositoryProvider:
+    object: str
+    type: str
     id: str
-    name: Optional[str] = None
-    type: Optional[str] = None
+    name: str
+    owner: str
+@dataclass
+class ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentImmutableBucketScmRepoLinkRepository:
+    object: str
+    id: str
+    provider: ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentImmutableBucketScmRepoLinkRepositoryProvider
+    url: str
+    is_private: bool
+    default_branch: str
+    created_at: datetime
+@dataclass
+class ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentImmutableBucketScmRepoLink:
+    object: str
+    is_linked: str
+    repository: ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentImmutableBucketScmRepoLinkRepository
+    path: Optional[str] = None
+@dataclass
+class ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentImmutableBucket:
+    object: str
+    id: str
+    is_immutable: bool
+    is_read_only: bool
+    created_at: datetime
+    scm_repo_link: Optional[ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentImmutableBucketScmRepoLink] = None
+@dataclass
+class ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentActor:
+    object: str
+    id: str
+    type: str
+    identifier: str
+    name: str
+    created_at: datetime
     organization_actor_id: Optional[str] = None
+@dataclass
+class ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentScmPushActor:
+    object: str
+    id: str
+    external_id: Optional[str] = None
+    name: Optional[str] = None
+    email: Optional[str] = None
+@dataclass
+class ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentScmPushCommit:
+    object: str
+    id: str
+    sha: str
+    branch: str
+    created_at: datetime
+    message: Optional[str] = None
+@dataclass
+class ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentScmPushRepositoryProvider:
+    object: str
+    type: str
+    id: str
+    name: str
+    owner: str
+@dataclass
+class ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentScmPushRepository:
+    object: str
+    id: str
+    provider: ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentScmPushRepositoryProvider
+    url: str
+    is_private: bool
+    default_branch: str
+    created_at: datetime
+@dataclass
+class ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentScmPush:
+    object: str
+    id: str
+    actor: ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentScmPushActor
+    commit: ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentScmPushCommit
+    repository: ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentScmPushRepository
+    created_at: datetime
 @dataclass
 class ManagementInstanceCustomProvidersVersionsCreateOutputDeployment:
     object: str
     id: str
+    status: str
+    trigger: str
     custom_provider_id: str
+    actor: ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentActor
     created_at: datetime
     updated_at: datetime
-    status: Optional[str] = None
-    trigger: Optional[str] = None
     provider_id: Optional[str] = None
     custom_provider_version_id: Optional[str] = None
     commit: Optional[ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentCommit] = None
-    actor: Optional[ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentActor] = None
+    immutable_bucket: Optional[ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentImmutableBucket] = None
+    scm_push: Optional[ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentScmPush] = None
 @dataclass
 class ManagementInstanceCustomProvidersVersionsCreateOutputEnvironmentsEnvironment:
     object: str
     id: str
     custom_provider_id: str
+    instance_id: str
     created_at: datetime
     updated_at: datetime
     provider_id: Optional[str] = None
     current_provider_version_id: Optional[str] = None
-    instance_id: Optional[str] = None
 @dataclass
 class ManagementInstanceCustomProvidersVersionsCreateOutputEnvironments:
     object: str
     id: str
+    is_current_version_for_environment: bool
     environment: ManagementInstanceCustomProvidersVersionsCreateOutputEnvironmentsEnvironment
-    is_current_version_for_environment: Optional[bool] = None
 @dataclass
 class ManagementInstanceCustomProvidersVersionsCreateOutputActor:
+    object: str
     id: str
-    name: Optional[str] = None
-    type: Optional[str] = None
+    type: str
+    identifier: str
+    name: str
+    created_at: datetime
     organization_actor_id: Optional[str] = None
+@dataclass
+class ManagementInstanceCustomProvidersVersionsCreateOutputContainerImage:
+    container_registry: str
+    container_image_tag: str
+    container_image: str
+@dataclass
+class ManagementInstanceCustomProvidersVersionsCreateOutputRemoteMcpServer:
+    url: str
+    transport: str
 @dataclass
 class ManagementInstanceCustomProvidersVersionsCreateOutput:
     object: str
     id: str
+    status: str
+    index: float
+    identifier: str
+    deployment: ManagementInstanceCustomProvidersVersionsCreateOutputDeployment
     environments: List[ManagementInstanceCustomProvidersVersionsCreateOutputEnvironments]
     custom_provider_id: str
+    actor: ManagementInstanceCustomProvidersVersionsCreateOutputActor
     created_at: datetime
     updated_at: datetime
-    status: Optional[str] = None
-    index: Optional[float] = None
-    identifier: Optional[str] = None
-    deployment: Optional[ManagementInstanceCustomProvidersVersionsCreateOutputDeployment] = None
+    config: Optional[ManagementInstanceCustomProvidersVersionsCreateOutputConfig] = None
     provider_id: Optional[str] = None
-    actor: Optional[ManagementInstanceCustomProvidersVersionsCreateOutputActor] = None
+    container_image: Optional[ManagementInstanceCustomProvidersVersionsCreateOutputContainerImage] = None
+    remote_mcp_server: Optional[ManagementInstanceCustomProvidersVersionsCreateOutputRemoteMcpServer] = None
 
+
+class mapManagementInstanceCustomProvidersVersionsCreateOutputConfigSchema:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceCustomProvidersVersionsCreateOutputConfigSchema:
+        return ManagementInstanceCustomProvidersVersionsCreateOutputConfigSchema(
+        type=data.get('type'),
+        schema=data.get('schema')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceCustomProvidersVersionsCreateOutputConfigSchema, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceCustomProvidersVersionsCreateOutputConfig:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceCustomProvidersVersionsCreateOutputConfig:
+        return ManagementInstanceCustomProvidersVersionsCreateOutputConfig(
+        object=data.get('object'),
+        schema=mapManagementInstanceCustomProvidersVersionsCreateOutputConfigSchema.from_dict(data.get('schema')) if data.get('schema') else None,
+        transformer=data.get('transformer')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceCustomProvidersVersionsCreateOutputConfig, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapManagementInstanceCustomProvidersVersionsCreateOutputDeploymentCommit:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentCommit:
         return ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentCommit(
+        object=data.get('object'),
         id=data.get('id'),
         type=data.get('type'),
         message=data.get('message'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -84,18 +217,198 @@ class mapManagementInstanceCustomProvidersVersionsCreateOutputDeploymentCommit:
             return value
         return dataclasses.asdict(value)
 
+class mapManagementInstanceCustomProvidersVersionsCreateOutputDeploymentImmutableBucketScmRepoLinkRepositoryProvider:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentImmutableBucketScmRepoLinkRepositoryProvider:
+        return ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentImmutableBucketScmRepoLinkRepositoryProvider(
+        object=data.get('object'),
+        type=data.get('type'),
+        id=data.get('id'),
+        name=data.get('name'),
+        owner=data.get('owner')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentImmutableBucketScmRepoLinkRepositoryProvider, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceCustomProvidersVersionsCreateOutputDeploymentImmutableBucketScmRepoLinkRepository:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentImmutableBucketScmRepoLinkRepository:
+        return ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentImmutableBucketScmRepoLinkRepository(
+        object=data.get('object'),
+        id=data.get('id'),
+        provider=mapManagementInstanceCustomProvidersVersionsCreateOutputDeploymentImmutableBucketScmRepoLinkRepositoryProvider.from_dict(data.get('provider')) if data.get('provider') else None,
+        url=data.get('url'),
+        is_private=data.get('is_private'),
+        default_branch=data.get('default_branch'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentImmutableBucketScmRepoLinkRepository, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceCustomProvidersVersionsCreateOutputDeploymentImmutableBucketScmRepoLink:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentImmutableBucketScmRepoLink:
+        return ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentImmutableBucketScmRepoLink(
+        object=data.get('object'),
+        is_linked=data.get('is_linked'),
+        path=data.get('path'),
+        repository=mapManagementInstanceCustomProvidersVersionsCreateOutputDeploymentImmutableBucketScmRepoLinkRepository.from_dict(data.get('repository')) if data.get('repository') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentImmutableBucketScmRepoLink, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceCustomProvidersVersionsCreateOutputDeploymentImmutableBucket:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentImmutableBucket:
+        return ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentImmutableBucket(
+        object=data.get('object'),
+        id=data.get('id'),
+        is_immutable=data.get('is_immutable'),
+        is_read_only=data.get('is_read_only'),
+        scm_repo_link=mapManagementInstanceCustomProvidersVersionsCreateOutputDeploymentImmutableBucketScmRepoLink.from_dict(data.get('scm_repo_link')) if data.get('scm_repo_link') else None,
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentImmutableBucket, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapManagementInstanceCustomProvidersVersionsCreateOutputDeploymentActor:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentActor:
         return ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentActor(
+        object=data.get('object'),
         id=data.get('id'),
-        name=data.get('name'),
         type=data.get('type'),
-        organization_actor_id=data.get('organization_actor_id')
+        identifier=data.get('identifier'),
+        name=data.get('name'),
+        organization_actor_id=data.get('organization_actor_id'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
     def to_dict(value: Union[ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentActor, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceCustomProvidersVersionsCreateOutputDeploymentScmPushActor:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentScmPushActor:
+        return ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentScmPushActor(
+        object=data.get('object'),
+        id=data.get('id'),
+        external_id=data.get('external_id'),
+        name=data.get('name'),
+        email=data.get('email')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentScmPushActor, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceCustomProvidersVersionsCreateOutputDeploymentScmPushCommit:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentScmPushCommit:
+        return ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentScmPushCommit(
+        object=data.get('object'),
+        id=data.get('id'),
+        sha=data.get('sha'),
+        branch=data.get('branch'),
+        message=data.get('message'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentScmPushCommit, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceCustomProvidersVersionsCreateOutputDeploymentScmPushRepositoryProvider:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentScmPushRepositoryProvider:
+        return ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentScmPushRepositoryProvider(
+        object=data.get('object'),
+        type=data.get('type'),
+        id=data.get('id'),
+        name=data.get('name'),
+        owner=data.get('owner')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentScmPushRepositoryProvider, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceCustomProvidersVersionsCreateOutputDeploymentScmPushRepository:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentScmPushRepository:
+        return ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentScmPushRepository(
+        object=data.get('object'),
+        id=data.get('id'),
+        provider=mapManagementInstanceCustomProvidersVersionsCreateOutputDeploymentScmPushRepositoryProvider.from_dict(data.get('provider')) if data.get('provider') else None,
+        url=data.get('url'),
+        is_private=data.get('is_private'),
+        default_branch=data.get('default_branch'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentScmPushRepository, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceCustomProvidersVersionsCreateOutputDeploymentScmPush:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentScmPush:
+        return ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentScmPush(
+        object=data.get('object'),
+        id=data.get('id'),
+        actor=mapManagementInstanceCustomProvidersVersionsCreateOutputDeploymentScmPushActor.from_dict(data.get('actor')) if data.get('actor') else None,
+        commit=mapManagementInstanceCustomProvidersVersionsCreateOutputDeploymentScmPushCommit.from_dict(data.get('commit')) if data.get('commit') else None,
+        repository=mapManagementInstanceCustomProvidersVersionsCreateOutputDeploymentScmPushRepository.from_dict(data.get('repository')) if data.get('repository') else None,
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceCustomProvidersVersionsCreateOutputDeploymentScmPush, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -114,9 +427,11 @@ class mapManagementInstanceCustomProvidersVersionsCreateOutputDeployment:
         provider_id=data.get('provider_id'),
         custom_provider_version_id=data.get('custom_provider_version_id'),
         commit=mapManagementInstanceCustomProvidersVersionsCreateOutputDeploymentCommit.from_dict(data.get('commit')) if data.get('commit') else None,
+        immutable_bucket=mapManagementInstanceCustomProvidersVersionsCreateOutputDeploymentImmutableBucket.from_dict(data.get('immutable_bucket')) if data.get('immutable_bucket') else None,
         actor=mapManagementInstanceCustomProvidersVersionsCreateOutputDeploymentActor.from_dict(data.get('actor')) if data.get('actor') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        scm_push=mapManagementInstanceCustomProvidersVersionsCreateOutputDeploymentScmPush.from_dict(data.get('scm_push')) if data.get('scm_push') else None,
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -137,8 +452,8 @@ class mapManagementInstanceCustomProvidersVersionsCreateOutputEnvironmentsEnviro
         provider_id=data.get('provider_id'),
         current_provider_version_id=data.get('current_provider_version_id'),
         instance_id=data.get('instance_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -171,14 +486,50 @@ class mapManagementInstanceCustomProvidersVersionsCreateOutputActor:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceCustomProvidersVersionsCreateOutputActor:
         return ManagementInstanceCustomProvidersVersionsCreateOutputActor(
+        object=data.get('object'),
         id=data.get('id'),
-        name=data.get('name'),
         type=data.get('type'),
-        organization_actor_id=data.get('organization_actor_id')
+        identifier=data.get('identifier'),
+        name=data.get('name'),
+        organization_actor_id=data.get('organization_actor_id'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
     def to_dict(value: Union[ManagementInstanceCustomProvidersVersionsCreateOutputActor, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceCustomProvidersVersionsCreateOutputContainerImage:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceCustomProvidersVersionsCreateOutputContainerImage:
+        return ManagementInstanceCustomProvidersVersionsCreateOutputContainerImage(
+        container_registry=data.get('container_registry'),
+        container_image_tag=data.get('container_image_tag'),
+        container_image=data.get('container_image')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceCustomProvidersVersionsCreateOutputContainerImage, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceCustomProvidersVersionsCreateOutputRemoteMcpServer:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceCustomProvidersVersionsCreateOutputRemoteMcpServer:
+        return ManagementInstanceCustomProvidersVersionsCreateOutputRemoteMcpServer(
+        url=data.get('url'),
+        transport=data.get('transport')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceCustomProvidersVersionsCreateOutputRemoteMcpServer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -192,6 +543,7 @@ class mapManagementInstanceCustomProvidersVersionsCreateOutput:
         object=data.get('object'),
         id=data.get('id'),
         status=data.get('status'),
+        config=mapManagementInstanceCustomProvidersVersionsCreateOutputConfig.from_dict(data.get('config')) if data.get('config') else None,
         index=data.get('index'),
         identifier=data.get('identifier'),
         deployment=mapManagementInstanceCustomProvidersVersionsCreateOutputDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
@@ -199,8 +551,10 @@ class mapManagementInstanceCustomProvidersVersionsCreateOutput:
         custom_provider_id=data.get('custom_provider_id'),
         provider_id=data.get('provider_id'),
         actor=mapManagementInstanceCustomProvidersVersionsCreateOutputActor.from_dict(data.get('actor')) if data.get('actor') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        container_image=mapManagementInstanceCustomProvidersVersionsCreateOutputContainerImage.from_dict(data.get('container_image')) if data.get('container_image') else None,
+        remote_mcp_server=mapManagementInstanceCustomProvidersVersionsCreateOutputRemoteMcpServer.from_dict(data.get('remote_mcp_server')) if data.get('remote_mcp_server') else None,
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -218,6 +572,7 @@ class ManagementInstanceCustomProvidersVersionsCreateBodyConfig:
     transformer: str
 @dataclass
 class ManagementInstanceCustomProvidersVersionsCreateBody:
+    custom_provider_id: str
     from_: Dict[str, Any]
     config: Optional[ManagementInstanceCustomProvidersVersionsCreateBodyConfig] = None
 
@@ -242,6 +597,7 @@ class mapManagementInstanceCustomProvidersVersionsCreateBody:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceCustomProvidersVersionsCreateBody:
         return ManagementInstanceCustomProvidersVersionsCreateBody(
+        custom_provider_id=data.get('custom_provider_id'),
         from_=data.get('from'),
         config=mapManagementInstanceCustomProvidersVersionsCreateBodyConfig.from_dict(data.get('config')) if data.get('config') else None
         )
@@ -254,3 +610,4 @@ class mapManagementInstanceCustomProvidersVersionsCreateBody:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

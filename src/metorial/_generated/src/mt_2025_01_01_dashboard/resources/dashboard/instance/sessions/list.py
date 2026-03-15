@@ -6,11 +6,11 @@ import dataclasses
 @dataclass
 class DashboardInstanceSessionsListOutputItemsUsage:
     total_productive_client_message_count: float
-    total_productive_server_message_count: float
+    total_productive_provider_message_count: float
 @dataclass
 class DashboardInstanceSessionsListOutputItemsProvidersUsage:
     total_productive_client_message_count: float
-    total_productive_server_message_count: float
+    total_productive_provider_message_count: float
 @dataclass
 class DashboardInstanceSessionsListOutputItemsProvidersDeployment:
     object: str
@@ -62,11 +62,14 @@ class DashboardInstanceSessionsListOutputItems:
     usage: DashboardInstanceSessionsListOutputItemsUsage
     providers: List[DashboardInstanceSessionsListOutputItemsProviders]
     from_templates_ids: List[str]
+    has_errors: bool
+    has_warnings: bool
     created_at: datetime
     updated_at: datetime
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
+    client_secret: Optional[str] = None
 @dataclass
 class DashboardInstanceSessionsListOutputPagination:
     has_more_before: bool
@@ -82,7 +85,7 @@ class mapDashboardInstanceSessionsListOutputItemsUsage:
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionsListOutputItemsUsage:
         return DashboardInstanceSessionsListOutputItemsUsage(
         total_productive_client_message_count=data.get('total_productive_client_message_count'),
-        total_productive_server_message_count=data.get('total_productive_server_message_count')
+        total_productive_provider_message_count=data.get('total_productive_provider_message_count')
         )
 
     @staticmethod
@@ -98,7 +101,7 @@ class mapDashboardInstanceSessionsListOutputItemsProvidersUsage:
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionsListOutputItemsProvidersUsage:
         return DashboardInstanceSessionsListOutputItemsProvidersUsage(
         total_productive_client_message_count=data.get('total_productive_client_message_count'),
-        total_productive_server_message_count=data.get('total_productive_server_message_count')
+        total_productive_provider_message_count=data.get('total_productive_provider_message_count')
         )
 
     @staticmethod
@@ -120,8 +123,8 @@ class mapDashboardInstanceSessionsListOutputItemsProvidersDeployment:
         description=data.get('description'),
         metadata=data.get('metadata'),
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -143,8 +146,8 @@ class mapDashboardInstanceSessionsListOutputItemsProvidersConfig:
         description=data.get('description'),
         metadata=data.get('metadata'),
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -187,8 +190,8 @@ class mapDashboardInstanceSessionsListOutputItemsProviders:
         deployment=mapDashboardInstanceSessionsListOutputItemsProvidersDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         config=mapDashboardInstanceSessionsListOutputItemsProvidersConfig.from_dict(data.get('config')) if data.get('config') else None,
         auth_config=mapDashboardInstanceSessionsListOutputItemsProvidersAuthConfig.from_dict(data.get('auth_config')) if data.get('auth_config') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -210,11 +213,14 @@ class mapDashboardInstanceSessionsListOutputItems:
         metadata=data.get('metadata'),
         connection_state=data.get('connection_state'),
         connection_url=data.get('connection_url'),
+        client_secret=data.get('client_secret'),
         usage=mapDashboardInstanceSessionsListOutputItemsUsage.from_dict(data.get('usage')) if data.get('usage') else None,
         providers=[mapDashboardInstanceSessionsListOutputItemsProviders.from_dict(item) for item in data.get('providers', []) if item],
         from_templates_ids=data.get('from_templates_ids', []),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        has_errors=data.get('has_errors'),
+        has_warnings=data.get('has_warnings'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -302,3 +308,4 @@ class mapDashboardInstanceSessionsListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

@@ -69,7 +69,7 @@ class mapManagementOrganizationInvitesUpdateOutputInviteLink:
         key=data.get('key'),
         key_redacted=data.get('key_redacted'),
         url=data.get('url'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -90,8 +90,8 @@ class mapManagementOrganizationInvitesUpdateOutputOrganization:
         slug=data.get('slug'),
         name=data.get('name'),
         image_url=data.get('image_url'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -110,8 +110,8 @@ class mapManagementOrganizationInvitesUpdateOutputInvitedByTeams:
         name=data.get('name'),
         slug=data.get('slug'),
         assignment_id=data.get('assignment_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -134,8 +134,8 @@ class mapManagementOrganizationInvitesUpdateOutputInvitedBy:
         email=data.get('email'),
         image_url=data.get('image_url'),
         teams=[mapManagementOrganizationInvitesUpdateOutputInvitedByTeams.from_dict(item) for item in data.get('teams', []) if item],
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -157,12 +157,12 @@ class mapManagementOrganizationInvitesUpdateOutput:
         type=data.get('type'),
         email=data.get('email'),
         invite_link=mapManagementOrganizationInvitesUpdateOutputInviteLink.from_dict(data.get('invite_link')) if data.get('invite_link') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None,
-        expires_at=datetime.fromisoformat(data.get('expires_at')) if data.get('expires_at') else None,
-        accepted_at=datetime.fromisoformat(data.get('accepted_at')) if data.get('accepted_at') else None,
-        rejected_at=datetime.fromisoformat(data.get('rejected_at')) if data.get('rejected_at') else None,
-        deleted_at=datetime.fromisoformat(data.get('deleted_at')) if data.get('deleted_at') else None,
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
+        expires_at=datetime.fromisoformat(data.get('expires_at').replace('Z', '+00:00')) if data.get('expires_at') else None,
+        accepted_at=datetime.fromisoformat(data.get('accepted_at').replace('Z', '+00:00')) if data.get('accepted_at') else None,
+        rejected_at=datetime.fromisoformat(data.get('rejected_at').replace('Z', '+00:00')) if data.get('rejected_at') else None,
+        deleted_at=datetime.fromisoformat(data.get('deleted_at').replace('Z', '+00:00')) if data.get('deleted_at') else None,
         organization=mapManagementOrganizationInvitesUpdateOutputOrganization.from_dict(data.get('organization')) if data.get('organization') else None,
         invited_by=mapManagementOrganizationInvitesUpdateOutputInvitedBy.from_dict(data.get('invited_by')) if data.get('invited_by') else None
         )
@@ -196,3 +196,4 @@ class mapManagementOrganizationInvitesUpdateBody:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+
