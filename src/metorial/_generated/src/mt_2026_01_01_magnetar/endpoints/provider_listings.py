@@ -8,7 +8,7 @@ class MetorialProviderListingsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, search: Optional[str] = None, provider_category_id: Optional[Union[str, List[str]]] = None, provider_collection_id: Optional[Union[str, List[str]]] = None, provider_group_id: Optional[Union[str, List[str]]] = None, publisher_id: Optional[Union[str, List[str]]] = None, is_owner: Optional[bool] = None, is_public: Optional[bool] = None, is_verified: Optional[bool] = None, is_official: Optional[bool] = None, is_metorial: Optional[bool] = None) -> DashboardInstanceProviderListingsListOutput:
+    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, search: Optional[str] = None, provider_category_id: Optional[Union[str, List[str]]] = None, provider_collection_id: Optional[Union[str, List[str]]] = None, provider_group_id: Optional[Union[str, List[str]]] = None, publisher_id: Optional[Union[str, List[str]]] = None, is_owner: Optional[bool] = None, is_public: Optional[bool] = None, is_verified: Optional[bool] = None, is_official: Optional[bool] = None, is_metorial: Optional[bool] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderListingsListOutput:
         """
     List provider listings
     Returns a paginated list of provider listings.
@@ -28,6 +28,8 @@ class MetorialProviderListingsEndpoint(BaseMetorialEndpoint):
     :param is_verified: Optional[bool] (optional)
     :param is_official: Optional[bool] (optional)
     :param is_metorial: Optional[bool] (optional)
+    :param created_at: Optional[Dict[str, Any]] (optional)
+    :param updated_at: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceProviderListingsListOutput
     """
         # Build query parameters from keyword arguments
@@ -62,6 +64,10 @@ class MetorialProviderListingsEndpoint(BaseMetorialEndpoint):
             query_dict["is_official"] = is_official
         if is_metorial is not None:
             query_dict["is_metorial"] = is_metorial
+        if created_at is not None:
+            query_dict["created_at"] = created_at
+        if updated_at is not None:
+            query_dict["updated_at"] = updated_at
 
         request = MetorialRequest(
             path=['provider-listings'],

@@ -47,6 +47,14 @@ class mapManagementInstanceCustomProvidersListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class ManagementInstanceCustomProvidersListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class ManagementInstanceCustomProvidersListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class ManagementInstanceCustomProvidersListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -58,6 +66,8 @@ class ManagementInstanceCustomProvidersListQuery:
     id: Optional[Union[str, List[str]]] = None
     provider_id: Optional[Union[str, List[str]]] = None
     search: Optional[str] = None
+    created_at: Optional[ManagementInstanceCustomProvidersListQueryCreatedAt] = None
+    updated_at: Optional[ManagementInstanceCustomProvidersListQueryUpdatedAt] = None
 
 
 class mapManagementInstanceCustomProvidersListQuery:
@@ -73,7 +83,9 @@ class mapManagementInstanceCustomProvidersListQuery:
         type=data.get('type'),
         id=data.get('id'),
         provider_id=data.get('provider_id'),
-        search=data.get('search')
+        search=data.get('search'),
+        created_at=mapManagementInstanceCustomProvidersListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapManagementInstanceCustomProvidersListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

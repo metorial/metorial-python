@@ -361,6 +361,23 @@ class mapProviderListingsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class ProviderListingsListQueryCapabilities:
+    supports_config: Optional[bool] = None
+    supports_auth: Optional[bool] = None
+    supports_oauth: Optional[bool] = None
+    supports_callbacks: Optional[bool] = None
+    supports_oauth_auto_registration: Optional[bool] = None
+    supports_auth_export: Optional[bool] = None
+    supports_auth_import: Optional[bool] = None
+@dataclass
+class ProviderListingsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class ProviderListingsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class ProviderListingsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -372,6 +389,7 @@ class ProviderListingsListQuery:
     provider_collection_id: Optional[Union[str, List[str]]] = None
     provider_group_id: Optional[Union[str, List[str]]] = None
     publisher_id: Optional[Union[str, List[str]]] = None
+    capabilities: Optional[ProviderListingsListQueryCapabilities] = None
     is_public: Optional[bool] = None
     only_from_tenant: Optional[bool] = None
     is_verified: Optional[bool] = None
@@ -379,6 +397,8 @@ class ProviderListingsListQuery:
     is_metorial: Optional[bool] = None
     order_by_rank: Optional[bool] = None
     order_by_use: Optional[str] = None
+    created_at: Optional[ProviderListingsListQueryCreatedAt] = None
+    updated_at: Optional[ProviderListingsListQueryUpdatedAt] = None
 
 
 class mapProviderListingsListQuery:
@@ -395,13 +415,16 @@ class mapProviderListingsListQuery:
         provider_collection_id=data.get('provider_collection_id'),
         provider_group_id=data.get('provider_group_id'),
         publisher_id=data.get('publisher_id'),
+        capabilities=mapProviderListingsListQueryCapabilities.from_dict(data.get('capabilities')) if data.get('capabilities') else None,
         is_public=data.get('is_public'),
         only_from_tenant=data.get('only_from_tenant'),
         is_verified=data.get('is_verified'),
         is_official=data.get('is_official'),
         is_metorial=data.get('is_metorial'),
         order_by_rank=data.get('order_by_rank'),
-        order_by_use=data.get('order_by_use')
+        order_by_use=data.get('order_by_use'),
+        created_at=mapProviderListingsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapProviderListingsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

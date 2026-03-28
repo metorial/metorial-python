@@ -13,13 +13,17 @@ class SessionsEventsGetOutputConnectionMcp:
     protocol_version: str
     transport: str
 @dataclass
+class SessionsEventsGetOutputConnectionParticipantData:
+    identifier: str
+    name: str
+@dataclass
 class SessionsEventsGetOutputConnectionParticipant:
     object: str
     id: str
     type: str
     identifier: str
     name: str
-    data: Dict[str, Any]
+    data: SessionsEventsGetOutputConnectionParticipantData
     created_at: datetime
     provider_id: Optional[str] = None
 @dataclass
@@ -34,9 +38,9 @@ class SessionsEventsGetOutputConnection:
     has_warnings: bool
     created_at: datetime
     last_message_at: datetime
-    last_active_at: datetime
     mcp: Optional[SessionsEventsGetOutputConnectionMcp] = None
     participant: Optional[SessionsEventsGetOutputConnectionParticipant] = None
+    last_active_at: Optional[datetime] = None
 @dataclass
 class SessionsEventsGetOutputProviderRun:
     object: str
@@ -134,15 +138,23 @@ class SessionsEventsGetOutputMessageToolCall:
     input: Optional[Dict[str, Any]] = None
     output: Optional[Dict[str, Any]] = None
 @dataclass
+class SessionsEventsGetOutputMessageSenderParticipantData:
+    identifier: str
+    name: str
+@dataclass
 class SessionsEventsGetOutputMessageSenderParticipant:
     object: str
     id: str
     type: str
     identifier: str
     name: str
-    data: Dict[str, Any]
+    data: SessionsEventsGetOutputMessageSenderParticipantData
     created_at: datetime
     provider_id: Optional[str] = None
+@dataclass
+class SessionsEventsGetOutputMessageResponderParticipantData:
+    identifier: str
+    name: str
 @dataclass
 class SessionsEventsGetOutputMessageResponderParticipant:
     object: str
@@ -150,7 +162,7 @@ class SessionsEventsGetOutputMessageResponderParticipant:
     type: str
     identifier: str
     name: str
-    data: Dict[str, Any]
+    data: SessionsEventsGetOutputMessageResponderParticipantData
     created_at: datetime
     provider_id: Optional[str] = None
 @dataclass
@@ -258,6 +270,22 @@ class mapSessionsEventsGetOutputConnectionMcp:
             return value
         return dataclasses.asdict(value)
 
+class mapSessionsEventsGetOutputConnectionParticipantData:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> SessionsEventsGetOutputConnectionParticipantData:
+        return SessionsEventsGetOutputConnectionParticipantData(
+        identifier=data.get('identifier'),
+        name=data.get('name')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[SessionsEventsGetOutputConnectionParticipantData, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapSessionsEventsGetOutputConnectionParticipant:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> SessionsEventsGetOutputConnectionParticipant:
@@ -267,7 +295,7 @@ class mapSessionsEventsGetOutputConnectionParticipant:
         type=data.get('type'),
         identifier=data.get('identifier'),
         name=data.get('name'),
-        data=data.get('data'),
+        data=mapSessionsEventsGetOutputConnectionParticipantData.from_dict(data.get('data')) if data.get('data') else None,
         provider_id=data.get('provider_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
@@ -535,6 +563,22 @@ class mapSessionsEventsGetOutputMessageToolCall:
             return value
         return dataclasses.asdict(value)
 
+class mapSessionsEventsGetOutputMessageSenderParticipantData:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> SessionsEventsGetOutputMessageSenderParticipantData:
+        return SessionsEventsGetOutputMessageSenderParticipantData(
+        identifier=data.get('identifier'),
+        name=data.get('name')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[SessionsEventsGetOutputMessageSenderParticipantData, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapSessionsEventsGetOutputMessageSenderParticipant:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> SessionsEventsGetOutputMessageSenderParticipant:
@@ -544,13 +588,29 @@ class mapSessionsEventsGetOutputMessageSenderParticipant:
         type=data.get('type'),
         identifier=data.get('identifier'),
         name=data.get('name'),
-        data=data.get('data'),
+        data=mapSessionsEventsGetOutputMessageSenderParticipantData.from_dict(data.get('data')) if data.get('data') else None,
         provider_id=data.get('provider_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
     def to_dict(value: Union[SessionsEventsGetOutputMessageSenderParticipant, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapSessionsEventsGetOutputMessageResponderParticipantData:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> SessionsEventsGetOutputMessageResponderParticipantData:
+        return SessionsEventsGetOutputMessageResponderParticipantData(
+        identifier=data.get('identifier'),
+        name=data.get('name')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[SessionsEventsGetOutputMessageResponderParticipantData, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -566,7 +626,7 @@ class mapSessionsEventsGetOutputMessageResponderParticipant:
         type=data.get('type'),
         identifier=data.get('identifier'),
         name=data.get('name'),
-        data=data.get('data'),
+        data=mapSessionsEventsGetOutputMessageResponderParticipantData.from_dict(data.get('data')) if data.get('data') else None,
         provider_id=data.get('provider_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )

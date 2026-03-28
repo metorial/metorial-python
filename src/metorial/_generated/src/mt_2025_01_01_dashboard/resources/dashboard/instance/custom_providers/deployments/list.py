@@ -47,6 +47,14 @@ class mapDashboardInstanceCustomProvidersDeploymentsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class DashboardInstanceCustomProvidersDeploymentsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class DashboardInstanceCustomProvidersDeploymentsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class DashboardInstanceCustomProvidersDeploymentsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -57,6 +65,8 @@ class DashboardInstanceCustomProvidersDeploymentsListQuery:
     id: Optional[Union[str, List[str]]] = None
     custom_provider_version_id: Optional[Union[str, List[str]]] = None
     custom_provider_id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[DashboardInstanceCustomProvidersDeploymentsListQueryCreatedAt] = None
+    updated_at: Optional[DashboardInstanceCustomProvidersDeploymentsListQueryUpdatedAt] = None
 
 
 class mapDashboardInstanceCustomProvidersDeploymentsListQuery:
@@ -71,7 +81,9 @@ class mapDashboardInstanceCustomProvidersDeploymentsListQuery:
         status=data.get('status'),
         id=data.get('id'),
         custom_provider_version_id=data.get('custom_provider_version_id'),
-        custom_provider_id=data.get('custom_provider_id')
+        custom_provider_id=data.get('custom_provider_id'),
+        created_at=mapDashboardInstanceCustomProvidersDeploymentsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapDashboardInstanceCustomProvidersDeploymentsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

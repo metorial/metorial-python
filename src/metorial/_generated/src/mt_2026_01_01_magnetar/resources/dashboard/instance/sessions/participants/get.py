@@ -4,16 +4,36 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class DashboardInstanceSessionsParticipantsGetOutputData:
+    identifier: str
+    name: str
+@dataclass
 class DashboardInstanceSessionsParticipantsGetOutput:
     object: str
     id: str
     type: str
     identifier: str
     name: str
-    data: Dict[str, Any]
+    data: DashboardInstanceSessionsParticipantsGetOutputData
     created_at: datetime
     provider_id: Optional[str] = None
 
+
+class mapDashboardInstanceSessionsParticipantsGetOutputData:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionsParticipantsGetOutputData:
+        return DashboardInstanceSessionsParticipantsGetOutputData(
+        identifier=data.get('identifier'),
+        name=data.get('name')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSessionsParticipantsGetOutputData, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapDashboardInstanceSessionsParticipantsGetOutput:
     @staticmethod
@@ -24,7 +44,7 @@ class mapDashboardInstanceSessionsParticipantsGetOutput:
         type=data.get('type'),
         identifier=data.get('identifier'),
         name=data.get('name'),
-        data=data.get('data'),
+        data=mapDashboardInstanceSessionsParticipantsGetOutputData.from_dict(data.get('data')) if data.get('data') else None,
         provider_id=data.get('provider_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )

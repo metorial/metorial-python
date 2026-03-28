@@ -51,6 +51,7 @@ class DashboardInstanceProviderDeploymentsSetupSessionsCreateOutputCredentials:
     id: str
     type: str
     is_default: bool
+    is_managed: bool
     provider_id: str
     created_at: datetime
     updated_at: datetime
@@ -58,7 +59,7 @@ class DashboardInstanceProviderDeploymentsSetupSessionsCreateOutputCredentials:
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
 @dataclass
-class DashboardInstanceProviderDeploymentsSetupSessionsCreateOutputAuthConfigDeploymentPreview:
+class DashboardInstanceProviderDeploymentsSetupSessionsCreateOutputAuthConfigDeployment:
     object: str
     id: str
     is_default: bool
@@ -74,6 +75,7 @@ class DashboardInstanceProviderDeploymentsSetupSessionsCreateOutputAuthConfigCre
     id: str
     type: str
     is_default: bool
+    is_managed: bool
     provider_id: str
     created_at: datetime
     updated_at: datetime
@@ -126,7 +128,7 @@ class DashboardInstanceProviderDeploymentsSetupSessionsCreateOutputAuthConfig:
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
-    deployment_preview: Optional[DashboardInstanceProviderDeploymentsSetupSessionsCreateOutputAuthConfigDeploymentPreview] = None
+    deployment: Optional[DashboardInstanceProviderDeploymentsSetupSessionsCreateOutputAuthConfigDeployment] = None
     credentials: Optional[DashboardInstanceProviderDeploymentsSetupSessionsCreateOutputAuthConfigCredentials] = None
 @dataclass
 class DashboardInstanceProviderDeploymentsSetupSessionsCreateOutputConfigDeployment:
@@ -308,6 +310,7 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsCreateOutputCredential
         id=data.get('id'),
         type=data.get('type'),
         is_default=data.get('is_default'),
+        is_managed=data.get('is_managed'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
@@ -324,10 +327,10 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsCreateOutputCredential
             return value
         return dataclasses.asdict(value)
 
-class mapDashboardInstanceProviderDeploymentsSetupSessionsCreateOutputAuthConfigDeploymentPreview:
+class mapDashboardInstanceProviderDeploymentsSetupSessionsCreateOutputAuthConfigDeployment:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderDeploymentsSetupSessionsCreateOutputAuthConfigDeploymentPreview:
-        return DashboardInstanceProviderDeploymentsSetupSessionsCreateOutputAuthConfigDeploymentPreview(
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderDeploymentsSetupSessionsCreateOutputAuthConfigDeployment:
+        return DashboardInstanceProviderDeploymentsSetupSessionsCreateOutputAuthConfigDeployment(
         object=data.get('object'),
         id=data.get('id'),
         is_default=data.get('is_default'),
@@ -340,7 +343,7 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsCreateOutputAuthConfig
         )
 
     @staticmethod
-    def to_dict(value: Union[DashboardInstanceProviderDeploymentsSetupSessionsCreateOutputAuthConfigDeploymentPreview, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[DashboardInstanceProviderDeploymentsSetupSessionsCreateOutputAuthConfigDeployment, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -355,6 +358,7 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsCreateOutputAuthConfig
         id=data.get('id'),
         type=data.get('type'),
         is_default=data.get('is_default'),
+        is_managed=data.get('is_managed'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
@@ -464,7 +468,7 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsCreateOutputAuthConfig
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
-        deployment_preview=mapDashboardInstanceProviderDeploymentsSetupSessionsCreateOutputAuthConfigDeploymentPreview.from_dict(data.get('deployment_preview')) if data.get('deployment_preview') else None,
+        deployment=mapDashboardInstanceProviderDeploymentsSetupSessionsCreateOutputAuthConfigDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         credentials=mapDashboardInstanceProviderDeploymentsSetupSessionsCreateOutputAuthConfigCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,
         auth_method=mapDashboardInstanceProviderDeploymentsSetupSessionsCreateOutputAuthConfigAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,

@@ -51,6 +51,7 @@ class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsCredential
     id: str
     type: str
     is_default: bool
+    is_managed: bool
     provider_id: str
     created_at: datetime
     updated_at: datetime
@@ -58,7 +59,7 @@ class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsCredential
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
 @dataclass
-class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigDeploymentPreview:
+class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigDeployment:
     object: str
     id: str
     is_default: bool
@@ -74,6 +75,7 @@ class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfig
     id: str
     type: str
     is_default: bool
+    is_managed: bool
     provider_id: str
     created_at: datetime
     updated_at: datetime
@@ -126,7 +128,7 @@ class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfig
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
-    deployment_preview: Optional[DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigDeploymentPreview] = None
+    deployment: Optional[DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigDeployment] = None
     credentials: Optional[DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigCredentials] = None
 @dataclass
 class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigDeployment:
@@ -316,6 +318,7 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsCredent
         id=data.get('id'),
         type=data.get('type'),
         is_default=data.get('is_default'),
+        is_managed=data.get('is_managed'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
@@ -332,10 +335,10 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsCredent
             return value
         return dataclasses.asdict(value)
 
-class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigDeploymentPreview:
+class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigDeployment:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigDeploymentPreview:
-        return DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigDeploymentPreview(
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigDeployment:
+        return DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigDeployment(
         object=data.get('object'),
         id=data.get('id'),
         is_default=data.get('is_default'),
@@ -348,7 +351,7 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthCon
         )
 
     @staticmethod
-    def to_dict(value: Union[DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigDeploymentPreview, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigDeployment, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -363,6 +366,7 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthCon
         id=data.get('id'),
         type=data.get('type'),
         is_default=data.get('is_default'),
+        is_managed=data.get('is_managed'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
@@ -472,7 +476,7 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthCon
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
-        deployment_preview=mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigDeploymentPreview.from_dict(data.get('deployment_preview')) if data.get('deployment_preview') else None,
+        deployment=mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         credentials=mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,
         auth_method=mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
@@ -649,6 +653,14 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class DashboardInstanceProviderDeploymentsSetupSessionsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class DashboardInstanceProviderDeploymentsSetupSessionsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class DashboardInstanceProviderDeploymentsSetupSessionsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -662,6 +674,8 @@ class DashboardInstanceProviderDeploymentsSetupSessionsListQuery:
     provider_auth_config_id: Optional[Union[str, List[str]]] = None
     provider_auth_credentials_id: Optional[Union[str, List[str]]] = None
     status: Optional[Union[str, List[str]]] = None
+    created_at: Optional[DashboardInstanceProviderDeploymentsSetupSessionsListQueryCreatedAt] = None
+    updated_at: Optional[DashboardInstanceProviderDeploymentsSetupSessionsListQueryUpdatedAt] = None
 
 
 class mapDashboardInstanceProviderDeploymentsSetupSessionsListQuery:
@@ -679,7 +693,9 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsListQuery:
         provider_auth_method_id=data.get('provider_auth_method_id'),
         provider_auth_config_id=data.get('provider_auth_config_id'),
         provider_auth_credentials_id=data.get('provider_auth_credentials_id'),
-        status=data.get('status')
+        status=data.get('status'),
+        created_at=mapDashboardInstanceProviderDeploymentsSetupSessionsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapDashboardInstanceProviderDeploymentsSetupSessionsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

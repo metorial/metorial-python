@@ -189,6 +189,14 @@ class mapManagementInstanceProviderDeploymentsConfigsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class ManagementInstanceProviderDeploymentsConfigsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class ManagementInstanceProviderDeploymentsConfigsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class ManagementInstanceProviderDeploymentsConfigsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -202,6 +210,8 @@ class ManagementInstanceProviderDeploymentsConfigsListQuery:
     provider_deployment_id: Optional[Union[str, List[str]]] = None
     provider_config_vault_id: Optional[Union[str, List[str]]] = None
     search: Optional[str] = None
+    created_at: Optional[ManagementInstanceProviderDeploymentsConfigsListQueryCreatedAt] = None
+    updated_at: Optional[ManagementInstanceProviderDeploymentsConfigsListQueryUpdatedAt] = None
 
 
 class mapManagementInstanceProviderDeploymentsConfigsListQuery:
@@ -219,7 +229,9 @@ class mapManagementInstanceProviderDeploymentsConfigsListQuery:
         provider_specification_id=data.get('provider_specification_id'),
         provider_deployment_id=data.get('provider_deployment_id'),
         provider_config_vault_id=data.get('provider_config_vault_id'),
-        search=data.get('search')
+        search=data.get('search'),
+        created_at=mapManagementInstanceProviderDeploymentsConfigsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapManagementInstanceProviderDeploymentsConfigsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

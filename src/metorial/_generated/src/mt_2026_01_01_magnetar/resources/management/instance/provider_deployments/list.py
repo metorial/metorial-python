@@ -157,6 +157,14 @@ class mapManagementInstanceProviderDeploymentsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class ManagementInstanceProviderDeploymentsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class ManagementInstanceProviderDeploymentsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class ManagementInstanceProviderDeploymentsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -168,6 +176,8 @@ class ManagementInstanceProviderDeploymentsListQuery:
     provider_version_id: Optional[Union[str, List[str]]] = None
     status: Optional[Union[str, List[str]]] = None
     search: Optional[str] = None
+    created_at: Optional[ManagementInstanceProviderDeploymentsListQueryCreatedAt] = None
+    updated_at: Optional[ManagementInstanceProviderDeploymentsListQueryUpdatedAt] = None
 
 
 class mapManagementInstanceProviderDeploymentsListQuery:
@@ -183,7 +193,9 @@ class mapManagementInstanceProviderDeploymentsListQuery:
         provider_id=data.get('provider_id'),
         provider_version_id=data.get('provider_version_id'),
         status=data.get('status'),
-        search=data.get('search')
+        search=data.get('search'),
+        created_at=mapManagementInstanceProviderDeploymentsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapManagementInstanceProviderDeploymentsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

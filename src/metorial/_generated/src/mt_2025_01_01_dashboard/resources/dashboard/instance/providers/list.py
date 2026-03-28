@@ -47,6 +47,15 @@ class mapDashboardInstanceProvidersListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class DashboardInstanceProvidersListQueryCapabilities:
+    supports_config: Optional[bool] = None
+    supports_auth: Optional[bool] = None
+    supports_oauth: Optional[bool] = None
+    supports_callbacks: Optional[bool] = None
+    supports_oauth_auto_registration: Optional[bool] = None
+    supports_auth_export: Optional[bool] = None
+    supports_auth_import: Optional[bool] = None
+@dataclass
 class DashboardInstanceProvidersListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -54,6 +63,7 @@ class DashboardInstanceProvidersListQuery:
     cursor: Optional[str] = None
     order: Optional[str] = None
     id: Optional[Union[str, List[str]]] = None
+    capabilities: Optional[DashboardInstanceProvidersListQueryCapabilities] = None
 
 
 class mapDashboardInstanceProvidersListQuery:
@@ -65,7 +75,8 @@ class mapDashboardInstanceProvidersListQuery:
         before=data.get('before'),
         cursor=data.get('cursor'),
         order=data.get('order'),
-        id=data.get('id')
+        id=data.get('id'),
+        capabilities=mapDashboardInstanceProvidersListQueryCapabilities.from_dict(data.get('capabilities')) if data.get('capabilities') else None
         )
 
     @staticmethod

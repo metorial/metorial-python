@@ -4,13 +4,9 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
-class ManagementInstanceScmAccountsPreviewOutputAccountsProvider:
-    type: str
-    name: str
-@dataclass
 class ManagementInstanceScmAccountsPreviewOutputAccounts:
     object: str
-    provider: ManagementInstanceScmAccountsPreviewOutputAccountsProvider
+    provider: str
     external_id: str
     name: str
     identifier: str
@@ -20,28 +16,12 @@ class ManagementInstanceScmAccountsPreviewOutput:
     accounts: List[ManagementInstanceScmAccountsPreviewOutputAccounts]
 
 
-class mapManagementInstanceScmAccountsPreviewOutputAccountsProvider:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ManagementInstanceScmAccountsPreviewOutputAccountsProvider:
-        return ManagementInstanceScmAccountsPreviewOutputAccountsProvider(
-        type=data.get('type'),
-        name=data.get('name')
-        )
-
-    @staticmethod
-    def to_dict(value: Union[ManagementInstanceScmAccountsPreviewOutputAccountsProvider, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
 class mapManagementInstanceScmAccountsPreviewOutputAccounts:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceScmAccountsPreviewOutputAccounts:
         return ManagementInstanceScmAccountsPreviewOutputAccounts(
         object=data.get('object'),
-        provider=mapManagementInstanceScmAccountsPreviewOutputAccountsProvider.from_dict(data.get('provider')) if data.get('provider') else None,
+        provider=data.get('provider'),
         external_id=data.get('external_id'),
         name=data.get('name'),
         identifier=data.get('identifier')

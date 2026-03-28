@@ -77,6 +77,14 @@ class mapProviderGroupsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class ProviderGroupsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class ProviderGroupsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class ProviderGroupsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -86,6 +94,8 @@ class ProviderGroupsListQuery:
     id: Optional[Union[str, List[str]]] = None
     provider_id: Optional[Union[str, List[str]]] = None
     provider_listing_id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[ProviderGroupsListQueryCreatedAt] = None
+    updated_at: Optional[ProviderGroupsListQueryUpdatedAt] = None
 
 
 class mapProviderGroupsListQuery:
@@ -99,7 +109,9 @@ class mapProviderGroupsListQuery:
         order=data.get('order'),
         id=data.get('id'),
         provider_id=data.get('provider_id'),
-        provider_listing_id=data.get('provider_listing_id')
+        provider_listing_id=data.get('provider_listing_id'),
+        created_at=mapProviderGroupsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapProviderGroupsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

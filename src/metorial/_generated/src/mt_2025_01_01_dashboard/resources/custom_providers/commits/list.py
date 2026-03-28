@@ -1467,6 +1467,14 @@ class mapCustomProvidersCommitsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class CustomProvidersCommitsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class CustomProvidersCommitsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class CustomProvidersCommitsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -1478,6 +1486,8 @@ class CustomProvidersCommitsListQuery:
     custom_provider_environment_id: Optional[Union[str, List[str]]] = None
     custom_provider_id: Optional[Union[str, List[str]]] = None
     provider_id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[CustomProvidersCommitsListQueryCreatedAt] = None
+    updated_at: Optional[CustomProvidersCommitsListQueryUpdatedAt] = None
 
 
 class mapCustomProvidersCommitsListQuery:
@@ -1493,7 +1503,9 @@ class mapCustomProvidersCommitsListQuery:
         custom_provider_version_id=data.get('custom_provider_version_id'),
         custom_provider_environment_id=data.get('custom_provider_environment_id'),
         custom_provider_id=data.get('custom_provider_id'),
-        provider_id=data.get('provider_id')
+        provider_id=data.get('provider_id'),
+        created_at=mapCustomProvidersCommitsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapCustomProvidersCommitsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

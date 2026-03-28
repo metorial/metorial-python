@@ -157,6 +157,23 @@ class mapDashboardInstanceProviderDeploymentsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class DashboardInstanceProviderDeploymentsListQueryCapabilities:
+    supports_config: Optional[bool] = None
+    supports_auth: Optional[bool] = None
+    supports_oauth: Optional[bool] = None
+    supports_callbacks: Optional[bool] = None
+    supports_oauth_auto_registration: Optional[bool] = None
+    supports_auth_export: Optional[bool] = None
+    supports_auth_import: Optional[bool] = None
+@dataclass
+class DashboardInstanceProviderDeploymentsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class DashboardInstanceProviderDeploymentsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class DashboardInstanceProviderDeploymentsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -167,7 +184,10 @@ class DashboardInstanceProviderDeploymentsListQuery:
     provider_id: Optional[Union[str, List[str]]] = None
     provider_version_id: Optional[Union[str, List[str]]] = None
     status: Optional[Union[str, List[str]]] = None
+    capabilities: Optional[DashboardInstanceProviderDeploymentsListQueryCapabilities] = None
     search: Optional[str] = None
+    created_at: Optional[DashboardInstanceProviderDeploymentsListQueryCreatedAt] = None
+    updated_at: Optional[DashboardInstanceProviderDeploymentsListQueryUpdatedAt] = None
 
 
 class mapDashboardInstanceProviderDeploymentsListQuery:
@@ -183,7 +203,10 @@ class mapDashboardInstanceProviderDeploymentsListQuery:
         provider_id=data.get('provider_id'),
         provider_version_id=data.get('provider_version_id'),
         status=data.get('status'),
-        search=data.get('search')
+        capabilities=mapDashboardInstanceProviderDeploymentsListQueryCapabilities.from_dict(data.get('capabilities')) if data.get('capabilities') else None,
+        search=data.get('search'),
+        created_at=mapDashboardInstanceProviderDeploymentsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapDashboardInstanceProviderDeploymentsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

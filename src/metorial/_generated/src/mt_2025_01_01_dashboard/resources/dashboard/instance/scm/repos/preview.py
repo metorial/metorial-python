@@ -4,14 +4,9 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
-class DashboardInstanceScmReposPreviewOutputReposProvider:
-    type: str
-    name: str
-    owner: str
-@dataclass
 class DashboardInstanceScmReposPreviewOutputRepos:
     object: str
-    provider: DashboardInstanceScmReposPreviewOutputReposProvider
+    provider: str
     external_id: str
     name: str
     identifier: str
@@ -21,29 +16,12 @@ class DashboardInstanceScmReposPreviewOutput:
     repos: List[DashboardInstanceScmReposPreviewOutputRepos]
 
 
-class mapDashboardInstanceScmReposPreviewOutputReposProvider:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> DashboardInstanceScmReposPreviewOutputReposProvider:
-        return DashboardInstanceScmReposPreviewOutputReposProvider(
-        type=data.get('type'),
-        name=data.get('name'),
-        owner=data.get('owner')
-        )
-
-    @staticmethod
-    def to_dict(value: Union[DashboardInstanceScmReposPreviewOutputReposProvider, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
 class mapDashboardInstanceScmReposPreviewOutputRepos:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceScmReposPreviewOutputRepos:
         return DashboardInstanceScmReposPreviewOutputRepos(
         object=data.get('object'),
-        provider=mapDashboardInstanceScmReposPreviewOutputReposProvider.from_dict(data.get('provider')) if data.get('provider') else None,
+        provider=data.get('provider'),
         external_id=data.get('external_id'),
         name=data.get('name'),
         identifier=data.get('identifier')

@@ -243,6 +243,14 @@ class mapDashboardInstanceToolCallsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class DashboardInstanceToolCallsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class DashboardInstanceToolCallsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class DashboardInstanceToolCallsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -256,6 +264,8 @@ class DashboardInstanceToolCallsListQuery:
     provider_config_id: Optional[Union[str, List[str]]] = None
     provider_auth_config_id: Optional[Union[str, List[str]]] = None
     tool_id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[DashboardInstanceToolCallsListQueryCreatedAt] = None
+    updated_at: Optional[DashboardInstanceToolCallsListQueryUpdatedAt] = None
 
 
 class mapDashboardInstanceToolCallsListQuery:
@@ -273,7 +283,9 @@ class mapDashboardInstanceToolCallsListQuery:
         provider_deployment_id=data.get('provider_deployment_id'),
         provider_config_id=data.get('provider_config_id'),
         provider_auth_config_id=data.get('provider_auth_config_id'),
-        tool_id=data.get('tool_id')
+        tool_id=data.get('tool_id'),
+        created_at=mapDashboardInstanceToolCallsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapDashboardInstanceToolCallsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

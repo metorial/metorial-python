@@ -4,7 +4,7 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
-class ProviderDeploymentsAuthConfigsImportsListOutputItemsAuthConfigDeploymentPreview:
+class ProviderDeploymentsAuthConfigsImportsListOutputItemsAuthConfigDeployment:
     object: str
     id: str
     is_default: bool
@@ -20,6 +20,7 @@ class ProviderDeploymentsAuthConfigsImportsListOutputItemsAuthConfigCredentials:
     id: str
     type: str
     is_default: bool
+    is_managed: bool
     provider_id: str
     created_at: datetime
     updated_at: datetime
@@ -72,7 +73,7 @@ class ProviderDeploymentsAuthConfigsImportsListOutputItemsAuthConfig:
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
-    deployment_preview: Optional[ProviderDeploymentsAuthConfigsImportsListOutputItemsAuthConfigDeploymentPreview] = None
+    deployment: Optional[ProviderDeploymentsAuthConfigsImportsListOutputItemsAuthConfigDeployment] = None
     credentials: Optional[ProviderDeploymentsAuthConfigsImportsListOutputItemsAuthConfigCredentials] = None
 @dataclass
 class ProviderDeploymentsAuthConfigsImportsListOutputItems:
@@ -99,10 +100,10 @@ class ProviderDeploymentsAuthConfigsImportsListOutput:
     pagination: ProviderDeploymentsAuthConfigsImportsListOutputPagination
 
 
-class mapProviderDeploymentsAuthConfigsImportsListOutputItemsAuthConfigDeploymentPreview:
+class mapProviderDeploymentsAuthConfigsImportsListOutputItemsAuthConfigDeployment:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsAuthConfigsImportsListOutputItemsAuthConfigDeploymentPreview:
-        return ProviderDeploymentsAuthConfigsImportsListOutputItemsAuthConfigDeploymentPreview(
+    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsAuthConfigsImportsListOutputItemsAuthConfigDeployment:
+        return ProviderDeploymentsAuthConfigsImportsListOutputItemsAuthConfigDeployment(
         object=data.get('object'),
         id=data.get('id'),
         is_default=data.get('is_default'),
@@ -115,7 +116,7 @@ class mapProviderDeploymentsAuthConfigsImportsListOutputItemsAuthConfigDeploymen
         )
 
     @staticmethod
-    def to_dict(value: Union[ProviderDeploymentsAuthConfigsImportsListOutputItemsAuthConfigDeploymentPreview, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[ProviderDeploymentsAuthConfigsImportsListOutputItemsAuthConfigDeployment, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -130,6 +131,7 @@ class mapProviderDeploymentsAuthConfigsImportsListOutputItemsAuthConfigCredentia
         id=data.get('id'),
         type=data.get('type'),
         is_default=data.get('is_default'),
+        is_managed=data.get('is_managed'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
@@ -239,7 +241,7 @@ class mapProviderDeploymentsAuthConfigsImportsListOutputItemsAuthConfig:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
-        deployment_preview=mapProviderDeploymentsAuthConfigsImportsListOutputItemsAuthConfigDeploymentPreview.from_dict(data.get('deployment_preview')) if data.get('deployment_preview') else None,
+        deployment=mapProviderDeploymentsAuthConfigsImportsListOutputItemsAuthConfigDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         credentials=mapProviderDeploymentsAuthConfigsImportsListOutputItemsAuthConfigCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,
         auth_method=mapProviderDeploymentsAuthConfigsImportsListOutputItemsAuthConfigAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
@@ -315,6 +317,14 @@ class mapProviderDeploymentsAuthConfigsImportsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class ProviderDeploymentsAuthConfigsImportsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class ProviderDeploymentsAuthConfigsImportsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class ProviderDeploymentsAuthConfigsImportsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -326,6 +336,8 @@ class ProviderDeploymentsAuthConfigsImportsListQuery:
     provider_auth_credentials_id: Optional[Union[str, List[str]]] = None
     provider_auth_config_id: Optional[Union[str, List[str]]] = None
     provider_deployment_id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[ProviderDeploymentsAuthConfigsImportsListQueryCreatedAt] = None
+    updated_at: Optional[ProviderDeploymentsAuthConfigsImportsListQueryUpdatedAt] = None
 
 
 class mapProviderDeploymentsAuthConfigsImportsListQuery:
@@ -341,7 +353,9 @@ class mapProviderDeploymentsAuthConfigsImportsListQuery:
         provider_id=data.get('provider_id'),
         provider_auth_credentials_id=data.get('provider_auth_credentials_id'),
         provider_auth_config_id=data.get('provider_auth_config_id'),
-        provider_deployment_id=data.get('provider_deployment_id')
+        provider_deployment_id=data.get('provider_deployment_id'),
+        created_at=mapProviderDeploymentsAuthConfigsImportsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapProviderDeploymentsAuthConfigsImportsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

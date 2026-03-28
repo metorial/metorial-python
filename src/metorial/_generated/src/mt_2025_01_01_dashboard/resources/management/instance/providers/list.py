@@ -47,6 +47,15 @@ class mapManagementInstanceProvidersListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class ManagementInstanceProvidersListQueryCapabilities:
+    supports_config: Optional[bool] = None
+    supports_auth: Optional[bool] = None
+    supports_oauth: Optional[bool] = None
+    supports_callbacks: Optional[bool] = None
+    supports_oauth_auto_registration: Optional[bool] = None
+    supports_auth_export: Optional[bool] = None
+    supports_auth_import: Optional[bool] = None
+@dataclass
 class ManagementInstanceProvidersListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -54,6 +63,7 @@ class ManagementInstanceProvidersListQuery:
     cursor: Optional[str] = None
     order: Optional[str] = None
     id: Optional[Union[str, List[str]]] = None
+    capabilities: Optional[ManagementInstanceProvidersListQueryCapabilities] = None
 
 
 class mapManagementInstanceProvidersListQuery:
@@ -65,7 +75,8 @@ class mapManagementInstanceProvidersListQuery:
         before=data.get('before'),
         cursor=data.get('cursor'),
         order=data.get('order'),
-        id=data.get('id')
+        id=data.get('id'),
+        capabilities=mapManagementInstanceProvidersListQueryCapabilities.from_dict(data.get('capabilities')) if data.get('capabilities') else None
         )
 
     @staticmethod

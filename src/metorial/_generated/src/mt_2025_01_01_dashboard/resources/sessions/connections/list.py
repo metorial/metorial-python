@@ -13,13 +13,17 @@ class SessionsConnectionsListOutputItemsMcp:
     protocol_version: str
     transport: str
 @dataclass
+class SessionsConnectionsListOutputItemsParticipantData:
+    identifier: str
+    name: str
+@dataclass
 class SessionsConnectionsListOutputItemsParticipant:
     object: str
     id: str
     type: str
     identifier: str
     name: str
-    data: Dict[str, Any]
+    data: SessionsConnectionsListOutputItemsParticipantData
     created_at: datetime
     provider_id: Optional[str] = None
 @dataclass
@@ -34,9 +38,9 @@ class SessionsConnectionsListOutputItems:
     has_warnings: bool
     created_at: datetime
     last_message_at: datetime
-    last_active_at: datetime
     mcp: Optional[SessionsConnectionsListOutputItemsMcp] = None
     participant: Optional[SessionsConnectionsListOutputItemsParticipant] = None
+    last_active_at: Optional[datetime] = None
 @dataclass
 class SessionsConnectionsListOutputPagination:
     has_more_before: bool
@@ -80,6 +84,22 @@ class mapSessionsConnectionsListOutputItemsMcp:
             return value
         return dataclasses.asdict(value)
 
+class mapSessionsConnectionsListOutputItemsParticipantData:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> SessionsConnectionsListOutputItemsParticipantData:
+        return SessionsConnectionsListOutputItemsParticipantData(
+        identifier=data.get('identifier'),
+        name=data.get('name')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[SessionsConnectionsListOutputItemsParticipantData, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapSessionsConnectionsListOutputItemsParticipant:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> SessionsConnectionsListOutputItemsParticipant:
@@ -89,7 +109,7 @@ class mapSessionsConnectionsListOutputItemsParticipant:
         type=data.get('type'),
         identifier=data.get('identifier'),
         name=data.get('name'),
-        data=data.get('data'),
+        data=mapSessionsConnectionsListOutputItemsParticipantData.from_dict(data.get('data')) if data.get('data') else None,
         provider_id=data.get('provider_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
@@ -163,6 +183,14 @@ class mapSessionsConnectionsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class SessionsConnectionsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class SessionsConnectionsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class SessionsConnectionsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -175,6 +203,8 @@ class SessionsConnectionsListQuery:
     session_id: Optional[Union[str, List[str]]] = None
     session_provider_id: Optional[Union[str, List[str]]] = None
     participant_id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[SessionsConnectionsListQueryCreatedAt] = None
+    updated_at: Optional[SessionsConnectionsListQueryUpdatedAt] = None
 
 
 class mapSessionsConnectionsListQuery:
@@ -191,7 +221,9 @@ class mapSessionsConnectionsListQuery:
         id=data.get('id'),
         session_id=data.get('session_id'),
         session_provider_id=data.get('session_provider_id'),
-        participant_id=data.get('participant_id')
+        participant_id=data.get('participant_id'),
+        created_at=mapSessionsConnectionsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapSessionsConnectionsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

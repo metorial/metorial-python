@@ -83,6 +83,14 @@ class mapDashboardInstanceIdentityActorsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class DashboardInstanceIdentityActorsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class DashboardInstanceIdentityActorsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class DashboardInstanceIdentityActorsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -93,6 +101,8 @@ class DashboardInstanceIdentityActorsListQuery:
     status: Optional[Union[str, List[str]]] = None
     id: Optional[Union[str, List[str]]] = None
     agent_id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[DashboardInstanceIdentityActorsListQueryCreatedAt] = None
+    updated_at: Optional[DashboardInstanceIdentityActorsListQueryUpdatedAt] = None
 
 
 class mapDashboardInstanceIdentityActorsListQuery:
@@ -107,7 +117,9 @@ class mapDashboardInstanceIdentityActorsListQuery:
         search=data.get('search'),
         status=data.get('status'),
         id=data.get('id'),
-        agent_id=data.get('agent_id')
+        agent_id=data.get('agent_id'),
+        created_at=mapDashboardInstanceIdentityActorsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapDashboardInstanceIdentityActorsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

@@ -4,13 +4,17 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class ManagementInstanceSessionsParticipantsListOutputItemsData:
+    identifier: str
+    name: str
+@dataclass
 class ManagementInstanceSessionsParticipantsListOutputItems:
     object: str
     id: str
     type: str
     identifier: str
     name: str
-    data: Dict[str, Any]
+    data: ManagementInstanceSessionsParticipantsListOutputItemsData
     created_at: datetime
     provider_id: Optional[str] = None
 @dataclass
@@ -23,6 +27,22 @@ class ManagementInstanceSessionsParticipantsListOutput:
     pagination: ManagementInstanceSessionsParticipantsListOutputPagination
 
 
+class mapManagementInstanceSessionsParticipantsListOutputItemsData:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceSessionsParticipantsListOutputItemsData:
+        return ManagementInstanceSessionsParticipantsListOutputItemsData(
+        identifier=data.get('identifier'),
+        name=data.get('name')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceSessionsParticipantsListOutputItemsData, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapManagementInstanceSessionsParticipantsListOutputItems:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceSessionsParticipantsListOutputItems:
@@ -32,7 +52,7 @@ class mapManagementInstanceSessionsParticipantsListOutputItems:
         type=data.get('type'),
         identifier=data.get('identifier'),
         name=data.get('name'),
-        data=data.get('data'),
+        data=mapManagementInstanceSessionsParticipantsListOutputItemsData.from_dict(data.get('data')) if data.get('data') else None,
         provider_id=data.get('provider_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
@@ -79,6 +99,14 @@ class mapManagementInstanceSessionsParticipantsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class ManagementInstanceSessionsParticipantsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class ManagementInstanceSessionsParticipantsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class ManagementInstanceSessionsParticipantsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -90,6 +118,8 @@ class ManagementInstanceSessionsParticipantsListQuery:
     session_id: Optional[Union[str, List[str]]] = None
     session_connection_id: Optional[Union[str, List[str]]] = None
     session_message_id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[ManagementInstanceSessionsParticipantsListQueryCreatedAt] = None
+    updated_at: Optional[ManagementInstanceSessionsParticipantsListQueryUpdatedAt] = None
 
 
 class mapManagementInstanceSessionsParticipantsListQuery:
@@ -105,7 +135,9 @@ class mapManagementInstanceSessionsParticipantsListQuery:
         id=data.get('id'),
         session_id=data.get('session_id'),
         session_connection_id=data.get('session_connection_id'),
-        session_message_id=data.get('session_message_id')
+        session_message_id=data.get('session_message_id'),
+        created_at=mapManagementInstanceSessionsParticipantsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapManagementInstanceSessionsParticipantsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

@@ -361,6 +361,14 @@ class mapProviderListingsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class ProviderListingsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class ProviderListingsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class ProviderListingsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -377,6 +385,8 @@ class ProviderListingsListQuery:
     is_verified: Optional[bool] = None
     is_official: Optional[bool] = None
     is_metorial: Optional[bool] = None
+    created_at: Optional[ProviderListingsListQueryCreatedAt] = None
+    updated_at: Optional[ProviderListingsListQueryUpdatedAt] = None
 
 
 class mapProviderListingsListQuery:
@@ -397,7 +407,9 @@ class mapProviderListingsListQuery:
         is_public=data.get('is_public'),
         is_verified=data.get('is_verified'),
         is_official=data.get('is_official'),
-        is_metorial=data.get('is_metorial')
+        is_metorial=data.get('is_metorial'),
+        created_at=mapProviderListingsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapProviderListingsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

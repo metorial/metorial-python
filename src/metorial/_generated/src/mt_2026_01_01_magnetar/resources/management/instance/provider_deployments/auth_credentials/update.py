@@ -9,6 +9,7 @@ class ManagementInstanceProviderDeploymentsAuthCredentialsUpdateOutput:
     id: str
     type: str
     is_default: bool
+    is_managed: bool
     provider_id: str
     created_at: datetime
     updated_at: datetime
@@ -25,6 +26,7 @@ class mapManagementInstanceProviderDeploymentsAuthCredentialsUpdateOutput:
         id=data.get('id'),
         type=data.get('type'),
         is_default=data.get('is_default'),
+        is_managed=data.get('is_managed'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),

@@ -4,6 +4,13 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class ManagementOrganizationMembersGetOutputPolicies:
+    object: str
+    id: str
+    type: str
+    name: str
+    slug: str
+@dataclass
 class ManagementOrganizationMembersGetOutputActorTeams:
     id: str
     name: str
@@ -32,12 +39,32 @@ class ManagementOrganizationMembersGetOutput:
     user_id: str
     organization_id: str
     actor_id: str
+    policies: List[ManagementOrganizationMembersGetOutputPolicies]
     last_active_at: datetime
     created_at: datetime
     updated_at: datetime
     deleted_at: datetime
     actor: ManagementOrganizationMembersGetOutputActor
 
+
+class mapManagementOrganizationMembersGetOutputPolicies:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementOrganizationMembersGetOutputPolicies:
+        return ManagementOrganizationMembersGetOutputPolicies(
+        object=data.get('object'),
+        id=data.get('id'),
+        type=data.get('type'),
+        name=data.get('name'),
+        slug=data.get('slug')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementOrganizationMembersGetOutputPolicies, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapManagementOrganizationMembersGetOutputActorTeams:
     @staticmethod
@@ -94,6 +121,7 @@ class mapManagementOrganizationMembersGetOutput:
         user_id=data.get('user_id'),
         organization_id=data.get('organization_id'),
         actor_id=data.get('actor_id'),
+        policies=[mapManagementOrganizationMembersGetOutputPolicies.from_dict(item) for item in data.get('policies', []) if item],
         last_active_at=datetime.fromisoformat(data.get('last_active_at').replace('Z', '+00:00')) if data.get('last_active_at') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,

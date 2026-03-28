@@ -133,32 +133,14 @@ class mapManagementInstanceSessionTemplatesProvidersCreateOutput:
         return dataclasses.asdict(value)
 
 @dataclass
-class ManagementInstanceSessionTemplatesProvidersCreateBodyToolFilters:
-    tool_keys: Optional[List[str]] = None
-@dataclass
 class ManagementInstanceSessionTemplatesProvidersCreateBody:
     session_template_id: str
     provider_deployment_id: Optional[str] = None
     provider_config_id: Optional[str] = None
     provider_config_vault_id: Optional[str] = None
     provider_auth_config_id: Optional[str] = None
-    tool_filters: Optional[ManagementInstanceSessionTemplatesProvidersCreateBodyToolFilters] = None
+    tool_filters: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]] = None
 
-
-class mapManagementInstanceSessionTemplatesProvidersCreateBodyToolFilters:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ManagementInstanceSessionTemplatesProvidersCreateBodyToolFilters:
-        return ManagementInstanceSessionTemplatesProvidersCreateBodyToolFilters(
-        tool_keys=data.get('tool_keys', [])
-        )
-
-    @staticmethod
-    def to_dict(value: Union[ManagementInstanceSessionTemplatesProvidersCreateBodyToolFilters, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
 
 class mapManagementInstanceSessionTemplatesProvidersCreateBody:
     @staticmethod
@@ -169,7 +151,7 @@ class mapManagementInstanceSessionTemplatesProvidersCreateBody:
         provider_config_id=data.get('provider_config_id'),
         provider_config_vault_id=data.get('provider_config_vault_id'),
         provider_auth_config_id=data.get('provider_auth_config_id'),
-        tool_filters=mapManagementInstanceSessionTemplatesProvidersCreateBodyToolFilters.from_dict(data.get('tool_filters')) if data.get('tool_filters') else None
+        tool_filters=data.get('tool_filters')
         )
 
     @staticmethod

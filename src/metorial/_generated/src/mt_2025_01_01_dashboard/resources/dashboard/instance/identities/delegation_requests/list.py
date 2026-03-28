@@ -377,6 +377,14 @@ class mapDashboardInstanceIdentitiesDelegationRequestsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class DashboardInstanceIdentitiesDelegationRequestsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class DashboardInstanceIdentitiesDelegationRequestsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class DashboardInstanceIdentitiesDelegationRequestsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -387,6 +395,8 @@ class DashboardInstanceIdentitiesDelegationRequestsListQuery:
     id: Optional[Union[str, List[str]]] = None
     actor_id: Optional[Union[str, List[str]]] = None
     identity_id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[DashboardInstanceIdentitiesDelegationRequestsListQueryCreatedAt] = None
+    updated_at: Optional[DashboardInstanceIdentitiesDelegationRequestsListQueryUpdatedAt] = None
 
 
 class mapDashboardInstanceIdentitiesDelegationRequestsListQuery:
@@ -401,7 +411,9 @@ class mapDashboardInstanceIdentitiesDelegationRequestsListQuery:
         status=data.get('status'),
         id=data.get('id'),
         actor_id=data.get('actor_id'),
-        identity_id=data.get('identity_id')
+        identity_id=data.get('identity_id'),
+        created_at=mapDashboardInstanceIdentitiesDelegationRequestsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapDashboardInstanceIdentitiesDelegationRequestsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

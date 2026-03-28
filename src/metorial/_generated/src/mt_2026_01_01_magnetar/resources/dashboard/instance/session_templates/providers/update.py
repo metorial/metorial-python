@@ -133,33 +133,15 @@ class mapDashboardInstanceSessionTemplatesProvidersUpdateOutput:
         return dataclasses.asdict(value)
 
 @dataclass
-class DashboardInstanceSessionTemplatesProvidersUpdateBodyToolFilters:
-    tool_keys: Optional[List[str]] = None
-@dataclass
 class DashboardInstanceSessionTemplatesProvidersUpdateBody:
-    tool_filters: Optional[DashboardInstanceSessionTemplatesProvidersUpdateBodyToolFilters] = None
+    tool_filters: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]] = None
 
-
-class mapDashboardInstanceSessionTemplatesProvidersUpdateBodyToolFilters:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionTemplatesProvidersUpdateBodyToolFilters:
-        return DashboardInstanceSessionTemplatesProvidersUpdateBodyToolFilters(
-        tool_keys=data.get('tool_keys', [])
-        )
-
-    @staticmethod
-    def to_dict(value: Union[DashboardInstanceSessionTemplatesProvidersUpdateBodyToolFilters, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
 
 class mapDashboardInstanceSessionTemplatesProvidersUpdateBody:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionTemplatesProvidersUpdateBody:
         return DashboardInstanceSessionTemplatesProvidersUpdateBody(
-        tool_filters=mapDashboardInstanceSessionTemplatesProvidersUpdateBodyToolFilters.from_dict(data.get('tool_filters')) if data.get('tool_filters') else None
+        tool_filters=data.get('tool_filters')
         )
 
     @staticmethod

@@ -88,15 +88,23 @@ class SessionsMessagesGetOutputToolCall:
     input: Optional[Dict[str, Any]] = None
     output: Optional[Dict[str, Any]] = None
 @dataclass
+class SessionsMessagesGetOutputSenderParticipantData:
+    identifier: str
+    name: str
+@dataclass
 class SessionsMessagesGetOutputSenderParticipant:
     object: str
     id: str
     type: str
     identifier: str
     name: str
-    data: Dict[str, Any]
+    data: SessionsMessagesGetOutputSenderParticipantData
     created_at: datetime
     provider_id: Optional[str] = None
+@dataclass
+class SessionsMessagesGetOutputResponderParticipantData:
+    identifier: str
+    name: str
 @dataclass
 class SessionsMessagesGetOutputResponderParticipant:
     object: str
@@ -104,7 +112,7 @@ class SessionsMessagesGetOutputResponderParticipant:
     type: str
     identifier: str
     name: str
-    data: Dict[str, Any]
+    data: SessionsMessagesGetOutputResponderParticipantData
     created_at: datetime
     provider_id: Optional[str] = None
 @dataclass
@@ -347,6 +355,22 @@ class mapSessionsMessagesGetOutputToolCall:
             return value
         return dataclasses.asdict(value)
 
+class mapSessionsMessagesGetOutputSenderParticipantData:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> SessionsMessagesGetOutputSenderParticipantData:
+        return SessionsMessagesGetOutputSenderParticipantData(
+        identifier=data.get('identifier'),
+        name=data.get('name')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[SessionsMessagesGetOutputSenderParticipantData, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapSessionsMessagesGetOutputSenderParticipant:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> SessionsMessagesGetOutputSenderParticipant:
@@ -356,13 +380,29 @@ class mapSessionsMessagesGetOutputSenderParticipant:
         type=data.get('type'),
         identifier=data.get('identifier'),
         name=data.get('name'),
-        data=data.get('data'),
+        data=mapSessionsMessagesGetOutputSenderParticipantData.from_dict(data.get('data')) if data.get('data') else None,
         provider_id=data.get('provider_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
     def to_dict(value: Union[SessionsMessagesGetOutputSenderParticipant, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapSessionsMessagesGetOutputResponderParticipantData:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> SessionsMessagesGetOutputResponderParticipantData:
+        return SessionsMessagesGetOutputResponderParticipantData(
+        identifier=data.get('identifier'),
+        name=data.get('name')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[SessionsMessagesGetOutputResponderParticipantData, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -378,7 +418,7 @@ class mapSessionsMessagesGetOutputResponderParticipant:
         type=data.get('type'),
         identifier=data.get('identifier'),
         name=data.get('name'),
-        data=data.get('data'),
+        data=mapSessionsMessagesGetOutputResponderParticipantData.from_dict(data.get('data')) if data.get('data') else None,
         provider_id=data.get('provider_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )

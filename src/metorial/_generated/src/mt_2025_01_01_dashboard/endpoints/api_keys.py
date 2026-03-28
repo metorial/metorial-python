@@ -61,7 +61,7 @@ class MetorialApiKeysEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapApiKeysGetOutput.from_dict)
 
-    def create(self, organization_id: str, *, name: str, type: Any = None, instance_id: str = None, description: Optional[str] = None, expires_at: Optional[datetime] = None) -> ApiKeysCreateOutput:
+    def create(self, organization_id: str, *, name: str, type: Any = None, instance_id: str = None, description: Optional[str] = None, expires_at: Optional[datetime] = None, ip_filters: Optional[List[str]] = None) -> ApiKeysCreateOutput:
         """
     Create API key
     Create a new API key
@@ -72,6 +72,7 @@ class MetorialApiKeysEndpoint(BaseMetorialEndpoint):
     :param name: str
     :param description: Optional[str] (optional)
     :param expires_at: Optional[datetime] (optional)
+    :param ip_filters: Optional[List[str]] (optional)
     :return: ApiKeysCreateOutput
     """
         # Build body parameters from keyword arguments
@@ -85,6 +86,8 @@ class MetorialApiKeysEndpoint(BaseMetorialEndpoint):
             body_dict["description"] = description
         if expires_at is not None:
             body_dict["expires_at"] = expires_at
+        if ip_filters is not None:
+            body_dict["ip_filters"] = ip_filters
 
         request = MetorialRequest(
             path=['dashboard', 'organizations', organization_id, 'api-keys'],
@@ -92,7 +95,7 @@ class MetorialApiKeysEndpoint(BaseMetorialEndpoint):
         )
         return self._post(request).transform(mapApiKeysCreateOutput.from_dict)
 
-    def update(self, organization_id: str, api_key_id: str, *, name: Optional[str] = None, description: Optional[str] = None, expires_at: Optional[datetime] = None) -> ApiKeysUpdateOutput:
+    def update(self, organization_id: str, api_key_id: str, *, name: Optional[str] = None, description: Optional[str] = None, expires_at: Optional[datetime] = None, ip_filters: Optional[List[str]] = None) -> ApiKeysUpdateOutput:
         """
     Update API key
     Update the information of a specific API key
@@ -102,6 +105,7 @@ class MetorialApiKeysEndpoint(BaseMetorialEndpoint):
     :param name: Optional[str] (optional)
     :param description: Optional[str] (optional)
     :param expires_at: Optional[datetime] (optional)
+    :param ip_filters: Optional[List[str]] (optional)
     :return: ApiKeysUpdateOutput
     """
         # Build body parameters from keyword arguments
@@ -112,6 +116,8 @@ class MetorialApiKeysEndpoint(BaseMetorialEndpoint):
             body_dict["description"] = description
         if expires_at is not None:
             body_dict["expires_at"] = expires_at
+        if ip_filters is not None:
+            body_dict["ip_filters"] = ip_filters
 
         request = MetorialRequest(
             path=['dashboard', 'organizations', organization_id, 'api-keys', api_key_id],

@@ -88,15 +88,23 @@ class ManagementInstanceSessionsMessagesGetOutputToolCall:
     input: Optional[Dict[str, Any]] = None
     output: Optional[Dict[str, Any]] = None
 @dataclass
+class ManagementInstanceSessionsMessagesGetOutputSenderParticipantData:
+    identifier: str
+    name: str
+@dataclass
 class ManagementInstanceSessionsMessagesGetOutputSenderParticipant:
     object: str
     id: str
     type: str
     identifier: str
     name: str
-    data: Dict[str, Any]
+    data: ManagementInstanceSessionsMessagesGetOutputSenderParticipantData
     created_at: datetime
     provider_id: Optional[str] = None
+@dataclass
+class ManagementInstanceSessionsMessagesGetOutputResponderParticipantData:
+    identifier: str
+    name: str
 @dataclass
 class ManagementInstanceSessionsMessagesGetOutputResponderParticipant:
     object: str
@@ -104,7 +112,7 @@ class ManagementInstanceSessionsMessagesGetOutputResponderParticipant:
     type: str
     identifier: str
     name: str
-    data: Dict[str, Any]
+    data: ManagementInstanceSessionsMessagesGetOutputResponderParticipantData
     created_at: datetime
     provider_id: Optional[str] = None
 @dataclass
@@ -347,6 +355,22 @@ class mapManagementInstanceSessionsMessagesGetOutputToolCall:
             return value
         return dataclasses.asdict(value)
 
+class mapManagementInstanceSessionsMessagesGetOutputSenderParticipantData:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceSessionsMessagesGetOutputSenderParticipantData:
+        return ManagementInstanceSessionsMessagesGetOutputSenderParticipantData(
+        identifier=data.get('identifier'),
+        name=data.get('name')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceSessionsMessagesGetOutputSenderParticipantData, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapManagementInstanceSessionsMessagesGetOutputSenderParticipant:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceSessionsMessagesGetOutputSenderParticipant:
@@ -356,13 +380,29 @@ class mapManagementInstanceSessionsMessagesGetOutputSenderParticipant:
         type=data.get('type'),
         identifier=data.get('identifier'),
         name=data.get('name'),
-        data=data.get('data'),
+        data=mapManagementInstanceSessionsMessagesGetOutputSenderParticipantData.from_dict(data.get('data')) if data.get('data') else None,
         provider_id=data.get('provider_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
     def to_dict(value: Union[ManagementInstanceSessionsMessagesGetOutputSenderParticipant, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceSessionsMessagesGetOutputResponderParticipantData:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceSessionsMessagesGetOutputResponderParticipantData:
+        return ManagementInstanceSessionsMessagesGetOutputResponderParticipantData(
+        identifier=data.get('identifier'),
+        name=data.get('name')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceSessionsMessagesGetOutputResponderParticipantData, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -378,7 +418,7 @@ class mapManagementInstanceSessionsMessagesGetOutputResponderParticipant:
         type=data.get('type'),
         identifier=data.get('identifier'),
         name=data.get('name'),
-        data=data.get('data'),
+        data=mapManagementInstanceSessionsMessagesGetOutputResponderParticipantData.from_dict(data.get('data')) if data.get('data') else None,
         provider_id=data.get('provider_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )

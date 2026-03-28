@@ -4,7 +4,7 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
-class DashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAuthConfigDeploymentPreview:
+class DashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAuthConfigDeployment:
     object: str
     id: str
     is_default: bool
@@ -20,6 +20,7 @@ class DashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAuthC
     id: str
     type: str
     is_default: bool
+    is_managed: bool
     provider_id: str
     created_at: datetime
     updated_at: datetime
@@ -72,7 +73,7 @@ class DashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAuthC
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
-    deployment_preview: Optional[DashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAuthConfigDeploymentPreview] = None
+    deployment: Optional[DashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAuthConfigDeployment] = None
     credentials: Optional[DashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAuthConfigCredentials] = None
 @dataclass
 class DashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItems:
@@ -100,10 +101,10 @@ class DashboardInstanceProviderDeploymentsAuthConfigsExportsListOutput:
     pagination: DashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputPagination
 
 
-class mapDashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAuthConfigDeploymentPreview:
+class mapDashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAuthConfigDeployment:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAuthConfigDeploymentPreview:
-        return DashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAuthConfigDeploymentPreview(
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAuthConfigDeployment:
+        return DashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAuthConfigDeployment(
         object=data.get('object'),
         id=data.get('id'),
         is_default=data.get('is_default'),
@@ -116,7 +117,7 @@ class mapDashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAu
         )
 
     @staticmethod
-    def to_dict(value: Union[DashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAuthConfigDeploymentPreview, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[DashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAuthConfigDeployment, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -131,6 +132,7 @@ class mapDashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAu
         id=data.get('id'),
         type=data.get('type'),
         is_default=data.get('is_default'),
+        is_managed=data.get('is_managed'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
@@ -240,7 +242,7 @@ class mapDashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAu
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
-        deployment_preview=mapDashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAuthConfigDeploymentPreview.from_dict(data.get('deployment_preview')) if data.get('deployment_preview') else None,
+        deployment=mapDashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAuthConfigDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         credentials=mapDashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAuthConfigCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,
         auth_method=mapDashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAuthConfigAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
@@ -317,6 +319,14 @@ class mapDashboardInstanceProviderDeploymentsAuthConfigsExportsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class DashboardInstanceProviderDeploymentsAuthConfigsExportsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class DashboardInstanceProviderDeploymentsAuthConfigsExportsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class DashboardInstanceProviderDeploymentsAuthConfigsExportsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -327,6 +337,8 @@ class DashboardInstanceProviderDeploymentsAuthConfigsExportsListQuery:
     provider_id: Optional[Union[str, List[str]]] = None
     provider_auth_credentials_id: Optional[Union[str, List[str]]] = None
     provider_auth_config_id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[DashboardInstanceProviderDeploymentsAuthConfigsExportsListQueryCreatedAt] = None
+    updated_at: Optional[DashboardInstanceProviderDeploymentsAuthConfigsExportsListQueryUpdatedAt] = None
 
 
 class mapDashboardInstanceProviderDeploymentsAuthConfigsExportsListQuery:
@@ -341,7 +353,9 @@ class mapDashboardInstanceProviderDeploymentsAuthConfigsExportsListQuery:
         id=data.get('id'),
         provider_id=data.get('provider_id'),
         provider_auth_credentials_id=data.get('provider_auth_credentials_id'),
-        provider_auth_config_id=data.get('provider_auth_config_id')
+        provider_auth_config_id=data.get('provider_auth_config_id'),
+        created_at=mapDashboardInstanceProviderDeploymentsAuthConfigsExportsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapDashboardInstanceProviderDeploymentsAuthConfigsExportsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

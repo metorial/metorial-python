@@ -87,6 +87,14 @@ class mapSessionsErrorsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class SessionsErrorsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class SessionsErrorsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class SessionsErrorsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -102,6 +110,8 @@ class SessionsErrorsListQuery:
     provider_run_id: Optional[Union[str, List[str]]] = None
     provider_id: Optional[Union[str, List[str]]] = None
     session_message_id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[SessionsErrorsListQueryCreatedAt] = None
+    updated_at: Optional[SessionsErrorsListQueryUpdatedAt] = None
 
 
 class mapSessionsErrorsListQuery:
@@ -121,7 +131,9 @@ class mapSessionsErrorsListQuery:
         session_error_group_id=data.get('session_error_group_id'),
         provider_run_id=data.get('provider_run_id'),
         provider_id=data.get('provider_id'),
-        session_message_id=data.get('session_message_id')
+        session_message_id=data.get('session_message_id'),
+        created_at=mapSessionsErrorsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapSessionsErrorsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

@@ -8,7 +8,7 @@ class MetorialDashboardInstanceSessionsEventsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, type: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, session_id: Optional[Union[str, List[str]]] = None, session_provider_id: Optional[Union[str, List[str]]] = None, session_connection_id: Optional[Union[str, List[str]]] = None, provider_run_id: Optional[Union[str, List[str]]] = None, session_message_id: Optional[Union[str, List[str]]] = None, session_error_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceSessionsEventsListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, type: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, session_id: Optional[Union[str, List[str]]] = None, session_provider_id: Optional[Union[str, List[str]]] = None, session_connection_id: Optional[Union[str, List[str]]] = None, provider_run_id: Optional[Union[str, List[str]]] = None, session_message_id: Optional[Union[str, List[str]]] = None, session_error_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceSessionsEventsListOutput:
         """
     List session events
     Returns a paginated list of events for a session.
@@ -27,6 +27,8 @@ class MetorialDashboardInstanceSessionsEventsEndpoint(BaseMetorialEndpoint):
     :param provider_run_id: Optional[Union[str, List[str]]] (optional)
     :param session_message_id: Optional[Union[str, List[str]]] (optional)
     :param session_error_id: Optional[Union[str, List[str]]] (optional)
+    :param created_at: Optional[Dict[str, Any]] (optional)
+    :param updated_at: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceSessionsEventsListOutput
     """
         # Build query parameters from keyword arguments
@@ -57,6 +59,10 @@ class MetorialDashboardInstanceSessionsEventsEndpoint(BaseMetorialEndpoint):
             query_dict["session_message_id"] = session_message_id
         if session_error_id is not None:
             query_dict["session_error_id"] = session_error_id
+        if created_at is not None:
+            query_dict["created_at"] = created_at
+        if updated_at is not None:
+            query_dict["updated_at"] = updated_at
 
         request = MetorialRequest(
             path=['dashboard', 'instances', instance_id, 'session-events'],

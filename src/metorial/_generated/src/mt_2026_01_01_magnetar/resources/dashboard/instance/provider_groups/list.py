@@ -77,6 +77,14 @@ class mapDashboardInstanceProviderGroupsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class DashboardInstanceProviderGroupsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class DashboardInstanceProviderGroupsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class DashboardInstanceProviderGroupsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -86,6 +94,8 @@ class DashboardInstanceProviderGroupsListQuery:
     id: Optional[Union[str, List[str]]] = None
     provider_id: Optional[Union[str, List[str]]] = None
     provider_listing_id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[DashboardInstanceProviderGroupsListQueryCreatedAt] = None
+    updated_at: Optional[DashboardInstanceProviderGroupsListQueryUpdatedAt] = None
 
 
 class mapDashboardInstanceProviderGroupsListQuery:
@@ -99,7 +109,9 @@ class mapDashboardInstanceProviderGroupsListQuery:
         order=data.get('order'),
         id=data.get('id'),
         provider_id=data.get('provider_id'),
-        provider_listing_id=data.get('provider_listing_id')
+        provider_listing_id=data.get('provider_listing_id'),
+        created_at=mapDashboardInstanceProviderGroupsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapDashboardInstanceProviderGroupsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

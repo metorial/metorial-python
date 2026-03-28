@@ -95,6 +95,7 @@ class ApiKeysCreateOutput:
     secret_redacted_long: str
     type: str
     name: str
+    ip_filters: List[str]
     machine_access: ApiKeysCreateOutputMachineAccess
     created_at: datetime
     updated_at: datetime
@@ -298,6 +299,7 @@ class mapApiKeysCreateOutput:
         type=data.get('type'),
         name=data.get('name'),
         description=data.get('description'),
+        ip_filters=data.get('ip_filters', []),
         machine_access=mapApiKeysCreateOutputMachineAccess.from_dict(data.get('machine_access')) if data.get('machine_access') else None,
         deleted_at=datetime.fromisoformat(data.get('deleted_at').replace('Z', '+00:00')) if data.get('deleted_at') else None,
         last_used_at=datetime.fromisoformat(data.get('last_used_at').replace('Z', '+00:00')) if data.get('last_used_at') else None,
@@ -323,6 +325,7 @@ class ApiKeysCreateBody:
     instance_id: Optional[str] = None
     description: Optional[str] = None
     expires_at: Optional[datetime] = None
+    ip_filters: Optional[List[str]] = None
 
 
 class mapApiKeysCreateBody:
@@ -333,7 +336,8 @@ class mapApiKeysCreateBody:
         instance_id=data.get('instance_id'),
         name=data.get('name'),
         description=data.get('description'),
-        expires_at=datetime.fromisoformat(data.get('expires_at').replace('Z', '+00:00')) if data.get('expires_at') else None
+        expires_at=datetime.fromisoformat(data.get('expires_at').replace('Z', '+00:00')) if data.get('expires_at') else None,
+        ip_filters=data.get('ip_filters', [])
         )
 
     @staticmethod

@@ -9,6 +9,7 @@ class ManagementInstanceProviderDeploymentsAuthCredentialsListOutputItems:
     id: str
     type: str
     is_default: bool
+    is_managed: bool
     provider_id: str
     created_at: datetime
     updated_at: datetime
@@ -33,6 +34,7 @@ class mapManagementInstanceProviderDeploymentsAuthCredentialsListOutputItems:
         id=data.get('id'),
         type=data.get('type'),
         is_default=data.get('is_default'),
+        is_managed=data.get('is_managed'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
@@ -83,6 +85,14 @@ class mapManagementInstanceProviderDeploymentsAuthCredentialsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class ManagementInstanceProviderDeploymentsAuthCredentialsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class ManagementInstanceProviderDeploymentsAuthCredentialsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class ManagementInstanceProviderDeploymentsAuthCredentialsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -92,7 +102,11 @@ class ManagementInstanceProviderDeploymentsAuthCredentialsListQuery:
     status: Optional[Union[str, List[str]]] = None
     id: Optional[Union[str, List[str]]] = None
     provider_id: Optional[Union[str, List[str]]] = None
+    provider_auth_method_id: Optional[Union[str, List[str]]] = None
+    origin: Optional[Union[str, List[str]]] = None
     search: Optional[str] = None
+    created_at: Optional[ManagementInstanceProviderDeploymentsAuthCredentialsListQueryCreatedAt] = None
+    updated_at: Optional[ManagementInstanceProviderDeploymentsAuthCredentialsListQueryUpdatedAt] = None
 
 
 class mapManagementInstanceProviderDeploymentsAuthCredentialsListQuery:
@@ -107,7 +121,11 @@ class mapManagementInstanceProviderDeploymentsAuthCredentialsListQuery:
         status=data.get('status'),
         id=data.get('id'),
         provider_id=data.get('provider_id'),
-        search=data.get('search')
+        provider_auth_method_id=data.get('provider_auth_method_id'),
+        origin=data.get('origin'),
+        search=data.get('search'),
+        created_at=mapManagementInstanceProviderDeploymentsAuthCredentialsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapManagementInstanceProviderDeploymentsAuthCredentialsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

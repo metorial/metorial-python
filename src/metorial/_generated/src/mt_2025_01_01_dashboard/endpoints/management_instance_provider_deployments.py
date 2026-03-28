@@ -8,7 +8,7 @@ class MetorialManagementInstanceProviderDeploymentsEndpoint(BaseMetorialEndpoint
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_version_id: Optional[Union[str, List[str]]] = None, status: Optional[Union[str, List[str]]] = None, search: Optional[str] = None) -> DashboardInstanceProviderDeploymentsListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_version_id: Optional[Union[str, List[str]]] = None, status: Optional[Union[str, List[str]]] = None, capabilities: Optional[Dict[str, Any]] = None, search: Optional[str] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderDeploymentsListOutput:
         """
     List provider deployments
     Returns a paginated list of provider deployments.
@@ -23,7 +23,10 @@ class MetorialManagementInstanceProviderDeploymentsEndpoint(BaseMetorialEndpoint
     :param provider_id: Optional[Union[str, List[str]]] (optional)
     :param provider_version_id: Optional[Union[str, List[str]]] (optional)
     :param status: Optional[Union[str, List[str]]] (optional)
+    :param capabilities: Optional[Dict[str, Any]] (optional)
     :param search: Optional[str] (optional)
+    :param created_at: Optional[Dict[str, Any]] (optional)
+    :param updated_at: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceProviderDeploymentsListOutput
     """
         # Build query parameters from keyword arguments
@@ -46,8 +49,14 @@ class MetorialManagementInstanceProviderDeploymentsEndpoint(BaseMetorialEndpoint
             query_dict["provider_version_id"] = provider_version_id
         if status is not None:
             query_dict["status"] = status
+        if capabilities is not None:
+            query_dict["capabilities"] = capabilities
         if search is not None:
             query_dict["search"] = search
+        if created_at is not None:
+            query_dict["created_at"] = created_at
+        if updated_at is not None:
+            query_dict["updated_at"] = updated_at
 
         request = MetorialRequest(
             path=['instances', instance_id, 'provider-deployments'],

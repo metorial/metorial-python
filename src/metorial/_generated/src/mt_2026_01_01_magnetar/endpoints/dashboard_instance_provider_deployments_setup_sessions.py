@@ -8,7 +8,7 @@ class MetorialDashboardInstanceProviderDeploymentsSetupSessionsEndpoint(BaseMeto
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, provider_auth_method_id: Optional[Union[str, List[str]]] = None, provider_auth_config_id: Optional[Union[str, List[str]]] = None, provider_auth_credentials_id: Optional[Union[str, List[str]]] = None, status: Optional[Union[str, List[str]]] = None) -> DashboardInstanceProviderDeploymentsSetupSessionsListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, provider_auth_method_id: Optional[Union[str, List[str]]] = None, provider_auth_config_id: Optional[Union[str, List[str]]] = None, provider_auth_credentials_id: Optional[Union[str, List[str]]] = None, status: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderDeploymentsSetupSessionsListOutput:
         """
     List provider setup sessions
     Returns a paginated list of provider setup sessions.
@@ -26,6 +26,8 @@ class MetorialDashboardInstanceProviderDeploymentsSetupSessionsEndpoint(BaseMeto
     :param provider_auth_config_id: Optional[Union[str, List[str]]] (optional)
     :param provider_auth_credentials_id: Optional[Union[str, List[str]]] (optional)
     :param status: Optional[Union[str, List[str]]] (optional)
+    :param created_at: Optional[Dict[str, Any]] (optional)
+    :param updated_at: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceProviderDeploymentsSetupSessionsListOutput
     """
         # Build query parameters from keyword arguments
@@ -54,6 +56,10 @@ class MetorialDashboardInstanceProviderDeploymentsSetupSessionsEndpoint(BaseMeto
             query_dict["provider_auth_credentials_id"] = provider_auth_credentials_id
         if status is not None:
             query_dict["status"] = status
+        if created_at is not None:
+            query_dict["created_at"] = created_at
+        if updated_at is not None:
+            query_dict["updated_at"] = updated_at
 
         request = MetorialRequest(
             path=['dashboard', 'instances', instance_id, 'provider-setup-sessions'],

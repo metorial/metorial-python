@@ -361,6 +361,14 @@ class mapManagementInstanceProviderListingsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class ManagementInstanceProviderListingsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class ManagementInstanceProviderListingsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class ManagementInstanceProviderListingsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -377,6 +385,8 @@ class ManagementInstanceProviderListingsListQuery:
     is_verified: Optional[bool] = None
     is_official: Optional[bool] = None
     is_metorial: Optional[bool] = None
+    created_at: Optional[ManagementInstanceProviderListingsListQueryCreatedAt] = None
+    updated_at: Optional[ManagementInstanceProviderListingsListQueryUpdatedAt] = None
 
 
 class mapManagementInstanceProviderListingsListQuery:
@@ -397,7 +407,9 @@ class mapManagementInstanceProviderListingsListQuery:
         is_public=data.get('is_public'),
         is_verified=data.get('is_verified'),
         is_official=data.get('is_official'),
-        is_metorial=data.get('is_metorial')
+        is_metorial=data.get('is_metorial'),
+        created_at=mapManagementInstanceProviderListingsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapManagementInstanceProviderListingsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

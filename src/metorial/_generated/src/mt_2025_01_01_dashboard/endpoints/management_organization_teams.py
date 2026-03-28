@@ -1,25 +1,12 @@
 from typing import Any, Dict, List, Optional, Union
 from metorial_util_endpoint import BaseMetorialEndpoint, MetorialEndpointManager, MetorialRequest
-from ..resources import mapDashboardOrganizationsTeamsPermissionsOutput, DashboardOrganizationsTeamsPermissionsOutput, mapDashboardOrganizationsTeamsListOutput, DashboardOrganizationsTeamsListOutput, mapDashboardOrganizationsTeamsListQuery, DashboardOrganizationsTeamsListQuery, mapDashboardOrganizationsTeamsGetOutput, DashboardOrganizationsTeamsGetOutput, mapDashboardOrganizationsTeamsUpdateOutput, DashboardOrganizationsTeamsUpdateOutput, mapDashboardOrganizationsTeamsUpdateBody, DashboardOrganizationsTeamsUpdateBody, mapDashboardOrganizationsTeamsCreateOutput, DashboardOrganizationsTeamsCreateOutput, mapDashboardOrganizationsTeamsCreateBody, DashboardOrganizationsTeamsCreateBody
+from ..resources import mapDashboardOrganizationsTeamsListOutput, DashboardOrganizationsTeamsListOutput, mapDashboardOrganizationsTeamsListQuery, DashboardOrganizationsTeamsListQuery, mapDashboardOrganizationsTeamsGetOutput, DashboardOrganizationsTeamsGetOutput, mapDashboardOrganizationsTeamsUpdateOutput, DashboardOrganizationsTeamsUpdateOutput, mapDashboardOrganizationsTeamsUpdateBody, DashboardOrganizationsTeamsUpdateBody, mapDashboardOrganizationsTeamsCreateOutput, DashboardOrganizationsTeamsCreateOutput, mapDashboardOrganizationsTeamsCreateBody, DashboardOrganizationsTeamsCreateBody
 
 class MetorialManagementOrganizationTeamsEndpoint(BaseMetorialEndpoint):
     """Read and write team information"""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
-
-    def permissions(self) -> DashboardOrganizationsTeamsPermissionsOutput:
-        """
-    Get team
-    Get the information of a specific team
-
-
-    :return: DashboardOrganizationsTeamsPermissionsOutput
-    """
-        request = MetorialRequest(
-            path=['organization', 'team-role-permissions']
-        )
-        return self._get(request).transform(mapDashboardOrganizationsTeamsPermissionsOutput.from_dict)
 
     def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None) -> DashboardOrganizationsTeamsListOutput:
         """

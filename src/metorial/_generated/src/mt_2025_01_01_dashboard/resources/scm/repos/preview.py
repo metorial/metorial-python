@@ -4,14 +4,9 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
-class ScmReposPreviewOutputReposProvider:
-    type: str
-    name: str
-    owner: str
-@dataclass
 class ScmReposPreviewOutputRepos:
     object: str
-    provider: ScmReposPreviewOutputReposProvider
+    provider: str
     external_id: str
     name: str
     identifier: str
@@ -21,29 +16,12 @@ class ScmReposPreviewOutput:
     repos: List[ScmReposPreviewOutputRepos]
 
 
-class mapScmReposPreviewOutputReposProvider:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ScmReposPreviewOutputReposProvider:
-        return ScmReposPreviewOutputReposProvider(
-        type=data.get('type'),
-        name=data.get('name'),
-        owner=data.get('owner')
-        )
-
-    @staticmethod
-    def to_dict(value: Union[ScmReposPreviewOutputReposProvider, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
 class mapScmReposPreviewOutputRepos:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ScmReposPreviewOutputRepos:
         return ScmReposPreviewOutputRepos(
         object=data.get('object'),
-        provider=mapScmReposPreviewOutputReposProvider.from_dict(data.get('provider')) if data.get('provider') else None,
+        provider=data.get('provider'),
         external_id=data.get('external_id'),
         name=data.get('name'),
         identifier=data.get('identifier')

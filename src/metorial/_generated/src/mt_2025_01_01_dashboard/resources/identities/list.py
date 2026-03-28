@@ -179,6 +179,14 @@ class mapIdentitiesListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class IdentitiesListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class IdentitiesListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class IdentitiesListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -190,6 +198,8 @@ class IdentitiesListQuery:
     id: Optional[Union[str, List[str]]] = None
     agent_id: Optional[Union[str, List[str]]] = None
     actor_id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[IdentitiesListQueryCreatedAt] = None
+    updated_at: Optional[IdentitiesListQueryUpdatedAt] = None
 
 
 class mapIdentitiesListQuery:
@@ -205,7 +215,9 @@ class mapIdentitiesListQuery:
         status=data.get('status'),
         id=data.get('id'),
         agent_id=data.get('agent_id'),
-        actor_id=data.get('actor_id')
+        actor_id=data.get('actor_id'),
+        created_at=mapIdentitiesListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapIdentitiesListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

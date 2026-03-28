@@ -199,6 +199,14 @@ class mapManagementInstanceSessionsProvidersListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class ManagementInstanceSessionsProvidersListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class ManagementInstanceSessionsProvidersListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class ManagementInstanceSessionsProvidersListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -213,6 +221,8 @@ class ManagementInstanceSessionsProvidersListQuery:
     provider_config_id: Optional[Union[str, List[str]]] = None
     provider_auth_config_id: Optional[Union[str, List[str]]] = None
     status: Optional[Union[str, List[str]]] = None
+    created_at: Optional[ManagementInstanceSessionsProvidersListQueryCreatedAt] = None
+    updated_at: Optional[ManagementInstanceSessionsProvidersListQueryUpdatedAt] = None
 
 
 class mapManagementInstanceSessionsProvidersListQuery:
@@ -231,7 +241,9 @@ class mapManagementInstanceSessionsProvidersListQuery:
         provider_deployment_id=data.get('provider_deployment_id'),
         provider_config_id=data.get('provider_config_id'),
         provider_auth_config_id=data.get('provider_auth_config_id'),
-        status=data.get('status')
+        status=data.get('status'),
+        created_at=mapManagementInstanceSessionsProvidersListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapManagementInstanceSessionsProvidersListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

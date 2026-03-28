@@ -13,13 +13,17 @@ class DashboardInstanceSessionsEventsListOutputItemsConnectionMcp:
     protocol_version: str
     transport: str
 @dataclass
+class DashboardInstanceSessionsEventsListOutputItemsConnectionParticipantData:
+    identifier: str
+    name: str
+@dataclass
 class DashboardInstanceSessionsEventsListOutputItemsConnectionParticipant:
     object: str
     id: str
     type: str
     identifier: str
     name: str
-    data: Dict[str, Any]
+    data: DashboardInstanceSessionsEventsListOutputItemsConnectionParticipantData
     created_at: datetime
     provider_id: Optional[str] = None
 @dataclass
@@ -34,9 +38,9 @@ class DashboardInstanceSessionsEventsListOutputItemsConnection:
     has_warnings: bool
     created_at: datetime
     last_message_at: datetime
-    last_active_at: datetime
     mcp: Optional[DashboardInstanceSessionsEventsListOutputItemsConnectionMcp] = None
     participant: Optional[DashboardInstanceSessionsEventsListOutputItemsConnectionParticipant] = None
+    last_active_at: Optional[datetime] = None
 @dataclass
 class DashboardInstanceSessionsEventsListOutputItemsProviderRun:
     object: str
@@ -134,15 +138,23 @@ class DashboardInstanceSessionsEventsListOutputItemsMessageToolCall:
     input: Optional[Dict[str, Any]] = None
     output: Optional[Dict[str, Any]] = None
 @dataclass
+class DashboardInstanceSessionsEventsListOutputItemsMessageSenderParticipantData:
+    identifier: str
+    name: str
+@dataclass
 class DashboardInstanceSessionsEventsListOutputItemsMessageSenderParticipant:
     object: str
     id: str
     type: str
     identifier: str
     name: str
-    data: Dict[str, Any]
+    data: DashboardInstanceSessionsEventsListOutputItemsMessageSenderParticipantData
     created_at: datetime
     provider_id: Optional[str] = None
+@dataclass
+class DashboardInstanceSessionsEventsListOutputItemsMessageResponderParticipantData:
+    identifier: str
+    name: str
 @dataclass
 class DashboardInstanceSessionsEventsListOutputItemsMessageResponderParticipant:
     object: str
@@ -150,7 +162,7 @@ class DashboardInstanceSessionsEventsListOutputItemsMessageResponderParticipant:
     type: str
     identifier: str
     name: str
-    data: Dict[str, Any]
+    data: DashboardInstanceSessionsEventsListOutputItemsMessageResponderParticipantData
     created_at: datetime
     provider_id: Optional[str] = None
 @dataclass
@@ -266,6 +278,22 @@ class mapDashboardInstanceSessionsEventsListOutputItemsConnectionMcp:
             return value
         return dataclasses.asdict(value)
 
+class mapDashboardInstanceSessionsEventsListOutputItemsConnectionParticipantData:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionsEventsListOutputItemsConnectionParticipantData:
+        return DashboardInstanceSessionsEventsListOutputItemsConnectionParticipantData(
+        identifier=data.get('identifier'),
+        name=data.get('name')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSessionsEventsListOutputItemsConnectionParticipantData, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapDashboardInstanceSessionsEventsListOutputItemsConnectionParticipant:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionsEventsListOutputItemsConnectionParticipant:
@@ -275,7 +303,7 @@ class mapDashboardInstanceSessionsEventsListOutputItemsConnectionParticipant:
         type=data.get('type'),
         identifier=data.get('identifier'),
         name=data.get('name'),
-        data=data.get('data'),
+        data=mapDashboardInstanceSessionsEventsListOutputItemsConnectionParticipantData.from_dict(data.get('data')) if data.get('data') else None,
         provider_id=data.get('provider_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
@@ -543,6 +571,22 @@ class mapDashboardInstanceSessionsEventsListOutputItemsMessageToolCall:
             return value
         return dataclasses.asdict(value)
 
+class mapDashboardInstanceSessionsEventsListOutputItemsMessageSenderParticipantData:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionsEventsListOutputItemsMessageSenderParticipantData:
+        return DashboardInstanceSessionsEventsListOutputItemsMessageSenderParticipantData(
+        identifier=data.get('identifier'),
+        name=data.get('name')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSessionsEventsListOutputItemsMessageSenderParticipantData, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapDashboardInstanceSessionsEventsListOutputItemsMessageSenderParticipant:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionsEventsListOutputItemsMessageSenderParticipant:
@@ -552,13 +596,29 @@ class mapDashboardInstanceSessionsEventsListOutputItemsMessageSenderParticipant:
         type=data.get('type'),
         identifier=data.get('identifier'),
         name=data.get('name'),
-        data=data.get('data'),
+        data=mapDashboardInstanceSessionsEventsListOutputItemsMessageSenderParticipantData.from_dict(data.get('data')) if data.get('data') else None,
         provider_id=data.get('provider_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
     def to_dict(value: Union[DashboardInstanceSessionsEventsListOutputItemsMessageSenderParticipant, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceSessionsEventsListOutputItemsMessageResponderParticipantData:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionsEventsListOutputItemsMessageResponderParticipantData:
+        return DashboardInstanceSessionsEventsListOutputItemsMessageResponderParticipantData(
+        identifier=data.get('identifier'),
+        name=data.get('name')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSessionsEventsListOutputItemsMessageResponderParticipantData, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -574,7 +634,7 @@ class mapDashboardInstanceSessionsEventsListOutputItemsMessageResponderParticipa
         type=data.get('type'),
         identifier=data.get('identifier'),
         name=data.get('name'),
-        data=data.get('data'),
+        data=mapDashboardInstanceSessionsEventsListOutputItemsMessageResponderParticipantData.from_dict(data.get('data')) if data.get('data') else None,
         provider_id=data.get('provider_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
@@ -751,6 +811,14 @@ class mapDashboardInstanceSessionsEventsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class DashboardInstanceSessionsEventsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class DashboardInstanceSessionsEventsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class DashboardInstanceSessionsEventsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -765,6 +833,8 @@ class DashboardInstanceSessionsEventsListQuery:
     provider_run_id: Optional[Union[str, List[str]]] = None
     session_message_id: Optional[Union[str, List[str]]] = None
     session_error_id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[DashboardInstanceSessionsEventsListQueryCreatedAt] = None
+    updated_at: Optional[DashboardInstanceSessionsEventsListQueryUpdatedAt] = None
 
 
 class mapDashboardInstanceSessionsEventsListQuery:
@@ -783,7 +853,9 @@ class mapDashboardInstanceSessionsEventsListQuery:
         session_connection_id=data.get('session_connection_id'),
         provider_run_id=data.get('provider_run_id'),
         session_message_id=data.get('session_message_id'),
-        session_error_id=data.get('session_error_id')
+        session_error_id=data.get('session_error_id'),
+        created_at=mapDashboardInstanceSessionsEventsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapDashboardInstanceSessionsEventsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

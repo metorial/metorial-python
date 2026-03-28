@@ -8,7 +8,7 @@ class MetorialManagementInstanceIdentitiesCredentialsEndpoint(BaseMetorialEndpoi
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, agent_id: Optional[Union[str, List[str]]] = None, actor_id: Optional[Union[str, List[str]]] = None, identity_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, provider_config_id: Optional[Union[str, List[str]]] = None, provider_auth_config_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceIdentitiesCredentialsListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, agent_id: Optional[Union[str, List[str]]] = None, actor_id: Optional[Union[str, List[str]]] = None, identity_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, provider_config_id: Optional[Union[str, List[str]]] = None, provider_auth_config_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceIdentitiesCredentialsListOutput:
         """
     List identity credentials
     Returns a paginated list of identity credentials for the instance.
@@ -28,6 +28,8 @@ class MetorialManagementInstanceIdentitiesCredentialsEndpoint(BaseMetorialEndpoi
     :param provider_deployment_id: Optional[Union[str, List[str]]] (optional)
     :param provider_config_id: Optional[Union[str, List[str]]] (optional)
     :param provider_auth_config_id: Optional[Union[str, List[str]]] (optional)
+    :param created_at: Optional[Dict[str, Any]] (optional)
+    :param updated_at: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceIdentitiesCredentialsListOutput
     """
         # Build query parameters from keyword arguments
@@ -60,6 +62,10 @@ class MetorialManagementInstanceIdentitiesCredentialsEndpoint(BaseMetorialEndpoi
             query_dict["provider_config_id"] = provider_config_id
         if provider_auth_config_id is not None:
             query_dict["provider_auth_config_id"] = provider_auth_config_id
+        if created_at is not None:
+            query_dict["created_at"] = created_at
+        if updated_at is not None:
+            query_dict["updated_at"] = updated_at
 
         request = MetorialRequest(
             path=['instances', instance_id, 'identity-credentials'],

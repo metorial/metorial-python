@@ -95,6 +95,7 @@ class ApiKeysRotateOutput:
     secret_redacted_long: str
     type: str
     name: str
+    ip_filters: List[str]
     machine_access: ApiKeysRotateOutputMachineAccess
     created_at: datetime
     updated_at: datetime
@@ -298,6 +299,7 @@ class mapApiKeysRotateOutput:
         type=data.get('type'),
         name=data.get('name'),
         description=data.get('description'),
+        ip_filters=data.get('ip_filters', []),
         machine_access=mapApiKeysRotateOutputMachineAccess.from_dict(data.get('machine_access')) if data.get('machine_access') else None,
         deleted_at=datetime.fromisoformat(data.get('deleted_at').replace('Z', '+00:00')) if data.get('deleted_at') else None,
         last_used_at=datetime.fromisoformat(data.get('last_used_at').replace('Z', '+00:00')) if data.get('last_used_at') else None,

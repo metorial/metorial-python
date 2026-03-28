@@ -13,13 +13,17 @@ class SessionsEventsListOutputItemsConnectionMcp:
     protocol_version: str
     transport: str
 @dataclass
+class SessionsEventsListOutputItemsConnectionParticipantData:
+    identifier: str
+    name: str
+@dataclass
 class SessionsEventsListOutputItemsConnectionParticipant:
     object: str
     id: str
     type: str
     identifier: str
     name: str
-    data: Dict[str, Any]
+    data: SessionsEventsListOutputItemsConnectionParticipantData
     created_at: datetime
     provider_id: Optional[str] = None
 @dataclass
@@ -34,9 +38,9 @@ class SessionsEventsListOutputItemsConnection:
     has_warnings: bool
     created_at: datetime
     last_message_at: datetime
-    last_active_at: datetime
     mcp: Optional[SessionsEventsListOutputItemsConnectionMcp] = None
     participant: Optional[SessionsEventsListOutputItemsConnectionParticipant] = None
+    last_active_at: Optional[datetime] = None
 @dataclass
 class SessionsEventsListOutputItemsProviderRun:
     object: str
@@ -134,15 +138,23 @@ class SessionsEventsListOutputItemsMessageToolCall:
     input: Optional[Dict[str, Any]] = None
     output: Optional[Dict[str, Any]] = None
 @dataclass
+class SessionsEventsListOutputItemsMessageSenderParticipantData:
+    identifier: str
+    name: str
+@dataclass
 class SessionsEventsListOutputItemsMessageSenderParticipant:
     object: str
     id: str
     type: str
     identifier: str
     name: str
-    data: Dict[str, Any]
+    data: SessionsEventsListOutputItemsMessageSenderParticipantData
     created_at: datetime
     provider_id: Optional[str] = None
+@dataclass
+class SessionsEventsListOutputItemsMessageResponderParticipantData:
+    identifier: str
+    name: str
 @dataclass
 class SessionsEventsListOutputItemsMessageResponderParticipant:
     object: str
@@ -150,7 +162,7 @@ class SessionsEventsListOutputItemsMessageResponderParticipant:
     type: str
     identifier: str
     name: str
-    data: Dict[str, Any]
+    data: SessionsEventsListOutputItemsMessageResponderParticipantData
     created_at: datetime
     provider_id: Optional[str] = None
 @dataclass
@@ -266,6 +278,22 @@ class mapSessionsEventsListOutputItemsConnectionMcp:
             return value
         return dataclasses.asdict(value)
 
+class mapSessionsEventsListOutputItemsConnectionParticipantData:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> SessionsEventsListOutputItemsConnectionParticipantData:
+        return SessionsEventsListOutputItemsConnectionParticipantData(
+        identifier=data.get('identifier'),
+        name=data.get('name')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[SessionsEventsListOutputItemsConnectionParticipantData, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapSessionsEventsListOutputItemsConnectionParticipant:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> SessionsEventsListOutputItemsConnectionParticipant:
@@ -275,7 +303,7 @@ class mapSessionsEventsListOutputItemsConnectionParticipant:
         type=data.get('type'),
         identifier=data.get('identifier'),
         name=data.get('name'),
-        data=data.get('data'),
+        data=mapSessionsEventsListOutputItemsConnectionParticipantData.from_dict(data.get('data')) if data.get('data') else None,
         provider_id=data.get('provider_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
@@ -543,6 +571,22 @@ class mapSessionsEventsListOutputItemsMessageToolCall:
             return value
         return dataclasses.asdict(value)
 
+class mapSessionsEventsListOutputItemsMessageSenderParticipantData:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> SessionsEventsListOutputItemsMessageSenderParticipantData:
+        return SessionsEventsListOutputItemsMessageSenderParticipantData(
+        identifier=data.get('identifier'),
+        name=data.get('name')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[SessionsEventsListOutputItemsMessageSenderParticipantData, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapSessionsEventsListOutputItemsMessageSenderParticipant:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> SessionsEventsListOutputItemsMessageSenderParticipant:
@@ -552,13 +596,29 @@ class mapSessionsEventsListOutputItemsMessageSenderParticipant:
         type=data.get('type'),
         identifier=data.get('identifier'),
         name=data.get('name'),
-        data=data.get('data'),
+        data=mapSessionsEventsListOutputItemsMessageSenderParticipantData.from_dict(data.get('data')) if data.get('data') else None,
         provider_id=data.get('provider_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
     def to_dict(value: Union[SessionsEventsListOutputItemsMessageSenderParticipant, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapSessionsEventsListOutputItemsMessageResponderParticipantData:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> SessionsEventsListOutputItemsMessageResponderParticipantData:
+        return SessionsEventsListOutputItemsMessageResponderParticipantData(
+        identifier=data.get('identifier'),
+        name=data.get('name')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[SessionsEventsListOutputItemsMessageResponderParticipantData, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -574,7 +634,7 @@ class mapSessionsEventsListOutputItemsMessageResponderParticipant:
         type=data.get('type'),
         identifier=data.get('identifier'),
         name=data.get('name'),
-        data=data.get('data'),
+        data=mapSessionsEventsListOutputItemsMessageResponderParticipantData.from_dict(data.get('data')) if data.get('data') else None,
         provider_id=data.get('provider_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
@@ -751,6 +811,14 @@ class mapSessionsEventsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class SessionsEventsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class SessionsEventsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class SessionsEventsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -765,6 +833,8 @@ class SessionsEventsListQuery:
     provider_run_id: Optional[Union[str, List[str]]] = None
     session_message_id: Optional[Union[str, List[str]]] = None
     session_error_id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[SessionsEventsListQueryCreatedAt] = None
+    updated_at: Optional[SessionsEventsListQueryUpdatedAt] = None
 
 
 class mapSessionsEventsListQuery:
@@ -783,7 +853,9 @@ class mapSessionsEventsListQuery:
         session_connection_id=data.get('session_connection_id'),
         provider_run_id=data.get('provider_run_id'),
         session_message_id=data.get('session_message_id'),
-        session_error_id=data.get('session_error_id')
+        session_error_id=data.get('session_error_id'),
+        created_at=mapSessionsEventsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapSessionsEventsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

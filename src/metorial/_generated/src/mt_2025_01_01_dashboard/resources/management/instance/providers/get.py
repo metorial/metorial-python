@@ -38,6 +38,7 @@ class ManagementInstanceProvidersGetOutputType:
     object: str
     id: str
     name: str
+    triggers: Dict[str, Any]
     config: Dict[str, Any]
     auth: Dict[str, Any]
     created_at: datetime

@@ -377,6 +377,14 @@ class mapIdentitiesDelegationRequestsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class IdentitiesDelegationRequestsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class IdentitiesDelegationRequestsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class IdentitiesDelegationRequestsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -387,6 +395,8 @@ class IdentitiesDelegationRequestsListQuery:
     id: Optional[Union[str, List[str]]] = None
     actor_id: Optional[Union[str, List[str]]] = None
     identity_id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[IdentitiesDelegationRequestsListQueryCreatedAt] = None
+    updated_at: Optional[IdentitiesDelegationRequestsListQueryUpdatedAt] = None
 
 
 class mapIdentitiesDelegationRequestsListQuery:
@@ -401,7 +411,9 @@ class mapIdentitiesDelegationRequestsListQuery:
         status=data.get('status'),
         id=data.get('id'),
         actor_id=data.get('actor_id'),
-        identity_id=data.get('identity_id')
+        identity_id=data.get('identity_id'),
+        created_at=mapIdentitiesDelegationRequestsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapIdentitiesDelegationRequestsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

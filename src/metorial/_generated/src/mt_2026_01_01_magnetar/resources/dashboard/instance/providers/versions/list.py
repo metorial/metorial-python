@@ -85,6 +85,14 @@ class mapDashboardInstanceProvidersVersionsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class DashboardInstanceProvidersVersionsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class DashboardInstanceProvidersVersionsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class DashboardInstanceProvidersVersionsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -93,6 +101,8 @@ class DashboardInstanceProvidersVersionsListQuery:
     order: Optional[str] = None
     id: Optional[Union[str, List[str]]] = None
     provider_id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[DashboardInstanceProvidersVersionsListQueryCreatedAt] = None
+    updated_at: Optional[DashboardInstanceProvidersVersionsListQueryUpdatedAt] = None
 
 
 class mapDashboardInstanceProvidersVersionsListQuery:
@@ -105,7 +115,9 @@ class mapDashboardInstanceProvidersVersionsListQuery:
         cursor=data.get('cursor'),
         order=data.get('order'),
         id=data.get('id'),
-        provider_id=data.get('provider_id')
+        provider_id=data.get('provider_id'),
+        created_at=mapDashboardInstanceProvidersVersionsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapDashboardInstanceProvidersVersionsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

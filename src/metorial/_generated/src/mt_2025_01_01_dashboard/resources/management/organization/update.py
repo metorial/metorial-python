@@ -41,13 +41,15 @@ class mapManagementOrganizationUpdateOutput:
 @dataclass
 class ManagementOrganizationUpdateBody:
     name: Optional[str] = None
+    image_file_id: Optional[str] = None
 
 
 class mapManagementOrganizationUpdateBody:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementOrganizationUpdateBody:
         return ManagementOrganizationUpdateBody(
-        name=data.get('name')
+        name=data.get('name'),
+        image_file_id=data.get('image_file_id')
         )
 
     @staticmethod

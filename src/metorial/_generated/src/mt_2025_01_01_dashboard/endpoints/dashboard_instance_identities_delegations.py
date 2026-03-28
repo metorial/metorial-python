@@ -9,7 +9,7 @@ class MetorialDashboardInstanceIdentitiesDelegationsEndpoint(BaseMetorialEndpoin
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, permissions: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, owner_actor_id: Optional[Union[str, List[str]]] = None, delegator_actor_id: Optional[Union[str, List[str]]] = None, delegatee_actor_id: Optional[Union[str, List[str]]] = None, identity_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceIdentitiesDelegationsListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, permissions: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, owner_actor_id: Optional[Union[str, List[str]]] = None, delegator_actor_id: Optional[Union[str, List[str]]] = None, delegatee_actor_id: Optional[Union[str, List[str]]] = None, identity_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceIdentitiesDelegationsListOutput:
         """
     List identity delegations
     Returns a paginated list of identity delegations for the instance.
@@ -27,6 +27,8 @@ class MetorialDashboardInstanceIdentitiesDelegationsEndpoint(BaseMetorialEndpoin
     :param delegator_actor_id: Optional[Union[str, List[str]]] (optional)
     :param delegatee_actor_id: Optional[Union[str, List[str]]] (optional)
     :param identity_id: Optional[Union[str, List[str]]] (optional)
+    :param created_at: Optional[Dict[str, Any]] (optional)
+    :param updated_at: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceIdentitiesDelegationsListOutput
     """
         # Build query parameters from keyword arguments
@@ -55,6 +57,10 @@ class MetorialDashboardInstanceIdentitiesDelegationsEndpoint(BaseMetorialEndpoin
             query_dict["delegatee_actor_id"] = delegatee_actor_id
         if identity_id is not None:
             query_dict["identity_id"] = identity_id
+        if created_at is not None:
+            query_dict["created_at"] = created_at
+        if updated_at is not None:
+            query_dict["updated_at"] = updated_at
 
         request = MetorialRequest(
             path=['dashboard', 'instances', instance_id, 'identity-delegations'],
