@@ -8,7 +8,7 @@ class MetorialManagementInstanceCustomProvidersEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, type: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceCustomProvidersListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, type: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, search: Optional[str] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceCustomProvidersListOutput:
         """
     List custom providers
     Returns a paginated list of custom providers.
@@ -23,6 +23,9 @@ class MetorialManagementInstanceCustomProvidersEndpoint(BaseMetorialEndpoint):
     :param type: Optional[Union[str, List[str]]] (optional)
     :param id: Optional[Union[str, List[str]]] (optional)
     :param provider_id: Optional[Union[str, List[str]]] (optional)
+    :param search: Optional[str] (optional)
+    :param created_at: Optional[Dict[str, Any]] (optional)
+    :param updated_at: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceCustomProvidersListOutput
     """
         # Build query parameters from keyword arguments
@@ -45,6 +48,12 @@ class MetorialManagementInstanceCustomProvidersEndpoint(BaseMetorialEndpoint):
             query_dict["id"] = id
         if provider_id is not None:
             query_dict["provider_id"] = provider_id
+        if search is not None:
+            query_dict["search"] = search
+        if created_at is not None:
+            query_dict["created_at"] = created_at
+        if updated_at is not None:
+            query_dict["updated_at"] = updated_at
 
         request = MetorialRequest(
             path=['instances', instance_id, 'custom-providers'],
@@ -96,7 +105,7 @@ class MetorialManagementInstanceCustomProvidersEndpoint(BaseMetorialEndpoint):
         )
         return self._post(request).transform(mapDashboardInstanceCustomProvidersCreateOutput.from_dict)
 
-    def update(self, instance_id: str, custom_provider_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceCustomProvidersUpdateOutput:
+    def update(self, instance_id: str, custom_provider_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, readme: Optional[str] = None) -> DashboardInstanceCustomProvidersUpdateOutput:
         """
     Update custom provider
     Updates a specific custom provider.
@@ -106,6 +115,7 @@ class MetorialManagementInstanceCustomProvidersEndpoint(BaseMetorialEndpoint):
     :param name: Optional[str] (optional)
     :param description: Optional[str] (optional)
     :param metadata: Optional[Dict[str, Any]] (optional)
+    :param readme: Optional[str] (optional)
     :return: DashboardInstanceCustomProvidersUpdateOutput
     """
         # Build body parameters from keyword arguments
@@ -116,6 +126,8 @@ class MetorialManagementInstanceCustomProvidersEndpoint(BaseMetorialEndpoint):
             body_dict["description"] = description
         if metadata is not None:
             body_dict["metadata"] = metadata
+        if readme is not None:
+            body_dict["readme"] = readme
 
         request = MetorialRequest(
             path=['instances', instance_id, 'custom-providers', custom_provider_id],

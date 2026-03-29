@@ -8,9 +8,14 @@ class DashboardInstanceProvidersVersionsListOutputItems:
     object: str
     id: str
     version: str
-    status: str
+    provider_id: str
+    is_current: bool
+    name: str
     created_at: datetime
     updated_at: datetime
+    description: Optional[str] = None
+    metadata: Optional[Dict[str, Any]] = None
+    specification_id: Optional[str] = None
 @dataclass
 class DashboardInstanceProvidersVersionsListOutputPagination:
     has_more_before: bool
@@ -28,9 +33,14 @@ class mapDashboardInstanceProvidersVersionsListOutputItems:
         object=data.get('object'),
         id=data.get('id'),
         version=data.get('version'),
-        status=data.get('status'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        provider_id=data.get('provider_id'),
+        is_current=data.get('is_current'),
+        name=data.get('name'),
+        description=data.get('description'),
+        metadata=data.get('metadata'),
+        specification_id=data.get('specification_id'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -81,6 +91,8 @@ class DashboardInstanceProvidersVersionsListQuery:
     before: Optional[str] = None
     cursor: Optional[str] = None
     order: Optional[str] = None
+    id: Optional[Union[str, List[str]]] = None
+    provider_id: Optional[Union[str, List[str]]] = None
 
 
 class mapDashboardInstanceProvidersVersionsListQuery:
@@ -91,7 +103,9 @@ class mapDashboardInstanceProvidersVersionsListQuery:
         after=data.get('after'),
         before=data.get('before'),
         cursor=data.get('cursor'),
-        order=data.get('order')
+        order=data.get('order'),
+        id=data.get('id'),
+        provider_id=data.get('provider_id')
         )
 
     @staticmethod
@@ -102,3 +116,4 @@ class mapDashboardInstanceProvidersVersionsListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

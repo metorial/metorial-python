@@ -4,6 +4,13 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class ManagementOrganizationTeamsCreateOutputPolicies:
+    object: str
+    id: str
+    type: str
+    name: str
+    slug: str
+@dataclass
 class ManagementOrganizationTeamsCreateOutputProjectsProject:
     object: str
     id: str
@@ -14,29 +21,11 @@ class ManagementOrganizationTeamsCreateOutputProjectsProject:
     created_at: datetime
     updated_at: datetime
 @dataclass
-class ManagementOrganizationTeamsCreateOutputProjectsRolesRole:
-    object: str
-    id: str
-    organization_id: str
-    name: str
-    slug: str
-    permissions: List[str]
-    created_at: datetime
-    updated_at: datetime
-    description: Optional[str] = None
-@dataclass
-class ManagementOrganizationTeamsCreateOutputProjectsRoles:
-    id: str
-    role: ManagementOrganizationTeamsCreateOutputProjectsRolesRole
-    created_at: datetime
-    updated_at: datetime
-@dataclass
 class ManagementOrganizationTeamsCreateOutputProjects:
     id: str
     created_at: datetime
     updated_at: datetime
     project: ManagementOrganizationTeamsCreateOutputProjectsProject
-    roles: List[ManagementOrganizationTeamsCreateOutputProjectsRoles]
 @dataclass
 class ManagementOrganizationTeamsCreateOutput:
     object: str
@@ -44,11 +33,31 @@ class ManagementOrganizationTeamsCreateOutput:
     organization_id: str
     name: str
     slug: str
+    policies: List[ManagementOrganizationTeamsCreateOutputPolicies]
     projects: List[ManagementOrganizationTeamsCreateOutputProjects]
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
 
+
+class mapManagementOrganizationTeamsCreateOutputPolicies:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementOrganizationTeamsCreateOutputPolicies:
+        return ManagementOrganizationTeamsCreateOutputPolicies(
+        object=data.get('object'),
+        id=data.get('id'),
+        type=data.get('type'),
+        name=data.get('name'),
+        slug=data.get('slug')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementOrganizationTeamsCreateOutputPolicies, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapManagementOrganizationTeamsCreateOutputProjectsProject:
     @staticmethod
@@ -60,53 +69,12 @@ class mapManagementOrganizationTeamsCreateOutputProjectsProject:
         slug=data.get('slug'),
         name=data.get('name'),
         organization_id=data.get('organization_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
     def to_dict(value: Union[ManagementOrganizationTeamsCreateOutputProjectsProject, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapManagementOrganizationTeamsCreateOutputProjectsRolesRole:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ManagementOrganizationTeamsCreateOutputProjectsRolesRole:
-        return ManagementOrganizationTeamsCreateOutputProjectsRolesRole(
-        object=data.get('object'),
-        id=data.get('id'),
-        organization_id=data.get('organization_id'),
-        name=data.get('name'),
-        slug=data.get('slug'),
-        description=data.get('description'),
-        permissions=data.get('permissions', []),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[ManagementOrganizationTeamsCreateOutputProjectsRolesRole, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapManagementOrganizationTeamsCreateOutputProjectsRoles:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ManagementOrganizationTeamsCreateOutputProjectsRoles:
-        return ManagementOrganizationTeamsCreateOutputProjectsRoles(
-        id=data.get('id'),
-        role=mapManagementOrganizationTeamsCreateOutputProjectsRolesRole.from_dict(data.get('role')) if data.get('role') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[ManagementOrganizationTeamsCreateOutputProjectsRoles, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -118,10 +86,9 @@ class mapManagementOrganizationTeamsCreateOutputProjects:
     def from_dict(data: Dict[str, Any]) -> ManagementOrganizationTeamsCreateOutputProjects:
         return ManagementOrganizationTeamsCreateOutputProjects(
         id=data.get('id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None,
-        project=mapManagementOrganizationTeamsCreateOutputProjectsProject.from_dict(data.get('project')) if data.get('project') else None,
-        roles=[mapManagementOrganizationTeamsCreateOutputProjectsRoles.from_dict(item) for item in data.get('roles', []) if item]
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
+        project=mapManagementOrganizationTeamsCreateOutputProjectsProject.from_dict(data.get('project')) if data.get('project') else None
         )
 
     @staticmethod
@@ -142,9 +109,10 @@ class mapManagementOrganizationTeamsCreateOutput:
         name=data.get('name'),
         slug=data.get('slug'),
         description=data.get('description'),
+        policies=[mapManagementOrganizationTeamsCreateOutputPolicies.from_dict(item) for item in data.get('policies', []) if item],
         projects=[mapManagementOrganizationTeamsCreateOutputProjects.from_dict(item) for item in data.get('projects', []) if item],
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -178,3 +146,4 @@ class mapManagementOrganizationTeamsCreateBody:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

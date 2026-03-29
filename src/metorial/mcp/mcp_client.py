@@ -6,14 +6,9 @@ import logging
 from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
 from datetime import timedelta
-from typing import TYPE_CHECKING, Any, TypedDict, TypeVar, cast
-from urllib.parse import urlencode, urljoin
+from typing import Any, TypedDict, TypeVar
 
-from anyio.streams.memory import MemoryObjectReceiveStream, MemoryObjectSendStream
 from mcp import ClientSession
-from mcp.client.sse import sse_client
-from mcp.client.streamable_http import streamablehttp_client
-from mcp.shared.message import SessionMessage
 from mcp.types import (
   Implementation,
   LoggingLevel,
@@ -22,8 +17,9 @@ from mcp.types import (
 )
 from pydantic import AnyUrl
 
+from .transport import MetorialMcpTransport
 
-# TypedDicts for method parameters (matching how they're actually called)
+
 class CallToolParams(TypedDict, total=False):
   name: str
   arguments: dict[str, Any] | None
@@ -46,14 +42,6 @@ class ReadResourceParams(TypedDict, total=False):
 class ListRequestParams(TypedDict, total=False):
   cursor: str | None
 
-
-if TYPE_CHECKING:
-  import anyio
-else:
-  try:
-    import anyio
-  except ImportError:  # pragma: no cover
-    anyio = None
 
 T = TypeVar("T")
 
@@ -101,102 +89,6 @@ class MetorialMcpClient:
     await self.close()
 
   @classmethod
-  async def create(
-    cls,
-    session: Any,  # real Metorial session type
-    *,
-    host: str,
-    deployment_id: str,
-    client_name: str | None = None,
-    client_version: str | None = None,
-    use_sse: bool = True,
-    use_http_stream: bool = False,
-    connect_timeout: float = 30.0,
-    read_timeout: float = 60.0,
-    handshake_timeout: float = 3.0,
-    extra_query: dict[str, str] | None = None,
-    headers: dict[str, str] | None = None,
-    log_raw_messages: bool = False,
-    raw_message_logger: Callable[[str], None] | None = None,
-  ) -> MetorialMcpClient:
-    """Create and connect a client."""
-    client_name = client_name or "metorial-py-client"
-    client_version = client_version or "1.0.0"
-
-    # Build URL
-    path = f"/mcp/{session.id}/{deployment_id}/sse"
-    q = {"key": session.clientSecret.secret}
-    if extra_query:
-      q.update(extra_query)
-    query = urlencode(q)
-    base = host if host.endswith("/") else host + "/"
-    url = urljoin(base, path) + f"?{query}"
-
-    _log_info(
-      "Connecting to MCP endpoint",
-      extra={
-        "url": url,
-        "deployment_id": deployment_id,
-        "session_id": session.id,
-      },
-    )
-    if headers:
-      logger.debug("Custom headers set: %s", list(headers.keys()))
-
-    # Pick transport and connect
-    def _build_cm() -> Any:
-      if use_http_stream:
-        from datetime import timedelta
-
-        timeout_delta = timedelta(seconds=connect_timeout)
-        return streamablehttp_client(url=url, timeout=timeout_delta, headers=headers)
-      if use_sse:
-        return sse_client(url=url, timeout=connect_timeout, headers=headers)
-      raise NotImplementedError("Only SSE or HTTP stream transports are supported.")
-
-    cm = _build_cm()
-    transport = await cm.__aenter__()
-    # streamable_http returns (read, write, get_session_id); sse returns (read, write)
-    read, write = transport[0], transport[1]
-    logger.debug("Transport entered (read/write acquired)")
-
-    async def transport_closer() -> None:
-      logger.debug("Closing transport")
-      await cm.__aexit__(None, None, None)
-
-    # Optionally wrap read/write to log raw traffic
-    if log_raw_messages:
-      read, write = wrap_streams_with_logging(
-        read, write, raw_message_logger or (lambda m: logger.debug("RAW %s", m))
-      )
-
-    client_info = Implementation(name=client_name, version=client_version)
-
-    session_cm = ClientSession(
-      read,
-      write,
-      client_info=client_info,
-      read_timeout_seconds=timedelta(seconds=read_timeout),
-    )
-    await session_cm.__aenter__()
-    logger.debug("ClientSession entered; initializing")
-
-    try:
-      await asyncio.wait_for(session_cm.initialize(), timeout=handshake_timeout)
-      _log_info("MCP session initialized")
-    except Exception:
-      logger.exception("Initialize failed, cleaning up")
-      await session_cm.__aexit__(None, None, None)
-      await transport_closer()
-      raise
-
-    return cls(
-      session=session_cm,
-      transport_closer=transport_closer,
-      default_timeout=read_timeout,
-    )
-
-  @classmethod
   async def from_url(
     cls,
     url: str,
@@ -209,25 +101,25 @@ class MetorialMcpClient:
     headers: dict[str, str] | None = None,
     use_http_stream: bool = False,
     log_raw_messages: bool = False,
-    raw_message_logger: Callable[[str], None] | None = None,
+    raw_message_logger: Any | None = None,
   ) -> MetorialMcpClient:
-    """Directly connect using a full SSE or Streamable HTTP URL."""
-    if use_http_stream:
-      timeout_delta = timedelta(seconds=connect_timeout)
-      cm = streamablehttp_client(url=url, timeout=timeout_delta, headers=headers)
-    else:
-      cm = sse_client(url=url, timeout=connect_timeout, headers=headers)
-    transport = await cm.__aenter__()
-    # streamable_http returns (read, write, get_session_id); sse returns (read, write)
-    read, write = transport[0], transport[1]
-
-    async def transport_closer() -> None:
-      await cm.__aexit__(None, None, None)
-
-    if log_raw_messages:
-      read, write = wrap_streams_with_logging(
-        read, write, raw_message_logger or (lambda m: logger.debug("RAW %s", m))
+    """Directly connect using a full Streamable HTTP URL."""
+    if not use_http_stream:
+      raise NotImplementedError(
+        "Pulsar/SSE transport is no longer supported. Use Streamable HTTP."
       )
+    if log_raw_messages:
+      logger.debug("Raw message logging is not supported on the owned transport.")
+    if raw_message_logger is not None:
+      logger.debug("Custom raw message logger is ignored on the owned transport.")
+
+    transport = MetorialMcpTransport(
+      url=url,
+      headers=headers,
+      connect_timeout=connect_timeout,
+      read_timeout=read_timeout,
+    )
+    read, write = await transport.open()
 
     client_info = Implementation(name=client_name, version=client_version)
     session_cm = ClientSession(
@@ -241,11 +133,12 @@ class MetorialMcpClient:
       await asyncio.wait_for(session_cm.initialize(), timeout=handshake_timeout)
     except Exception:
       await session_cm.__aexit__(None, None, None)
-      await transport_closer()
+      await transport.close()
       raise
+
     return cls(
       session=session_cm,
-      transport_closer=transport_closer,
+      transport_closer=transport.close,
       default_timeout=read_timeout,
     )
 
@@ -425,67 +318,3 @@ class MetorialMcpClient:
     except Exception:
       # All cleanup should be resilient and not raise
       pass
-
-  def close_sync(self) -> None:
-    try:
-      loop = asyncio.get_running_loop()
-    except RuntimeError:
-      asyncio.run(self.close())
-    else:
-      loop.run_until_complete(self.close())
-
-
-class _LoggingRecvStream:
-  def __init__(
-    self,
-    inner: MemoryObjectReceiveStream[SessionMessage | Exception],
-    logger_fn: Callable[[str], None],
-  ) -> None:
-    self._inner = inner
-    self._log = logger_fn
-
-  async def receive(self) -> SessionMessage | Exception:
-    msg = await self._inner.receive()
-    self._log(f"<- {msg}")
-    return msg
-
-  # delegate everything else (aclose, __aenter__, __aexit__, etc.)
-  def __getattr__(self, name: str) -> Any:
-    return getattr(self._inner, name)
-
-
-class _LoggingSendStream:
-  def __init__(
-    self,
-    inner: MemoryObjectSendStream[SessionMessage],
-    logger_fn: Callable[[str], None],
-  ) -> None:
-    self._inner = inner
-    self._log = logger_fn
-
-  async def send(self, msg: SessionMessage) -> None:
-    self._log(f"-> {msg}")
-    await self._inner.send(msg)
-
-  def __getattr__(self, name: str) -> Any:
-    return getattr(self._inner, name)
-
-
-def wrap_streams_with_logging(
-  read_stream: MemoryObjectReceiveStream[SessionMessage | Exception],
-  write_stream: MemoryObjectSendStream[SessionMessage],
-  logger_fn: Callable[[str], None],
-) -> tuple[
-  MemoryObjectReceiveStream[SessionMessage | Exception],
-  MemoryObjectSendStream[SessionMessage],
-]:
-  return (
-    cast(
-      MemoryObjectReceiveStream[SessionMessage | Exception],
-      _LoggingRecvStream(read_stream, logger_fn),
-    ),
-    cast(
-      MemoryObjectSendStream[SessionMessage],
-      _LoggingSendStream(write_stream, logger_fn),
-    ),
-  )

@@ -8,7 +8,7 @@ class MetorialDashboardInstanceProvidersSpecificationsEndpoint(BaseMetorialEndpo
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_version_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, provider_config_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceProvidersSpecificationsListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_version_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, provider_config_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceProvidersSpecificationsListOutput:
         """
     List provider specifications
     Returns a paginated list of provider specifications.
@@ -24,6 +24,8 @@ class MetorialDashboardInstanceProvidersSpecificationsEndpoint(BaseMetorialEndpo
     :param provider_version_id: Optional[Union[str, List[str]]] (optional)
     :param provider_deployment_id: Optional[Union[str, List[str]]] (optional)
     :param provider_config_id: Optional[Union[str, List[str]]] (optional)
+    :param created_at: Optional[Dict[str, Any]] (optional)
+    :param updated_at: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceProvidersSpecificationsListOutput
     """
         # Build query parameters from keyword arguments
@@ -48,6 +50,10 @@ class MetorialDashboardInstanceProvidersSpecificationsEndpoint(BaseMetorialEndpo
             query_dict["provider_deployment_id"] = provider_deployment_id
         if provider_config_id is not None:
             query_dict["provider_config_id"] = provider_config_id
+        if created_at is not None:
+            query_dict["created_at"] = created_at
+        if updated_at is not None:
+            query_dict["updated_at"] = updated_at
 
         request = MetorialRequest(
             path=['dashboard', 'instances', instance_id, 'provider-specifications'],

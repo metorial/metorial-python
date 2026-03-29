@@ -20,6 +20,7 @@ class ManagementInstanceProviderDeploymentsAuthConfigsImportsListOutputItemsAuth
     id: str
     type: str
     is_default: bool
+    is_managed: bool
     provider_id: str
     created_at: datetime
     updated_at: datetime
@@ -110,8 +111,8 @@ class mapManagementInstanceProviderDeploymentsAuthConfigsImportsListOutputItemsA
         description=data.get('description'),
         metadata=data.get('metadata'),
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -130,12 +131,13 @@ class mapManagementInstanceProviderDeploymentsAuthConfigsImportsListOutputItemsA
         id=data.get('id'),
         type=data.get('type'),
         is_default=data.get('is_default'),
+        is_managed=data.get('is_managed'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -213,8 +215,8 @@ class mapManagementInstanceProviderDeploymentsAuthConfigsImportsListOutputItemsA
         scopes=[mapManagementInstanceProviderDeploymentsAuthConfigsImportsListOutputItemsAuthConfigAuthMethodScopes.from_dict(item) for item in data.get('scopes', []) if item],
         provider_id=data.get('provider_id'),
         provider_specification_id=data.get('provider_specification_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -242,8 +244,8 @@ class mapManagementInstanceProviderDeploymentsAuthConfigsImportsListOutputItemsA
         deployment_preview=mapManagementInstanceProviderDeploymentsAuthConfigsImportsListOutputItemsAuthConfigDeploymentPreview.from_dict(data.get('deployment_preview')) if data.get('deployment_preview') else None,
         credentials=mapManagementInstanceProviderDeploymentsAuthConfigsImportsListOutputItemsAuthConfigCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,
         auth_method=mapManagementInstanceProviderDeploymentsAuthConfigsImportsListOutputItemsAuthConfigAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -269,8 +271,8 @@ class mapManagementInstanceProviderDeploymentsAuthConfigsImportsListOutputItems:
         provider_deployment_id=data.get('provider_deployment_id'),
         auth_method_id=data.get('auth_method_id'),
         credentials_id=data.get('credentials_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        expires_at=datetime.fromisoformat(data.get('expires_at')) if data.get('expires_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        expires_at=datetime.fromisoformat(data.get('expires_at').replace('Z', '+00:00')) if data.get('expires_at') else None
         )
 
     @staticmethod
@@ -315,6 +317,14 @@ class mapManagementInstanceProviderDeploymentsAuthConfigsImportsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class ManagementInstanceProviderDeploymentsAuthConfigsImportsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class ManagementInstanceProviderDeploymentsAuthConfigsImportsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class ManagementInstanceProviderDeploymentsAuthConfigsImportsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -326,6 +336,8 @@ class ManagementInstanceProviderDeploymentsAuthConfigsImportsListQuery:
     provider_auth_credentials_id: Optional[Union[str, List[str]]] = None
     provider_auth_config_id: Optional[Union[str, List[str]]] = None
     provider_deployment_id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[ManagementInstanceProviderDeploymentsAuthConfigsImportsListQueryCreatedAt] = None
+    updated_at: Optional[ManagementInstanceProviderDeploymentsAuthConfigsImportsListQueryUpdatedAt] = None
 
 
 class mapManagementInstanceProviderDeploymentsAuthConfigsImportsListQuery:
@@ -341,7 +353,9 @@ class mapManagementInstanceProviderDeploymentsAuthConfigsImportsListQuery:
         provider_id=data.get('provider_id'),
         provider_auth_credentials_id=data.get('provider_auth_credentials_id'),
         provider_auth_config_id=data.get('provider_auth_config_id'),
-        provider_deployment_id=data.get('provider_deployment_id')
+        provider_deployment_id=data.get('provider_deployment_id'),
+        created_at=mapManagementInstanceProviderDeploymentsAuthConfigsImportsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapManagementInstanceProviderDeploymentsAuthConfigsImportsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -352,3 +366,4 @@ class mapManagementInstanceProviderDeploymentsAuthConfigsImportsListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

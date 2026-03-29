@@ -4,13 +4,9 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
-class DashboardInstanceScmAccountsPreviewOutputAccountsProvider:
-    type: str
-    name: str
-@dataclass
 class DashboardInstanceScmAccountsPreviewOutputAccounts:
     object: str
-    provider: DashboardInstanceScmAccountsPreviewOutputAccountsProvider
+    provider: str
     external_id: str
     name: str
     identifier: str
@@ -20,28 +16,12 @@ class DashboardInstanceScmAccountsPreviewOutput:
     accounts: List[DashboardInstanceScmAccountsPreviewOutputAccounts]
 
 
-class mapDashboardInstanceScmAccountsPreviewOutputAccountsProvider:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> DashboardInstanceScmAccountsPreviewOutputAccountsProvider:
-        return DashboardInstanceScmAccountsPreviewOutputAccountsProvider(
-        type=data.get('type'),
-        name=data.get('name')
-        )
-
-    @staticmethod
-    def to_dict(value: Union[DashboardInstanceScmAccountsPreviewOutputAccountsProvider, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
 class mapDashboardInstanceScmAccountsPreviewOutputAccounts:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceScmAccountsPreviewOutputAccounts:
         return DashboardInstanceScmAccountsPreviewOutputAccounts(
         object=data.get('object'),
-        provider=mapDashboardInstanceScmAccountsPreviewOutputAccountsProvider.from_dict(data.get('provider')) if data.get('provider') else None,
+        provider=data.get('provider'),
         external_id=data.get('external_id'),
         name=data.get('name'),
         identifier=data.get('identifier')
@@ -92,3 +72,4 @@ class mapDashboardInstanceScmAccountsPreviewBody:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

@@ -7,13 +7,12 @@ import dataclasses
 class ManagementInstanceSessionsParticipantsGetOutput:
     object: str
     id: str
-    session_id: str
+    type: str
+    identifier: str
+    name: str
+    data: Dict[str, Any]
     created_at: datetime
-    updated_at: datetime
-    type: Optional[str] = None
-    name: Optional[str] = None
-    description: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None
+    provider_id: Optional[str] = None
 
 
 class mapManagementInstanceSessionsParticipantsGetOutput:
@@ -23,12 +22,11 @@ class mapManagementInstanceSessionsParticipantsGetOutput:
         object=data.get('object'),
         id=data.get('id'),
         type=data.get('type'),
+        identifier=data.get('identifier'),
         name=data.get('name'),
-        description=data.get('description'),
-        metadata=data.get('metadata'),
-        session_id=data.get('session_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        data=data.get('data'),
+        provider_id=data.get('provider_id'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -39,3 +37,4 @@ class mapManagementInstanceSessionsParticipantsGetOutput:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

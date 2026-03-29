@@ -8,7 +8,7 @@ class MetorialManagementInstanceProviderGroupsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None) -> DashboardInstanceProviderGroupsListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_listing_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceProviderGroupsListOutput:
         """
     List provider groups
     Returns a paginated list of provider groups.
@@ -19,6 +19,9 @@ class MetorialManagementInstanceProviderGroupsEndpoint(BaseMetorialEndpoint):
     :param before: Optional[str] (optional)
     :param cursor: Optional[str] (optional)
     :param order: Optional[str] (optional)
+    :param id: Optional[Union[str, List[str]]] (optional)
+    :param provider_id: Optional[Union[str, List[str]]] (optional)
+    :param provider_listing_id: Optional[Union[str, List[str]]] (optional)
     :return: DashboardInstanceProviderGroupsListOutput
     """
         # Build query parameters from keyword arguments
@@ -33,6 +36,12 @@ class MetorialManagementInstanceProviderGroupsEndpoint(BaseMetorialEndpoint):
             query_dict["cursor"] = cursor
         if order is not None:
             query_dict["order"] = order
+        if id is not None:
+            query_dict["id"] = id
+        if provider_id is not None:
+            query_dict["provider_id"] = provider_id
+        if provider_listing_id is not None:
+            query_dict["provider_listing_id"] = provider_listing_id
 
         request = MetorialRequest(
             path=['instances', instance_id, 'provider-groups'],

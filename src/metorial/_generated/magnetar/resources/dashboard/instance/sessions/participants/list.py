@@ -7,13 +7,12 @@ import dataclasses
 class DashboardInstanceSessionsParticipantsListOutputItems:
     object: str
     id: str
-    session_id: str
+    type: str
+    identifier: str
+    name: str
+    data: Dict[str, Any]
     created_at: datetime
-    updated_at: datetime
-    type: Optional[str] = None
-    name: Optional[str] = None
-    description: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None
+    provider_id: Optional[str] = None
 @dataclass
 class DashboardInstanceSessionsParticipantsListOutputPagination:
     has_more_before: bool
@@ -31,12 +30,11 @@ class mapDashboardInstanceSessionsParticipantsListOutputItems:
         object=data.get('object'),
         id=data.get('id'),
         type=data.get('type'),
+        identifier=data.get('identifier'),
         name=data.get('name'),
-        description=data.get('description'),
-        metadata=data.get('metadata'),
-        session_id=data.get('session_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        data=data.get('data'),
+        provider_id=data.get('provider_id'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -87,7 +85,11 @@ class DashboardInstanceSessionsParticipantsListQuery:
     before: Optional[str] = None
     cursor: Optional[str] = None
     order: Optional[str] = None
-    type: Optional[str] = None
+    type: Optional[Union[str, List[str]]] = None
+    id: Optional[Union[str, List[str]]] = None
+    session_id: Optional[Union[str, List[str]]] = None
+    session_connection_id: Optional[Union[str, List[str]]] = None
+    session_message_id: Optional[Union[str, List[str]]] = None
 
 
 class mapDashboardInstanceSessionsParticipantsListQuery:
@@ -99,7 +101,11 @@ class mapDashboardInstanceSessionsParticipantsListQuery:
         before=data.get('before'),
         cursor=data.get('cursor'),
         order=data.get('order'),
-        type=data.get('type')
+        type=data.get('type'),
+        id=data.get('id'),
+        session_id=data.get('session_id'),
+        session_connection_id=data.get('session_connection_id'),
+        session_message_id=data.get('session_message_id')
         )
 
     @staticmethod
@@ -110,3 +116,4 @@ class mapDashboardInstanceSessionsParticipantsListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

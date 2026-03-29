@@ -1,0 +1,107 @@
+from dataclasses import dataclass
+from typing import Any, Dict, List, Optional, Union
+from datetime import datetime
+import dataclasses
+
+@dataclass
+class FileLinksListOutputItems:
+    object: str
+    id: str
+    file_id: str
+    url: str
+    created_at: datetime
+    expires_at: Optional[datetime] = None
+@dataclass
+class FileLinksListOutputPagination:
+    has_more_before: bool
+    has_more_after: bool
+@dataclass
+class FileLinksListOutput:
+    items: List[FileLinksListOutputItems]
+    pagination: FileLinksListOutputPagination
+
+
+class mapFileLinksListOutputItems:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> FileLinksListOutputItems:
+        return FileLinksListOutputItems(
+        object=data.get('object'),
+        id=data.get('id'),
+        file_id=data.get('file_id'),
+        url=data.get('url'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        expires_at=datetime.fromisoformat(data.get('expires_at').replace('Z', '+00:00')) if data.get('expires_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[FileLinksListOutputItems, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapFileLinksListOutputPagination:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> FileLinksListOutputPagination:
+        return FileLinksListOutputPagination(
+        has_more_before=data.get('has_more_before'),
+        has_more_after=data.get('has_more_after')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[FileLinksListOutputPagination, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapFileLinksListOutput:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> FileLinksListOutput:
+        return FileLinksListOutput(
+        items=[mapFileLinksListOutputItems.from_dict(item) for item in data.get('items', []) if item],
+        pagination=mapFileLinksListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[FileLinksListOutput, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        # assume dataclass for generated models
+        return dataclasses.asdict(value)
+
+@dataclass
+class FileLinksListQuery:
+    limit: Optional[float] = None
+    after: Optional[str] = None
+    before: Optional[str] = None
+    cursor: Optional[str] = None
+    order: Optional[str] = None
+    file_id: Optional[str] = None
+
+
+class mapFileLinksListQuery:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> FileLinksListQuery:
+        return FileLinksListQuery(
+        limit=data.get('limit'),
+        after=data.get('after'),
+        before=data.get('before'),
+        cursor=data.get('cursor'),
+        order=data.get('order'),
+        file_id=data.get('file_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[FileLinksListQuery, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        # assume dataclass for generated models
+        return dataclasses.asdict(value)
+

@@ -4,16 +4,52 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
-class ProviderDeploymentsConfigsListOutputItems:
+class ProviderDeploymentsConfigsListOutputItemsDeployment:
     object: str
     id: str
+    is_default: bool
     provider_id: str
     created_at: datetime
     updated_at: datetime
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
-    provider_deployment_id: Optional[str] = None
+@dataclass
+class ProviderDeploymentsConfigsListOutputItemsFromVaultDeployment:
+    object: str
+    id: str
+    is_default: bool
+    provider_id: str
+    created_at: datetime
+    updated_at: datetime
+    name: Optional[str] = None
+    description: Optional[str] = None
+    metadata: Optional[Dict[str, Any]] = None
+@dataclass
+class ProviderDeploymentsConfigsListOutputItemsFromVault:
+    object: str
+    id: str
+    name: str
+    provider_id: str
+    created_at: datetime
+    updated_at: datetime
+    description: Optional[str] = None
+    metadata: Optional[Dict[str, Any]] = None
+    deployment: Optional[ProviderDeploymentsConfigsListOutputItemsFromVaultDeployment] = None
+@dataclass
+class ProviderDeploymentsConfigsListOutputItems:
+    object: str
+    id: str
+    is_default: bool
+    provider_id: str
+    specification_id: str
+    created_at: datetime
+    updated_at: datetime
+    name: Optional[str] = None
+    description: Optional[str] = None
+    metadata: Optional[Dict[str, Any]] = None
+    deployment: Optional[ProviderDeploymentsConfigsListOutputItemsDeployment] = None
+    from_vault: Optional[ProviderDeploymentsConfigsListOutputItemsFromVault] = None
 @dataclass
 class ProviderDeploymentsConfigsListOutputPagination:
     has_more_before: bool
@@ -24,19 +60,91 @@ class ProviderDeploymentsConfigsListOutput:
     pagination: ProviderDeploymentsConfigsListOutputPagination
 
 
-class mapProviderDeploymentsConfigsListOutputItems:
+class mapProviderDeploymentsConfigsListOutputItemsDeployment:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsConfigsListOutputItems:
-        return ProviderDeploymentsConfigsListOutputItems(
+    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsConfigsListOutputItemsDeployment:
+        return ProviderDeploymentsConfigsListOutputItemsDeployment(
+        object=data.get('object'),
+        id=data.get('id'),
+        is_default=data.get('is_default'),
+        name=data.get('name'),
+        description=data.get('description'),
+        metadata=data.get('metadata'),
+        provider_id=data.get('provider_id'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ProviderDeploymentsConfigsListOutputItemsDeployment, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapProviderDeploymentsConfigsListOutputItemsFromVaultDeployment:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsConfigsListOutputItemsFromVaultDeployment:
+        return ProviderDeploymentsConfigsListOutputItemsFromVaultDeployment(
+        object=data.get('object'),
+        id=data.get('id'),
+        is_default=data.get('is_default'),
+        name=data.get('name'),
+        description=data.get('description'),
+        metadata=data.get('metadata'),
+        provider_id=data.get('provider_id'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ProviderDeploymentsConfigsListOutputItemsFromVaultDeployment, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapProviderDeploymentsConfigsListOutputItemsFromVault:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsConfigsListOutputItemsFromVault:
+        return ProviderDeploymentsConfigsListOutputItemsFromVault(
         object=data.get('object'),
         id=data.get('id'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
         provider_id=data.get('provider_id'),
-        provider_deployment_id=data.get('provider_deployment_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        deployment=mapProviderDeploymentsConfigsListOutputItemsFromVaultDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ProviderDeploymentsConfigsListOutputItemsFromVault, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapProviderDeploymentsConfigsListOutputItems:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsConfigsListOutputItems:
+        return ProviderDeploymentsConfigsListOutputItems(
+        object=data.get('object'),
+        id=data.get('id'),
+        is_default=data.get('is_default'),
+        name=data.get('name'),
+        description=data.get('description'),
+        metadata=data.get('metadata'),
+        provider_id=data.get('provider_id'),
+        specification_id=data.get('specification_id'),
+        deployment=mapProviderDeploymentsConfigsListOutputItemsDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
+        from_vault=mapProviderDeploymentsConfigsListOutputItemsFromVault.from_dict(data.get('from_vault')) if data.get('from_vault') else None,
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -87,6 +195,13 @@ class ProviderDeploymentsConfigsListQuery:
     before: Optional[str] = None
     cursor: Optional[str] = None
     order: Optional[str] = None
+    status: Optional[Union[str, List[str]]] = None
+    id: Optional[Union[str, List[str]]] = None
+    provider_id: Optional[Union[str, List[str]]] = None
+    provider_specification_id: Optional[Union[str, List[str]]] = None
+    provider_deployment_id: Optional[Union[str, List[str]]] = None
+    provider_config_vault_id: Optional[Union[str, List[str]]] = None
+    search: Optional[str] = None
 
 
 class mapProviderDeploymentsConfigsListQuery:
@@ -97,7 +212,14 @@ class mapProviderDeploymentsConfigsListQuery:
         after=data.get('after'),
         before=data.get('before'),
         cursor=data.get('cursor'),
-        order=data.get('order')
+        order=data.get('order'),
+        status=data.get('status'),
+        id=data.get('id'),
+        provider_id=data.get('provider_id'),
+        provider_specification_id=data.get('provider_specification_id'),
+        provider_deployment_id=data.get('provider_deployment_id'),
+        provider_config_vault_id=data.get('provider_config_vault_id'),
+        search=data.get('search')
         )
 
     @staticmethod
@@ -108,3 +230,4 @@ class mapProviderDeploymentsConfigsListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

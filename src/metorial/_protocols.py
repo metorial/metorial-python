@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 
 
 class McpSessionProtocol(Protocol):
-  """Protocol unifying MetorialMcpSession and MetorialMagnetarMcpSession."""
+  """Protocol for the Magnetar MCP session implementation."""
 
   def get_client(self, opts: dict[str, str]) -> Awaitable[MetorialMcpClient]: ...
   async def get_tool_manager(self) -> MetorialMcpToolManager: ...

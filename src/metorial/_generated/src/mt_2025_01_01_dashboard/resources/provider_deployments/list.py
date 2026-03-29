@@ -63,8 +63,8 @@ class mapProviderDeploymentsListOutputItemsLockedVersion:
         description=data.get('description'),
         metadata=data.get('metadata'),
         specification_id=data.get('specification_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -86,8 +86,8 @@ class mapProviderDeploymentsListOutputItemsDefaultConfig:
         description=data.get('description'),
         metadata=data.get('metadata'),
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -111,8 +111,8 @@ class mapProviderDeploymentsListOutputItems:
         provider_id=data.get('provider_id'),
         locked_version=mapProviderDeploymentsListOutputItemsLockedVersion.from_dict(data.get('locked_version')) if data.get('locked_version') else None,
         default_config=mapProviderDeploymentsListOutputItemsDefaultConfig.from_dict(data.get('default_config')) if data.get('default_config') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -157,17 +157,37 @@ class mapProviderDeploymentsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class ProviderDeploymentsListQueryCapabilities:
+    supports_config: Optional[bool] = None
+    supports_auth: Optional[bool] = None
+    supports_oauth: Optional[bool] = None
+    supports_callbacks: Optional[bool] = None
+    supports_oauth_auto_registration: Optional[bool] = None
+    supports_auth_export: Optional[bool] = None
+    supports_auth_import: Optional[bool] = None
+@dataclass
+class ProviderDeploymentsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class ProviderDeploymentsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class ProviderDeploymentsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
     before: Optional[str] = None
     cursor: Optional[str] = None
     order: Optional[str] = None
-    search: Optional[str] = None
     id: Optional[Union[str, List[str]]] = None
     provider_id: Optional[Union[str, List[str]]] = None
     provider_version_id: Optional[Union[str, List[str]]] = None
     status: Optional[Union[str, List[str]]] = None
+    capabilities: Optional[ProviderDeploymentsListQueryCapabilities] = None
+    search: Optional[str] = None
+    created_at: Optional[ProviderDeploymentsListQueryCreatedAt] = None
+    updated_at: Optional[ProviderDeploymentsListQueryUpdatedAt] = None
 
 
 class mapProviderDeploymentsListQuery:
@@ -179,11 +199,14 @@ class mapProviderDeploymentsListQuery:
         before=data.get('before'),
         cursor=data.get('cursor'),
         order=data.get('order'),
-        search=data.get('search'),
         id=data.get('id'),
         provider_id=data.get('provider_id'),
         provider_version_id=data.get('provider_version_id'),
-        status=data.get('status')
+        status=data.get('status'),
+        capabilities=mapProviderDeploymentsListQueryCapabilities.from_dict(data.get('capabilities')) if data.get('capabilities') else None,
+        search=data.get('search'),
+        created_at=mapProviderDeploymentsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapProviderDeploymentsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -194,3 +217,4 @@ class mapProviderDeploymentsListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

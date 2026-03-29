@@ -30,6 +30,9 @@ from metorial._generated.magnetar.endpoints.provider_runs import (
 from metorial._generated.magnetar.endpoints.publishers import (
   MetorialPublishersEndpoint,
 )
+from metorial._generated.magnetar.endpoints.tool_calls import (
+  MetorialToolCallsEndpoint,
+)
 from metorial._sdk import SDKConfig, _DelegatingGroup, get_api_host, get_headers
 from metorial._sdk_builder import MetorialSDKBuilder
 
@@ -128,7 +131,6 @@ class MagnetarSessionsGroup(_DelegatingGroup, _TypedSessionsBase):
     self.connections = typed.connections
     self.events = typed.events
     self.providers = typed.providers
-    self.provider_runs = typed.provider_runs
     self.participants = typed.participants
     self.errors = typed.errors
     self.error_groups = typed.error_groups
@@ -182,6 +184,7 @@ class MagnetarSDK:
   sessions: MagnetarSessionsGroup
   session_templates: MagnetarSessionTemplatesGroup
   provider_runs: MetorialProviderRunsEndpoint
+  tool_calls: MetorialToolCallsEndpoint
   custom_providers: MagnetarCustomProvidersGroup
 
 
@@ -215,6 +218,7 @@ def get_magnetar_endpoints(manager: MetorialEndpointManager) -> dict[str, Any]:
     "sessions": TypedMagnetarSessionsEndpoint(manager),
     "session_templates": TypedMagnetarSessionTemplatesEndpoint(manager),
     "provider_runs": MetorialProviderRunsEndpoint(manager),
+    "tool_calls": MetorialToolCallsEndpoint(manager),
     "custom_providers": TypedMagnetarCustomProvidersEndpoint(manager),
   }
 
@@ -259,6 +263,7 @@ def _to_magnetar_typed_sdk(raw: dict[str, Any]) -> MagnetarSDK:
       session_templates_root, session_templates_root
     ),
     provider_runs=raw["provider_runs"],
+    tool_calls=raw["tool_calls"],
     custom_providers=MagnetarCustomProvidersGroup(
       custom_providers_root, custom_providers_root
     ),

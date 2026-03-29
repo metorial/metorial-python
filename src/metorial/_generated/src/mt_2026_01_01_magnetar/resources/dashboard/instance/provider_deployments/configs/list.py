@@ -71,8 +71,8 @@ class mapDashboardInstanceProviderDeploymentsConfigsListOutputItemsDeployment:
         description=data.get('description'),
         metadata=data.get('metadata'),
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -94,8 +94,8 @@ class mapDashboardInstanceProviderDeploymentsConfigsListOutputItemsFromVaultDepl
         description=data.get('description'),
         metadata=data.get('metadata'),
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -117,8 +117,8 @@ class mapDashboardInstanceProviderDeploymentsConfigsListOutputItemsFromVault:
         metadata=data.get('metadata'),
         provider_id=data.get('provider_id'),
         deployment=mapDashboardInstanceProviderDeploymentsConfigsListOutputItemsFromVaultDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -143,8 +143,8 @@ class mapDashboardInstanceProviderDeploymentsConfigsListOutputItems:
         specification_id=data.get('specification_id'),
         deployment=mapDashboardInstanceProviderDeploymentsConfigsListOutputItemsDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         from_vault=mapDashboardInstanceProviderDeploymentsConfigsListOutputItemsFromVault.from_dict(data.get('from_vault')) if data.get('from_vault') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -189,6 +189,14 @@ class mapDashboardInstanceProviderDeploymentsConfigsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class DashboardInstanceProviderDeploymentsConfigsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class DashboardInstanceProviderDeploymentsConfigsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class DashboardInstanceProviderDeploymentsConfigsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -201,6 +209,9 @@ class DashboardInstanceProviderDeploymentsConfigsListQuery:
     provider_specification_id: Optional[Union[str, List[str]]] = None
     provider_deployment_id: Optional[Union[str, List[str]]] = None
     provider_config_vault_id: Optional[Union[str, List[str]]] = None
+    search: Optional[str] = None
+    created_at: Optional[DashboardInstanceProviderDeploymentsConfigsListQueryCreatedAt] = None
+    updated_at: Optional[DashboardInstanceProviderDeploymentsConfigsListQueryUpdatedAt] = None
 
 
 class mapDashboardInstanceProviderDeploymentsConfigsListQuery:
@@ -217,7 +228,10 @@ class mapDashboardInstanceProviderDeploymentsConfigsListQuery:
         provider_id=data.get('provider_id'),
         provider_specification_id=data.get('provider_specification_id'),
         provider_deployment_id=data.get('provider_deployment_id'),
-        provider_config_vault_id=data.get('provider_config_vault_id')
+        provider_config_vault_id=data.get('provider_config_vault_id'),
+        search=data.get('search'),
+        created_at=mapDashboardInstanceProviderDeploymentsConfigsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapDashboardInstanceProviderDeploymentsConfigsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -228,3 +242,4 @@ class mapDashboardInstanceProviderDeploymentsConfigsListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

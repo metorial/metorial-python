@@ -36,9 +36,9 @@ class mapManagementInstanceProviderRunsListOutputItems:
         session_provider_id=data.get('session_provider_id'),
         provider_id=data.get('provider_id'),
         connection_id=data.get('connection_id'),
-        completed_at=datetime.fromisoformat(data.get('completed_at')) if data.get('completed_at') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        completed_at=datetime.fromisoformat(data.get('completed_at').replace('Z', '+00:00')) if data.get('completed_at') else None,
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -83,6 +83,14 @@ class mapManagementInstanceProviderRunsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class ManagementInstanceProviderRunsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class ManagementInstanceProviderRunsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class ManagementInstanceProviderRunsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -96,6 +104,8 @@ class ManagementInstanceProviderRunsListQuery:
     session_provider_id: Optional[Union[str, List[str]]] = None
     session_connection_id: Optional[Union[str, List[str]]] = None
     provider_version_id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[ManagementInstanceProviderRunsListQueryCreatedAt] = None
+    updated_at: Optional[ManagementInstanceProviderRunsListQueryUpdatedAt] = None
 
 
 class mapManagementInstanceProviderRunsListQuery:
@@ -113,7 +123,9 @@ class mapManagementInstanceProviderRunsListQuery:
         provider_id=data.get('provider_id'),
         session_provider_id=data.get('session_provider_id'),
         session_connection_id=data.get('session_connection_id'),
-        provider_version_id=data.get('provider_version_id')
+        provider_version_id=data.get('provider_version_id'),
+        created_at=mapManagementInstanceProviderRunsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapManagementInstanceProviderRunsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -124,3 +136,4 @@ class mapManagementInstanceProviderRunsListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

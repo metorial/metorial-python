@@ -8,7 +8,7 @@ class MetorialManagementInstanceProviderGroupsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_listing_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceProviderGroupsListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_listing_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderGroupsListOutput:
         """
     List provider groups
     Returns a paginated list of provider groups.
@@ -22,6 +22,8 @@ class MetorialManagementInstanceProviderGroupsEndpoint(BaseMetorialEndpoint):
     :param id: Optional[Union[str, List[str]]] (optional)
     :param provider_id: Optional[Union[str, List[str]]] (optional)
     :param provider_listing_id: Optional[Union[str, List[str]]] (optional)
+    :param created_at: Optional[Dict[str, Any]] (optional)
+    :param updated_at: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceProviderGroupsListOutput
     """
         # Build query parameters from keyword arguments
@@ -42,6 +44,10 @@ class MetorialManagementInstanceProviderGroupsEndpoint(BaseMetorialEndpoint):
             query_dict["provider_id"] = provider_id
         if provider_listing_id is not None:
             query_dict["provider_listing_id"] = provider_listing_id
+        if created_at is not None:
+            query_dict["created_at"] = created_at
+        if updated_at is not None:
+            query_dict["updated_at"] = updated_at
 
         request = MetorialRequest(
             path=['instances', instance_id, 'provider-groups'],

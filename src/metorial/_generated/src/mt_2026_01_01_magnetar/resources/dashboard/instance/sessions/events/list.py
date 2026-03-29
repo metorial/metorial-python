@@ -6,12 +6,16 @@ import dataclasses
 @dataclass
 class DashboardInstanceSessionsEventsListOutputItemsConnectionUsage:
     total_productive_client_message_count: float
-    total_productive_server_message_count: float
+    total_productive_provider_message_count: float
 @dataclass
 class DashboardInstanceSessionsEventsListOutputItemsConnectionMcp:
     capabilities: Dict[str, Any]
     protocol_version: str
     transport: str
+@dataclass
+class DashboardInstanceSessionsEventsListOutputItemsConnectionParticipantData:
+    identifier: str
+    name: str
 @dataclass
 class DashboardInstanceSessionsEventsListOutputItemsConnectionParticipant:
     object: str
@@ -19,23 +23,24 @@ class DashboardInstanceSessionsEventsListOutputItemsConnectionParticipant:
     type: str
     identifier: str
     name: str
-    data: Dict[str, Any]
+    data: DashboardInstanceSessionsEventsListOutputItemsConnectionParticipantData
     created_at: datetime
     provider_id: Optional[str] = None
 @dataclass
 class DashboardInstanceSessionsEventsListOutputItemsConnection:
     object: str
     id: str
-    status: str
     connection_state: str
     transport: str
     usage: DashboardInstanceSessionsEventsListOutputItemsConnectionUsage
     session_id: str
+    has_errors: bool
+    has_warnings: bool
     created_at: datetime
     last_message_at: datetime
-    last_active_at: datetime
     mcp: Optional[DashboardInstanceSessionsEventsListOutputItemsConnectionMcp] = None
     participant: Optional[DashboardInstanceSessionsEventsListOutputItemsConnectionParticipant] = None
+    last_active_at: Optional[datetime] = None
 @dataclass
 class DashboardInstanceSessionsEventsListOutputItemsProviderRun:
     object: str
@@ -63,7 +68,7 @@ class DashboardInstanceSessionsEventsListOutputItemsMessageTransportMcp:
 @dataclass
 class DashboardInstanceSessionsEventsListOutputItemsMessageTransportToolCall:
     object: str
-    id: Optional[str] = None
+    id: str
 @dataclass
 class DashboardInstanceSessionsEventsListOutputItemsMessageTransport:
     object: str
@@ -106,12 +111,13 @@ class DashboardInstanceSessionsEventsListOutputItemsMessageToolCallError:
     code: str
     message: str
     data: Dict[str, Any]
+    status: str
     session_id: str
-    group_id: str
     similar_error_count: float
     created_at: datetime
     provider_run_id: Optional[str] = None
     connection_id: Optional[str] = None
+    group_id: Optional[str] = None
 @dataclass
 class DashboardInstanceSessionsEventsListOutputItemsMessageToolCall:
     object: str
@@ -132,15 +138,23 @@ class DashboardInstanceSessionsEventsListOutputItemsMessageToolCall:
     input: Optional[Dict[str, Any]] = None
     output: Optional[Dict[str, Any]] = None
 @dataclass
+class DashboardInstanceSessionsEventsListOutputItemsMessageSenderParticipantData:
+    identifier: str
+    name: str
+@dataclass
 class DashboardInstanceSessionsEventsListOutputItemsMessageSenderParticipant:
     object: str
     id: str
     type: str
     identifier: str
     name: str
-    data: Dict[str, Any]
+    data: DashboardInstanceSessionsEventsListOutputItemsMessageSenderParticipantData
     created_at: datetime
     provider_id: Optional[str] = None
+@dataclass
+class DashboardInstanceSessionsEventsListOutputItemsMessageResponderParticipantData:
+    identifier: str
+    name: str
 @dataclass
 class DashboardInstanceSessionsEventsListOutputItemsMessageResponderParticipant:
     object: str
@@ -148,7 +162,7 @@ class DashboardInstanceSessionsEventsListOutputItemsMessageResponderParticipant:
     type: str
     identifier: str
     name: str
-    data: Dict[str, Any]
+    data: DashboardInstanceSessionsEventsListOutputItemsMessageResponderParticipantData
     created_at: datetime
     provider_id: Optional[str] = None
 @dataclass
@@ -158,12 +172,13 @@ class DashboardInstanceSessionsEventsListOutputItemsMessageError:
     code: str
     message: str
     data: Dict[str, Any]
+    status: str
     session_id: str
-    group_id: str
     similar_error_count: float
     created_at: datetime
     provider_run_id: Optional[str] = None
     connection_id: Optional[str] = None
+    group_id: Optional[str] = None
 @dataclass
 class DashboardInstanceSessionsEventsListOutputItemsMessage:
     object: str
@@ -191,11 +206,22 @@ class DashboardInstanceSessionsEventsListOutputItemsError:
     code: str
     message: str
     data: Dict[str, Any]
+    status: str
     session_id: str
-    group_id: str
     similar_error_count: float
     created_at: datetime
     provider_run_id: Optional[str] = None
+    connection_id: Optional[str] = None
+    group_id: Optional[str] = None
+@dataclass
+class DashboardInstanceSessionsEventsListOutputItemsWarning:
+    object: str
+    id: str
+    code: str
+    message: str
+    data: Dict[str, Any]
+    session_id: str
+    created_at: datetime
     connection_id: Optional[str] = None
 @dataclass
 class DashboardInstanceSessionsEventsListOutputItems:
@@ -208,6 +234,7 @@ class DashboardInstanceSessionsEventsListOutputItems:
     provider_run: Optional[DashboardInstanceSessionsEventsListOutputItemsProviderRun] = None
     message: Optional[DashboardInstanceSessionsEventsListOutputItemsMessage] = None
     error: Optional[DashboardInstanceSessionsEventsListOutputItemsError] = None
+    warning: Optional[DashboardInstanceSessionsEventsListOutputItemsWarning] = None
 @dataclass
 class DashboardInstanceSessionsEventsListOutputPagination:
     has_more_before: bool
@@ -223,7 +250,7 @@ class mapDashboardInstanceSessionsEventsListOutputItemsConnectionUsage:
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionsEventsListOutputItemsConnectionUsage:
         return DashboardInstanceSessionsEventsListOutputItemsConnectionUsage(
         total_productive_client_message_count=data.get('total_productive_client_message_count'),
-        total_productive_server_message_count=data.get('total_productive_server_message_count')
+        total_productive_provider_message_count=data.get('total_productive_provider_message_count')
         )
 
     @staticmethod
@@ -251,6 +278,22 @@ class mapDashboardInstanceSessionsEventsListOutputItemsConnectionMcp:
             return value
         return dataclasses.asdict(value)
 
+class mapDashboardInstanceSessionsEventsListOutputItemsConnectionParticipantData:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionsEventsListOutputItemsConnectionParticipantData:
+        return DashboardInstanceSessionsEventsListOutputItemsConnectionParticipantData(
+        identifier=data.get('identifier'),
+        name=data.get('name')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSessionsEventsListOutputItemsConnectionParticipantData, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapDashboardInstanceSessionsEventsListOutputItemsConnectionParticipant:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionsEventsListOutputItemsConnectionParticipant:
@@ -260,9 +303,9 @@ class mapDashboardInstanceSessionsEventsListOutputItemsConnectionParticipant:
         type=data.get('type'),
         identifier=data.get('identifier'),
         name=data.get('name'),
-        data=data.get('data'),
+        data=mapDashboardInstanceSessionsEventsListOutputItemsConnectionParticipantData.from_dict(data.get('data')) if data.get('data') else None,
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -279,16 +322,17 @@ class mapDashboardInstanceSessionsEventsListOutputItemsConnection:
         return DashboardInstanceSessionsEventsListOutputItemsConnection(
         object=data.get('object'),
         id=data.get('id'),
-        status=data.get('status'),
         connection_state=data.get('connection_state'),
         transport=data.get('transport'),
         usage=mapDashboardInstanceSessionsEventsListOutputItemsConnectionUsage.from_dict(data.get('usage')) if data.get('usage') else None,
         mcp=mapDashboardInstanceSessionsEventsListOutputItemsConnectionMcp.from_dict(data.get('mcp')) if data.get('mcp') else None,
         session_id=data.get('session_id'),
         participant=mapDashboardInstanceSessionsEventsListOutputItemsConnectionParticipant.from_dict(data.get('participant')) if data.get('participant') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        last_message_at=datetime.fromisoformat(data.get('last_message_at')) if data.get('last_message_at') else None,
-        last_active_at=datetime.fromisoformat(data.get('last_active_at')) if data.get('last_active_at') else None
+        has_errors=data.get('has_errors'),
+        has_warnings=data.get('has_warnings'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        last_message_at=datetime.fromisoformat(data.get('last_message_at').replace('Z', '+00:00')) if data.get('last_message_at') else None,
+        last_active_at=datetime.fromisoformat(data.get('last_active_at').replace('Z', '+00:00')) if data.get('last_active_at') else None
         )
 
     @staticmethod
@@ -310,9 +354,9 @@ class mapDashboardInstanceSessionsEventsListOutputItemsProviderRun:
         session_provider_id=data.get('session_provider_id'),
         provider_id=data.get('provider_id'),
         connection_id=data.get('connection_id'),
-        completed_at=datetime.fromisoformat(data.get('completed_at')) if data.get('completed_at') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        completed_at=datetime.fromisoformat(data.get('completed_at').replace('Z', '+00:00')) if data.get('completed_at') else None,
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -458,8 +502,8 @@ class mapDashboardInstanceSessionsEventsListOutputItemsMessageToolCallTool:
         tags=mapDashboardInstanceSessionsEventsListOutputItemsMessageToolCallToolTags.from_dict(data.get('tags')) if data.get('tags') else None,
         specification_id=data.get('specification_id'),
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -479,12 +523,13 @@ class mapDashboardInstanceSessionsEventsListOutputItemsMessageToolCallError:
         code=data.get('code'),
         message=data.get('message'),
         data=data.get('data'),
+        status=data.get('status'),
         session_id=data.get('session_id'),
         provider_run_id=data.get('provider_run_id'),
         connection_id=data.get('connection_id'),
         group_id=data.get('group_id'),
         similar_error_count=data.get('similar_error_count'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -515,11 +560,27 @@ class mapDashboardInstanceSessionsEventsListOutputItemsMessageToolCall:
         error=mapDashboardInstanceSessionsEventsListOutputItemsMessageToolCallError.from_dict(data.get('error')) if data.get('error') else None,
         input=data.get('input'),
         output=data.get('output'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
     def to_dict(value: Union[DashboardInstanceSessionsEventsListOutputItemsMessageToolCall, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceSessionsEventsListOutputItemsMessageSenderParticipantData:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionsEventsListOutputItemsMessageSenderParticipantData:
+        return DashboardInstanceSessionsEventsListOutputItemsMessageSenderParticipantData(
+        identifier=data.get('identifier'),
+        name=data.get('name')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSessionsEventsListOutputItemsMessageSenderParticipantData, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -535,13 +596,29 @@ class mapDashboardInstanceSessionsEventsListOutputItemsMessageSenderParticipant:
         type=data.get('type'),
         identifier=data.get('identifier'),
         name=data.get('name'),
-        data=data.get('data'),
+        data=mapDashboardInstanceSessionsEventsListOutputItemsMessageSenderParticipantData.from_dict(data.get('data')) if data.get('data') else None,
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
     def to_dict(value: Union[DashboardInstanceSessionsEventsListOutputItemsMessageSenderParticipant, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceSessionsEventsListOutputItemsMessageResponderParticipantData:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionsEventsListOutputItemsMessageResponderParticipantData:
+        return DashboardInstanceSessionsEventsListOutputItemsMessageResponderParticipantData(
+        identifier=data.get('identifier'),
+        name=data.get('name')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSessionsEventsListOutputItemsMessageResponderParticipantData, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -557,9 +634,9 @@ class mapDashboardInstanceSessionsEventsListOutputItemsMessageResponderParticipa
         type=data.get('type'),
         identifier=data.get('identifier'),
         name=data.get('name'),
-        data=data.get('data'),
+        data=mapDashboardInstanceSessionsEventsListOutputItemsMessageResponderParticipantData.from_dict(data.get('data')) if data.get('data') else None,
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -579,12 +656,13 @@ class mapDashboardInstanceSessionsEventsListOutputItemsMessageError:
         code=data.get('code'),
         message=data.get('message'),
         data=data.get('data'),
+        status=data.get('status'),
         session_id=data.get('session_id'),
         provider_run_id=data.get('provider_run_id'),
         connection_id=data.get('connection_id'),
         group_id=data.get('group_id'),
         similar_error_count=data.get('similar_error_count'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -616,7 +694,7 @@ class mapDashboardInstanceSessionsEventsListOutputItemsMessage:
         sender_participant=mapDashboardInstanceSessionsEventsListOutputItemsMessageSenderParticipant.from_dict(data.get('sender_participant')) if data.get('sender_participant') else None,
         responder_participant=mapDashboardInstanceSessionsEventsListOutputItemsMessageResponderParticipant.from_dict(data.get('responder_participant')) if data.get('responder_participant') else None,
         error=mapDashboardInstanceSessionsEventsListOutputItemsMessageError.from_dict(data.get('error')) if data.get('error') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -636,16 +714,39 @@ class mapDashboardInstanceSessionsEventsListOutputItemsError:
         code=data.get('code'),
         message=data.get('message'),
         data=data.get('data'),
+        status=data.get('status'),
         session_id=data.get('session_id'),
         provider_run_id=data.get('provider_run_id'),
         connection_id=data.get('connection_id'),
         group_id=data.get('group_id'),
         similar_error_count=data.get('similar_error_count'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
     def to_dict(value: Union[DashboardInstanceSessionsEventsListOutputItemsError, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceSessionsEventsListOutputItemsWarning:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionsEventsListOutputItemsWarning:
+        return DashboardInstanceSessionsEventsListOutputItemsWarning(
+        object=data.get('object'),
+        id=data.get('id'),
+        code=data.get('code'),
+        message=data.get('message'),
+        data=data.get('data'),
+        session_id=data.get('session_id'),
+        connection_id=data.get('connection_id'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSessionsEventsListOutputItemsWarning, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -664,7 +765,8 @@ class mapDashboardInstanceSessionsEventsListOutputItems:
         provider_run=mapDashboardInstanceSessionsEventsListOutputItemsProviderRun.from_dict(data.get('provider_run')) if data.get('provider_run') else None,
         message=mapDashboardInstanceSessionsEventsListOutputItemsMessage.from_dict(data.get('message')) if data.get('message') else None,
         error=mapDashboardInstanceSessionsEventsListOutputItemsError.from_dict(data.get('error')) if data.get('error') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        warning=mapDashboardInstanceSessionsEventsListOutputItemsWarning.from_dict(data.get('warning')) if data.get('warning') else None,
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -709,6 +811,14 @@ class mapDashboardInstanceSessionsEventsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class DashboardInstanceSessionsEventsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class DashboardInstanceSessionsEventsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class DashboardInstanceSessionsEventsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -723,6 +833,8 @@ class DashboardInstanceSessionsEventsListQuery:
     provider_run_id: Optional[Union[str, List[str]]] = None
     session_message_id: Optional[Union[str, List[str]]] = None
     session_error_id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[DashboardInstanceSessionsEventsListQueryCreatedAt] = None
+    updated_at: Optional[DashboardInstanceSessionsEventsListQueryUpdatedAt] = None
 
 
 class mapDashboardInstanceSessionsEventsListQuery:
@@ -741,7 +853,9 @@ class mapDashboardInstanceSessionsEventsListQuery:
         session_connection_id=data.get('session_connection_id'),
         provider_run_id=data.get('provider_run_id'),
         session_message_id=data.get('session_message_id'),
-        session_error_id=data.get('session_error_id')
+        session_error_id=data.get('session_error_id'),
+        created_at=mapDashboardInstanceSessionsEventsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapDashboardInstanceSessionsEventsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -752,3 +866,4 @@ class mapDashboardInstanceSessionsEventsListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

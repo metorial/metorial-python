@@ -28,6 +28,15 @@ class DashboardInstanceCustomProvidersCommitsListOutputItemsFromEnvironment:
     provider_id: Optional[str] = None
     current_provider_version_id: Optional[str] = None
 @dataclass
+class DashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionConfigSchema:
+    type: str
+    schema: Dict[str, Any]
+@dataclass
+class DashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionConfig:
+    object: str
+    schema: DashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionConfigSchema
+    transformer: str
+@dataclass
 class DashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionDeploymentCommit:
     object: str
     id: str
@@ -153,6 +162,15 @@ class DashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProvider
     created_at: datetime
     organization_actor_id: Optional[str] = None
 @dataclass
+class DashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionContainerImage:
+    container_registry: str
+    container_image_tag: str
+    container_image: str
+@dataclass
+class DashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionRemoteMcpServer:
+    url: str
+    transport: str
+@dataclass
 class DashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersion:
     object: str
     id: str
@@ -165,7 +183,19 @@ class DashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProvider
     actor: DashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionActor
     created_at: datetime
     updated_at: datetime
+    config: Optional[DashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionConfig] = None
     provider_id: Optional[str] = None
+    container_image: Optional[DashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionContainerImage] = None
+    remote_mcp_server: Optional[DashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionRemoteMcpServer] = None
+@dataclass
+class DashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionConfigSchema:
+    type: str
+    schema: Dict[str, Any]
+@dataclass
+class DashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionConfig:
+    object: str
+    schema: DashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionConfigSchema
+    transformer: str
 @dataclass
 class DashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionDeploymentCommit:
     object: str
@@ -292,6 +322,15 @@ class DashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProvid
     created_at: datetime
     organization_actor_id: Optional[str] = None
 @dataclass
+class DashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionContainerImage:
+    container_registry: str
+    container_image_tag: str
+    container_image: str
+@dataclass
+class DashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionRemoteMcpServer:
+    url: str
+    transport: str
+@dataclass
 class DashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersion:
     object: str
     id: str
@@ -304,7 +343,10 @@ class DashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProvid
     actor: DashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionActor
     created_at: datetime
     updated_at: datetime
+    config: Optional[DashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionConfig] = None
     provider_id: Optional[str] = None
+    container_image: Optional[DashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionContainerImage] = None
+    remote_mcp_server: Optional[DashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionRemoteMcpServer] = None
 @dataclass
 class DashboardInstanceCustomProvidersCommitsListOutputItemsActor:
     object: str
@@ -407,8 +449,8 @@ class mapDashboardInstanceCustomProvidersCommitsListOutputItemsToEnvironment:
         provider_id=data.get('provider_id'),
         current_provider_version_id=data.get('current_provider_version_id'),
         instance_id=data.get('instance_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -429,12 +471,45 @@ class mapDashboardInstanceCustomProvidersCommitsListOutputItemsFromEnvironment:
         provider_id=data.get('provider_id'),
         current_provider_version_id=data.get('current_provider_version_id'),
         instance_id=data.get('instance_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
     def to_dict(value: Union[DashboardInstanceCustomProvidersCommitsListOutputItemsFromEnvironment, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionConfigSchema:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionConfigSchema:
+        return DashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionConfigSchema(
+        type=data.get('type'),
+        schema=data.get('schema')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionConfigSchema, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionConfig:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionConfig:
+        return DashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionConfig(
+        object=data.get('object'),
+        schema=mapDashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionConfigSchema.from_dict(data.get('schema')) if data.get('schema') else None,
+        transformer=data.get('transformer')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionConfig, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -449,7 +524,7 @@ class mapDashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProvi
         id=data.get('id'),
         type=data.get('type'),
         message=data.get('message'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -489,7 +564,7 @@ class mapDashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProvi
         url=data.get('url'),
         is_private=data.get('is_private'),
         default_branch=data.get('default_branch'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -527,7 +602,7 @@ class mapDashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProvi
         is_immutable=data.get('is_immutable'),
         is_read_only=data.get('is_read_only'),
         scm_repo_link=mapDashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionDeploymentImmutableBucketScmRepoLink.from_dict(data.get('scm_repo_link')) if data.get('scm_repo_link') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -548,7 +623,7 @@ class mapDashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProvi
         identifier=data.get('identifier'),
         name=data.get('name'),
         organization_actor_id=data.get('organization_actor_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -587,7 +662,7 @@ class mapDashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProvi
         sha=data.get('sha'),
         branch=data.get('branch'),
         message=data.get('message'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -627,7 +702,7 @@ class mapDashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProvi
         url=data.get('url'),
         is_private=data.get('is_private'),
         default_branch=data.get('default_branch'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -647,7 +722,7 @@ class mapDashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProvi
         actor=mapDashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionDeploymentScmPushActor.from_dict(data.get('actor')) if data.get('actor') else None,
         commit=mapDashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionDeploymentScmPushCommit.from_dict(data.get('commit')) if data.get('commit') else None,
         repository=mapDashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionDeploymentScmPushRepository.from_dict(data.get('repository')) if data.get('repository') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -673,8 +748,8 @@ class mapDashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProvi
         immutable_bucket=mapDashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionDeploymentImmutableBucket.from_dict(data.get('immutable_bucket')) if data.get('immutable_bucket') else None,
         actor=mapDashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionDeploymentActor.from_dict(data.get('actor')) if data.get('actor') else None,
         scm_push=mapDashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionDeploymentScmPush.from_dict(data.get('scm_push')) if data.get('scm_push') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -695,8 +770,8 @@ class mapDashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProvi
         provider_id=data.get('provider_id'),
         current_provider_version_id=data.get('current_provider_version_id'),
         instance_id=data.get('instance_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -735,11 +810,44 @@ class mapDashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProvi
         identifier=data.get('identifier'),
         name=data.get('name'),
         organization_actor_id=data.get('organization_actor_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
     def to_dict(value: Union[DashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionActor, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionContainerImage:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionContainerImage:
+        return DashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionContainerImage(
+        container_registry=data.get('container_registry'),
+        container_image_tag=data.get('container_image_tag'),
+        container_image=data.get('container_image')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionContainerImage, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionRemoteMcpServer:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionRemoteMcpServer:
+        return DashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionRemoteMcpServer(
+        url=data.get('url'),
+        transport=data.get('transport')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionRemoteMcpServer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -753,6 +861,7 @@ class mapDashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProvi
         object=data.get('object'),
         id=data.get('id'),
         status=data.get('status'),
+        config=mapDashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionConfig.from_dict(data.get('config')) if data.get('config') else None,
         index=data.get('index'),
         identifier=data.get('identifier'),
         deployment=mapDashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
@@ -760,12 +869,47 @@ class mapDashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProvi
         custom_provider_id=data.get('custom_provider_id'),
         provider_id=data.get('provider_id'),
         actor=mapDashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionActor.from_dict(data.get('actor')) if data.get('actor') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        container_image=mapDashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionContainerImage.from_dict(data.get('container_image')) if data.get('container_image') else None,
+        remote_mcp_server=mapDashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersionRemoteMcpServer.from_dict(data.get('remote_mcp_server')) if data.get('remote_mcp_server') else None,
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
     def to_dict(value: Union[DashboardInstanceCustomProvidersCommitsListOutputItemsTargetCustomProviderVersion, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionConfigSchema:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionConfigSchema:
+        return DashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionConfigSchema(
+        type=data.get('type'),
+        schema=data.get('schema')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionConfigSchema, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionConfig:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionConfig:
+        return DashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionConfig(
+        object=data.get('object'),
+        schema=mapDashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionConfigSchema.from_dict(data.get('schema')) if data.get('schema') else None,
+        transformer=data.get('transformer')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionConfig, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -780,7 +924,7 @@ class mapDashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomPro
         id=data.get('id'),
         type=data.get('type'),
         message=data.get('message'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -820,7 +964,7 @@ class mapDashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomPro
         url=data.get('url'),
         is_private=data.get('is_private'),
         default_branch=data.get('default_branch'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -858,7 +1002,7 @@ class mapDashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomPro
         is_immutable=data.get('is_immutable'),
         is_read_only=data.get('is_read_only'),
         scm_repo_link=mapDashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionDeploymentImmutableBucketScmRepoLink.from_dict(data.get('scm_repo_link')) if data.get('scm_repo_link') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -879,7 +1023,7 @@ class mapDashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomPro
         identifier=data.get('identifier'),
         name=data.get('name'),
         organization_actor_id=data.get('organization_actor_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -918,7 +1062,7 @@ class mapDashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomPro
         sha=data.get('sha'),
         branch=data.get('branch'),
         message=data.get('message'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -958,7 +1102,7 @@ class mapDashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomPro
         url=data.get('url'),
         is_private=data.get('is_private'),
         default_branch=data.get('default_branch'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -978,7 +1122,7 @@ class mapDashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomPro
         actor=mapDashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionDeploymentScmPushActor.from_dict(data.get('actor')) if data.get('actor') else None,
         commit=mapDashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionDeploymentScmPushCommit.from_dict(data.get('commit')) if data.get('commit') else None,
         repository=mapDashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionDeploymentScmPushRepository.from_dict(data.get('repository')) if data.get('repository') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -1004,8 +1148,8 @@ class mapDashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomPro
         immutable_bucket=mapDashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionDeploymentImmutableBucket.from_dict(data.get('immutable_bucket')) if data.get('immutable_bucket') else None,
         actor=mapDashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionDeploymentActor.from_dict(data.get('actor')) if data.get('actor') else None,
         scm_push=mapDashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionDeploymentScmPush.from_dict(data.get('scm_push')) if data.get('scm_push') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -1026,8 +1170,8 @@ class mapDashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomPro
         provider_id=data.get('provider_id'),
         current_provider_version_id=data.get('current_provider_version_id'),
         instance_id=data.get('instance_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -1066,11 +1210,44 @@ class mapDashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomPro
         identifier=data.get('identifier'),
         name=data.get('name'),
         organization_actor_id=data.get('organization_actor_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
     def to_dict(value: Union[DashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionActor, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionContainerImage:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionContainerImage:
+        return DashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionContainerImage(
+        container_registry=data.get('container_registry'),
+        container_image_tag=data.get('container_image_tag'),
+        container_image=data.get('container_image')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionContainerImage, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionRemoteMcpServer:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionRemoteMcpServer:
+        return DashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionRemoteMcpServer(
+        url=data.get('url'),
+        transport=data.get('transport')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionRemoteMcpServer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -1084,6 +1261,7 @@ class mapDashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomPro
         object=data.get('object'),
         id=data.get('id'),
         status=data.get('status'),
+        config=mapDashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionConfig.from_dict(data.get('config')) if data.get('config') else None,
         index=data.get('index'),
         identifier=data.get('identifier'),
         deployment=mapDashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
@@ -1091,8 +1269,10 @@ class mapDashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomPro
         custom_provider_id=data.get('custom_provider_id'),
         provider_id=data.get('provider_id'),
         actor=mapDashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionActor.from_dict(data.get('actor')) if data.get('actor') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        container_image=mapDashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionContainerImage.from_dict(data.get('container_image')) if data.get('container_image') else None,
+        remote_mcp_server=mapDashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersionRemoteMcpServer.from_dict(data.get('remote_mcp_server')) if data.get('remote_mcp_server') else None,
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -1113,7 +1293,7 @@ class mapDashboardInstanceCustomProvidersCommitsListOutputItemsActor:
         identifier=data.get('identifier'),
         name=data.get('name'),
         organization_actor_id=data.get('organization_actor_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -1152,7 +1332,7 @@ class mapDashboardInstanceCustomProvidersCommitsListOutputItemsScmPushCommit:
         sha=data.get('sha'),
         branch=data.get('branch'),
         message=data.get('message'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -1192,7 +1372,7 @@ class mapDashboardInstanceCustomProvidersCommitsListOutputItemsScmPushRepository
         url=data.get('url'),
         is_private=data.get('is_private'),
         default_branch=data.get('default_branch'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -1212,7 +1392,7 @@ class mapDashboardInstanceCustomProvidersCommitsListOutputItemsScmPush:
         actor=mapDashboardInstanceCustomProvidersCommitsListOutputItemsScmPushActor.from_dict(data.get('actor')) if data.get('actor') else None,
         commit=mapDashboardInstanceCustomProvidersCommitsListOutputItemsScmPushCommit.from_dict(data.get('commit')) if data.get('commit') else None,
         repository=mapDashboardInstanceCustomProvidersCommitsListOutputItemsScmPushRepository.from_dict(data.get('repository')) if data.get('repository') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -1241,8 +1421,8 @@ class mapDashboardInstanceCustomProvidersCommitsListOutputItems:
         previous_custom_provider_version=mapDashboardInstanceCustomProvidersCommitsListOutputItemsPreviousCustomProviderVersion.from_dict(data.get('previous_custom_provider_version')) if data.get('previous_custom_provider_version') else None,
         actor=mapDashboardInstanceCustomProvidersCommitsListOutputItemsActor.from_dict(data.get('actor')) if data.get('actor') else None,
         scm_push=mapDashboardInstanceCustomProvidersCommitsListOutputItemsScmPush.from_dict(data.get('scm_push')) if data.get('scm_push') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        applied_at=datetime.fromisoformat(data.get('applied_at')) if data.get('applied_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        applied_at=datetime.fromisoformat(data.get('applied_at').replace('Z', '+00:00')) if data.get('applied_at') else None
         )
 
     @staticmethod
@@ -1287,6 +1467,14 @@ class mapDashboardInstanceCustomProvidersCommitsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class DashboardInstanceCustomProvidersCommitsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class DashboardInstanceCustomProvidersCommitsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class DashboardInstanceCustomProvidersCommitsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -1298,6 +1486,8 @@ class DashboardInstanceCustomProvidersCommitsListQuery:
     custom_provider_environment_id: Optional[Union[str, List[str]]] = None
     custom_provider_id: Optional[Union[str, List[str]]] = None
     provider_id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[DashboardInstanceCustomProvidersCommitsListQueryCreatedAt] = None
+    updated_at: Optional[DashboardInstanceCustomProvidersCommitsListQueryUpdatedAt] = None
 
 
 class mapDashboardInstanceCustomProvidersCommitsListQuery:
@@ -1313,7 +1503,9 @@ class mapDashboardInstanceCustomProvidersCommitsListQuery:
         custom_provider_version_id=data.get('custom_provider_version_id'),
         custom_provider_environment_id=data.get('custom_provider_environment_id'),
         custom_provider_id=data.get('custom_provider_id'),
-        provider_id=data.get('provider_id')
+        provider_id=data.get('provider_id'),
+        created_at=mapDashboardInstanceCustomProvidersCommitsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapDashboardInstanceCustomProvidersCommitsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -1324,3 +1516,4 @@ class mapDashboardInstanceCustomProvidersCommitsListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

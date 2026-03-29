@@ -8,6 +8,7 @@ class ManagementInstanceProviderDeploymentsAuthCredentialsCreateOutput:
     object: str
     id: str
     type: str
+    is_default: bool
     provider_id: str
     created_at: datetime
     updated_at: datetime
@@ -23,12 +24,13 @@ class mapManagementInstanceProviderDeploymentsAuthCredentialsCreateOutput:
         object=data.get('object'),
         id=data.get('id'),
         type=data.get('type'),
+        is_default=data.get('is_default'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -42,14 +44,15 @@ class mapManagementInstanceProviderDeploymentsAuthCredentialsCreateOutput:
 
 @dataclass
 class ManagementInstanceProviderDeploymentsAuthCredentialsCreateBodyConfig:
-    type: str
     client_id: str
     client_secret: str
     scopes: List[str]
+    type: Optional[str] = None
 @dataclass
 class ManagementInstanceProviderDeploymentsAuthCredentialsCreateBody:
-    name: str
+    provider_id: str
     config: ManagementInstanceProviderDeploymentsAuthCredentialsCreateBodyConfig
+    name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
 
@@ -59,8 +62,8 @@ class mapManagementInstanceProviderDeploymentsAuthCredentialsCreateBodyConfig:
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderDeploymentsAuthCredentialsCreateBodyConfig:
         return ManagementInstanceProviderDeploymentsAuthCredentialsCreateBodyConfig(
         type=data.get('type'),
-        client_id=data.get('clientId'),
-        client_secret=data.get('clientSecret'),
+        client_id=data.get('client_id'),
+        client_secret=data.get('client_secret'),
         scopes=data.get('scopes', [])
         )
 
@@ -76,6 +79,7 @@ class mapManagementInstanceProviderDeploymentsAuthCredentialsCreateBody:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderDeploymentsAuthCredentialsCreateBody:
         return ManagementInstanceProviderDeploymentsAuthCredentialsCreateBody(
+        provider_id=data.get('provider_id'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
@@ -90,3 +94,4 @@ class mapManagementInstanceProviderDeploymentsAuthCredentialsCreateBody:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

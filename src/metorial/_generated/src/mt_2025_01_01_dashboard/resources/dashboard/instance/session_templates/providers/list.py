@@ -63,8 +63,8 @@ class mapDashboardInstanceSessionTemplatesProvidersListOutputItemsDeployment:
         description=data.get('description'),
         metadata=data.get('metadata'),
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -86,8 +86,8 @@ class mapDashboardInstanceSessionTemplatesProvidersListOutputItemsConfig:
         description=data.get('description'),
         metadata=data.get('metadata'),
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -127,8 +127,8 @@ class mapDashboardInstanceSessionTemplatesProvidersListOutputItems:
         deployment=mapDashboardInstanceSessionTemplatesProvidersListOutputItemsDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         config=mapDashboardInstanceSessionTemplatesProvidersListOutputItemsConfig.from_dict(data.get('config')) if data.get('config') else None,
         auth_config=mapDashboardInstanceSessionTemplatesProvidersListOutputItemsAuthConfig.from_dict(data.get('auth_config')) if data.get('auth_config') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -173,6 +173,14 @@ class mapDashboardInstanceSessionTemplatesProvidersListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class DashboardInstanceSessionTemplatesProvidersListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class DashboardInstanceSessionTemplatesProvidersListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class DashboardInstanceSessionTemplatesProvidersListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -187,6 +195,8 @@ class DashboardInstanceSessionTemplatesProvidersListQuery:
     provider_deployment_id: Optional[Union[str, List[str]]] = None
     provider_config_id: Optional[Union[str, List[str]]] = None
     provider_auth_config_id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[DashboardInstanceSessionTemplatesProvidersListQueryCreatedAt] = None
+    updated_at: Optional[DashboardInstanceSessionTemplatesProvidersListQueryUpdatedAt] = None
 
 
 class mapDashboardInstanceSessionTemplatesProvidersListQuery:
@@ -205,7 +215,9 @@ class mapDashboardInstanceSessionTemplatesProvidersListQuery:
         provider_id=data.get('provider_id'),
         provider_deployment_id=data.get('provider_deployment_id'),
         provider_config_id=data.get('provider_config_id'),
-        provider_auth_config_id=data.get('provider_auth_config_id')
+        provider_auth_config_id=data.get('provider_auth_config_id'),
+        created_at=mapDashboardInstanceSessionTemplatesProvidersListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapDashboardInstanceSessionTemplatesProvidersListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -216,3 +228,4 @@ class mapDashboardInstanceSessionTemplatesProvidersListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

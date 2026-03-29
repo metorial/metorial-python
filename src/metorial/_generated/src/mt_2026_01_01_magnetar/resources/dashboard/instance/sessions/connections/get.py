@@ -6,12 +6,16 @@ import dataclasses
 @dataclass
 class DashboardInstanceSessionsConnectionsGetOutputUsage:
     total_productive_client_message_count: float
-    total_productive_server_message_count: float
+    total_productive_provider_message_count: float
 @dataclass
 class DashboardInstanceSessionsConnectionsGetOutputMcp:
     capabilities: Dict[str, Any]
     protocol_version: str
     transport: str
+@dataclass
+class DashboardInstanceSessionsConnectionsGetOutputParticipantData:
+    identifier: str
+    name: str
 @dataclass
 class DashboardInstanceSessionsConnectionsGetOutputParticipant:
     object: str
@@ -19,23 +23,24 @@ class DashboardInstanceSessionsConnectionsGetOutputParticipant:
     type: str
     identifier: str
     name: str
-    data: Dict[str, Any]
+    data: DashboardInstanceSessionsConnectionsGetOutputParticipantData
     created_at: datetime
     provider_id: Optional[str] = None
 @dataclass
 class DashboardInstanceSessionsConnectionsGetOutput:
     object: str
     id: str
-    status: str
     connection_state: str
     transport: str
     usage: DashboardInstanceSessionsConnectionsGetOutputUsage
     session_id: str
+    has_errors: bool
+    has_warnings: bool
     created_at: datetime
     last_message_at: datetime
-    last_active_at: datetime
     mcp: Optional[DashboardInstanceSessionsConnectionsGetOutputMcp] = None
     participant: Optional[DashboardInstanceSessionsConnectionsGetOutputParticipant] = None
+    last_active_at: Optional[datetime] = None
 
 
 class mapDashboardInstanceSessionsConnectionsGetOutputUsage:
@@ -43,7 +48,7 @@ class mapDashboardInstanceSessionsConnectionsGetOutputUsage:
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionsConnectionsGetOutputUsage:
         return DashboardInstanceSessionsConnectionsGetOutputUsage(
         total_productive_client_message_count=data.get('total_productive_client_message_count'),
-        total_productive_server_message_count=data.get('total_productive_server_message_count')
+        total_productive_provider_message_count=data.get('total_productive_provider_message_count')
         )
 
     @staticmethod
@@ -71,6 +76,22 @@ class mapDashboardInstanceSessionsConnectionsGetOutputMcp:
             return value
         return dataclasses.asdict(value)
 
+class mapDashboardInstanceSessionsConnectionsGetOutputParticipantData:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionsConnectionsGetOutputParticipantData:
+        return DashboardInstanceSessionsConnectionsGetOutputParticipantData(
+        identifier=data.get('identifier'),
+        name=data.get('name')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSessionsConnectionsGetOutputParticipantData, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapDashboardInstanceSessionsConnectionsGetOutputParticipant:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionsConnectionsGetOutputParticipant:
@@ -80,9 +101,9 @@ class mapDashboardInstanceSessionsConnectionsGetOutputParticipant:
         type=data.get('type'),
         identifier=data.get('identifier'),
         name=data.get('name'),
-        data=data.get('data'),
+        data=mapDashboardInstanceSessionsConnectionsGetOutputParticipantData.from_dict(data.get('data')) if data.get('data') else None,
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -99,16 +120,17 @@ class mapDashboardInstanceSessionsConnectionsGetOutput:
         return DashboardInstanceSessionsConnectionsGetOutput(
         object=data.get('object'),
         id=data.get('id'),
-        status=data.get('status'),
         connection_state=data.get('connection_state'),
         transport=data.get('transport'),
         usage=mapDashboardInstanceSessionsConnectionsGetOutputUsage.from_dict(data.get('usage')) if data.get('usage') else None,
         mcp=mapDashboardInstanceSessionsConnectionsGetOutputMcp.from_dict(data.get('mcp')) if data.get('mcp') else None,
         session_id=data.get('session_id'),
         participant=mapDashboardInstanceSessionsConnectionsGetOutputParticipant.from_dict(data.get('participant')) if data.get('participant') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        last_message_at=datetime.fromisoformat(data.get('last_message_at')) if data.get('last_message_at') else None,
-        last_active_at=datetime.fromisoformat(data.get('last_active_at')) if data.get('last_active_at') else None
+        has_errors=data.get('has_errors'),
+        has_warnings=data.get('has_warnings'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        last_message_at=datetime.fromisoformat(data.get('last_message_at').replace('Z', '+00:00')) if data.get('last_message_at') else None,
+        last_active_at=datetime.fromisoformat(data.get('last_active_at').replace('Z', '+00:00')) if data.get('last_active_at') else None
         )
 
     @staticmethod
@@ -119,3 +141,4 @@ class mapDashboardInstanceSessionsConnectionsGetOutput:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

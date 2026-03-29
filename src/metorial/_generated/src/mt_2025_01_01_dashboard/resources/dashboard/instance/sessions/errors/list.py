@@ -10,12 +10,13 @@ class DashboardInstanceSessionsErrorsListOutputItems:
     code: str
     message: str
     data: Dict[str, Any]
+    status: str
     session_id: str
-    group_id: str
     similar_error_count: float
     created_at: datetime
     provider_run_id: Optional[str] = None
     connection_id: Optional[str] = None
+    group_id: Optional[str] = None
 @dataclass
 class DashboardInstanceSessionsErrorsListOutputPagination:
     has_more_before: bool
@@ -35,12 +36,13 @@ class mapDashboardInstanceSessionsErrorsListOutputItems:
         code=data.get('code'),
         message=data.get('message'),
         data=data.get('data'),
+        status=data.get('status'),
         session_id=data.get('session_id'),
         provider_run_id=data.get('provider_run_id'),
         connection_id=data.get('connection_id'),
         group_id=data.get('group_id'),
         similar_error_count=data.get('similar_error_count'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -85,6 +87,14 @@ class mapDashboardInstanceSessionsErrorsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class DashboardInstanceSessionsErrorsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class DashboardInstanceSessionsErrorsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class DashboardInstanceSessionsErrorsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -100,6 +110,8 @@ class DashboardInstanceSessionsErrorsListQuery:
     provider_run_id: Optional[Union[str, List[str]]] = None
     provider_id: Optional[Union[str, List[str]]] = None
     session_message_id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[DashboardInstanceSessionsErrorsListQueryCreatedAt] = None
+    updated_at: Optional[DashboardInstanceSessionsErrorsListQueryUpdatedAt] = None
 
 
 class mapDashboardInstanceSessionsErrorsListQuery:
@@ -119,7 +131,9 @@ class mapDashboardInstanceSessionsErrorsListQuery:
         session_error_group_id=data.get('session_error_group_id'),
         provider_run_id=data.get('provider_run_id'),
         provider_id=data.get('provider_id'),
-        session_message_id=data.get('session_message_id')
+        session_message_id=data.get('session_message_id'),
+        created_at=mapDashboardInstanceSessionsErrorsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapDashboardInstanceSessionsErrorsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -130,3 +144,4 @@ class mapDashboardInstanceSessionsErrorsListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

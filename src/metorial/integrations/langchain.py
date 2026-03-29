@@ -3,22 +3,17 @@ LangChain integration for Metorial tools.
 
 Example:
     from langchain_anthropic import ChatAnthropic
-    from langchain.agents import create_tool_calling_agent, AgentExecutor
-    from metorial import Metorial
-    from metorial.integrations.langchain import create_langchain_tools
+    from langchain.agents import create_react_agent
+    from metorial import Metorial, metorial_langchain
 
     metorial = Metorial(api_key="...")
 
-    async with metorial.provider_session(
-        provider="anthropic",
-        server_deployments=["deployment-id"],
-    ) as session:
-        tools = create_langchain_tools(session)
-
-        agent = create_tool_calling_agent(ChatAnthropic(), tools, prompt)
-        executor = AgentExecutor(agent=agent, tools=tools)
-
-        result = await executor.ainvoke({"input": "Search for news"})
+    session = await metorial.connect(
+        adapter=metorial_langchain(),
+        providers=[{"provider_deployment_id": "deployment-id"}],
+    )
+    agent = create_react_agent(ChatAnthropic(), session.tools())
+    result = await agent.ainvoke({"messages": [("user", "Search for news")]})
 """
 
 from __future__ import annotations
@@ -66,16 +61,18 @@ def create_langchain_tools(session: ProviderSession) -> list[Any]:
     # Capture tool_name in closure to avoid late binding issues
     def make_tool_fn(tool_name: str):
       async def tool_fn(**kwargs: Any) -> str:
-        # Filter out None values - LangChain includes these for optional params
         filtered_kwargs = {k: v for k, v in kwargs.items() if v is not None}
-        result = await tool_manager.execute_tool(tool_name, filtered_kwargs)
-        if hasattr(result, "model_dump"):
-          result = result.model_dump()
-        return json.dumps(result, ensure_ascii=False, default=str)
+        try:
+          result = await tool_manager.execute_tool(tool_name, filtered_kwargs)
+          if hasattr(result, "model_dump"):
+            result = result.model_dump()
+          return json.dumps(result, ensure_ascii=False, default=str)
+        except Exception as e:
+          return json.dumps({"error": str(e)}, ensure_ascii=False)
 
       return tool_fn
 
-    # Create the LangChain tool
+    # Create the LangChain tool (async only — use ainvoke/astream with the agent)
     lc_tool = StructuredTool.from_function(
       coroutine=make_tool_fn(tool.name),
       name=tool.name,

@@ -8,21 +8,23 @@ class MetorialDashboardInstanceSessionsConnectionsEndpoint(BaseMetorialEndpoint)
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, session_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[str] = None, connection_state: Optional[str] = None, session_provider_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceSessionsConnectionsListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, connection_state: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, session_id: Optional[Union[str, List[str]]] = None, session_provider_id: Optional[Union[str, List[str]]] = None, participant_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceSessionsConnectionsListOutput:
         """
     List session connections
     Returns a paginated list of connections for a session.
 
     :param instance_id: str
-    :param session_id: str
     :param limit: Optional[float] (optional)
     :param after: Optional[str] (optional)
     :param before: Optional[str] (optional)
     :param cursor: Optional[str] (optional)
     :param order: Optional[str] (optional)
-    :param status: Optional[str] (optional)
-    :param connection_state: Optional[str] (optional)
+    :param status: Optional[Union[str, List[str]]] (optional)
+    :param connection_state: Optional[Union[str, List[str]]] (optional)
+    :param id: Optional[Union[str, List[str]]] (optional)
+    :param session_id: Optional[Union[str, List[str]]] (optional)
     :param session_provider_id: Optional[Union[str, List[str]]] (optional)
+    :param participant_id: Optional[Union[str, List[str]]] (optional)
     :return: DashboardInstanceSessionsConnectionsListOutput
     """
         # Build query parameters from keyword arguments
@@ -41,26 +43,31 @@ class MetorialDashboardInstanceSessionsConnectionsEndpoint(BaseMetorialEndpoint)
             query_dict["status"] = status
         if connection_state is not None:
             query_dict["connection_state"] = connection_state
+        if id is not None:
+            query_dict["id"] = id
+        if session_id is not None:
+            query_dict["session_id"] = session_id
         if session_provider_id is not None:
             query_dict["session_provider_id"] = session_provider_id
+        if participant_id is not None:
+            query_dict["participant_id"] = participant_id
 
         request = MetorialRequest(
-            path=['dashboard', 'instances', instance_id, 'sessions', session_id, 'connections'],
+            path=['dashboard', 'instances', instance_id, 'session-connections'],
             query=query_dict
         )
         return self._get(request).transform(mapDashboardInstanceSessionsConnectionsListOutput.from_dict)
 
-    def get(self, instance_id: str, session_id: str, session_connection_id: str) -> DashboardInstanceSessionsConnectionsGetOutput:
+    def get(self, instance_id: str, session_connection_id: str) -> DashboardInstanceSessionsConnectionsGetOutput:
         """
     Get session connection
     Retrieves a specific connection from a session.
 
     :param instance_id: str
-    :param session_id: str
     :param session_connection_id: str
     :return: DashboardInstanceSessionsConnectionsGetOutput
     """
         request = MetorialRequest(
-            path=['dashboard', 'instances', instance_id, 'sessions', session_id, 'connections', session_connection_id]
+            path=['dashboard', 'instances', instance_id, 'session-connections', session_connection_id]
         )
         return self._get(request).transform(mapDashboardInstanceSessionsConnectionsGetOutput.from_dict)

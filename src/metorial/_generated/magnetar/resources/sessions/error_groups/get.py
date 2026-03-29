@@ -7,14 +7,12 @@ import dataclasses
 class SessionsErrorGroupsGetOutput:
     object: str
     id: str
-    count: float
-    session_id: str
+    code: str
+    message: str
+    data: Dict[str, Any]
+    occurrence_count: float
     created_at: datetime
-    updated_at: datetime
-    type: Optional[str] = None
-    name: Optional[str] = None
-    message: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None
+    provider_id: Optional[str] = None
 
 
 class mapSessionsErrorGroupsGetOutput:
@@ -23,14 +21,12 @@ class mapSessionsErrorGroupsGetOutput:
         return SessionsErrorGroupsGetOutput(
         object=data.get('object'),
         id=data.get('id'),
-        type=data.get('type'),
-        name=data.get('name'),
+        code=data.get('code'),
         message=data.get('message'),
-        count=data.get('count'),
-        metadata=data.get('metadata'),
-        session_id=data.get('session_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        data=data.get('data'),
+        provider_id=data.get('provider_id'),
+        occurrence_count=data.get('occurrence_count'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -41,3 +37,4 @@ class mapSessionsErrorGroupsGetOutput:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

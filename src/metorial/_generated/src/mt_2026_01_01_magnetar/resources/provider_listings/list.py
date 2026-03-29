@@ -11,59 +11,14 @@ class ProviderListingsListOutputItemsAttributes:
     is_verified: bool
     is_official: bool
 @dataclass
-class ProviderListingsListOutputItemsProviderOwnerTenant:
-    object: str
-    id: str
-    identifier: str
-    name: str
-    created_at: datetime
-@dataclass
 class ProviderListingsListOutputItemsProviderPublisher:
     object: str
     id: str
     name: str
-    slug: str
     image_url: str
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
-@dataclass
-class ProviderListingsListOutputItemsProviderEntry:
-    object: str
-    id: str
-    identifier: str
-    name: str
-    created_at: datetime
-    updated_at: datetime
-    description: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None
-@dataclass
-class ProviderListingsListOutputItemsProviderDefaultVariantCurrentVersion:
-    object: str
-    id: str
-    version: str
-    provider_id: str
-    is_current: bool
-    name: str
-    created_at: datetime
-    updated_at: datetime
-    description: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None
-    specification_id: Optional[str] = None
-@dataclass
-class ProviderListingsListOutputItemsProviderDefaultVariant:
-    object: str
-    id: str
-    tag: str
-    identifier: str
-    provider_id: str
-    is_default: bool
-    name: str
-    created_at: datetime
-    updated_at: datetime
-    description: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None
-    current_version: Optional[ProviderListingsListOutputItemsProviderDefaultVariantCurrentVersion] = None
 @dataclass
 class ProviderListingsListOutputItemsProviderCurrentVersion:
     object: str
@@ -78,22 +33,13 @@ class ProviderListingsListOutputItemsProviderCurrentVersion:
     metadata: Optional[Dict[str, Any]] = None
     specification_id: Optional[str] = None
 @dataclass
-class ProviderListingsListOutputItemsProviderType:
-    object: str
-    id: str
-    name: str
-    config: Dict[str, Any]
-    triggers: Dict[str, Any]
-    auth: Dict[str, Any]
-    created_at: datetime
-@dataclass
 class ProviderListingsListOutputItemsProviderOauthAutoRegistration:
     status: str
 @dataclass
 class ProviderListingsListOutputItemsProviderOauth:
     status: str
+    auto_registration: ProviderListingsListOutputItemsProviderOauthAutoRegistration
     callback_url: Optional[str] = None
-    auto_registration: Optional[ProviderListingsListOutputItemsProviderOauthAutoRegistration] = None
 @dataclass
 class ProviderListingsListOutputItemsProvider:
     object: str
@@ -101,16 +47,11 @@ class ProviderListingsListOutputItemsProvider:
     access: str
     status: str
     publisher: ProviderListingsListOutputItemsProviderPublisher
-    entry: ProviderListingsListOutputItemsProviderEntry
-    type: ProviderListingsListOutputItemsProviderType
     identifier: str
-    tag: str
     name: str
     slug: str
     created_at: datetime
     updated_at: datetime
-    owner_tenant: Optional[ProviderListingsListOutputItemsProviderOwnerTenant] = None
-    default_variant: Optional[ProviderListingsListOutputItemsProviderDefaultVariant] = None
     current_version: Optional[ProviderListingsListOutputItemsProviderCurrentVersion] = None
     oauth: Optional[ProviderListingsListOutputItemsProviderOauth] = None
     description: Optional[str] = None
@@ -188,25 +129,6 @@ class mapProviderListingsListOutputItemsAttributes:
             return value
         return dataclasses.asdict(value)
 
-class mapProviderListingsListOutputItemsProviderOwnerTenant:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ProviderListingsListOutputItemsProviderOwnerTenant:
-        return ProviderListingsListOutputItemsProviderOwnerTenant(
-        object=data.get('object'),
-        id=data.get('id'),
-        identifier=data.get('identifier'),
-        name=data.get('name'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[ProviderListingsListOutputItemsProviderOwnerTenant, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
 class mapProviderListingsListOutputItemsProviderPublisher:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ProviderListingsListOutputItemsProviderPublisher:
@@ -215,87 +137,13 @@ class mapProviderListingsListOutputItemsProviderPublisher:
         id=data.get('id'),
         name=data.get('name'),
         description=data.get('description'),
-        slug=data.get('slug'),
         image_url=data.get('image_url'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
     def to_dict(value: Union[ProviderListingsListOutputItemsProviderPublisher, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapProviderListingsListOutputItemsProviderEntry:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ProviderListingsListOutputItemsProviderEntry:
-        return ProviderListingsListOutputItemsProviderEntry(
-        object=data.get('object'),
-        id=data.get('id'),
-        identifier=data.get('identifier'),
-        name=data.get('name'),
-        description=data.get('description'),
-        metadata=data.get('metadata'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[ProviderListingsListOutputItemsProviderEntry, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapProviderListingsListOutputItemsProviderDefaultVariantCurrentVersion:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ProviderListingsListOutputItemsProviderDefaultVariantCurrentVersion:
-        return ProviderListingsListOutputItemsProviderDefaultVariantCurrentVersion(
-        object=data.get('object'),
-        id=data.get('id'),
-        version=data.get('version'),
-        provider_id=data.get('provider_id'),
-        is_current=data.get('is_current'),
-        name=data.get('name'),
-        description=data.get('description'),
-        metadata=data.get('metadata'),
-        specification_id=data.get('specification_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[ProviderListingsListOutputItemsProviderDefaultVariantCurrentVersion, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapProviderListingsListOutputItemsProviderDefaultVariant:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ProviderListingsListOutputItemsProviderDefaultVariant:
-        return ProviderListingsListOutputItemsProviderDefaultVariant(
-        object=data.get('object'),
-        id=data.get('id'),
-        tag=data.get('tag'),
-        identifier=data.get('identifier'),
-        provider_id=data.get('provider_id'),
-        is_default=data.get('is_default'),
-        name=data.get('name'),
-        description=data.get('description'),
-        metadata=data.get('metadata'),
-        current_version=mapProviderListingsListOutputItemsProviderDefaultVariantCurrentVersion.from_dict(data.get('current_version')) if data.get('current_version') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[ProviderListingsListOutputItemsProviderDefaultVariant, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -315,33 +163,12 @@ class mapProviderListingsListOutputItemsProviderCurrentVersion:
         description=data.get('description'),
         metadata=data.get('metadata'),
         specification_id=data.get('specification_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
     def to_dict(value: Union[ProviderListingsListOutputItemsProviderCurrentVersion, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapProviderListingsListOutputItemsProviderType:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ProviderListingsListOutputItemsProviderType:
-        return ProviderListingsListOutputItemsProviderType(
-        object=data.get('object'),
-        id=data.get('id'),
-        name=data.get('name'),
-        config=data.get('config'),
-        triggers=data.get('triggers'),
-        auth=data.get('auth'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[ProviderListingsListOutputItemsProviderType, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -388,21 +215,16 @@ class mapProviderListingsListOutputItemsProvider:
         id=data.get('id'),
         access=data.get('access'),
         status=data.get('status'),
-        owner_tenant=mapProviderListingsListOutputItemsProviderOwnerTenant.from_dict(data.get('owner_tenant')) if data.get('owner_tenant') else None,
         publisher=mapProviderListingsListOutputItemsProviderPublisher.from_dict(data.get('publisher')) if data.get('publisher') else None,
-        entry=mapProviderListingsListOutputItemsProviderEntry.from_dict(data.get('entry')) if data.get('entry') else None,
-        default_variant=mapProviderListingsListOutputItemsProviderDefaultVariant.from_dict(data.get('default_variant')) if data.get('default_variant') else None,
         current_version=mapProviderListingsListOutputItemsProviderCurrentVersion.from_dict(data.get('current_version')) if data.get('current_version') else None,
-        type=mapProviderListingsListOutputItemsProviderType.from_dict(data.get('type')) if data.get('type') else None,
         oauth=mapProviderListingsListOutputItemsProviderOauth.from_dict(data.get('oauth')) if data.get('oauth') else None,
         identifier=data.get('identifier'),
-        tag=data.get('tag'),
         name=data.get('name'),
         description=data.get('description'),
         slug=data.get('slug'),
         metadata=data.get('metadata'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -422,8 +244,8 @@ class mapProviderListingsListOutputItemsCategories:
         name=data.get('name'),
         description=data.get('description'),
         slug=data.get('slug'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -443,8 +265,8 @@ class mapProviderListingsListOutputItemsCollections:
         name=data.get('name'),
         description=data.get('description'),
         slug=data.get('slug'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -464,8 +286,8 @@ class mapProviderListingsListOutputItemsGroups:
         name=data.get('name'),
         description=data.get('description'),
         slug=data.get('slug'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -493,8 +315,8 @@ class mapProviderListingsListOutputItems:
         categories=[mapProviderListingsListOutputItemsCategories.from_dict(item) for item in data.get('categories', []) if item],
         collections=[mapProviderListingsListOutputItemsCollections.from_dict(item) for item in data.get('collections', []) if item],
         groups=[mapProviderListingsListOutputItemsGroups.from_dict(item) for item in data.get('groups', []) if item],
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -539,6 +361,14 @@ class mapProviderListingsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class ProviderListingsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class ProviderListingsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class ProviderListingsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -550,12 +380,13 @@ class ProviderListingsListQuery:
     provider_collection_id: Optional[Union[str, List[str]]] = None
     provider_group_id: Optional[Union[str, List[str]]] = None
     publisher_id: Optional[Union[str, List[str]]] = None
+    is_owner: Optional[bool] = None
     is_public: Optional[bool] = None
-    only_from_tenant: Optional[bool] = None
     is_verified: Optional[bool] = None
     is_official: Optional[bool] = None
     is_metorial: Optional[bool] = None
-    order_by_rank: Optional[bool] = None
+    created_at: Optional[ProviderListingsListQueryCreatedAt] = None
+    updated_at: Optional[ProviderListingsListQueryUpdatedAt] = None
 
 
 class mapProviderListingsListQuery:
@@ -572,12 +403,13 @@ class mapProviderListingsListQuery:
         provider_collection_id=data.get('provider_collection_id'),
         provider_group_id=data.get('provider_group_id'),
         publisher_id=data.get('publisher_id'),
+        is_owner=data.get('is_owner'),
         is_public=data.get('is_public'),
-        only_from_tenant=data.get('only_from_tenant'),
         is_verified=data.get('is_verified'),
         is_official=data.get('is_official'),
         is_metorial=data.get('is_metorial'),
-        order_by_rank=data.get('order_by_rank')
+        created_at=mapProviderListingsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapProviderListingsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -588,3 +420,4 @@ class mapProviderListingsListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

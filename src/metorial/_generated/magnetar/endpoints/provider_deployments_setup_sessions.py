@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Optional, Union
 from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, MetorialRequest
-from ..resources import mapProviderDeploymentsSetupSessionsListOutput, ProviderDeploymentsSetupSessionsListOutput, mapProviderDeploymentsSetupSessionsGetOutput, ProviderDeploymentsSetupSessionsGetOutput, mapProviderDeploymentsSetupSessionsCreateOutput, ProviderDeploymentsSetupSessionsCreateOutput, mapProviderDeploymentsSetupSessionsUpdateOutput, ProviderDeploymentsSetupSessionsUpdateOutput, mapProviderDeploymentsSetupSessionsDeleteOutput, ProviderDeploymentsSetupSessionsDeleteOutput
+from ..resources import mapDashboardInstanceProviderDeploymentsSetupSessionsListOutput, DashboardInstanceProviderDeploymentsSetupSessionsListOutput, mapDashboardInstanceProviderDeploymentsSetupSessionsListQuery, DashboardInstanceProviderDeploymentsSetupSessionsListQuery, mapDashboardInstanceProviderDeploymentsSetupSessionsGetOutput, DashboardInstanceProviderDeploymentsSetupSessionsGetOutput, mapDashboardInstanceProviderDeploymentsSetupSessionsCreateOutput, DashboardInstanceProviderDeploymentsSetupSessionsCreateOutput, mapDashboardInstanceProviderDeploymentsSetupSessionsCreateBody, DashboardInstanceProviderDeploymentsSetupSessionsCreateBody, mapDashboardInstanceProviderDeploymentsSetupSessionsUpdateOutput, DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutput, mapDashboardInstanceProviderDeploymentsSetupSessionsUpdateBody, DashboardInstanceProviderDeploymentsSetupSessionsUpdateBody, mapDashboardInstanceProviderDeploymentsSetupSessionsDeleteOutput, DashboardInstanceProviderDeploymentsSetupSessionsDeleteOutput
 
 class MetorialProviderDeploymentsSetupSessionsEndpoint(BaseMetorialEndpoint):
     """A setup session tracks an in-progress OAuth flow, storing state during the redirect. On success, it creates an auth config with the user's access token."""
@@ -8,7 +8,7 @@ class MetorialProviderDeploymentsSetupSessionsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, provider_auth_method_id: Optional[Union[str, List[str]]] = None, provider_auth_config_id: Optional[Union[str, List[str]]] = None, provider_auth_credentials_id: Optional[Union[str, List[str]]] = None, status: Optional[Union[str, List[str]]] = None) -> ProviderDeploymentsSetupSessionsListOutput:
+    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, provider_auth_method_id: Optional[Union[str, List[str]]] = None, provider_auth_config_id: Optional[Union[str, List[str]]] = None, provider_auth_credentials_id: Optional[Union[str, List[str]]] = None, status: Optional[Union[str, List[str]]] = None) -> DashboardInstanceProviderDeploymentsSetupSessionsListOutput:
         """
     List provider setup sessions
     Returns a paginated list of provider setup sessions.
@@ -25,7 +25,7 @@ class MetorialProviderDeploymentsSetupSessionsEndpoint(BaseMetorialEndpoint):
     :param provider_auth_config_id: Optional[Union[str, List[str]]] (optional)
     :param provider_auth_credentials_id: Optional[Union[str, List[str]]] (optional)
     :param status: Optional[Union[str, List[str]]] (optional)
-    :return: ProviderDeploymentsSetupSessionsListOutput
+    :return: DashboardInstanceProviderDeploymentsSetupSessionsListOutput
     """
         # Build query parameters from keyword arguments
         query_dict = {}
@@ -58,22 +58,22 @@ class MetorialProviderDeploymentsSetupSessionsEndpoint(BaseMetorialEndpoint):
             path=['provider-setup-sessions'],
             query=query_dict
         )
-        return self._get(request).transform(mapProviderDeploymentsSetupSessionsListOutput.from_dict)
+        return self._get(request).transform(mapDashboardInstanceProviderDeploymentsSetupSessionsListOutput.from_dict)
 
-    def get(self, provider_setup_session_id: str) -> ProviderDeploymentsSetupSessionsGetOutput:
+    def get(self, provider_setup_session_id: str) -> DashboardInstanceProviderDeploymentsSetupSessionsGetOutput:
         """
     Get provider setup session
     Retrieves a specific provider setup session by ID.
 
     :param provider_setup_session_id: str
-    :return: ProviderDeploymentsSetupSessionsGetOutput
+    :return: DashboardInstanceProviderDeploymentsSetupSessionsGetOutput
     """
         request = MetorialRequest(
             path=['provider-setup-sessions', provider_setup_session_id]
         )
-        return self._get(request).transform(mapProviderDeploymentsSetupSessionsGetOutput.from_dict)
+        return self._get(request).transform(mapDashboardInstanceProviderDeploymentsSetupSessionsGetOutput.from_dict)
 
-    def create(self, *, provider_id: str, provider_deployment_id: Optional[str] = None, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, provider_auth_method_id: Optional[str] = None, provider_auth_credentials_id: Optional[str] = None, redirect_url: Optional[str] = None) -> ProviderDeploymentsSetupSessionsCreateOutput:
+    def create(self, *, provider_id: str, provider_deployment_id: Optional[str] = None, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, provider_auth_method_id: Optional[str] = None, provider_auth_credentials_id: Optional[str] = None, redirect_url: Optional[str] = None) -> DashboardInstanceProviderDeploymentsSetupSessionsCreateOutput:
         """
     Create provider setup session
     Creates a new provider setup session for OAuth authentication.
@@ -86,7 +86,7 @@ class MetorialProviderDeploymentsSetupSessionsEndpoint(BaseMetorialEndpoint):
     :param provider_auth_method_id: Optional[str] (optional)
     :param provider_auth_credentials_id: Optional[str] (optional)
     :param redirect_url: Optional[str] (optional)
-    :return: ProviderDeploymentsSetupSessionsCreateOutput
+    :return: DashboardInstanceProviderDeploymentsSetupSessionsCreateOutput
     """
         # Build body parameters from keyword arguments
         body_dict = {}
@@ -110,9 +110,9 @@ class MetorialProviderDeploymentsSetupSessionsEndpoint(BaseMetorialEndpoint):
             path=['provider-setup-sessions'],
             body=body_dict
         )
-        return self._post(request).transform(mapProviderDeploymentsSetupSessionsCreateOutput.from_dict)
+        return self._post(request).transform(mapDashboardInstanceProviderDeploymentsSetupSessionsCreateOutput.from_dict)
 
-    def update(self, provider_setup_session_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None) -> ProviderDeploymentsSetupSessionsUpdateOutput:
+    def update(self, provider_setup_session_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutput:
         """
     Update provider setup session
     Updates a specific provider setup session.
@@ -121,7 +121,7 @@ class MetorialProviderDeploymentsSetupSessionsEndpoint(BaseMetorialEndpoint):
     :param name: Optional[str] (optional)
     :param description: Optional[str] (optional)
     :param metadata: Optional[Dict[str, Any]] (optional)
-    :return: ProviderDeploymentsSetupSessionsUpdateOutput
+    :return: DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutput
     """
         # Build body parameters from keyword arguments
         body_dict = {}
@@ -136,17 +136,17 @@ class MetorialProviderDeploymentsSetupSessionsEndpoint(BaseMetorialEndpoint):
             path=['provider-setup-sessions', provider_setup_session_id],
             body=body_dict
         )
-        return self._patch(request).transform(mapProviderDeploymentsSetupSessionsUpdateOutput.from_dict)
+        return self._patch(request).transform(mapDashboardInstanceProviderDeploymentsSetupSessionsUpdateOutput.from_dict)
 
-    def delete(self, provider_setup_session_id: str) -> ProviderDeploymentsSetupSessionsDeleteOutput:
+    def delete(self, provider_setup_session_id: str) -> DashboardInstanceProviderDeploymentsSetupSessionsDeleteOutput:
         """
     Delete provider setup session
     Deletes a provider setup session.
 
     :param provider_setup_session_id: str
-    :return: ProviderDeploymentsSetupSessionsDeleteOutput
+    :return: DashboardInstanceProviderDeploymentsSetupSessionsDeleteOutput
     """
         request = MetorialRequest(
             path=['provider-setup-sessions', provider_setup_session_id]
         )
-        return self._delete(request).transform(mapProviderDeploymentsSetupSessionsDeleteOutput.from_dict)
+        return self._delete(request).transform(mapDashboardInstanceProviderDeploymentsSetupSessionsDeleteOutput.from_dict)

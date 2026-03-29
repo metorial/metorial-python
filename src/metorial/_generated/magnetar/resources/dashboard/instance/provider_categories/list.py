@@ -8,10 +8,10 @@ class DashboardInstanceProviderCategoriesListOutputItems:
     object: str
     id: str
     name: str
+    description: str
     slug: str
     created_at: datetime
     updated_at: datetime
-    description: Optional[str] = None
 @dataclass
 class DashboardInstanceProviderCategoriesListOutputPagination:
     has_more_before: bool
@@ -31,8 +31,8 @@ class mapDashboardInstanceProviderCategoriesListOutputItems:
         name=data.get('name'),
         description=data.get('description'),
         slug=data.get('slug'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -83,6 +83,9 @@ class DashboardInstanceProviderCategoriesListQuery:
     before: Optional[str] = None
     cursor: Optional[str] = None
     order: Optional[str] = None
+    id: Optional[Union[str, List[str]]] = None
+    provider_id: Optional[Union[str, List[str]]] = None
+    provider_listing_id: Optional[Union[str, List[str]]] = None
 
 
 class mapDashboardInstanceProviderCategoriesListQuery:
@@ -93,7 +96,10 @@ class mapDashboardInstanceProviderCategoriesListQuery:
         after=data.get('after'),
         before=data.get('before'),
         cursor=data.get('cursor'),
-        order=data.get('order')
+        order=data.get('order'),
+        id=data.get('id'),
+        provider_id=data.get('provider_id'),
+        provider_listing_id=data.get('provider_listing_id')
         )
 
     @staticmethod
@@ -104,3 +110,4 @@ class mapDashboardInstanceProviderCategoriesListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

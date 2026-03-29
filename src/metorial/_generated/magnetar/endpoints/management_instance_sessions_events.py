@@ -8,21 +8,25 @@ class MetorialManagementInstanceSessionsEventsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, session_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, type: Optional[str] = None, session_provider_id: Optional[Union[str, List[str]]] = None, provider_run_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceSessionsEventsListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, type: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, session_id: Optional[Union[str, List[str]]] = None, session_provider_id: Optional[Union[str, List[str]]] = None, session_connection_id: Optional[Union[str, List[str]]] = None, provider_run_id: Optional[Union[str, List[str]]] = None, session_message_id: Optional[Union[str, List[str]]] = None, session_error_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceSessionsEventsListOutput:
         """
     List session events
     Returns a paginated list of events for a session.
 
     :param instance_id: str
-    :param session_id: str
     :param limit: Optional[float] (optional)
     :param after: Optional[str] (optional)
     :param before: Optional[str] (optional)
     :param cursor: Optional[str] (optional)
     :param order: Optional[str] (optional)
-    :param type: Optional[str] (optional)
+    :param type: Optional[Union[str, List[str]]] (optional)
+    :param id: Optional[Union[str, List[str]]] (optional)
+    :param session_id: Optional[Union[str, List[str]]] (optional)
     :param session_provider_id: Optional[Union[str, List[str]]] (optional)
+    :param session_connection_id: Optional[Union[str, List[str]]] (optional)
     :param provider_run_id: Optional[Union[str, List[str]]] (optional)
+    :param session_message_id: Optional[Union[str, List[str]]] (optional)
+    :param session_error_id: Optional[Union[str, List[str]]] (optional)
     :return: DashboardInstanceSessionsEventsListOutput
     """
         # Build query parameters from keyword arguments
@@ -39,28 +43,37 @@ class MetorialManagementInstanceSessionsEventsEndpoint(BaseMetorialEndpoint):
             query_dict["order"] = order
         if type is not None:
             query_dict["type"] = type
+        if id is not None:
+            query_dict["id"] = id
+        if session_id is not None:
+            query_dict["session_id"] = session_id
         if session_provider_id is not None:
             query_dict["session_provider_id"] = session_provider_id
+        if session_connection_id is not None:
+            query_dict["session_connection_id"] = session_connection_id
         if provider_run_id is not None:
             query_dict["provider_run_id"] = provider_run_id
+        if session_message_id is not None:
+            query_dict["session_message_id"] = session_message_id
+        if session_error_id is not None:
+            query_dict["session_error_id"] = session_error_id
 
         request = MetorialRequest(
-            path=['instances', instance_id, 'sessions', session_id, 'events'],
+            path=['instances', instance_id, 'session-events'],
             query=query_dict
         )
         return self._get(request).transform(mapDashboardInstanceSessionsEventsListOutput.from_dict)
 
-    def get(self, instance_id: str, session_id: str, session_event_id: str) -> DashboardInstanceSessionsEventsGetOutput:
+    def get(self, instance_id: str, session_event_id: str) -> DashboardInstanceSessionsEventsGetOutput:
         """
     Get session event
     Retrieves a specific event from a session.
 
     :param instance_id: str
-    :param session_id: str
     :param session_event_id: str
     :return: DashboardInstanceSessionsEventsGetOutput
     """
         request = MetorialRequest(
-            path=['instances', instance_id, 'sessions', session_id, 'events', session_event_id]
+            path=['instances', instance_id, 'session-events', session_event_id]
         )
         return self._get(request).transform(mapDashboardInstanceSessionsEventsGetOutput.from_dict)

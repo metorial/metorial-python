@@ -8,18 +8,24 @@ class MetorialSessionTemplatesProvidersEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, session_template_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, provider_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceSessionTemplatesProvidersListOutput:
+    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, session_template_id: Optional[Union[str, List[str]]] = None, session_template_template_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, provider_config_id: Optional[Union[str, List[str]]] = None, provider_auth_config_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceSessionTemplatesProvidersListOutput:
         """
     List session template providers
     Returns a paginated list of providers configured for a session template.
 
-    :param session_template_id: str
     :param limit: Optional[float] (optional)
     :param after: Optional[str] (optional)
     :param before: Optional[str] (optional)
     :param cursor: Optional[str] (optional)
     :param order: Optional[str] (optional)
+    :param status: Optional[Union[str, List[str]]] (optional)
+    :param id: Optional[Union[str, List[str]]] (optional)
+    :param session_template_id: Optional[Union[str, List[str]]] (optional)
+    :param session_template_template_id: Optional[Union[str, List[str]]] (optional)
     :param provider_id: Optional[Union[str, List[str]]] (optional)
+    :param provider_deployment_id: Optional[Union[str, List[str]]] (optional)
+    :param provider_config_id: Optional[Union[str, List[str]]] (optional)
+    :param provider_auth_config_id: Optional[Union[str, List[str]]] (optional)
     :return: DashboardInstanceSessionTemplatesProvidersListOutput
     """
         # Build query parameters from keyword arguments
@@ -34,115 +40,104 @@ class MetorialSessionTemplatesProvidersEndpoint(BaseMetorialEndpoint):
             query_dict["cursor"] = cursor
         if order is not None:
             query_dict["order"] = order
+        if status is not None:
+            query_dict["status"] = status
+        if id is not None:
+            query_dict["id"] = id
+        if session_template_id is not None:
+            query_dict["session_template_id"] = session_template_id
+        if session_template_template_id is not None:
+            query_dict["session_template_template_id"] = session_template_template_id
         if provider_id is not None:
             query_dict["provider_id"] = provider_id
+        if provider_deployment_id is not None:
+            query_dict["provider_deployment_id"] = provider_deployment_id
+        if provider_config_id is not None:
+            query_dict["provider_config_id"] = provider_config_id
+        if provider_auth_config_id is not None:
+            query_dict["provider_auth_config_id"] = provider_auth_config_id
 
         request = MetorialRequest(
-            path=['session-templates', session_template_id, 'providers'],
+            path=['session-template-providers'],
             query=query_dict
         )
         return self._get(request).transform(mapDashboardInstanceSessionTemplatesProvidersListOutput.from_dict)
 
-    def get(self, session_template_id: str, session_template_provider_id: str) -> DashboardInstanceSessionTemplatesProvidersGetOutput:
+    def get(self, session_template_provider_id: str) -> DashboardInstanceSessionTemplatesProvidersGetOutput:
         """
     Get session template provider
     Retrieves a specific provider configuration from a session template.
 
-    :param session_template_id: str
     :param session_template_provider_id: str
     :return: DashboardInstanceSessionTemplatesProvidersGetOutput
     """
         request = MetorialRequest(
-            path=['session-templates', session_template_id, 'providers', session_template_provider_id]
+            path=['session-template-providers', session_template_provider_id]
         )
         return self._get(request).transform(mapDashboardInstanceSessionTemplatesProvidersGetOutput.from_dict)
 
-    def create(self, session_template_id: str, *, provider_deployment: Union[Dict[str, Any], Dict[str, Any], str], name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, provider_config: Optional[Union[Dict[str, Any], Dict[str, Any], str]] = None, provider_auth_config: Optional[Union[Dict[str, Any], Dict[str, Any], str]] = None, tool_filters: Optional[Dict[str, Any]] = None) -> DashboardInstanceSessionTemplatesProvidersCreateOutput:
+    def create(self, *, session_template_id: str, provider_deployment_id: Optional[str] = None, provider_config_id: Optional[str] = None, provider_config_vault_id: Optional[str] = None, provider_auth_config_id: Optional[str] = None, tool_filters: Optional[Dict[str, Any]] = None) -> DashboardInstanceSessionTemplatesProvidersCreateOutput:
         """
     Create session template provider
     Adds a new provider configuration to a session template.
 
     :param session_template_id: str
-    :param name: Optional[str] (optional)
-    :param description: Optional[str] (optional)
-    :param metadata: Optional[Dict[str, Any]] (optional)
-    :param provider_deployment: Union[Dict[str, Any], Dict[str, Any], str]
-    :param provider_config: Optional[Union[Dict[str, Any], Dict[str, Any], str]] (optional)
-    :param provider_auth_config: Optional[Union[Dict[str, Any], Dict[str, Any], str]] (optional)
+    :param provider_deployment_id: Optional[str] (optional)
+    :param provider_config_id: Optional[str] (optional)
+    :param provider_config_vault_id: Optional[str] (optional)
+    :param provider_auth_config_id: Optional[str] (optional)
     :param tool_filters: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceSessionTemplatesProvidersCreateOutput
     """
         # Build body parameters from keyword arguments
         body_dict = {}
-        if name is not None:
-            body_dict["name"] = name
-        if description is not None:
-            body_dict["description"] = description
-        if metadata is not None:
-            body_dict["metadata"] = metadata
-        body_dict["provider_deployment"] = provider_deployment
-        if provider_config is not None:
-            body_dict["provider_config"] = provider_config
-        if provider_auth_config is not None:
-            body_dict["provider_auth_config"] = provider_auth_config
+        body_dict["session_template_id"] = session_template_id
+        if provider_deployment_id is not None:
+            body_dict["provider_deployment_id"] = provider_deployment_id
+        if provider_config_id is not None:
+            body_dict["provider_config_id"] = provider_config_id
+        if provider_config_vault_id is not None:
+            body_dict["provider_config_vault_id"] = provider_config_vault_id
+        if provider_auth_config_id is not None:
+            body_dict["provider_auth_config_id"] = provider_auth_config_id
         if tool_filters is not None:
             body_dict["tool_filters"] = tool_filters
 
         request = MetorialRequest(
-            path=['session-templates', session_template_id, 'providers'],
+            path=['session-template-providers'],
             body=body_dict
         )
         return self._post(request).transform(mapDashboardInstanceSessionTemplatesProvidersCreateOutput.from_dict)
 
-    def update(self, session_template_id: str, session_template_provider_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, provider_deployment: Optional[Union[Dict[str, Any], Dict[str, Any], str]] = None, provider_config: Optional[Union[Dict[str, Any], Dict[str, Any], str]] = None, provider_auth_config: Optional[Union[Dict[str, Any], Dict[str, Any], str]] = None, tool_filters: Optional[Dict[str, Any]] = None) -> DashboardInstanceSessionTemplatesProvidersUpdateOutput:
+    def update(self, session_template_provider_id: str, *, tool_filters: Optional[Dict[str, Any]] = None) -> DashboardInstanceSessionTemplatesProvidersUpdateOutput:
         """
     Update session template provider
     Updates a provider configuration in a session template.
 
-    :param session_template_id: str
     :param session_template_provider_id: str
-    :param name: Optional[str] (optional)
-    :param description: Optional[str] (optional)
-    :param metadata: Optional[Dict[str, Any]] (optional)
-    :param provider_deployment: Optional[Union[Dict[str, Any], Dict[str, Any], str]] (optional)
-    :param provider_config: Optional[Union[Dict[str, Any], Dict[str, Any], str]] (optional)
-    :param provider_auth_config: Optional[Union[Dict[str, Any], Dict[str, Any], str]] (optional)
     :param tool_filters: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceSessionTemplatesProvidersUpdateOutput
     """
         # Build body parameters from keyword arguments
         body_dict = {}
-        if name is not None:
-            body_dict["name"] = name
-        if description is not None:
-            body_dict["description"] = description
-        if metadata is not None:
-            body_dict["metadata"] = metadata
-        if provider_deployment is not None:
-            body_dict["provider_deployment"] = provider_deployment
-        if provider_config is not None:
-            body_dict["provider_config"] = provider_config
-        if provider_auth_config is not None:
-            body_dict["provider_auth_config"] = provider_auth_config
         if tool_filters is not None:
             body_dict["tool_filters"] = tool_filters
 
         request = MetorialRequest(
-            path=['session-templates', session_template_id, 'providers', session_template_provider_id],
+            path=['session-template-providers', session_template_provider_id],
             body=body_dict
         )
         return self._patch(request).transform(mapDashboardInstanceSessionTemplatesProvidersUpdateOutput.from_dict)
 
-    def delete(self, session_template_id: str, session_template_provider_id: str) -> DashboardInstanceSessionTemplatesProvidersDeleteOutput:
+    def delete(self, session_template_provider_id: str) -> DashboardInstanceSessionTemplatesProvidersDeleteOutput:
         """
     Delete session template provider
     Removes a provider configuration from a session template.
 
-    :param session_template_id: str
     :param session_template_provider_id: str
     :return: DashboardInstanceSessionTemplatesProvidersDeleteOutput
     """
         request = MetorialRequest(
-            path=['session-templates', session_template_id, 'providers', session_template_provider_id]
+            path=['session-template-providers', session_template_provider_id]
         )
         return self._delete(request).transform(mapDashboardInstanceSessionTemplatesProvidersDeleteOutput.from_dict)

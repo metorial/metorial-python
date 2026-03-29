@@ -8,7 +8,7 @@ class MetorialDashboardInstanceProvidersEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None) -> DashboardInstanceProvidersListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, capabilities: Optional[Dict[str, Any]] = None) -> DashboardInstanceProvidersListOutput:
         """
     List providers
     Returns a paginated list of providers.
@@ -19,6 +19,8 @@ class MetorialDashboardInstanceProvidersEndpoint(BaseMetorialEndpoint):
     :param before: Optional[str] (optional)
     :param cursor: Optional[str] (optional)
     :param order: Optional[str] (optional)
+    :param id: Optional[Union[str, List[str]]] (optional)
+    :param capabilities: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceProvidersListOutput
     """
         # Build query parameters from keyword arguments
@@ -33,6 +35,10 @@ class MetorialDashboardInstanceProvidersEndpoint(BaseMetorialEndpoint):
             query_dict["cursor"] = cursor
         if order is not None:
             query_dict["order"] = order
+        if id is not None:
+            query_dict["id"] = id
+        if capabilities is not None:
+            query_dict["capabilities"] = capabilities
 
         request = MetorialRequest(
             path=['dashboard', 'instances', instance_id, 'providers'],

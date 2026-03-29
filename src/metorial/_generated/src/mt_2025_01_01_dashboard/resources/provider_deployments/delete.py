@@ -55,8 +55,8 @@ class mapProviderDeploymentsDeleteOutputLockedVersion:
         description=data.get('description'),
         metadata=data.get('metadata'),
         specification_id=data.get('specification_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -78,8 +78,8 @@ class mapProviderDeploymentsDeleteOutputDefaultConfig:
         description=data.get('description'),
         metadata=data.get('metadata'),
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -103,8 +103,8 @@ class mapProviderDeploymentsDeleteOutput:
         provider_id=data.get('provider_id'),
         locked_version=mapProviderDeploymentsDeleteOutputLockedVersion.from_dict(data.get('locked_version')) if data.get('locked_version') else None,
         default_config=mapProviderDeploymentsDeleteOutputDefaultConfig.from_dict(data.get('default_config')) if data.get('default_config') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -115,3 +115,4 @@ class mapProviderDeploymentsDeleteOutput:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

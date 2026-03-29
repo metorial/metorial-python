@@ -18,7 +18,7 @@ class ManagementInstanceSessionsMessagesListOutputItemsTransportMcp:
 @dataclass
 class ManagementInstanceSessionsMessagesListOutputItemsTransportToolCall:
     object: str
-    id: Optional[str] = None
+    id: str
 @dataclass
 class ManagementInstanceSessionsMessagesListOutputItemsTransport:
     object: str
@@ -61,12 +61,13 @@ class ManagementInstanceSessionsMessagesListOutputItemsToolCallError:
     code: str
     message: str
     data: Dict[str, Any]
+    status: str
     session_id: str
-    group_id: str
     similar_error_count: float
     created_at: datetime
     provider_run_id: Optional[str] = None
     connection_id: Optional[str] = None
+    group_id: Optional[str] = None
 @dataclass
 class ManagementInstanceSessionsMessagesListOutputItemsToolCall:
     object: str
@@ -87,15 +88,23 @@ class ManagementInstanceSessionsMessagesListOutputItemsToolCall:
     input: Optional[Dict[str, Any]] = None
     output: Optional[Dict[str, Any]] = None
 @dataclass
+class ManagementInstanceSessionsMessagesListOutputItemsSenderParticipantData:
+    identifier: str
+    name: str
+@dataclass
 class ManagementInstanceSessionsMessagesListOutputItemsSenderParticipant:
     object: str
     id: str
     type: str
     identifier: str
     name: str
-    data: Dict[str, Any]
+    data: ManagementInstanceSessionsMessagesListOutputItemsSenderParticipantData
     created_at: datetime
     provider_id: Optional[str] = None
+@dataclass
+class ManagementInstanceSessionsMessagesListOutputItemsResponderParticipantData:
+    identifier: str
+    name: str
 @dataclass
 class ManagementInstanceSessionsMessagesListOutputItemsResponderParticipant:
     object: str
@@ -103,7 +112,7 @@ class ManagementInstanceSessionsMessagesListOutputItemsResponderParticipant:
     type: str
     identifier: str
     name: str
-    data: Dict[str, Any]
+    data: ManagementInstanceSessionsMessagesListOutputItemsResponderParticipantData
     created_at: datetime
     provider_id: Optional[str] = None
 @dataclass
@@ -113,12 +122,13 @@ class ManagementInstanceSessionsMessagesListOutputItemsError:
     code: str
     message: str
     data: Dict[str, Any]
+    status: str
     session_id: str
-    group_id: str
     similar_error_count: float
     created_at: datetime
     provider_run_id: Optional[str] = None
     connection_id: Optional[str] = None
+    group_id: Optional[str] = None
 @dataclass
 class ManagementInstanceSessionsMessagesListOutputItems:
     object: str
@@ -284,8 +294,8 @@ class mapManagementInstanceSessionsMessagesListOutputItemsToolCallTool:
         tags=mapManagementInstanceSessionsMessagesListOutputItemsToolCallToolTags.from_dict(data.get('tags')) if data.get('tags') else None,
         specification_id=data.get('specification_id'),
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -305,12 +315,13 @@ class mapManagementInstanceSessionsMessagesListOutputItemsToolCallError:
         code=data.get('code'),
         message=data.get('message'),
         data=data.get('data'),
+        status=data.get('status'),
         session_id=data.get('session_id'),
         provider_run_id=data.get('provider_run_id'),
         connection_id=data.get('connection_id'),
         group_id=data.get('group_id'),
         similar_error_count=data.get('similar_error_count'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -341,11 +352,27 @@ class mapManagementInstanceSessionsMessagesListOutputItemsToolCall:
         error=mapManagementInstanceSessionsMessagesListOutputItemsToolCallError.from_dict(data.get('error')) if data.get('error') else None,
         input=data.get('input'),
         output=data.get('output'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
     def to_dict(value: Union[ManagementInstanceSessionsMessagesListOutputItemsToolCall, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceSessionsMessagesListOutputItemsSenderParticipantData:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceSessionsMessagesListOutputItemsSenderParticipantData:
+        return ManagementInstanceSessionsMessagesListOutputItemsSenderParticipantData(
+        identifier=data.get('identifier'),
+        name=data.get('name')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceSessionsMessagesListOutputItemsSenderParticipantData, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -361,13 +388,29 @@ class mapManagementInstanceSessionsMessagesListOutputItemsSenderParticipant:
         type=data.get('type'),
         identifier=data.get('identifier'),
         name=data.get('name'),
-        data=data.get('data'),
+        data=mapManagementInstanceSessionsMessagesListOutputItemsSenderParticipantData.from_dict(data.get('data')) if data.get('data') else None,
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
     def to_dict(value: Union[ManagementInstanceSessionsMessagesListOutputItemsSenderParticipant, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceSessionsMessagesListOutputItemsResponderParticipantData:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceSessionsMessagesListOutputItemsResponderParticipantData:
+        return ManagementInstanceSessionsMessagesListOutputItemsResponderParticipantData(
+        identifier=data.get('identifier'),
+        name=data.get('name')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceSessionsMessagesListOutputItemsResponderParticipantData, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -383,9 +426,9 @@ class mapManagementInstanceSessionsMessagesListOutputItemsResponderParticipant:
         type=data.get('type'),
         identifier=data.get('identifier'),
         name=data.get('name'),
-        data=data.get('data'),
+        data=mapManagementInstanceSessionsMessagesListOutputItemsResponderParticipantData.from_dict(data.get('data')) if data.get('data') else None,
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -405,12 +448,13 @@ class mapManagementInstanceSessionsMessagesListOutputItemsError:
         code=data.get('code'),
         message=data.get('message'),
         data=data.get('data'),
+        status=data.get('status'),
         session_id=data.get('session_id'),
         provider_run_id=data.get('provider_run_id'),
         connection_id=data.get('connection_id'),
         group_id=data.get('group_id'),
         similar_error_count=data.get('similar_error_count'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -442,7 +486,7 @@ class mapManagementInstanceSessionsMessagesListOutputItems:
         sender_participant=mapManagementInstanceSessionsMessagesListOutputItemsSenderParticipant.from_dict(data.get('sender_participant')) if data.get('sender_participant') else None,
         responder_participant=mapManagementInstanceSessionsMessagesListOutputItemsResponderParticipant.from_dict(data.get('responder_participant')) if data.get('responder_participant') else None,
         error=mapManagementInstanceSessionsMessagesListOutputItemsError.from_dict(data.get('error')) if data.get('error') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -487,6 +531,14 @@ class mapManagementInstanceSessionsMessagesListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class ManagementInstanceSessionsMessagesListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class ManagementInstanceSessionsMessagesListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class ManagementInstanceSessionsMessagesListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -504,6 +556,8 @@ class ManagementInstanceSessionsMessagesListQuery:
     error_id: Optional[Union[str, List[str]]] = None
     participant_id: Optional[Union[str, List[str]]] = None
     parent_message_id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[ManagementInstanceSessionsMessagesListQueryCreatedAt] = None
+    updated_at: Optional[ManagementInstanceSessionsMessagesListQueryUpdatedAt] = None
 
 
 class mapManagementInstanceSessionsMessagesListQuery:
@@ -525,7 +579,9 @@ class mapManagementInstanceSessionsMessagesListQuery:
         provider_run_id=data.get('provider_run_id'),
         error_id=data.get('error_id'),
         participant_id=data.get('participant_id'),
-        parent_message_id=data.get('parent_message_id')
+        parent_message_id=data.get('parent_message_id'),
+        created_at=mapManagementInstanceSessionsMessagesListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapManagementInstanceSessionsMessagesListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -536,3 +592,4 @@ class mapManagementInstanceSessionsMessagesListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

@@ -23,7 +23,7 @@ class mapDashboardUsageTimelineOutputTimelineEntries:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardUsageTimelineOutputTimelineEntries:
         return DashboardUsageTimelineOutputTimelineEntries(
-        ts=datetime.fromisoformat(data.get('ts')) if data.get('ts') else None,
+        ts=datetime.fromisoformat(data.get('ts').replace('Z', '+00:00')) if data.get('ts') else None,
         count=data.get('count')
         )
 
@@ -123,8 +123,8 @@ class mapDashboardUsageTimelineQuery:
     def from_dict(data: Dict[str, Any]) -> DashboardUsageTimelineQuery:
         return DashboardUsageTimelineQuery(
         entities=[mapDashboardUsageTimelineQueryEntities.from_dict(item) for item in data.get('entities', []) if item],
-        from_=datetime.fromisoformat(data.get('from')) if data.get('from') else None,
-        to=datetime.fromisoformat(data.get('to')) if data.get('to') else None,
+        from_=datetime.fromisoformat(data.get('from').replace('Z', '+00:00')) if data.get('from') else None,
+        to=datetime.fromisoformat(data.get('to').replace('Z', '+00:00')) if data.get('to') else None,
         interval=mapDashboardUsageTimelineQueryInterval.from_dict(data.get('interval')) if data.get('interval') else None
         )
 
@@ -136,3 +136,4 @@ class mapDashboardUsageTimelineQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

@@ -5,12 +5,14 @@ import dataclasses
 
 @dataclass
 class ProviderRunsGetLogsOutputLogs:
-    type: str
-    line: str
-    timestamp: Optional[datetime] = None
+    object: str
+    timestamp: datetime
+    message: str
+    output_type: str
 @dataclass
 class ProviderRunsGetLogsOutput:
     object: str
+    provider_run_id: str
     logs: List[ProviderRunsGetLogsOutputLogs]
 
 
@@ -18,9 +20,10 @@ class mapProviderRunsGetLogsOutputLogs:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ProviderRunsGetLogsOutputLogs:
         return ProviderRunsGetLogsOutputLogs(
-        type=data.get('type'),
-        line=data.get('line'),
-        timestamp=datetime.fromisoformat(data.get('timestamp')) if data.get('timestamp') else None
+        object=data.get('object'),
+        timestamp=datetime.fromisoformat(data.get('timestamp').replace('Z', '+00:00')) if data.get('timestamp') else None,
+        message=data.get('message'),
+        output_type=data.get('output_type')
         )
 
     @staticmethod
@@ -36,6 +39,7 @@ class mapProviderRunsGetLogsOutput:
     def from_dict(data: Dict[str, Any]) -> ProviderRunsGetLogsOutput:
         return ProviderRunsGetLogsOutput(
         object=data.get('object'),
+        provider_run_id=data.get('provider_run_id'),
         logs=[mapProviderRunsGetLogsOutputLogs.from_dict(item) for item in data.get('logs', []) if item]
         )
 
@@ -47,3 +51,4 @@ class mapProviderRunsGetLogsOutput:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

@@ -34,7 +34,7 @@ class mapDashboardInstanceSessionsErrorGroupsListOutputItems:
         data=data.get('data'),
         provider_id=data.get('provider_id'),
         occurrence_count=data.get('occurrence_count'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -114,3 +114,4 @@ class mapDashboardInstanceSessionsErrorGroupsListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

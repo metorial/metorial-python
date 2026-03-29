@@ -8,21 +8,22 @@ class MetorialDashboardInstanceCustomProvidersCommitsEndpoint(BaseMetorialEndpoi
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, custom_provider_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, ids: Optional[Union[str, List[str]]] = None, custom_provider_version_ids: Optional[Union[str, List[str]]] = None, custom_provider_environment_ids: Optional[Union[str, List[str]]] = None) -> DashboardInstanceCustomProvidersCommitsListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, custom_provider_version_id: Optional[Union[str, List[str]]] = None, custom_provider_environment_id: Optional[Union[str, List[str]]] = None, custom_provider_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceCustomProvidersCommitsListOutput:
         """
     List custom provider commits
     Returns a paginated list of commits for a custom provider.
 
     :param instance_id: str
-    :param custom_provider_id: str
     :param limit: Optional[float] (optional)
     :param after: Optional[str] (optional)
     :param before: Optional[str] (optional)
     :param cursor: Optional[str] (optional)
     :param order: Optional[str] (optional)
-    :param ids: Optional[Union[str, List[str]]] (optional)
-    :param custom_provider_version_ids: Optional[Union[str, List[str]]] (optional)
-    :param custom_provider_environment_ids: Optional[Union[str, List[str]]] (optional)
+    :param id: Optional[Union[str, List[str]]] (optional)
+    :param custom_provider_version_id: Optional[Union[str, List[str]]] (optional)
+    :param custom_provider_environment_id: Optional[Union[str, List[str]]] (optional)
+    :param custom_provider_id: Optional[Union[str, List[str]]] (optional)
+    :param provider_id: Optional[Union[str, List[str]]] (optional)
     :return: DashboardInstanceCustomProvidersCommitsListOutput
     """
         # Build query parameters from keyword arguments
@@ -37,41 +38,43 @@ class MetorialDashboardInstanceCustomProvidersCommitsEndpoint(BaseMetorialEndpoi
             query_dict["cursor"] = cursor
         if order is not None:
             query_dict["order"] = order
-        if ids is not None:
-            query_dict["ids"] = ids
-        if custom_provider_version_ids is not None:
-            query_dict["custom_provider_version_ids"] = custom_provider_version_ids
-        if custom_provider_environment_ids is not None:
-            query_dict["custom_provider_environment_ids"] = custom_provider_environment_ids
+        if id is not None:
+            query_dict["id"] = id
+        if custom_provider_version_id is not None:
+            query_dict["custom_provider_version_id"] = custom_provider_version_id
+        if custom_provider_environment_id is not None:
+            query_dict["custom_provider_environment_id"] = custom_provider_environment_id
+        if custom_provider_id is not None:
+            query_dict["custom_provider_id"] = custom_provider_id
+        if provider_id is not None:
+            query_dict["provider_id"] = provider_id
 
         request = MetorialRequest(
-            path=['dashboard', 'instances', instance_id, 'custom-providers', custom_provider_id, 'commits'],
+            path=['dashboard', 'instances', instance_id, 'custom-provider-commits'],
             query=query_dict
         )
         return self._get(request).transform(mapDashboardInstanceCustomProvidersCommitsListOutput.from_dict)
 
-    def get(self, instance_id: str, custom_provider_id: str, custom_provider_commit_id: str) -> DashboardInstanceCustomProvidersCommitsGetOutput:
+    def get(self, instance_id: str, custom_provider_commit_id: str) -> DashboardInstanceCustomProvidersCommitsGetOutput:
         """
     Get custom provider commit
     Retrieves a specific commit.
 
     :param instance_id: str
-    :param custom_provider_id: str
     :param custom_provider_commit_id: str
     :return: DashboardInstanceCustomProvidersCommitsGetOutput
     """
         request = MetorialRequest(
-            path=['dashboard', 'instances', instance_id, 'custom-providers', custom_provider_id, 'commits', custom_provider_commit_id]
+            path=['dashboard', 'instances', instance_id, 'custom-provider-commits', custom_provider_commit_id]
         )
         return self._get(request).transform(mapDashboardInstanceCustomProvidersCommitsGetOutput.from_dict)
 
-    def create(self, instance_id: str, custom_provider_id: str, *, message: str, action: Union[Dict[str, Any], Dict[str, Any]]) -> DashboardInstanceCustomProvidersCommitsCreateOutput:
+    def create(self, instance_id: str, *, message: str, action: Union[Dict[str, Any], Dict[str, Any]]) -> DashboardInstanceCustomProvidersCommitsCreateOutput:
         """
     Create custom provider commit
     Creates a new commit to promote or rollback a version in an environment.
 
     :param instance_id: str
-    :param custom_provider_id: str
     :param message: str
     :param action: Union[Dict[str, Any], Dict[str, Any]]
     :return: DashboardInstanceCustomProvidersCommitsCreateOutput
@@ -82,7 +85,7 @@ class MetorialDashboardInstanceCustomProvidersCommitsEndpoint(BaseMetorialEndpoi
         body_dict["action"] = action
 
         request = MetorialRequest(
-            path=['dashboard', 'instances', instance_id, 'custom-providers', custom_provider_id, 'commits'],
+            path=['dashboard', 'instances', instance_id, 'custom-provider-commits'],
             body=body_dict
         )
         return self._post(request).transform(mapDashboardInstanceCustomProvidersCommitsCreateOutput.from_dict)

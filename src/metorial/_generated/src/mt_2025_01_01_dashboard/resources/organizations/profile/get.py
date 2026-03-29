@@ -53,8 +53,8 @@ class mapOrganizationsProfileGetOutput:
         is_metorial=data.get('is_metorial'),
         is_verified=data.get('is_verified'),
         badges=[mapOrganizationsProfileGetOutputBadges.from_dict(item) for item in data.get('badges', []) if item],
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -65,3 +65,4 @@ class mapOrganizationsProfileGetOutput:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

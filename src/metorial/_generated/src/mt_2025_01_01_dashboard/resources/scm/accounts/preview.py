@@ -4,13 +4,9 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
-class ScmAccountsPreviewOutputAccountsProvider:
-    type: str
-    name: str
-@dataclass
 class ScmAccountsPreviewOutputAccounts:
     object: str
-    provider: ScmAccountsPreviewOutputAccountsProvider
+    provider: str
     external_id: str
     name: str
     identifier: str
@@ -20,28 +16,12 @@ class ScmAccountsPreviewOutput:
     accounts: List[ScmAccountsPreviewOutputAccounts]
 
 
-class mapScmAccountsPreviewOutputAccountsProvider:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ScmAccountsPreviewOutputAccountsProvider:
-        return ScmAccountsPreviewOutputAccountsProvider(
-        type=data.get('type'),
-        name=data.get('name')
-        )
-
-    @staticmethod
-    def to_dict(value: Union[ScmAccountsPreviewOutputAccountsProvider, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
 class mapScmAccountsPreviewOutputAccounts:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ScmAccountsPreviewOutputAccounts:
         return ScmAccountsPreviewOutputAccounts(
         object=data.get('object'),
-        provider=mapScmAccountsPreviewOutputAccountsProvider.from_dict(data.get('provider')) if data.get('provider') else None,
+        provider=data.get('provider'),
         external_id=data.get('external_id'),
         name=data.get('name'),
         identifier=data.get('identifier')
@@ -92,3 +72,4 @@ class mapScmAccountsPreviewBody:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

@@ -6,11 +6,11 @@ import dataclasses
 @dataclass
 class SessionsCreateOutputUsage:
     total_productive_client_message_count: float
-    total_productive_server_message_count: float
+    total_productive_provider_message_count: float
 @dataclass
 class SessionsCreateOutputProvidersUsage:
     total_productive_client_message_count: float
-    total_productive_server_message_count: float
+    total_productive_provider_message_count: float
 @dataclass
 class SessionsCreateOutputProvidersDeployment:
     object: str
@@ -62,11 +62,14 @@ class SessionsCreateOutput:
     usage: SessionsCreateOutputUsage
     providers: List[SessionsCreateOutputProviders]
     from_templates_ids: List[str]
+    has_errors: bool
+    has_warnings: bool
     created_at: datetime
     updated_at: datetime
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
+    client_secret: Optional[str] = None
 
 
 class mapSessionsCreateOutputUsage:
@@ -74,7 +77,7 @@ class mapSessionsCreateOutputUsage:
     def from_dict(data: Dict[str, Any]) -> SessionsCreateOutputUsage:
         return SessionsCreateOutputUsage(
         total_productive_client_message_count=data.get('total_productive_client_message_count'),
-        total_productive_server_message_count=data.get('total_productive_server_message_count')
+        total_productive_provider_message_count=data.get('total_productive_provider_message_count')
         )
 
     @staticmethod
@@ -90,7 +93,7 @@ class mapSessionsCreateOutputProvidersUsage:
     def from_dict(data: Dict[str, Any]) -> SessionsCreateOutputProvidersUsage:
         return SessionsCreateOutputProvidersUsage(
         total_productive_client_message_count=data.get('total_productive_client_message_count'),
-        total_productive_server_message_count=data.get('total_productive_server_message_count')
+        total_productive_provider_message_count=data.get('total_productive_provider_message_count')
         )
 
     @staticmethod
@@ -112,8 +115,8 @@ class mapSessionsCreateOutputProvidersDeployment:
         description=data.get('description'),
         metadata=data.get('metadata'),
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -135,8 +138,8 @@ class mapSessionsCreateOutputProvidersConfig:
         description=data.get('description'),
         metadata=data.get('metadata'),
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -179,8 +182,8 @@ class mapSessionsCreateOutputProviders:
         deployment=mapSessionsCreateOutputProvidersDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         config=mapSessionsCreateOutputProvidersConfig.from_dict(data.get('config')) if data.get('config') else None,
         auth_config=mapSessionsCreateOutputProvidersAuthConfig.from_dict(data.get('auth_config')) if data.get('auth_config') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -202,11 +205,14 @@ class mapSessionsCreateOutput:
         metadata=data.get('metadata'),
         connection_state=data.get('connection_state'),
         connection_url=data.get('connection_url'),
+        client_secret=data.get('client_secret'),
         usage=mapSessionsCreateOutputUsage.from_dict(data.get('usage')) if data.get('usage') else None,
         providers=[mapSessionsCreateOutputProviders.from_dict(item) for item in data.get('providers', []) if item],
         from_templates_ids=data.get('from_templates_ids', []),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        has_errors=data.get('has_errors'),
+        has_warnings=data.get('has_warnings'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -244,3 +250,4 @@ class mapSessionsCreateBody:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

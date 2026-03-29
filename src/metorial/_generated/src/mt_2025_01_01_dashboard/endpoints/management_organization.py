@@ -21,18 +21,21 @@ class MetorialManagementOrganizationEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapManagementOrganizationGetOutput.from_dict)
 
-    def update(self, *, name: Optional[str] = None) -> ManagementOrganizationUpdateOutput:
+    def update(self, *, name: Optional[str] = None, image_file_id: Optional[str] = None) -> ManagementOrganizationUpdateOutput:
         """
     Update organization
     Update the current organization information
 
     :param name: Optional[str] (optional)
+    :param image_file_id: Optional[str] (optional)
     :return: ManagementOrganizationUpdateOutput
     """
         # Build body parameters from keyword arguments
         body_dict = {}
         if name is not None:
             body_dict["name"] = name
+        if image_file_id is not None:
+            body_dict["image_file_id"] = image_file_id
 
         request = MetorialRequest(
             path=['organization'],

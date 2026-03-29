@@ -8,21 +8,28 @@ class MetorialDashboardInstanceSessionsMessagesEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, session_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, type: Optional[str] = None, session_provider_id: Optional[Union[str, List[str]]] = None, provider_run_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceSessionsMessagesListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, type: Optional[Union[str, List[str]]] = None, source: Optional[Union[str, List[str]]] = None, hierarchy: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, session_id: Optional[Union[str, List[str]]] = None, session_provider_id: Optional[Union[str, List[str]]] = None, session_connection_id: Optional[Union[str, List[str]]] = None, provider_run_id: Optional[Union[str, List[str]]] = None, error_id: Optional[Union[str, List[str]]] = None, participant_id: Optional[Union[str, List[str]]] = None, parent_message_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceSessionsMessagesListOutput:
         """
     List session messages
     Returns a paginated list of messages for a session.
 
     :param instance_id: str
-    :param session_id: str
     :param limit: Optional[float] (optional)
     :param after: Optional[str] (optional)
     :param before: Optional[str] (optional)
     :param cursor: Optional[str] (optional)
     :param order: Optional[str] (optional)
-    :param type: Optional[str] (optional)
+    :param type: Optional[Union[str, List[str]]] (optional)
+    :param source: Optional[Union[str, List[str]]] (optional)
+    :param hierarchy: Optional[Union[str, List[str]]] (optional)
+    :param id: Optional[Union[str, List[str]]] (optional)
+    :param session_id: Optional[Union[str, List[str]]] (optional)
     :param session_provider_id: Optional[Union[str, List[str]]] (optional)
+    :param session_connection_id: Optional[Union[str, List[str]]] (optional)
     :param provider_run_id: Optional[Union[str, List[str]]] (optional)
+    :param error_id: Optional[Union[str, List[str]]] (optional)
+    :param participant_id: Optional[Union[str, List[str]]] (optional)
+    :param parent_message_id: Optional[Union[str, List[str]]] (optional)
     :return: DashboardInstanceSessionsMessagesListOutput
     """
         # Build query parameters from keyword arguments
@@ -39,28 +46,43 @@ class MetorialDashboardInstanceSessionsMessagesEndpoint(BaseMetorialEndpoint):
             query_dict["order"] = order
         if type is not None:
             query_dict["type"] = type
+        if source is not None:
+            query_dict["source"] = source
+        if hierarchy is not None:
+            query_dict["hierarchy"] = hierarchy
+        if id is not None:
+            query_dict["id"] = id
+        if session_id is not None:
+            query_dict["session_id"] = session_id
         if session_provider_id is not None:
             query_dict["session_provider_id"] = session_provider_id
+        if session_connection_id is not None:
+            query_dict["session_connection_id"] = session_connection_id
         if provider_run_id is not None:
             query_dict["provider_run_id"] = provider_run_id
+        if error_id is not None:
+            query_dict["error_id"] = error_id
+        if participant_id is not None:
+            query_dict["participant_id"] = participant_id
+        if parent_message_id is not None:
+            query_dict["parent_message_id"] = parent_message_id
 
         request = MetorialRequest(
-            path=['dashboard', 'instances', instance_id, 'sessions', session_id, 'messages'],
+            path=['dashboard', 'instances', instance_id, 'session-messages'],
             query=query_dict
         )
         return self._get(request).transform(mapDashboardInstanceSessionsMessagesListOutput.from_dict)
 
-    def get(self, instance_id: str, session_id: str, session_message_id: str) -> DashboardInstanceSessionsMessagesGetOutput:
+    def get(self, instance_id: str, session_message_id: str) -> DashboardInstanceSessionsMessagesGetOutput:
         """
     Get session message
     Retrieves a specific message from a session.
 
     :param instance_id: str
-    :param session_id: str
     :param session_message_id: str
     :return: DashboardInstanceSessionsMessagesGetOutput
     """
         request = MetorialRequest(
-            path=['dashboard', 'instances', instance_id, 'sessions', session_id, 'messages', session_message_id]
+            path=['dashboard', 'instances', instance_id, 'session-messages', session_message_id]
         )
         return self._get(request).transform(mapDashboardInstanceSessionsMessagesGetOutput.from_dict)

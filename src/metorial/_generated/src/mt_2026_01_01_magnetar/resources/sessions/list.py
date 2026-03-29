@@ -6,11 +6,11 @@ import dataclasses
 @dataclass
 class SessionsListOutputItemsUsage:
     total_productive_client_message_count: float
-    total_productive_server_message_count: float
+    total_productive_provider_message_count: float
 @dataclass
 class SessionsListOutputItemsProvidersUsage:
     total_productive_client_message_count: float
-    total_productive_server_message_count: float
+    total_productive_provider_message_count: float
 @dataclass
 class SessionsListOutputItemsProvidersDeployment:
     object: str
@@ -62,11 +62,14 @@ class SessionsListOutputItems:
     usage: SessionsListOutputItemsUsage
     providers: List[SessionsListOutputItemsProviders]
     from_templates_ids: List[str]
+    has_errors: bool
+    has_warnings: bool
     created_at: datetime
     updated_at: datetime
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
+    client_secret: Optional[str] = None
 @dataclass
 class SessionsListOutputPagination:
     has_more_before: bool
@@ -82,7 +85,7 @@ class mapSessionsListOutputItemsUsage:
     def from_dict(data: Dict[str, Any]) -> SessionsListOutputItemsUsage:
         return SessionsListOutputItemsUsage(
         total_productive_client_message_count=data.get('total_productive_client_message_count'),
-        total_productive_server_message_count=data.get('total_productive_server_message_count')
+        total_productive_provider_message_count=data.get('total_productive_provider_message_count')
         )
 
     @staticmethod
@@ -98,7 +101,7 @@ class mapSessionsListOutputItemsProvidersUsage:
     def from_dict(data: Dict[str, Any]) -> SessionsListOutputItemsProvidersUsage:
         return SessionsListOutputItemsProvidersUsage(
         total_productive_client_message_count=data.get('total_productive_client_message_count'),
-        total_productive_server_message_count=data.get('total_productive_server_message_count')
+        total_productive_provider_message_count=data.get('total_productive_provider_message_count')
         )
 
     @staticmethod
@@ -120,8 +123,8 @@ class mapSessionsListOutputItemsProvidersDeployment:
         description=data.get('description'),
         metadata=data.get('metadata'),
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -143,8 +146,8 @@ class mapSessionsListOutputItemsProvidersConfig:
         description=data.get('description'),
         metadata=data.get('metadata'),
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -187,8 +190,8 @@ class mapSessionsListOutputItemsProviders:
         deployment=mapSessionsListOutputItemsProvidersDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         config=mapSessionsListOutputItemsProvidersConfig.from_dict(data.get('config')) if data.get('config') else None,
         auth_config=mapSessionsListOutputItemsProvidersAuthConfig.from_dict(data.get('auth_config')) if data.get('auth_config') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -210,11 +213,14 @@ class mapSessionsListOutputItems:
         metadata=data.get('metadata'),
         connection_state=data.get('connection_state'),
         connection_url=data.get('connection_url'),
+        client_secret=data.get('client_secret'),
         usage=mapSessionsListOutputItemsUsage.from_dict(data.get('usage')) if data.get('usage') else None,
         providers=[mapSessionsListOutputItemsProviders.from_dict(item) for item in data.get('providers', []) if item],
         from_templates_ids=data.get('from_templates_ids', []),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        has_errors=data.get('has_errors'),
+        has_warnings=data.get('has_warnings'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -259,6 +265,14 @@ class mapSessionsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class SessionsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class SessionsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class SessionsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -273,6 +287,8 @@ class SessionsListQuery:
     provider_deployment_id: Optional[Union[str, List[str]]] = None
     provider_config_id: Optional[Union[str, List[str]]] = None
     provider_auth_config_id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[SessionsListQueryCreatedAt] = None
+    updated_at: Optional[SessionsListQueryUpdatedAt] = None
 
 
 class mapSessionsListQuery:
@@ -291,7 +307,9 @@ class mapSessionsListQuery:
         provider_id=data.get('provider_id'),
         provider_deployment_id=data.get('provider_deployment_id'),
         provider_config_id=data.get('provider_config_id'),
-        provider_auth_config_id=data.get('provider_auth_config_id')
+        provider_auth_config_id=data.get('provider_auth_config_id'),
+        created_at=mapSessionsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapSessionsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -302,3 +320,4 @@ class mapSessionsListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

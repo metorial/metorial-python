@@ -8,6 +8,7 @@ class ProviderDeploymentsAuthCredentialsListOutputItems:
     object: str
     id: str
     type: str
+    is_default: bool
     provider_id: str
     created_at: datetime
     updated_at: datetime
@@ -31,12 +32,13 @@ class mapProviderDeploymentsAuthCredentialsListOutputItems:
         object=data.get('object'),
         id=data.get('id'),
         type=data.get('type'),
+        is_default=data.get('is_default'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -87,7 +89,10 @@ class ProviderDeploymentsAuthCredentialsListQuery:
     before: Optional[str] = None
     cursor: Optional[str] = None
     order: Optional[str] = None
+    status: Optional[Union[str, List[str]]] = None
     id: Optional[Union[str, List[str]]] = None
+    provider_id: Optional[Union[str, List[str]]] = None
+    search: Optional[str] = None
 
 
 class mapProviderDeploymentsAuthCredentialsListQuery:
@@ -99,7 +104,10 @@ class mapProviderDeploymentsAuthCredentialsListQuery:
         before=data.get('before'),
         cursor=data.get('cursor'),
         order=data.get('order'),
-        id=data.get('id')
+        status=data.get('status'),
+        id=data.get('id'),
+        provider_id=data.get('provider_id'),
+        search=data.get('search')
         )
 
     @staticmethod
@@ -110,3 +118,4 @@ class mapProviderDeploymentsAuthCredentialsListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

@@ -152,8 +152,8 @@ class mapDashboardInstanceProvidersSpecificationsListOutputItemsTools:
         tags=mapDashboardInstanceProvidersSpecificationsListOutputItemsToolsTags.from_dict(data.get('tags')) if data.get('tags') else None,
         specification_id=data.get('specification_id'),
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -231,8 +231,8 @@ class mapDashboardInstanceProvidersSpecificationsListOutputItemsAuthMethods:
         scopes=[mapDashboardInstanceProvidersSpecificationsListOutputItemsAuthMethodsScopes.from_dict(item) for item in data.get('scopes', []) if item],
         provider_id=data.get('provider_id'),
         provider_specification_id=data.get('provider_specification_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -257,8 +257,8 @@ class mapDashboardInstanceProvidersSpecificationsListOutputItems:
         tools=[mapDashboardInstanceProvidersSpecificationsListOutputItemsTools.from_dict(item) for item in data.get('tools', []) if item],
         auth_methods=[mapDashboardInstanceProvidersSpecificationsListOutputItemsAuthMethods.from_dict(item) for item in data.get('auth_methods', []) if item],
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -303,6 +303,14 @@ class mapDashboardInstanceProvidersSpecificationsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class DashboardInstanceProvidersSpecificationsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class DashboardInstanceProvidersSpecificationsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class DashboardInstanceProvidersSpecificationsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -314,6 +322,8 @@ class DashboardInstanceProvidersSpecificationsListQuery:
     provider_version_id: Optional[Union[str, List[str]]] = None
     provider_deployment_id: Optional[Union[str, List[str]]] = None
     provider_config_id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[DashboardInstanceProvidersSpecificationsListQueryCreatedAt] = None
+    updated_at: Optional[DashboardInstanceProvidersSpecificationsListQueryUpdatedAt] = None
 
 
 class mapDashboardInstanceProvidersSpecificationsListQuery:
@@ -329,7 +339,9 @@ class mapDashboardInstanceProvidersSpecificationsListQuery:
         provider_id=data.get('provider_id'),
         provider_version_id=data.get('provider_version_id'),
         provider_deployment_id=data.get('provider_deployment_id'),
-        provider_config_id=data.get('provider_config_id')
+        provider_config_id=data.get('provider_config_id'),
+        created_at=mapDashboardInstanceProvidersSpecificationsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapDashboardInstanceProvidersSpecificationsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -340,3 +352,4 @@ class mapDashboardInstanceProvidersSpecificationsListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

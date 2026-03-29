@@ -31,8 +31,8 @@ class mapManagementInstanceProviderGroupsListOutputItems:
         name=data.get('name'),
         description=data.get('description'),
         slug=data.get('slug'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -77,6 +77,14 @@ class mapManagementInstanceProviderGroupsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class ManagementInstanceProviderGroupsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class ManagementInstanceProviderGroupsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class ManagementInstanceProviderGroupsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -86,6 +94,8 @@ class ManagementInstanceProviderGroupsListQuery:
     id: Optional[Union[str, List[str]]] = None
     provider_id: Optional[Union[str, List[str]]] = None
     provider_listing_id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[ManagementInstanceProviderGroupsListQueryCreatedAt] = None
+    updated_at: Optional[ManagementInstanceProviderGroupsListQueryUpdatedAt] = None
 
 
 class mapManagementInstanceProviderGroupsListQuery:
@@ -99,7 +109,9 @@ class mapManagementInstanceProviderGroupsListQuery:
         order=data.get('order'),
         id=data.get('id'),
         provider_id=data.get('provider_id'),
-        provider_listing_id=data.get('provider_listing_id')
+        provider_listing_id=data.get('provider_listing_id'),
+        created_at=mapManagementInstanceProviderGroupsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapManagementInstanceProviderGroupsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -110,3 +122,4 @@ class mapManagementInstanceProviderGroupsListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

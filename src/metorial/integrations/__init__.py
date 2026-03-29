@@ -6,10 +6,7 @@ Available integrations:
 - langgraph: LangGraph tool integration
 - openai_agents: OpenAI Agents SDK integration
 - pydantic_ai: PydanticAI tool integration
-- llamaindex: LlamaIndex tool integration
 - autogen: Microsoft Autogen integration
-- smolagents: Hugging Face smolagents integration
-- semantic_kernel: Microsoft Semantic Kernel integration
 - haystack: deepset Haystack integration
 """
 
@@ -22,20 +19,6 @@ from typing import Any
 def _sanitize_tool_name(name: str) -> str:
   """Sanitize tool name to be a valid Python identifier (replace hyphens, etc.)."""
   return re.sub(r"[^a-zA-Z0-9_]", "_", name)
-
-
-def _dedupe_tools(
-  tools: list[dict[str, Any]], name_key: str = "name"
-) -> list[dict[str, Any]]:
-  """Remove duplicate tools by name, keeping the first occurrence."""
-  seen: set[str] = set()
-  result: list[dict[str, Any]] = []
-  for tool in tools:
-    name = tool.get(name_key, "")
-    if name not in seen:
-      seen.add(name)
-      result.append(tool)
-  return result
 
 
 def _sanitize_schema(schema: dict[str, Any]) -> dict[str, Any]:
@@ -61,9 +44,6 @@ __all__ = [
   "langgraph",
   "openai_agents",
   "pydantic_ai",
-  "llamaindex",
   "autogen",
-  "smolagents",
-  "semantic_kernel",
   "haystack",
 ]

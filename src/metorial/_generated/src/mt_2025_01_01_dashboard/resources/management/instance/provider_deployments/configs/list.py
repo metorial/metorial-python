@@ -71,8 +71,8 @@ class mapManagementInstanceProviderDeploymentsConfigsListOutputItemsDeployment:
         description=data.get('description'),
         metadata=data.get('metadata'),
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -94,8 +94,8 @@ class mapManagementInstanceProviderDeploymentsConfigsListOutputItemsFromVaultDep
         description=data.get('description'),
         metadata=data.get('metadata'),
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -117,8 +117,8 @@ class mapManagementInstanceProviderDeploymentsConfigsListOutputItemsFromVault:
         metadata=data.get('metadata'),
         provider_id=data.get('provider_id'),
         deployment=mapManagementInstanceProviderDeploymentsConfigsListOutputItemsFromVaultDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -143,8 +143,8 @@ class mapManagementInstanceProviderDeploymentsConfigsListOutputItems:
         specification_id=data.get('specification_id'),
         deployment=mapManagementInstanceProviderDeploymentsConfigsListOutputItemsDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         from_vault=mapManagementInstanceProviderDeploymentsConfigsListOutputItemsFromVault.from_dict(data.get('from_vault')) if data.get('from_vault') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -189,6 +189,14 @@ class mapManagementInstanceProviderDeploymentsConfigsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class ManagementInstanceProviderDeploymentsConfigsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class ManagementInstanceProviderDeploymentsConfigsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class ManagementInstanceProviderDeploymentsConfigsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -201,6 +209,9 @@ class ManagementInstanceProviderDeploymentsConfigsListQuery:
     provider_specification_id: Optional[Union[str, List[str]]] = None
     provider_deployment_id: Optional[Union[str, List[str]]] = None
     provider_config_vault_id: Optional[Union[str, List[str]]] = None
+    search: Optional[str] = None
+    created_at: Optional[ManagementInstanceProviderDeploymentsConfigsListQueryCreatedAt] = None
+    updated_at: Optional[ManagementInstanceProviderDeploymentsConfigsListQueryUpdatedAt] = None
 
 
 class mapManagementInstanceProviderDeploymentsConfigsListQuery:
@@ -217,7 +228,10 @@ class mapManagementInstanceProviderDeploymentsConfigsListQuery:
         provider_id=data.get('provider_id'),
         provider_specification_id=data.get('provider_specification_id'),
         provider_deployment_id=data.get('provider_deployment_id'),
-        provider_config_vault_id=data.get('provider_config_vault_id')
+        provider_config_vault_id=data.get('provider_config_vault_id'),
+        search=data.get('search'),
+        created_at=mapManagementInstanceProviderDeploymentsConfigsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapManagementInstanceProviderDeploymentsConfigsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -228,3 +242,4 @@ class mapManagementInstanceProviderDeploymentsConfigsListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

@@ -39,8 +39,8 @@ class mapProvidersVersionsListOutputItems:
         description=data.get('description'),
         metadata=data.get('metadata'),
         specification_id=data.get('specification_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -85,6 +85,14 @@ class mapProvidersVersionsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class ProvidersVersionsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class ProvidersVersionsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class ProvidersVersionsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -93,6 +101,8 @@ class ProvidersVersionsListQuery:
     order: Optional[str] = None
     id: Optional[Union[str, List[str]]] = None
     provider_id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[ProvidersVersionsListQueryCreatedAt] = None
+    updated_at: Optional[ProvidersVersionsListQueryUpdatedAt] = None
 
 
 class mapProvidersVersionsListQuery:
@@ -105,7 +115,9 @@ class mapProvidersVersionsListQuery:
         cursor=data.get('cursor'),
         order=data.get('order'),
         id=data.get('id'),
-        provider_id=data.get('provider_id')
+        provider_id=data.get('provider_id'),
+        created_at=mapProvidersVersionsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapProvidersVersionsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -116,3 +128,4 @@ class mapProvidersVersionsListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

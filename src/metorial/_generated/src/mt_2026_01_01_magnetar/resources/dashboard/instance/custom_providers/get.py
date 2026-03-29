@@ -4,6 +4,32 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class DashboardInstanceCustomProvidersGetOutputDraftContainerImage:
+    object: str
+    container_registry: str
+    container_image_tag: str
+    container_image: str
+@dataclass
+class DashboardInstanceCustomProvidersGetOutputDraftRemoteMcpServer:
+    object: str
+    url: str
+    transport: str
+@dataclass
+class DashboardInstanceCustomProvidersGetOutputDraftConfigSchema:
+    type: str
+    schema: Dict[str, Any]
+@dataclass
+class DashboardInstanceCustomProvidersGetOutputDraftConfig:
+    object: str
+    schema: DashboardInstanceCustomProvidersGetOutputDraftConfigSchema
+    transformer: str
+@dataclass
+class DashboardInstanceCustomProvidersGetOutputDraft:
+    object: str
+    config: DashboardInstanceCustomProvidersGetOutputDraftConfig
+    container_image: Optional[DashboardInstanceCustomProvidersGetOutputDraftContainerImage] = None
+    remote_mcp_server: Optional[DashboardInstanceCustomProvidersGetOutputDraftRemoteMcpServer] = None
+@dataclass
 class DashboardInstanceCustomProvidersGetOutputScmRepoProvider:
     object: str
     type: str
@@ -20,89 +46,14 @@ class DashboardInstanceCustomProvidersGetOutputScmRepo:
     default_branch: str
     created_at: datetime
 @dataclass
-class DashboardInstanceCustomProvidersGetOutputDraftBucketScmRepoLinkRepositoryProvider:
-    object: str
-    type: str
-    id: str
-    name: str
-    owner: str
-@dataclass
-class DashboardInstanceCustomProvidersGetOutputDraftBucketScmRepoLinkRepository:
-    object: str
-    id: str
-    provider: DashboardInstanceCustomProvidersGetOutputDraftBucketScmRepoLinkRepositoryProvider
-    url: str
-    is_private: bool
-    default_branch: str
-    created_at: datetime
-@dataclass
-class DashboardInstanceCustomProvidersGetOutputDraftBucketScmRepoLink:
-    object: str
-    is_linked: str
-    repository: DashboardInstanceCustomProvidersGetOutputDraftBucketScmRepoLinkRepository
-    path: Optional[str] = None
-@dataclass
-class DashboardInstanceCustomProvidersGetOutputDraftBucket:
-    object: str
-    id: str
-    is_immutable: bool
-    is_read_only: bool
-    created_at: datetime
-    scm_repo_link: Optional[DashboardInstanceCustomProvidersGetOutputDraftBucketScmRepoLink] = None
-@dataclass
-class DashboardInstanceCustomProvidersGetOutputProviderOwnerTenant:
-    object: str
-    id: str
-    identifier: str
-    name: str
-    created_at: datetime
-@dataclass
 class DashboardInstanceCustomProvidersGetOutputProviderPublisher:
     object: str
     id: str
     name: str
-    slug: str
     image_url: str
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
-@dataclass
-class DashboardInstanceCustomProvidersGetOutputProviderEntry:
-    object: str
-    id: str
-    identifier: str
-    name: str
-    created_at: datetime
-    updated_at: datetime
-    description: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None
-@dataclass
-class DashboardInstanceCustomProvidersGetOutputProviderDefaultVariantCurrentVersion:
-    object: str
-    id: str
-    version: str
-    provider_id: str
-    is_current: bool
-    name: str
-    created_at: datetime
-    updated_at: datetime
-    description: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None
-    specification_id: Optional[str] = None
-@dataclass
-class DashboardInstanceCustomProvidersGetOutputProviderDefaultVariant:
-    object: str
-    id: str
-    tag: str
-    identifier: str
-    provider_id: str
-    is_default: bool
-    name: str
-    created_at: datetime
-    updated_at: datetime
-    description: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None
-    current_version: Optional[DashboardInstanceCustomProvidersGetOutputProviderDefaultVariantCurrentVersion] = None
 @dataclass
 class DashboardInstanceCustomProvidersGetOutputProviderCurrentVersion:
     object: str
@@ -117,22 +68,13 @@ class DashboardInstanceCustomProvidersGetOutputProviderCurrentVersion:
     metadata: Optional[Dict[str, Any]] = None
     specification_id: Optional[str] = None
 @dataclass
-class DashboardInstanceCustomProvidersGetOutputProviderType:
-    object: str
-    id: str
-    name: str
-    config: Dict[str, Any]
-    triggers: Dict[str, Any]
-    auth: Dict[str, Any]
-    created_at: datetime
-@dataclass
 class DashboardInstanceCustomProvidersGetOutputProviderOauthAutoRegistration:
     status: str
 @dataclass
 class DashboardInstanceCustomProvidersGetOutputProviderOauth:
     status: str
+    auto_registration: DashboardInstanceCustomProvidersGetOutputProviderOauthAutoRegistration
     callback_url: Optional[str] = None
-    auto_registration: Optional[DashboardInstanceCustomProvidersGetOutputProviderOauthAutoRegistration] = None
 @dataclass
 class DashboardInstanceCustomProvidersGetOutputProvider:
     object: str
@@ -140,16 +82,11 @@ class DashboardInstanceCustomProvidersGetOutputProvider:
     access: str
     status: str
     publisher: DashboardInstanceCustomProvidersGetOutputProviderPublisher
-    entry: DashboardInstanceCustomProvidersGetOutputProviderEntry
-    type: DashboardInstanceCustomProvidersGetOutputProviderType
     identifier: str
-    tag: str
     name: str
     slug: str
     created_at: datetime
     updated_at: datetime
-    owner_tenant: Optional[DashboardInstanceCustomProvidersGetOutputProviderOwnerTenant] = None
-    default_variant: Optional[DashboardInstanceCustomProvidersGetOutputProviderDefaultVariant] = None
     current_version: Optional[DashboardInstanceCustomProvidersGetOutputProviderCurrentVersion] = None
     oauth: Optional[DashboardInstanceCustomProvidersGetOutputProviderOauth] = None
     description: Optional[str] = None
@@ -159,15 +96,102 @@ class DashboardInstanceCustomProvidersGetOutput:
     object: str
     id: str
     status: str
+    type: str
     name: str
+    draft: DashboardInstanceCustomProvidersGetOutputDraft
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
     scm_repo: Optional[DashboardInstanceCustomProvidersGetOutputScmRepo] = None
-    draft_bucket: Optional[DashboardInstanceCustomProvidersGetOutputDraftBucket] = None
     provider: Optional[DashboardInstanceCustomProvidersGetOutputProvider] = None
 
+
+class mapDashboardInstanceCustomProvidersGetOutputDraftContainerImage:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceCustomProvidersGetOutputDraftContainerImage:
+        return DashboardInstanceCustomProvidersGetOutputDraftContainerImage(
+        object=data.get('object'),
+        container_registry=data.get('container_registry'),
+        container_image_tag=data.get('container_image_tag'),
+        container_image=data.get('container_image')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceCustomProvidersGetOutputDraftContainerImage, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceCustomProvidersGetOutputDraftRemoteMcpServer:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceCustomProvidersGetOutputDraftRemoteMcpServer:
+        return DashboardInstanceCustomProvidersGetOutputDraftRemoteMcpServer(
+        object=data.get('object'),
+        url=data.get('url'),
+        transport=data.get('transport')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceCustomProvidersGetOutputDraftRemoteMcpServer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceCustomProvidersGetOutputDraftConfigSchema:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceCustomProvidersGetOutputDraftConfigSchema:
+        return DashboardInstanceCustomProvidersGetOutputDraftConfigSchema(
+        type=data.get('type'),
+        schema=data.get('schema')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceCustomProvidersGetOutputDraftConfigSchema, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceCustomProvidersGetOutputDraftConfig:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceCustomProvidersGetOutputDraftConfig:
+        return DashboardInstanceCustomProvidersGetOutputDraftConfig(
+        object=data.get('object'),
+        schema=mapDashboardInstanceCustomProvidersGetOutputDraftConfigSchema.from_dict(data.get('schema')) if data.get('schema') else None,
+        transformer=data.get('transformer')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceCustomProvidersGetOutputDraftConfig, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceCustomProvidersGetOutputDraft:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceCustomProvidersGetOutputDraft:
+        return DashboardInstanceCustomProvidersGetOutputDraft(
+        object=data.get('object'),
+        container_image=mapDashboardInstanceCustomProvidersGetOutputDraftContainerImage.from_dict(data.get('container_image')) if data.get('container_image') else None,
+        remote_mcp_server=mapDashboardInstanceCustomProvidersGetOutputDraftRemoteMcpServer.from_dict(data.get('remote_mcp_server')) if data.get('remote_mcp_server') else None,
+        config=mapDashboardInstanceCustomProvidersGetOutputDraftConfig.from_dict(data.get('config')) if data.get('config') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceCustomProvidersGetOutputDraft, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapDashboardInstanceCustomProvidersGetOutputScmRepoProvider:
     @staticmethod
@@ -198,108 +222,11 @@ class mapDashboardInstanceCustomProvidersGetOutputScmRepo:
         url=data.get('url'),
         is_private=data.get('is_private'),
         default_branch=data.get('default_branch'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
     def to_dict(value: Union[DashboardInstanceCustomProvidersGetOutputScmRepo, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapDashboardInstanceCustomProvidersGetOutputDraftBucketScmRepoLinkRepositoryProvider:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> DashboardInstanceCustomProvidersGetOutputDraftBucketScmRepoLinkRepositoryProvider:
-        return DashboardInstanceCustomProvidersGetOutputDraftBucketScmRepoLinkRepositoryProvider(
-        object=data.get('object'),
-        type=data.get('type'),
-        id=data.get('id'),
-        name=data.get('name'),
-        owner=data.get('owner')
-        )
-
-    @staticmethod
-    def to_dict(value: Union[DashboardInstanceCustomProvidersGetOutputDraftBucketScmRepoLinkRepositoryProvider, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapDashboardInstanceCustomProvidersGetOutputDraftBucketScmRepoLinkRepository:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> DashboardInstanceCustomProvidersGetOutputDraftBucketScmRepoLinkRepository:
-        return DashboardInstanceCustomProvidersGetOutputDraftBucketScmRepoLinkRepository(
-        object=data.get('object'),
-        id=data.get('id'),
-        provider=mapDashboardInstanceCustomProvidersGetOutputDraftBucketScmRepoLinkRepositoryProvider.from_dict(data.get('provider')) if data.get('provider') else None,
-        url=data.get('url'),
-        is_private=data.get('is_private'),
-        default_branch=data.get('default_branch'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[DashboardInstanceCustomProvidersGetOutputDraftBucketScmRepoLinkRepository, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapDashboardInstanceCustomProvidersGetOutputDraftBucketScmRepoLink:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> DashboardInstanceCustomProvidersGetOutputDraftBucketScmRepoLink:
-        return DashboardInstanceCustomProvidersGetOutputDraftBucketScmRepoLink(
-        object=data.get('object'),
-        is_linked=data.get('is_linked'),
-        path=data.get('path'),
-        repository=mapDashboardInstanceCustomProvidersGetOutputDraftBucketScmRepoLinkRepository.from_dict(data.get('repository')) if data.get('repository') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[DashboardInstanceCustomProvidersGetOutputDraftBucketScmRepoLink, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapDashboardInstanceCustomProvidersGetOutputDraftBucket:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> DashboardInstanceCustomProvidersGetOutputDraftBucket:
-        return DashboardInstanceCustomProvidersGetOutputDraftBucket(
-        object=data.get('object'),
-        id=data.get('id'),
-        is_immutable=data.get('is_immutable'),
-        is_read_only=data.get('is_read_only'),
-        scm_repo_link=mapDashboardInstanceCustomProvidersGetOutputDraftBucketScmRepoLink.from_dict(data.get('scm_repo_link')) if data.get('scm_repo_link') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[DashboardInstanceCustomProvidersGetOutputDraftBucket, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapDashboardInstanceCustomProvidersGetOutputProviderOwnerTenant:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> DashboardInstanceCustomProvidersGetOutputProviderOwnerTenant:
-        return DashboardInstanceCustomProvidersGetOutputProviderOwnerTenant(
-        object=data.get('object'),
-        id=data.get('id'),
-        identifier=data.get('identifier'),
-        name=data.get('name'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[DashboardInstanceCustomProvidersGetOutputProviderOwnerTenant, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -314,87 +241,13 @@ class mapDashboardInstanceCustomProvidersGetOutputProviderPublisher:
         id=data.get('id'),
         name=data.get('name'),
         description=data.get('description'),
-        slug=data.get('slug'),
         image_url=data.get('image_url'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
     def to_dict(value: Union[DashboardInstanceCustomProvidersGetOutputProviderPublisher, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapDashboardInstanceCustomProvidersGetOutputProviderEntry:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> DashboardInstanceCustomProvidersGetOutputProviderEntry:
-        return DashboardInstanceCustomProvidersGetOutputProviderEntry(
-        object=data.get('object'),
-        id=data.get('id'),
-        identifier=data.get('identifier'),
-        name=data.get('name'),
-        description=data.get('description'),
-        metadata=data.get('metadata'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[DashboardInstanceCustomProvidersGetOutputProviderEntry, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapDashboardInstanceCustomProvidersGetOutputProviderDefaultVariantCurrentVersion:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> DashboardInstanceCustomProvidersGetOutputProviderDefaultVariantCurrentVersion:
-        return DashboardInstanceCustomProvidersGetOutputProviderDefaultVariantCurrentVersion(
-        object=data.get('object'),
-        id=data.get('id'),
-        version=data.get('version'),
-        provider_id=data.get('provider_id'),
-        is_current=data.get('is_current'),
-        name=data.get('name'),
-        description=data.get('description'),
-        metadata=data.get('metadata'),
-        specification_id=data.get('specification_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[DashboardInstanceCustomProvidersGetOutputProviderDefaultVariantCurrentVersion, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapDashboardInstanceCustomProvidersGetOutputProviderDefaultVariant:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> DashboardInstanceCustomProvidersGetOutputProviderDefaultVariant:
-        return DashboardInstanceCustomProvidersGetOutputProviderDefaultVariant(
-        object=data.get('object'),
-        id=data.get('id'),
-        tag=data.get('tag'),
-        identifier=data.get('identifier'),
-        provider_id=data.get('provider_id'),
-        is_default=data.get('is_default'),
-        name=data.get('name'),
-        description=data.get('description'),
-        metadata=data.get('metadata'),
-        current_version=mapDashboardInstanceCustomProvidersGetOutputProviderDefaultVariantCurrentVersion.from_dict(data.get('current_version')) if data.get('current_version') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[DashboardInstanceCustomProvidersGetOutputProviderDefaultVariant, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -414,33 +267,12 @@ class mapDashboardInstanceCustomProvidersGetOutputProviderCurrentVersion:
         description=data.get('description'),
         metadata=data.get('metadata'),
         specification_id=data.get('specification_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
     def to_dict(value: Union[DashboardInstanceCustomProvidersGetOutputProviderCurrentVersion, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapDashboardInstanceCustomProvidersGetOutputProviderType:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> DashboardInstanceCustomProvidersGetOutputProviderType:
-        return DashboardInstanceCustomProvidersGetOutputProviderType(
-        object=data.get('object'),
-        id=data.get('id'),
-        name=data.get('name'),
-        config=data.get('config'),
-        triggers=data.get('triggers'),
-        auth=data.get('auth'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[DashboardInstanceCustomProvidersGetOutputProviderType, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -487,21 +319,16 @@ class mapDashboardInstanceCustomProvidersGetOutputProvider:
         id=data.get('id'),
         access=data.get('access'),
         status=data.get('status'),
-        owner_tenant=mapDashboardInstanceCustomProvidersGetOutputProviderOwnerTenant.from_dict(data.get('owner_tenant')) if data.get('owner_tenant') else None,
         publisher=mapDashboardInstanceCustomProvidersGetOutputProviderPublisher.from_dict(data.get('publisher')) if data.get('publisher') else None,
-        entry=mapDashboardInstanceCustomProvidersGetOutputProviderEntry.from_dict(data.get('entry')) if data.get('entry') else None,
-        default_variant=mapDashboardInstanceCustomProvidersGetOutputProviderDefaultVariant.from_dict(data.get('default_variant')) if data.get('default_variant') else None,
         current_version=mapDashboardInstanceCustomProvidersGetOutputProviderCurrentVersion.from_dict(data.get('current_version')) if data.get('current_version') else None,
-        type=mapDashboardInstanceCustomProvidersGetOutputProviderType.from_dict(data.get('type')) if data.get('type') else None,
         oauth=mapDashboardInstanceCustomProvidersGetOutputProviderOauth.from_dict(data.get('oauth')) if data.get('oauth') else None,
         identifier=data.get('identifier'),
-        tag=data.get('tag'),
         name=data.get('name'),
         description=data.get('description'),
         slug=data.get('slug'),
         metadata=data.get('metadata'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -519,14 +346,15 @@ class mapDashboardInstanceCustomProvidersGetOutput:
         object=data.get('object'),
         id=data.get('id'),
         status=data.get('status'),
+        type=data.get('type'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        draft=mapDashboardInstanceCustomProvidersGetOutputDraft.from_dict(data.get('draft')) if data.get('draft') else None,
         scm_repo=mapDashboardInstanceCustomProvidersGetOutputScmRepo.from_dict(data.get('scm_repo')) if data.get('scm_repo') else None,
-        draft_bucket=mapDashboardInstanceCustomProvidersGetOutputDraftBucket.from_dict(data.get('draft_bucket')) if data.get('draft_bucket') else None,
         provider=mapDashboardInstanceCustomProvidersGetOutputProvider.from_dict(data.get('provider')) if data.get('provider') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -537,3 +365,4 @@ class mapDashboardInstanceCustomProvidersGetOutput:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

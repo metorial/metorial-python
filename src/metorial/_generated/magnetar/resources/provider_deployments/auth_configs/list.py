@@ -4,18 +4,76 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
-class ProviderDeploymentsAuthConfigsListOutputItems:
+class ProviderDeploymentsAuthConfigsListOutputItemsDeploymentPreview:
     object: str
     id: str
-    type: str
+    is_default: bool
     provider_id: str
-    provider_auth_method_id: str
     created_at: datetime
     updated_at: datetime
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
-    provider_deployment_id: Optional[str] = None
+@dataclass
+class ProviderDeploymentsAuthConfigsListOutputItemsCredentials:
+    object: str
+    id: str
+    type: str
+    is_default: bool
+    provider_id: str
+    created_at: datetime
+    updated_at: datetime
+    name: Optional[str] = None
+    description: Optional[str] = None
+    metadata: Optional[Dict[str, Any]] = None
+@dataclass
+class ProviderDeploymentsAuthConfigsListOutputItemsAuthMethodInputSchema:
+    type: str
+    schema: Dict[str, Any]
+@dataclass
+class ProviderDeploymentsAuthConfigsListOutputItemsAuthMethodOutputSchema:
+    type: str
+    schema: Dict[str, Any]
+@dataclass
+class ProviderDeploymentsAuthConfigsListOutputItemsAuthMethodScopes:
+    object: str
+    id: str
+    scope: str
+    name: str
+    description: Optional[str] = None
+@dataclass
+class ProviderDeploymentsAuthConfigsListOutputItemsAuthMethod:
+    object: str
+    id: str
+    type: str
+    key: str
+    name: str
+    capabilities: Dict[str, Any]
+    provider_id: str
+    provider_specification_id: str
+    created_at: datetime
+    updated_at: datetime
+    description: Optional[str] = None
+    input_schema: Optional[ProviderDeploymentsAuthConfigsListOutputItemsAuthMethodInputSchema] = None
+    output_schema: Optional[ProviderDeploymentsAuthConfigsListOutputItemsAuthMethodOutputSchema] = None
+    scopes: Optional[List[ProviderDeploymentsAuthConfigsListOutputItemsAuthMethodScopes]] = None
+@dataclass
+class ProviderDeploymentsAuthConfigsListOutputItems:
+    object: str
+    id: str
+    type: str
+    source: str
+    status: str
+    is_default: bool
+    provider_id: str
+    auth_method: ProviderDeploymentsAuthConfigsListOutputItemsAuthMethod
+    created_at: datetime
+    updated_at: datetime
+    name: Optional[str] = None
+    description: Optional[str] = None
+    metadata: Optional[Dict[str, Any]] = None
+    deployment_preview: Optional[ProviderDeploymentsAuthConfigsListOutputItemsDeploymentPreview] = None
+    credentials: Optional[ProviderDeploymentsAuthConfigsListOutputItemsCredentials] = None
 @dataclass
 class ProviderDeploymentsAuthConfigsListOutputPagination:
     has_more_before: bool
@@ -26,6 +84,132 @@ class ProviderDeploymentsAuthConfigsListOutput:
     pagination: ProviderDeploymentsAuthConfigsListOutputPagination
 
 
+class mapProviderDeploymentsAuthConfigsListOutputItemsDeploymentPreview:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsAuthConfigsListOutputItemsDeploymentPreview:
+        return ProviderDeploymentsAuthConfigsListOutputItemsDeploymentPreview(
+        object=data.get('object'),
+        id=data.get('id'),
+        is_default=data.get('is_default'),
+        name=data.get('name'),
+        description=data.get('description'),
+        metadata=data.get('metadata'),
+        provider_id=data.get('provider_id'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ProviderDeploymentsAuthConfigsListOutputItemsDeploymentPreview, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapProviderDeploymentsAuthConfigsListOutputItemsCredentials:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsAuthConfigsListOutputItemsCredentials:
+        return ProviderDeploymentsAuthConfigsListOutputItemsCredentials(
+        object=data.get('object'),
+        id=data.get('id'),
+        type=data.get('type'),
+        is_default=data.get('is_default'),
+        name=data.get('name'),
+        description=data.get('description'),
+        metadata=data.get('metadata'),
+        provider_id=data.get('provider_id'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ProviderDeploymentsAuthConfigsListOutputItemsCredentials, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapProviderDeploymentsAuthConfigsListOutputItemsAuthMethodInputSchema:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsAuthConfigsListOutputItemsAuthMethodInputSchema:
+        return ProviderDeploymentsAuthConfigsListOutputItemsAuthMethodInputSchema(
+        type=data.get('type'),
+        schema=data.get('schema')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ProviderDeploymentsAuthConfigsListOutputItemsAuthMethodInputSchema, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapProviderDeploymentsAuthConfigsListOutputItemsAuthMethodOutputSchema:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsAuthConfigsListOutputItemsAuthMethodOutputSchema:
+        return ProviderDeploymentsAuthConfigsListOutputItemsAuthMethodOutputSchema(
+        type=data.get('type'),
+        schema=data.get('schema')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ProviderDeploymentsAuthConfigsListOutputItemsAuthMethodOutputSchema, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapProviderDeploymentsAuthConfigsListOutputItemsAuthMethodScopes:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsAuthConfigsListOutputItemsAuthMethodScopes:
+        return ProviderDeploymentsAuthConfigsListOutputItemsAuthMethodScopes(
+        object=data.get('object'),
+        id=data.get('id'),
+        scope=data.get('scope'),
+        name=data.get('name'),
+        description=data.get('description')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ProviderDeploymentsAuthConfigsListOutputItemsAuthMethodScopes, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapProviderDeploymentsAuthConfigsListOutputItemsAuthMethod:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsAuthConfigsListOutputItemsAuthMethod:
+        return ProviderDeploymentsAuthConfigsListOutputItemsAuthMethod(
+        object=data.get('object'),
+        id=data.get('id'),
+        type=data.get('type'),
+        key=data.get('key'),
+        name=data.get('name'),
+        description=data.get('description'),
+        capabilities=data.get('capabilities'),
+        input_schema=mapProviderDeploymentsAuthConfigsListOutputItemsAuthMethodInputSchema.from_dict(data.get('input_schema')) if data.get('input_schema') else None,
+        output_schema=mapProviderDeploymentsAuthConfigsListOutputItemsAuthMethodOutputSchema.from_dict(data.get('output_schema')) if data.get('output_schema') else None,
+        scopes=[mapProviderDeploymentsAuthConfigsListOutputItemsAuthMethodScopes.from_dict(item) for item in data.get('scopes', []) if item],
+        provider_id=data.get('provider_id'),
+        provider_specification_id=data.get('provider_specification_id'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ProviderDeploymentsAuthConfigsListOutputItemsAuthMethod, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapProviderDeploymentsAuthConfigsListOutputItems:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsAuthConfigsListOutputItems:
@@ -33,14 +217,18 @@ class mapProviderDeploymentsAuthConfigsListOutputItems:
         object=data.get('object'),
         id=data.get('id'),
         type=data.get('type'),
+        source=data.get('source'),
+        status=data.get('status'),
+        is_default=data.get('is_default'),
+        provider_id=data.get('provider_id'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
-        provider_id=data.get('provider_id'),
-        provider_deployment_id=data.get('provider_deployment_id'),
-        provider_auth_method_id=data.get('provider_auth_method_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        deployment_preview=mapProviderDeploymentsAuthConfigsListOutputItemsDeploymentPreview.from_dict(data.get('deployment_preview')) if data.get('deployment_preview') else None,
+        credentials=mapProviderDeploymentsAuthConfigsListOutputItemsCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,
+        auth_method=mapProviderDeploymentsAuthConfigsListOutputItemsAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -91,8 +279,13 @@ class ProviderDeploymentsAuthConfigsListQuery:
     before: Optional[str] = None
     cursor: Optional[str] = None
     order: Optional[str] = None
-    provider_auth_method_id: Optional[Union[str, List[str]]] = None
+    status: Optional[Union[str, List[str]]] = None
+    id: Optional[Union[str, List[str]]] = None
+    provider_id: Optional[Union[str, List[str]]] = None
+    provider_deployment_id: Optional[Union[str, List[str]]] = None
     provider_auth_credentials_id: Optional[Union[str, List[str]]] = None
+    provider_auth_method_id: Optional[Union[str, List[str]]] = None
+    search: Optional[str] = None
 
 
 class mapProviderDeploymentsAuthConfigsListQuery:
@@ -104,8 +297,13 @@ class mapProviderDeploymentsAuthConfigsListQuery:
         before=data.get('before'),
         cursor=data.get('cursor'),
         order=data.get('order'),
+        status=data.get('status'),
+        id=data.get('id'),
+        provider_id=data.get('provider_id'),
+        provider_deployment_id=data.get('provider_deployment_id'),
+        provider_auth_credentials_id=data.get('provider_auth_credentials_id'),
         provider_auth_method_id=data.get('provider_auth_method_id'),
-        provider_auth_credentials_id=data.get('provider_auth_credentials_id')
+        search=data.get('search')
         )
 
     @staticmethod
@@ -116,3 +314,4 @@ class mapProviderDeploymentsAuthConfigsListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

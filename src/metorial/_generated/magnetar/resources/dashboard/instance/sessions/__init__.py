@@ -1,6 +1,5 @@
 from .connections import *
 from .create import *
-from .delete import *
 from .error_groups import *
 from .errors import *
 from .events import *
@@ -8,6 +7,5 @@ from .get import *
 from .list import *
 from .messages import *
 from .participants import *
-from .provider_runs import *
 from .providers import *
 from .update import *

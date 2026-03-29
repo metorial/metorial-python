@@ -1,16 +1,12 @@
 """
-Shared client core functionality for async and sync clients.
+Shared client core functionality for Metorial clients.
 
-This module contains common logic shared between Metorial and MetorialSync clients
-to avoid code duplication.
+This module contains logic shared across the remaining async client surface.
 """
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
-
-if TYPE_CHECKING:
-  from metorial._session import MetorialSession
+from typing import Any
 
 
 class ClientCoreMixin:
@@ -89,44 +85,6 @@ class ClientCoreMixin:
         deployment_config["oauthSessionId"] = deployment["oauthSessionId"]
       session_deployments.append(deployment_config)
     return session_deployments
-
-  def _build_simplified_session(
-    self,
-    session: MetorialSession,
-    provider_data: dict[str, Any],
-    close_session_fn: Any,
-  ) -> dict[str, Any]:
-    """Build a simplified session dict for provider session callbacks.
-
-    Args:
-        session: The MetorialSession instance
-        provider_data: Data from the provider callback
-        close_session_fn: Function to close the session
-
-    Returns:
-        Simplified session dict with tools and utility functions
-    """
-    return {
-      "tools": provider_data.get("tools"),
-      "callTools": provider_data.get("callTools")
-      or (lambda tool_calls: session.execute_tools(tool_calls)),
-      "getToolManager": lambda: session.get_tool_manager(),
-      "session": session,
-      "closeSession": close_session_fn,
-      "getSession": session.get_session
-      if hasattr(session, "get_session")
-      else lambda: session._mcp_session.get_session(),
-      "getCapabilities": session.get_capabilities
-      if hasattr(session, "get_capabilities")
-      else lambda: session._mcp_session.get_capabilities(),
-      "getClient": session.get_client
-      if hasattr(session, "get_client")
-      else lambda opts: session._mcp_session.get_client(opts),
-      "getServerDeployments": session.get_server_deployments
-      if hasattr(session, "get_server_deployments")
-      else lambda: session._mcp_session.get_server_deployments(),
-      **provider_data,
-    }
 
 
 __all__ = ["ClientCoreMixin"]

@@ -59,9 +59,10 @@ path = "src/metorial/_version.py"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/metorial"]
+artifacts = ["src/metorial/py.typed"]
 
 [tool.hatch.build.targets.sdist]
-include = ["/src", "/README.md", "/LICENSE"]
+include = ["/src", "/README.md", "/LICENSE", "/src/metorial/py.typed"]
 
 # MyPy configuration
 [tool.mypy]

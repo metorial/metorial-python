@@ -8,7 +8,6 @@ class PublishersGetOutput:
     object: str
     id: str
     name: str
-    slug: str
     image_url: str
     created_at: datetime
     updated_at: datetime
@@ -23,10 +22,9 @@ class mapPublishersGetOutput:
         id=data.get('id'),
         name=data.get('name'),
         description=data.get('description'),
-        slug=data.get('slug'),
         image_url=data.get('image_url'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -37,3 +35,4 @@ class mapPublishersGetOutput:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

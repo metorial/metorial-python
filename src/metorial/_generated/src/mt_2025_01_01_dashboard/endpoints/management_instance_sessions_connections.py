@@ -8,7 +8,7 @@ class MetorialManagementInstanceSessionsConnectionsEndpoint(BaseMetorialEndpoint
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, connection_state: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, session_id: Optional[Union[str, List[str]]] = None, session_provider_id: Optional[Union[str, List[str]]] = None, participant_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceSessionsConnectionsListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, connection_state: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, session_id: Optional[Union[str, List[str]]] = None, session_provider_id: Optional[Union[str, List[str]]] = None, participant_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceSessionsConnectionsListOutput:
         """
     List session connections
     Returns a paginated list of connections for a session.
@@ -25,6 +25,8 @@ class MetorialManagementInstanceSessionsConnectionsEndpoint(BaseMetorialEndpoint
     :param session_id: Optional[Union[str, List[str]]] (optional)
     :param session_provider_id: Optional[Union[str, List[str]]] (optional)
     :param participant_id: Optional[Union[str, List[str]]] (optional)
+    :param created_at: Optional[Dict[str, Any]] (optional)
+    :param updated_at: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceSessionsConnectionsListOutput
     """
         # Build query parameters from keyword arguments
@@ -51,6 +53,10 @@ class MetorialManagementInstanceSessionsConnectionsEndpoint(BaseMetorialEndpoint
             query_dict["session_provider_id"] = session_provider_id
         if participant_id is not None:
             query_dict["participant_id"] = participant_id
+        if created_at is not None:
+            query_dict["created_at"] = created_at
+        if updated_at is not None:
+            query_dict["updated_at"] = updated_at
 
         request = MetorialRequest(
             path=['instances', instance_id, 'session-connections'],

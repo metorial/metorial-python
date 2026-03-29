@@ -8,7 +8,7 @@ class MetorialDashboardInstanceProviderListingsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, search: Optional[str] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_version_id: Optional[str] = None, provider_category_id: Optional[Union[str, List[str]]] = None, provider_collection_id: Optional[Union[str, List[str]]] = None, provider_group_id: Optional[Union[str, List[str]]] = None, publisher_id: Optional[Union[str, List[str]]] = None, flags: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderListingsListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, search: Optional[str] = None, provider_category_id: Optional[Union[str, List[str]]] = None, provider_collection_id: Optional[Union[str, List[str]]] = None, provider_group_id: Optional[Union[str, List[str]]] = None, publisher_id: Optional[Union[str, List[str]]] = None, is_owner: Optional[bool] = None, is_public: Optional[bool] = None, is_verified: Optional[bool] = None, is_official: Optional[bool] = None, is_metorial: Optional[bool] = None) -> DashboardInstanceProviderListingsListOutput:
         """
     List provider listings
     Returns a paginated list of provider listings.
@@ -20,13 +20,15 @@ class MetorialDashboardInstanceProviderListingsEndpoint(BaseMetorialEndpoint):
     :param cursor: Optional[str] (optional)
     :param order: Optional[str] (optional)
     :param search: Optional[str] (optional)
-    :param provider_id: Optional[Union[str, List[str]]] (optional)
-    :param provider_version_id: Optional[str] (optional)
     :param provider_category_id: Optional[Union[str, List[str]]] (optional)
     :param provider_collection_id: Optional[Union[str, List[str]]] (optional)
     :param provider_group_id: Optional[Union[str, List[str]]] (optional)
     :param publisher_id: Optional[Union[str, List[str]]] (optional)
-    :param flags: Optional[Dict[str, Any]] (optional)
+    :param is_owner: Optional[bool] (optional)
+    :param is_public: Optional[bool] (optional)
+    :param is_verified: Optional[bool] (optional)
+    :param is_official: Optional[bool] (optional)
+    :param is_metorial: Optional[bool] (optional)
     :return: DashboardInstanceProviderListingsListOutput
     """
         # Build query parameters from keyword arguments
@@ -43,10 +45,6 @@ class MetorialDashboardInstanceProviderListingsEndpoint(BaseMetorialEndpoint):
             query_dict["order"] = order
         if search is not None:
             query_dict["search"] = search
-        if provider_id is not None:
-            query_dict["provider_id"] = provider_id
-        if provider_version_id is not None:
-            query_dict["provider_version_id"] = provider_version_id
         if provider_category_id is not None:
             query_dict["provider_category_id"] = provider_category_id
         if provider_collection_id is not None:
@@ -55,8 +53,16 @@ class MetorialDashboardInstanceProviderListingsEndpoint(BaseMetorialEndpoint):
             query_dict["provider_group_id"] = provider_group_id
         if publisher_id is not None:
             query_dict["publisher_id"] = publisher_id
-        if flags is not None:
-            query_dict["flags"] = flags
+        if is_owner is not None:
+            query_dict["is_owner"] = is_owner
+        if is_public is not None:
+            query_dict["is_public"] = is_public
+        if is_verified is not None:
+            query_dict["is_verified"] = is_verified
+        if is_official is not None:
+            query_dict["is_official"] = is_official
+        if is_metorial is not None:
+            query_dict["is_metorial"] = is_metorial
 
         request = MetorialRequest(
             path=['dashboard', 'instances', instance_id, 'provider-listings'],

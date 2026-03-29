@@ -95,6 +95,7 @@ class ApiKeysUpdateOutput:
     secret_redacted_long: str
     type: str
     name: str
+    ip_filters: List[str]
     machine_access: ApiKeysUpdateOutputMachineAccess
     created_at: datetime
     updated_at: datetime
@@ -114,8 +115,8 @@ class mapApiKeysUpdateOutputMachineAccessActorTeams:
         name=data.get('name'),
         slug=data.get('slug'),
         assignment_id=data.get('assignment_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -138,8 +139,8 @@ class mapApiKeysUpdateOutputMachineAccessActor:
         email=data.get('email'),
         image_url=data.get('image_url'),
         teams=[mapApiKeysUpdateOutputMachineAccessActorTeams.from_dict(item) for item in data.get('teams', []) if item],
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -160,8 +161,8 @@ class mapApiKeysUpdateOutputMachineAccessInstanceProject:
         slug=data.get('slug'),
         name=data.get('name'),
         organization_id=data.get('organization_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -182,8 +183,8 @@ class mapApiKeysUpdateOutputMachineAccessInstance:
         name=data.get('name'),
         organization_id=data.get('organization_id'),
         type=data.get('type'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None,
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
         project=mapApiKeysUpdateOutputMachineAccessInstanceProject.from_dict(data.get('project')) if data.get('project') else None
         )
 
@@ -205,8 +206,8 @@ class mapApiKeysUpdateOutputMachineAccessOrganization:
         slug=data.get('slug'),
         name=data.get('name'),
         image_url=data.get('image_url'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -230,8 +231,8 @@ class mapApiKeysUpdateOutputMachineAccessUser:
         first_name=data.get('first_name'),
         last_name=data.get('last_name'),
         image_url=data.get('image_url'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -251,10 +252,10 @@ class mapApiKeysUpdateOutputMachineAccess:
         status=data.get('status'),
         type=data.get('type'),
         name=data.get('name'),
-        last_used_at=datetime.fromisoformat(data.get('last_used_at')) if data.get('last_used_at') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None,
-        deleted_at=datetime.fromisoformat(data.get('deleted_at')) if data.get('deleted_at') else None,
+        last_used_at=datetime.fromisoformat(data.get('last_used_at').replace('Z', '+00:00')) if data.get('last_used_at') else None,
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
+        deleted_at=datetime.fromisoformat(data.get('deleted_at').replace('Z', '+00:00')) if data.get('deleted_at') else None,
         actor=mapApiKeysUpdateOutputMachineAccessActor.from_dict(data.get('actor')) if data.get('actor') else None,
         instance=mapApiKeysUpdateOutputMachineAccessInstance.from_dict(data.get('instance')) if data.get('instance') else None,
         organization=mapApiKeysUpdateOutputMachineAccessOrganization.from_dict(data.get('organization')) if data.get('organization') else None,
@@ -273,7 +274,7 @@ class mapApiKeysUpdateOutputRevealInfo:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ApiKeysUpdateOutputRevealInfo:
         return ApiKeysUpdateOutputRevealInfo(
-        until=datetime.fromisoformat(data.get('until')) if data.get('until') else None,
+        until=datetime.fromisoformat(data.get('until').replace('Z', '+00:00')) if data.get('until') else None,
         forever=data.get('forever')
         )
 
@@ -298,12 +299,13 @@ class mapApiKeysUpdateOutput:
         type=data.get('type'),
         name=data.get('name'),
         description=data.get('description'),
+        ip_filters=data.get('ip_filters', []),
         machine_access=mapApiKeysUpdateOutputMachineAccess.from_dict(data.get('machine_access')) if data.get('machine_access') else None,
-        deleted_at=datetime.fromisoformat(data.get('deleted_at')) if data.get('deleted_at') else None,
-        last_used_at=datetime.fromisoformat(data.get('last_used_at')) if data.get('last_used_at') else None,
-        expires_at=datetime.fromisoformat(data.get('expires_at')) if data.get('expires_at') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None,
+        deleted_at=datetime.fromisoformat(data.get('deleted_at').replace('Z', '+00:00')) if data.get('deleted_at') else None,
+        last_used_at=datetime.fromisoformat(data.get('last_used_at').replace('Z', '+00:00')) if data.get('last_used_at') else None,
+        expires_at=datetime.fromisoformat(data.get('expires_at').replace('Z', '+00:00')) if data.get('expires_at') else None,
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
         reveal_info=mapApiKeysUpdateOutputRevealInfo.from_dict(data.get('reveal_info')) if data.get('reveal_info') else None
         )
 
@@ -321,6 +323,7 @@ class ApiKeysUpdateBody:
     name: Optional[str] = None
     description: Optional[str] = None
     expires_at: Optional[datetime] = None
+    ip_filters: Optional[List[str]] = None
 
 
 class mapApiKeysUpdateBody:
@@ -329,7 +332,8 @@ class mapApiKeysUpdateBody:
         return ApiKeysUpdateBody(
         name=data.get('name'),
         description=data.get('description'),
-        expires_at=datetime.fromisoformat(data.get('expires_at')) if data.get('expires_at') else None
+        expires_at=datetime.fromisoformat(data.get('expires_at').replace('Z', '+00:00')) if data.get('expires_at') else None,
+        ip_filters=data.get('ip_filters', [])
         )
 
     @staticmethod
@@ -340,3 +344,4 @@ class mapApiKeysUpdateBody:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

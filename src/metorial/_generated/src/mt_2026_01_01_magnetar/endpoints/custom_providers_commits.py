@@ -8,7 +8,7 @@ class MetorialCustomProvidersCommitsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, custom_provider_version_id: Optional[Union[str, List[str]]] = None, custom_provider_environment_id: Optional[Union[str, List[str]]] = None, custom_provider_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceCustomProvidersCommitsListOutput:
+    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, custom_provider_version_id: Optional[Union[str, List[str]]] = None, custom_provider_environment_id: Optional[Union[str, List[str]]] = None, custom_provider_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceCustomProvidersCommitsListOutput:
         """
     List custom provider commits
     Returns a paginated list of commits for a custom provider.
@@ -23,6 +23,8 @@ class MetorialCustomProvidersCommitsEndpoint(BaseMetorialEndpoint):
     :param custom_provider_environment_id: Optional[Union[str, List[str]]] (optional)
     :param custom_provider_id: Optional[Union[str, List[str]]] (optional)
     :param provider_id: Optional[Union[str, List[str]]] (optional)
+    :param created_at: Optional[Dict[str, Any]] (optional)
+    :param updated_at: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceCustomProvidersCommitsListOutput
     """
         # Build query parameters from keyword arguments
@@ -47,6 +49,10 @@ class MetorialCustomProvidersCommitsEndpoint(BaseMetorialEndpoint):
             query_dict["custom_provider_id"] = custom_provider_id
         if provider_id is not None:
             query_dict["provider_id"] = provider_id
+        if created_at is not None:
+            query_dict["created_at"] = created_at
+        if updated_at is not None:
+            query_dict["updated_at"] = updated_at
 
         request = MetorialRequest(
             path=['custom-provider-commits'],

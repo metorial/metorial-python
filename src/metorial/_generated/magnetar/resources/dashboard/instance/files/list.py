@@ -57,8 +57,8 @@ class mapDashboardInstanceFilesListOutputItems:
         file_type=data.get('file_type'),
         title=data.get('title'),
         purpose=mapDashboardInstanceFilesListOutputItemsPurpose.from_dict(data.get('purpose')) if data.get('purpose') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -110,7 +110,6 @@ class DashboardInstanceFilesListQuery:
     cursor: Optional[str] = None
     order: Optional[str] = None
     purpose: Optional[str] = None
-    organization_id: Optional[str] = None
 
 
 class mapDashboardInstanceFilesListQuery:
@@ -122,8 +121,7 @@ class mapDashboardInstanceFilesListQuery:
         before=data.get('before'),
         cursor=data.get('cursor'),
         order=data.get('order'),
-        purpose=data.get('purpose'),
-        organization_id=data.get('organization_id')
+        purpose=data.get('purpose')
         )
 
     @staticmethod
@@ -134,3 +132,4 @@ class mapDashboardInstanceFilesListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

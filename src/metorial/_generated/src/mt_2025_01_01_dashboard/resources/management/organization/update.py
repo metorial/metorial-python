@@ -25,8 +25,8 @@ class mapManagementOrganizationUpdateOutput:
         slug=data.get('slug'),
         name=data.get('name'),
         image_url=data.get('image_url'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -41,13 +41,15 @@ class mapManagementOrganizationUpdateOutput:
 @dataclass
 class ManagementOrganizationUpdateBody:
     name: Optional[str] = None
+    image_file_id: Optional[str] = None
 
 
 class mapManagementOrganizationUpdateBody:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementOrganizationUpdateBody:
         return ManagementOrganizationUpdateBody(
-        name=data.get('name')
+        name=data.get('name'),
+        image_file_id=data.get('image_file_id')
         )
 
     @staticmethod
@@ -58,3 +60,4 @@ class mapManagementOrganizationUpdateBody:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

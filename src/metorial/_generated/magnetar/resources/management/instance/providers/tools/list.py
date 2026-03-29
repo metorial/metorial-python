@@ -4,18 +4,34 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class ManagementInstanceProvidersToolsListOutputItemsInputSchema:
+    type: str
+    schema: Dict[str, Any]
+@dataclass
+class ManagementInstanceProvidersToolsListOutputItemsOutputSchema:
+    type: str
+    schema: Dict[str, Any]
+@dataclass
+class ManagementInstanceProvidersToolsListOutputItemsTags:
+    destructive: Optional[bool] = None
+    read_only: Optional[bool] = None
+@dataclass
 class ManagementInstanceProvidersToolsListOutputItems:
     object: str
     id: str
+    key: str
     name: str
+    capabilities: Dict[str, Any]
+    constraints: List[str]
+    instructions: List[str]
+    specification_id: str
     provider_id: str
-    provider_specification_id: str
     created_at: datetime
     updated_at: datetime
-    title: Optional[str] = None
     description: Optional[str] = None
-    input_schema: Optional[Dict[str, Any]] = None
-    output_schema: Optional[Dict[str, Any]] = None
+    input_schema: Optional[ManagementInstanceProvidersToolsListOutputItemsInputSchema] = None
+    output_schema: Optional[ManagementInstanceProvidersToolsListOutputItemsOutputSchema] = None
+    tags: Optional[ManagementInstanceProvidersToolsListOutputItemsTags] = None
 @dataclass
 class ManagementInstanceProvidersToolsListOutputPagination:
     has_more_before: bool
@@ -26,21 +42,73 @@ class ManagementInstanceProvidersToolsListOutput:
     pagination: ManagementInstanceProvidersToolsListOutputPagination
 
 
+class mapManagementInstanceProvidersToolsListOutputItemsInputSchema:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceProvidersToolsListOutputItemsInputSchema:
+        return ManagementInstanceProvidersToolsListOutputItemsInputSchema(
+        type=data.get('type'),
+        schema=data.get('schema')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceProvidersToolsListOutputItemsInputSchema, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceProvidersToolsListOutputItemsOutputSchema:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceProvidersToolsListOutputItemsOutputSchema:
+        return ManagementInstanceProvidersToolsListOutputItemsOutputSchema(
+        type=data.get('type'),
+        schema=data.get('schema')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceProvidersToolsListOutputItemsOutputSchema, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceProvidersToolsListOutputItemsTags:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceProvidersToolsListOutputItemsTags:
+        return ManagementInstanceProvidersToolsListOutputItemsTags(
+        destructive=data.get('destructive'),
+        read_only=data.get('read_only')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceProvidersToolsListOutputItemsTags, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapManagementInstanceProvidersToolsListOutputItems:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceProvidersToolsListOutputItems:
         return ManagementInstanceProvidersToolsListOutputItems(
         object=data.get('object'),
         id=data.get('id'),
+        key=data.get('key'),
         name=data.get('name'),
-        title=data.get('title'),
         description=data.get('description'),
-        input_schema=data.get('input_schema'),
-        output_schema=data.get('output_schema'),
+        capabilities=data.get('capabilities'),
+        constraints=data.get('constraints', []),
+        instructions=data.get('instructions', []),
+        input_schema=mapManagementInstanceProvidersToolsListOutputItemsInputSchema.from_dict(data.get('input_schema')) if data.get('input_schema') else None,
+        output_schema=mapManagementInstanceProvidersToolsListOutputItemsOutputSchema.from_dict(data.get('output_schema')) if data.get('output_schema') else None,
+        tags=mapManagementInstanceProvidersToolsListOutputItemsTags.from_dict(data.get('tags')) if data.get('tags') else None,
+        specification_id=data.get('specification_id'),
         provider_id=data.get('provider_id'),
-        provider_specification_id=data.get('provider_specification_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -86,12 +154,12 @@ class mapManagementInstanceProvidersToolsListOutput:
 
 @dataclass
 class ManagementInstanceProvidersToolsListQuery:
+    provider_version_id: str
     limit: Optional[float] = None
     after: Optional[str] = None
     before: Optional[str] = None
     cursor: Optional[str] = None
     order: Optional[str] = None
-    provider_version_id: Optional[str] = None
 
 
 class mapManagementInstanceProvidersToolsListQuery:
@@ -114,3 +182,4 @@ class mapManagementInstanceProvidersToolsListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

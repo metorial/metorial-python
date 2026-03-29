@@ -21,7 +21,7 @@ class mapDashboardInstanceProviderRunsGetLogsOutputLogs:
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderRunsGetLogsOutputLogs:
         return DashboardInstanceProviderRunsGetLogsOutputLogs(
         object=data.get('object'),
-        timestamp=datetime.fromisoformat(data.get('timestamp')) if data.get('timestamp') else None,
+        timestamp=datetime.fromisoformat(data.get('timestamp').replace('Z', '+00:00')) if data.get('timestamp') else None,
         message=data.get('message'),
         output_type=data.get('output_type')
         )
@@ -51,3 +51,4 @@ class mapDashboardInstanceProviderRunsGetLogsOutput:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

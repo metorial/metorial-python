@@ -46,8 +46,8 @@ class mapDashboardInstanceProviderDeploymentsConfigVaultsListOutputItemsDeployme
         description=data.get('description'),
         metadata=data.get('metadata'),
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -69,8 +69,8 @@ class mapDashboardInstanceProviderDeploymentsConfigVaultsListOutputItems:
         metadata=data.get('metadata'),
         provider_id=data.get('provider_id'),
         deployment=mapDashboardInstanceProviderDeploymentsConfigVaultsListOutputItemsDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -115,6 +115,14 @@ class mapDashboardInstanceProviderDeploymentsConfigVaultsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class DashboardInstanceProviderDeploymentsConfigVaultsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class DashboardInstanceProviderDeploymentsConfigVaultsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class DashboardInstanceProviderDeploymentsConfigVaultsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -127,6 +135,9 @@ class DashboardInstanceProviderDeploymentsConfigVaultsListQuery:
     provider_deployment_id: Optional[Union[str, List[str]]] = None
     provider_config_id: Optional[Union[str, List[str]]] = None
     provider_config_vault_id: Optional[Union[str, List[str]]] = None
+    search: Optional[str] = None
+    created_at: Optional[DashboardInstanceProviderDeploymentsConfigVaultsListQueryCreatedAt] = None
+    updated_at: Optional[DashboardInstanceProviderDeploymentsConfigVaultsListQueryUpdatedAt] = None
 
 
 class mapDashboardInstanceProviderDeploymentsConfigVaultsListQuery:
@@ -143,7 +154,10 @@ class mapDashboardInstanceProviderDeploymentsConfigVaultsListQuery:
         provider_id=data.get('provider_id'),
         provider_deployment_id=data.get('provider_deployment_id'),
         provider_config_id=data.get('provider_config_id'),
-        provider_config_vault_id=data.get('provider_config_vault_id')
+        provider_config_vault_id=data.get('provider_config_vault_id'),
+        search=data.get('search'),
+        created_at=mapDashboardInstanceProviderDeploymentsConfigVaultsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapDashboardInstanceProviderDeploymentsConfigVaultsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -154,3 +168,4 @@ class mapDashboardInstanceProviderDeploymentsConfigVaultsListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

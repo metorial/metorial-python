@@ -8,7 +8,7 @@ class MetorialToolCallsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, session_template_id: Optional[Union[str, List[str]]] = None, session_provider_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, provider_config_id: Optional[Union[str, List[str]]] = None, provider_auth_config_id: Optional[Union[str, List[str]]] = None, tool_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceToolCallsListOutput:
+    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, session_template_id: Optional[Union[str, List[str]]] = None, session_provider_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, provider_config_id: Optional[Union[str, List[str]]] = None, provider_auth_config_id: Optional[Union[str, List[str]]] = None, tool_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceToolCallsListOutput:
         """
     List all tool calls
     Returns a paginated list of tool calls across all sessions.
@@ -25,6 +25,8 @@ class MetorialToolCallsEndpoint(BaseMetorialEndpoint):
     :param provider_config_id: Optional[Union[str, List[str]]] (optional)
     :param provider_auth_config_id: Optional[Union[str, List[str]]] (optional)
     :param tool_id: Optional[Union[str, List[str]]] (optional)
+    :param created_at: Optional[Dict[str, Any]] (optional)
+    :param updated_at: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceToolCallsListOutput
     """
         # Build query parameters from keyword arguments
@@ -53,6 +55,10 @@ class MetorialToolCallsEndpoint(BaseMetorialEndpoint):
             query_dict["provider_auth_config_id"] = provider_auth_config_id
         if tool_id is not None:
             query_dict["tool_id"] = tool_id
+        if created_at is not None:
+            query_dict["created_at"] = created_at
+        if updated_at is not None:
+            query_dict["updated_at"] = updated_at
 
         request = MetorialRequest(
             path=['tool-calls'],

@@ -6,12 +6,16 @@ import dataclasses
 @dataclass
 class SessionsConnectionsGetOutputUsage:
     total_productive_client_message_count: float
-    total_productive_server_message_count: float
+    total_productive_provider_message_count: float
 @dataclass
 class SessionsConnectionsGetOutputMcp:
     capabilities: Dict[str, Any]
     protocol_version: str
     transport: str
+@dataclass
+class SessionsConnectionsGetOutputParticipantData:
+    identifier: str
+    name: str
 @dataclass
 class SessionsConnectionsGetOutputParticipant:
     object: str
@@ -19,23 +23,24 @@ class SessionsConnectionsGetOutputParticipant:
     type: str
     identifier: str
     name: str
-    data: Dict[str, Any]
+    data: SessionsConnectionsGetOutputParticipantData
     created_at: datetime
     provider_id: Optional[str] = None
 @dataclass
 class SessionsConnectionsGetOutput:
     object: str
     id: str
-    status: str
     connection_state: str
     transport: str
     usage: SessionsConnectionsGetOutputUsage
     session_id: str
+    has_errors: bool
+    has_warnings: bool
     created_at: datetime
     last_message_at: datetime
-    last_active_at: datetime
     mcp: Optional[SessionsConnectionsGetOutputMcp] = None
     participant: Optional[SessionsConnectionsGetOutputParticipant] = None
+    last_active_at: Optional[datetime] = None
 
 
 class mapSessionsConnectionsGetOutputUsage:
@@ -43,7 +48,7 @@ class mapSessionsConnectionsGetOutputUsage:
     def from_dict(data: Dict[str, Any]) -> SessionsConnectionsGetOutputUsage:
         return SessionsConnectionsGetOutputUsage(
         total_productive_client_message_count=data.get('total_productive_client_message_count'),
-        total_productive_server_message_count=data.get('total_productive_server_message_count')
+        total_productive_provider_message_count=data.get('total_productive_provider_message_count')
         )
 
     @staticmethod
@@ -71,6 +76,22 @@ class mapSessionsConnectionsGetOutputMcp:
             return value
         return dataclasses.asdict(value)
 
+class mapSessionsConnectionsGetOutputParticipantData:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> SessionsConnectionsGetOutputParticipantData:
+        return SessionsConnectionsGetOutputParticipantData(
+        identifier=data.get('identifier'),
+        name=data.get('name')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[SessionsConnectionsGetOutputParticipantData, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapSessionsConnectionsGetOutputParticipant:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> SessionsConnectionsGetOutputParticipant:
@@ -80,9 +101,9 @@ class mapSessionsConnectionsGetOutputParticipant:
         type=data.get('type'),
         identifier=data.get('identifier'),
         name=data.get('name'),
-        data=data.get('data'),
+        data=mapSessionsConnectionsGetOutputParticipantData.from_dict(data.get('data')) if data.get('data') else None,
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
@@ -99,16 +120,17 @@ class mapSessionsConnectionsGetOutput:
         return SessionsConnectionsGetOutput(
         object=data.get('object'),
         id=data.get('id'),
-        status=data.get('status'),
         connection_state=data.get('connection_state'),
         transport=data.get('transport'),
         usage=mapSessionsConnectionsGetOutputUsage.from_dict(data.get('usage')) if data.get('usage') else None,
         mcp=mapSessionsConnectionsGetOutputMcp.from_dict(data.get('mcp')) if data.get('mcp') else None,
         session_id=data.get('session_id'),
         participant=mapSessionsConnectionsGetOutputParticipant.from_dict(data.get('participant')) if data.get('participant') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        last_message_at=datetime.fromisoformat(data.get('last_message_at')) if data.get('last_message_at') else None,
-        last_active_at=datetime.fromisoformat(data.get('last_active_at')) if data.get('last_active_at') else None
+        has_errors=data.get('has_errors'),
+        has_warnings=data.get('has_warnings'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        last_message_at=datetime.fromisoformat(data.get('last_message_at').replace('Z', '+00:00')) if data.get('last_message_at') else None,
+        last_active_at=datetime.fromisoformat(data.get('last_active_at').replace('Z', '+00:00')) if data.get('last_active_at') else None
         )
 
     @staticmethod
@@ -119,3 +141,4 @@ class mapSessionsConnectionsGetOutput:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

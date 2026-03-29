@@ -39,7 +39,6 @@ class MagnetarMcpSessionInit(TypedDict, total=False):
   providers: list[dict[str, Any] | str]
   client: _ClientInfo
   metadata: dict[str, Any]
-  session_template: str
 
 
 class _SDKConfig(TypedDict, total=False):
@@ -52,24 +51,12 @@ class _MagnetarSessionsAPI(Protocol):
   def create(self, **kwargs: Any) -> Any: ...
 
 
-class _MagnetarSessionTemplatesProvidersAPI(Protocol):
-  def list(self, session_template_id: str, **kwargs: Any) -> Any: ...
-
-
-class _MagnetarSessionTemplatesAPI(Protocol):
-  @property
-  def providers(self) -> _MagnetarSessionTemplatesProvidersAPI: ...
-
-
 class MagnetarCoreSDK(Protocol):
   @property
   def _config(self) -> _SDKConfig: ...
 
   @property
   def magnetar_sessions(self) -> _MagnetarSessionsAPI | None: ...
-
-  @property
-  def session_templates(self) -> _MagnetarSessionTemplatesAPI | None: ...
 
 
 class MetorialMagnetarMcpSession:
@@ -107,34 +94,11 @@ class MetorialMagnetarMcpSession:
       return self._session
 
     providers_input = self._init.get("providers", [])
-    session_template = self._init.get("session_template")
-
-    # If session_template is set, resolve providers from it
-    if session_template and not providers_input:
-      try:
-        st_api = self._sdk.session_templates
-        if st_api is not None:
-          template_providers = st_api.providers.list(
-            session_template_id=session_template
-          )
-          items = (
-            template_providers.items
-            if hasattr(template_providers, "items")
-            else template_providers
-          )
-          providers_input = [
-            {
-              "provider_deployment": item.provider_deployment_id
-              if hasattr(item, "provider_deployment_id")
-              else item["provider_deployment_id"],
-              "session_template_id": session_template,
-            }
-            for item in items
-          ]
-      except Exception as e:
-        logger.warning(f"Failed to resolve session template providers: {e}")
 
     # Normalize providers for API payload
+    # Each entry can be:
+    #   - a string (provider deployment ID)
+    #   - a dict with provider_deployment, session_template_id, etc.
     providers_list: list[dict[str, Any]] = []
     for prov in providers_input:
       if isinstance(prov, dict):
@@ -326,83 +290,86 @@ class MetorialMagnetarMcpSession:
     capabilities: list[Capability] = []
     deployments = self.get_server_deployments()
 
-    for deployment in deployments:
-      deployment_id = deployment["id"]
-      tools: list[Tool] = []
-      resource_templates: list[ResourceTemplate] = []
+    if not deployments:
+      return capabilities
 
-      # Get client via connectionUrl
-      try:
-        _log_info(f"Connecting to MCP for deployment: {deployment_id}")
-        client = await self.get_client({"deploymentId": deployment_id})
-      except Exception as e:
-        logger.warning(f"Warning: Failed to get client for {deployment_id}: {e}")
-        continue
+    # All deployments share the same Magnetar session connection URL,
+    # so we only need to connect once to get the full tool list.
+    first_deployment = deployments[0]
+    deployment_id = first_deployment["id"]
+    tools: list[Tool] = []
+    resource_templates: list[ResourceTemplate] = []
 
-      # Get tools
-      try:
-        tools_response = await client.list_tools()
-        raw_tools: object
-        if hasattr(tools_response, "tools"):
-          raw_tools = tools_response.tools
-        elif isinstance(tools_response, dict):
-          raw_tools = tools_response.get("tools", [])
-        else:
-          raw_tools = []
+    # Get client via connectionUrl
+    try:
+      _log_info(f"Connecting to MCP for session (deployment: {deployment_id})")
+      client = await self.get_client({"deploymentId": deployment_id})
+    except Exception as e:
+      logger.warning(f"Warning: Failed to get MCP client: {e}")
+      return capabilities
 
-        if isinstance(raw_tools, list):
-          for raw_tool in raw_tools:
-            normalized_tool = _normalize_tool(raw_tool)
-            if normalized_tool is not None:
-              tools.append(normalized_tool)
+    # Get tools
+    try:
+      tools_response = await client.list_tools()
+      raw_tools: object
+      if hasattr(tools_response, "tools"):
+        raw_tools = tools_response.tools
+      elif isinstance(tools_response, dict):
+        raw_tools = tools_response.get("tools", [])
+      else:
+        raw_tools = []
 
-        _log_info(f"Direct MCP found {len(tools)} tools for {deployment_id}")
-      except Exception as e:
-        logger.warning(f"Warning: Failed to get tools for {deployment_id}: {e}")
+      if isinstance(raw_tools, list):
+        for raw_tool in raw_tools:
+          normalized_tool = _normalize_tool(raw_tool)
+          if normalized_tool is not None:
+            tools.append(normalized_tool)
 
-      # Get resource templates
-      try:
-        templates_response = await client.list_resource_templates()
-        raw_templates: object
-        if hasattr(templates_response, "resourceTemplates"):
-          raw_templates = templates_response.resourceTemplates or []
-        elif hasattr(templates_response, "resource_templates"):
-          raw_templates = templates_response.resource_templates or []
-        elif isinstance(templates_response, dict):
-          raw_templates = templates_response.get(
-            "resourceTemplates"
-          ) or templates_response.get("resource_templates", [])
-        else:
-          raw_templates = []
+      _log_info(f"Direct MCP found {len(tools)} tools")
+    except Exception as e:
+      logger.warning(f"Warning: Failed to get tools: {e}")
 
-        if isinstance(raw_templates, list):
-          for raw_template in raw_templates:
-            normalized_template = _normalize_resource_template(raw_template)
-            if normalized_template is not None:
-              resource_templates.append(normalized_template)
-      except Exception as e:
-        logger.debug(
-          f"Warning: Failed to get resource templates for {deployment_id}: {e}"
-        )
+    # Get resource templates
+    try:
+      templates_response = await client.list_resource_templates()
+      raw_templates: object
+      if hasattr(templates_response, "resourceTemplates"):
+        raw_templates = templates_response.resourceTemplates or []
+      elif hasattr(templates_response, "resource_templates"):
+        raw_templates = templates_response.resource_templates or []
+      elif isinstance(templates_response, dict):
+        raw_templates = templates_response.get(
+          "resourceTemplates"
+        ) or templates_response.get("resource_templates", [])
+      else:
+        raw_templates = []
 
-      # Build capabilities
-      for tool in tools:
-        capabilities.append(
-          {
-            "type": "tool",
-            "tool": tool,
-            "serverDeployment": {"id": deployment_id},
-          }
-        )
+      if isinstance(raw_templates, list):
+        for raw_template in raw_templates:
+          normalized_template = _normalize_resource_template(raw_template)
+          if normalized_template is not None:
+            resource_templates.append(normalized_template)
+    except Exception as e:
+      logger.debug(f"Warning: Failed to get resource templates: {e}")
 
-      for template in resource_templates:
-        capabilities.append(
-          {
-            "type": "resource-template",
-            "resourceTemplate": template,
-            "serverDeployment": {"id": deployment_id},
-          }
-        )
+    # Build capabilities
+    for tool in tools:
+      capabilities.append(
+        {
+          "type": "tool",
+          "tool": tool,
+          "serverDeployment": {"id": deployment_id},
+        }
+      )
+
+    for template in resource_templates:
+      capabilities.append(
+        {
+          "type": "resource-template",
+          "resourceTemplate": template,
+          "serverDeployment": {"id": deployment_id},
+        }
+      )
 
     _log_info(
       f"Magnetar MCP discovery completed: {len(capabilities)} total capabilities"

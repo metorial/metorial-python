@@ -18,7 +18,7 @@ class mapDashboardInstanceCustomProvidersCodeGetCodeEditorTokenOutput:
         object=data.get('object'),
         id=data.get('id'),
         url=data.get('url'),
-        expires_at=datetime.fromisoformat(data.get('expires_at')) if data.get('expires_at') else None
+        expires_at=datetime.fromisoformat(data.get('expires_at').replace('Z', '+00:00')) if data.get('expires_at') else None
         )
 
     @staticmethod
@@ -29,3 +29,4 @@ class mapDashboardInstanceCustomProvidersCodeGetCodeEditorTokenOutput:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

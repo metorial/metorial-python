@@ -51,6 +51,7 @@ class ManagementInstanceProviderDeploymentsSetupSessionsDeleteOutputCredentials:
     id: str
     type: str
     is_default: bool
+    is_managed: bool
     provider_id: str
     created_at: datetime
     updated_at: datetime
@@ -74,6 +75,7 @@ class ManagementInstanceProviderDeploymentsSetupSessionsDeleteOutputAuthConfigCr
     id: str
     type: str
     is_default: bool
+    is_managed: bool
     provider_id: str
     created_at: datetime
     updated_at: datetime
@@ -265,8 +267,8 @@ class mapManagementInstanceProviderDeploymentsSetupSessionsDeleteOutputAuthMetho
         scopes=[mapManagementInstanceProviderDeploymentsSetupSessionsDeleteOutputAuthMethodScopes.from_dict(item) for item in data.get('scopes', []) if item],
         provider_id=data.get('provider_id'),
         provider_specification_id=data.get('provider_specification_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -288,8 +290,8 @@ class mapManagementInstanceProviderDeploymentsSetupSessionsDeleteOutputDeploymen
         description=data.get('description'),
         metadata=data.get('metadata'),
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -308,12 +310,13 @@ class mapManagementInstanceProviderDeploymentsSetupSessionsDeleteOutputCredentia
         id=data.get('id'),
         type=data.get('type'),
         is_default=data.get('is_default'),
+        is_managed=data.get('is_managed'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -335,8 +338,8 @@ class mapManagementInstanceProviderDeploymentsSetupSessionsDeleteOutputAuthConfi
         description=data.get('description'),
         metadata=data.get('metadata'),
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -355,12 +358,13 @@ class mapManagementInstanceProviderDeploymentsSetupSessionsDeleteOutputAuthConfi
         id=data.get('id'),
         type=data.get('type'),
         is_default=data.get('is_default'),
+        is_managed=data.get('is_managed'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -438,8 +442,8 @@ class mapManagementInstanceProviderDeploymentsSetupSessionsDeleteOutputAuthConfi
         scopes=[mapManagementInstanceProviderDeploymentsSetupSessionsDeleteOutputAuthConfigAuthMethodScopes.from_dict(item) for item in data.get('scopes', []) if item],
         provider_id=data.get('provider_id'),
         provider_specification_id=data.get('provider_specification_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -467,8 +471,8 @@ class mapManagementInstanceProviderDeploymentsSetupSessionsDeleteOutputAuthConfi
         deployment_preview=mapManagementInstanceProviderDeploymentsSetupSessionsDeleteOutputAuthConfigDeploymentPreview.from_dict(data.get('deployment_preview')) if data.get('deployment_preview') else None,
         credentials=mapManagementInstanceProviderDeploymentsSetupSessionsDeleteOutputAuthConfigCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,
         auth_method=mapManagementInstanceProviderDeploymentsSetupSessionsDeleteOutputAuthConfigAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -490,8 +494,8 @@ class mapManagementInstanceProviderDeploymentsSetupSessionsDeleteOutputConfigDep
         description=data.get('description'),
         metadata=data.get('metadata'),
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -513,8 +517,8 @@ class mapManagementInstanceProviderDeploymentsSetupSessionsDeleteOutputConfigFro
         description=data.get('description'),
         metadata=data.get('metadata'),
         provider_id=data.get('provider_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -536,8 +540,8 @@ class mapManagementInstanceProviderDeploymentsSetupSessionsDeleteOutputConfigFro
         metadata=data.get('metadata'),
         provider_id=data.get('provider_id'),
         deployment=mapManagementInstanceProviderDeploymentsSetupSessionsDeleteOutputConfigFromVaultDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -562,8 +566,8 @@ class mapManagementInstanceProviderDeploymentsSetupSessionsDeleteOutputConfig:
         specification_id=data.get('specification_id'),
         deployment=mapManagementInstanceProviderDeploymentsSetupSessionsDeleteOutputConfigDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         from_vault=mapManagementInstanceProviderDeploymentsSetupSessionsDeleteOutputConfigFromVault.from_dict(data.get('from_vault')) if data.get('from_vault') else None,
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -594,9 +598,9 @@ class mapManagementInstanceProviderDeploymentsSetupSessionsDeleteOutput:
         config=mapManagementInstanceProviderDeploymentsSetupSessionsDeleteOutputConfig.from_dict(data.get('config')) if data.get('config') else None,
         ui_mode=data.get('ui_mode'),
         redirect_url=data.get('redirect_url'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None,
-        expires_at=datetime.fromisoformat(data.get('expires_at')) if data.get('expires_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
+        expires_at=datetime.fromisoformat(data.get('expires_at').replace('Z', '+00:00')) if data.get('expires_at') else None
         )
 
     @staticmethod
@@ -607,3 +611,4 @@ class mapManagementInstanceProviderDeploymentsSetupSessionsDeleteOutput:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

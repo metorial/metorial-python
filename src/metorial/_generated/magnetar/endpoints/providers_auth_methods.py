@@ -8,18 +8,17 @@ class MetorialProvidersAuthMethodsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, provider_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, provider_version_id: Optional[str] = None) -> DashboardInstanceProvidersAuthMethodsListOutput:
+    def list(self, *, provider_version_id: str, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None) -> DashboardInstanceProvidersAuthMethodsListOutput:
         """
     List provider auth methods
     Returns a paginated list of provider auth methods.
 
-    :param provider_id: str
     :param limit: Optional[float] (optional)
     :param after: Optional[str] (optional)
     :param before: Optional[str] (optional)
     :param cursor: Optional[str] (optional)
     :param order: Optional[str] (optional)
-    :param provider_version_id: Optional[str] (optional)
+    :param provider_version_id: str
     :return: DashboardInstanceProvidersAuthMethodsListOutput
     """
         # Build query parameters from keyword arguments
@@ -34,25 +33,23 @@ class MetorialProvidersAuthMethodsEndpoint(BaseMetorialEndpoint):
             query_dict["cursor"] = cursor
         if order is not None:
             query_dict["order"] = order
-        if provider_version_id is not None:
-            query_dict["provider_version_id"] = provider_version_id
+        query_dict["provider_version_id"] = provider_version_id
 
         request = MetorialRequest(
-            path=['providers', provider_id, 'auth-methods'],
+            path=['provider-auth-methods'],
             query=query_dict
         )
         return self._get(request).transform(mapDashboardInstanceProvidersAuthMethodsListOutput.from_dict)
 
-    def get(self, provider_id: str, provider_auth_method_id: str) -> DashboardInstanceProvidersAuthMethodsGetOutput:
+    def get(self, provider_auth_method_id: str) -> DashboardInstanceProvidersAuthMethodsGetOutput:
         """
     Get provider auth method
     Retrieves a specific provider auth method by ID.
 
-    :param provider_id: str
     :param provider_auth_method_id: str
     :return: DashboardInstanceProvidersAuthMethodsGetOutput
     """
         request = MetorialRequest(
-            path=['providers', provider_id, 'auth-methods', provider_auth_method_id]
+            path=['provider-auth-methods', provider_auth_method_id]
         )
         return self._get(request).transform(mapDashboardInstanceProvidersAuthMethodsGetOutput.from_dict)

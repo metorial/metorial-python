@@ -31,8 +31,8 @@ class mapDashboardInstanceProvidersVersionsGetOutput:
         description=data.get('description'),
         metadata=data.get('metadata'),
         specification_id=data.get('specification_id'),
-        created_at=datetime.fromisoformat(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at')) if data.get('updated_at') else None
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
@@ -43,3 +43,4 @@ class mapDashboardInstanceProvidersVersionsGetOutput:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+
