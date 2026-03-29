@@ -21,7 +21,4 @@ python example.py
 | [`langchain`](langchain/) | LangChain + Anthropic | LangChain agent with react pattern |
 | [`langgraph`](langgraph/) | LangGraph + Anthropic | LangGraph streaming agent |
 | [`openai-agents`](openai-agents/) | OpenAI Agents SDK | OpenAI Agents with tool calls |
-| [`llamaindex`](llamaindex/) | LlamaIndex + Anthropic | LlamaIndex tool integration |
 | [`haystack`](haystack/) | Haystack + OpenAI | Haystack pipeline with tools |
-
-Legacy v1 examples are in [`legacy/`](legacy/).

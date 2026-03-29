@@ -18,8 +18,7 @@ python example.py
 
 ```python
 # Initialize the Metorial client
-from metorial import Metorial
-from metorial.integrations.langgraph import create_langgraph_tools
+from metorial import Metorial, metorial_langgraph
 
 metorial = Metorial(api_key=os.getenv("METORIAL_API_KEY"))
 
@@ -29,33 +28,28 @@ deployment = metorial.provider_deployments.create(
     provider_id="metorial-search",
 )
 
-# Open a provider session
-async with metorial.provider_session(
-    provider="anthropic",
+# Connect and resolve LangGraph tools directly
+session = await metorial.connect(
+    adapter=metorial_langgraph(),
     providers=[
         {"provider_deployment_id": deployment.id},
     ],
-) as session:
-    # create_langgraph_tools converts MCP tools into LangGraph-compatible
-    # tool definitions
-    tools = create_langgraph_tools(session)
+)
 
-    llm = ChatAnthropic(model="claude-sonnet-4-20250514")
-    agent = create_react_agent(llm, tools)
+llm = ChatAnthropic(model="claude-sonnet-4-20250514")
+agent = create_react_agent(llm, session.tools())
 
-    # The key difference from the LangChain example is streaming —
-    # astream yields events as the agent works, letting you see
-    # intermediate results
-    async for event in agent.astream(
-        {"messages": [("user", "Search the web for the latest news about AI agents and summarize the top 3 stories.")]}
-    ):
-        # Each event contains the agent's latest message. The agent will
-        # call tools as needed — making search queries, reading results —
-        # and stream partial answers as they become available
-        if "agent" in event:
-            print(event["agent"]["messages"][-1].content)
-
-# The session is automatically closed when the async with block exits
+# The key difference from the LangChain example is streaming —
+# astream yields events as the agent works, letting you see
+# intermediate results
+async for event in agent.astream(
+    {"messages": [("user", "Search the web for the latest news about AI agents and summarize the top 3 stories.")]}
+):
+    # Each event contains the agent's latest message. The agent will
+    # call tools as needed — making search queries, reading results —
+    # and stream partial answers as they become available
+    if "agent" in event:
+        print(event["agent"]["messages"][-1].content)
 ```
 
 ## Adding OAuth providers

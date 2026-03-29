@@ -20,20 +20,17 @@ def create_haystack_tools(session: "ProviderSession") -> list[Any]:
       ```python
       from haystack.components.generators.chat import OpenAIChatGenerator
       from haystack.dataclasses import ChatMessage
-      from metorial import Metorial
-      from metorial.integrations.haystack import create_haystack_tools
+      from metorial import Metorial, metorial_haystack
 
       metorial = Metorial(api_key="...")
 
-      async with metorial.provider_session(
-          provider="openai",
-          server_deployments=[deployment_id],
-      ) as session:
-          tools = create_haystack_tools(session)
-
-          generator = OpenAIChatGenerator(model="gpt-4o")
-          messages = [ChatMessage.from_user("Search for Python news")]
-          result = generator.run(messages=messages, tools=tools)
+      session = await metorial.connect(
+          adapter=metorial_haystack(),
+          providers=[{"provider_deployment_id": deployment_id}],
+      )
+      generator = OpenAIChatGenerator(model="gpt-4o")
+      messages = [ChatMessage.from_user("Search for Python news")]
+      result = generator.run(messages=messages, tools=session.tools())
       ```
   """
   try:
@@ -89,8 +86,7 @@ def _create_tool_function(session: "ProviderSession", tool_name: str):
   """
   import asyncio
 
-  # Capture the loop that owns the MCP session — must be called while
-  # the async context manager is active (i.e. inside provider_session).
+  # Capture the loop that owns the MCP session while the session is active.
   _loop = asyncio.get_running_loop()
 
   def tool_fn(**kwargs: Any) -> str:
@@ -131,14 +127,14 @@ def create_haystack_tool_invoker(session: "ProviderSession") -> Any:
       from haystack.components.generators.chat import OpenAIChatGenerator
       from metorial.integrations.haystack import create_haystack_tools, create_haystack_tool_invoker
 
-      async with metorial.provider_session(...) as session:
-          tools = create_haystack_tools(session)
-          tool_invoker = create_haystack_tool_invoker(session)
+      session = ...
+      tools = create_haystack_tools(session)
+      tool_invoker = create_haystack_tool_invoker(session)
 
-          pipeline = Pipeline()
-          pipeline.add_component("generator", OpenAIChatGenerator(tools=tools))
-          pipeline.add_component("tool_invoker", tool_invoker)
-          pipeline.connect("generator.replies", "tool_invoker.messages")
+      pipeline = Pipeline()
+      pipeline.add_component("generator", OpenAIChatGenerator(tools=tools))
+      pipeline.add_component("tool_invoker", tool_invoker)
+      pipeline.connect("generator.replies", "tool_invoker.messages")
       ```
   """
   try:

@@ -4,7 +4,7 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
-class ProviderDeploymentsAuthConfigsImportsCreateOutputAuthConfigDeployment:
+class ProviderDeploymentsAuthConfigsImportsCreateOutputAuthConfigDeploymentPreview:
     object: str
     id: str
     is_default: bool
@@ -73,7 +73,7 @@ class ProviderDeploymentsAuthConfigsImportsCreateOutputAuthConfig:
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
-    deployment: Optional[ProviderDeploymentsAuthConfigsImportsCreateOutputAuthConfigDeployment] = None
+    deployment_preview: Optional[ProviderDeploymentsAuthConfigsImportsCreateOutputAuthConfigDeploymentPreview] = None
     credentials: Optional[ProviderDeploymentsAuthConfigsImportsCreateOutputAuthConfigCredentials] = None
 @dataclass
 class ProviderDeploymentsAuthConfigsImportsCreateOutput:
@@ -92,10 +92,10 @@ class ProviderDeploymentsAuthConfigsImportsCreateOutput:
     expires_at: Optional[datetime] = None
 
 
-class mapProviderDeploymentsAuthConfigsImportsCreateOutputAuthConfigDeployment:
+class mapProviderDeploymentsAuthConfigsImportsCreateOutputAuthConfigDeploymentPreview:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsAuthConfigsImportsCreateOutputAuthConfigDeployment:
-        return ProviderDeploymentsAuthConfigsImportsCreateOutputAuthConfigDeployment(
+    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsAuthConfigsImportsCreateOutputAuthConfigDeploymentPreview:
+        return ProviderDeploymentsAuthConfigsImportsCreateOutputAuthConfigDeploymentPreview(
         object=data.get('object'),
         id=data.get('id'),
         is_default=data.get('is_default'),
@@ -108,7 +108,7 @@ class mapProviderDeploymentsAuthConfigsImportsCreateOutputAuthConfigDeployment:
         )
 
     @staticmethod
-    def to_dict(value: Union[ProviderDeploymentsAuthConfigsImportsCreateOutputAuthConfigDeployment, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[ProviderDeploymentsAuthConfigsImportsCreateOutputAuthConfigDeploymentPreview, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -233,7 +233,7 @@ class mapProviderDeploymentsAuthConfigsImportsCreateOutputAuthConfig:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
-        deployment=mapProviderDeploymentsAuthConfigsImportsCreateOutputAuthConfigDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
+        deployment_preview=mapProviderDeploymentsAuthConfigsImportsCreateOutputAuthConfigDeploymentPreview.from_dict(data.get('deployment_preview')) if data.get('deployment_preview') else None,
         credentials=mapProviderDeploymentsAuthConfigsImportsCreateOutputAuthConfigCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,
         auth_method=mapProviderDeploymentsAuthConfigsImportsCreateOutputAuthConfigAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,

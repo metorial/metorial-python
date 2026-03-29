@@ -7,10 +7,6 @@ The official Python SDK for Metorial - The open source integration platform for 
 # Configure SDK logging to be quiet by default
 import logging as _logging
 
-# SDK Builder and endpoint groups
-from ._base import OAuthWithWaitForCompletion
-
-# Core client classes
 from ._client import Metorial, ProviderSession
 
 # Configuration
@@ -33,22 +29,13 @@ from ._magnetar_sdk import (
 
 # Raw response wrapper
 from ._raw_response import RawResponse
-from ._sdk import (
-  SDK,
-  ProviderOauthGroup,
-  RunsGroup,
-  SDKConfig,
-  ServersGroup,
-  SessionsGroup,
-  create_metorial_sdk,
-)
+from ._sdk import SDKConfig
 
 # Session management
 from ._session import MetorialSession, SessionFactory
 
 # Streaming types
 from ._streaming import StreamEvent, StreamEventType
-from ._sync_client import MetorialSync
 from ._tool_adapters import (
   MetorialTool,
   OpenAITool,
@@ -62,13 +49,7 @@ from ._tool_adapters import (
 from ._tool_manager import CacheInfo, ToolManager
 
 # Types
-from ._types import (
-  DictAttributeAccess,
-  MetorialClient,
-  OAuthSession,
-  ServerDeployment,
-  ServerDeployments,
-)
+from ._types import DictAttributeAccess, MetorialClient
 from ._version import __version__
 
 # Adapters
@@ -86,6 +67,24 @@ from .adapters import (
   XAIAdapter,
   create_provider_adapter,
   infer_provider_type,
+)
+from .connectors import (
+  ConnectedSession,
+  MetorialAdapter,
+  create_mcp_sdk,
+  metorial_anthropic,
+  metorial_deepseek,
+  metorial_google,
+  metorial_haystack,
+  metorial_langchain,
+  metorial_langgraph,
+  metorial_mistral,
+  metorial_openai,
+  metorial_openai_agents,
+  metorial_openai_compatible,
+  metorial_pydantic_ai,
+  metorial_togetherai,
+  metorial_xai,
 )
 
 # Exceptions
@@ -114,8 +113,6 @@ from .mcp import (
   MagnetarMcpSessionInit,
   MetorialMagnetarMcpSession,
   MetorialMcpClient,
-  MetorialMcpSession,
-  MetorialMcpSessionInit,
   MetorialMcpTool,
   MetorialMcpToolManager,
 )
@@ -140,11 +137,8 @@ def _configure_sdk_logging() -> None:
   _noisy_loggers = [
     "metorial._base",
     "metorial._client",
-    "metorial._sync_client",
-    "metorial.mcp.mcp_session",
     "metorial.mcp.client",
     "mcp.client.sse",
-    "aiohttp_sse_client",
     "httpx",
     "httpcore",
     "anyio",
@@ -163,7 +157,6 @@ __all__ = [
   "__version__",
   # Core clients
   "Metorial",
-  "MetorialSync",
   "ProviderSession",
   # Configuration
   "MetorialConfig",
@@ -208,10 +201,24 @@ __all__ = [
   "StreamEventType",
   # Types
   "DictAttributeAccess",
-  "ServerDeployment",
-  "OAuthSession",
-  "ServerDeployments",
   "MetorialClient",
+  # connect() adapters
+  "ConnectedSession",
+  "MetorialAdapter",
+  "create_mcp_sdk",
+  "metorial_openai",
+  "metorial_openai_compatible",
+  "metorial_anthropic",
+  "metorial_google",
+  "metorial_mistral",
+  "metorial_deepseek",
+  "metorial_togetherai",
+  "metorial_xai",
+  "metorial_pydantic_ai",
+  "metorial_langchain",
+  "metorial_langgraph",
+  "metorial_openai_agents",
+  "metorial_haystack",
   # Adapters
   "ProviderAdapter",
   "ChatMessage",
@@ -226,16 +233,8 @@ __all__ = [
   "OpenAICompatibleAdapter",
   "infer_provider_type",
   "create_provider_adapter",
-  # SDK
-  "SDK",
-  "SDKConfig",
-  "create_metorial_sdk",
-  "ServersGroup",
-  "SessionsGroup",
-  "ProviderOauthGroup",
-  "RunsGroup",
-  "OAuthWithWaitForCompletion",
   # Magnetar SDK
+  "SDKConfig",
   "MagnetarSDK",
   "MagnetarProvidersGroup",
   "MagnetarProviderDeploymentsGroup",
@@ -244,8 +243,6 @@ __all__ = [
   "MagnetarCustomProvidersGroup",
   "create_magnetar_sdk",
   # MCP
-  "MetorialMcpSession",
-  "MetorialMcpSessionInit",
   "MetorialMagnetarMcpSession",
   "MagnetarMcpSessionInit",
   "MetorialMcpToolManager",

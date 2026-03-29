@@ -4,7 +4,7 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
-class ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputDeployment:
+class ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputDeploymentPreview:
     object: str
     id: str
     is_default: bool
@@ -73,14 +73,14 @@ class ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutput:
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
-    deployment: Optional[ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputDeployment] = None
+    deployment_preview: Optional[ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputDeploymentPreview] = None
     credentials: Optional[ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputCredentials] = None
 
 
-class mapManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputDeployment:
+class mapManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputDeploymentPreview:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputDeployment:
-        return ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputDeployment(
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputDeploymentPreview:
+        return ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputDeploymentPreview(
         object=data.get('object'),
         id=data.get('id'),
         is_default=data.get('is_default'),
@@ -93,7 +93,7 @@ class mapManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputDeployment:
         )
 
     @staticmethod
-    def to_dict(value: Union[ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputDeployment, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputDeploymentPreview, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -218,7 +218,7 @@ class mapManagementInstanceProviderDeploymentsAuthConfigsDeleteOutput:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
-        deployment=mapManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
+        deployment_preview=mapManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputDeploymentPreview.from_dict(data.get('deployment_preview')) if data.get('deployment_preview') else None,
         credentials=mapManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,
         auth_method=mapManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,

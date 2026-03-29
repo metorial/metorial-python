@@ -3,22 +3,17 @@ LangChain integration for Metorial tools.
 
 Example:
     from langchain_anthropic import ChatAnthropic
-    from langchain.agents import create_tool_calling_agent, AgentExecutor
-    from metorial import Metorial
-    from metorial.integrations.langchain import create_langchain_tools
+    from langchain.agents import create_react_agent
+    from metorial import Metorial, metorial_langchain
 
     metorial = Metorial(api_key="...")
 
-    async with metorial.provider_session(
-        provider="anthropic",
-        server_deployments=["deployment-id"],
-    ) as session:
-        tools = create_langchain_tools(session)
-
-        agent = create_tool_calling_agent(ChatAnthropic(), tools, prompt)
-        executor = AgentExecutor(agent=agent, tools=tools)
-
-        result = await executor.ainvoke({"input": "Search for news"})
+    session = await metorial.connect(
+        adapter=metorial_langchain(),
+        providers=[{"provider_deployment_id": "deployment-id"}],
+    )
+    agent = create_react_agent(ChatAnthropic(), session.tools())
+    result = await agent.ainvoke({"messages": [("user", "Search for news")]})
 """
 
 from __future__ import annotations

@@ -39,7 +39,6 @@ For popular agent frameworks, we provide helper functions that convert tools to 
 | LangChain     | `from metorial.integrations.langchain import create_langchain_tools`        | [example](./examples/langchain/example.py)       |
 | LangGraph     | `from metorial.integrations.langgraph import create_langgraph_tools`        | [example](./examples/langgraph/example.py)       |
 | OpenAI Agents | `from metorial.integrations.openai_agents import create_openai_agent_tools` | [example](./examples/openai-agents/example.py)   |
-| LlamaIndex    | `from metorial.integrations.llamaindex import create_llamaindex_tools`      | [example](./examples/llamaindex/example.py)      |
 | Haystack      | `from metorial.integrations.haystack import create_haystack_tools`          | [example](./examples/haystack/example.py)        |
 
 ## Quick Start
@@ -57,8 +56,7 @@ pip install metorial pydantic-ai python-dotenv
 import asyncio
 import os
 
-from metorial import Metorial
-from metorial.integrations.pydantic_ai import create_pydantic_ai_tools
+from metorial import Metorial, metorial_pydantic_ai
 from pydantic_ai import Agent
 
 metorial = Metorial(api_key=os.environ["METORIAL_API_KEY"])
@@ -69,25 +67,23 @@ async def main():
         provider_id="metorial-search",
     )
 
-    async with metorial.provider_session(
-        provider="anthropic",
+    session = await metorial.connect(
+        adapter=metorial_pydantic_ai(),
         providers=[
             {"provider_deployment_id": deployment.id},
         ],
-    ) as session:
-        tools = create_pydantic_ai_tools(session)
+    )
+    agent = Agent(
+        "anthropic:claude-sonnet-4-20250514",
+        system_prompt="You are a helpful research assistant.",
+        tools=session.tools(),
+    )
 
-        agent = Agent(
-            "anthropic:claude-sonnet-4-20250514",
-            system_prompt="You are a helpful research assistant.",
-            tools=tools,
-        )
-
-        result = await agent.run(
-            "Search the web for the latest news about AI agents and summarize the top 3 stories."
-        )
-        output = getattr(result, "data", None) or getattr(result, "output", str(result))
-        print(output)
+    result = await agent.run(
+        "Search the web for the latest news about AI agents and summarize the top 3 stories."
+    )
+    output = getattr(result, "data", None) or getattr(result, "output", str(result))
+    print(output)
 
 asyncio.run(main())
 ```
@@ -148,7 +144,7 @@ For services like Slack or GitHub where each end-user authenticates individually
 
 ```python
 import os
-from metorial import Metorial
+from metorial import Metorial, metorial_pydantic_ai
 
 metorial = Metorial(api_key=os.environ["METORIAL_API_KEY"])
 
@@ -165,18 +161,18 @@ print(f"Authenticate here: {setup_session.url}")
 # 3. Wait for the user to complete OAuth
 completed = await metorial.wait_for_setup_session([setup_session])
 
-# 4. Use the auth config in a session
-async with metorial.provider_session(
-    provider="anthropic",
+# 4. Use the auth config in a connected session
+session = await metorial.connect(
+    adapter=metorial_pydantic_ai(),
     providers=[
         {
             "provider_deployment_id": "your-slack-deployment-id",
             "provider_auth_config_id": completed[0].auth_config.id,
         }
     ],
-) as session:
-    tools = session.tools
-    # Use tools...
+)
+tools = session.tools()
+# Use tools...
 ```
 
 ### Multiple Providers in One Session
@@ -211,15 +207,17 @@ providers=[
 Pre-configure provider combinations on the [dashboard](https://platform.metorial.com), then reference them by ID. This is useful when you want to manage which providers and auth configs are used without changing code:
 
 ```python
+from metorial import metorial_pydantic_ai
+
 # Reference a session template by ID
-async with metorial.provider_session(
-    provider="anthropic",
+session = await metorial.connect(
+    adapter=metorial_pydantic_ai(),
     providers=[
         {"session_template_id": "your-template-id"},
     ],
-) as session:
-    tools = session.tools
-    # All providers from the template are available
+)
+tools = session.tools()
+# All providers from the template are available
 
 # You can also mix session templates with explicit provider deployments
 # in the same providers list
@@ -228,10 +226,13 @@ deployment = metorial.provider_deployments.create(
     provider_id="metorial-search",
 )
 
-providers=[
-    {"session_template_id": "your-template-id"},
-    {"provider_deployment_id": deployment.id},
-]
+session = await metorial.connect(
+    adapter=metorial_pydantic_ai(),
+    providers=[
+        {"session_template_id": "your-template-id"},
+        {"provider_deployment_id": deployment.id},
+    ],
+)
 ```
 
 ### Enterprise: Bring Your Own (BYO) Credentials
@@ -257,8 +258,8 @@ credentials = await metorial.provider_deployments.auth_credentials.create(
 
 ## Session Options
 
-- **Closing sessions**: Sessions are automatically closed when the `async with` block exits. You can also call `await session.close()` explicitly.
-- **Direct sessions**: Use `metorial.provider_session(provider="anthropic", ...)` for provider-formatted tools, or access the raw MCP session directly.
+- **Recommended entry point**: Use `metorial.connect(adapter=..., providers=[...])` for new code. It matches the Node SDK and does not require manual close calls.
+- **Compatibility wrapper**: `provider_session(...)` still exists when you want the older provider-specific session helpers inside an `async with`, but it is now just a thin wrapper over the same adapter/session resolution path used by `connect()`.
 - **Multiple providers**: Pass multiple entries in the `providers` list to combine tools from different MCP servers.
 
 ## Examples
@@ -271,12 +272,11 @@ Check out the `examples/` directory for complete working examples:
 | [`langchain`](examples/langchain/) | LangChain + Anthropic | LangChain agent with react pattern |
 | [`langgraph`](examples/langgraph/) | LangGraph + Anthropic | LangGraph streaming agent |
 | [`openai-agents`](examples/openai-agents/) | OpenAI Agents SDK | OpenAI Agents with tool calls |
-| [`llamaindex`](examples/llamaindex/) | LlamaIndex + Anthropic | LlamaIndex tool integration |
 | [`haystack`](examples/haystack/) | Haystack + OpenAI | Haystack pipeline with tools |
 
 ## Provider Examples
 
-All provider integrations follow the same `provider_session` pattern. Below are abbreviated examples — they assume `metorial` is already initialized and use Metorial Search.
+These examples use `connect()` directly when you want provider-native tool formats rather than a framework adapter.
 
 <details open>
 <summary><strong>OpenAI</strong></summary>
@@ -284,7 +284,7 @@ All provider integrations follow the same `provider_session` pattern. Below are 
 ```python
 import os
 from openai import AsyncOpenAI
-from metorial import Metorial
+from metorial import Metorial, metorial_openai
 
 metorial = Metorial(api_key=os.environ["METORIAL_API_KEY"])
 openai = AsyncOpenAI(api_key=os.environ["OPENAI_API_KEY"])
@@ -294,21 +294,21 @@ deployment = metorial.provider_deployments.create(
     provider_id="metorial-search",
 )
 
-async with metorial.provider_session(
-    provider="openai",
+session = await metorial.connect(
+    adapter=metorial_openai(),
     providers=[{"provider_deployment_id": deployment.id}],
-) as session:
-    messages = [{"role": "user", "content": "Search the web for the latest news about AI agents."}]
+)
+messages = [{"role": "user", "content": "Search the web for the latest news about AI agents."}]
 
-    response = await openai.chat.completions.create(
-        model="gpt-4o",
-        messages=messages,
-        tools=session.tools,
-    )
+response = await openai.chat.completions.create(
+    model="gpt-4o",
+    messages=messages,
+    tools=session.tools(),
+)
 
-    if response.choices[0].message.tool_calls:
-        results = await session.call_tools(response.choices[0].message.tool_calls)
-        # Add results to messages and continue conversation...
+if response.choices[0].message.tool_calls:
+    results = await session.call_tools(response.choices[0].message.tool_calls)
+    # Add results to messages and continue conversation...
 ```
 
 </details>
@@ -319,7 +319,7 @@ async with metorial.provider_session(
 ```python
 import os
 from anthropic import AsyncAnthropic
-from metorial import Metorial
+from metorial import Metorial, metorial_anthropic
 
 metorial = Metorial(api_key=os.environ["METORIAL_API_KEY"])
 anthropic = AsyncAnthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
@@ -329,21 +329,21 @@ deployment = metorial.provider_deployments.create(
     provider_id="metorial-search",
 )
 
-async with metorial.provider_session(
-    provider="anthropic",
+session = await metorial.connect(
+    adapter=metorial_anthropic(),
     providers=[{"provider_deployment_id": deployment.id}],
-) as session:
-    response = await anthropic.messages.create(
-        model="claude-sonnet-4-20250514",
-        max_tokens=1024,
-        tools=session.tools,
-        messages=[{"role": "user", "content": "Search the web for the latest news about AI agents."}],
-    )
+)
+response = await anthropic.messages.create(
+    model="claude-sonnet-4-20250514",
+    max_tokens=1024,
+    tools=session.tools(),
+    messages=[{"role": "user", "content": "Search the web for the latest news about AI agents."}],
+)
 
-    if response.stop_reason == "tool_use":
-        tool_calls = [b for b in response.content if b.type == "tool_use"]
-        results = await session.call_tools(tool_calls)
-        # Add results to messages and continue conversation...
+if response.stop_reason == "tool_use":
+    tool_calls = [b for b in response.content if b.type == "tool_use"]
+    results = await session.call_tools(tool_calls)
+    # Add results to messages and continue conversation...
 ```
 
 </details>
@@ -354,7 +354,7 @@ async with metorial.provider_session(
 ```python
 import os
 import google.generativeai as genai
-from metorial import Metorial
+from metorial import Metorial, metorial_google
 
 metorial = Metorial(api_key=os.environ["METORIAL_API_KEY"])
 genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
@@ -364,18 +364,18 @@ deployment = metorial.provider_deployments.create(
     provider_id="metorial-search",
 )
 
-async with metorial.provider_session(
-    provider="google",
+session = await metorial.connect(
+    adapter=metorial_google(),
     providers=[{"provider_deployment_id": deployment.id}],
-) as session:
-    model = genai.GenerativeModel("gemini-2.5-pro", tools=session.tools)
-    chat = model.start_chat()
-    response = chat.send_message("Search the web for the latest news about AI agents.")
+)
+model = genai.GenerativeModel("gemini-2.5-pro", tools=session.tools())
+chat = model.start_chat()
+response = chat.send_message("Search the web for the latest news about AI agents.")
 
-    for part in response.parts:
-        if fn := part.function_call:
-            result = await session.call_tool(fn.name, dict(fn.args))
-            # Continue conversation with result...
+for part in response.parts:
+    if fn := part.function_call:
+        result = await session.call_tool(fn.name, dict(fn.args))
+        # Continue conversation with result...
 ```
 
 </details>
@@ -386,7 +386,7 @@ async with metorial.provider_session(
 ```python
 import os
 from mistralai import Mistral
-from metorial import Metorial
+from metorial import Metorial, metorial_mistral
 
 metorial = Metorial(api_key=os.environ["METORIAL_API_KEY"])
 mistral = Mistral(api_key=os.environ["MISTRAL_API_KEY"])
@@ -396,35 +396,35 @@ deployment = metorial.provider_deployments.create(
     provider_id="metorial-search",
 )
 
-async with metorial.provider_session(
-    provider="mistral",
+session = await metorial.connect(
+    adapter=metorial_mistral(),
     providers=[{"provider_deployment_id": deployment.id}],
-) as session:
-    response = await mistral.chat.complete_async(
-        model="mistral-large-latest",
-        tools=session.tools,
-        messages=[{"role": "user", "content": "Search the web for the latest news about AI agents."}],
-    )
+)
+response = await mistral.chat.complete_async(
+    model="mistral-large-latest",
+    tools=session.tools(),
+    messages=[{"role": "user", "content": "Search the web for the latest news about AI agents."}],
+)
 
-    if response.choices[0].message.tool_calls:
-        results = await session.call_tools(response.choices[0].message.tool_calls)
-        # Add results to messages and continue conversation...
+if response.choices[0].message.tool_calls:
+    results = await session.call_tools(response.choices[0].message.tool_calls)
+    # Add results to messages and continue conversation...
 ```
 
 </details>
 
 <details>
-<summary><strong>DeepSeek (OpenAI-compatible)</strong></summary>
+<summary><strong>OpenAI-compatible Models (DeepSeek, Together, xAI)</strong></summary>
 
 ```python
 import os
 from openai import AsyncOpenAI
-from metorial import Metorial
+from metorial import Metorial, metorial_openai_compatible
 
 metorial = Metorial(api_key=os.environ["METORIAL_API_KEY"])
-deepseek = AsyncOpenAI(
-    api_key=os.environ["DEEPSEEK_API_KEY"],
-    base_url="https://api.deepseek.com/v1",
+xai_compatible = AsyncOpenAI(
+    api_key=os.environ["OPENAI_COMPATIBLE_API_KEY"],
+    base_url="https://your-openai-compatible-endpoint/v1",
 )
 
 deployment = metorial.provider_deployments.create(
@@ -432,91 +432,19 @@ deployment = metorial.provider_deployments.create(
     provider_id="metorial-search",
 )
 
-async with metorial.provider_session(
-    provider="openai",
+session = await metorial.connect(
+    adapter=metorial_openai_compatible(),
     providers=[{"provider_deployment_id": deployment.id}],
-) as session:
-    response = await deepseek.chat.completions.create(
-        model="deepseek-chat",
-        tools=session.tools,
-        messages=[{"role": "user", "content": "Search the web for the latest news about AI agents."}],
-    )
-
-    if response.choices[0].message.tool_calls:
-        results = await session.call_tools(response.choices[0].message.tool_calls)
-        # Add results to messages and continue conversation...
-```
-
-</details>
-
-<details>
-<summary><strong>Together AI (OpenAI-compatible)</strong></summary>
-
-```python
-import os
-from openai import AsyncOpenAI
-from metorial import Metorial
-
-metorial = Metorial(api_key=os.environ["METORIAL_API_KEY"])
-together = AsyncOpenAI(
-    api_key=os.environ["TOGETHER_API_KEY"],
-    base_url="https://api.together.xyz/v1",
+)
+response = await xai_compatible.chat.completions.create(
+    model="your-model-name",
+    tools=session.tools(),
+    messages=[{"role": "user", "content": "Search the web for the latest news about AI agents."}],
 )
 
-deployment = metorial.provider_deployments.create(
-    name="Metorial Search",
-    provider_id="metorial-search",
-)
-
-async with metorial.provider_session(
-    provider="openai",
-    providers=[{"provider_deployment_id": deployment.id}],
-) as session:
-    response = await together.chat.completions.create(
-        model="meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8",
-        tools=session.tools,
-        messages=[{"role": "user", "content": "Search the web for the latest news about AI agents."}],
-    )
-
-    if response.choices[0].message.tool_calls:
-        results = await session.call_tools(response.choices[0].message.tool_calls)
-        # Add results to messages and continue conversation...
-```
-
-</details>
-
-<details>
-<summary><strong>xAI (OpenAI-compatible)</strong></summary>
-
-```python
-import os
-from openai import AsyncOpenAI
-from metorial import Metorial
-
-metorial = Metorial(api_key=os.environ["METORIAL_API_KEY"])
-xai = AsyncOpenAI(
-    api_key=os.environ["XAI_API_KEY"],
-    base_url="https://api.x.ai/v1",
-)
-
-deployment = metorial.provider_deployments.create(
-    name="Metorial Search",
-    provider_id="metorial-search",
-)
-
-async with metorial.provider_session(
-    provider="openai",
-    providers=[{"provider_deployment_id": deployment.id}],
-) as session:
-    response = await xai.chat.completions.create(
-        model="grok-3",
-        tools=session.tools,
-        messages=[{"role": "user", "content": "Search the web for the latest news about AI agents."}],
-    )
-
-    if response.choices[0].message.tool_calls:
-        results = await session.call_tools(response.choices[0].message.tool_calls)
-        # Add results to messages and continue conversation...
+if response.choices[0].message.tool_calls:
+    results = await session.call_tools(response.choices[0].message.tool_calls)
+    # Add results to messages and continue conversation...
 ```
 
 </details>
@@ -526,7 +454,7 @@ async with metorial.provider_session(
 ### LangChain / LangGraph
 
 ```python
-from metorial.integrations.langchain import create_langchain_tools
+from metorial import metorial_langchain
 from langchain_anthropic import ChatAnthropic
 from langgraph.prebuilt import create_react_agent
 
@@ -535,24 +463,23 @@ deployment = metorial.provider_deployments.create(
     provider_id="metorial-search",
 )
 
-async with metorial.provider_session(
-    provider="anthropic",
+session = await metorial.connect(
+    adapter=metorial_langchain(),
     providers=[{"provider_deployment_id": deployment.id}],
-) as session:
-    tools = create_langchain_tools(session)
-    llm = ChatAnthropic(model="claude-sonnet-4-20250514")
-    agent = create_react_agent(llm, tools)
+)
+llm = ChatAnthropic(model="claude-sonnet-4-20250514")
+agent = create_react_agent(llm, session.tools())
 
-    result = await agent.ainvoke(
-        {"messages": [("user", "Search the web for the latest news about AI agents and summarize the top 3 stories.")]}
-    )
-    print(result["messages"][-1].content)
+result = await agent.ainvoke(
+    {"messages": [("user", "Search the web for the latest news about AI agents and summarize the top 3 stories.")]}
+)
+print(result["messages"][-1].content)
 ```
 
 ### PydanticAI
 
 ```python
-from metorial.integrations.pydantic_ai import create_pydantic_ai_tools
+from metorial import metorial_pydantic_ai
 from pydantic_ai import Agent
 
 deployment = metorial.provider_deployments.create(
@@ -560,30 +487,15 @@ deployment = metorial.provider_deployments.create(
     provider_id="metorial-search",
 )
 
-async with metorial.provider_session(
-    provider="anthropic",
+session = await metorial.connect(
+    adapter=metorial_pydantic_ai(),
     providers=[{"provider_deployment_id": deployment.id}],
-) as session:
-    tools = create_pydantic_ai_tools(session)
-    agent = Agent("anthropic:claude-sonnet-4-20250514", tools=tools)
+)
+agent = Agent("anthropic:claude-sonnet-4-20250514", tools=session.tools())
 
-    result = await agent.run("Search the web for the latest news about AI agents and summarize the top 3 stories.")
-    print(result.output)
+result = await agent.run("Search the web for the latest news about AI agents and summarize the top 3 stories.")
+print(result.output)
 ```
-
-<details>
-<summary><strong>Migrating from v1</strong></summary>
-
-| v1 (Legacy)                             | v2                                                                  |
-| --------------------------------------- | ------------------------------------------------------------------- |
-| `server_deployments` list               | `providers` list                                                    |
-| `server_deployment_id`                  | `provider_deployment_id`                                            |
-| `oauth_session_id`                      | `provider_auth_config_id`                                           |
-| `metorial.v1.provider_session()`        | `metorial.provider_session()`                                       |
-
-The v1 API is still accessible via `metorial.v1.*`.
-
-</details>
 
 ## Error Handling
 
@@ -594,16 +506,17 @@ from metorial import (
     NotFoundError,
     RateLimitError,
     OAuthRequiredError,
+    metorial_openai,
 )
 
 metorial = Metorial()
 
 try:
-    async with metorial.provider_session(
-        provider="openai",
+    session = await metorial.connect(
+        adapter=metorial_openai(),
         providers=[{"provider_deployment_id": "your-deployment-id"}],
-    ) as session:
-        tools = session.tools
+    )
+    tools = session.tools()
 except AuthenticationError:
     print("Check your METORIAL_API_KEY")
 except NotFoundError:

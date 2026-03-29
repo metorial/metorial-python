@@ -5,6 +5,34 @@ All notable changes to the Metorial Python SDK will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.0] - 2026-03-29
+
+This release contains breaking API and packaging changes.
+
+### Added
+
+- Added the adapter-first `metorial.connect(...)` flow, including typed `ConnectedSession` helpers and first-party adapter factories.
+- Added PEP 561 package metadata so installed wheels and sdists ship `py.typed` for downstream IDE and type-checker inference.
+- Added targeted transport and connect-path coverage for the new Magnetar-only MCP lifecycle.
+
+### Changed
+
+- Changed `provider_session(...)` to resolve through `connect()` so the compatibility path matches the Node SDK behavior.
+- Changed connected-session lifecycle behavior so public `close()` calls are a no-op while the underlying transport is managed internally.
+- Regenerated the packaged API surface against the current enterprise generator output.
+
+### Removed
+
+- Removed deprecated `with_provider_session()` usage from the public recommended flow in favor of `connect()`.
+- Removed legacy Pulsar support and made the SDK Magnetar-only.
+- Removed the synchronous client surface and related helpers, wrappers, exports, and tests.
+- Removed public LlamaIndex support, examples, and smoke-test wiring.
+
+### Fixed
+
+- Fixed downstream typing support for installed consumers by explicitly shipping the typed package marker in build artifacts.
+- Fixed shutdown behavior around MCP transport ownership without requiring explicit session cleanup from consumers.
+
 ## [1.0.0] - 2025-07-12
 
 ### Added

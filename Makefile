@@ -48,7 +48,11 @@ clean:
 # Lint code with Ruff
 lint:
 	@echo "Running code linting with Ruff..."
-	uv run ruff check src/metorial/ examples/ tests/ --fix
+	@if [ -d tests ]; then \
+		uv run ruff check src/metorial/ examples/ tests/ --fix; \
+	else \
+		uv run ruff check src/metorial/ examples/ --fix; \
+	fi
 
 # Format code
 format:
@@ -68,7 +72,11 @@ type-check:
 # Run tests
 test:
 	@echo "Running tests..."
-	uv run pytest tests/ -q
+	@if [ -d tests ]; then \
+		uv run pytest -q; \
+	else \
+		echo "No tests directory present; skipping pytest."; \
+	fi
 
 # Full CI pipeline
 ci: lint format-check type-check test

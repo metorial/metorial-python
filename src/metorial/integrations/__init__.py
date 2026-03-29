@@ -6,7 +6,6 @@ Available integrations:
 - langgraph: LangGraph tool integration
 - openai_agents: OpenAI Agents SDK integration
 - pydantic_ai: PydanticAI tool integration
-- llamaindex: LlamaIndex tool integration
 - autogen: Microsoft Autogen integration
 - haystack: deepset Haystack integration
 """
@@ -45,7 +44,6 @@ __all__ = [
   "langgraph",
   "openai_agents",
   "pydantic_ai",
-  "llamaindex",
   "autogen",
   "haystack",
 ]

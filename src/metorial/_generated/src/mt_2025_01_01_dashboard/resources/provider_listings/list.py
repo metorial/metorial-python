@@ -385,7 +385,6 @@ class ProviderListingsListQuery:
     cursor: Optional[str] = None
     order: Optional[str] = None
     search: Optional[str] = None
-    id: Optional[Union[str, List[str]]] = None
     provider_category_id: Optional[Union[str, List[str]]] = None
     provider_collection_id: Optional[Union[str, List[str]]] = None
     provider_group_id: Optional[Union[str, List[str]]] = None
@@ -412,7 +411,6 @@ class mapProviderListingsListQuery:
         cursor=data.get('cursor'),
         order=data.get('order'),
         search=data.get('search'),
-        id=data.get('id'),
         provider_category_id=data.get('provider_category_id'),
         provider_collection_id=data.get('provider_collection_id'),
         provider_group_id=data.get('provider_group_id'),

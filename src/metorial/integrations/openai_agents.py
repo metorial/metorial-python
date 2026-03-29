@@ -3,24 +3,20 @@ OpenAI Agents SDK integration for Metorial tools.
 
 Example:
     from agents import Agent, Runner
-    from metorial import Metorial
-    from metorial.integrations.openai_agents import create_openai_agent_tools
+    from metorial import Metorial, metorial_openai_agents
 
     metorial = Metorial(api_key="...")
 
-    async with metorial.provider_session(
-        provider="openai",
-        server_deployments=["deployment-id"],
-    ) as session:
-        tools = create_openai_agent_tools(session)
-
-        agent = Agent(
-            name="Assistant",
-            instructions="You are a helpful assistant.",
-            tools=tools,
-        )
-
-        result = await Runner.run(agent, "Search for news")
+    session = await metorial.connect(
+        adapter=metorial_openai_agents(),
+        providers=[{"provider_deployment_id": "deployment-id"}],
+    )
+    agent = Agent(
+        name="Assistant",
+        instructions="You are a helpful assistant.",
+        tools=session.tools(),
+    )
+    result = await Runner.run(agent, "Search for news")
 """
 
 from __future__ import annotations
