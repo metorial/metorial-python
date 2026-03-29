@@ -4,16 +4,19 @@ import asyncio
 import contextlib
 import json
 import logging
-from datetime import timedelta
-from typing import Any
 
 import anyio
 import httpx
 from anyio.streams.memory import MemoryObjectReceiveStream, MemoryObjectSendStream
 from httpx_sse import EventSource
-
 from mcp.shared.message import SessionMessage
-from mcp.types import InitializeResult, JSONRPCError, JSONRPCMessage, JSONRPCRequest, JSONRPCResponse
+from mcp.types import (
+  InitializeResult,
+  JSONRPCError,
+  JSONRPCMessage,
+  JSONRPCRequest,
+  JSONRPCResponse,
+)
 
 logger = logging.getLogger("metorial.mcp.transport")
 
@@ -84,7 +87,9 @@ class MetorialMcpTransport:
     return headers
 
   def _is_initialize_request(self, message: JSONRPCMessage) -> bool:
-    return isinstance(message.root, JSONRPCRequest) and message.root.method == "initialize"
+    return (
+      isinstance(message.root, JSONRPCRequest) and message.root.method == "initialize"
+    )
 
   def _update_session_id(self, response: httpx.Response) -> None:
     session_id = response.headers.get(MCP_SESSION_ID)
