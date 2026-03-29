@@ -57,8 +57,7 @@ pip install metorial pydantic-ai python-dotenv
 import asyncio
 import os
 
-from metorial import Metorial
-from metorial.integrations.pydantic_ai import create_pydantic_ai_tools
+from metorial import Metorial, metorial_pydantic_ai
 from pydantic_ai import Agent
 
 metorial = Metorial(api_key=os.environ["METORIAL_API_KEY"])
@@ -69,18 +68,17 @@ async def main():
         provider_id="metorial-search",
     )
 
-    async with metorial.provider_session(
-        provider="anthropic",
+    session = await metorial.connect(
+        adapter=metorial_pydantic_ai(),
         providers=[
             {"provider_deployment_id": deployment.id},
         ],
-    ) as session:
-        tools = create_pydantic_ai_tools(session)
-
+    )
+    try:
         agent = Agent(
             "anthropic:claude-sonnet-4-20250514",
             system_prompt="You are a helpful research assistant.",
-            tools=tools,
+            tools=session.tools(),
         )
 
         result = await agent.run(
@@ -88,6 +86,8 @@ async def main():
         )
         output = getattr(result, "data", None) or getattr(result, "output", str(result))
         print(output)
+    finally:
+        await session.close()
 
 asyncio.run(main())
 ```
@@ -148,7 +148,7 @@ For services like Slack or GitHub where each end-user authenticates individually
 
 ```python
 import os
-from metorial import Metorial
+from metorial import Metorial, metorial_pydantic_ai
 
 metorial = Metorial(api_key=os.environ["METORIAL_API_KEY"])
 
@@ -165,18 +165,22 @@ print(f"Authenticate here: {setup_session.url}")
 # 3. Wait for the user to complete OAuth
 completed = await metorial.wait_for_setup_session([setup_session])
 
-# 4. Use the auth config in a session
-async with metorial.provider_session(
-    provider="anthropic",
+# 4. Use the auth config in a connected session
+session = await metorial.connect(
+    adapter=metorial_pydantic_ai(),
     providers=[
         {
             "provider_deployment_id": "your-slack-deployment-id",
             "provider_auth_config_id": completed[0].auth_config.id,
         }
     ],
-) as session:
-    tools = session.tools
+)
+
+try:
+    tools = session.tools()
     # Use tools...
+finally:
+    await session.close()
 ```
 
 ### Multiple Providers in One Session
@@ -257,8 +261,8 @@ credentials = await metorial.provider_deployments.auth_credentials.create(
 
 ## Session Options
 
-- **Closing sessions**: Sessions are automatically closed when the `async with` block exits. You can also call `await session.close()` explicitly.
-- **Direct sessions**: Use `metorial.provider_session(provider="anthropic", ...)` for provider-formatted tools, or access the raw MCP session directly.
+- **Closing sessions**: `provider_session()` cleans up automatically with `async with`. `connect()` returns a long-lived handle, so call `await session.close()` when you're done.
+- **Direct sessions**: Use `metorial.connect(adapter=..., providers=[...])` for adapter-formatted tools, `metorial.provider_session(provider="anthropic", ...)` for the older provider-specific session flow, or access the raw MCP session directly.
 - **Multiple providers**: Pass multiple entries in the `providers` list to combine tools from different MCP servers.
 
 ## Examples
@@ -276,7 +280,7 @@ Check out the `examples/` directory for complete working examples:
 
 ## Provider Examples
 
-All provider integrations follow the same `provider_session` pattern. Below are abbreviated examples — they assume `metorial` is already initialized and use Metorial Search.
+All provider integrations follow the same `connect()` shape. Below are abbreviated examples — they assume `metorial` is already initialized and use Metorial Search.
 
 <details open>
 <summary><strong>OpenAI</strong></summary>
@@ -526,7 +530,7 @@ async with metorial.provider_session(
 ### LangChain / LangGraph
 
 ```python
-from metorial.integrations.langchain import create_langchain_tools
+from metorial import metorial_langchain
 from langchain_anthropic import ChatAnthropic
 from langgraph.prebuilt import create_react_agent
 
@@ -535,24 +539,26 @@ deployment = metorial.provider_deployments.create(
     provider_id="metorial-search",
 )
 
-async with metorial.provider_session(
-    provider="anthropic",
+session = await metorial.connect(
+    adapter=metorial_langchain(),
     providers=[{"provider_deployment_id": deployment.id}],
-) as session:
-    tools = create_langchain_tools(session)
+)
+try:
     llm = ChatAnthropic(model="claude-sonnet-4-20250514")
-    agent = create_react_agent(llm, tools)
+    agent = create_react_agent(llm, session.tools())
 
     result = await agent.ainvoke(
         {"messages": [("user", "Search the web for the latest news about AI agents and summarize the top 3 stories.")]}
     )
     print(result["messages"][-1].content)
+finally:
+    await session.close()
 ```
 
 ### PydanticAI
 
 ```python
-from metorial.integrations.pydantic_ai import create_pydantic_ai_tools
+from metorial import metorial_pydantic_ai
 from pydantic_ai import Agent
 
 deployment = metorial.provider_deployments.create(
@@ -560,15 +566,17 @@ deployment = metorial.provider_deployments.create(
     provider_id="metorial-search",
 )
 
-async with metorial.provider_session(
-    provider="anthropic",
+session = await metorial.connect(
+    adapter=metorial_pydantic_ai(),
     providers=[{"provider_deployment_id": deployment.id}],
-) as session:
-    tools = create_pydantic_ai_tools(session)
-    agent = Agent("anthropic:claude-sonnet-4-20250514", tools=tools)
+)
+try:
+    agent = Agent("anthropic:claude-sonnet-4-20250514", tools=session.tools())
 
     result = await agent.run("Search the web for the latest news about AI agents and summarize the top 3 stories.")
     print(result.output)
+finally:
+    await session.close()
 ```
 
 <details>

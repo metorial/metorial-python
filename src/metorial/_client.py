@@ -3,10 +3,11 @@ import contextlib
 from collections.abc import Awaitable, Callable
 from contextlib import AbstractContextManager
 from types import TracebackType
-from typing import TYPE_CHECKING, Any, Literal, cast
+from typing import TYPE_CHECKING, Any, Literal, TypeVar, cast
 
 from metorial._base import MetorialBase, _PulsarV1Namespace
 from metorial._client_core import ClientCoreMixin
+from metorial.connectors import MetorialAdapter
 from metorial._session import MetorialSession
 from metorial.exceptions import MetorialAPIError
 from metorial.mcp.mcp_session import MetorialCoreSDK
@@ -18,6 +19,7 @@ if TYPE_CHECKING:
 ProviderType = Literal[
   "anthropic", "openai", "google", "mistral", "deepseek", "xai", "togetherai"
 ]
+ConnectResult = TypeVar("ConnectResult")
 
 
 class ProviderSession:
@@ -266,6 +268,15 @@ class _MetorialPulsarV1(_PulsarV1Namespace):
 
 
 class Metorial(ClientCoreMixin, MetorialBase):
+  def _resolve_connect_adapter(
+    self,
+    adapter: MetorialAdapter[ConnectResult]
+    | Callable[[], MetorialAdapter[ConnectResult]],
+  ) -> MetorialAdapter[ConnectResult]:
+    if hasattr(adapter, "__resolve"):
+      return cast(MetorialAdapter[ConnectResult], adapter)
+    return adapter()
+
   def session(
     self,
     providers: list[str | dict[str, Any]] | None = None,
@@ -331,6 +342,22 @@ class Metorial(ClientCoreMixin, MetorialBase):
       provider,
       providers=providers,
     )
+
+  async def connect(
+    self,
+    *,
+    adapter: MetorialAdapter[ConnectResult]
+    | Callable[[], MetorialAdapter[ConnectResult]],
+    providers: list[str | dict[str, Any]] | None = None,
+    client: dict[str, str] | None = None,
+  ) -> ConnectResult:
+    resolved_adapter = self._resolve_connect_adapter(adapter)
+    init: dict[str, Any] = {"providers": providers or []}
+    if client is not None:
+      init["client"] = client
+    session = self.create_magnetar_mcp_session(init)
+    resolve = getattr(resolved_adapter, "__resolve")
+    return await resolve(session)
 
   async def wait_for_setup_session(
     self,

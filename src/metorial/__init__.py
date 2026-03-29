@@ -87,6 +87,25 @@ from .adapters import (
   create_provider_adapter,
   infer_provider_type,
 )
+from .connectors import (
+  ConnectedSession,
+  MetorialAdapter,
+  create_mcp_sdk,
+  metorial_anthropic,
+  metorial_deepseek,
+  metorial_google,
+  metorial_haystack,
+  metorial_langchain,
+  metorial_langgraph,
+  metorial_llamaindex,
+  metorial_mistral,
+  metorial_openai,
+  metorial_openai_agents,
+  metorial_openai_compatible,
+  metorial_pydantic_ai,
+  metorial_togetherai,
+  metorial_xai,
+)
 
 # Exceptions
 from .exceptions import (
@@ -212,6 +231,24 @@ __all__ = [
   "OAuthSession",
   "ServerDeployments",
   "MetorialClient",
+  # connect() adapters
+  "ConnectedSession",
+  "MetorialAdapter",
+  "create_mcp_sdk",
+  "metorial_openai",
+  "metorial_openai_compatible",
+  "metorial_anthropic",
+  "metorial_google",
+  "metorial_mistral",
+  "metorial_deepseek",
+  "metorial_togetherai",
+  "metorial_xai",
+  "metorial_pydantic_ai",
+  "metorial_langchain",
+  "metorial_langgraph",
+  "metorial_openai_agents",
+  "metorial_llamaindex",
+  "metorial_haystack",
   # Adapters
   "ProviderAdapter",
   "ChatMessage",

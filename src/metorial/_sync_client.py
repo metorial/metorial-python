@@ -7,12 +7,15 @@ from __future__ import annotations
 import asyncio
 from collections.abc import Callable
 from types import TracebackType
-from typing import Any
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from metorial._base import MetorialBase, _PulsarV1Namespace
 from metorial._client_core import ClientCoreMixin
+from metorial.connectors import MetorialAdapter
 from metorial._session import MetorialSession
 from metorial.exceptions import MetorialAPIError
+
+ConnectResult = TypeVar("ConnectResult")
 
 
 class SyncSessionWrapper:
@@ -71,6 +74,15 @@ class _SyncPulsarV1(_PulsarV1Namespace):
 class MetorialSync(ClientCoreMixin, MetorialBase):
   """Synchronous Metorial client with enhanced error handling"""
 
+  def _resolve_connect_adapter(
+    self,
+    adapter: MetorialAdapter[ConnectResult]
+    | Callable[[], MetorialAdapter[ConnectResult]],
+  ) -> MetorialAdapter[ConnectResult]:
+    if hasattr(adapter, "__resolve"):
+      return adapter
+    return adapter()
+
   def session(
     self,
     providers: list[str | dict[str, Any]] | None = None,
@@ -96,6 +108,22 @@ class MetorialSync(ClientCoreMixin, MetorialBase):
     else:
       init["providers"] = []
     return SyncSessionWrapper(self.create_magnetar_mcp_session(init))
+
+  def connect(
+    self,
+    *,
+    adapter: MetorialAdapter[ConnectResult]
+    | Callable[[], MetorialAdapter[ConnectResult]],
+    providers: list[str | dict[str, Any]] | None = None,
+    client: dict[str, str] | None = None,
+  ) -> ConnectResult:
+    resolved_adapter = self._resolve_connect_adapter(adapter)
+    init: dict[str, Any] = {"providers": providers or []}
+    if client is not None:
+      init["client"] = client
+    session = self.create_magnetar_mcp_session(init)
+    resolve = getattr(resolved_adapter, "__resolve")
+    return asyncio.run(resolve(session))
 
   def wait_for_setup_session(
     self,
