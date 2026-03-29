@@ -8,6 +8,7 @@ from dataclasses import dataclass
 from datetime import timedelta
 from typing import Any, TypedDict, TypeVar
 
+import mcp.types as mcp_types
 from mcp import ClientSession
 from mcp.types import (
   Implementation,
@@ -46,6 +47,18 @@ class ListRequestParams(TypedDict, total=False):
 T = TypeVar("T")
 
 logger = logging.getLogger("metorial.mcp.client")
+
+
+class MetorialClientSession(ClientSession):
+  """ClientSession variant that preserves raw MCP tool results."""
+
+  async def _validate_tool_result(
+    self, name: str, result: mcp_types.CallToolResult
+  ) -> None:
+    logger.debug(
+      "Skipping MCP outputSchema validation for tool result: %s", name
+    )
+    return None
 
 
 def _log_info(message: str, **kwargs: Any) -> None:
@@ -122,7 +135,7 @@ class MetorialMcpClient:
     read, write = await transport.open()
 
     client_info = Implementation(name=client_name, version=client_version)
-    session_cm = ClientSession(
+    session_cm = MetorialClientSession(
       read,
       write,
       client_info=client_info,
