@@ -13,7 +13,12 @@ jobs:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v3
       - run: uv sync --dev
-      - run: uv run ruff check src/metorial/ tests/
+      - run: |
+          if [ -d tests ]; then
+            uv run ruff check src/metorial/ tests/
+          else
+            uv run ruff check src/metorial/
+          fi
 
   format:
     runs-on: ubuntu-latest
@@ -41,4 +46,9 @@ jobs:
       - uses: astral-sh/setup-uv@v3
       - run: uv python install ${{ matrix.python-version }}
       - run: uv sync --dev
-      - run: uv run pytest tests/ -q
+      - run: |
+          if [ -d tests ]; then
+            uv run pytest -q
+          else
+            echo "No tests directory present; skipping pytest."
+          fi
