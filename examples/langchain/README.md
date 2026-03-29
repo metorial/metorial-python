@@ -18,8 +18,7 @@ python example.py
 
 ```python
 # Initialize the Metorial client
-from metorial import Metorial
-from metorial.integrations.langchain import create_langchain_tools
+from metorial import Metorial, metorial_langchain
 
 metorial = Metorial(api_key=os.getenv("METORIAL_API_KEY"))
 
@@ -29,30 +28,25 @@ deployment = metorial.provider_deployments.create(
     provider_id="metorial-search",
 )
 
-# Open a provider session
-async with metorial.provider_session(
-    provider="anthropic",
+# Connect and resolve LangChain tools directly
+session = await metorial.connect(
+    adapter=metorial_langchain(),
     providers=[
         {"provider_deployment_id": deployment.id},
     ],
-) as session:
-    # create_langchain_tools converts MCP tools into LangChain-compatible
-    # tool definitions
-    tools = create_langchain_tools(session)
+)
 
-    # Pass tools to a LangGraph ReAct agent, which handles the tool call
-    # loop automatically
-    llm = ChatAnthropic(model="claude-sonnet-4-20250514")
-    agent = create_react_agent(llm, tools)
+# Pass tools to a LangGraph ReAct agent, which handles the tool call
+# loop automatically
+llm = ChatAnthropic(model="claude-sonnet-4-20250514")
+agent = create_react_agent(llm, session.tools())
 
-    # The ReAct agent will call tools as needed — making search queries,
-    # reading results, and synthesizing a final answer
-    result = await agent.ainvoke(
-        {"messages": [("user", "Search the web for the latest news about AI agents and summarize the top 3 stories.")]}
-    )
-    print(result["messages"][-1].content)
-
-# The session is automatically closed when the async with block exits
+# The ReAct agent will call tools as needed — making search queries,
+# reading results, and synthesizing a final answer
+result = await agent.ainvoke(
+    {"messages": [("user", "Search the web for the latest news about AI agents and summarize the top 3 stories.")]}
+)
+print(result["messages"][-1].content)
 ```
 
 ## Adding OAuth providers

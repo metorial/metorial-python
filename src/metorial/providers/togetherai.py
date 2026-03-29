@@ -23,15 +23,7 @@ class MetorialTogetherAISession(MetorialOpenAICompatibleSession):
 
   @staticmethod
   async def chat_completions(session: SessionWithToolManagerProtocol) -> dict[str, Any]:
-    """Convenience provider for with_provider_session.
-
-    Example:
-      await metorial.with_provider_session(
-        MetorialTogetherAISession.chat_completions,
-        ["your-deployment-id"],
-        action
-      )
-    """
+    """Resolve TogetherAI-formatted tools from a session-like object."""
     tool_mgr = await session.get_tool_manager()
     provider_session = MetorialTogetherAISession(tool_mgr)
     return {"tools": provider_session.tools}
@@ -59,16 +51,7 @@ async def call_togetherai_tools(
 
 
 async def chat_completions(session: SessionWithToolManagerProtocol) -> dict[str, Any]:
-  """Module-level convenience provider to pass into with_provider_session.
-
-  Usage:
-    import metorial_togetherai as mtogetherai
-    await metorial.with_provider_session(
-      mtogetherai.chat_completions,
-      ["your-deployment-id"],
-      action
-    )
-  """
+  """Module-level helper that resolves TogetherAI-formatted tools from a session."""
   tool_mgr = await session.get_tool_manager()
   provider_session = MetorialTogetherAISession(tool_mgr)
   return {"tools": provider_session.tools}

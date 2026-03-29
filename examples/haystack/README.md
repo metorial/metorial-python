@@ -18,8 +18,7 @@ python example.py
 
 ```python
 # Initialize the Metorial client
-from metorial import Metorial
-from metorial.integrations.haystack import create_haystack_tools
+from metorial import Metorial, metorial_haystack
 
 metorial = Metorial(api_key=os.getenv("METORIAL_API_KEY"))
 
@@ -29,40 +28,35 @@ deployment = metorial.provider_deployments.create(
     provider_id="metorial-search",
 )
 
-# Open a provider session — note provider="openai" since Haystack uses
-# OpenAI's tool format here
-async with metorial.provider_session(
-    provider="openai",
+# Connect and resolve Haystack tools directly
+session = await metorial.connect(
+    adapter=metorial_haystack(),
     providers=[
         {"provider_deployment_id": deployment.id},
     ],
-) as session:
-    # create_haystack_tools converts MCP tools into Haystack-compatible
-    # tool definitions
-    tools = create_haystack_tools(session)
+)
 
-    # Tools are used by both the OpenAIChatGenerator (which tells the LLM
-    # about available tools) and the ToolInvoker (which executes tool calls)
-    generator = OpenAIChatGenerator(model="gpt-4o", tools=tools)
-    tool_invoker = ToolInvoker(tools=tools)
+# Tools are used by both the OpenAIChatGenerator (which tells the LLM
+# about available tools) and the ToolInvoker (which executes tool calls)
+tools = session.tools()
+generator = OpenAIChatGenerator(model="gpt-4o", tools=tools)
+tool_invoker = ToolInvoker(tools=tools)
 
-    # Build the pipeline — connect the generator's output to the tool
-    # invoker. When GPT-4o requests a tool call, Haystack routes it
-    # through the invoker which calls Metorial, and the results are
-    # returned.
-    pipeline = Pipeline()
-    pipeline.add_component("generator", generator)
-    pipeline.add_component("tool_invoker", tool_invoker)
-    pipeline.connect("generator.replies", "tool_invoker.messages")
+# Build the pipeline — connect the generator's output to the tool
+# invoker. When GPT-4o requests a tool call, Haystack routes it
+# through the invoker which calls Metorial, and the results are
+# returned.
+pipeline = Pipeline()
+pipeline.add_component("generator", generator)
+pipeline.add_component("tool_invoker", tool_invoker)
+pipeline.connect("generator.replies", "tool_invoker.messages")
 
-    # Run the pipeline
-    messages = [ChatMessage.from_user(
-        "Search the web for the latest news about AI agents and summarize the top 3 stories."
-    )]
-    result = pipeline.run({"generator": {"messages": messages}})
-    print(result["tool_invoker"]["tool_messages"])
-
-# The session is automatically closed when the async with block exits
+# Run the pipeline
+messages = [ChatMessage.from_user(
+    "Search the web for the latest news about AI agents and summarize the top 3 stories."
+)]
+result = pipeline.run({"generator": {"messages": messages}})
+print(result["tool_invoker"]["tool_messages"])
 ```
 
 ## Adding OAuth providers

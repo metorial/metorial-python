@@ -255,11 +255,11 @@ class MetorialAnthropicSession:
       self._initialized = True
 
   def __await__(self) -> Generator[Any, None, dict[str, Any]]:
-    """Make the session awaitable for use with with_provider_session."""
+    """Make the session awaitable for use with provider adapters."""
     return self._get_provider_data().__await__()
 
   async def _get_provider_data(self) -> dict[str, Any]:
-    """Get provider data dict for with_provider_session."""
+    """Get provider data dict for internal adapter resolution."""
     await self._init_from_session()
     return {
       "tools": self.tools,
@@ -272,31 +272,14 @@ class MetorialAnthropicSession:
 
   @staticmethod
   async def chat_completions(session: SessionWithToolManagerProtocol) -> dict[str, Any]:
-    """Convenience provider for with_provider_session.
-
-    Example:
-      await metorial.with_provider_session(
-        MetorialAnthropicSession.chat_completions,
-        ["your-deployment-id"],
-        action
-      )
-    """
+    """Resolve Anthropic-formatted tools from a session-like object."""
     tool_mgr = await session.get_tool_manager()
     provider_session = MetorialAnthropicSession(tool_mgr)
     return {"tools": provider_session.tools}
 
 
 async def chat_completions(session: SessionWithToolManagerProtocol) -> dict[str, Any]:
-  """Module-level convenience provider to pass into with_provider_session.
-
-  Usage:
-    import metorial_anthropic as manthro
-    await metorial.with_provider_session(
-      manthro.chat_completions,
-      ["your-deployment-id"],
-      action
-    )
-  """
+  """Module-level helper that resolves Anthropic-formatted tools from a session."""
   tool_mgr = await session.get_tool_manager()
   provider_session = MetorialAnthropicSession(tool_mgr)
   return {"tools": provider_session.tools}

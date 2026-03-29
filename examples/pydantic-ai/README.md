@@ -18,8 +18,7 @@ python example.py
 
 ```python
 # Initialize the Metorial client
-from metorial import Metorial
-from metorial.integrations.pydantic_ai import create_pydantic_ai_tools
+from metorial import Metorial, metorial_pydantic_ai
 
 metorial = Metorial(api_key=os.getenv("METORIAL_API_KEY"))
 
@@ -29,32 +28,27 @@ deployment = metorial.provider_deployments.create(
     provider_id="metorial-search",
 )
 
-# Open a provider session
-async with metorial.provider_session(
-    provider="anthropic",
+# Connect and resolve PydanticAI tools directly
+session = await metorial.connect(
+    adapter=metorial_pydantic_ai(),
     providers=[
         {"provider_deployment_id": deployment.id},
     ],
-) as session:
-    # create_pydantic_ai_tools converts the MCP tools from the session
-    # into PydanticAI-compatible tool definitions
-    tools = create_pydantic_ai_tools(session)
+)
 
-    # Pass the tools directly to the agent
-    agent = Agent(
-        "anthropic:claude-sonnet-4-20250514",
-        system_prompt="You are a helpful research assistant.",
-        tools=tools,
-    )
+# Pass the tools directly to the agent
+agent = Agent(
+    "anthropic:claude-sonnet-4-20250514",
+    system_prompt="You are a helpful research assistant.",
+    tools=session.tools(),
+)
 
-    # PydanticAI handles the tool call loop automatically — when Claude
-    # wants to use a tool, PydanticAI calls it via Metorial and feeds
-    # the result back
-    result = await agent.run(
-        "Search the web for the latest news about AI agents and summarize the top 3 stories."
-    )
-
-# The session is automatically closed when the async with block exits
+# PydanticAI handles the tool call loop automatically — when Claude
+# wants to use a tool, PydanticAI calls it via Metorial and feeds
+# the result back
+result = await agent.run(
+    "Search the web for the latest news about AI agents and summarize the top 3 stories."
+)
 ```
 
 ## Adding OAuth providers

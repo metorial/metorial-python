@@ -21,12 +21,11 @@ class MetorialSession:
   """Metorial session with automatic error handling and fallbacks.
 
   This class implements the async context manager protocol for proper
-  resource management:
+  session scoping:
 
       async with session as s:
           tools = await s.get_tool_manager()
           # ... use session
-      # Session is automatically closed
   """
 
   def __init__(self, mcp_session: McpSessionProtocol):
@@ -46,7 +45,7 @@ class MetorialSession:
     exc_val: BaseException | None,
     exc_tb: TracebackType | None,
   ) -> None:
-    """Async context manager exit - ensures cleanup."""
+    """Async context manager exit."""
     await self.close()
 
   async def get_tool_manager(
@@ -142,31 +141,8 @@ class MetorialSession:
     return self._closed
 
   async def close(self) -> None:
-    """Close the session and clean up resources gracefully.
-
-    This method is idempotent - calling it multiple times is safe.
-    """
-    if self._closed:
-      return
-
-    self._closed = True
-
-    if self._tool_manager is not None:
-      self._tool_manager.refresh_cache()
-
-    if hasattr(self._mcp_session, "close"):
-      try:
-        # Close with timeout to prevent hanging
-        close_result = self._mcp_session.close()
-        if asyncio.iscoroutine(close_result):
-          await asyncio.wait_for(close_result, timeout=3.0)
-        # If it's not a coroutine, it might be a dictionary or other value, just ignore it
-      except asyncio.TimeoutError:
-        # Timeout is acceptable during cleanup
-        logger.debug("MCP session close timeout - continuing")
-      except Exception as e:
-        # Log the error but don't raise it to avoid breaking the session cleanup
-        logger.debug(f"Warning: Error closing MCP session: {e}")
+    """No-op public close for Node-style lifecycle parity."""
+    return None
 
 
 class SessionFactory:

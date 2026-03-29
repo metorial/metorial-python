@@ -3,24 +3,21 @@ PydanticAI integration for Metorial tools.
 
 Example:
     from pydantic_ai import Agent
-    from metorial import Metorial
-    from metorial.integrations.pydantic_ai import create_pydantic_ai_tools
+    from metorial import Metorial, metorial_pydantic_ai
 
     metorial = Metorial(api_key="...")
 
-    async with metorial.provider_session(
-        provider="openai",
-        server_deployments=["deployment-id"],
-    ) as session:
-        tools = create_pydantic_ai_tools(session)
-
-        agent = Agent("openai:gpt-4o", tools=tools)
-
-        result = await agent.run("Search for news")
+    session = await metorial.connect(
+        adapter=metorial_pydantic_ai(),
+        providers=[{"provider_deployment_id": "deployment-id"}],
+    )
+    agent = Agent("openai:gpt-4o", tools=session.tools())
+    result = await agent.run("Search for news")
 """
 
 from __future__ import annotations
 
+import inspect
 import json
 from typing import TYPE_CHECKING, Any
 
@@ -168,6 +165,18 @@ def _create_pydantic_tool(tool: Any, tool_manager: Any) -> Any:
         for k, v in fields.items()  # Get the type from (type, Field) tuple
       }
       tool_fn.__annotations__["return"] = str
+      tool_fn.__signature__ = inspect.Signature(
+        parameters=[
+          inspect.Parameter(
+            prop_name,
+            inspect.Parameter.KEYWORD_ONLY,
+            annotation=field_type,
+            default=inspect.Parameter.empty if prop_name in required else None,
+          )
+          for prop_name, (field_type, _field) in fields.items()
+        ],
+        return_annotation=str,
+      )
 
     else:
 
@@ -179,6 +188,8 @@ def _create_pydantic_tool(tool: Any, tool_manager: Any) -> Any:
         if hasattr(result, "model_dump"):
           result = result.model_dump()
         return json.dumps(result, ensure_ascii=False, default=str)
+
+      tool_fn.__signature__ = inspect.Signature(return_annotation=str)
 
     tool_fn.__name__ = name
     tool_fn.__doc__ = tool_description

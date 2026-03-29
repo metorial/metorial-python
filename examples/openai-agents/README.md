@@ -18,8 +18,7 @@ python example.py
 
 ```python
 # Initialize the Metorial client
-from metorial import Metorial
-from metorial.integrations.openai_agents import create_openai_agent_tools
+from metorial import Metorial, metorial_openai_agents
 
 metorial = Metorial(api_key=os.getenv("METORIAL_API_KEY"))
 
@@ -29,34 +28,28 @@ deployment = metorial.provider_deployments.create(
     provider_id="metorial-search",
 )
 
-# Open a provider session — note provider="openai" since the OpenAI
-# Agents SDK uses OpenAI's tool format
-async with metorial.provider_session(
-    provider="openai",
+# Connect and resolve OpenAI Agents tools directly
+session = await metorial.connect(
+    adapter=metorial_openai_agents(),
     providers=[
         {"provider_deployment_id": deployment.id},
     ],
-) as session:
-    # create_openai_agent_tools converts MCP tools into OpenAI Agents
-    # SDK-compatible tool definitions
-    tools = create_openai_agent_tools(session)
+)
 
-    # The agent and runner handle the tool call loop automatically
-    agent = Agent(
-        name="Research Assistant",
-        instructions="You are a helpful research assistant. Use the available tools to find information.",
-        tools=tools,
-    )
+# The agent and runner handle the tool call loop automatically
+agent = Agent(
+    name="Research Assistant",
+    instructions="You are a helpful research assistant. Use the available tools to find information.",
+    tools=session.tools(),
+)
 
-    # Runner.run orchestrates the full conversation — when the agent
-    # wants to use a tool, the runner calls it via Metorial and feeds
-    # the result back until the agent produces a final answer
-    result = await Runner.run(
-        agent, "Search the web for the latest news about AI agents and summarize the top 3 stories."
-    )
-    print(result.final_output)
-
-# The session is automatically closed when the async with block exits
+# Runner.run orchestrates the full conversation — when the agent
+# wants to use a tool, the runner calls it via Metorial and feeds
+# the result back until the agent produces a final answer
+result = await Runner.run(
+    agent, "Search the web for the latest news about AI agents and summarize the top 3 stories."
+)
+print(result.final_output)
 ```
 
 ## Adding OAuth providers

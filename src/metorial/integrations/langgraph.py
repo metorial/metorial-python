@@ -23,23 +23,21 @@ def create_langgraph_tools(session: "ProviderSession") -> list[Any]:
       ```python
       from langgraph.prebuilt import create_react_agent
       from langchain_openai import ChatOpenAI
-      from metorial import Metorial
-      from metorial.integrations.langgraph import create_langgraph_tools
+      from metorial import Metorial, metorial_langgraph
 
       metorial = Metorial(api_key="...")
 
-      async with metorial.provider_session(
-          provider="openai",
-          server_deployments=[deployment_id],
-      ) as session:
-          tools = create_langgraph_tools(session)
-          llm = ChatOpenAI(model="gpt-4o")
-          agent = create_react_agent(llm, tools)
+      session = await metorial.connect(
+          adapter=metorial_langgraph(),
+          providers=[{"provider_deployment_id": deployment_id}],
+      )
+      llm = ChatOpenAI(model="gpt-4o")
+      agent = create_react_agent(llm, session.tools())
 
-          async for event in agent.astream(
-              {"messages": [("user", "Search for Python news")]}
-          ):
-              print(event)
+      async for event in agent.astream(
+          {"messages": [("user", "Search for Python news")]}
+      ):
+          print(event)
       ```
   """
   # LangGraph uses the same tools as LangChain
@@ -63,12 +61,12 @@ def create_langgraph_tool_node(session: "ProviderSession") -> Any:
       from langgraph.graph import StateGraph, MessagesState
       from metorial.integrations.langgraph import create_langgraph_tool_node
 
-      async with metorial.provider_session(...) as session:
-          tool_node = create_langgraph_tool_node(session)
+      session = ...
+      tool_node = create_langgraph_tool_node(session)
 
-          graph = StateGraph(MessagesState)
-          graph.add_node("tools", tool_node)
-          # ... configure rest of graph
+      graph = StateGraph(MessagesState)
+      graph.add_node("tools", tool_node)
+      # ... configure rest of graph
       ```
   """
   try:

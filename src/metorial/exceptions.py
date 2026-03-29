@@ -176,21 +176,29 @@ class OAuthRequiredError(MetorialAPIError):
   """OAuth authentication required - Server deployment requires OAuth session.
 
   This error is raised when connecting to an MCP server that requires OAuth
-  authentication, but no OAuth session was provided in the server_deployments.
+  authentication, but no provider auth config was provided in the providers list.
 
-  To fix this, create an OAuth session and include it in your deployment:
+  To fix this, complete a setup session and include the resulting auth config:
 
-      oauth = metorial.oauth.sessions.create(server_deployment_id="your-deployment")
-      print(f"Authorize at: {oauth.url}")
-      await metorial.oauth.wait_for_completion([oauth])
+      from metorial import metorial_openai
 
-      async with metorial.provider_session(
-          provider="openai",
-          server_deployments=[
-              {"server_deployment_id": "your-deployment", "oauth_session_id": oauth.id}
+      setup = metorial.provider_deployments.setup_sessions.create(
+          provider_id="your-provider-id",
+          provider_auth_method_id="oauth",
+      )
+      print(f"Authorize at: {setup.url}")
+      completed = await metorial.wait_for_setup_session([setup])
+
+      session = await metorial.connect(
+          adapter=metorial_openai(),
+          providers=[
+              {
+                  "provider_deployment_id": "your-deployment",
+                  "provider_auth_config_id": completed[0].auth_config.id,
+              }
           ],
-      ) as session:
-          ...
+      )
+      ...
   """
 
   def __init__(
