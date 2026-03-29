@@ -59,7 +59,7 @@ class ConsumerProvidersSetupOutputCredentials:
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
 @dataclass
-class ConsumerProvidersSetupOutputAuthConfigDeployment:
+class ConsumerProvidersSetupOutputAuthConfigDeploymentPreview:
     object: str
     id: str
     is_default: bool
@@ -128,7 +128,7 @@ class ConsumerProvidersSetupOutputAuthConfig:
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
-    deployment: Optional[ConsumerProvidersSetupOutputAuthConfigDeployment] = None
+    deployment_preview: Optional[ConsumerProvidersSetupOutputAuthConfigDeploymentPreview] = None
     credentials: Optional[ConsumerProvidersSetupOutputAuthConfigCredentials] = None
 @dataclass
 class ConsumerProvidersSetupOutputConfigDeployment:
@@ -327,10 +327,10 @@ class mapConsumerProvidersSetupOutputCredentials:
             return value
         return dataclasses.asdict(value)
 
-class mapConsumerProvidersSetupOutputAuthConfigDeployment:
+class mapConsumerProvidersSetupOutputAuthConfigDeploymentPreview:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ConsumerProvidersSetupOutputAuthConfigDeployment:
-        return ConsumerProvidersSetupOutputAuthConfigDeployment(
+    def from_dict(data: Dict[str, Any]) -> ConsumerProvidersSetupOutputAuthConfigDeploymentPreview:
+        return ConsumerProvidersSetupOutputAuthConfigDeploymentPreview(
         object=data.get('object'),
         id=data.get('id'),
         is_default=data.get('is_default'),
@@ -343,7 +343,7 @@ class mapConsumerProvidersSetupOutputAuthConfigDeployment:
         )
 
     @staticmethod
-    def to_dict(value: Union[ConsumerProvidersSetupOutputAuthConfigDeployment, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[ConsumerProvidersSetupOutputAuthConfigDeploymentPreview, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -468,7 +468,7 @@ class mapConsumerProvidersSetupOutputAuthConfig:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
-        deployment=mapConsumerProvidersSetupOutputAuthConfigDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
+        deployment_preview=mapConsumerProvidersSetupOutputAuthConfigDeploymentPreview.from_dict(data.get('deployment_preview')) if data.get('deployment_preview') else None,
         credentials=mapConsumerProvidersSetupOutputAuthConfigCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,
         auth_method=mapConsumerProvidersSetupOutputAuthConfigAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
