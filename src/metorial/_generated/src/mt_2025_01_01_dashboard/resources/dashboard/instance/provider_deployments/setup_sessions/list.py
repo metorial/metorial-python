@@ -59,7 +59,7 @@ class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsCredential
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
 @dataclass
-class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigDeploymentPreview:
+class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigDeployment:
     object: str
     id: str
     is_default: bool
@@ -128,7 +128,7 @@ class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfig
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
-    deployment_preview: Optional[DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigDeploymentPreview] = None
+    deployment: Optional[DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigDeployment] = None
     credentials: Optional[DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigCredentials] = None
 @dataclass
 class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigDeployment:
@@ -335,10 +335,10 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsCredent
             return value
         return dataclasses.asdict(value)
 
-class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigDeploymentPreview:
+class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigDeployment:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigDeploymentPreview:
-        return DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigDeploymentPreview(
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigDeployment:
+        return DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigDeployment(
         object=data.get('object'),
         id=data.get('id'),
         is_default=data.get('is_default'),
@@ -351,7 +351,7 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthCon
         )
 
     @staticmethod
-    def to_dict(value: Union[DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigDeploymentPreview, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigDeployment, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -476,7 +476,7 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthCon
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
-        deployment_preview=mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigDeploymentPreview.from_dict(data.get('deployment_preview')) if data.get('deployment_preview') else None,
+        deployment=mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         credentials=mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,
         auth_method=mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,

@@ -4,7 +4,7 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
-class ManagementInstanceProviderDeploymentsAuthConfigsExportsCreateOutputAuthConfigDeploymentPreview:
+class ManagementInstanceProviderDeploymentsAuthConfigsExportsCreateOutputAuthConfigDeployment:
     object: str
     id: str
     is_default: bool
@@ -73,7 +73,7 @@ class ManagementInstanceProviderDeploymentsAuthConfigsExportsCreateOutputAuthCon
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
-    deployment_preview: Optional[ManagementInstanceProviderDeploymentsAuthConfigsExportsCreateOutputAuthConfigDeploymentPreview] = None
+    deployment: Optional[ManagementInstanceProviderDeploymentsAuthConfigsExportsCreateOutputAuthConfigDeployment] = None
     credentials: Optional[ManagementInstanceProviderDeploymentsAuthConfigsExportsCreateOutputAuthConfigCredentials] = None
 @dataclass
 class ManagementInstanceProviderDeploymentsAuthConfigsExportsCreateOutput:
@@ -93,10 +93,10 @@ class ManagementInstanceProviderDeploymentsAuthConfigsExportsCreateOutput:
     expires_at: Optional[datetime] = None
 
 
-class mapManagementInstanceProviderDeploymentsAuthConfigsExportsCreateOutputAuthConfigDeploymentPreview:
+class mapManagementInstanceProviderDeploymentsAuthConfigsExportsCreateOutputAuthConfigDeployment:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderDeploymentsAuthConfigsExportsCreateOutputAuthConfigDeploymentPreview:
-        return ManagementInstanceProviderDeploymentsAuthConfigsExportsCreateOutputAuthConfigDeploymentPreview(
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderDeploymentsAuthConfigsExportsCreateOutputAuthConfigDeployment:
+        return ManagementInstanceProviderDeploymentsAuthConfigsExportsCreateOutputAuthConfigDeployment(
         object=data.get('object'),
         id=data.get('id'),
         is_default=data.get('is_default'),
@@ -109,7 +109,7 @@ class mapManagementInstanceProviderDeploymentsAuthConfigsExportsCreateOutputAuth
         )
 
     @staticmethod
-    def to_dict(value: Union[ManagementInstanceProviderDeploymentsAuthConfigsExportsCreateOutputAuthConfigDeploymentPreview, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[ManagementInstanceProviderDeploymentsAuthConfigsExportsCreateOutputAuthConfigDeployment, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -234,7 +234,7 @@ class mapManagementInstanceProviderDeploymentsAuthConfigsExportsCreateOutputAuth
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
-        deployment_preview=mapManagementInstanceProviderDeploymentsAuthConfigsExportsCreateOutputAuthConfigDeploymentPreview.from_dict(data.get('deployment_preview')) if data.get('deployment_preview') else None,
+        deployment=mapManagementInstanceProviderDeploymentsAuthConfigsExportsCreateOutputAuthConfigDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         credentials=mapManagementInstanceProviderDeploymentsAuthConfigsExportsCreateOutputAuthConfigCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,
         auth_method=mapManagementInstanceProviderDeploymentsAuthConfigsExportsCreateOutputAuthConfigAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
