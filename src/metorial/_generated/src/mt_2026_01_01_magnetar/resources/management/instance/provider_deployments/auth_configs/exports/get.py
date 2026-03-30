@@ -67,6 +67,7 @@ class ManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfig
     status: str
     is_default: bool
     provider_id: str
+    tool_filter: Dict[str, Any]
     auth_method: ManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfigAuthMethod
     created_at: datetime
     updated_at: datetime
@@ -234,6 +235,7 @@ class mapManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthCon
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        tool_filter=data.get('tool_filter'),
         deployment=mapManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfigDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         credentials=mapManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfigCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,
         auth_method=mapManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfigAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,

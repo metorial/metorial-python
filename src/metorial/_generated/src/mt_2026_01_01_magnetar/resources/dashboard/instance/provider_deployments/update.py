@@ -32,6 +32,7 @@ class DashboardInstanceProviderDeploymentsUpdateOutput:
     object: str
     id: str
     is_default: bool
+    tool_filter: Dict[str, Any]
     provider_id: str
     created_at: datetime
     updated_at: datetime
@@ -100,6 +101,7 @@ class mapDashboardInstanceProviderDeploymentsUpdateOutput:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        tool_filter=data.get('tool_filter'),
         provider_id=data.get('provider_id'),
         locked_version=mapDashboardInstanceProviderDeploymentsUpdateOutputLockedVersion.from_dict(data.get('locked_version')) if data.get('locked_version') else None,
         default_config=mapDashboardInstanceProviderDeploymentsUpdateOutputDefaultConfig.from_dict(data.get('default_config')) if data.get('default_config') else None,
@@ -121,6 +123,7 @@ class DashboardInstanceProviderDeploymentsUpdateBody:
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
+    tool_filters: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]] = None
 
 
 class mapDashboardInstanceProviderDeploymentsUpdateBody:
@@ -129,7 +132,8 @@ class mapDashboardInstanceProviderDeploymentsUpdateBody:
         return DashboardInstanceProviderDeploymentsUpdateBody(
         name=data.get('name'),
         description=data.get('description'),
-        metadata=data.get('metadata')
+        metadata=data.get('metadata'),
+        tool_filters=data.get('tool_filters')
         )
 
     @staticmethod

@@ -78,7 +78,7 @@ class MetorialDashboardInstanceProviderDeploymentsEndpoint(BaseMetorialEndpoint)
         )
         return self._get(request).transform(mapDashboardInstanceProviderDeploymentsGetOutput.from_dict)
 
-    def create(self, instance_id: str, *, provider_id: str, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, locked_provider_version_id: Optional[str] = None, provider_config_id: Optional[str] = None, provider_config: Optional[Union[Dict[str, Any], Dict[str, Any]]] = None) -> DashboardInstanceProviderDeploymentsCreateOutput:
+    def create(self, instance_id: str, *, provider_id: str, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None, locked_provider_version_id: Optional[str] = None, provider_config_id: Optional[str] = None, provider_config: Optional[Union[Dict[str, Any], Dict[str, Any]]] = None) -> DashboardInstanceProviderDeploymentsCreateOutput:
         """
     Create provider deployment
     Creates a new provider deployment.
@@ -87,6 +87,7 @@ class MetorialDashboardInstanceProviderDeploymentsEndpoint(BaseMetorialEndpoint)
     :param name: Optional[str] (optional)
     :param description: Optional[str] (optional)
     :param metadata: Optional[Dict[str, Any]] (optional)
+    :param tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] (optional)
     :param provider_id: str
     :param locked_provider_version_id: Optional[str] (optional)
     :param provider_config_id: Optional[str] (optional)
@@ -101,6 +102,8 @@ class MetorialDashboardInstanceProviderDeploymentsEndpoint(BaseMetorialEndpoint)
             body_dict["description"] = description
         if metadata is not None:
             body_dict["metadata"] = metadata
+        if tool_filters is not None:
+            body_dict["tool_filters"] = tool_filters
         body_dict["provider_id"] = provider_id
         if locked_provider_version_id is not None:
             body_dict["locked_provider_version_id"] = locked_provider_version_id
@@ -115,7 +118,7 @@ class MetorialDashboardInstanceProviderDeploymentsEndpoint(BaseMetorialEndpoint)
         )
         return self._post(request).transform(mapDashboardInstanceProviderDeploymentsCreateOutput.from_dict)
 
-    def update(self, instance_id: str, provider_deployment_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderDeploymentsUpdateOutput:
+    def update(self, instance_id: str, provider_deployment_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None) -> DashboardInstanceProviderDeploymentsUpdateOutput:
         """
     Update provider deployment
     Updates a specific provider deployment.
@@ -125,6 +128,7 @@ class MetorialDashboardInstanceProviderDeploymentsEndpoint(BaseMetorialEndpoint)
     :param name: Optional[str] (optional)
     :param description: Optional[str] (optional)
     :param metadata: Optional[Dict[str, Any]] (optional)
+    :param tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] (optional)
     :return: DashboardInstanceProviderDeploymentsUpdateOutput
     """
         # Build body parameters from keyword arguments
@@ -135,6 +139,8 @@ class MetorialDashboardInstanceProviderDeploymentsEndpoint(BaseMetorialEndpoint)
             body_dict["description"] = description
         if metadata is not None:
             body_dict["metadata"] = metadata
+        if tool_filters is not None:
+            body_dict["tool_filters"] = tool_filters
 
         request = MetorialRequest(
             path=['dashboard', 'instances', instance_id, 'provider-deployments', provider_deployment_id],

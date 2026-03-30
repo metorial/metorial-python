@@ -67,6 +67,7 @@ class ProviderDeploymentsAuthConfigsDeleteOutput:
     status: str
     is_default: bool
     provider_id: str
+    tool_filter: Dict[str, Any]
     auth_method: ProviderDeploymentsAuthConfigsDeleteOutputAuthMethod
     created_at: datetime
     updated_at: datetime
@@ -218,6 +219,7 @@ class mapProviderDeploymentsAuthConfigsDeleteOutput:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        tool_filter=data.get('tool_filter'),
         deployment=mapProviderDeploymentsAuthConfigsDeleteOutputDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         credentials=mapProviderDeploymentsAuthConfigsDeleteOutputCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,
         auth_method=mapProviderDeploymentsAuthConfigsDeleteOutputAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,

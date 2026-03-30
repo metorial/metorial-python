@@ -79,12 +79,12 @@ class MetorialProviderDeploymentsSetupSessionsEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapDashboardInstanceProviderDeploymentsSetupSessionsGetOutput.from_dict)
 
-    def create(self, *, provider_id: str, provider_deployment_id: Optional[str] = None, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, provider_auth_method_id: Optional[str] = None, provider_auth_credentials_id: Optional[str] = None, redirect_url: Optional[str] = None) -> DashboardInstanceProviderDeploymentsSetupSessionsCreateOutput:
+    def create(self, *, provider_id: Optional[str] = None, provider_deployment_id: Optional[str] = None, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, provider_auth_method_id: Optional[str] = None, provider_auth_credentials_id: Optional[str] = None, redirect_url: Optional[str] = None, configuration: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderDeploymentsSetupSessionsCreateOutput:
         """
     Create provider setup session
     Creates a new provider setup session for OAuth authentication.
 
-    :param provider_id: str
+    :param provider_id: Optional[str] (optional)
     :param provider_deployment_id: Optional[str] (optional)
     :param name: Optional[str] (optional)
     :param description: Optional[str] (optional)
@@ -92,11 +92,13 @@ class MetorialProviderDeploymentsSetupSessionsEndpoint(BaseMetorialEndpoint):
     :param provider_auth_method_id: Optional[str] (optional)
     :param provider_auth_credentials_id: Optional[str] (optional)
     :param redirect_url: Optional[str] (optional)
+    :param configuration: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceProviderDeploymentsSetupSessionsCreateOutput
     """
         # Build body parameters from keyword arguments
         body_dict = {}
-        body_dict["provider_id"] = provider_id
+        if provider_id is not None:
+            body_dict["provider_id"] = provider_id
         if provider_deployment_id is not None:
             body_dict["provider_deployment_id"] = provider_deployment_id
         if name is not None:
@@ -111,6 +113,8 @@ class MetorialProviderDeploymentsSetupSessionsEndpoint(BaseMetorialEndpoint):
             body_dict["provider_auth_credentials_id"] = provider_auth_credentials_id
         if redirect_url is not None:
             body_dict["redirect_url"] = redirect_url
+        if configuration is not None:
+            body_dict["configuration"] = configuration
 
         request = MetorialRequest(
             path=['provider-setup-sessions'],

@@ -79,7 +79,7 @@ class MetorialProviderDeploymentsConfigsEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapDashboardInstanceProviderDeploymentsConfigsGetOutput.from_dict)
 
-    def create(self, *, provider_id: str, provider_deployment_id: Optional[str] = None, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, value: Dict[str, Any] = None, provider_config_vault_id: str = None) -> DashboardInstanceProviderDeploymentsConfigsCreateOutput:
+    def create(self, *, provider_id: str, provider_deployment_id: Optional[str] = None, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None, value: Dict[str, Any] = None, provider_config_vault_id: str = None) -> DashboardInstanceProviderDeploymentsConfigsCreateOutput:
         """
     Create provider config
     Creates a new provider config.
@@ -89,6 +89,7 @@ class MetorialProviderDeploymentsConfigsEndpoint(BaseMetorialEndpoint):
     :param name: Optional[str] (optional)
     :param description: Optional[str] (optional)
     :param metadata: Optional[Dict[str, Any]] (optional)
+    :param tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] (optional)
     :param value: Dict[str, Any] (optional)
     :param provider_config_vault_id: str (optional)
     :return: DashboardInstanceProviderDeploymentsConfigsCreateOutput
@@ -104,6 +105,8 @@ class MetorialProviderDeploymentsConfigsEndpoint(BaseMetorialEndpoint):
             body_dict["description"] = description
         if metadata is not None:
             body_dict["metadata"] = metadata
+        if tool_filters is not None:
+            body_dict["tool_filters"] = tool_filters
         if value is not None:
             body_dict["value"] = value
         if provider_config_vault_id is not None:
@@ -115,7 +118,7 @@ class MetorialProviderDeploymentsConfigsEndpoint(BaseMetorialEndpoint):
         )
         return self._post(request).transform(mapDashboardInstanceProviderDeploymentsConfigsCreateOutput.from_dict)
 
-    def update(self, provider_config_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderDeploymentsConfigsUpdateOutput:
+    def update(self, provider_config_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None) -> DashboardInstanceProviderDeploymentsConfigsUpdateOutput:
         """
     Update provider config
     Updates a specific provider config.
@@ -124,6 +127,7 @@ class MetorialProviderDeploymentsConfigsEndpoint(BaseMetorialEndpoint):
     :param name: Optional[str] (optional)
     :param description: Optional[str] (optional)
     :param metadata: Optional[Dict[str, Any]] (optional)
+    :param tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] (optional)
     :return: DashboardInstanceProviderDeploymentsConfigsUpdateOutput
     """
         # Build body parameters from keyword arguments
@@ -134,6 +138,8 @@ class MetorialProviderDeploymentsConfigsEndpoint(BaseMetorialEndpoint):
             body_dict["description"] = description
         if metadata is not None:
             body_dict["metadata"] = metadata
+        if tool_filters is not None:
+            body_dict["tool_filters"] = tool_filters
 
         request = MetorialRequest(
             path=['provider-configs', provider_config_id],

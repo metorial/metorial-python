@@ -122,6 +122,7 @@ class ProviderDeploymentsSetupSessionsCreateOutputAuthConfig:
     status: str
     is_default: bool
     provider_id: str
+    tool_filter: Dict[str, Any]
     auth_method: ProviderDeploymentsSetupSessionsCreateOutputAuthConfigAuthMethod
     created_at: datetime
     updated_at: datetime
@@ -168,6 +169,7 @@ class ProviderDeploymentsSetupSessionsCreateOutputConfig:
     object: str
     id: str
     is_default: bool
+    tool_filter: Dict[str, Any]
     provider_id: str
     specification_id: str
     created_at: datetime
@@ -184,8 +186,6 @@ class ProviderDeploymentsSetupSessionsCreateOutput:
     type: str
     status: str
     url: str
-    provider_id: str
-    auth_method: ProviderDeploymentsSetupSessionsCreateOutputAuthMethod
     ui_mode: str
     created_at: datetime
     updated_at: datetime
@@ -193,6 +193,9 @@ class ProviderDeploymentsSetupSessionsCreateOutput:
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
+    configuration: Optional[Dict[str, Any]] = None
+    provider_id: Optional[str] = None
+    auth_method: Optional[ProviderDeploymentsSetupSessionsCreateOutputAuthMethod] = None
     deployment: Optional[ProviderDeploymentsSetupSessionsCreateOutputDeployment] = None
     credentials: Optional[ProviderDeploymentsSetupSessionsCreateOutputCredentials] = None
     auth_config: Optional[ProviderDeploymentsSetupSessionsCreateOutputAuthConfig] = None
@@ -468,6 +471,7 @@ class mapProviderDeploymentsSetupSessionsCreateOutputAuthConfig:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        tool_filter=data.get('tool_filter'),
         deployment=mapProviderDeploymentsSetupSessionsCreateOutputAuthConfigDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         credentials=mapProviderDeploymentsSetupSessionsCreateOutputAuthConfigCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,
         auth_method=mapProviderDeploymentsSetupSessionsCreateOutputAuthConfigAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
@@ -562,6 +566,7 @@ class mapProviderDeploymentsSetupSessionsCreateOutputConfig:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        tool_filter=data.get('tool_filter'),
         provider_id=data.get('provider_id'),
         specification_id=data.get('specification_id'),
         deployment=mapProviderDeploymentsSetupSessionsCreateOutputConfigDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
@@ -590,6 +595,7 @@ class mapProviderDeploymentsSetupSessionsCreateOutput:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        configuration=data.get('configuration'),
         provider_id=data.get('provider_id'),
         auth_method=mapProviderDeploymentsSetupSessionsCreateOutputAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
         deployment=mapProviderDeploymentsSetupSessionsCreateOutputDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
@@ -613,8 +619,33 @@ class mapProviderDeploymentsSetupSessionsCreateOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class ProviderDeploymentsSetupSessionsCreateBodyConfigurationProviderSearchGroups:
+    group_id: str
+@dataclass
+class ProviderDeploymentsSetupSessionsCreateBodyConfigurationProviderSearchCollections:
+    collection_id: str
+@dataclass
+class ProviderDeploymentsSetupSessionsCreateBodyConfigurationProviderSearchCategories:
+    category_id: str
+@dataclass
+class ProviderDeploymentsSetupSessionsCreateBodyConfigurationProviderSearch:
+    groups: Optional[List[ProviderDeploymentsSetupSessionsCreateBodyConfigurationProviderSearchGroups]] = None
+    collections: Optional[List[ProviderDeploymentsSetupSessionsCreateBodyConfigurationProviderSearchCollections]] = None
+    categories: Optional[List[ProviderDeploymentsSetupSessionsCreateBodyConfigurationProviderSearchCategories]] = None
+@dataclass
+class ProviderDeploymentsSetupSessionsCreateBodyConfigurationToolFilters:
+    enabled: Optional[bool] = None
+@dataclass
+class ProviderDeploymentsSetupSessionsCreateBodyConfigurationUi:
+    layout: Optional[str] = None
+@dataclass
+class ProviderDeploymentsSetupSessionsCreateBodyConfiguration:
+    provider_search: Optional[ProviderDeploymentsSetupSessionsCreateBodyConfigurationProviderSearch] = None
+    tool_filters: Optional[ProviderDeploymentsSetupSessionsCreateBodyConfigurationToolFilters] = None
+    ui: Optional[ProviderDeploymentsSetupSessionsCreateBodyConfigurationUi] = None
+@dataclass
 class ProviderDeploymentsSetupSessionsCreateBody:
-    provider_id: str
+    provider_id: Optional[str] = None
     provider_deployment_id: Optional[str] = None
     name: Optional[str] = None
     description: Optional[str] = None
@@ -622,7 +653,117 @@ class ProviderDeploymentsSetupSessionsCreateBody:
     provider_auth_method_id: Optional[str] = None
     provider_auth_credentials_id: Optional[str] = None
     redirect_url: Optional[str] = None
+    configuration: Optional[ProviderDeploymentsSetupSessionsCreateBodyConfiguration] = None
 
+
+class mapProviderDeploymentsSetupSessionsCreateBodyConfigurationProviderSearchGroups:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsSetupSessionsCreateBodyConfigurationProviderSearchGroups:
+        return ProviderDeploymentsSetupSessionsCreateBodyConfigurationProviderSearchGroups(
+        group_id=data.get('group_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ProviderDeploymentsSetupSessionsCreateBodyConfigurationProviderSearchGroups, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapProviderDeploymentsSetupSessionsCreateBodyConfigurationProviderSearchCollections:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsSetupSessionsCreateBodyConfigurationProviderSearchCollections:
+        return ProviderDeploymentsSetupSessionsCreateBodyConfigurationProviderSearchCollections(
+        collection_id=data.get('collection_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ProviderDeploymentsSetupSessionsCreateBodyConfigurationProviderSearchCollections, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapProviderDeploymentsSetupSessionsCreateBodyConfigurationProviderSearchCategories:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsSetupSessionsCreateBodyConfigurationProviderSearchCategories:
+        return ProviderDeploymentsSetupSessionsCreateBodyConfigurationProviderSearchCategories(
+        category_id=data.get('category_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ProviderDeploymentsSetupSessionsCreateBodyConfigurationProviderSearchCategories, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapProviderDeploymentsSetupSessionsCreateBodyConfigurationProviderSearch:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsSetupSessionsCreateBodyConfigurationProviderSearch:
+        return ProviderDeploymentsSetupSessionsCreateBodyConfigurationProviderSearch(
+        groups=[mapProviderDeploymentsSetupSessionsCreateBodyConfigurationProviderSearchGroups.from_dict(item) for item in data.get('groups', []) if item],
+        collections=[mapProviderDeploymentsSetupSessionsCreateBodyConfigurationProviderSearchCollections.from_dict(item) for item in data.get('collections', []) if item],
+        categories=[mapProviderDeploymentsSetupSessionsCreateBodyConfigurationProviderSearchCategories.from_dict(item) for item in data.get('categories', []) if item]
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ProviderDeploymentsSetupSessionsCreateBodyConfigurationProviderSearch, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapProviderDeploymentsSetupSessionsCreateBodyConfigurationToolFilters:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsSetupSessionsCreateBodyConfigurationToolFilters:
+        return ProviderDeploymentsSetupSessionsCreateBodyConfigurationToolFilters(
+        enabled=data.get('enabled')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ProviderDeploymentsSetupSessionsCreateBodyConfigurationToolFilters, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapProviderDeploymentsSetupSessionsCreateBodyConfigurationUi:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsSetupSessionsCreateBodyConfigurationUi:
+        return ProviderDeploymentsSetupSessionsCreateBodyConfigurationUi(
+        layout=data.get('layout')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ProviderDeploymentsSetupSessionsCreateBodyConfigurationUi, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapProviderDeploymentsSetupSessionsCreateBodyConfiguration:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsSetupSessionsCreateBodyConfiguration:
+        return ProviderDeploymentsSetupSessionsCreateBodyConfiguration(
+        provider_search=mapProviderDeploymentsSetupSessionsCreateBodyConfigurationProviderSearch.from_dict(data.get('provider_search')) if data.get('provider_search') else None,
+        tool_filters=mapProviderDeploymentsSetupSessionsCreateBodyConfigurationToolFilters.from_dict(data.get('tool_filters')) if data.get('tool_filters') else None,
+        ui=mapProviderDeploymentsSetupSessionsCreateBodyConfigurationUi.from_dict(data.get('ui')) if data.get('ui') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ProviderDeploymentsSetupSessionsCreateBodyConfiguration, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapProviderDeploymentsSetupSessionsCreateBody:
     @staticmethod
@@ -635,7 +776,8 @@ class mapProviderDeploymentsSetupSessionsCreateBody:
         metadata=data.get('metadata'),
         provider_auth_method_id=data.get('provider_auth_method_id'),
         provider_auth_credentials_id=data.get('provider_auth_credentials_id'),
-        redirect_url=data.get('redirect_url')
+        redirect_url=data.get('redirect_url'),
+        configuration=mapProviderDeploymentsSetupSessionsCreateBodyConfiguration.from_dict(data.get('configuration')) if data.get('configuration') else None
         )
 
     @staticmethod

@@ -67,6 +67,7 @@ class ManagementInstanceProviderDeploymentsAuthConfigsUpdateOutput:
     status: str
     is_default: bool
     provider_id: str
+    tool_filter: Dict[str, Any]
     auth_method: ManagementInstanceProviderDeploymentsAuthConfigsUpdateOutputAuthMethod
     created_at: datetime
     updated_at: datetime
@@ -218,6 +219,7 @@ class mapManagementInstanceProviderDeploymentsAuthConfigsUpdateOutput:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        tool_filter=data.get('tool_filter'),
         deployment=mapManagementInstanceProviderDeploymentsAuthConfigsUpdateOutputDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         credentials=mapManagementInstanceProviderDeploymentsAuthConfigsUpdateOutputCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,
         auth_method=mapManagementInstanceProviderDeploymentsAuthConfigsUpdateOutputAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
@@ -239,6 +241,7 @@ class ManagementInstanceProviderDeploymentsAuthConfigsUpdateBody:
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
+    tool_filters: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]] = None
 
 
 class mapManagementInstanceProviderDeploymentsAuthConfigsUpdateBody:
@@ -247,7 +250,8 @@ class mapManagementInstanceProviderDeploymentsAuthConfigsUpdateBody:
         return ManagementInstanceProviderDeploymentsAuthConfigsUpdateBody(
         name=data.get('name'),
         description=data.get('description'),
-        metadata=data.get('metadata')
+        metadata=data.get('metadata'),
+        tool_filters=data.get('tool_filters')
         )
 
     @staticmethod

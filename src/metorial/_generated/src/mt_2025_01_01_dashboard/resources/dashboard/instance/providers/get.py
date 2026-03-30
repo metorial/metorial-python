@@ -38,7 +38,6 @@ class DashboardInstanceProvidersGetOutputType:
     object: str
     id: str
     name: str
-    backend: str
     triggers: Dict[str, Any]
     config: Dict[str, Any]
     auth: Dict[str, Any]

@@ -67,6 +67,7 @@ class DashboardInstanceProviderDeploymentsAuthConfigsCreateOutput:
     status: str
     is_default: bool
     provider_id: str
+    tool_filter: Dict[str, Any]
     auth_method: DashboardInstanceProviderDeploymentsAuthConfigsCreateOutputAuthMethod
     created_at: datetime
     updated_at: datetime
@@ -218,6 +219,7 @@ class mapDashboardInstanceProviderDeploymentsAuthConfigsCreateOutput:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        tool_filter=data.get('tool_filter'),
         deployment=mapDashboardInstanceProviderDeploymentsAuthConfigsCreateOutputDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         credentials=mapDashboardInstanceProviderDeploymentsAuthConfigsCreateOutputCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,
         auth_method=mapDashboardInstanceProviderDeploymentsAuthConfigsCreateOutputAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
@@ -241,6 +243,7 @@ class DashboardInstanceProviderDeploymentsAuthConfigsCreateBody:
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
+    tool_filters: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]] = None
     provider_deployment_id: Optional[str] = None
 
 
@@ -251,6 +254,7 @@ class mapDashboardInstanceProviderDeploymentsAuthConfigsCreateBody:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        tool_filters=data.get('tool_filters'),
         provider_auth_method_id=data.get('provider_auth_method_id'),
         provider_deployment_id=data.get('provider_deployment_id'),
         value=data.get('value')

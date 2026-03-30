@@ -122,6 +122,7 @@ class ProviderDeploymentsSetupSessionsUpdateOutputAuthConfig:
     status: str
     is_default: bool
     provider_id: str
+    tool_filter: Dict[str, Any]
     auth_method: ProviderDeploymentsSetupSessionsUpdateOutputAuthConfigAuthMethod
     created_at: datetime
     updated_at: datetime
@@ -168,6 +169,7 @@ class ProviderDeploymentsSetupSessionsUpdateOutputConfig:
     object: str
     id: str
     is_default: bool
+    tool_filter: Dict[str, Any]
     provider_id: str
     specification_id: str
     created_at: datetime
@@ -184,8 +186,6 @@ class ProviderDeploymentsSetupSessionsUpdateOutput:
     type: str
     status: str
     url: str
-    provider_id: str
-    auth_method: ProviderDeploymentsSetupSessionsUpdateOutputAuthMethod
     ui_mode: str
     created_at: datetime
     updated_at: datetime
@@ -193,6 +193,9 @@ class ProviderDeploymentsSetupSessionsUpdateOutput:
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
+    configuration: Optional[Dict[str, Any]] = None
+    provider_id: Optional[str] = None
+    auth_method: Optional[ProviderDeploymentsSetupSessionsUpdateOutputAuthMethod] = None
     deployment: Optional[ProviderDeploymentsSetupSessionsUpdateOutputDeployment] = None
     credentials: Optional[ProviderDeploymentsSetupSessionsUpdateOutputCredentials] = None
     auth_config: Optional[ProviderDeploymentsSetupSessionsUpdateOutputAuthConfig] = None
@@ -468,6 +471,7 @@ class mapProviderDeploymentsSetupSessionsUpdateOutputAuthConfig:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        tool_filter=data.get('tool_filter'),
         deployment=mapProviderDeploymentsSetupSessionsUpdateOutputAuthConfigDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         credentials=mapProviderDeploymentsSetupSessionsUpdateOutputAuthConfigCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,
         auth_method=mapProviderDeploymentsSetupSessionsUpdateOutputAuthConfigAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
@@ -562,6 +566,7 @@ class mapProviderDeploymentsSetupSessionsUpdateOutputConfig:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        tool_filter=data.get('tool_filter'),
         provider_id=data.get('provider_id'),
         specification_id=data.get('specification_id'),
         deployment=mapProviderDeploymentsSetupSessionsUpdateOutputConfigDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
@@ -590,6 +595,7 @@ class mapProviderDeploymentsSetupSessionsUpdateOutput:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        configuration=data.get('configuration'),
         provider_id=data.get('provider_id'),
         auth_method=mapProviderDeploymentsSetupSessionsUpdateOutputAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
         deployment=mapProviderDeploymentsSetupSessionsUpdateOutputDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,

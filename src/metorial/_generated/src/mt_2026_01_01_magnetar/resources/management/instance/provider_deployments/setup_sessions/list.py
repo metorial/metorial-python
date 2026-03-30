@@ -122,6 +122,7 @@ class ManagementInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfi
     status: str
     is_default: bool
     provider_id: str
+    tool_filter: Dict[str, Any]
     auth_method: ManagementInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAuthMethod
     created_at: datetime
     updated_at: datetime
@@ -168,6 +169,7 @@ class ManagementInstanceProviderDeploymentsSetupSessionsListOutputItemsConfig:
     object: str
     id: str
     is_default: bool
+    tool_filter: Dict[str, Any]
     provider_id: str
     specification_id: str
     created_at: datetime
@@ -184,8 +186,6 @@ class ManagementInstanceProviderDeploymentsSetupSessionsListOutputItems:
     type: str
     status: str
     url: str
-    provider_id: str
-    auth_method: ManagementInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthMethod
     ui_mode: str
     created_at: datetime
     updated_at: datetime
@@ -193,6 +193,9 @@ class ManagementInstanceProviderDeploymentsSetupSessionsListOutputItems:
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
+    configuration: Optional[Dict[str, Any]] = None
+    provider_id: Optional[str] = None
+    auth_method: Optional[ManagementInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthMethod] = None
     deployment: Optional[ManagementInstanceProviderDeploymentsSetupSessionsListOutputItemsDeployment] = None
     credentials: Optional[ManagementInstanceProviderDeploymentsSetupSessionsListOutputItemsCredentials] = None
     auth_config: Optional[ManagementInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfig] = None
@@ -476,6 +479,7 @@ class mapManagementInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthCo
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        tool_filter=data.get('tool_filter'),
         deployment=mapManagementInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         credentials=mapManagementInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,
         auth_method=mapManagementInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
@@ -570,6 +574,7 @@ class mapManagementInstanceProviderDeploymentsSetupSessionsListOutputItemsConfig
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        tool_filter=data.get('tool_filter'),
         provider_id=data.get('provider_id'),
         specification_id=data.get('specification_id'),
         deployment=mapManagementInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
@@ -598,6 +603,7 @@ class mapManagementInstanceProviderDeploymentsSetupSessionsListOutputItems:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        configuration=data.get('configuration'),
         provider_id=data.get('provider_id'),
         auth_method=mapManagementInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
         deployment=mapManagementInstanceProviderDeploymentsSetupSessionsListOutputItemsDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
