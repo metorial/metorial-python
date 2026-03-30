@@ -4,7 +4,7 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
-class ProviderDeploymentsAuthConfigsUpdateOutputDeploymentPreview:
+class ProviderDeploymentsAuthConfigsUpdateOutputDeployment:
     object: str
     id: str
     is_default: bool
@@ -73,14 +73,14 @@ class ProviderDeploymentsAuthConfigsUpdateOutput:
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
-    deployment_preview: Optional[ProviderDeploymentsAuthConfigsUpdateOutputDeploymentPreview] = None
+    deployment: Optional[ProviderDeploymentsAuthConfigsUpdateOutputDeployment] = None
     credentials: Optional[ProviderDeploymentsAuthConfigsUpdateOutputCredentials] = None
 
 
-class mapProviderDeploymentsAuthConfigsUpdateOutputDeploymentPreview:
+class mapProviderDeploymentsAuthConfigsUpdateOutputDeployment:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsAuthConfigsUpdateOutputDeploymentPreview:
-        return ProviderDeploymentsAuthConfigsUpdateOutputDeploymentPreview(
+    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsAuthConfigsUpdateOutputDeployment:
+        return ProviderDeploymentsAuthConfigsUpdateOutputDeployment(
         object=data.get('object'),
         id=data.get('id'),
         is_default=data.get('is_default'),
@@ -93,7 +93,7 @@ class mapProviderDeploymentsAuthConfigsUpdateOutputDeploymentPreview:
         )
 
     @staticmethod
-    def to_dict(value: Union[ProviderDeploymentsAuthConfigsUpdateOutputDeploymentPreview, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[ProviderDeploymentsAuthConfigsUpdateOutputDeployment, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -218,7 +218,7 @@ class mapProviderDeploymentsAuthConfigsUpdateOutput:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
-        deployment_preview=mapProviderDeploymentsAuthConfigsUpdateOutputDeploymentPreview.from_dict(data.get('deployment_preview')) if data.get('deployment_preview') else None,
+        deployment=mapProviderDeploymentsAuthConfigsUpdateOutputDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         credentials=mapProviderDeploymentsAuthConfigsUpdateOutputCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,
         auth_method=mapProviderDeploymentsAuthConfigsUpdateOutputAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,

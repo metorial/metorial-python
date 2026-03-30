@@ -4,7 +4,7 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
-class ProviderDeploymentsAuthConfigsListOutputItemsDeploymentPreview:
+class ProviderDeploymentsAuthConfigsListOutputItemsDeployment:
     object: str
     id: str
     is_default: bool
@@ -73,7 +73,7 @@ class ProviderDeploymentsAuthConfigsListOutputItems:
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
-    deployment_preview: Optional[ProviderDeploymentsAuthConfigsListOutputItemsDeploymentPreview] = None
+    deployment: Optional[ProviderDeploymentsAuthConfigsListOutputItemsDeployment] = None
     credentials: Optional[ProviderDeploymentsAuthConfigsListOutputItemsCredentials] = None
 @dataclass
 class ProviderDeploymentsAuthConfigsListOutputPagination:
@@ -85,10 +85,10 @@ class ProviderDeploymentsAuthConfigsListOutput:
     pagination: ProviderDeploymentsAuthConfigsListOutputPagination
 
 
-class mapProviderDeploymentsAuthConfigsListOutputItemsDeploymentPreview:
+class mapProviderDeploymentsAuthConfigsListOutputItemsDeployment:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsAuthConfigsListOutputItemsDeploymentPreview:
-        return ProviderDeploymentsAuthConfigsListOutputItemsDeploymentPreview(
+    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsAuthConfigsListOutputItemsDeployment:
+        return ProviderDeploymentsAuthConfigsListOutputItemsDeployment(
         object=data.get('object'),
         id=data.get('id'),
         is_default=data.get('is_default'),
@@ -101,7 +101,7 @@ class mapProviderDeploymentsAuthConfigsListOutputItemsDeploymentPreview:
         )
 
     @staticmethod
-    def to_dict(value: Union[ProviderDeploymentsAuthConfigsListOutputItemsDeploymentPreview, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[ProviderDeploymentsAuthConfigsListOutputItemsDeployment, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -226,7 +226,7 @@ class mapProviderDeploymentsAuthConfigsListOutputItems:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
-        deployment_preview=mapProviderDeploymentsAuthConfigsListOutputItemsDeploymentPreview.from_dict(data.get('deployment_preview')) if data.get('deployment_preview') else None,
+        deployment=mapProviderDeploymentsAuthConfigsListOutputItemsDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         credentials=mapProviderDeploymentsAuthConfigsListOutputItemsCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,
         auth_method=mapProviderDeploymentsAuthConfigsListOutputItemsAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
