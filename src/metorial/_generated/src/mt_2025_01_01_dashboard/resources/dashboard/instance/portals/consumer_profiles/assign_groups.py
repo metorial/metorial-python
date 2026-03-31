@@ -20,6 +20,20 @@ class DashboardInstancePortalsConsumerProfilesAssignGroupsOutputGroups:
     group: DashboardInstancePortalsConsumerProfilesAssignGroupsOutputGroupsGroup
     assigned_via: str
 @dataclass
+class DashboardInstancePortalsConsumerProfilesAssignGroupsOutputSurfaceAuth:
+    object: str
+    session_expiry_time_in_seconds: float
+@dataclass
+class DashboardInstancePortalsConsumerProfilesAssignGroupsOutputSurface:
+    object: str
+    id: str
+    status: str
+    name: str
+    auth: DashboardInstancePortalsConsumerProfilesAssignGroupsOutputSurfaceAuth
+    created_at: datetime
+    updated_at: datetime
+    description: Optional[str] = None
+@dataclass
 class DashboardInstancePortalsConsumerProfilesAssignGroupsOutput:
     object: str
     id: str
@@ -29,48 +43,9 @@ class DashboardInstancePortalsConsumerProfilesAssignGroupsOutput:
     consumer_id: str
     created_at: datetime
     updated_at: datetime
+    surface: DashboardInstancePortalsConsumerProfilesAssignGroupsOutputSurface
     groups: Optional[List[DashboardInstancePortalsConsumerProfilesAssignGroupsOutputGroups]] = None
 
-
-class mapDashboardInstancePortalsConsumerProfilesAssignGroupsOutputGroupsGroup:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> DashboardInstancePortalsConsumerProfilesAssignGroupsOutputGroupsGroup:
-        return DashboardInstancePortalsConsumerProfilesAssignGroupsOutputGroupsGroup(
-        object=data.get('object'),
-        id=data.get('id'),
-        status=data.get('status'),
-        name=data.get('name'),
-        description=data.get('description'),
-        is_default=data.get('is_default'),
-        sso_group_ids=data.get('sso_group_ids', []),
-        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[DashboardInstancePortalsConsumerProfilesAssignGroupsOutputGroupsGroup, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapDashboardInstancePortalsConsumerProfilesAssignGroupsOutputGroups:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> DashboardInstancePortalsConsumerProfilesAssignGroupsOutputGroups:
-        return DashboardInstancePortalsConsumerProfilesAssignGroupsOutputGroups(
-        object=data.get('object'),
-        group=mapDashboardInstancePortalsConsumerProfilesAssignGroupsOutputGroupsGroup.from_dict(data.get('group')) if data.get('group') else None,
-        assigned_via=data.get('assigned_via')
-        )
-
-    @staticmethod
-    def to_dict(value: Union[DashboardInstancePortalsConsumerProfilesAssignGroupsOutputGroups, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
 
 class mapDashboardInstancePortalsConsumerProfilesAssignGroupsOutput:
     @staticmethod
@@ -84,7 +59,8 @@ class mapDashboardInstancePortalsConsumerProfilesAssignGroupsOutput:
         groups=[mapDashboardInstancePortalsConsumerProfilesAssignGroupsOutputGroups.from_dict(item) for item in data.get('groups', []) if item],
         consumer_id=data.get('consumer_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
+        surface=mapDashboardInstancePortalsConsumerProfilesAssignGroupsOutputSurface.from_dict(data.get('surface')) if data.get('surface') else None
         )
 
     @staticmethod

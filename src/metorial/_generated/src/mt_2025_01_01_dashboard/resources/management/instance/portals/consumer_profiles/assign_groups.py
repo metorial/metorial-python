@@ -20,6 +20,20 @@ class ManagementInstancePortalsConsumerProfilesAssignGroupsOutputGroups:
     group: ManagementInstancePortalsConsumerProfilesAssignGroupsOutputGroupsGroup
     assigned_via: str
 @dataclass
+class ManagementInstancePortalsConsumerProfilesAssignGroupsOutputSurfaceAuth:
+    object: str
+    session_expiry_time_in_seconds: float
+@dataclass
+class ManagementInstancePortalsConsumerProfilesAssignGroupsOutputSurface:
+    object: str
+    id: str
+    status: str
+    name: str
+    auth: ManagementInstancePortalsConsumerProfilesAssignGroupsOutputSurfaceAuth
+    created_at: datetime
+    updated_at: datetime
+    description: Optional[str] = None
+@dataclass
 class ManagementInstancePortalsConsumerProfilesAssignGroupsOutput:
     object: str
     id: str
@@ -29,48 +43,9 @@ class ManagementInstancePortalsConsumerProfilesAssignGroupsOutput:
     consumer_id: str
     created_at: datetime
     updated_at: datetime
+    surface: ManagementInstancePortalsConsumerProfilesAssignGroupsOutputSurface
     groups: Optional[List[ManagementInstancePortalsConsumerProfilesAssignGroupsOutputGroups]] = None
 
-
-class mapManagementInstancePortalsConsumerProfilesAssignGroupsOutputGroupsGroup:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ManagementInstancePortalsConsumerProfilesAssignGroupsOutputGroupsGroup:
-        return ManagementInstancePortalsConsumerProfilesAssignGroupsOutputGroupsGroup(
-        object=data.get('object'),
-        id=data.get('id'),
-        status=data.get('status'),
-        name=data.get('name'),
-        description=data.get('description'),
-        is_default=data.get('is_default'),
-        sso_group_ids=data.get('sso_group_ids', []),
-        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[ManagementInstancePortalsConsumerProfilesAssignGroupsOutputGroupsGroup, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapManagementInstancePortalsConsumerProfilesAssignGroupsOutputGroups:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ManagementInstancePortalsConsumerProfilesAssignGroupsOutputGroups:
-        return ManagementInstancePortalsConsumerProfilesAssignGroupsOutputGroups(
-        object=data.get('object'),
-        group=mapManagementInstancePortalsConsumerProfilesAssignGroupsOutputGroupsGroup.from_dict(data.get('group')) if data.get('group') else None,
-        assigned_via=data.get('assigned_via')
-        )
-
-    @staticmethod
-    def to_dict(value: Union[ManagementInstancePortalsConsumerProfilesAssignGroupsOutputGroups, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
 
 class mapManagementInstancePortalsConsumerProfilesAssignGroupsOutput:
     @staticmethod
@@ -84,7 +59,8 @@ class mapManagementInstancePortalsConsumerProfilesAssignGroupsOutput:
         groups=[mapManagementInstancePortalsConsumerProfilesAssignGroupsOutputGroups.from_dict(item) for item in data.get('groups', []) if item],
         consumer_id=data.get('consumer_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
+        surface=mapManagementInstancePortalsConsumerProfilesAssignGroupsOutputSurface.from_dict(data.get('surface')) if data.get('surface') else None
         )
 
     @staticmethod

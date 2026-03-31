@@ -4,6 +4,9 @@ from .callbacks_destinations import *
 from .callbacks_events import *
 from .callbacks_instances import *
 from .callbacks_notifications import *
+from .consumer_surfaces import *
+from .consumers import *
+from .consumers_profiles import *
 from .custom_providers import *
 from .custom_providers_code import *
 from .custom_providers_commits import *
@@ -16,6 +19,9 @@ from .dashboard_instance_callbacks_destinations import *
 from .dashboard_instance_callbacks_events import *
 from .dashboard_instance_callbacks_instances import *
 from .dashboard_instance_callbacks_notifications import *
+from .dashboard_instance_consumer_surfaces import *
+from .dashboard_instance_consumers import *
+from .dashboard_instance_consumers_profiles import *
 from .dashboard_instance_custom_providers import *
 from .dashboard_instance_custom_providers_code import *
 from .dashboard_instance_custom_providers_commits import *
@@ -122,6 +128,9 @@ from .management_instance_callbacks_destinations import *
 from .management_instance_callbacks_events import *
 from .management_instance_callbacks_instances import *
 from .management_instance_callbacks_notifications import *
+from .management_instance_consumer_surfaces import *
+from .management_instance_consumers import *
+from .management_instance_consumers_profiles import *
 from .management_instance_custom_providers import *
 from .management_instance_custom_providers_code import *
 from .management_instance_custom_providers_commits import *

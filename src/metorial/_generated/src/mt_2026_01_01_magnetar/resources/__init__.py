@@ -1,5 +1,7 @@
 from .callbacks import *
 from .consumer import *
+from .consumer_surfaces import *
+from .consumers import *
 from .custom_providers import *
 from .dashboard import *
 from .file_links import *

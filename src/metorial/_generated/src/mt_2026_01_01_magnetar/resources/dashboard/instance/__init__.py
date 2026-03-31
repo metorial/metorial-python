@@ -1,4 +1,6 @@
 from .callbacks import *
+from .consumer_surfaces import *
+from .consumers import *
 from .custom_providers import *
 from .file_links import *
 from .files import *
