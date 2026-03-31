@@ -15,6 +15,7 @@ class ManagementInstanceIdentityActorsGetOutput:
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
     agent_id: Optional[str] = None
+    consumer: Optional[Dict[str, Any]] = None
 
 
 class mapManagementInstanceIdentityActorsGetOutput:
@@ -30,7 +31,8 @@ class mapManagementInstanceIdentityActorsGetOutput:
         metadata=data.get('metadata'),
         agent_id=data.get('agent_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
+        consumer=data.get('consumer')
         )
 
     @staticmethod

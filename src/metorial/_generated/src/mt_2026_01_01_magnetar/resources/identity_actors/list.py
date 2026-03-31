@@ -101,6 +101,7 @@ class IdentityActorsListQuery:
     status: Optional[Union[str, List[str]]] = None
     id: Optional[Union[str, List[str]]] = None
     agent_id: Optional[Union[str, List[str]]] = None
+    consumer_id: Optional[Union[str, List[str]]] = None
     created_at: Optional[IdentityActorsListQueryCreatedAt] = None
     updated_at: Optional[IdentityActorsListQueryUpdatedAt] = None
 
@@ -118,6 +119,7 @@ class mapIdentityActorsListQuery:
         status=data.get('status'),
         id=data.get('id'),
         agent_id=data.get('agent_id'),
+        consumer_id=data.get('consumer_id'),
         created_at=mapIdentityActorsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
         updated_at=mapIdentityActorsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )

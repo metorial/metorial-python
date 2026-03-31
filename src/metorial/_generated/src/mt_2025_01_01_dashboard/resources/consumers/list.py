@@ -4,42 +4,14 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
-class ConsumersListOutputItems:
-    object: str
-    id: str
-    name: str
-    email: str
-    created_at: datetime
-    updated_at: datetime
-@dataclass
 class ConsumersListOutputPagination:
     has_more_before: bool
     has_more_after: bool
 @dataclass
 class ConsumersListOutput:
-    items: List[ConsumersListOutputItems]
+    items: List[Dict[str, Any]]
     pagination: ConsumersListOutputPagination
 
-
-class mapConsumersListOutputItems:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ConsumersListOutputItems:
-        return ConsumersListOutputItems(
-        object=data.get('object'),
-        id=data.get('id'),
-        name=data.get('name'),
-        email=data.get('email'),
-        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[ConsumersListOutputItems, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
 
 class mapConsumersListOutputPagination:
     @staticmethod
@@ -61,7 +33,7 @@ class mapConsumersListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ConsumersListOutput:
         return ConsumersListOutput(
-        items=[mapConsumersListOutputItems.from_dict(item) for item in data.get('items', []) if item],
+        items=data.get('items', []),
         pagination=mapConsumersListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )
 

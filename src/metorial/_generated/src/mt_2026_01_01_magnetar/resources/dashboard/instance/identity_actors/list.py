@@ -101,6 +101,7 @@ class DashboardInstanceIdentityActorsListQuery:
     status: Optional[Union[str, List[str]]] = None
     id: Optional[Union[str, List[str]]] = None
     agent_id: Optional[Union[str, List[str]]] = None
+    consumer_id: Optional[Union[str, List[str]]] = None
     created_at: Optional[DashboardInstanceIdentityActorsListQueryCreatedAt] = None
     updated_at: Optional[DashboardInstanceIdentityActorsListQueryUpdatedAt] = None
 
@@ -118,6 +119,7 @@ class mapDashboardInstanceIdentityActorsListQuery:
         status=data.get('status'),
         id=data.get('id'),
         agent_id=data.get('agent_id'),
+        consumer_id=data.get('consumer_id'),
         created_at=mapDashboardInstanceIdentityActorsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
         updated_at=mapDashboardInstanceIdentityActorsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )

@@ -4,42 +4,14 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
-class DashboardInstanceConsumersListOutputItems:
-    object: str
-    id: str
-    name: str
-    email: str
-    created_at: datetime
-    updated_at: datetime
-@dataclass
 class DashboardInstanceConsumersListOutputPagination:
     has_more_before: bool
     has_more_after: bool
 @dataclass
 class DashboardInstanceConsumersListOutput:
-    items: List[DashboardInstanceConsumersListOutputItems]
+    items: List[Dict[str, Any]]
     pagination: DashboardInstanceConsumersListOutputPagination
 
-
-class mapDashboardInstanceConsumersListOutputItems:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> DashboardInstanceConsumersListOutputItems:
-        return DashboardInstanceConsumersListOutputItems(
-        object=data.get('object'),
-        id=data.get('id'),
-        name=data.get('name'),
-        email=data.get('email'),
-        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[DashboardInstanceConsumersListOutputItems, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
 
 class mapDashboardInstanceConsumersListOutputPagination:
     @staticmethod
@@ -61,7 +33,7 @@ class mapDashboardInstanceConsumersListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceConsumersListOutput:
         return DashboardInstanceConsumersListOutput(
-        items=[mapDashboardInstanceConsumersListOutputItems.from_dict(item) for item in data.get('items', []) if item],
+        items=data.get('items', []),
         pagination=mapDashboardInstanceConsumersListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )
 

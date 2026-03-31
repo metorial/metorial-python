@@ -4,50 +4,14 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
-class IdentityActorsListOutputItems:
-    object: str
-    id: str
-    type: str
-    status: str
-    name: str
-    created_at: datetime
-    updated_at: datetime
-    description: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None
-    agent_id: Optional[str] = None
-@dataclass
 class IdentityActorsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
 @dataclass
 class IdentityActorsListOutput:
-    items: List[IdentityActorsListOutputItems]
+    items: List[Dict[str, Any]]
     pagination: IdentityActorsListOutputPagination
 
-
-class mapIdentityActorsListOutputItems:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> IdentityActorsListOutputItems:
-        return IdentityActorsListOutputItems(
-        object=data.get('object'),
-        id=data.get('id'),
-        type=data.get('type'),
-        status=data.get('status'),
-        name=data.get('name'),
-        description=data.get('description'),
-        metadata=data.get('metadata'),
-        agent_id=data.get('agent_id'),
-        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[IdentityActorsListOutputItems, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
 
 class mapIdentityActorsListOutputPagination:
     @staticmethod
@@ -69,7 +33,7 @@ class mapIdentityActorsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> IdentityActorsListOutput:
         return IdentityActorsListOutput(
-        items=[mapIdentityActorsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
+        items=data.get('items', []),
         pagination=mapIdentityActorsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )
 
@@ -101,6 +65,7 @@ class IdentityActorsListQuery:
     status: Optional[Union[str, List[str]]] = None
     id: Optional[Union[str, List[str]]] = None
     agent_id: Optional[Union[str, List[str]]] = None
+    consumer_id: Optional[Union[str, List[str]]] = None
     created_at: Optional[IdentityActorsListQueryCreatedAt] = None
     updated_at: Optional[IdentityActorsListQueryUpdatedAt] = None
 
@@ -118,6 +83,7 @@ class mapIdentityActorsListQuery:
         status=data.get('status'),
         id=data.get('id'),
         agent_id=data.get('agent_id'),
+        consumer_id=data.get('consumer_id'),
         created_at=mapIdentityActorsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
         updated_at=mapIdentityActorsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
