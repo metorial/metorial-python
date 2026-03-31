@@ -39,19 +39,16 @@ class MetorialScmInstallationEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapDashboardInstanceScmInstallationListOutput.from_dict)
 
-    def create(self, *, provider: Optional[str] = None, redirect_url: Optional[str] = None) -> DashboardInstanceScmInstallationCreateOutput:
+    def create(self, *, redirect_url: Optional[str] = None) -> DashboardInstanceScmInstallationCreateOutput:
         """
     Create SCM installation
     Initiates an SCM installation setup (e.g. GitHub App authorization).
 
-    :param provider: Optional[str] (optional)
     :param redirect_url: Optional[str] (optional)
     :return: DashboardInstanceScmInstallationCreateOutput
     """
         # Build body parameters from keyword arguments
         body_dict = {}
-        if provider is not None:
-            body_dict["provider"] = provider
         if redirect_url is not None:
             body_dict["redirect_url"] = redirect_url
 

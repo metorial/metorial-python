@@ -96,7 +96,6 @@ class mapDashboardInstanceScmInstallationCreateOutput:
 
 @dataclass
 class DashboardInstanceScmInstallationCreateBody:
-    provider: Optional[str] = None
     redirect_url: Optional[str] = None
 
 
@@ -104,7 +103,6 @@ class mapDashboardInstanceScmInstallationCreateBody:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceScmInstallationCreateBody:
         return DashboardInstanceScmInstallationCreateBody(
-        provider=data.get('provider'),
         redirect_url=data.get('redirect_url')
         )
 

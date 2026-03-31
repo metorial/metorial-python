@@ -64,7 +64,9 @@ from .dashboard_instance_providers_triggers import *
 from .dashboard_instance_providers_versions import *
 from .dashboard_instance_publishers import *
 from .dashboard_instance_scm_accounts import *
+from .dashboard_instance_scm_connections import *
 from .dashboard_instance_scm_installation import *
+from .dashboard_instance_scm_providers import *
 from .dashboard_instance_scm_repos import *
 from .dashboard_instance_session_templates import *
 from .dashboard_instance_session_templates_providers import *
@@ -167,7 +169,9 @@ from .management_instance_providers_triggers import *
 from .management_instance_providers_versions import *
 from .management_instance_publishers import *
 from .management_instance_scm_accounts import *
+from .management_instance_scm_connections import *
 from .management_instance_scm_installation import *
+from .management_instance_scm_providers import *
 from .management_instance_scm_repos import *
 from .management_instance_session_templates import *
 from .management_instance_session_templates_providers import *
@@ -235,7 +239,9 @@ from .providers_triggers import *
 from .providers_versions import *
 from .publishers import *
 from .scm_accounts import *
+from .scm_connections import *
 from .scm_installation import *
+from .scm_providers import *
 from .scm_repos import *
 from .session_templates import *
 from .session_templates_providers import *
