@@ -1,5 +1,5 @@
 """
-LangChain integration example.
+AutoGen integration example.
 
 Prerequisites:
     cp .env.example .env
@@ -9,11 +9,12 @@ Prerequisites:
 import asyncio
 import os
 
+from autogen_agentchat.agents import AssistantAgent
+from autogen_agentchat.ui import Console
+from autogen_ext.models.openai import OpenAIChatCompletionClient
 from dotenv import load_dotenv
-from langchain.agents import create_agent
-from langchain_anthropic import ChatAnthropic
 
-from metorial import Metorial, metorial_langchain
+from metorial import Metorial, metorial_autogen
 
 load_dotenv()
 
@@ -23,33 +24,30 @@ async def main():
 
   # Create a deployment for Metorial Search — built-in web search, no auth needed
   deployment = metorial.provider_deployments.create(
-    name="Example Search",
+    name="Metorial Search",
     provider_id="metorial-search",
   )
 
   session = await metorial.connect(
-    adapter=metorial_langchain(),
+    adapter=metorial_autogen(),
     providers=[
       {"provider_deployment_id": deployment.id},
       # (Optional) Add an OAuth provider like Slack or GitHub:
       # {"provider_deployment_id": "your-slack-deployment-id", "provider_auth_config_id": "auth-config-id"},
     ],
   )
-  llm = ChatAnthropic(model="claude-sonnet-4-20250514")
-  agent = create_agent(
-    llm,
+
+  model_client = OpenAIChatCompletionClient(model="gpt-4o")
+  assistant = AssistantAgent(
+    name="assistant",
+    model_client=model_client,
     tools=session.tools(),
-    system_prompt="Use one tool then respond briefly.",
+    system_message="You are a helpful research assistant.",
   )
 
-  result = await agent.ainvoke(
-    {
-      "messages": [
-        ("user", "Use the add tool to add 2 and 3. Reply with just the result.")
-      ]
-    }
+  await Console(
+    assistant.run_stream(task="Use the add tool to add 2 and 3. Reply with just the result.")
   )
-  print(result["messages"][-1].content)
 
 
 if __name__ == "__main__":

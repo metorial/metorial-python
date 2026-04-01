@@ -1,0 +1,4 @@
+metorial
+python-dotenv
+autogen-agentchat
+autogen-ext

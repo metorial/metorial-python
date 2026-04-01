@@ -10,9 +10,13 @@ from typing import Any, Generic, Protocol, TypeVar, cast
 
 from metorial._session import MetorialSession
 from metorial._tool_manager import ToolManager
+from metorial.integrations.autogen import create_autogen_tools
+from metorial.integrations.crewai import create_crewai_tools
+from metorial.integrations.google_adk import create_google_adk_tools
 from metorial.integrations.haystack import create_haystack_tools
 from metorial.integrations.langchain import create_langchain_tools
 from metorial.integrations.langgraph import create_langgraph_tools
+from metorial.integrations.llamaindex import create_llamaindex_tools
 from metorial.integrations.openai_agents import create_openai_agent_tools
 from metorial.integrations.pydantic_ai import create_pydantic_ai_tools
 from metorial.providers.anthropic import MetorialAnthropicSession
@@ -192,6 +196,10 @@ async def _resolve_pydantic_ai(session: MetorialSession) -> ConnectedSession[Any
   return await _resolve_integration_tools(session, create_pydantic_ai_tools)
 
 
+async def _resolve_autogen(session: MetorialSession) -> ConnectedSession[Any]:
+  return await _resolve_integration_tools(session, create_autogen_tools)
+
+
 async def _resolve_langchain(session: MetorialSession) -> ConnectedSession[Any]:
   return await _resolve_integration_tools(session, create_langchain_tools)
 
@@ -200,8 +208,20 @@ async def _resolve_langgraph(session: MetorialSession) -> ConnectedSession[Any]:
   return await _resolve_integration_tools(session, create_langgraph_tools)
 
 
+async def _resolve_llamaindex(session: MetorialSession) -> ConnectedSession[Any]:
+  return await _resolve_integration_tools(session, create_llamaindex_tools)
+
+
 async def _resolve_openai_agents(session: MetorialSession) -> ConnectedSession[Any]:
   return await _resolve_integration_tools(session, create_openai_agent_tools)
+
+
+async def _resolve_crewai(session: MetorialSession) -> ConnectedSession[Any]:
+  return await _resolve_integration_tools(session, create_crewai_tools)
+
+
+async def _resolve_google_adk(session: MetorialSession) -> ConnectedSession[Any]:
+  return await _resolve_integration_tools(session, create_google_adk_tools)
 
 
 async def _resolve_haystack(session: MetorialSession) -> ConnectedSession[Any]:
@@ -216,9 +236,13 @@ metorial_deepseek = create_mcp_sdk(_resolve_deepseek)
 metorial_togetherai = create_mcp_sdk(_resolve_togetherai)
 metorial_xai = create_mcp_sdk(_resolve_xai)
 metorial_pydantic_ai = create_mcp_sdk(_resolve_pydantic_ai)
+metorial_autogen = create_mcp_sdk(_resolve_autogen)
 metorial_langchain = create_mcp_sdk(_resolve_langchain)
 metorial_langgraph = create_mcp_sdk(_resolve_langgraph)
+metorial_llamaindex = create_mcp_sdk(_resolve_llamaindex)
 metorial_openai_agents = create_mcp_sdk(_resolve_openai_agents)
+metorial_crewai = create_mcp_sdk(_resolve_crewai)
+metorial_google_adk = create_mcp_sdk(_resolve_google_adk)
 metorial_haystack = create_mcp_sdk(_resolve_haystack)
 
 
@@ -239,11 +263,15 @@ __all__ = [
   "MetorialAdapter",
   "create_mcp_sdk",
   "metorial_anthropic",
+  "metorial_autogen",
+  "metorial_crewai",
   "metorial_deepseek",
   "metorial_google",
+  "metorial_google_adk",
   "metorial_haystack",
   "metorial_langchain",
   "metorial_langgraph",
+  "metorial_llamaindex",
   "metorial_mistral",
   "metorial_openai",
   "metorial_openai_agents",

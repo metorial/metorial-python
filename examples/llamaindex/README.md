@@ -1,11 +1,11 @@
-# Metorial + LangGraph
+# Metorial + LlamaIndex
 
-Uses [LangGraph](https://langchain-ai.github.io/langgraph/) with Anthropic Claude to run a ReAct agent with MCP tool calls via [Metorial](https://metorial.com). The example uses Metorial Search (built-in web search) by default — no dashboard setup needed.
+Uses [LlamaIndex](https://www.llamaindex.ai/) with OpenAI to run a function-calling agent with MCP tool calls via [Metorial](https://metorial.com). The example uses Metorial Search (built-in web search) by default and requires no dashboard setup.
 
 ## Environment variables
 
 - `METORIAL_API_KEY` — get one at [platform.metorial.com](https://platform.metorial.com)
-- `ANTHROPIC_API_KEY` — from [console.anthropic.com](https://console.anthropic.com)
+- `OPENAI_API_KEY` — from [platform.openai.com](https://platform.openai.com)
 
 ## Run
 
@@ -22,35 +22,35 @@ This README snippet uses bare `await` for readability. For a runnable script, se
 ```python
 import os
 
-from langchain_anthropic import ChatAnthropic
-from langgraph.prebuilt import create_react_agent
+from llama_index.core.agent.workflow import FunctionAgent
+from llama_index.llms.openai import OpenAI
 
-# Initialize the Metorial client
-from metorial import Metorial, metorial_langgraph
+from metorial import Metorial, metorial_llamaindex
 
 metorial = Metorial(api_key=os.getenv("METORIAL_API_KEY"))
 
-# Create a deployment for Metorial Search
 deployment = metorial.provider_deployments.create(
     name="Metorial Search",
     provider_id="metorial-search",
 )
 
-# Connect and resolve LangGraph tools directly
 session = await metorial.connect(
-    adapter=metorial_langgraph(),
+    adapter=metorial_llamaindex(),
     providers=[
         {"provider_deployment_id": deployment.id},
     ],
 )
 
-llm = ChatAnthropic(model="claude-sonnet-4-20250514")
-agent = create_react_agent(llm, session.tools())
-
-result = await agent.ainvoke(
-    {"messages": [("user", "Search the web for the latest news about AI agents and summarize the top 3 stories.")]}
+agent = FunctionAgent(
+    llm=OpenAI(model="gpt-4o-mini"),
+    tools=session.tools(),
+    system_prompt="You are a helpful research assistant.",
 )
-print(result["messages"][-1].content)
+
+result = await agent.run(
+    "Search the web for the latest news about AI agents and summarize the top 3 stories."
+)
+print(str(result))
 ```
 
 ## Adding OAuth providers

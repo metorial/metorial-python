@@ -10,13 +10,23 @@ Uses [deepset Haystack](https://haystack.deepset.ai/) with OpenAI GPT-4o to run 
 ## Run
 
 ```bash
-pip install metorial haystack-ai python-dotenv
+cp .env.example .env
+pip install -r requirements.txt
 python example.py
 ```
 
 ## How it works
 
+This README snippet uses bare `await` for readability. For a runnable script, see [`example.py`](./example.py).
+
 ```python
+import os
+
+from haystack import Pipeline
+from haystack.components.generators.chat import OpenAIChatGenerator
+from haystack.components.tools import ToolInvoker
+from haystack.dataclasses import ChatMessage
+
 # Initialize the Metorial client
 from metorial import Metorial, metorial_haystack
 

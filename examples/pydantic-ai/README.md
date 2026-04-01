@@ -10,13 +10,20 @@ Uses [PydanticAI](https://ai.pydantic.dev/) with Anthropic Claude to run an AI a
 ## Run
 
 ```bash
-pip install metorial pydantic-ai python-dotenv
+cp .env.example .env
+pip install -r requirements.txt
 python example.py
 ```
 
 ## How it works
 
+This README snippet uses bare `await` for readability. For a runnable script, see [`example.py`](./example.py).
+
 ```python
+import os
+
+from pydantic_ai import Agent
+
 # Initialize the Metorial client
 from metorial import Metorial, metorial_pydantic_ai
 

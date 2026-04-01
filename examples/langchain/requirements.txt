@@ -1,0 +1,5 @@
+metorial
+python-dotenv
+langchain
+langchain-anthropic
+langgraph

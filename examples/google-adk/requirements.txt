@@ -1,0 +1,4 @@
+metorial
+python-dotenv
+google-adk
+google-genai

@@ -2,7 +2,8 @@
 deepset Haystack integration example.
 
 Prerequisites:
-    pip install metorial haystack-ai python-dotenv
+    cp .env.example .env
+    pip install -r requirements.txt
 """
 
 import asyncio

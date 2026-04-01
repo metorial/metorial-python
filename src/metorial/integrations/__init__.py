@@ -7,7 +7,10 @@ Available integrations:
 - openai_agents: OpenAI Agents SDK integration
 - pydantic_ai: PydanticAI tool integration
 - autogen: Microsoft Autogen integration
+- crewai: CrewAI tool integration
+- google_adk: Google ADK tool integration
 - haystack: deepset Haystack integration
+- llamaindex: LlamaIndex tool integration
 """
 
 from __future__ import annotations
@@ -40,10 +43,13 @@ def _sanitize_schema(schema: dict[str, Any]) -> dict[str, Any]:
 
 
 __all__ = [
+  "autogen",
+  "crewai",
+  "google_adk",
+  "haystack",
   "langchain",
   "langgraph",
+  "llamaindex",
   "openai_agents",
   "pydantic_ai",
-  "autogen",
-  "haystack",
 ]

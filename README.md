@@ -35,6 +35,10 @@ For popular agent frameworks, we provide helper functions that convert tools to 
 
 | Framework     | Import                                                                      | Example                                         |
 | ------------- | --------------------------------------------------------------------------- | ------------------------------------------------ |
+| AutoGen       | `from metorial.integrations.autogen import create_autogen_tools`            | [example](./examples/autogen/example.py)         |
+| CrewAI        | `from metorial.integrations.crewai import create_crewai_tools`              | [example](./examples/crewai/example.py)          |
+| Google ADK    | `from metorial.integrations.google_adk import create_google_adk_tools`      | [example](./examples/google-adk/example.py)      |
+| LlamaIndex    | `from metorial.integrations.llamaindex import create_llamaindex_tools`      | [example](./examples/llamaindex/example.py)      |
 | PydanticAI    | `from metorial.integrations.pydantic_ai import create_pydantic_ai_tools`    | [example](./examples/pydantic-ai/example.py)     |
 | LangChain     | `from metorial.integrations.langchain import create_langchain_tools`        | [example](./examples/langchain/example.py)       |
 | LangGraph     | `from metorial.integrations.langgraph import create_langgraph_tools`        | [example](./examples/langgraph/example.py)       |
@@ -52,8 +56,9 @@ This example uses **PydanticAI** with **Anthropic Claude** and **Metorial Search
 pip install metorial pydantic-ai python-dotenv
 ```
 
+> For readability, the README snippets below use bare `await`. In a normal `.py` script, wrap them in `async def main()` and call `asyncio.run(main())`.
+
 ```python
-import asyncio
 import os
 
 from metorial import Metorial, metorial_pydantic_ai
@@ -61,31 +66,28 @@ from pydantic_ai import Agent
 
 metorial = Metorial(api_key=os.environ["METORIAL_API_KEY"])
 
-async def main():
-    deployment = metorial.provider_deployments.create(
-        name="Metorial Search",
-        provider_id="metorial-search",
-    )
+deployment = metorial.provider_deployments.create(
+    name="Metorial Search",
+    provider_id="metorial-search",
+)
 
-    session = await metorial.connect(
-        adapter=metorial_pydantic_ai(),
-        providers=[
-            {"provider_deployment_id": deployment.id},
-        ],
-    )
-    agent = Agent(
-        "anthropic:claude-sonnet-4-20250514",
-        system_prompt="You are a helpful research assistant.",
-        tools=session.tools(),
-    )
+session = await metorial.connect(
+    adapter=metorial_pydantic_ai(),
+    providers=[
+        {"provider_deployment_id": deployment.id},
+    ],
+)
+agent = Agent(
+    "anthropic:claude-sonnet-4-20250514",
+    system_prompt="You are a helpful research assistant.",
+    tools=session.tools(),
+)
 
-    result = await agent.run(
-        "Search the web for the latest news about AI agents and summarize the top 3 stories."
-    )
-    output = getattr(result, "data", None) or getattr(result, "output", str(result))
-    print(output)
-
-asyncio.run(main())
+result = await agent.run(
+    "Search the web for the latest news about AI agents and summarize the top 3 stories."
+)
+output = getattr(result, "data", None) or getattr(result, "output", str(result))
+print(output)
 ```
 
 > See the full runnable example at [`examples/pydantic-ai/`](examples/pydantic-ai/).
@@ -268,9 +270,13 @@ Check out the `examples/` directory for complete working examples:
 
 | Example | Framework | Description |
 |---------|-----------|-------------|
+| [`autogen`](examples/autogen/) | AutoGen + OpenAI | AutoGen assistant with tool calls |
+| [`crewai`](examples/crewai/) | CrewAI + OpenAI | CrewAI agent with Metorial tools |
+| [`google-adk`](examples/google-adk/) | Google ADK + Gemini | Google ADK agent with async tool calls |
 | [`pydantic-ai`](examples/pydantic-ai/) | PydanticAI + Anthropic | PydanticAI agent with tool calls |
 | [`langchain`](examples/langchain/) | LangChain + Anthropic | LangChain agent with react pattern |
 | [`langgraph`](examples/langgraph/) | LangGraph + Anthropic | LangGraph streaming agent |
+| [`llamaindex`](examples/llamaindex/) | LlamaIndex + OpenAI | FunctionAgent with tool calls |
 | [`openai-agents`](examples/openai-agents/) | OpenAI Agents SDK | OpenAI Agents with tool calls |
 | [`haystack`](examples/haystack/) | Haystack + OpenAI | Haystack pipeline with tools |
 
@@ -454,9 +460,13 @@ if response.choices[0].message.tool_calls:
 ### LangChain / LangGraph
 
 ```python
-from metorial import metorial_langchain
+import os
+
 from langchain_anthropic import ChatAnthropic
 from langgraph.prebuilt import create_react_agent
+from metorial import Metorial, metorial_langchain
+
+metorial = Metorial(api_key=os.environ["METORIAL_API_KEY"])
 
 deployment = metorial.provider_deployments.create(
     name="Metorial Search",
@@ -479,8 +489,12 @@ print(result["messages"][-1].content)
 ### PydanticAI
 
 ```python
-from metorial import metorial_pydantic_ai
+import os
+
 from pydantic_ai import Agent
+from metorial import Metorial, metorial_pydantic_ai
+
+metorial = Metorial(api_key=os.environ["METORIAL_API_KEY"])
 
 deployment = metorial.provider_deployments.create(
     name="Metorial Search",
@@ -493,7 +507,9 @@ session = await metorial.connect(
 )
 agent = Agent("anthropic:claude-sonnet-4-20250514", tools=session.tools())
 
-result = await agent.run("Search the web for the latest news about AI agents and summarize the top 3 stories.")
+result = await agent.run(
+    "Search the web for the latest news about AI agents and summarize the top 3 stories."
+)
 print(result.output)
 ```
 

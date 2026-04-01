@@ -2,7 +2,8 @@
 LangGraph integration example.
 
 Prerequisites:
-    pip install metorial langgraph langchain-anthropic python-dotenv
+    cp .env.example .env
+    pip install -r requirements.txt
 """
 
 import asyncio
@@ -41,15 +42,14 @@ async def main():
     system_prompt="Use one tool then respond briefly.",
   )
 
-  async for event in agent.astream(
+  result = await agent.ainvoke(
     {
       "messages": [
         ("user", "Use the add tool to add 2 and 3. Reply with just the result.")
       ]
     }
-  ):
-    if "agent" in event:
-      print(event["agent"]["messages"][-1].content)
+  )
+  print(result["messages"][-1].content)
 
 
 if __name__ == "__main__":

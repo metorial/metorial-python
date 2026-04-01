@@ -1,0 +1,3 @@
+metorial
+python-dotenv
+pydantic-ai

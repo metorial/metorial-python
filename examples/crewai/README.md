@@ -1,6 +1,6 @@
-# Metorial + OpenAI Agents SDK
+# Metorial + CrewAI
 
-Uses the [OpenAI Agents SDK](https://github.com/openai/openai-agents-python) to run an AI agent with MCP tool calls via [Metorial](https://metorial.com). The example uses Metorial Search (built-in web search) by default — no dashboard setup needed.
+Uses [CrewAI](https://www.crewai.com/) with OpenAI to run an agent with MCP tool calls via [Metorial](https://metorial.com). The example uses Metorial Search (built-in web search) by default and requires no dashboard setup.
 
 ## Environment variables
 
@@ -22,41 +22,40 @@ This README snippet uses bare `await` for readability. For a runnable script, se
 ```python
 import os
 
-from agents import Agent, Runner
+from crewai import Agent, Crew, Task
 
-# Initialize the Metorial client
-from metorial import Metorial, metorial_openai_agents
+from metorial import Metorial, metorial_crewai
 
 metorial = Metorial(api_key=os.getenv("METORIAL_API_KEY"))
 
-# Create a deployment for Metorial Search
 deployment = metorial.provider_deployments.create(
     name="Metorial Search",
     provider_id="metorial-search",
 )
 
-# Connect and resolve OpenAI Agents tools directly
 session = await metorial.connect(
-    adapter=metorial_openai_agents(),
+    adapter=metorial_crewai(),
     providers=[
         {"provider_deployment_id": deployment.id},
     ],
 )
 
-# The agent and runner handle the tool call loop automatically
 agent = Agent(
-    name="Research Assistant",
-    instructions="You are a helpful research assistant. Use the available tools to find information.",
+    role="Research Assistant",
+    goal="Use the available tools to answer questions.",
+    backstory="You are a helpful research assistant.",
     tools=session.tools(),
+    llm="gpt-4o",
+)
+task = Task(
+    description="Search the web for the latest news about AI agents and summarize the top 3 stories.",
+    expected_output="A concise summary of the top 3 stories.",
+    agent=agent,
 )
 
-# Runner.run orchestrates the full conversation — when the agent
-# wants to use a tool, the runner calls it via Metorial and feeds
-# the result back until the agent produces a final answer
-result = await Runner.run(
-    agent, "Search the web for the latest news about AI agents and summarize the top 3 stories."
-)
-print(result.final_output)
+crew = Crew(agents=[agent], tasks=[task], verbose=True)
+result = await crew.akickoff()
+print(result)
 ```
 
 ## Adding OAuth providers
