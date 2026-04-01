@@ -10,7 +10,8 @@ Uses [PydanticAI](https://ai.pydantic.dev/) with Anthropic Claude to run an AI a
 ## Run
 
 ```bash
-pip install metorial pydantic-ai python-dotenv
+cp .env.example .env
+pip install -r requirements.txt
 python example.py
 ```
 

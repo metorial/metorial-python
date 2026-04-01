@@ -10,7 +10,8 @@ Uses [deepset Haystack](https://haystack.deepset.ai/) with OpenAI GPT-4o to run 
 ## Run
 
 ```bash
-pip install metorial haystack-ai python-dotenv
+cp .env.example .env
+pip install -r requirements.txt
 python example.py
 ```
 

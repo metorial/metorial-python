@@ -2,7 +2,8 @@
 Google ADK integration example.
 
 Prerequisites:
-    pip install metorial google-adk google-genai python-dotenv
+    cp .env.example .env
+    pip install -r requirements.txt
 """
 
 import asyncio

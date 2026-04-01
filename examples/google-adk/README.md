@@ -10,7 +10,8 @@ Uses [Google ADK](https://google.github.io/adk-docs/) with Gemini to run an agen
 ## Run
 
 ```bash
-pip install metorial google-adk google-genai python-dotenv
+cp .env.example .env
+pip install -r requirements.txt
 python example.py
 ```
 

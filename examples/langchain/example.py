@@ -2,7 +2,8 @@
 LangChain integration example.
 
 Prerequisites:
-    pip install metorial langchain langchain-anthropic langgraph python-dotenv
+    cp .env.example .env
+    pip install -r requirements.txt
 """
 
 import asyncio

@@ -1,0 +1,4 @@
+metorial
+python-dotenv
+llama-index
+llama-index-llms-openai

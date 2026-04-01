@@ -2,7 +2,8 @@
 LangGraph integration example.
 
 Prerequisites:
-    pip install metorial langgraph langchain-anthropic python-dotenv
+    cp .env.example .env
+    pip install -r requirements.txt
 """
 
 import asyncio

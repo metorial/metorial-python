@@ -2,7 +2,8 @@
 CrewAI integration example.
 
 Prerequisites:
-    pip install metorial crewai python-dotenv
+    cp .env.example .env
+    pip install -r requirements.txt
 """
 
 import asyncio

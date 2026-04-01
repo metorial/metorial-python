@@ -2,7 +2,8 @@
 AutoGen integration example.
 
 Prerequisites:
-    pip install metorial autogen-agentchat autogen-ext python-dotenv
+    cp .env.example .env
+    pip install -r requirements.txt
 """
 
 import asyncio

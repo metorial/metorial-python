@@ -10,7 +10,8 @@ Uses [CrewAI](https://www.crewai.com/) with OpenAI to run an agent with MCP tool
 ## Run
 
 ```bash
-pip install metorial crewai python-dotenv
+cp .env.example .env
+pip install -r requirements.txt
 python example.py
 ```
 

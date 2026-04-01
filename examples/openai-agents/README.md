@@ -10,7 +10,8 @@ Uses the [OpenAI Agents SDK](https://github.com/openai/openai-agents-python) to 
 ## Run
 
 ```bash
-pip install metorial openai-agents python-dotenv
+cp .env.example .env
+pip install -r requirements.txt
 python example.py
 ```
 

@@ -10,7 +10,8 @@ Uses [AutoGen](https://microsoft.github.io/autogen/) with OpenAI to run an assis
 ## Run
 
 ```bash
-pip install metorial autogen-agentchat autogen-ext python-dotenv
+cp .env.example .env
+pip install -r requirements.txt
 python example.py
 ```
 

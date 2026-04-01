@@ -2,7 +2,8 @@
 LlamaIndex integration example.
 
 Prerequisites:
-    pip install metorial llama-index llama-index-llms-openai python-dotenv
+    cp .env.example .env
+    pip install -r requirements.txt
 """
 
 import asyncio

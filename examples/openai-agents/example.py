@@ -2,7 +2,8 @@
 OpenAI Agents SDK integration example.
 
 Prerequisites:
-    pip install metorial openai-agents python-dotenv
+    cp .env.example .env
+    pip install -r requirements.txt
 """
 
 import asyncio

@@ -1,6 +1,6 @@
 # Metorial Python Examples
 
-All examples use **Metorial Search** by default — a built-in web search provider that requires no setup. Just set your env vars and run.
+All examples use **Metorial Search** by default — a built-in web search provider that requires no setup. Each example folder includes a `.env.example` and `requirements.txt`, so you can install and run it in place.
 
 See the [main README](../README.md) for docs on authentication, OAuth, session templates, and provider configuration.
 
@@ -8,8 +8,8 @@ See the [main README](../README.md) for docs on authentication, OAuth, session t
 
 ```bash
 cd examples/pydantic-ai
-cp ../.env.example .env  # add your API keys
-pip install metorial pydantic-ai python-dotenv
+cp .env.example .env
+pip install -r requirements.txt
 python example.py
 ```
 

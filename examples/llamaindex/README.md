@@ -10,7 +10,8 @@ Uses [LlamaIndex](https://www.llamaindex.ai/) with OpenAI to run a function-call
 ## Run
 
 ```bash
-pip install metorial llama-index llama-index-llms-openai python-dotenv
+cp .env.example .env
+pip install -r requirements.txt
 python example.py
 ```
 

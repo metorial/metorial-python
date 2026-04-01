@@ -10,7 +10,8 @@ Uses [LangGraph](https://langchain-ai.github.io/langgraph/) with Anthropic Claud
 ## Run
 
 ```bash
-pip install metorial langgraph langchain-anthropic python-dotenv
+cp .env.example .env
+pip install -r requirements.txt
 python example.py
 ```
 

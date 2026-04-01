@@ -10,7 +10,8 @@ Uses [LangChain](https://python.langchain.com/) with Anthropic Claude and [LangG
 ## Run
 
 ```bash
-pip install metorial langchain langchain-anthropic langgraph python-dotenv
+cp .env.example .env
+pip install -r requirements.txt
 python example.py
 ```
 
