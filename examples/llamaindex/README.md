@@ -1,16 +1,16 @@
-# Metorial + PydanticAI
+# Metorial + LlamaIndex
 
-Uses [PydanticAI](https://ai.pydantic.dev/) with Anthropic Claude to run an AI agent with MCP tool calls via [Metorial](https://metorial.com). The example uses Metorial Search (built-in web search) by default — no dashboard setup needed.
+Uses [LlamaIndex](https://www.llamaindex.ai/) with OpenAI to run a function-calling agent with MCP tool calls via [Metorial](https://metorial.com). The example uses Metorial Search (built-in web search) by default and requires no dashboard setup.
 
 ## Environment variables
 
 - `METORIAL_API_KEY` — get one at [platform.metorial.com](https://platform.metorial.com)
-- `ANTHROPIC_API_KEY` — from [console.anthropic.com](https://console.anthropic.com)
+- `OPENAI_API_KEY` — from [platform.openai.com](https://platform.openai.com)
 
 ## Run
 
 ```bash
-pip install metorial pydantic-ai python-dotenv
+pip install metorial llama-index llama-index-llms-openai python-dotenv
 python example.py
 ```
 
@@ -21,40 +21,35 @@ This README snippet uses bare `await` for readability. For a runnable script, se
 ```python
 import os
 
-from pydantic_ai import Agent
+from llama_index.core.agent.workflow import FunctionAgent
+from llama_index.llms.openai import OpenAI
 
-# Initialize the Metorial client
-from metorial import Metorial, metorial_pydantic_ai
+from metorial import Metorial, metorial_llamaindex
 
 metorial = Metorial(api_key=os.getenv("METORIAL_API_KEY"))
 
-# Create a deployment for Metorial Search
 deployment = metorial.provider_deployments.create(
     name="Metorial Search",
     provider_id="metorial-search",
 )
 
-# Connect and resolve PydanticAI tools directly
 session = await metorial.connect(
-    adapter=metorial_pydantic_ai(),
+    adapter=metorial_llamaindex(),
     providers=[
         {"provider_deployment_id": deployment.id},
     ],
 )
 
-# Pass the tools directly to the agent
-agent = Agent(
-    "anthropic:claude-sonnet-4-20250514",
-    system_prompt="You are a helpful research assistant.",
+agent = FunctionAgent(
+    llm=OpenAI(model="gpt-4o-mini"),
     tools=session.tools(),
+    system_prompt="You are a helpful research assistant.",
 )
 
-# PydanticAI handles the tool call loop automatically — when Claude
-# wants to use a tool, PydanticAI calls it via Metorial and feeds
-# the result back
 result = await agent.run(
     "Search the web for the latest news about AI agents and summarize the top 3 stories."
 )
+print(str(result))
 ```
 
 ## Adding OAuth providers

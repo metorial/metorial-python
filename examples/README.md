@@ -17,6 +17,10 @@ python example.py
 
 | Example | Framework | Description |
 |---------|-----------|-------------|
+| [`autogen`](autogen/) | AutoGen + OpenAI | AutoGen assistant with tool calls |
+| [`crewai`](crewai/) | CrewAI + OpenAI | CrewAI agent with Metorial tools |
+| [`google-adk`](google-adk/) | Google ADK + Gemini | Google ADK agent with async tool calls |
+| [`llamaindex`](llamaindex/) | LlamaIndex + OpenAI | FunctionAgent with tool calls |
 | [`pydantic-ai`](pydantic-ai/) | PydanticAI + Anthropic | PydanticAI agent with tool calls |
 | [`langchain`](langchain/) | LangChain + Anthropic | LangChain agent with react pattern |
 | [`langgraph`](langgraph/) | LangGraph + Anthropic | LangGraph streaming agent |

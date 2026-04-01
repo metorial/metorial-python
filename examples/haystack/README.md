@@ -16,7 +16,16 @@ python example.py
 
 ## How it works
 
+This README snippet uses bare `await` for readability. For a runnable script, see [`example.py`](./example.py).
+
 ```python
+import os
+
+from haystack import Pipeline
+from haystack.components.generators.chat import OpenAIChatGenerator
+from haystack.components.tools import ToolInvoker
+from haystack.dataclasses import ChatMessage
+
 # Initialize the Metorial client
 from metorial import Metorial, metorial_haystack
 

@@ -16,7 +16,13 @@ python example.py
 
 ## How it works
 
+This README snippet uses bare `await` for readability. For a runnable script, see [`example.py`](./example.py).
+
 ```python
+import os
+
+from agents import Agent, Runner
+
 # Initialize the Metorial client
 from metorial import Metorial, metorial_openai_agents
 

@@ -1,6 +1,6 @@
 # Metorial + LangGraph
 
-Uses [LangGraph](https://langchain-ai.github.io/langgraph/) with Anthropic Claude to run a streaming ReAct agent with MCP tool calls via [Metorial](https://metorial.com). The example uses Metorial Search (built-in web search) by default — no dashboard setup needed.
+Uses [LangGraph](https://langchain-ai.github.io/langgraph/) with Anthropic Claude to run a ReAct agent with MCP tool calls via [Metorial](https://metorial.com). The example uses Metorial Search (built-in web search) by default — no dashboard setup needed.
 
 ## Environment variables
 
@@ -16,7 +16,14 @@ python example.py
 
 ## How it works
 
+This README snippet uses bare `await` for readability. For a runnable script, see [`example.py`](./example.py).
+
 ```python
+import os
+
+from langchain_anthropic import ChatAnthropic
+from langgraph.prebuilt import create_react_agent
+
 # Initialize the Metorial client
 from metorial import Metorial, metorial_langgraph
 
@@ -39,17 +46,10 @@ session = await metorial.connect(
 llm = ChatAnthropic(model="claude-sonnet-4-20250514")
 agent = create_react_agent(llm, session.tools())
 
-# The key difference from the LangChain example is streaming —
-# astream yields events as the agent works, letting you see
-# intermediate results
-async for event in agent.astream(
+result = await agent.ainvoke(
     {"messages": [("user", "Search the web for the latest news about AI agents and summarize the top 3 stories.")]}
-):
-    # Each event contains the agent's latest message. The agent will
-    # call tools as needed — making search queries, reading results —
-    # and stream partial answers as they become available
-    if "agent" in event:
-        print(event["agent"]["messages"][-1].content)
+)
+print(result["messages"][-1].content)
 ```
 
 ## Adding OAuth providers

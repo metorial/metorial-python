@@ -16,7 +16,14 @@ python example.py
 
 ## How it works
 
+This README snippet uses bare `await` for readability. For a runnable script, see [`example.py`](./example.py).
+
 ```python
+import os
+
+from langchain_anthropic import ChatAnthropic
+from langgraph.prebuilt import create_react_agent
+
 # Initialize the Metorial client
 from metorial import Metorial, metorial_langchain
 
