@@ -55,9 +55,7 @@ class MetorialClientSession(ClientSession):
   async def _validate_tool_result(
     self, name: str, result: mcp_types.CallToolResult
   ) -> None:
-    logger.debug(
-      "Skipping MCP outputSchema validation for tool result: %s", name
-    )
+    logger.debug("Skipping MCP outputSchema validation for tool result: %s", name)
     return None
 
 

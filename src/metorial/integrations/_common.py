@@ -52,9 +52,7 @@ def apply_tool_signature(
   for prop_name, prop_schema in properties.items():
     base_type = json_type_to_python(prop_schema.get("type", "string"))
     annotation = (
-      base_type
-      if prop_name in required or not use_optional_union
-      else base_type | None
+      base_type if prop_name in required or not use_optional_union else base_type | None
     )
     annotations[prop_name] = annotation
     parameters.append(

@@ -9,8 +9,8 @@ from typing import TYPE_CHECKING, Any
 from metorial.integrations import _sanitize_tool_name
 from metorial.integrations._common import (
   apply_tool_signature,
-  serialize_tool_result,
   run_coro_on_loop,
+  serialize_tool_result,
 )
 
 if TYPE_CHECKING:
@@ -26,8 +26,7 @@ def create_crewai_tools(session: ProviderSession) -> list[Any]:
   """Convert Metorial session tools to CrewAI BaseTool instances."""
   if crewai_tool is None:
     raise ImportError(
-      "CrewAI is required for this integration. "
-      "Install it with: pip install crewai"
+      "CrewAI is required for this integration. Install it with: pip install crewai"
     )
 
   tool_manager = session.tool_manager
