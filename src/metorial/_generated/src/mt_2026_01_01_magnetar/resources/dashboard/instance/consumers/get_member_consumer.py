@@ -36,7 +36,7 @@ class mapDashboardInstanceConsumersGetMemberConsumerOutput:
 
 @dataclass
 class DashboardInstanceConsumersGetMemberConsumerBody:
-    surface_identifier: str
+    surface_identifier: Optional[str] = None
 
 
 class mapDashboardInstanceConsumersGetMemberConsumerBody:

@@ -4,7 +4,7 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
-class ApiKeysRotateOutputMachineAccessActorTeams:
+class ManagementOrganizationApiKeysRevealOutputMachineAccessActorTeams:
     id: str
     name: str
     slug: str
@@ -12,19 +12,19 @@ class ApiKeysRotateOutputMachineAccessActorTeams:
     created_at: datetime
     updated_at: datetime
 @dataclass
-class ApiKeysRotateOutputMachineAccessActor:
+class ManagementOrganizationApiKeysRevealOutputMachineAccessActor:
     object: str
     id: str
     type: str
     organization_id: str
     name: str
     image_url: str
-    teams: List[ApiKeysRotateOutputMachineAccessActorTeams]
+    teams: List[ManagementOrganizationApiKeysRevealOutputMachineAccessActorTeams]
     created_at: datetime
     updated_at: datetime
     email: Optional[str] = None
 @dataclass
-class ApiKeysRotateOutputMachineAccessInstanceProject:
+class ManagementOrganizationApiKeysRevealOutputMachineAccessInstanceProject:
     object: str
     id: str
     status: str
@@ -34,7 +34,7 @@ class ApiKeysRotateOutputMachineAccessInstanceProject:
     created_at: datetime
     updated_at: datetime
 @dataclass
-class ApiKeysRotateOutputMachineAccessInstance:
+class ManagementOrganizationApiKeysRevealOutputMachineAccessInstance:
     object: str
     id: str
     slug: str
@@ -43,9 +43,9 @@ class ApiKeysRotateOutputMachineAccessInstance:
     type: str
     created_at: datetime
     updated_at: datetime
-    project: ApiKeysRotateOutputMachineAccessInstanceProject
+    project: ManagementOrganizationApiKeysRevealOutputMachineAccessInstanceProject
 @dataclass
-class ApiKeysRotateOutputMachineAccessOrganization:
+class ManagementOrganizationApiKeysRevealOutputMachineAccessOrganization:
     object: str
     id: str
     type: str
@@ -55,7 +55,7 @@ class ApiKeysRotateOutputMachineAccessOrganization:
     created_at: datetime
     updated_at: datetime
 @dataclass
-class ApiKeysRotateOutputMachineAccessUser:
+class ManagementOrganizationApiKeysRevealOutputMachineAccessUser:
     object: str
     id: str
     status: str
@@ -68,7 +68,7 @@ class ApiKeysRotateOutputMachineAccessUser:
     created_at: datetime
     updated_at: datetime
 @dataclass
-class ApiKeysRotateOutputMachineAccess:
+class ManagementOrganizationApiKeysRevealOutputMachineAccess:
     object: str
     id: str
     status: str
@@ -78,20 +78,25 @@ class ApiKeysRotateOutputMachineAccess:
     created_at: datetime
     updated_at: datetime
     deleted_at: datetime
-    actor: Optional[ApiKeysRotateOutputMachineAccessActor] = None
-    instance: Optional[ApiKeysRotateOutputMachineAccessInstance] = None
-    organization: Optional[ApiKeysRotateOutputMachineAccessOrganization] = None
-    user: Optional[ApiKeysRotateOutputMachineAccessUser] = None
+    actor: Optional[ManagementOrganizationApiKeysRevealOutputMachineAccessActor] = None
+    instance: Optional[ManagementOrganizationApiKeysRevealOutputMachineAccessInstance] = None
+    organization: Optional[ManagementOrganizationApiKeysRevealOutputMachineAccessOrganization] = None
+    user: Optional[ManagementOrganizationApiKeysRevealOutputMachineAccessUser] = None
 @dataclass
-class ApiKeysRotateOutput:
+class ManagementOrganizationApiKeysRevealOutputRevealInfo:
+    until: datetime
+    forever: bool
+@dataclass
+class ManagementOrganizationApiKeysRevealOutput:
     object: str
     id: str
     status: str
     secret_redacted: str
+    secret_redacted_long: str
     type: str
     name: str
     ip_filters: List[str]
-    machine_access: ApiKeysRotateOutputMachineAccess
+    machine_access: ManagementOrganizationApiKeysRevealOutputMachineAccess
     created_at: datetime
     updated_at: datetime
     secret: Optional[str] = None
@@ -99,12 +104,13 @@ class ApiKeysRotateOutput:
     deleted_at: Optional[datetime] = None
     last_used_at: Optional[datetime] = None
     expires_at: Optional[datetime] = None
+    reveal_info: Optional[ManagementOrganizationApiKeysRevealOutputRevealInfo] = None
 
 
-class mapApiKeysRotateOutputMachineAccessActorTeams:
+class mapManagementOrganizationApiKeysRevealOutputMachineAccessActorTeams:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ApiKeysRotateOutputMachineAccessActorTeams:
-        return ApiKeysRotateOutputMachineAccessActorTeams(
+    def from_dict(data: Dict[str, Any]) -> ManagementOrganizationApiKeysRevealOutputMachineAccessActorTeams:
+        return ManagementOrganizationApiKeysRevealOutputMachineAccessActorTeams(
         id=data.get('id'),
         name=data.get('name'),
         slug=data.get('slug'),
@@ -114,17 +120,17 @@ class mapApiKeysRotateOutputMachineAccessActorTeams:
         )
 
     @staticmethod
-    def to_dict(value: Union[ApiKeysRotateOutputMachineAccessActorTeams, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[ManagementOrganizationApiKeysRevealOutputMachineAccessActorTeams, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
             return value
         return dataclasses.asdict(value)
 
-class mapApiKeysRotateOutputMachineAccessActor:
+class mapManagementOrganizationApiKeysRevealOutputMachineAccessActor:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ApiKeysRotateOutputMachineAccessActor:
-        return ApiKeysRotateOutputMachineAccessActor(
+    def from_dict(data: Dict[str, Any]) -> ManagementOrganizationApiKeysRevealOutputMachineAccessActor:
+        return ManagementOrganizationApiKeysRevealOutputMachineAccessActor(
         object=data.get('object'),
         id=data.get('id'),
         type=data.get('type'),
@@ -132,23 +138,23 @@ class mapApiKeysRotateOutputMachineAccessActor:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
-        teams=[mapApiKeysRotateOutputMachineAccessActorTeams.from_dict(item) for item in data.get('teams', []) if item],
+        teams=[mapManagementOrganizationApiKeysRevealOutputMachineAccessActorTeams.from_dict(item) for item in data.get('teams', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
-    def to_dict(value: Union[ApiKeysRotateOutputMachineAccessActor, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[ManagementOrganizationApiKeysRevealOutputMachineAccessActor, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
             return value
         return dataclasses.asdict(value)
 
-class mapApiKeysRotateOutputMachineAccessInstanceProject:
+class mapManagementOrganizationApiKeysRevealOutputMachineAccessInstanceProject:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ApiKeysRotateOutputMachineAccessInstanceProject:
-        return ApiKeysRotateOutputMachineAccessInstanceProject(
+    def from_dict(data: Dict[str, Any]) -> ManagementOrganizationApiKeysRevealOutputMachineAccessInstanceProject:
+        return ManagementOrganizationApiKeysRevealOutputMachineAccessInstanceProject(
         object=data.get('object'),
         id=data.get('id'),
         status=data.get('status'),
@@ -160,17 +166,17 @@ class mapApiKeysRotateOutputMachineAccessInstanceProject:
         )
 
     @staticmethod
-    def to_dict(value: Union[ApiKeysRotateOutputMachineAccessInstanceProject, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[ManagementOrganizationApiKeysRevealOutputMachineAccessInstanceProject, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
             return value
         return dataclasses.asdict(value)
 
-class mapApiKeysRotateOutputMachineAccessInstance:
+class mapManagementOrganizationApiKeysRevealOutputMachineAccessInstance:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ApiKeysRotateOutputMachineAccessInstance:
-        return ApiKeysRotateOutputMachineAccessInstance(
+    def from_dict(data: Dict[str, Any]) -> ManagementOrganizationApiKeysRevealOutputMachineAccessInstance:
+        return ManagementOrganizationApiKeysRevealOutputMachineAccessInstance(
         object=data.get('object'),
         id=data.get('id'),
         slug=data.get('slug'),
@@ -179,21 +185,21 @@ class mapApiKeysRotateOutputMachineAccessInstance:
         type=data.get('type'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
-        project=mapApiKeysRotateOutputMachineAccessInstanceProject.from_dict(data.get('project')) if data.get('project') else None
+        project=mapManagementOrganizationApiKeysRevealOutputMachineAccessInstanceProject.from_dict(data.get('project')) if data.get('project') else None
         )
 
     @staticmethod
-    def to_dict(value: Union[ApiKeysRotateOutputMachineAccessInstance, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[ManagementOrganizationApiKeysRevealOutputMachineAccessInstance, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
             return value
         return dataclasses.asdict(value)
 
-class mapApiKeysRotateOutputMachineAccessOrganization:
+class mapManagementOrganizationApiKeysRevealOutputMachineAccessOrganization:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ApiKeysRotateOutputMachineAccessOrganization:
-        return ApiKeysRotateOutputMachineAccessOrganization(
+    def from_dict(data: Dict[str, Any]) -> ManagementOrganizationApiKeysRevealOutputMachineAccessOrganization:
+        return ManagementOrganizationApiKeysRevealOutputMachineAccessOrganization(
         object=data.get('object'),
         id=data.get('id'),
         type=data.get('type'),
@@ -205,17 +211,17 @@ class mapApiKeysRotateOutputMachineAccessOrganization:
         )
 
     @staticmethod
-    def to_dict(value: Union[ApiKeysRotateOutputMachineAccessOrganization, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[ManagementOrganizationApiKeysRevealOutputMachineAccessOrganization, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
             return value
         return dataclasses.asdict(value)
 
-class mapApiKeysRotateOutputMachineAccessUser:
+class mapManagementOrganizationApiKeysRevealOutputMachineAccessUser:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ApiKeysRotateOutputMachineAccessUser:
-        return ApiKeysRotateOutputMachineAccessUser(
+    def from_dict(data: Dict[str, Any]) -> ManagementOrganizationApiKeysRevealOutputMachineAccessUser:
+        return ManagementOrganizationApiKeysRevealOutputMachineAccessUser(
         object=data.get('object'),
         id=data.get('id'),
         status=data.get('status'),
@@ -230,17 +236,17 @@ class mapApiKeysRotateOutputMachineAccessUser:
         )
 
     @staticmethod
-    def to_dict(value: Union[ApiKeysRotateOutputMachineAccessUser, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[ManagementOrganizationApiKeysRevealOutputMachineAccessUser, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
             return value
         return dataclasses.asdict(value)
 
-class mapApiKeysRotateOutputMachineAccess:
+class mapManagementOrganizationApiKeysRevealOutputMachineAccess:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ApiKeysRotateOutputMachineAccess:
-        return ApiKeysRotateOutputMachineAccess(
+    def from_dict(data: Dict[str, Any]) -> ManagementOrganizationApiKeysRevealOutputMachineAccess:
+        return ManagementOrganizationApiKeysRevealOutputMachineAccess(
         object=data.get('object'),
         id=data.get('id'),
         status=data.get('status'),
@@ -250,64 +256,61 @@ class mapApiKeysRotateOutputMachineAccess:
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
         deleted_at=datetime.fromisoformat(data.get('deleted_at').replace('Z', '+00:00')) if data.get('deleted_at') else None,
-        actor=mapApiKeysRotateOutputMachineAccessActor.from_dict(data.get('actor')) if data.get('actor') else None,
-        instance=mapApiKeysRotateOutputMachineAccessInstance.from_dict(data.get('instance')) if data.get('instance') else None,
-        organization=mapApiKeysRotateOutputMachineAccessOrganization.from_dict(data.get('organization')) if data.get('organization') else None,
-        user=mapApiKeysRotateOutputMachineAccessUser.from_dict(data.get('user')) if data.get('user') else None
+        actor=mapManagementOrganizationApiKeysRevealOutputMachineAccessActor.from_dict(data.get('actor')) if data.get('actor') else None,
+        instance=mapManagementOrganizationApiKeysRevealOutputMachineAccessInstance.from_dict(data.get('instance')) if data.get('instance') else None,
+        organization=mapManagementOrganizationApiKeysRevealOutputMachineAccessOrganization.from_dict(data.get('organization')) if data.get('organization') else None,
+        user=mapManagementOrganizationApiKeysRevealOutputMachineAccessUser.from_dict(data.get('user')) if data.get('user') else None
         )
 
     @staticmethod
-    def to_dict(value: Union[ApiKeysRotateOutputMachineAccess, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[ManagementOrganizationApiKeysRevealOutputMachineAccess, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
             return value
         return dataclasses.asdict(value)
 
-class mapApiKeysRotateOutput:
+class mapManagementOrganizationApiKeysRevealOutputRevealInfo:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ApiKeysRotateOutput:
-        return ApiKeysRotateOutput(
+    def from_dict(data: Dict[str, Any]) -> ManagementOrganizationApiKeysRevealOutputRevealInfo:
+        return ManagementOrganizationApiKeysRevealOutputRevealInfo(
+        until=datetime.fromisoformat(data.get('until').replace('Z', '+00:00')) if data.get('until') else None,
+        forever=data.get('forever')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementOrganizationApiKeysRevealOutputRevealInfo, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementOrganizationApiKeysRevealOutput:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementOrganizationApiKeysRevealOutput:
+        return ManagementOrganizationApiKeysRevealOutput(
         object=data.get('object'),
         id=data.get('id'),
         status=data.get('status'),
         secret_redacted=data.get('secret_redacted'),
+        secret_redacted_long=data.get('secret_redacted_long'),
         secret=data.get('secret'),
         type=data.get('type'),
         name=data.get('name'),
         description=data.get('description'),
         ip_filters=data.get('ip_filters', []),
-        machine_access=mapApiKeysRotateOutputMachineAccess.from_dict(data.get('machine_access')) if data.get('machine_access') else None,
+        machine_access=mapManagementOrganizationApiKeysRevealOutputMachineAccess.from_dict(data.get('machine_access')) if data.get('machine_access') else None,
         deleted_at=datetime.fromisoformat(data.get('deleted_at').replace('Z', '+00:00')) if data.get('deleted_at') else None,
         last_used_at=datetime.fromisoformat(data.get('last_used_at').replace('Z', '+00:00')) if data.get('last_used_at') else None,
         expires_at=datetime.fromisoformat(data.get('expires_at').replace('Z', '+00:00')) if data.get('expires_at') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
+        reveal_info=mapManagementOrganizationApiKeysRevealOutputRevealInfo.from_dict(data.get('reveal_info')) if data.get('reveal_info') else None
         )
 
     @staticmethod
-    def to_dict(value: Union[ApiKeysRotateOutput, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        # assume dataclass for generated models
-        return dataclasses.asdict(value)
-
-@dataclass
-class ApiKeysRotateBody:
-    current_expires_at: Optional[datetime] = None
-
-
-class mapApiKeysRotateBody:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ApiKeysRotateBody:
-        return ApiKeysRotateBody(
-        current_expires_at=datetime.fromisoformat(data.get('current_expires_at').replace('Z', '+00:00')) if data.get('current_expires_at') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[ApiKeysRotateBody, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[ManagementOrganizationApiKeysRevealOutput, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):

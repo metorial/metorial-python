@@ -40,7 +40,7 @@ class mapConsumersGetMemberConsumerOutput:
 
 @dataclass
 class ConsumersGetMemberConsumerBody:
-    surface_identifier: str
+    surface_identifier: Optional[str] = None
 
 
 class mapConsumersGetMemberConsumerBody:

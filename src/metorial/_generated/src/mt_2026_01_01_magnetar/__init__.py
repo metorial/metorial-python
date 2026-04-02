@@ -6,9 +6,6 @@ from .endpoints import *
 # These types are automatically exported for better IDE support
 
 # Type classes
-# ApiKeysRevealOutput
-# ApiKeysRotateBody
-# ApiKeysRotateOutput
 # ConsumerProfileGetOutput
 # ConsumerProfileGroupsListOutput
 # ConsumerProfileGroupsListQuery
@@ -364,7 +361,10 @@ from .endpoints import *
 # DashboardOrganizationsApiKeysGetOutput
 # DashboardOrganizationsApiKeysListOutput
 # DashboardOrganizationsApiKeysListQuery
+# DashboardOrganizationsApiKeysRevealOutput
 # DashboardOrganizationsApiKeysRevokeOutput
+# DashboardOrganizationsApiKeysRotateBody
+# DashboardOrganizationsApiKeysRotateOutput
 # DashboardOrganizationsApiKeysUpdateBody
 # DashboardOrganizationsApiKeysUpdateOutput
 # InstancesGetOutput
@@ -372,9 +372,6 @@ from .endpoints import *
 # TokenGetOutput
 
 # Mapper classes
-# mapApiKeysRevealOutput
-# mapApiKeysRotateBody
-# mapApiKeysRotateOutput
 # mapConsumerProfileGetOutput
 # mapConsumerProfileGroupsListOutput
 # mapConsumerProfileGroupsListQuery
@@ -730,7 +727,10 @@ from .endpoints import *
 # mapDashboardOrganizationsApiKeysGetOutput
 # mapDashboardOrganizationsApiKeysListOutput
 # mapDashboardOrganizationsApiKeysListQuery
+# mapDashboardOrganizationsApiKeysRevealOutput
 # mapDashboardOrganizationsApiKeysRevokeOutput
+# mapDashboardOrganizationsApiKeysRotateBody
+# mapDashboardOrganizationsApiKeysRotateOutput
 # mapDashboardOrganizationsApiKeysUpdateBody
 # mapDashboardOrganizationsApiKeysUpdateOutput
 # mapInstancesGetOutput

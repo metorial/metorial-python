@@ -36,7 +36,7 @@ class mapManagementInstanceConsumersGetMemberConsumerOutput:
 
 @dataclass
 class ManagementInstanceConsumersGetMemberConsumerBody:
-    surface_identifier: str
+    surface_identifier: Optional[str] = None
 
 
 class mapManagementInstanceConsumersGetMemberConsumerBody:

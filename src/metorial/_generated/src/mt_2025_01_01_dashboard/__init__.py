@@ -6,9 +6,6 @@ from .endpoints import *
 # These types are automatically exported for better IDE support
 
 # Type classes
-# ApiKeysRevealOutput
-# ApiKeysRotateBody
-# ApiKeysRotateOutput
 # DashboardBootBody
 # DashboardBootOutput
 # DashboardInstanceCallbacksCreateBody
@@ -433,7 +430,10 @@ from .endpoints import *
 # DashboardOrganizationsApiKeysGetOutput
 # DashboardOrganizationsApiKeysListOutput
 # DashboardOrganizationsApiKeysListQuery
+# DashboardOrganizationsApiKeysRevealOutput
 # DashboardOrganizationsApiKeysRevokeOutput
+# DashboardOrganizationsApiKeysRotateBody
+# DashboardOrganizationsApiKeysRotateOutput
 # DashboardOrganizationsApiKeysUpdateBody
 # DashboardOrganizationsApiKeysUpdateOutput
 # DashboardOrganizationsCreateBody
@@ -556,9 +556,6 @@ from .endpoints import *
 # OrganizationsProfileUpdateOutput
 
 # Mapper classes
-# mapApiKeysRevealOutput
-# mapApiKeysRotateBody
-# mapApiKeysRotateOutput
 # mapDashboardBootBody
 # mapDashboardBootOutput
 # mapDashboardInstanceCallbacksCreateBody
@@ -983,7 +980,10 @@ from .endpoints import *
 # mapDashboardOrganizationsApiKeysGetOutput
 # mapDashboardOrganizationsApiKeysListOutput
 # mapDashboardOrganizationsApiKeysListQuery
+# mapDashboardOrganizationsApiKeysRevealOutput
 # mapDashboardOrganizationsApiKeysRevokeOutput
+# mapDashboardOrganizationsApiKeysRotateBody
+# mapDashboardOrganizationsApiKeysRotateOutput
 # mapDashboardOrganizationsApiKeysUpdateBody
 # mapDashboardOrganizationsApiKeysUpdateOutput
 # mapDashboardOrganizationsCreateBody

@@ -1,7 +1,7 @@
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
 from metorial_util_endpoint import BaseMetorialEndpoint, MetorialEndpointManager, MetorialRequest
-from ..resources import mapDashboardOrganizationsApiKeysListOutput, DashboardOrganizationsApiKeysListOutput, mapDashboardOrganizationsApiKeysListQuery, DashboardOrganizationsApiKeysListQuery, mapDashboardOrganizationsApiKeysGetOutput, DashboardOrganizationsApiKeysGetOutput, mapDashboardOrganizationsApiKeysCreateOutput, DashboardOrganizationsApiKeysCreateOutput, mapDashboardOrganizationsApiKeysCreateBody, DashboardOrganizationsApiKeysCreateBody, mapDashboardOrganizationsApiKeysUpdateOutput, DashboardOrganizationsApiKeysUpdateOutput, mapDashboardOrganizationsApiKeysUpdateBody, DashboardOrganizationsApiKeysUpdateBody, mapDashboardOrganizationsApiKeysRevokeOutput, DashboardOrganizationsApiKeysRevokeOutput
+from ..resources import mapDashboardOrganizationsApiKeysListOutput, DashboardOrganizationsApiKeysListOutput, mapDashboardOrganizationsApiKeysListQuery, DashboardOrganizationsApiKeysListQuery, mapDashboardOrganizationsApiKeysGetOutput, DashboardOrganizationsApiKeysGetOutput, mapDashboardOrganizationsApiKeysCreateOutput, DashboardOrganizationsApiKeysCreateOutput, mapDashboardOrganizationsApiKeysCreateBody, DashboardOrganizationsApiKeysCreateBody, mapDashboardOrganizationsApiKeysUpdateOutput, DashboardOrganizationsApiKeysUpdateOutput, mapDashboardOrganizationsApiKeysUpdateBody, DashboardOrganizationsApiKeysUpdateBody, mapDashboardOrganizationsApiKeysRevokeOutput, DashboardOrganizationsApiKeysRevokeOutput, mapDashboardOrganizationsApiKeysRotateOutput, DashboardOrganizationsApiKeysRotateOutput, mapDashboardOrganizationsApiKeysRotateBody, DashboardOrganizationsApiKeysRotateBody, mapDashboardOrganizationsApiKeysRevealOutput, DashboardOrganizationsApiKeysRevealOutput
 
 class MetorialManagementOrganizationApiKeysEndpoint(BaseMetorialEndpoint):
     """Read and write API key information"""
@@ -133,3 +133,36 @@ class MetorialManagementOrganizationApiKeysEndpoint(BaseMetorialEndpoint):
             path=['organization', 'api-keys', api_key_id]
         )
         return self._delete(request).transform(mapDashboardOrganizationsApiKeysRevokeOutput.from_dict)
+
+    def rotate(self, api_key_id: str, *, current_expires_at: Optional[datetime] = None) -> DashboardOrganizationsApiKeysRotateOutput:
+        """
+    Rotate API key
+    Rotate a specific API key
+
+    :param api_key_id: str
+    :param current_expires_at: Optional[datetime] (optional)
+    :return: DashboardOrganizationsApiKeysRotateOutput
+    """
+        # Build body parameters from keyword arguments
+        body_dict = {}
+        if current_expires_at is not None:
+            body_dict["current_expires_at"] = current_expires_at
+
+        request = MetorialRequest(
+            path=['organization', 'api-keys', api_key_id, 'rotate'],
+            body=body_dict
+        )
+        return self._post(request).transform(mapDashboardOrganizationsApiKeysRotateOutput.from_dict)
+
+    def reveal(self, api_key_id: str) -> DashboardOrganizationsApiKeysRevealOutput:
+        """
+    Reveal API key
+    Reveal a specific API key
+
+    :param api_key_id: str
+    :return: DashboardOrganizationsApiKeysRevealOutput
+    """
+        request = MetorialRequest(
+            path=['organization', 'api-keys', api_key_id, 'reveal']
+        )
+        return self._post(request).transform(mapDashboardOrganizationsApiKeysRevealOutput.from_dict)

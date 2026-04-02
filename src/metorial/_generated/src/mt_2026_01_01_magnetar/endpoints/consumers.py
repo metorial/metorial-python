@@ -72,17 +72,18 @@ class MetorialConsumersEndpoint(BaseMetorialEndpoint):
         )
         return self._post(request).transform(mapDashboardInstanceConsumersCreateOutput.from_dict)
 
-    def get_member_consumer(self, *, surface_identifier: str) -> DashboardInstanceConsumersGetMemberConsumerOutput:
+    def get_member_consumer(self, *, surface_identifier: Optional[str] = None) -> DashboardInstanceConsumersGetMemberConsumerOutput:
         """
     Get member consumer
     Upserts and returns the consumer for the authenticated organization member.
 
-    :param surface_identifier: str
+    :param surface_identifier: Optional[str] (optional)
     :return: DashboardInstanceConsumersGetMemberConsumerOutput
     """
         # Build body parameters from keyword arguments
         body_dict = {}
-        body_dict["surface_identifier"] = surface_identifier
+        if surface_identifier is not None:
+            body_dict["surface_identifier"] = surface_identifier
 
         request = MetorialRequest(
             path=['get-member-consumer'],
