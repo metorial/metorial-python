@@ -6,6 +6,9 @@ from .endpoints import *
 # These types are automatically exported for better IDE support
 
 # Type classes
+# ApiKeysRevealOutput
+# ApiKeysRotateBody
+# ApiKeysRotateOutput
 # ConsumerProfileGetOutput
 # ConsumerProfileGroupsListOutput
 # ConsumerProfileGroupsListQuery
@@ -48,6 +51,21 @@ from .endpoints import *
 # DashboardInstanceCallbacksNotificationsListQuery
 # DashboardInstanceCallbacksUpdateBody
 # DashboardInstanceCallbacksUpdateOutput
+# DashboardInstanceConsumerSurfacesGetOutput
+# DashboardInstanceConsumerSurfacesListOutput
+# DashboardInstanceConsumerSurfacesListQuery
+# DashboardInstanceConsumersCreateBody
+# DashboardInstanceConsumersCreateOutput
+# DashboardInstanceConsumersGetMemberConsumerBody
+# DashboardInstanceConsumersGetMemberConsumerOutput
+# DashboardInstanceConsumersGetOutput
+# DashboardInstanceConsumersListOutput
+# DashboardInstanceConsumersListQuery
+# DashboardInstanceConsumersProfilesGetOutput
+# DashboardInstanceConsumersProfilesListOutput
+# DashboardInstanceConsumersProfilesListQuery
+# DashboardInstanceConsumersUpdateBody
+# DashboardInstanceConsumersUpdateOutput
 # DashboardInstanceCustomProvidersCommitsCreateBody
 # DashboardInstanceCustomProvidersCommitsCreateOutput
 # DashboardInstanceCustomProvidersCommitsGetOutput
@@ -341,11 +359,22 @@ from .endpoints import *
 # DashboardInstanceToolCallsGetOutput
 # DashboardInstanceToolCallsListOutput
 # DashboardInstanceToolCallsListQuery
+# DashboardOrganizationsApiKeysCreateBody
+# DashboardOrganizationsApiKeysCreateOutput
+# DashboardOrganizationsApiKeysGetOutput
+# DashboardOrganizationsApiKeysListOutput
+# DashboardOrganizationsApiKeysListQuery
+# DashboardOrganizationsApiKeysRevokeOutput
+# DashboardOrganizationsApiKeysUpdateBody
+# DashboardOrganizationsApiKeysUpdateOutput
 # InstancesGetOutput
 # InstancesListOutput
 # TokenGetOutput
 
 # Mapper classes
+# mapApiKeysRevealOutput
+# mapApiKeysRotateBody
+# mapApiKeysRotateOutput
 # mapConsumerProfileGetOutput
 # mapConsumerProfileGroupsListOutput
 # mapConsumerProfileGroupsListQuery
@@ -388,6 +417,21 @@ from .endpoints import *
 # mapDashboardInstanceCallbacksNotificationsListQuery
 # mapDashboardInstanceCallbacksUpdateBody
 # mapDashboardInstanceCallbacksUpdateOutput
+# mapDashboardInstanceConsumerSurfacesGetOutput
+# mapDashboardInstanceConsumerSurfacesListOutput
+# mapDashboardInstanceConsumerSurfacesListQuery
+# mapDashboardInstanceConsumersCreateBody
+# mapDashboardInstanceConsumersCreateOutput
+# mapDashboardInstanceConsumersGetMemberConsumerBody
+# mapDashboardInstanceConsumersGetMemberConsumerOutput
+# mapDashboardInstanceConsumersGetOutput
+# mapDashboardInstanceConsumersListOutput
+# mapDashboardInstanceConsumersListQuery
+# mapDashboardInstanceConsumersProfilesGetOutput
+# mapDashboardInstanceConsumersProfilesListOutput
+# mapDashboardInstanceConsumersProfilesListQuery
+# mapDashboardInstanceConsumersUpdateBody
+# mapDashboardInstanceConsumersUpdateOutput
 # mapDashboardInstanceCustomProvidersCommitsCreateBody
 # mapDashboardInstanceCustomProvidersCommitsCreateOutput
 # mapDashboardInstanceCustomProvidersCommitsGetOutput
@@ -681,6 +725,14 @@ from .endpoints import *
 # mapDashboardInstanceToolCallsGetOutput
 # mapDashboardInstanceToolCallsListOutput
 # mapDashboardInstanceToolCallsListQuery
+# mapDashboardOrganizationsApiKeysCreateBody
+# mapDashboardOrganizationsApiKeysCreateOutput
+# mapDashboardOrganizationsApiKeysGetOutput
+# mapDashboardOrganizationsApiKeysListOutput
+# mapDashboardOrganizationsApiKeysListQuery
+# mapDashboardOrganizationsApiKeysRevokeOutput
+# mapDashboardOrganizationsApiKeysUpdateBody
+# mapDashboardOrganizationsApiKeysUpdateOutput
 # mapInstancesGetOutput
 # mapInstancesListOutput
 # mapTokenGetOutput

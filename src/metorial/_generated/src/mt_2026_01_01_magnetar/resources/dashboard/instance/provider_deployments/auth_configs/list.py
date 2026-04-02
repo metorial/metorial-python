@@ -297,6 +297,10 @@ class DashboardInstanceProviderDeploymentsAuthConfigsListQuery:
     provider_deployment_id: Optional[Union[str, List[str]]] = None
     provider_auth_credentials_id: Optional[Union[str, List[str]]] = None
     provider_auth_method_id: Optional[Union[str, List[str]]] = None
+    actor_id: Optional[Union[str, List[str]]] = None
+    consumer_id: Optional[Union[str, List[str]]] = None
+    identity_id: Optional[Union[str, List[str]]] = None
+    identity_credential_id: Optional[Union[str, List[str]]] = None
     search: Optional[str] = None
     created_at: Optional[DashboardInstanceProviderDeploymentsAuthConfigsListQueryCreatedAt] = None
     updated_at: Optional[DashboardInstanceProviderDeploymentsAuthConfigsListQueryUpdatedAt] = None
@@ -317,6 +321,10 @@ class mapDashboardInstanceProviderDeploymentsAuthConfigsListQuery:
         provider_deployment_id=data.get('provider_deployment_id'),
         provider_auth_credentials_id=data.get('provider_auth_credentials_id'),
         provider_auth_method_id=data.get('provider_auth_method_id'),
+        actor_id=data.get('actor_id'),
+        consumer_id=data.get('consumer_id'),
+        identity_id=data.get('identity_id'),
+        identity_credential_id=data.get('identity_credential_id'),
         search=data.get('search'),
         created_at=mapDashboardInstanceProviderDeploymentsAuthConfigsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
         updated_at=mapDashboardInstanceProviderDeploymentsAuthConfigsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None

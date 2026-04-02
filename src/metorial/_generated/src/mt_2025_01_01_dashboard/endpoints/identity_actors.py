@@ -8,7 +8,7 @@ class MetorialIdentityActorsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, search: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, agent_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceIdentityActorsListOutput:
+    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, search: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, agent_id: Optional[Union[str, List[str]]] = None, consumer_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceIdentityActorsListOutput:
         """
     List identity actors
     Returns a paginated list of identity actors for the instance.
@@ -22,6 +22,7 @@ class MetorialIdentityActorsEndpoint(BaseMetorialEndpoint):
     :param status: Optional[Union[str, List[str]]] (optional)
     :param id: Optional[Union[str, List[str]]] (optional)
     :param agent_id: Optional[Union[str, List[str]]] (optional)
+    :param consumer_id: Optional[Union[str, List[str]]] (optional)
     :param created_at: Optional[Dict[str, Any]] (optional)
     :param updated_at: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceIdentityActorsListOutput
@@ -46,6 +47,8 @@ class MetorialIdentityActorsEndpoint(BaseMetorialEndpoint):
             query_dict["id"] = id
         if agent_id is not None:
             query_dict["agent_id"] = agent_id
+        if consumer_id is not None:
+            query_dict["consumer_id"] = consumer_id
         if created_at is not None:
             query_dict["created_at"] = created_at
         if updated_at is not None:

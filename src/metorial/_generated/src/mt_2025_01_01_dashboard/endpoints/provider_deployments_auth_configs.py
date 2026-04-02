@@ -8,7 +8,7 @@ class MetorialProviderDeploymentsAuthConfigsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, provider_auth_credentials_id: Optional[Union[str, List[str]]] = None, provider_auth_method_id: Optional[Union[str, List[str]]] = None, search: Optional[str] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderDeploymentsAuthConfigsListOutput:
+    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, provider_auth_credentials_id: Optional[Union[str, List[str]]] = None, provider_auth_method_id: Optional[Union[str, List[str]]] = None, actor_id: Optional[Union[str, List[str]]] = None, consumer_id: Optional[Union[str, List[str]]] = None, identity_id: Optional[Union[str, List[str]]] = None, identity_credential_id: Optional[Union[str, List[str]]] = None, search: Optional[str] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderDeploymentsAuthConfigsListOutput:
         """
     List provider auth configs
     Returns a paginated list of provider auth configs.
@@ -24,6 +24,10 @@ class MetorialProviderDeploymentsAuthConfigsEndpoint(BaseMetorialEndpoint):
     :param provider_deployment_id: Optional[Union[str, List[str]]] (optional)
     :param provider_auth_credentials_id: Optional[Union[str, List[str]]] (optional)
     :param provider_auth_method_id: Optional[Union[str, List[str]]] (optional)
+    :param actor_id: Optional[Union[str, List[str]]] (optional)
+    :param consumer_id: Optional[Union[str, List[str]]] (optional)
+    :param identity_id: Optional[Union[str, List[str]]] (optional)
+    :param identity_credential_id: Optional[Union[str, List[str]]] (optional)
     :param search: Optional[str] (optional)
     :param created_at: Optional[Dict[str, Any]] (optional)
     :param updated_at: Optional[Dict[str, Any]] (optional)
@@ -53,6 +57,14 @@ class MetorialProviderDeploymentsAuthConfigsEndpoint(BaseMetorialEndpoint):
             query_dict["provider_auth_credentials_id"] = provider_auth_credentials_id
         if provider_auth_method_id is not None:
             query_dict["provider_auth_method_id"] = provider_auth_method_id
+        if actor_id is not None:
+            query_dict["actor_id"] = actor_id
+        if consumer_id is not None:
+            query_dict["consumer_id"] = consumer_id
+        if identity_id is not None:
+            query_dict["identity_id"] = identity_id
+        if identity_credential_id is not None:
+            query_dict["identity_credential_id"] = identity_credential_id
         if search is not None:
             query_dict["search"] = search
         if created_at is not None:

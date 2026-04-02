@@ -176,6 +176,10 @@ class DashboardInstanceProviderDeploymentsListQuery:
     id: Optional[Union[str, List[str]]] = None
     provider_id: Optional[Union[str, List[str]]] = None
     provider_version_id: Optional[Union[str, List[str]]] = None
+    actor_id: Optional[Union[str, List[str]]] = None
+    consumer_id: Optional[Union[str, List[str]]] = None
+    identity_id: Optional[Union[str, List[str]]] = None
+    identity_credential_id: Optional[Union[str, List[str]]] = None
     status: Optional[Union[str, List[str]]] = None
     search: Optional[str] = None
     created_at: Optional[DashboardInstanceProviderDeploymentsListQueryCreatedAt] = None
@@ -194,6 +198,10 @@ class mapDashboardInstanceProviderDeploymentsListQuery:
         id=data.get('id'),
         provider_id=data.get('provider_id'),
         provider_version_id=data.get('provider_version_id'),
+        actor_id=data.get('actor_id'),
+        consumer_id=data.get('consumer_id'),
+        identity_id=data.get('identity_id'),
+        identity_credential_id=data.get('identity_credential_id'),
         status=data.get('status'),
         search=data.get('search'),
         created_at=mapDashboardInstanceProviderDeploymentsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,

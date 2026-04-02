@@ -6,17 +6,9 @@ from .endpoints import *
 # These types are automatically exported for better IDE support
 
 # Type classes
-# ApiKeysCreateBody
-# ApiKeysCreateOutput
-# ApiKeysGetOutput
-# ApiKeysListOutput
-# ApiKeysListQuery
 # ApiKeysRevealOutput
-# ApiKeysRevokeOutput
 # ApiKeysRotateBody
 # ApiKeysRotateOutput
-# ApiKeysUpdateBody
-# ApiKeysUpdateOutput
 # DashboardBootBody
 # DashboardBootOutput
 # DashboardInstanceCallbacksCreateBody
@@ -46,6 +38,21 @@ from .endpoints import *
 # DashboardInstanceCallbacksNotificationsListQuery
 # DashboardInstanceCallbacksUpdateBody
 # DashboardInstanceCallbacksUpdateOutput
+# DashboardInstanceConsumerSurfacesGetOutput
+# DashboardInstanceConsumerSurfacesListOutput
+# DashboardInstanceConsumerSurfacesListQuery
+# DashboardInstanceConsumersCreateBody
+# DashboardInstanceConsumersCreateOutput
+# DashboardInstanceConsumersGetMemberConsumerBody
+# DashboardInstanceConsumersGetMemberConsumerOutput
+# DashboardInstanceConsumersGetOutput
+# DashboardInstanceConsumersListOutput
+# DashboardInstanceConsumersListQuery
+# DashboardInstanceConsumersProfilesGetOutput
+# DashboardInstanceConsumersProfilesListOutput
+# DashboardInstanceConsumersProfilesListQuery
+# DashboardInstanceConsumersUpdateBody
+# DashboardInstanceConsumersUpdateOutput
 # DashboardInstanceCustomProvidersCodeGetCodeEditorTokenOutput
 # DashboardInstanceCustomProvidersCommitsCreateBody
 # DashboardInstanceCustomProvidersCommitsCreateOutput
@@ -421,6 +428,14 @@ from .endpoints import *
 # DashboardOrganizationsAccessRolesUpdateOutput
 # DashboardOrganizationsAccessRolesVersionsOutput
 # DashboardOrganizationsAccessRolesVersionsQuery
+# DashboardOrganizationsApiKeysCreateBody
+# DashboardOrganizationsApiKeysCreateOutput
+# DashboardOrganizationsApiKeysGetOutput
+# DashboardOrganizationsApiKeysListOutput
+# DashboardOrganizationsApiKeysListQuery
+# DashboardOrganizationsApiKeysRevokeOutput
+# DashboardOrganizationsApiKeysUpdateBody
+# DashboardOrganizationsApiKeysUpdateOutput
 # DashboardOrganizationsCreateBody
 # DashboardOrganizationsCreateOutput
 # DashboardOrganizationsDeleteOutput
@@ -541,17 +556,9 @@ from .endpoints import *
 # OrganizationsProfileUpdateOutput
 
 # Mapper classes
-# mapApiKeysCreateBody
-# mapApiKeysCreateOutput
-# mapApiKeysGetOutput
-# mapApiKeysListOutput
-# mapApiKeysListQuery
 # mapApiKeysRevealOutput
-# mapApiKeysRevokeOutput
 # mapApiKeysRotateBody
 # mapApiKeysRotateOutput
-# mapApiKeysUpdateBody
-# mapApiKeysUpdateOutput
 # mapDashboardBootBody
 # mapDashboardBootOutput
 # mapDashboardInstanceCallbacksCreateBody
@@ -581,6 +588,21 @@ from .endpoints import *
 # mapDashboardInstanceCallbacksNotificationsListQuery
 # mapDashboardInstanceCallbacksUpdateBody
 # mapDashboardInstanceCallbacksUpdateOutput
+# mapDashboardInstanceConsumerSurfacesGetOutput
+# mapDashboardInstanceConsumerSurfacesListOutput
+# mapDashboardInstanceConsumerSurfacesListQuery
+# mapDashboardInstanceConsumersCreateBody
+# mapDashboardInstanceConsumersCreateOutput
+# mapDashboardInstanceConsumersGetMemberConsumerBody
+# mapDashboardInstanceConsumersGetMemberConsumerOutput
+# mapDashboardInstanceConsumersGetOutput
+# mapDashboardInstanceConsumersListOutput
+# mapDashboardInstanceConsumersListQuery
+# mapDashboardInstanceConsumersProfilesGetOutput
+# mapDashboardInstanceConsumersProfilesListOutput
+# mapDashboardInstanceConsumersProfilesListQuery
+# mapDashboardInstanceConsumersUpdateBody
+# mapDashboardInstanceConsumersUpdateOutput
 # mapDashboardInstanceCustomProvidersCodeGetCodeEditorTokenOutput
 # mapDashboardInstanceCustomProvidersCommitsCreateBody
 # mapDashboardInstanceCustomProvidersCommitsCreateOutput
@@ -956,6 +978,14 @@ from .endpoints import *
 # mapDashboardOrganizationsAccessRolesUpdateOutput
 # mapDashboardOrganizationsAccessRolesVersionsOutput
 # mapDashboardOrganizationsAccessRolesVersionsQuery
+# mapDashboardOrganizationsApiKeysCreateBody
+# mapDashboardOrganizationsApiKeysCreateOutput
+# mapDashboardOrganizationsApiKeysGetOutput
+# mapDashboardOrganizationsApiKeysListOutput
+# mapDashboardOrganizationsApiKeysListQuery
+# mapDashboardOrganizationsApiKeysRevokeOutput
+# mapDashboardOrganizationsApiKeysUpdateBody
+# mapDashboardOrganizationsApiKeysUpdateOutput
 # mapDashboardOrganizationsCreateBody
 # mapDashboardOrganizationsCreateOutput
 # mapDashboardOrganizationsDeleteOutput

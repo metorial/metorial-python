@@ -195,6 +195,8 @@ class ConsumerProvidersSetupOutput:
     metadata: Optional[Dict[str, Any]] = None
     configuration: Optional[Dict[str, Any]] = None
     provider_id: Optional[str] = None
+    identity_id: Optional[str] = None
+    identity_credential_id: Optional[str] = None
     auth_method: Optional[ConsumerProvidersSetupOutputAuthMethod] = None
     deployment: Optional[ConsumerProvidersSetupOutputDeployment] = None
     credentials: Optional[ConsumerProvidersSetupOutputCredentials] = None
@@ -597,6 +599,8 @@ class mapConsumerProvidersSetupOutput:
         metadata=data.get('metadata'),
         configuration=data.get('configuration'),
         provider_id=data.get('provider_id'),
+        identity_id=data.get('identity_id'),
+        identity_credential_id=data.get('identity_credential_id'),
         auth_method=mapConsumerProvidersSetupOutputAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
         deployment=mapConsumerProvidersSetupOutputDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         credentials=mapConsumerProvidersSetupOutputCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,

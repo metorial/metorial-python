@@ -81,7 +81,7 @@ class MetorialDashboardInstanceProviderDeploymentsSetupSessionsEndpoint(BaseMeto
         )
         return self._get(request).transform(mapDashboardInstanceProviderDeploymentsSetupSessionsGetOutput.from_dict)
 
-    def create(self, instance_id: str, *, provider_id: Optional[str] = None, provider_deployment_id: Optional[str] = None, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, provider_auth_method_id: Optional[str] = None, provider_auth_credentials_id: Optional[str] = None, redirect_url: Optional[str] = None, configuration: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderDeploymentsSetupSessionsCreateOutput:
+    def create(self, instance_id: str, *, provider_id: Optional[str] = None, provider_deployment_id: Optional[str] = None, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, provider_auth_method_id: Optional[str] = None, provider_auth_credentials_id: Optional[str] = None, identity_id: Optional[str] = None, redirect_url: Optional[str] = None, configuration: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderDeploymentsSetupSessionsCreateOutput:
         """
     Create provider setup session
     Creates a new provider setup session for OAuth authentication.
@@ -94,6 +94,7 @@ class MetorialDashboardInstanceProviderDeploymentsSetupSessionsEndpoint(BaseMeto
     :param metadata: Optional[Dict[str, Any]] (optional)
     :param provider_auth_method_id: Optional[str] (optional)
     :param provider_auth_credentials_id: Optional[str] (optional)
+    :param identity_id: Optional[str] (optional)
     :param redirect_url: Optional[str] (optional)
     :param configuration: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceProviderDeploymentsSetupSessionsCreateOutput
@@ -114,6 +115,8 @@ class MetorialDashboardInstanceProviderDeploymentsSetupSessionsEndpoint(BaseMeto
             body_dict["provider_auth_method_id"] = provider_auth_method_id
         if provider_auth_credentials_id is not None:
             body_dict["provider_auth_credentials_id"] = provider_auth_credentials_id
+        if identity_id is not None:
+            body_dict["identity_id"] = identity_id
         if redirect_url is not None:
             body_dict["redirect_url"] = redirect_url
         if configuration is not None:
@@ -125,7 +128,7 @@ class MetorialDashboardInstanceProviderDeploymentsSetupSessionsEndpoint(BaseMeto
         )
         return self._post(request).transform(mapDashboardInstanceProviderDeploymentsSetupSessionsCreateOutput.from_dict)
 
-    def update(self, instance_id: str, provider_setup_session_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutput:
+    def update(self, instance_id: str, provider_setup_session_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, identity_id: Optional[str] = None) -> DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutput:
         """
     Update provider setup session
     Updates a specific provider setup session.
@@ -135,6 +138,7 @@ class MetorialDashboardInstanceProviderDeploymentsSetupSessionsEndpoint(BaseMeto
     :param name: Optional[str] (optional)
     :param description: Optional[str] (optional)
     :param metadata: Optional[Dict[str, Any]] (optional)
+    :param identity_id: Optional[str] (optional)
     :return: DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutput
     """
         # Build body parameters from keyword arguments
@@ -145,6 +149,8 @@ class MetorialDashboardInstanceProviderDeploymentsSetupSessionsEndpoint(BaseMeto
             body_dict["description"] = description
         if metadata is not None:
             body_dict["metadata"] = metadata
+        if identity_id is not None:
+            body_dict["identity_id"] = identity_id
 
         request = MetorialRequest(
             path=['dashboard', 'instances', instance_id, 'provider-setup-sessions', provider_setup_session_id],

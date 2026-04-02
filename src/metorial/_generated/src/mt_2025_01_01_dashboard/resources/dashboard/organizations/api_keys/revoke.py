@@ -4,7 +4,7 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
-class ApiKeysGetOutputMachineAccessActorTeams:
+class DashboardOrganizationsApiKeysRevokeOutputMachineAccessActorTeams:
     id: str
     name: str
     slug: str
@@ -12,19 +12,19 @@ class ApiKeysGetOutputMachineAccessActorTeams:
     created_at: datetime
     updated_at: datetime
 @dataclass
-class ApiKeysGetOutputMachineAccessActor:
+class DashboardOrganizationsApiKeysRevokeOutputMachineAccessActor:
     object: str
     id: str
     type: str
     organization_id: str
     name: str
     image_url: str
-    teams: List[ApiKeysGetOutputMachineAccessActorTeams]
+    teams: List[DashboardOrganizationsApiKeysRevokeOutputMachineAccessActorTeams]
     created_at: datetime
     updated_at: datetime
     email: Optional[str] = None
 @dataclass
-class ApiKeysGetOutputMachineAccessInstanceProject:
+class DashboardOrganizationsApiKeysRevokeOutputMachineAccessInstanceProject:
     object: str
     id: str
     status: str
@@ -34,7 +34,7 @@ class ApiKeysGetOutputMachineAccessInstanceProject:
     created_at: datetime
     updated_at: datetime
 @dataclass
-class ApiKeysGetOutputMachineAccessInstance:
+class DashboardOrganizationsApiKeysRevokeOutputMachineAccessInstance:
     object: str
     id: str
     slug: str
@@ -43,9 +43,9 @@ class ApiKeysGetOutputMachineAccessInstance:
     type: str
     created_at: datetime
     updated_at: datetime
-    project: ApiKeysGetOutputMachineAccessInstanceProject
+    project: DashboardOrganizationsApiKeysRevokeOutputMachineAccessInstanceProject
 @dataclass
-class ApiKeysGetOutputMachineAccessOrganization:
+class DashboardOrganizationsApiKeysRevokeOutputMachineAccessOrganization:
     object: str
     id: str
     type: str
@@ -55,7 +55,7 @@ class ApiKeysGetOutputMachineAccessOrganization:
     created_at: datetime
     updated_at: datetime
 @dataclass
-class ApiKeysGetOutputMachineAccessUser:
+class DashboardOrganizationsApiKeysRevokeOutputMachineAccessUser:
     object: str
     id: str
     status: str
@@ -68,7 +68,7 @@ class ApiKeysGetOutputMachineAccessUser:
     created_at: datetime
     updated_at: datetime
 @dataclass
-class ApiKeysGetOutputMachineAccess:
+class DashboardOrganizationsApiKeysRevokeOutputMachineAccess:
     object: str
     id: str
     status: str
@@ -78,16 +78,16 @@ class ApiKeysGetOutputMachineAccess:
     created_at: datetime
     updated_at: datetime
     deleted_at: datetime
-    actor: Optional[ApiKeysGetOutputMachineAccessActor] = None
-    instance: Optional[ApiKeysGetOutputMachineAccessInstance] = None
-    organization: Optional[ApiKeysGetOutputMachineAccessOrganization] = None
-    user: Optional[ApiKeysGetOutputMachineAccessUser] = None
+    actor: Optional[DashboardOrganizationsApiKeysRevokeOutputMachineAccessActor] = None
+    instance: Optional[DashboardOrganizationsApiKeysRevokeOutputMachineAccessInstance] = None
+    organization: Optional[DashboardOrganizationsApiKeysRevokeOutputMachineAccessOrganization] = None
+    user: Optional[DashboardOrganizationsApiKeysRevokeOutputMachineAccessUser] = None
 @dataclass
-class ApiKeysGetOutputRevealInfo:
+class DashboardOrganizationsApiKeysRevokeOutputRevealInfo:
     until: datetime
     forever: bool
 @dataclass
-class ApiKeysGetOutput:
+class DashboardOrganizationsApiKeysRevokeOutput:
     object: str
     id: str
     status: str
@@ -96,7 +96,7 @@ class ApiKeysGetOutput:
     type: str
     name: str
     ip_filters: List[str]
-    machine_access: ApiKeysGetOutputMachineAccess
+    machine_access: DashboardOrganizationsApiKeysRevokeOutputMachineAccess
     created_at: datetime
     updated_at: datetime
     secret: Optional[str] = None
@@ -104,13 +104,13 @@ class ApiKeysGetOutput:
     deleted_at: Optional[datetime] = None
     last_used_at: Optional[datetime] = None
     expires_at: Optional[datetime] = None
-    reveal_info: Optional[ApiKeysGetOutputRevealInfo] = None
+    reveal_info: Optional[DashboardOrganizationsApiKeysRevokeOutputRevealInfo] = None
 
 
-class mapApiKeysGetOutputMachineAccessActorTeams:
+class mapDashboardOrganizationsApiKeysRevokeOutputMachineAccessActorTeams:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ApiKeysGetOutputMachineAccessActorTeams:
-        return ApiKeysGetOutputMachineAccessActorTeams(
+    def from_dict(data: Dict[str, Any]) -> DashboardOrganizationsApiKeysRevokeOutputMachineAccessActorTeams:
+        return DashboardOrganizationsApiKeysRevokeOutputMachineAccessActorTeams(
         id=data.get('id'),
         name=data.get('name'),
         slug=data.get('slug'),
@@ -120,17 +120,17 @@ class mapApiKeysGetOutputMachineAccessActorTeams:
         )
 
     @staticmethod
-    def to_dict(value: Union[ApiKeysGetOutputMachineAccessActorTeams, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[DashboardOrganizationsApiKeysRevokeOutputMachineAccessActorTeams, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
             return value
         return dataclasses.asdict(value)
 
-class mapApiKeysGetOutputMachineAccessActor:
+class mapDashboardOrganizationsApiKeysRevokeOutputMachineAccessActor:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ApiKeysGetOutputMachineAccessActor:
-        return ApiKeysGetOutputMachineAccessActor(
+    def from_dict(data: Dict[str, Any]) -> DashboardOrganizationsApiKeysRevokeOutputMachineAccessActor:
+        return DashboardOrganizationsApiKeysRevokeOutputMachineAccessActor(
         object=data.get('object'),
         id=data.get('id'),
         type=data.get('type'),
@@ -138,23 +138,23 @@ class mapApiKeysGetOutputMachineAccessActor:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
-        teams=[mapApiKeysGetOutputMachineAccessActorTeams.from_dict(item) for item in data.get('teams', []) if item],
+        teams=[mapDashboardOrganizationsApiKeysRevokeOutputMachineAccessActorTeams.from_dict(item) for item in data.get('teams', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
-    def to_dict(value: Union[ApiKeysGetOutputMachineAccessActor, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[DashboardOrganizationsApiKeysRevokeOutputMachineAccessActor, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
             return value
         return dataclasses.asdict(value)
 
-class mapApiKeysGetOutputMachineAccessInstanceProject:
+class mapDashboardOrganizationsApiKeysRevokeOutputMachineAccessInstanceProject:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ApiKeysGetOutputMachineAccessInstanceProject:
-        return ApiKeysGetOutputMachineAccessInstanceProject(
+    def from_dict(data: Dict[str, Any]) -> DashboardOrganizationsApiKeysRevokeOutputMachineAccessInstanceProject:
+        return DashboardOrganizationsApiKeysRevokeOutputMachineAccessInstanceProject(
         object=data.get('object'),
         id=data.get('id'),
         status=data.get('status'),
@@ -166,17 +166,17 @@ class mapApiKeysGetOutputMachineAccessInstanceProject:
         )
 
     @staticmethod
-    def to_dict(value: Union[ApiKeysGetOutputMachineAccessInstanceProject, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[DashboardOrganizationsApiKeysRevokeOutputMachineAccessInstanceProject, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
             return value
         return dataclasses.asdict(value)
 
-class mapApiKeysGetOutputMachineAccessInstance:
+class mapDashboardOrganizationsApiKeysRevokeOutputMachineAccessInstance:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ApiKeysGetOutputMachineAccessInstance:
-        return ApiKeysGetOutputMachineAccessInstance(
+    def from_dict(data: Dict[str, Any]) -> DashboardOrganizationsApiKeysRevokeOutputMachineAccessInstance:
+        return DashboardOrganizationsApiKeysRevokeOutputMachineAccessInstance(
         object=data.get('object'),
         id=data.get('id'),
         slug=data.get('slug'),
@@ -185,21 +185,21 @@ class mapApiKeysGetOutputMachineAccessInstance:
         type=data.get('type'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
-        project=mapApiKeysGetOutputMachineAccessInstanceProject.from_dict(data.get('project')) if data.get('project') else None
+        project=mapDashboardOrganizationsApiKeysRevokeOutputMachineAccessInstanceProject.from_dict(data.get('project')) if data.get('project') else None
         )
 
     @staticmethod
-    def to_dict(value: Union[ApiKeysGetOutputMachineAccessInstance, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[DashboardOrganizationsApiKeysRevokeOutputMachineAccessInstance, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
             return value
         return dataclasses.asdict(value)
 
-class mapApiKeysGetOutputMachineAccessOrganization:
+class mapDashboardOrganizationsApiKeysRevokeOutputMachineAccessOrganization:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ApiKeysGetOutputMachineAccessOrganization:
-        return ApiKeysGetOutputMachineAccessOrganization(
+    def from_dict(data: Dict[str, Any]) -> DashboardOrganizationsApiKeysRevokeOutputMachineAccessOrganization:
+        return DashboardOrganizationsApiKeysRevokeOutputMachineAccessOrganization(
         object=data.get('object'),
         id=data.get('id'),
         type=data.get('type'),
@@ -211,17 +211,17 @@ class mapApiKeysGetOutputMachineAccessOrganization:
         )
 
     @staticmethod
-    def to_dict(value: Union[ApiKeysGetOutputMachineAccessOrganization, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[DashboardOrganizationsApiKeysRevokeOutputMachineAccessOrganization, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
             return value
         return dataclasses.asdict(value)
 
-class mapApiKeysGetOutputMachineAccessUser:
+class mapDashboardOrganizationsApiKeysRevokeOutputMachineAccessUser:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ApiKeysGetOutputMachineAccessUser:
-        return ApiKeysGetOutputMachineAccessUser(
+    def from_dict(data: Dict[str, Any]) -> DashboardOrganizationsApiKeysRevokeOutputMachineAccessUser:
+        return DashboardOrganizationsApiKeysRevokeOutputMachineAccessUser(
         object=data.get('object'),
         id=data.get('id'),
         status=data.get('status'),
@@ -236,17 +236,17 @@ class mapApiKeysGetOutputMachineAccessUser:
         )
 
     @staticmethod
-    def to_dict(value: Union[ApiKeysGetOutputMachineAccessUser, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[DashboardOrganizationsApiKeysRevokeOutputMachineAccessUser, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
             return value
         return dataclasses.asdict(value)
 
-class mapApiKeysGetOutputMachineAccess:
+class mapDashboardOrganizationsApiKeysRevokeOutputMachineAccess:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ApiKeysGetOutputMachineAccess:
-        return ApiKeysGetOutputMachineAccess(
+    def from_dict(data: Dict[str, Any]) -> DashboardOrganizationsApiKeysRevokeOutputMachineAccess:
+        return DashboardOrganizationsApiKeysRevokeOutputMachineAccess(
         object=data.get('object'),
         id=data.get('id'),
         status=data.get('status'),
@@ -256,40 +256,40 @@ class mapApiKeysGetOutputMachineAccess:
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
         deleted_at=datetime.fromisoformat(data.get('deleted_at').replace('Z', '+00:00')) if data.get('deleted_at') else None,
-        actor=mapApiKeysGetOutputMachineAccessActor.from_dict(data.get('actor')) if data.get('actor') else None,
-        instance=mapApiKeysGetOutputMachineAccessInstance.from_dict(data.get('instance')) if data.get('instance') else None,
-        organization=mapApiKeysGetOutputMachineAccessOrganization.from_dict(data.get('organization')) if data.get('organization') else None,
-        user=mapApiKeysGetOutputMachineAccessUser.from_dict(data.get('user')) if data.get('user') else None
+        actor=mapDashboardOrganizationsApiKeysRevokeOutputMachineAccessActor.from_dict(data.get('actor')) if data.get('actor') else None,
+        instance=mapDashboardOrganizationsApiKeysRevokeOutputMachineAccessInstance.from_dict(data.get('instance')) if data.get('instance') else None,
+        organization=mapDashboardOrganizationsApiKeysRevokeOutputMachineAccessOrganization.from_dict(data.get('organization')) if data.get('organization') else None,
+        user=mapDashboardOrganizationsApiKeysRevokeOutputMachineAccessUser.from_dict(data.get('user')) if data.get('user') else None
         )
 
     @staticmethod
-    def to_dict(value: Union[ApiKeysGetOutputMachineAccess, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[DashboardOrganizationsApiKeysRevokeOutputMachineAccess, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
             return value
         return dataclasses.asdict(value)
 
-class mapApiKeysGetOutputRevealInfo:
+class mapDashboardOrganizationsApiKeysRevokeOutputRevealInfo:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ApiKeysGetOutputRevealInfo:
-        return ApiKeysGetOutputRevealInfo(
+    def from_dict(data: Dict[str, Any]) -> DashboardOrganizationsApiKeysRevokeOutputRevealInfo:
+        return DashboardOrganizationsApiKeysRevokeOutputRevealInfo(
         until=datetime.fromisoformat(data.get('until').replace('Z', '+00:00')) if data.get('until') else None,
         forever=data.get('forever')
         )
 
     @staticmethod
-    def to_dict(value: Union[ApiKeysGetOutputRevealInfo, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[DashboardOrganizationsApiKeysRevokeOutputRevealInfo, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
             return value
         return dataclasses.asdict(value)
 
-class mapApiKeysGetOutput:
+class mapDashboardOrganizationsApiKeysRevokeOutput:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ApiKeysGetOutput:
-        return ApiKeysGetOutput(
+    def from_dict(data: Dict[str, Any]) -> DashboardOrganizationsApiKeysRevokeOutput:
+        return DashboardOrganizationsApiKeysRevokeOutput(
         object=data.get('object'),
         id=data.get('id'),
         status=data.get('status'),
@@ -300,17 +300,17 @@ class mapApiKeysGetOutput:
         name=data.get('name'),
         description=data.get('description'),
         ip_filters=data.get('ip_filters', []),
-        machine_access=mapApiKeysGetOutputMachineAccess.from_dict(data.get('machine_access')) if data.get('machine_access') else None,
+        machine_access=mapDashboardOrganizationsApiKeysRevokeOutputMachineAccess.from_dict(data.get('machine_access')) if data.get('machine_access') else None,
         deleted_at=datetime.fromisoformat(data.get('deleted_at').replace('Z', '+00:00')) if data.get('deleted_at') else None,
         last_used_at=datetime.fromisoformat(data.get('last_used_at').replace('Z', '+00:00')) if data.get('last_used_at') else None,
         expires_at=datetime.fromisoformat(data.get('expires_at').replace('Z', '+00:00')) if data.get('expires_at') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
-        reveal_info=mapApiKeysGetOutputRevealInfo.from_dict(data.get('reveal_info')) if data.get('reveal_info') else None
+        reveal_info=mapDashboardOrganizationsApiKeysRevokeOutputRevealInfo.from_dict(data.get('reveal_info')) if data.get('reveal_info') else None
         )
 
     @staticmethod
-    def to_dict(value: Union[ApiKeysGetOutput, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[DashboardOrganizationsApiKeysRevokeOutput, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):

@@ -185,6 +185,10 @@ class ProviderDeploymentsListQuery:
     id: Optional[Union[str, List[str]]] = None
     provider_id: Optional[Union[str, List[str]]] = None
     provider_version_id: Optional[Union[str, List[str]]] = None
+    actor_id: Optional[Union[str, List[str]]] = None
+    consumer_id: Optional[Union[str, List[str]]] = None
+    identity_id: Optional[Union[str, List[str]]] = None
+    identity_credential_id: Optional[Union[str, List[str]]] = None
     status: Optional[Union[str, List[str]]] = None
     capabilities: Optional[ProviderDeploymentsListQueryCapabilities] = None
     search: Optional[str] = None
@@ -204,6 +208,10 @@ class mapProviderDeploymentsListQuery:
         id=data.get('id'),
         provider_id=data.get('provider_id'),
         provider_version_id=data.get('provider_version_id'),
+        actor_id=data.get('actor_id'),
+        consumer_id=data.get('consumer_id'),
+        identity_id=data.get('identity_id'),
+        identity_credential_id=data.get('identity_credential_id'),
         status=data.get('status'),
         capabilities=mapProviderDeploymentsListQueryCapabilities.from_dict(data.get('capabilities')) if data.get('capabilities') else None,
         search=data.get('search'),

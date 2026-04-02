@@ -195,6 +195,8 @@ class ManagementInstanceProviderDeploymentsSetupSessionsUpdateOutput:
     metadata: Optional[Dict[str, Any]] = None
     configuration: Optional[Dict[str, Any]] = None
     provider_id: Optional[str] = None
+    identity_id: Optional[str] = None
+    identity_credential_id: Optional[str] = None
     auth_method: Optional[ManagementInstanceProviderDeploymentsSetupSessionsUpdateOutputAuthMethod] = None
     deployment: Optional[ManagementInstanceProviderDeploymentsSetupSessionsUpdateOutputDeployment] = None
     credentials: Optional[ManagementInstanceProviderDeploymentsSetupSessionsUpdateOutputCredentials] = None
@@ -597,6 +599,8 @@ class mapManagementInstanceProviderDeploymentsSetupSessionsUpdateOutput:
         metadata=data.get('metadata'),
         configuration=data.get('configuration'),
         provider_id=data.get('provider_id'),
+        identity_id=data.get('identity_id'),
+        identity_credential_id=data.get('identity_credential_id'),
         auth_method=mapManagementInstanceProviderDeploymentsSetupSessionsUpdateOutputAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
         deployment=mapManagementInstanceProviderDeploymentsSetupSessionsUpdateOutputDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         credentials=mapManagementInstanceProviderDeploymentsSetupSessionsUpdateOutputCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,
@@ -623,6 +627,7 @@ class ManagementInstanceProviderDeploymentsSetupSessionsUpdateBody:
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
+    identity_id: Optional[str] = None
 
 
 class mapManagementInstanceProviderDeploymentsSetupSessionsUpdateBody:
@@ -631,7 +636,8 @@ class mapManagementInstanceProviderDeploymentsSetupSessionsUpdateBody:
         return ManagementInstanceProviderDeploymentsSetupSessionsUpdateBody(
         name=data.get('name'),
         description=data.get('description'),
-        metadata=data.get('metadata')
+        metadata=data.get('metadata'),
+        identity_id=data.get('identity_id')
         )
 
     @staticmethod

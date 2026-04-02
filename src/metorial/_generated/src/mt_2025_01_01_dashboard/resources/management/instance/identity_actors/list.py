@@ -4,50 +4,14 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
-class ManagementInstanceIdentityActorsListOutputItems:
-    object: str
-    id: str
-    type: str
-    status: str
-    name: str
-    created_at: datetime
-    updated_at: datetime
-    description: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None
-    agent_id: Optional[str] = None
-@dataclass
 class ManagementInstanceIdentityActorsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
 @dataclass
 class ManagementInstanceIdentityActorsListOutput:
-    items: List[ManagementInstanceIdentityActorsListOutputItems]
+    items: List[Dict[str, Any]]
     pagination: ManagementInstanceIdentityActorsListOutputPagination
 
-
-class mapManagementInstanceIdentityActorsListOutputItems:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ManagementInstanceIdentityActorsListOutputItems:
-        return ManagementInstanceIdentityActorsListOutputItems(
-        object=data.get('object'),
-        id=data.get('id'),
-        type=data.get('type'),
-        status=data.get('status'),
-        name=data.get('name'),
-        description=data.get('description'),
-        metadata=data.get('metadata'),
-        agent_id=data.get('agent_id'),
-        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[ManagementInstanceIdentityActorsListOutputItems, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
 
 class mapManagementInstanceIdentityActorsListOutputPagination:
     @staticmethod
@@ -69,7 +33,7 @@ class mapManagementInstanceIdentityActorsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceIdentityActorsListOutput:
         return ManagementInstanceIdentityActorsListOutput(
-        items=[mapManagementInstanceIdentityActorsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
+        items=data.get('items', []),
         pagination=mapManagementInstanceIdentityActorsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )
 
@@ -101,6 +65,7 @@ class ManagementInstanceIdentityActorsListQuery:
     status: Optional[Union[str, List[str]]] = None
     id: Optional[Union[str, List[str]]] = None
     agent_id: Optional[Union[str, List[str]]] = None
+    consumer_id: Optional[Union[str, List[str]]] = None
     created_at: Optional[ManagementInstanceIdentityActorsListQueryCreatedAt] = None
     updated_at: Optional[ManagementInstanceIdentityActorsListQueryUpdatedAt] = None
 
@@ -118,6 +83,7 @@ class mapManagementInstanceIdentityActorsListQuery:
         status=data.get('status'),
         id=data.get('id'),
         agent_id=data.get('agent_id'),
+        consumer_id=data.get('consumer_id'),
         created_at=mapManagementInstanceIdentityActorsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
         updated_at=mapManagementInstanceIdentityActorsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )

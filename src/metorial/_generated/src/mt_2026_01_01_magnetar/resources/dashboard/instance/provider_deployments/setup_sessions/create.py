@@ -195,6 +195,8 @@ class DashboardInstanceProviderDeploymentsSetupSessionsCreateOutput:
     metadata: Optional[Dict[str, Any]] = None
     configuration: Optional[Dict[str, Any]] = None
     provider_id: Optional[str] = None
+    identity_id: Optional[str] = None
+    identity_credential_id: Optional[str] = None
     auth_method: Optional[DashboardInstanceProviderDeploymentsSetupSessionsCreateOutputAuthMethod] = None
     deployment: Optional[DashboardInstanceProviderDeploymentsSetupSessionsCreateOutputDeployment] = None
     credentials: Optional[DashboardInstanceProviderDeploymentsSetupSessionsCreateOutputCredentials] = None
@@ -597,6 +599,8 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsCreateOutput:
         metadata=data.get('metadata'),
         configuration=data.get('configuration'),
         provider_id=data.get('provider_id'),
+        identity_id=data.get('identity_id'),
+        identity_credential_id=data.get('identity_credential_id'),
         auth_method=mapDashboardInstanceProviderDeploymentsSetupSessionsCreateOutputAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
         deployment=mapDashboardInstanceProviderDeploymentsSetupSessionsCreateOutputDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         credentials=mapDashboardInstanceProviderDeploymentsSetupSessionsCreateOutputCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,
@@ -652,6 +656,7 @@ class DashboardInstanceProviderDeploymentsSetupSessionsCreateBody:
     metadata: Optional[Dict[str, Any]] = None
     provider_auth_method_id: Optional[str] = None
     provider_auth_credentials_id: Optional[str] = None
+    identity_id: Optional[str] = None
     redirect_url: Optional[str] = None
     configuration: Optional[DashboardInstanceProviderDeploymentsSetupSessionsCreateBodyConfiguration] = None
 
@@ -776,6 +781,7 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsCreateBody:
         metadata=data.get('metadata'),
         provider_auth_method_id=data.get('provider_auth_method_id'),
         provider_auth_credentials_id=data.get('provider_auth_credentials_id'),
+        identity_id=data.get('identity_id'),
         redirect_url=data.get('redirect_url'),
         configuration=mapDashboardInstanceProviderDeploymentsSetupSessionsCreateBodyConfiguration.from_dict(data.get('configuration')) if data.get('configuration') else None
         )

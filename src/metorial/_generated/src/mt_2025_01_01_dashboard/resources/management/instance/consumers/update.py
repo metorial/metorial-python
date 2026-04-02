@@ -1,0 +1,63 @@
+from dataclasses import dataclass
+from typing import Any, Dict, List, Optional, Union
+from datetime import datetime
+import dataclasses
+
+@dataclass
+class ManagementInstanceConsumersUpdateOutput:
+    object: str
+    id: str
+    name: str
+    email: str
+    created_at: datetime
+    updated_at: datetime
+    is_portal_consumer: bool
+    is_organization_member: bool
+
+
+class mapManagementInstanceConsumersUpdateOutput:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceConsumersUpdateOutput:
+        return ManagementInstanceConsumersUpdateOutput(
+        object=data.get('object'),
+        id=data.get('id'),
+        name=data.get('name'),
+        email=data.get('email'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
+        is_portal_consumer=data.get('is_portal_consumer'),
+        is_organization_member=data.get('is_organization_member')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceConsumersUpdateOutput, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        # assume dataclass for generated models
+        return dataclasses.asdict(value)
+
+@dataclass
+class ManagementInstanceConsumersUpdateBody:
+    name: Optional[str] = None
+    email: Optional[str] = None
+
+
+class mapManagementInstanceConsumersUpdateBody:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceConsumersUpdateBody:
+        return ManagementInstanceConsumersUpdateBody(
+        name=data.get('name'),
+        email=data.get('email')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceConsumersUpdateBody, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        # assume dataclass for generated models
+        return dataclasses.asdict(value)
+

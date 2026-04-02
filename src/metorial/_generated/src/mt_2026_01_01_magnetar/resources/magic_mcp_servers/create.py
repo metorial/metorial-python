@@ -71,6 +71,7 @@ class MagicMcpServersCreateBody:
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
+    consumer_profile_id: Optional[str] = None
 
 
 class mapMagicMcpServersCreateBody:
@@ -79,7 +80,8 @@ class mapMagicMcpServersCreateBody:
         return MagicMcpServersCreateBody(
         name=data.get('name'),
         description=data.get('description'),
-        metadata=data.get('metadata')
+        metadata=data.get('metadata'),
+        consumer_profile_id=data.get('consumer_profile_id')
         )
 
     @staticmethod

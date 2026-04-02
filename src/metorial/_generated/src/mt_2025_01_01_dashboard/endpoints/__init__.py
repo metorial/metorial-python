@@ -4,6 +4,9 @@ from .callbacks_destinations import *
 from .callbacks_events import *
 from .callbacks_instances import *
 from .callbacks_notifications import *
+from .consumer_surfaces import *
+from .consumers import *
+from .consumers_profiles import *
 from .custom_providers import *
 from .custom_providers_code import *
 from .custom_providers_commits import *
@@ -16,6 +19,9 @@ from .dashboard_instance_callbacks_destinations import *
 from .dashboard_instance_callbacks_events import *
 from .dashboard_instance_callbacks_instances import *
 from .dashboard_instance_callbacks_notifications import *
+from .dashboard_instance_consumer_surfaces import *
+from .dashboard_instance_consumers import *
+from .dashboard_instance_consumers_profiles import *
 from .dashboard_instance_custom_providers import *
 from .dashboard_instance_custom_providers_code import *
 from .dashboard_instance_custom_providers_commits import *
@@ -83,6 +89,7 @@ from .dashboard_oauth_authorization_requests import *
 from .dashboard_organizations import *
 from .dashboard_organizations_access_policies import *
 from .dashboard_organizations_access_roles import *
+from .dashboard_organizations_api_keys import *
 from .dashboard_organizations_instances import *
 from .dashboard_organizations_invites import *
 from .dashboard_organizations_join import *
@@ -122,6 +129,9 @@ from .management_instance_callbacks_destinations import *
 from .management_instance_callbacks_events import *
 from .management_instance_callbacks_instances import *
 from .management_instance_callbacks_notifications import *
+from .management_instance_consumer_surfaces import *
+from .management_instance_consumers import *
+from .management_instance_consumers_profiles import *
 from .management_instance_custom_providers import *
 from .management_instance_custom_providers_code import *
 from .management_instance_custom_providers_commits import *
@@ -187,6 +197,7 @@ from .management_instance_tool_calls import *
 from .management_organization import *
 from .management_organization_access_policies import *
 from .management_organization_access_roles import *
+from .management_organization_api_keys import *
 from .management_organization_instances import *
 from .management_organization_invites import *
 from .management_organization_members import *
