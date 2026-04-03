@@ -8,7 +8,7 @@ class MetorialProviderTemplatesEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, status: Optional[Union[str, List[str]]] = None) -> DashboardInstanceProviderTemplatesListOutput:
+    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, search: Optional[str] = None, status: Optional[Union[str, List[str]]] = None) -> DashboardInstanceProviderTemplatesListOutput:
         """
     List provider templates
     Returns a paginated list of provider templates.
@@ -20,6 +20,7 @@ class MetorialProviderTemplatesEndpoint(BaseMetorialEndpoint):
     :param order: Optional[str] (optional)
     :param id: Optional[Union[str, List[str]]] (optional)
     :param provider_deployment_id: Optional[Union[str, List[str]]] (optional)
+    :param search: Optional[str] (optional)
     :param status: Optional[Union[str, List[str]]] (optional)
     :return: DashboardInstanceProviderTemplatesListOutput
     """
@@ -39,6 +40,8 @@ class MetorialProviderTemplatesEndpoint(BaseMetorialEndpoint):
             query_dict["id"] = id
         if provider_deployment_id is not None:
             query_dict["provider_deployment_id"] = provider_deployment_id
+        if search is not None:
+            query_dict["search"] = search
         if status is not None:
             query_dict["status"] = status
 

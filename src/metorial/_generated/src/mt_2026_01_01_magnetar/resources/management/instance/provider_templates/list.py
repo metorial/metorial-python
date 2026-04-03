@@ -89,6 +89,7 @@ class ManagementInstanceProviderTemplatesListQuery:
     order: Optional[str] = None
     id: Optional[Union[str, List[str]]] = None
     provider_deployment_id: Optional[Union[str, List[str]]] = None
+    search: Optional[str] = None
     status: Optional[Union[str, List[str]]] = None
 
 
@@ -103,6 +104,7 @@ class mapManagementInstanceProviderTemplatesListQuery:
         order=data.get('order'),
         id=data.get('id'),
         provider_deployment_id=data.get('provider_deployment_id'),
+        search=data.get('search'),
         status=data.get('status')
         )
 
