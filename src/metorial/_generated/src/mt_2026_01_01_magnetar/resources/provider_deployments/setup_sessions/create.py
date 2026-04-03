@@ -657,7 +657,9 @@ class ProviderDeploymentsSetupSessionsCreateBody:
     provider_auth_method_id: Optional[str] = None
     provider_auth_credentials_id: Optional[str] = None
     identity_id: Optional[str] = None
+    consumer_id: Optional[str] = None
     redirect_url: Optional[str] = None
+    type: Optional[str] = None
     configuration: Optional[ProviderDeploymentsSetupSessionsCreateBodyConfiguration] = None
 
 
@@ -782,7 +784,9 @@ class mapProviderDeploymentsSetupSessionsCreateBody:
         provider_auth_method_id=data.get('provider_auth_method_id'),
         provider_auth_credentials_id=data.get('provider_auth_credentials_id'),
         identity_id=data.get('identity_id'),
+        consumer_id=data.get('consumer_id'),
         redirect_url=data.get('redirect_url'),
+        type=data.get('type'),
         configuration=mapProviderDeploymentsSetupSessionsCreateBodyConfiguration.from_dict(data.get('configuration')) if data.get('configuration') else None
         )
 

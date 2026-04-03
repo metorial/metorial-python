@@ -4,6 +4,33 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class ManagementInstanceConsumersGetMemberConsumerOutputProfileGroupsGroup:
+    object: str
+    id: str
+    status: str
+    name: str
+    is_default: bool
+    sso_group_ids: List[str]
+    created_at: datetime
+    updated_at: datetime
+    description: Optional[str] = None
+@dataclass
+class ManagementInstanceConsumersGetMemberConsumerOutputProfileGroups:
+    object: str
+    group: ManagementInstanceConsumersGetMemberConsumerOutputProfileGroupsGroup
+    assigned_via: str
+@dataclass
+class ManagementInstanceConsumersGetMemberConsumerOutputProfile:
+    object: str
+    id: str
+    name: str
+    email: str
+    image_url: str
+    consumer_id: str
+    created_at: datetime
+    updated_at: datetime
+    groups: Optional[List[ManagementInstanceConsumersGetMemberConsumerOutputProfileGroups]] = None
+@dataclass
 class ManagementInstanceConsumersGetMemberConsumerOutput:
     object: str
     id: str
@@ -11,8 +38,7 @@ class ManagementInstanceConsumersGetMemberConsumerOutput:
     email: str
     created_at: datetime
     updated_at: datetime
-    is_portal_consumer: bool
-    is_organization_member: bool
+    profile: ManagementInstanceConsumersGetMemberConsumerOutputProfile
 
 
 class mapManagementInstanceConsumersGetMemberConsumerOutput:
@@ -25,8 +51,7 @@ class mapManagementInstanceConsumersGetMemberConsumerOutput:
         email=data.get('email'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
-        is_portal_consumer=data.get('is_portal_consumer'),
-        is_organization_member=data.get('is_organization_member')
+        profile=mapManagementInstanceConsumersGetMemberConsumerOutputProfile.from_dict(data.get('profile')) if data.get('profile') else None
         )
 
     @staticmethod

@@ -4,6 +4,33 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class ConsumersGetMemberConsumerOutputProfileGroupsGroup:
+    object: str
+    id: str
+    status: str
+    name: str
+    is_default: bool
+    sso_group_ids: List[str]
+    created_at: datetime
+    updated_at: datetime
+    description: Optional[str] = None
+@dataclass
+class ConsumersGetMemberConsumerOutputProfileGroups:
+    object: str
+    group: ConsumersGetMemberConsumerOutputProfileGroupsGroup
+    assigned_via: str
+@dataclass
+class ConsumersGetMemberConsumerOutputProfile:
+    object: str
+    id: str
+    name: str
+    email: str
+    image_url: str
+    consumer_id: str
+    created_at: datetime
+    updated_at: datetime
+    groups: Optional[List[ConsumersGetMemberConsumerOutputProfileGroups]] = None
+@dataclass
 class ConsumersGetMemberConsumerOutput:
     object: str
     id: str
@@ -11,6 +38,7 @@ class ConsumersGetMemberConsumerOutput:
     email: str
     created_at: datetime
     updated_at: datetime
+    profile: ConsumersGetMemberConsumerOutputProfile
 
 
 class mapConsumersGetMemberConsumerOutput:
@@ -22,7 +50,8 @@ class mapConsumersGetMemberConsumerOutput:
         name=data.get('name'),
         email=data.get('email'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
+        profile=mapConsumersGetMemberConsumerOutputProfile.from_dict(data.get('profile')) if data.get('profile') else None
         )
 
     @staticmethod

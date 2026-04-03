@@ -79,7 +79,7 @@ class MetorialProviderDeploymentsSetupSessionsEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapDashboardInstanceProviderDeploymentsSetupSessionsGetOutput.from_dict)
 
-    def create(self, *, provider_id: Optional[str] = None, provider_deployment_id: Optional[str] = None, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, provider_auth_method_id: Optional[str] = None, provider_auth_credentials_id: Optional[str] = None, identity_id: Optional[str] = None, redirect_url: Optional[str] = None, configuration: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderDeploymentsSetupSessionsCreateOutput:
+    def create(self, *, provider_id: Optional[str] = None, provider_deployment_id: Optional[str] = None, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, provider_auth_method_id: Optional[str] = None, provider_auth_credentials_id: Optional[str] = None, identity_id: Optional[str] = None, consumer_id: Optional[str] = None, redirect_url: Optional[str] = None, type: Optional[str] = None, configuration: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderDeploymentsSetupSessionsCreateOutput:
         """
     Create provider setup session
     Creates a new provider setup session for OAuth authentication.
@@ -92,7 +92,9 @@ class MetorialProviderDeploymentsSetupSessionsEndpoint(BaseMetorialEndpoint):
     :param provider_auth_method_id: Optional[str] (optional)
     :param provider_auth_credentials_id: Optional[str] (optional)
     :param identity_id: Optional[str] (optional)
+    :param consumer_id: Optional[str] (optional)
     :param redirect_url: Optional[str] (optional)
+    :param type: Optional[str] (optional)
     :param configuration: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceProviderDeploymentsSetupSessionsCreateOutput
     """
@@ -114,8 +116,12 @@ class MetorialProviderDeploymentsSetupSessionsEndpoint(BaseMetorialEndpoint):
             body_dict["provider_auth_credentials_id"] = provider_auth_credentials_id
         if identity_id is not None:
             body_dict["identity_id"] = identity_id
+        if consumer_id is not None:
+            body_dict["consumer_id"] = consumer_id
         if redirect_url is not None:
             body_dict["redirect_url"] = redirect_url
+        if type is not None:
+            body_dict["type"] = type
         if configuration is not None:
             body_dict["configuration"] = configuration
 
