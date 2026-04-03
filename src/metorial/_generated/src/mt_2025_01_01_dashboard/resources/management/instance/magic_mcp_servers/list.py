@@ -4,76 +4,14 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
-class ManagementInstanceMagicMcpServersListOutputItemsEndpoints:
-    id: str
-    alias: str
-    url: str
-@dataclass
-class ManagementInstanceMagicMcpServersListOutputItems:
-    object: str
-    id: str
-    status: str
-    source: str
-    session_template_id: str
-    endpoints: List[ManagementInstanceMagicMcpServersListOutputItemsEndpoints]
-    metadata: Dict[str, Any]
-    created_at: datetime
-    updated_at: datetime
-    provider_template_id: Optional[str] = None
-    name: Optional[str] = None
-    description: Optional[str] = None
-@dataclass
 class ManagementInstanceMagicMcpServersListOutputPagination:
     has_more_before: bool
     has_more_after: bool
 @dataclass
 class ManagementInstanceMagicMcpServersListOutput:
-    items: List[ManagementInstanceMagicMcpServersListOutputItems]
+    items: List[Dict[str, Any]]
     pagination: ManagementInstanceMagicMcpServersListOutputPagination
 
-
-class mapManagementInstanceMagicMcpServersListOutputItemsEndpoints:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ManagementInstanceMagicMcpServersListOutputItemsEndpoints:
-        return ManagementInstanceMagicMcpServersListOutputItemsEndpoints(
-        id=data.get('id'),
-        alias=data.get('alias'),
-        url=data.get('url')
-        )
-
-    @staticmethod
-    def to_dict(value: Union[ManagementInstanceMagicMcpServersListOutputItemsEndpoints, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapManagementInstanceMagicMcpServersListOutputItems:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ManagementInstanceMagicMcpServersListOutputItems:
-        return ManagementInstanceMagicMcpServersListOutputItems(
-        object=data.get('object'),
-        id=data.get('id'),
-        status=data.get('status'),
-        source=data.get('source'),
-        session_template_id=data.get('session_template_id'),
-        provider_template_id=data.get('provider_template_id'),
-        endpoints=[mapManagementInstanceMagicMcpServersListOutputItemsEndpoints.from_dict(item) for item in data.get('endpoints', []) if item],
-        name=data.get('name'),
-        description=data.get('description'),
-        metadata=data.get('metadata'),
-        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[ManagementInstanceMagicMcpServersListOutputItems, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
 
 class mapManagementInstanceMagicMcpServersListOutputPagination:
     @staticmethod
@@ -95,7 +33,7 @@ class mapManagementInstanceMagicMcpServersListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceMagicMcpServersListOutput:
         return ManagementInstanceMagicMcpServersListOutput(
-        items=[mapManagementInstanceMagicMcpServersListOutputItems.from_dict(item) for item in data.get('items', []) if item],
+        items=data.get('items', []),
         pagination=mapManagementInstanceMagicMcpServersListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )
 

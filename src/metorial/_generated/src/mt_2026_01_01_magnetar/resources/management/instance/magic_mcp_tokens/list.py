@@ -125,6 +125,7 @@ class ManagementInstanceMagicMcpTokensListQuery:
     order: Optional[str] = None
     status: Optional[Union[str, List[str]]] = None
     magic_mcp_group_id: Optional[Union[str, List[str]]] = None
+    magic_mcp_server_id: Optional[Union[str, List[str]]] = None
 
 
 class mapManagementInstanceMagicMcpTokensListQuery:
@@ -137,7 +138,8 @@ class mapManagementInstanceMagicMcpTokensListQuery:
         cursor=data.get('cursor'),
         order=data.get('order'),
         status=data.get('status'),
-        magic_mcp_group_id=data.get('magic_mcp_group_id')
+        magic_mcp_group_id=data.get('magic_mcp_group_id'),
+        magic_mcp_server_id=data.get('magic_mcp_server_id')
         )
 
     @staticmethod

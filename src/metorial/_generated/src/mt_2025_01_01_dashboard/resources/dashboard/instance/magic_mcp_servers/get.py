@@ -14,32 +14,16 @@ class DashboardInstanceMagicMcpServersGetOutput:
     id: str
     status: str
     source: str
-    session_template_id: str
     endpoints: List[DashboardInstanceMagicMcpServersGetOutputEndpoints]
     metadata: Dict[str, Any]
     created_at: datetime
     updated_at: datetime
+    session_template_id: str
     provider_template_id: Optional[str] = None
     name: Optional[str] = None
     description: Optional[str] = None
+    session_id: Optional[str] = None
 
-
-class mapDashboardInstanceMagicMcpServersGetOutputEndpoints:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> DashboardInstanceMagicMcpServersGetOutputEndpoints:
-        return DashboardInstanceMagicMcpServersGetOutputEndpoints(
-        id=data.get('id'),
-        alias=data.get('alias'),
-        url=data.get('url')
-        )
-
-    @staticmethod
-    def to_dict(value: Union[DashboardInstanceMagicMcpServersGetOutputEndpoints, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
 
 class mapDashboardInstanceMagicMcpServersGetOutput:
     @staticmethod
@@ -49,14 +33,15 @@ class mapDashboardInstanceMagicMcpServersGetOutput:
         id=data.get('id'),
         status=data.get('status'),
         source=data.get('source'),
-        session_template_id=data.get('session_template_id'),
         provider_template_id=data.get('provider_template_id'),
         endpoints=[mapDashboardInstanceMagicMcpServersGetOutputEndpoints.from_dict(item) for item in data.get('endpoints', []) if item],
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
+        session_template_id=data.get('session_template_id'),
+        session_id=data.get('session_id')
         )
 
     @staticmethod

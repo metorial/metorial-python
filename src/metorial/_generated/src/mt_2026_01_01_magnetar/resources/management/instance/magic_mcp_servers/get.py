@@ -14,7 +14,6 @@ class ManagementInstanceMagicMcpServersGetOutput:
     id: str
     status: str
     source: str
-    session_template_id: str
     endpoints: List[ManagementInstanceMagicMcpServersGetOutputEndpoints]
     metadata: Dict[str, Any]
     created_at: datetime
@@ -49,7 +48,6 @@ class mapManagementInstanceMagicMcpServersGetOutput:
         id=data.get('id'),
         status=data.get('status'),
         source=data.get('source'),
-        session_template_id=data.get('session_template_id'),
         provider_template_id=data.get('provider_template_id'),
         endpoints=[mapManagementInstanceMagicMcpServersGetOutputEndpoints.from_dict(item) for item in data.get('endpoints', []) if item],
         name=data.get('name'),

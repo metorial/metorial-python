@@ -81,7 +81,7 @@ class ManagementInstanceMagicMcpTokensCreateBody:
     name: str
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
-    group_ids: Optional[List[str]] = None
+    magic_mcp_group_ids: Optional[List[str]] = None
 
 
 class mapManagementInstanceMagicMcpTokensCreateBody:
@@ -91,7 +91,7 @@ class mapManagementInstanceMagicMcpTokensCreateBody:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
-        group_ids=data.get('group_ids', [])
+        magic_mcp_group_ids=data.get('magic_mcp_group_ids', [])
         )
 
     @staticmethod

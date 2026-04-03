@@ -190,7 +190,6 @@ class DashboardInstanceSessionTemplatesProvidersListQuery:
     status: Optional[Union[str, List[str]]] = None
     id: Optional[Union[str, List[str]]] = None
     session_template_id: Optional[Union[str, List[str]]] = None
-    session_template_template_id: Optional[Union[str, List[str]]] = None
     provider_id: Optional[Union[str, List[str]]] = None
     provider_deployment_id: Optional[Union[str, List[str]]] = None
     provider_config_id: Optional[Union[str, List[str]]] = None
@@ -211,7 +210,6 @@ class mapDashboardInstanceSessionTemplatesProvidersListQuery:
         status=data.get('status'),
         id=data.get('id'),
         session_template_id=data.get('session_template_id'),
-        session_template_template_id=data.get('session_template_template_id'),
         provider_id=data.get('provider_id'),
         provider_deployment_id=data.get('provider_deployment_id'),
         provider_config_id=data.get('provider_config_id'),

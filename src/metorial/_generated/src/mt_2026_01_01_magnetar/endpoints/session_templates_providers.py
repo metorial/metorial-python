@@ -8,7 +8,7 @@ class MetorialSessionTemplatesProvidersEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, session_template_id: Optional[Union[str, List[str]]] = None, session_template_template_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, provider_config_id: Optional[Union[str, List[str]]] = None, provider_auth_config_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceSessionTemplatesProvidersListOutput:
+    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, session_template_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, provider_config_id: Optional[Union[str, List[str]]] = None, provider_auth_config_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceSessionTemplatesProvidersListOutput:
         """
     List session template providers
     Returns a paginated list of providers configured for a session template.
@@ -21,7 +21,6 @@ class MetorialSessionTemplatesProvidersEndpoint(BaseMetorialEndpoint):
     :param status: Optional[Union[str, List[str]]] (optional)
     :param id: Optional[Union[str, List[str]]] (optional)
     :param session_template_id: Optional[Union[str, List[str]]] (optional)
-    :param session_template_template_id: Optional[Union[str, List[str]]] (optional)
     :param provider_id: Optional[Union[str, List[str]]] (optional)
     :param provider_deployment_id: Optional[Union[str, List[str]]] (optional)
     :param provider_config_id: Optional[Union[str, List[str]]] (optional)
@@ -48,8 +47,6 @@ class MetorialSessionTemplatesProvidersEndpoint(BaseMetorialEndpoint):
             query_dict["id"] = id
         if session_template_id is not None:
             query_dict["session_template_id"] = session_template_id
-        if session_template_template_id is not None:
-            query_dict["session_template_template_id"] = session_template_template_id
         if provider_id is not None:
             query_dict["provider_id"] = provider_id
         if provider_deployment_id is not None:
