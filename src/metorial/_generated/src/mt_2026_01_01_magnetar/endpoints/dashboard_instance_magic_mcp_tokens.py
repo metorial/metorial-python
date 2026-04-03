@@ -63,7 +63,7 @@ class MetorialDashboardInstanceMagicMcpTokensEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapDashboardInstanceMagicMcpTokensGetOutput.from_dict)
 
-    def create(self, instance_id: str, *, name: str, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, magic_mcp_group_ids: Optional[List[str]] = None) -> DashboardInstanceMagicMcpTokensCreateOutput:
+    def create(self, instance_id: str, *, name: str, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, magic_mcp_group_ids: Optional[List[str]] = None, magic_mcp_server_id: Optional[str] = None) -> DashboardInstanceMagicMcpTokensCreateOutput:
         """
     Create magic MCP token
     Creates a new magic MCP token.
@@ -73,6 +73,7 @@ class MetorialDashboardInstanceMagicMcpTokensEndpoint(BaseMetorialEndpoint):
     :param description: Optional[str] (optional)
     :param metadata: Optional[Dict[str, Any]] (optional)
     :param magic_mcp_group_ids: Optional[List[str]] (optional)
+    :param magic_mcp_server_id: Optional[str] (optional)
     :return: DashboardInstanceMagicMcpTokensCreateOutput
     """
         # Build body parameters from keyword arguments
@@ -84,6 +85,8 @@ class MetorialDashboardInstanceMagicMcpTokensEndpoint(BaseMetorialEndpoint):
             body_dict["metadata"] = metadata
         if magic_mcp_group_ids is not None:
             body_dict["magic_mcp_group_ids"] = magic_mcp_group_ids
+        if magic_mcp_server_id is not None:
+            body_dict["magic_mcp_server_id"] = magic_mcp_server_id
 
         request = MetorialRequest(
             path=['dashboard', 'instances', instance_id, 'magic-mcp-tokens'],

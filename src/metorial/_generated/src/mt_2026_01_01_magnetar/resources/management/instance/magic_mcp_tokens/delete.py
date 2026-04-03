@@ -4,6 +4,13 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class ManagementInstanceMagicMcpTokensDeleteOutputServer:
+    object: str
+    id: str
+    status: str
+    name: Optional[str] = None
+    description: Optional[str] = None
+@dataclass
 class ManagementInstanceMagicMcpTokensDeleteOutputGroups:
     object: str
     id: str
@@ -26,7 +33,27 @@ class ManagementInstanceMagicMcpTokensDeleteOutput:
     updated_at: datetime
     name: Optional[str] = None
     description: Optional[str] = None
+    server: Optional[ManagementInstanceMagicMcpTokensDeleteOutputServer] = None
 
+
+class mapManagementInstanceMagicMcpTokensDeleteOutputServer:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceMagicMcpTokensDeleteOutputServer:
+        return ManagementInstanceMagicMcpTokensDeleteOutputServer(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        name=data.get('name'),
+        description=data.get('description')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceMagicMcpTokensDeleteOutputServer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapManagementInstanceMagicMcpTokensDeleteOutputGroups:
     @staticmethod
@@ -61,6 +88,7 @@ class mapManagementInstanceMagicMcpTokensDeleteOutput:
         secret=data.get('secret'),
         name=data.get('name'),
         description=data.get('description'),
+        server=mapManagementInstanceMagicMcpTokensDeleteOutputServer.from_dict(data.get('server')) if data.get('server') else None,
         groups=[mapManagementInstanceMagicMcpTokensDeleteOutputGroups.from_dict(item) for item in data.get('groups', []) if item],
         metadata=data.get('metadata'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,

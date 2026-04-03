@@ -4,6 +4,13 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class DashboardInstanceMagicMcpTokensAddGroupsOutputServer:
+    object: str
+    id: str
+    status: str
+    name: Optional[str] = None
+    description: Optional[str] = None
+@dataclass
 class DashboardInstanceMagicMcpTokensAddGroupsOutputGroups:
     object: str
     id: str
@@ -26,7 +33,27 @@ class DashboardInstanceMagicMcpTokensAddGroupsOutput:
     updated_at: datetime
     name: Optional[str] = None
     description: Optional[str] = None
+    server: Optional[DashboardInstanceMagicMcpTokensAddGroupsOutputServer] = None
 
+
+class mapDashboardInstanceMagicMcpTokensAddGroupsOutputServer:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceMagicMcpTokensAddGroupsOutputServer:
+        return DashboardInstanceMagicMcpTokensAddGroupsOutputServer(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        name=data.get('name'),
+        description=data.get('description')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceMagicMcpTokensAddGroupsOutputServer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapDashboardInstanceMagicMcpTokensAddGroupsOutputGroups:
     @staticmethod
@@ -61,6 +88,7 @@ class mapDashboardInstanceMagicMcpTokensAddGroupsOutput:
         secret=data.get('secret'),
         name=data.get('name'),
         description=data.get('description'),
+        server=mapDashboardInstanceMagicMcpTokensAddGroupsOutputServer.from_dict(data.get('server')) if data.get('server') else None,
         groups=[mapDashboardInstanceMagicMcpTokensAddGroupsOutputGroups.from_dict(item) for item in data.get('groups', []) if item],
         metadata=data.get('metadata'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
