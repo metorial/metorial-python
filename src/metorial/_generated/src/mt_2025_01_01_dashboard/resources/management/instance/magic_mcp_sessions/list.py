@@ -25,8 +25,7 @@ class ManagementInstanceMagicMcpSessionsListOutputItemsMagicMcpServer:
 class ManagementInstanceMagicMcpSessionsListOutputItems:
     object: str
     id: str
-    subspace_session_id: str
-    subspace_session_template_id: str
+    session_id: str
     magic_mcp_server: ManagementInstanceMagicMcpSessionsListOutputItemsMagicMcpServer
     created_at: datetime
     updated_at: datetime
@@ -88,8 +87,7 @@ class mapManagementInstanceMagicMcpSessionsListOutputItems:
         return ManagementInstanceMagicMcpSessionsListOutputItems(
         object=data.get('object'),
         id=data.get('id'),
-        subspace_session_id=data.get('subspace_session_id'),
-        subspace_session_template_id=data.get('subspace_session_template_id'),
+        session_id=data.get('session_id'),
         magic_mcp_server=mapManagementInstanceMagicMcpSessionsListOutputItemsMagicMcpServer.from_dict(data.get('magic_mcp_server')) if data.get('magic_mcp_server') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
