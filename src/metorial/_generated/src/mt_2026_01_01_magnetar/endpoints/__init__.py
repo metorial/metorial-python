@@ -3,6 +3,8 @@ from .callbacks_destinations import *
 from .callbacks_events import *
 from .callbacks_instances import *
 from .callbacks_notifications import *
+from .consumer_consumer_internal_oauth_authorizations import *
+from .consumer_consumer_internal_oauth_clients import *
 from .consumer_profile import *
 from .consumer_profile_groups import *
 from .consumer_providers import *

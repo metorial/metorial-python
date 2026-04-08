@@ -357,6 +357,7 @@ from .endpoints import *
 # DashboardInstanceScmReposPreviewOutput
 # DashboardInstanceSessionTemplatesCreateBody
 # DashboardInstanceSessionTemplatesCreateOutput
+# DashboardInstanceSessionTemplatesDeleteOutput
 # DashboardInstanceSessionTemplatesGetOutput
 # DashboardInstanceSessionTemplatesListOutput
 # DashboardInstanceSessionTemplatesListQuery
@@ -375,6 +376,7 @@ from .endpoints import *
 # DashboardInstanceSessionsConnectionsListQuery
 # DashboardInstanceSessionsCreateBody
 # DashboardInstanceSessionsCreateOutput
+# DashboardInstanceSessionsDeleteOutput
 # DashboardInstanceSessionsErrorGroupsGetOutput
 # DashboardInstanceSessionsErrorGroupsListOutput
 # DashboardInstanceSessionsErrorGroupsListQuery
@@ -915,6 +917,7 @@ from .endpoints import *
 # mapDashboardInstanceScmReposPreviewOutput
 # mapDashboardInstanceSessionTemplatesCreateBody
 # mapDashboardInstanceSessionTemplatesCreateOutput
+# mapDashboardInstanceSessionTemplatesDeleteOutput
 # mapDashboardInstanceSessionTemplatesGetOutput
 # mapDashboardInstanceSessionTemplatesListOutput
 # mapDashboardInstanceSessionTemplatesListQuery
@@ -933,6 +936,7 @@ from .endpoints import *
 # mapDashboardInstanceSessionsConnectionsListQuery
 # mapDashboardInstanceSessionsCreateBody
 # mapDashboardInstanceSessionsCreateOutput
+# mapDashboardInstanceSessionsDeleteOutput
 # mapDashboardInstanceSessionsErrorGroupsGetOutput
 # mapDashboardInstanceSessionsErrorGroupsListOutput
 # mapDashboardInstanceSessionsErrorGroupsListQuery

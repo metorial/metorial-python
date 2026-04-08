@@ -19,6 +19,7 @@ class ManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfig
     object: str
     id: str
     type: str
+    status: str
     is_default: bool
     is_managed: bool
     provider_id: str
@@ -124,6 +125,7 @@ class mapManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthCon
         object=data.get('object'),
         id=data.get('id'),
         type=data.get('type'),
+        status=data.get('status'),
         is_default=data.get('is_default'),
         is_managed=data.get('is_managed'),
         name=data.get('name'),

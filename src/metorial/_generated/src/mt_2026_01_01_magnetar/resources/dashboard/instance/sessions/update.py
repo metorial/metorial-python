@@ -57,6 +57,7 @@ class DashboardInstanceSessionsUpdateOutputProviders:
 class DashboardInstanceSessionsUpdateOutput:
     object: str
     id: str
+    status: str
     connection_state: str
     connection_url: str
     usage: DashboardInstanceSessionsUpdateOutputUsage
@@ -200,6 +201,7 @@ class mapDashboardInstanceSessionsUpdateOutput:
         return DashboardInstanceSessionsUpdateOutput(
         object=data.get('object'),
         id=data.get('id'),
+        status=data.get('status'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),

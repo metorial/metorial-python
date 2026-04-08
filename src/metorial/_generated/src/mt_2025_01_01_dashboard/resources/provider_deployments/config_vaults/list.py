@@ -18,6 +18,7 @@ class ProviderDeploymentsConfigVaultsListOutputItemsDeployment:
 class ProviderDeploymentsConfigVaultsListOutputItems:
     object: str
     id: str
+    status: str
     name: str
     provider_id: str
     created_at: datetime
@@ -64,6 +65,7 @@ class mapProviderDeploymentsConfigVaultsListOutputItems:
         return ProviderDeploymentsConfigVaultsListOutputItems(
         object=data.get('object'),
         id=data.get('id'),
+        status=data.get('status'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),

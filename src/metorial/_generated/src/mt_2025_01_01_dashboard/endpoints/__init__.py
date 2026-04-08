@@ -169,6 +169,7 @@ from .management_instance_provider_deployments_auth_configs_imports import *
 from .management_instance_provider_deployments_auth_credentials import *
 from .management_instance_provider_deployments_config_vaults import *
 from .management_instance_provider_deployments_configs import *
+from .management_instance_provider_deployments_setup_sessions import *
 from .management_instance_provider_groups import *
 from .management_instance_provider_listings import *
 from .management_instance_provider_runs import *
@@ -240,6 +241,7 @@ from .provider_deployments_auth_configs_imports import *
 from .provider_deployments_auth_credentials import *
 from .provider_deployments_config_vaults import *
 from .provider_deployments_configs import *
+from .provider_deployments_setup_sessions import *
 from .provider_groups import *
 from .provider_listings import *
 from .provider_runs import *

@@ -115,6 +115,7 @@ class PortalsAccessRequestsListQuery:
     order: Optional[str] = None
     status: Optional[Union[str, List[str]]] = None
     consumer_profile_id: Optional[Union[str, List[str]]] = None
+    search: Optional[str] = None
 
 
 class mapPortalsAccessRequestsListQuery:
@@ -127,7 +128,8 @@ class mapPortalsAccessRequestsListQuery:
         cursor=data.get('cursor'),
         order=data.get('order'),
         status=data.get('status'),
-        consumer_profile_id=data.get('consumer_profile_id')
+        consumer_profile_id=data.get('consumer_profile_id'),
+        search=data.get('search')
         )
 
     @staticmethod

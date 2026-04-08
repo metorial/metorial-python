@@ -50,6 +50,7 @@ class DashboardInstanceProviderDeploymentsSetupSessionsCreateOutputCredentials:
     object: str
     id: str
     type: str
+    status: str
     is_default: bool
     is_managed: bool
     provider_id: str
@@ -74,6 +75,7 @@ class DashboardInstanceProviderDeploymentsSetupSessionsCreateOutputAuthConfigCre
     object: str
     id: str
     type: str
+    status: str
     is_default: bool
     is_managed: bool
     provider_id: str
@@ -157,6 +159,7 @@ class DashboardInstanceProviderDeploymentsSetupSessionsCreateOutputConfigFromVau
 class DashboardInstanceProviderDeploymentsSetupSessionsCreateOutputConfigFromVault:
     object: str
     id: str
+    status: str
     name: str
     provider_id: str
     created_at: datetime
@@ -168,6 +171,7 @@ class DashboardInstanceProviderDeploymentsSetupSessionsCreateOutputConfigFromVau
 class DashboardInstanceProviderDeploymentsSetupSessionsCreateOutputConfig:
     object: str
     id: str
+    status: str
     is_default: bool
     tool_filter: Dict[str, Any]
     provider_id: str
@@ -314,6 +318,7 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsCreateOutputCredential
         object=data.get('object'),
         id=data.get('id'),
         type=data.get('type'),
+        status=data.get('status'),
         is_default=data.get('is_default'),
         is_managed=data.get('is_managed'),
         name=data.get('name'),
@@ -362,6 +367,7 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsCreateOutputAuthConfig
         object=data.get('object'),
         id=data.get('id'),
         type=data.get('type'),
+        status=data.get('status'),
         is_default=data.get('is_default'),
         is_managed=data.get('is_managed'),
         name=data.get('name'),
@@ -541,6 +547,7 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsCreateOutputConfigFrom
         return DashboardInstanceProviderDeploymentsSetupSessionsCreateOutputConfigFromVault(
         object=data.get('object'),
         id=data.get('id'),
+        status=data.get('status'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
@@ -564,6 +571,7 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsCreateOutputConfig:
         return DashboardInstanceProviderDeploymentsSetupSessionsCreateOutputConfig(
         object=data.get('object'),
         id=data.get('id'),
+        status=data.get('status'),
         is_default=data.get('is_default'),
         name=data.get('name'),
         description=data.get('description'),
@@ -656,7 +664,10 @@ class DashboardInstanceProviderDeploymentsSetupSessionsCreateBody:
     metadata: Optional[Dict[str, Any]] = None
     provider_auth_method_id: Optional[str] = None
     provider_auth_credentials_id: Optional[str] = None
+    identity_id: Optional[str] = None
+    consumer_id: Optional[str] = None
     redirect_url: Optional[str] = None
+    type: Optional[str] = None
     configuration: Optional[DashboardInstanceProviderDeploymentsSetupSessionsCreateBodyConfiguration] = None
 
 
@@ -780,7 +791,10 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsCreateBody:
         metadata=data.get('metadata'),
         provider_auth_method_id=data.get('provider_auth_method_id'),
         provider_auth_credentials_id=data.get('provider_auth_credentials_id'),
+        identity_id=data.get('identity_id'),
+        consumer_id=data.get('consumer_id'),
         redirect_url=data.get('redirect_url'),
+        type=data.get('type'),
         configuration=mapDashboardInstanceProviderDeploymentsSetupSessionsCreateBodyConfiguration.from_dict(data.get('configuration')) if data.get('configuration') else None
         )
 

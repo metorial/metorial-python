@@ -8,7 +8,7 @@ class MetorialDashboardInstancePortalsConsumerProfilesEndpoint(BaseMetorialEndpo
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, portal_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None) -> DashboardInstancePortalsConsumerProfilesListOutput:
+    def list(self, instance_id: str, portal_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, search: Optional[str] = None, id: Optional[str] = None, consumer_group_id: Optional[str] = None) -> DashboardInstancePortalsConsumerProfilesListOutput:
         """
     List portal consumer profiles
     Returns a paginated list of consumer profiles for a portal.
@@ -20,6 +20,9 @@ class MetorialDashboardInstancePortalsConsumerProfilesEndpoint(BaseMetorialEndpo
     :param before: Optional[str] (optional)
     :param cursor: Optional[str] (optional)
     :param order: Optional[str] (optional)
+    :param search: Optional[str] (optional)
+    :param id: Optional[str] (optional)
+    :param consumer_group_id: Optional[str] (optional)
     :return: DashboardInstancePortalsConsumerProfilesListOutput
     """
         # Build query parameters from keyword arguments
@@ -34,6 +37,12 @@ class MetorialDashboardInstancePortalsConsumerProfilesEndpoint(BaseMetorialEndpo
             query_dict["cursor"] = cursor
         if order is not None:
             query_dict["order"] = order
+        if search is not None:
+            query_dict["search"] = search
+        if id is not None:
+            query_dict["id"] = id
+        if consumer_group_id is not None:
+            query_dict["consumer_group_id"] = consumer_group_id
 
         request = MetorialRequest(
             path=['dashboard', 'instances', instance_id, 'portals', portal_id, 'consumer-profile'],

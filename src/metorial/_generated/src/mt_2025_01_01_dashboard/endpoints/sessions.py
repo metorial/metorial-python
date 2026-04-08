@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Optional, Union
 from metorial_util_endpoint import BaseMetorialEndpoint, MetorialEndpointManager, MetorialRequest
-from ..resources import mapDashboardInstanceSessionsListOutput, DashboardInstanceSessionsListOutput, mapDashboardInstanceSessionsListQuery, DashboardInstanceSessionsListQuery, mapDashboardInstanceSessionsGetOutput, DashboardInstanceSessionsGetOutput, mapDashboardInstanceSessionsCreateOutput, DashboardInstanceSessionsCreateOutput, mapDashboardInstanceSessionsCreateBody, DashboardInstanceSessionsCreateBody, mapDashboardInstanceSessionsUpdateOutput, DashboardInstanceSessionsUpdateOutput, mapDashboardInstanceSessionsUpdateBody, DashboardInstanceSessionsUpdateBody
+from ..resources import mapDashboardInstanceSessionsListOutput, DashboardInstanceSessionsListOutput, mapDashboardInstanceSessionsListQuery, DashboardInstanceSessionsListQuery, mapDashboardInstanceSessionsGetOutput, DashboardInstanceSessionsGetOutput, mapDashboardInstanceSessionsCreateOutput, DashboardInstanceSessionsCreateOutput, mapDashboardInstanceSessionsCreateBody, DashboardInstanceSessionsCreateBody, mapDashboardInstanceSessionsUpdateOutput, DashboardInstanceSessionsUpdateOutput, mapDashboardInstanceSessionsUpdateBody, DashboardInstanceSessionsUpdateBody, mapDashboardInstanceSessionsDeleteOutput, DashboardInstanceSessionsDeleteOutput
 
 class MetorialSessionsEndpoint(BaseMetorialEndpoint):
     """Sessions are connections to providers that allow clients to interact with MCP servers. Each session can include one or more provider deployments."""
@@ -134,3 +134,16 @@ class MetorialSessionsEndpoint(BaseMetorialEndpoint):
             body=body_dict
         )
         return self._patch(request).transform(mapDashboardInstanceSessionsUpdateOutput.from_dict)
+
+    def delete(self, session_id: str) -> DashboardInstanceSessionsDeleteOutput:
+        """
+    Delete session
+    Deletes a session.
+
+    :param session_id: str
+    :return: DashboardInstanceSessionsDeleteOutput
+    """
+        request = MetorialRequest(
+            path=['sessions', session_id]
+        )
+        return self._delete(request).transform(mapDashboardInstanceSessionsDeleteOutput.from_dict)

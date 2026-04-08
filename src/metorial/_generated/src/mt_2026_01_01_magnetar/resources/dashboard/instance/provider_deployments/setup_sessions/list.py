@@ -50,6 +50,7 @@ class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsCredential
     object: str
     id: str
     type: str
+    status: str
     is_default: bool
     is_managed: bool
     provider_id: str
@@ -74,6 +75,7 @@ class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfig
     object: str
     id: str
     type: str
+    status: str
     is_default: bool
     is_managed: bool
     provider_id: str
@@ -157,6 +159,7 @@ class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigFrom
 class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigFromVault:
     object: str
     id: str
+    status: str
     name: str
     provider_id: str
     created_at: datetime
@@ -168,6 +171,7 @@ class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigFrom
 class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfig:
     object: str
     id: str
+    status: str
     is_default: bool
     tool_filter: Dict[str, Any]
     provider_id: str
@@ -322,6 +326,7 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsCredent
         object=data.get('object'),
         id=data.get('id'),
         type=data.get('type'),
+        status=data.get('status'),
         is_default=data.get('is_default'),
         is_managed=data.get('is_managed'),
         name=data.get('name'),
@@ -370,6 +375,7 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthCon
         object=data.get('object'),
         id=data.get('id'),
         type=data.get('type'),
+        status=data.get('status'),
         is_default=data.get('is_default'),
         is_managed=data.get('is_managed'),
         name=data.get('name'),
@@ -549,6 +555,7 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigF
         return DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigFromVault(
         object=data.get('object'),
         id=data.get('id'),
+        status=data.get('status'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
@@ -572,6 +579,7 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfig:
         return DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfig(
         object=data.get('object'),
         id=data.get('id'),
+        status=data.get('status'),
         is_default=data.get('is_default'),
         name=data.get('name'),
         description=data.get('description'),

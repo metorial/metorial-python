@@ -6,6 +6,10 @@ from .endpoints import *
 # These types are automatically exported for better IDE support
 
 # Type classes
+# ConsumerConsumerInternalOauthAuthorizationsAcceptOutput
+# ConsumerConsumerInternalOauthAuthorizationsGetOutput
+# ConsumerConsumerInternalOauthAuthorizationsRejectOutput
+# ConsumerConsumerInternalOauthClientsGetOutput
 # ConsumerProfileGetOutput
 # ConsumerProfileGroupsListOutput
 # ConsumerProfileGroupsListQuery
@@ -313,6 +317,7 @@ from .endpoints import *
 # DashboardInstancePublishersListQuery
 # DashboardInstanceSessionTemplatesCreateBody
 # DashboardInstanceSessionTemplatesCreateOutput
+# DashboardInstanceSessionTemplatesDeleteOutput
 # DashboardInstanceSessionTemplatesGetOutput
 # DashboardInstanceSessionTemplatesListOutput
 # DashboardInstanceSessionTemplatesListQuery
@@ -331,6 +336,7 @@ from .endpoints import *
 # DashboardInstanceSessionsConnectionsListQuery
 # DashboardInstanceSessionsCreateBody
 # DashboardInstanceSessionsCreateOutput
+# DashboardInstanceSessionsDeleteOutput
 # DashboardInstanceSessionsErrorGroupsGetOutput
 # DashboardInstanceSessionsErrorGroupsListOutput
 # DashboardInstanceSessionsErrorGroupsListQuery
@@ -380,6 +386,10 @@ from .endpoints import *
 # TokenGetOutput
 
 # Mapper classes
+# mapConsumerConsumerInternalOauthAuthorizationsAcceptOutput
+# mapConsumerConsumerInternalOauthAuthorizationsGetOutput
+# mapConsumerConsumerInternalOauthAuthorizationsRejectOutput
+# mapConsumerConsumerInternalOauthClientsGetOutput
 # mapConsumerProfileGetOutput
 # mapConsumerProfileGroupsListOutput
 # mapConsumerProfileGroupsListQuery
@@ -687,6 +697,7 @@ from .endpoints import *
 # mapDashboardInstancePublishersListQuery
 # mapDashboardInstanceSessionTemplatesCreateBody
 # mapDashboardInstanceSessionTemplatesCreateOutput
+# mapDashboardInstanceSessionTemplatesDeleteOutput
 # mapDashboardInstanceSessionTemplatesGetOutput
 # mapDashboardInstanceSessionTemplatesListOutput
 # mapDashboardInstanceSessionTemplatesListQuery
@@ -705,6 +716,7 @@ from .endpoints import *
 # mapDashboardInstanceSessionsConnectionsListQuery
 # mapDashboardInstanceSessionsCreateBody
 # mapDashboardInstanceSessionsCreateOutput
+# mapDashboardInstanceSessionsDeleteOutput
 # mapDashboardInstanceSessionsErrorGroupsGetOutput
 # mapDashboardInstanceSessionsErrorGroupsListOutput
 # mapDashboardInstanceSessionsErrorGroupsListQuery

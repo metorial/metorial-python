@@ -57,6 +57,7 @@ class SessionsUpdateOutputProviders:
 class SessionsUpdateOutput:
     object: str
     id: str
+    status: str
     connection_state: str
     connection_url: str
     usage: SessionsUpdateOutputUsage
@@ -200,6 +201,7 @@ class mapSessionsUpdateOutput:
         return SessionsUpdateOutput(
         object=data.get('object'),
         id=data.get('id'),
+        status=data.get('status'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),

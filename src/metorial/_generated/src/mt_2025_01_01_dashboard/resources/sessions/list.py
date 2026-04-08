@@ -57,6 +57,7 @@ class SessionsListOutputItemsProviders:
 class SessionsListOutputItems:
     object: str
     id: str
+    status: str
     connection_state: str
     connection_url: str
     usage: SessionsListOutputItemsUsage
@@ -208,6 +209,7 @@ class mapSessionsListOutputItems:
         return SessionsListOutputItems(
         object=data.get('object'),
         id=data.get('id'),
+        status=data.get('status'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
