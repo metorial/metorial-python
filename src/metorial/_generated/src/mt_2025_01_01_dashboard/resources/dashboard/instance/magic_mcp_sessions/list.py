@@ -42,7 +42,6 @@ class DashboardInstanceMagicMcpSessionsListOutputItems:
     object: str
     id: str
     session_id: str
-    magic_mcp_server: DashboardInstanceMagicMcpSessionsListOutputItemsMagicMcpServer
     created_at: datetime
     updated_at: datetime
     magic_mcp_server: Optional[DashboardInstanceMagicMcpSessionsListOutputItemsMagicMcpServer] = None
