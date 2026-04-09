@@ -7,6 +7,7 @@ import dataclasses
 class ConsumerSurfacesListOutputItemsAuth:
     object: str
     session_expiry_time_in_seconds: float
+    email_whitelist: List[str]
 @dataclass
 class ConsumerSurfacesListOutputItems:
     object: str
@@ -32,7 +33,8 @@ class mapConsumerSurfacesListOutputItemsAuth:
     def from_dict(data: Dict[str, Any]) -> ConsumerSurfacesListOutputItemsAuth:
         return ConsumerSurfacesListOutputItemsAuth(
         object=data.get('object'),
-        session_expiry_time_in_seconds=data.get('session_expiry_time_in_seconds')
+        session_expiry_time_in_seconds=data.get('session_expiry_time_in_seconds'),
+        email_whitelist=data.get('email_whitelist', [])
         )
 
     @staticmethod

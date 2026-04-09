@@ -7,6 +7,7 @@ import dataclasses
 class ManagementInstanceConsumerSurfacesGetOutputAuth:
     object: str
     session_expiry_time_in_seconds: float
+    email_whitelist: List[str]
 @dataclass
 class ManagementInstanceConsumerSurfacesGetOutput:
     object: str
@@ -24,7 +25,8 @@ class mapManagementInstanceConsumerSurfacesGetOutputAuth:
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceConsumerSurfacesGetOutputAuth:
         return ManagementInstanceConsumerSurfacesGetOutputAuth(
         object=data.get('object'),
-        session_expiry_time_in_seconds=data.get('session_expiry_time_in_seconds')
+        session_expiry_time_in_seconds=data.get('session_expiry_time_in_seconds'),
+        email_whitelist=data.get('email_whitelist', [])
         )
 
     @staticmethod

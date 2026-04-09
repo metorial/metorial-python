@@ -2,6 +2,7 @@ from .access_requests import *
 from .auth import *
 from .consumer_access import *
 from .consumer_groups import *
+from .consumer_invites import *
 from .consumer_profiles import *
 from .create import *
 from .delete import *

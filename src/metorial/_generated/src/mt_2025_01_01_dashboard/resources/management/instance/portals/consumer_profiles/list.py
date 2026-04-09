@@ -55,6 +55,7 @@ class ManagementInstancePortalsConsumerProfilesListQuery:
     order: Optional[str] = None
     search: Optional[str] = None
     consumer_group_id: Optional[str] = None
+    status: Optional[Union[str, List[str]]] = None
 
 
 class mapManagementInstancePortalsConsumerProfilesListQuery:
@@ -67,7 +68,8 @@ class mapManagementInstancePortalsConsumerProfilesListQuery:
         cursor=data.get('cursor'),
         order=data.get('order'),
         search=data.get('search'),
-        consumer_group_id=data.get('consumer_group_id')
+        consumer_group_id=data.get('consumer_group_id'),
+        status=data.get('status')
         )
 
     @staticmethod

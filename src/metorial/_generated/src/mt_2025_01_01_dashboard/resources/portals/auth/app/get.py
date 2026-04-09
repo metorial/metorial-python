@@ -10,6 +10,7 @@ class PortalsAuthAppGetOutput:
     client_id: str
     default_redirect_url: str
     redirect_domains: List[str]
+    email_whitelist: List[str]
     created_at: datetime
     updated_at: datetime
     slug: Optional[str] = None
@@ -25,6 +26,7 @@ class mapPortalsAuthAppGetOutput:
         slug=data.get('slug'),
         default_redirect_url=data.get('default_redirect_url'),
         redirect_domains=data.get('redirect_domains', []),
+        email_whitelist=data.get('email_whitelist', []),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

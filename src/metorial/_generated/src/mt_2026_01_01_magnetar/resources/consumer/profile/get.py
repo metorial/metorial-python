@@ -27,6 +27,7 @@ class ConsumerProfileGetOutput:
     email: str
     image_url: str
     consumer_id: str
+    status: str
     created_at: datetime
     updated_at: datetime
     groups: Optional[List[ConsumerProfileGetOutputGroups]] = None
@@ -83,6 +84,7 @@ class mapConsumerProfileGetOutput:
         image_url=data.get('image_url'),
         groups=[mapConsumerProfileGetOutputGroups.from_dict(item) for item in data.get('groups', []) if item],
         consumer_id=data.get('consumer_id'),
+        status=data.get('status'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

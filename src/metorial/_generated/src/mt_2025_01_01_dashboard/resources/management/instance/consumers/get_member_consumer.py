@@ -27,6 +27,7 @@ class ManagementInstanceConsumersGetMemberConsumerOutputProfile:
     email: str
     image_url: str
     consumer_id: str
+    status: str
     created_at: datetime
     updated_at: datetime
     groups: Optional[List[ManagementInstanceConsumersGetMemberConsumerOutputProfileGroups]] = None

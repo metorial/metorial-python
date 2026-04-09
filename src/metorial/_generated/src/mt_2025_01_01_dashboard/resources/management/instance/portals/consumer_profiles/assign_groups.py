@@ -23,6 +23,7 @@ class ManagementInstancePortalsConsumerProfilesAssignGroupsOutputGroups:
 class ManagementInstancePortalsConsumerProfilesAssignGroupsOutputSurfaceAuth:
     object: str
     session_expiry_time_in_seconds: float
+    email_whitelist: List[str]
 @dataclass
 class ManagementInstancePortalsConsumerProfilesAssignGroupsOutputSurface:
     object: str
@@ -41,6 +42,7 @@ class ManagementInstancePortalsConsumerProfilesAssignGroupsOutput:
     email: str
     image_url: str
     consumer_id: str
+    status: str
     created_at: datetime
     updated_at: datetime
     surface: ManagementInstancePortalsConsumerProfilesAssignGroupsOutputSurface
@@ -58,6 +60,7 @@ class mapManagementInstancePortalsConsumerProfilesAssignGroupsOutput:
         image_url=data.get('image_url'),
         groups=[mapManagementInstancePortalsConsumerProfilesAssignGroupsOutputGroups.from_dict(item) for item in data.get('groups', []) if item],
         consumer_id=data.get('consumer_id'),
+        status=data.get('status'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
         surface=mapManagementInstancePortalsConsumerProfilesAssignGroupsOutputSurface.from_dict(data.get('surface')) if data.get('surface') else None
