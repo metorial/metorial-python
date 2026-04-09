@@ -8,7 +8,7 @@ class MetorialDashboardInstancePortalsConsumerAccessEndpoint(BaseMetorialEndpoin
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, portal_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, search: Optional[str] = None, id: Optional[str] = None, consumer_group_id: Optional[Union[str, List[str]]] = None, provider_template_id: Optional[Union[str, List[str]]] = None, magic_mcp_server_id: Optional[Union[str, List[str]]] = None, type: Optional[Union[str, List[str]]] = None) -> DashboardInstancePortalsConsumerAccessListOutput:
+    def list(self, instance_id: str, portal_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, search: Optional[str] = None, consumer_group_id: Optional[Union[str, List[str]]] = None, provider_template_id: Optional[Union[str, List[str]]] = None, magic_mcp_server_id: Optional[Union[str, List[str]]] = None, type: Optional[Union[str, List[str]]] = None) -> DashboardInstancePortalsConsumerAccessListOutput:
         """
     List portal consumer access
     Returns a paginated list of consumer access rules for a portal.
@@ -21,7 +21,6 @@ class MetorialDashboardInstancePortalsConsumerAccessEndpoint(BaseMetorialEndpoin
     :param cursor: Optional[str] (optional)
     :param order: Optional[str] (optional)
     :param search: Optional[str] (optional)
-    :param id: Optional[str] (optional)
     :param consumer_group_id: Optional[Union[str, List[str]]] (optional)
     :param provider_template_id: Optional[Union[str, List[str]]] (optional)
     :param magic_mcp_server_id: Optional[Union[str, List[str]]] (optional)
@@ -42,8 +41,6 @@ class MetorialDashboardInstancePortalsConsumerAccessEndpoint(BaseMetorialEndpoin
             query_dict["order"] = order
         if search is not None:
             query_dict["search"] = search
-        if id is not None:
-            query_dict["id"] = id
         if consumer_group_id is not None:
             query_dict["consumer_group_id"] = consumer_group_id
         if provider_template_id is not None:

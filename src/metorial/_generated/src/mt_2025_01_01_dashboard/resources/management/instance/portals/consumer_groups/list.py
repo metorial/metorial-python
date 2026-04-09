@@ -89,7 +89,6 @@ class ManagementInstancePortalsConsumerGroupsListQuery:
     order: Optional[str] = None
     status: Optional[Union[str, List[str]]] = None
     search: Optional[str] = None
-    id: Optional[str] = None
 
 
 class mapManagementInstancePortalsConsumerGroupsListQuery:
@@ -102,8 +101,7 @@ class mapManagementInstancePortalsConsumerGroupsListQuery:
         cursor=data.get('cursor'),
         order=data.get('order'),
         status=data.get('status'),
-        search=data.get('search'),
-        id=data.get('id')
+        search=data.get('search')
         )
 
     @staticmethod
