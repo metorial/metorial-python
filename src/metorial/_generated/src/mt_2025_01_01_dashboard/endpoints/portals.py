@@ -52,13 +52,14 @@ class MetorialPortalsEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapDashboardInstancePortalsGetOutput.from_dict)
 
-    def create(self, *, name: str, description: Optional[str] = None, session_expiry_time_in_seconds: Optional[float] = None) -> DashboardInstancePortalsCreateOutput:
+    def create(self, *, name: str, description: Optional[str] = None, allowed_redirect_url_filters: Optional[List[Dict[str, Any]]] = None, session_expiry_time_in_seconds: Optional[float] = None) -> DashboardInstancePortalsCreateOutput:
         """
     Create portal
     Creates a new portal for the instance.
 
     :param name: str
     :param description: Optional[str] (optional)
+    :param allowed_redirect_url_filters: Optional[List[Dict[str, Any]]] (optional)
     :param session_expiry_time_in_seconds: Optional[float] (optional)
     :return: DashboardInstancePortalsCreateOutput
     """
@@ -67,6 +68,8 @@ class MetorialPortalsEndpoint(BaseMetorialEndpoint):
         body_dict["name"] = name
         if description is not None:
             body_dict["description"] = description
+        if allowed_redirect_url_filters is not None:
+            body_dict["allowed_redirect_url_filters"] = allowed_redirect_url_filters
         if session_expiry_time_in_seconds is not None:
             body_dict["session_expiry_time_in_seconds"] = session_expiry_time_in_seconds
 
@@ -76,7 +79,7 @@ class MetorialPortalsEndpoint(BaseMetorialEndpoint):
         )
         return self._post(request).transform(mapDashboardInstancePortalsCreateOutput.from_dict)
 
-    def update(self, portal_id: str, *, name: Optional[str] = None, description: Optional[str] = None, session_expiry_time_in_seconds: Optional[float] = None) -> DashboardInstancePortalsUpdateOutput:
+    def update(self, portal_id: str, *, name: Optional[str] = None, description: Optional[str] = None, allowed_redirect_url_filters: Optional[List[Dict[str, Any]]] = None, session_expiry_time_in_seconds: Optional[float] = None) -> DashboardInstancePortalsUpdateOutput:
         """
     Update portal
     Updates an existing portal for the instance.
@@ -84,6 +87,7 @@ class MetorialPortalsEndpoint(BaseMetorialEndpoint):
     :param portal_id: str
     :param name: Optional[str] (optional)
     :param description: Optional[str] (optional)
+    :param allowed_redirect_url_filters: Optional[List[Dict[str, Any]]] (optional)
     :param session_expiry_time_in_seconds: Optional[float] (optional)
     :return: DashboardInstancePortalsUpdateOutput
     """
@@ -93,6 +97,8 @@ class MetorialPortalsEndpoint(BaseMetorialEndpoint):
             body_dict["name"] = name
         if description is not None:
             body_dict["description"] = description
+        if allowed_redirect_url_filters is not None:
+            body_dict["allowed_redirect_url_filters"] = allowed_redirect_url_filters
         if session_expiry_time_in_seconds is not None:
             body_dict["session_expiry_time_in_seconds"] = session_expiry_time_in_seconds
 

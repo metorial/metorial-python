@@ -112,7 +112,7 @@ class MetorialConsumerProvidersEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapConsumerProvidersGetSetupOutput.from_dict)
 
-    def deploy(self, catalog_item_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, config: Optional[Dict[str, Any]] = None, auth: Optional[Union[Dict[str, Any], Dict[str, Any]]] = None) -> ConsumerProvidersDeployOutput:
+    def deploy(self, catalog_item_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, config: Optional[Dict[str, Any]] = None, auth: Optional[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any]]] = None) -> ConsumerProvidersDeployOutput:
         """
     Deploy consumer provider
     Creates an owned Magic MCP server from a portal provider template.
@@ -122,7 +122,7 @@ class MetorialConsumerProvidersEndpoint(BaseMetorialEndpoint):
     :param description: Optional[str] (optional)
     :param metadata: Optional[Dict[str, Any]] (optional)
     :param config: Optional[Dict[str, Any]] (optional)
-    :param auth: Optional[Union[Dict[str, Any], Dict[str, Any]]] (optional)
+    :param auth: Optional[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any]]] (optional)
     :return: ConsumerProvidersDeployOutput
     """
         # Build body parameters from keyword arguments

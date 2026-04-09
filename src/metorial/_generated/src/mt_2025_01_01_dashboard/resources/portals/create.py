@@ -4,9 +4,13 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class PortalsCreateOutputAuthAllowedRedirectUrlFilters:
+    url: str
+@dataclass
 class PortalsCreateOutputAuth:
     object: str
     session_expiry_time_in_seconds: float
+    allowed_redirect_url_filters: List[PortalsCreateOutputAuthAllowedRedirectUrlFilters]
 @dataclass
 class PortalsCreateOutputUrls:
     type: str
@@ -30,12 +34,28 @@ class PortalsCreateOutput:
     description: Optional[str] = None
 
 
+class mapPortalsCreateOutputAuthAllowedRedirectUrlFilters:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> PortalsCreateOutputAuthAllowedRedirectUrlFilters:
+        return PortalsCreateOutputAuthAllowedRedirectUrlFilters(
+        url=data.get('url')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[PortalsCreateOutputAuthAllowedRedirectUrlFilters, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapPortalsCreateOutputAuth:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> PortalsCreateOutputAuth:
         return PortalsCreateOutputAuth(
         object=data.get('object'),
-        session_expiry_time_in_seconds=data.get('session_expiry_time_in_seconds')
+        session_expiry_time_in_seconds=data.get('session_expiry_time_in_seconds'),
+        allowed_redirect_url_filters=[mapPortalsCreateOutputAuthAllowedRedirectUrlFilters.from_dict(item) for item in data.get('allowed_redirect_url_filters', []) if item]
         )
 
     @staticmethod
@@ -105,11 +125,30 @@ class mapPortalsCreateOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class PortalsCreateBodyAllowedRedirectUrlFilters:
+    url: str
+@dataclass
 class PortalsCreateBody:
     name: str
     description: Optional[str] = None
+    allowed_redirect_url_filters: Optional[List[PortalsCreateBodyAllowedRedirectUrlFilters]] = None
     session_expiry_time_in_seconds: Optional[float] = None
 
+
+class mapPortalsCreateBodyAllowedRedirectUrlFilters:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> PortalsCreateBodyAllowedRedirectUrlFilters:
+        return PortalsCreateBodyAllowedRedirectUrlFilters(
+        url=data.get('url')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[PortalsCreateBodyAllowedRedirectUrlFilters, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapPortalsCreateBody:
     @staticmethod
@@ -117,6 +156,7 @@ class mapPortalsCreateBody:
         return PortalsCreateBody(
         name=data.get('name'),
         description=data.get('description'),
+        allowed_redirect_url_filters=[mapPortalsCreateBodyAllowedRedirectUrlFilters.from_dict(item) for item in data.get('allowed_redirect_url_filters', []) if item],
         session_expiry_time_in_seconds=data.get('session_expiry_time_in_seconds')
         )
 

@@ -39,6 +39,7 @@ from .dashboard_instance_identities_delegation_requests import *
 from .dashboard_instance_identities_delegations import *
 from .dashboard_instance_identity_actors import *
 from .dashboard_instance_instance import *
+from .dashboard_instance_magic_mcp_endpoints import *
 from .dashboard_instance_magic_mcp_groups import *
 from .dashboard_instance_magic_mcp_servers import *
 from .dashboard_instance_magic_mcp_servers_provider import *
@@ -88,6 +89,7 @@ from .identities_delegations import *
 from .identity_actors import *
 from .instance import *
 from .instances import *
+from .magic_mcp_endpoints import *
 from .magic_mcp_groups import *
 from .magic_mcp_servers import *
 from .magic_mcp_servers_provider import *
@@ -115,6 +117,7 @@ from .management_instance_identities_delegation_requests import *
 from .management_instance_identities_delegations import *
 from .management_instance_identity_actors import *
 from .management_instance_instance import *
+from .management_instance_magic_mcp_endpoints import *
 from .management_instance_magic_mcp_groups import *
 from .management_instance_magic_mcp_servers import *
 from .management_instance_magic_mcp_servers_provider import *

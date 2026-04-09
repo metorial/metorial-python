@@ -11,6 +11,14 @@ class MagicMcpTokensUpdateOutputServer:
     name: Optional[str] = None
     description: Optional[str] = None
 @dataclass
+class MagicMcpTokensUpdateOutputEndpoint:
+    object: str
+    id: str
+    status: str
+    slug: str
+    name: Optional[str] = None
+    description: Optional[str] = None
+@dataclass
 class MagicMcpTokensUpdateOutputGroups:
     object: str
     id: str
@@ -34,6 +42,7 @@ class MagicMcpTokensUpdateOutput:
     name: Optional[str] = None
     description: Optional[str] = None
     server: Optional[MagicMcpTokensUpdateOutputServer] = None
+    endpoint: Optional[MagicMcpTokensUpdateOutputEndpoint] = None
 
 
 class mapMagicMcpTokensUpdateOutputServer:
@@ -49,6 +58,26 @@ class mapMagicMcpTokensUpdateOutputServer:
 
     @staticmethod
     def to_dict(value: Union[MagicMcpTokensUpdateOutputServer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapMagicMcpTokensUpdateOutputEndpoint:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> MagicMcpTokensUpdateOutputEndpoint:
+        return MagicMcpTokensUpdateOutputEndpoint(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        slug=data.get('slug'),
+        name=data.get('name'),
+        description=data.get('description')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[MagicMcpTokensUpdateOutputEndpoint, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -89,6 +118,7 @@ class mapMagicMcpTokensUpdateOutput:
         name=data.get('name'),
         description=data.get('description'),
         server=mapMagicMcpTokensUpdateOutputServer.from_dict(data.get('server')) if data.get('server') else None,
+        endpoint=mapMagicMcpTokensUpdateOutputEndpoint.from_dict(data.get('endpoint')) if data.get('endpoint') else None,
         groups=[mapMagicMcpTokensUpdateOutputGroups.from_dict(item) for item in data.get('groups', []) if item],
         metadata=data.get('metadata'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,

@@ -11,6 +11,14 @@ class MagicMcpTokensCreateOutputServer:
     name: Optional[str] = None
     description: Optional[str] = None
 @dataclass
+class MagicMcpTokensCreateOutputEndpoint:
+    object: str
+    id: str
+    status: str
+    slug: str
+    name: Optional[str] = None
+    description: Optional[str] = None
+@dataclass
 class MagicMcpTokensCreateOutputGroups:
     object: str
     id: str
@@ -34,6 +42,7 @@ class MagicMcpTokensCreateOutput:
     name: Optional[str] = None
     description: Optional[str] = None
     server: Optional[MagicMcpTokensCreateOutputServer] = None
+    endpoint: Optional[MagicMcpTokensCreateOutputEndpoint] = None
 
 
 class mapMagicMcpTokensCreateOutputServer:
@@ -49,6 +58,26 @@ class mapMagicMcpTokensCreateOutputServer:
 
     @staticmethod
     def to_dict(value: Union[MagicMcpTokensCreateOutputServer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapMagicMcpTokensCreateOutputEndpoint:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> MagicMcpTokensCreateOutputEndpoint:
+        return MagicMcpTokensCreateOutputEndpoint(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        slug=data.get('slug'),
+        name=data.get('name'),
+        description=data.get('description')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[MagicMcpTokensCreateOutputEndpoint, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -89,6 +118,7 @@ class mapMagicMcpTokensCreateOutput:
         name=data.get('name'),
         description=data.get('description'),
         server=mapMagicMcpTokensCreateOutputServer.from_dict(data.get('server')) if data.get('server') else None,
+        endpoint=mapMagicMcpTokensCreateOutputEndpoint.from_dict(data.get('endpoint')) if data.get('endpoint') else None,
         groups=[mapMagicMcpTokensCreateOutputGroups.from_dict(item) for item in data.get('groups', []) if item],
         metadata=data.get('metadata'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
@@ -111,6 +141,7 @@ class MagicMcpTokensCreateBody:
     metadata: Optional[Dict[str, Any]] = None
     magic_mcp_group_ids: Optional[List[str]] = None
     magic_mcp_server_id: Optional[str] = None
+    magic_mcp_endpoint_id: Optional[str] = None
 
 
 class mapMagicMcpTokensCreateBody:
@@ -121,7 +152,8 @@ class mapMagicMcpTokensCreateBody:
         description=data.get('description'),
         metadata=data.get('metadata'),
         magic_mcp_group_ids=data.get('magic_mcp_group_ids', []),
-        magic_mcp_server_id=data.get('magic_mcp_server_id')
+        magic_mcp_server_id=data.get('magic_mcp_server_id'),
+        magic_mcp_endpoint_id=data.get('magic_mcp_endpoint_id')
         )
 
     @staticmethod

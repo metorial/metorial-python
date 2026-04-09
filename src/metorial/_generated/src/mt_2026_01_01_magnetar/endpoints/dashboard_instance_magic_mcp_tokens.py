@@ -8,7 +8,7 @@ class MetorialDashboardInstanceMagicMcpTokensEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, magic_mcp_group_id: Optional[Union[str, List[str]]] = None, magic_mcp_server_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceMagicMcpTokensListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, magic_mcp_group_id: Optional[Union[str, List[str]]] = None, magic_mcp_server_id: Optional[Union[str, List[str]]] = None, magic_mcp_endpoint_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceMagicMcpTokensListOutput:
         """
     List magic MCP tokens
     Returns a paginated list of magic MCP tokens.
@@ -22,6 +22,7 @@ class MetorialDashboardInstanceMagicMcpTokensEndpoint(BaseMetorialEndpoint):
     :param status: Optional[Union[str, List[str]]] (optional)
     :param magic_mcp_group_id: Optional[Union[str, List[str]]] (optional)
     :param magic_mcp_server_id: Optional[Union[str, List[str]]] (optional)
+    :param magic_mcp_endpoint_id: Optional[Union[str, List[str]]] (optional)
     :return: DashboardInstanceMagicMcpTokensListOutput
     """
         # Build query parameters from keyword arguments
@@ -42,6 +43,8 @@ class MetorialDashboardInstanceMagicMcpTokensEndpoint(BaseMetorialEndpoint):
             query_dict["magic_mcp_group_id"] = magic_mcp_group_id
         if magic_mcp_server_id is not None:
             query_dict["magic_mcp_server_id"] = magic_mcp_server_id
+        if magic_mcp_endpoint_id is not None:
+            query_dict["magic_mcp_endpoint_id"] = magic_mcp_endpoint_id
 
         request = MetorialRequest(
             path=['dashboard', 'instances', instance_id, 'magic-mcp-tokens'],
@@ -63,7 +66,7 @@ class MetorialDashboardInstanceMagicMcpTokensEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapDashboardInstanceMagicMcpTokensGetOutput.from_dict)
 
-    def create(self, instance_id: str, *, name: str, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, magic_mcp_group_ids: Optional[List[str]] = None, magic_mcp_server_id: Optional[str] = None) -> DashboardInstanceMagicMcpTokensCreateOutput:
+    def create(self, instance_id: str, *, name: str, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, magic_mcp_group_ids: Optional[List[str]] = None, magic_mcp_server_id: Optional[str] = None, magic_mcp_endpoint_id: Optional[str] = None) -> DashboardInstanceMagicMcpTokensCreateOutput:
         """
     Create magic MCP token
     Creates a new magic MCP token.
@@ -74,6 +77,7 @@ class MetorialDashboardInstanceMagicMcpTokensEndpoint(BaseMetorialEndpoint):
     :param metadata: Optional[Dict[str, Any]] (optional)
     :param magic_mcp_group_ids: Optional[List[str]] (optional)
     :param magic_mcp_server_id: Optional[str] (optional)
+    :param magic_mcp_endpoint_id: Optional[str] (optional)
     :return: DashboardInstanceMagicMcpTokensCreateOutput
     """
         # Build body parameters from keyword arguments
@@ -87,6 +91,8 @@ class MetorialDashboardInstanceMagicMcpTokensEndpoint(BaseMetorialEndpoint):
             body_dict["magic_mcp_group_ids"] = magic_mcp_group_ids
         if magic_mcp_server_id is not None:
             body_dict["magic_mcp_server_id"] = magic_mcp_server_id
+        if magic_mcp_endpoint_id is not None:
+            body_dict["magic_mcp_endpoint_id"] = magic_mcp_endpoint_id
 
         request = MetorialRequest(
             path=['dashboard', 'instances', instance_id, 'magic-mcp-tokens'],

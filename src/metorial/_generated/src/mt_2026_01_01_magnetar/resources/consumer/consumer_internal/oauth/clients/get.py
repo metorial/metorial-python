@@ -12,9 +12,10 @@ class ConsumerConsumerInternalOauthClientsGetOutput:
     redirect_uris: List[str]
     token_endpoint_auth_method: str
     portal_id: str
-    magic_mcp_server_id: str
     created_at: datetime
     expires_at: datetime
+    magic_mcp_server_id: Optional[str] = None
+    magic_mcp_endpoint_id: Optional[str] = None
 
 
 class mapConsumerConsumerInternalOauthClientsGetOutput:
@@ -29,6 +30,7 @@ class mapConsumerConsumerInternalOauthClientsGetOutput:
         token_endpoint_auth_method=data.get('token_endpoint_auth_method'),
         portal_id=data.get('portal_id'),
         magic_mcp_server_id=data.get('magic_mcp_server_id'),
+        magic_mcp_endpoint_id=data.get('magic_mcp_endpoint_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         expires_at=datetime.fromisoformat(data.get('expires_at').replace('Z', '+00:00')) if data.get('expires_at') else None
         )

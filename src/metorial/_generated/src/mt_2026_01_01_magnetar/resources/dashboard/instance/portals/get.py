@@ -4,9 +4,13 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class DashboardInstancePortalsGetOutputAuthAllowedRedirectUrlFilters:
+    url: str
+@dataclass
 class DashboardInstancePortalsGetOutputAuth:
     object: str
     session_expiry_time_in_seconds: float
+    allowed_redirect_url_filters: List[DashboardInstancePortalsGetOutputAuthAllowedRedirectUrlFilters]
 @dataclass
 class DashboardInstancePortalsGetOutputUrls:
     type: str
@@ -30,12 +34,28 @@ class DashboardInstancePortalsGetOutput:
     description: Optional[str] = None
 
 
+class mapDashboardInstancePortalsGetOutputAuthAllowedRedirectUrlFilters:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstancePortalsGetOutputAuthAllowedRedirectUrlFilters:
+        return DashboardInstancePortalsGetOutputAuthAllowedRedirectUrlFilters(
+        url=data.get('url')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstancePortalsGetOutputAuthAllowedRedirectUrlFilters, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapDashboardInstancePortalsGetOutputAuth:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstancePortalsGetOutputAuth:
         return DashboardInstancePortalsGetOutputAuth(
         object=data.get('object'),
-        session_expiry_time_in_seconds=data.get('session_expiry_time_in_seconds')
+        session_expiry_time_in_seconds=data.get('session_expiry_time_in_seconds'),
+        allowed_redirect_url_filters=[mapDashboardInstancePortalsGetOutputAuthAllowedRedirectUrlFilters.from_dict(item) for item in data.get('allowed_redirect_url_filters', []) if item]
         )
 
     @staticmethod

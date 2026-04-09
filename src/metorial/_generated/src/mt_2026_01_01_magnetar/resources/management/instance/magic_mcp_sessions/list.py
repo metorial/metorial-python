@@ -22,13 +22,30 @@ class ManagementInstanceMagicMcpSessionsListOutputItemsMagicMcpServer:
     name: Optional[str] = None
     description: Optional[str] = None
 @dataclass
+class ManagementInstanceMagicMcpSessionsListOutputItemsMagicMcpEndpoint:
+    object: str
+    id: str
+    status: str
+    slug: str
+    url: str
+    servers: List[Dict[str, Any]]
+    metadata: Dict[str, Any]
+    created_at: datetime
+    updated_at: datetime
+    consumer_profile_id: Optional[str] = None
+    session_template_id: Optional[str] = None
+    session_id: Optional[str] = None
+    name: Optional[str] = None
+    description: Optional[str] = None
+@dataclass
 class ManagementInstanceMagicMcpSessionsListOutputItems:
     object: str
     id: str
     session_id: str
-    magic_mcp_server: ManagementInstanceMagicMcpSessionsListOutputItemsMagicMcpServer
     created_at: datetime
     updated_at: datetime
+    magic_mcp_server: Optional[ManagementInstanceMagicMcpSessionsListOutputItemsMagicMcpServer] = None
+    magic_mcp_endpoint: Optional[ManagementInstanceMagicMcpSessionsListOutputItemsMagicMcpEndpoint] = None
 @dataclass
 class ManagementInstanceMagicMcpSessionsListOutputPagination:
     has_more_before: bool
@@ -81,14 +98,43 @@ class mapManagementInstanceMagicMcpSessionsListOutputItemsMagicMcpServer:
             return value
         return dataclasses.asdict(value)
 
+class mapManagementInstanceMagicMcpSessionsListOutputItemsMagicMcpEndpoint:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceMagicMcpSessionsListOutputItemsMagicMcpEndpoint:
+        return ManagementInstanceMagicMcpSessionsListOutputItemsMagicMcpEndpoint(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        slug=data.get('slug'),
+        url=data.get('url'),
+        consumer_profile_id=data.get('consumer_profile_id'),
+        session_template_id=data.get('session_template_id'),
+        session_id=data.get('session_id'),
+        servers=data.get('servers', []),
+        name=data.get('name'),
+        description=data.get('description'),
+        metadata=data.get('metadata'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceMagicMcpSessionsListOutputItemsMagicMcpEndpoint, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapManagementInstanceMagicMcpSessionsListOutputItems:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceMagicMcpSessionsListOutputItems:
         return ManagementInstanceMagicMcpSessionsListOutputItems(
         object=data.get('object'),
         id=data.get('id'),
-        session_id=data.get('session_id'),
         magic_mcp_server=mapManagementInstanceMagicMcpSessionsListOutputItemsMagicMcpServer.from_dict(data.get('magic_mcp_server')) if data.get('magic_mcp_server') else None,
+        magic_mcp_endpoint=mapManagementInstanceMagicMcpSessionsListOutputItemsMagicMcpEndpoint.from_dict(data.get('magic_mcp_endpoint')) if data.get('magic_mcp_endpoint') else None,
+        session_id=data.get('session_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

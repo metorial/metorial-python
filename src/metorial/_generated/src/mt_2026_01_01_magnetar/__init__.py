@@ -7,6 +7,8 @@ from .endpoints import *
 
 # Type classes
 # ConsumerConsumerInternalOauthAuthorizationsAcceptOutput
+# ConsumerConsumerInternalOauthAuthorizationsConnectMagicMcpEndpointBody
+# ConsumerConsumerInternalOauthAuthorizationsConnectMagicMcpEndpointOutput
 # ConsumerConsumerInternalOauthAuthorizationsGetOutput
 # ConsumerConsumerInternalOauthAuthorizationsRejectOutput
 # ConsumerConsumerInternalOauthClientsGetOutput
@@ -150,6 +152,18 @@ from .endpoints import *
 # DashboardInstanceIdentityActorsUpdateBody
 # DashboardInstanceIdentityActorsUpdateOutput
 # DashboardInstanceInstanceGetOutput
+# DashboardInstanceMagicMcpEndpointsAddServersBody
+# DashboardInstanceMagicMcpEndpointsAddServersOutput
+# DashboardInstanceMagicMcpEndpointsCreateBody
+# DashboardInstanceMagicMcpEndpointsCreateOutput
+# DashboardInstanceMagicMcpEndpointsDeleteOutput
+# DashboardInstanceMagicMcpEndpointsGetOutput
+# DashboardInstanceMagicMcpEndpointsListOutput
+# DashboardInstanceMagicMcpEndpointsListQuery
+# DashboardInstanceMagicMcpEndpointsRemoveServersBody
+# DashboardInstanceMagicMcpEndpointsRemoveServersOutput
+# DashboardInstanceMagicMcpEndpointsUpdateBody
+# DashboardInstanceMagicMcpEndpointsUpdateOutput
 # DashboardInstanceMagicMcpGroupsAddServersBody
 # DashboardInstanceMagicMcpGroupsAddServersOutput
 # DashboardInstanceMagicMcpGroupsCreateBody
@@ -176,6 +190,7 @@ from .endpoints import *
 # DashboardInstanceMagicMcpServersProviderListQuery
 # DashboardInstanceMagicMcpServersProviderUpdateBody
 # DashboardInstanceMagicMcpServersProviderUpdateOutput
+# DashboardInstanceMagicMcpServersToolsOutput
 # DashboardInstanceMagicMcpServersUpdateBody
 # DashboardInstanceMagicMcpServersUpdateOutput
 # DashboardInstanceMagicMcpSessionsGetOutput
@@ -387,6 +402,8 @@ from .endpoints import *
 
 # Mapper classes
 # mapConsumerConsumerInternalOauthAuthorizationsAcceptOutput
+# mapConsumerConsumerInternalOauthAuthorizationsConnectMagicMcpEndpointBody
+# mapConsumerConsumerInternalOauthAuthorizationsConnectMagicMcpEndpointOutput
 # mapConsumerConsumerInternalOauthAuthorizationsGetOutput
 # mapConsumerConsumerInternalOauthAuthorizationsRejectOutput
 # mapConsumerConsumerInternalOauthClientsGetOutput
@@ -530,6 +547,18 @@ from .endpoints import *
 # mapDashboardInstanceIdentityActorsUpdateBody
 # mapDashboardInstanceIdentityActorsUpdateOutput
 # mapDashboardInstanceInstanceGetOutput
+# mapDashboardInstanceMagicMcpEndpointsAddServersBody
+# mapDashboardInstanceMagicMcpEndpointsAddServersOutput
+# mapDashboardInstanceMagicMcpEndpointsCreateBody
+# mapDashboardInstanceMagicMcpEndpointsCreateOutput
+# mapDashboardInstanceMagicMcpEndpointsDeleteOutput
+# mapDashboardInstanceMagicMcpEndpointsGetOutput
+# mapDashboardInstanceMagicMcpEndpointsListOutput
+# mapDashboardInstanceMagicMcpEndpointsListQuery
+# mapDashboardInstanceMagicMcpEndpointsRemoveServersBody
+# mapDashboardInstanceMagicMcpEndpointsRemoveServersOutput
+# mapDashboardInstanceMagicMcpEndpointsUpdateBody
+# mapDashboardInstanceMagicMcpEndpointsUpdateOutput
 # mapDashboardInstanceMagicMcpGroupsAddServersBody
 # mapDashboardInstanceMagicMcpGroupsAddServersOutput
 # mapDashboardInstanceMagicMcpGroupsCreateBody
@@ -556,6 +585,7 @@ from .endpoints import *
 # mapDashboardInstanceMagicMcpServersProviderListQuery
 # mapDashboardInstanceMagicMcpServersProviderUpdateBody
 # mapDashboardInstanceMagicMcpServersProviderUpdateOutput
+# mapDashboardInstanceMagicMcpServersToolsOutput
 # mapDashboardInstanceMagicMcpServersUpdateBody
 # mapDashboardInstanceMagicMcpServersUpdateOutput
 # mapDashboardInstanceMagicMcpSessionsGetOutput

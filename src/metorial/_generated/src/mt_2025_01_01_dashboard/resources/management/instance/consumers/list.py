@@ -53,6 +53,8 @@ class ManagementInstanceConsumersListQuery:
     before: Optional[str] = None
     cursor: Optional[str] = None
     order: Optional[str] = None
+    search: Optional[str] = None
+    id: Optional[str] = None
 
 
 class mapManagementInstanceConsumersListQuery:
@@ -63,7 +65,9 @@ class mapManagementInstanceConsumersListQuery:
         after=data.get('after'),
         before=data.get('before'),
         cursor=data.get('cursor'),
-        order=data.get('order')
+        order=data.get('order'),
+        search=data.get('search'),
+        id=data.get('id')
         )
 
     @staticmethod

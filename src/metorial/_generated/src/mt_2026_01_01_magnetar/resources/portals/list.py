@@ -4,9 +4,13 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class PortalsListOutputItemsAuthAllowedRedirectUrlFilters:
+    url: str
+@dataclass
 class PortalsListOutputItemsAuth:
     object: str
     session_expiry_time_in_seconds: float
+    allowed_redirect_url_filters: List[PortalsListOutputItemsAuthAllowedRedirectUrlFilters]
 @dataclass
 class PortalsListOutputItemsUrls:
     type: str
@@ -38,12 +42,28 @@ class PortalsListOutput:
     pagination: PortalsListOutputPagination
 
 
+class mapPortalsListOutputItemsAuthAllowedRedirectUrlFilters:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> PortalsListOutputItemsAuthAllowedRedirectUrlFilters:
+        return PortalsListOutputItemsAuthAllowedRedirectUrlFilters(
+        url=data.get('url')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[PortalsListOutputItemsAuthAllowedRedirectUrlFilters, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapPortalsListOutputItemsAuth:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> PortalsListOutputItemsAuth:
         return PortalsListOutputItemsAuth(
         object=data.get('object'),
-        session_expiry_time_in_seconds=data.get('session_expiry_time_in_seconds')
+        session_expiry_time_in_seconds=data.get('session_expiry_time_in_seconds'),
+        allowed_redirect_url_filters=[mapPortalsListOutputItemsAuthAllowedRedirectUrlFilters.from_dict(item) for item in data.get('allowed_redirect_url_filters', []) if item]
         )
 
     @staticmethod
