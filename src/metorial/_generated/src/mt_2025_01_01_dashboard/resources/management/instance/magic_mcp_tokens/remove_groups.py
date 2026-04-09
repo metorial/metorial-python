@@ -11,6 +11,14 @@ class ManagementInstanceMagicMcpTokensRemoveGroupsOutputServer:
     name: Optional[str] = None
     description: Optional[str] = None
 @dataclass
+class ManagementInstanceMagicMcpTokensRemoveGroupsOutputEndpoint:
+    object: str
+    id: str
+    status: str
+    slug: str
+    name: Optional[str] = None
+    description: Optional[str] = None
+@dataclass
 class ManagementInstanceMagicMcpTokensRemoveGroupsOutputGroups:
     object: str
     id: str
@@ -34,6 +42,7 @@ class ManagementInstanceMagicMcpTokensRemoveGroupsOutput:
     name: Optional[str] = None
     description: Optional[str] = None
     server: Optional[ManagementInstanceMagicMcpTokensRemoveGroupsOutputServer] = None
+    endpoint: Optional[ManagementInstanceMagicMcpTokensRemoveGroupsOutputEndpoint] = None
 
 
 class mapManagementInstanceMagicMcpTokensRemoveGroupsOutputServer:
@@ -49,6 +58,26 @@ class mapManagementInstanceMagicMcpTokensRemoveGroupsOutputServer:
 
     @staticmethod
     def to_dict(value: Union[ManagementInstanceMagicMcpTokensRemoveGroupsOutputServer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceMagicMcpTokensRemoveGroupsOutputEndpoint:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceMagicMcpTokensRemoveGroupsOutputEndpoint:
+        return ManagementInstanceMagicMcpTokensRemoveGroupsOutputEndpoint(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        slug=data.get('slug'),
+        name=data.get('name'),
+        description=data.get('description')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceMagicMcpTokensRemoveGroupsOutputEndpoint, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -89,6 +118,7 @@ class mapManagementInstanceMagicMcpTokensRemoveGroupsOutput:
         name=data.get('name'),
         description=data.get('description'),
         server=mapManagementInstanceMagicMcpTokensRemoveGroupsOutputServer.from_dict(data.get('server')) if data.get('server') else None,
+        endpoint=mapManagementInstanceMagicMcpTokensRemoveGroupsOutputEndpoint.from_dict(data.get('endpoint')) if data.get('endpoint') else None,
         groups=[mapManagementInstanceMagicMcpTokensRemoveGroupsOutputGroups.from_dict(item) for item in data.get('groups', []) if item],
         metadata=data.get('metadata'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,

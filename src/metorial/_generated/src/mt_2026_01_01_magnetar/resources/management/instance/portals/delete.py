@@ -4,9 +4,13 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class ManagementInstancePortalsDeleteOutputAuthAllowedRedirectUrlFilters:
+    url: str
+@dataclass
 class ManagementInstancePortalsDeleteOutputAuth:
     object: str
     session_expiry_time_in_seconds: float
+    allowed_redirect_url_filters: List[ManagementInstancePortalsDeleteOutputAuthAllowedRedirectUrlFilters]
 @dataclass
 class ManagementInstancePortalsDeleteOutputUrls:
     type: str
@@ -30,12 +34,28 @@ class ManagementInstancePortalsDeleteOutput:
     description: Optional[str] = None
 
 
+class mapManagementInstancePortalsDeleteOutputAuthAllowedRedirectUrlFilters:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstancePortalsDeleteOutputAuthAllowedRedirectUrlFilters:
+        return ManagementInstancePortalsDeleteOutputAuthAllowedRedirectUrlFilters(
+        url=data.get('url')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstancePortalsDeleteOutputAuthAllowedRedirectUrlFilters, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapManagementInstancePortalsDeleteOutputAuth:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstancePortalsDeleteOutputAuth:
         return ManagementInstancePortalsDeleteOutputAuth(
         object=data.get('object'),
-        session_expiry_time_in_seconds=data.get('session_expiry_time_in_seconds')
+        session_expiry_time_in_seconds=data.get('session_expiry_time_in_seconds'),
+        allowed_redirect_url_filters=[mapManagementInstancePortalsDeleteOutputAuthAllowedRedirectUrlFilters.from_dict(item) for item in data.get('allowed_redirect_url_filters', []) if item]
         )
 
     @staticmethod

@@ -50,6 +50,7 @@ class ConsumerProvidersSetupOutputCredentials:
     object: str
     id: str
     type: str
+    status: str
     is_default: bool
     is_managed: bool
     provider_id: str
@@ -74,6 +75,7 @@ class ConsumerProvidersSetupOutputAuthConfigCredentials:
     object: str
     id: str
     type: str
+    status: str
     is_default: bool
     is_managed: bool
     provider_id: str
@@ -157,6 +159,7 @@ class ConsumerProvidersSetupOutputConfigFromVaultDeployment:
 class ConsumerProvidersSetupOutputConfigFromVault:
     object: str
     id: str
+    status: str
     name: str
     provider_id: str
     created_at: datetime
@@ -168,6 +171,7 @@ class ConsumerProvidersSetupOutputConfigFromVault:
 class ConsumerProvidersSetupOutputConfig:
     object: str
     id: str
+    status: str
     is_default: bool
     tool_filter: Dict[str, Any]
     provider_id: str
@@ -314,6 +318,7 @@ class mapConsumerProvidersSetupOutputCredentials:
         object=data.get('object'),
         id=data.get('id'),
         type=data.get('type'),
+        status=data.get('status'),
         is_default=data.get('is_default'),
         is_managed=data.get('is_managed'),
         name=data.get('name'),
@@ -362,6 +367,7 @@ class mapConsumerProvidersSetupOutputAuthConfigCredentials:
         object=data.get('object'),
         id=data.get('id'),
         type=data.get('type'),
+        status=data.get('status'),
         is_default=data.get('is_default'),
         is_managed=data.get('is_managed'),
         name=data.get('name'),
@@ -541,6 +547,7 @@ class mapConsumerProvidersSetupOutputConfigFromVault:
         return ConsumerProvidersSetupOutputConfigFromVault(
         object=data.get('object'),
         id=data.get('id'),
+        status=data.get('status'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
@@ -564,6 +571,7 @@ class mapConsumerProvidersSetupOutputConfig:
         return ConsumerProvidersSetupOutputConfig(
         object=data.get('object'),
         id=data.get('id'),
+        status=data.get('status'),
         is_default=data.get('is_default'),
         name=data.get('name'),
         description=data.get('description'),

@@ -46,6 +46,7 @@ class SessionTemplatesUpdateOutputProviders:
 class SessionTemplatesUpdateOutput:
     object: str
     id: str
+    status: str
     name: str
     providers: List[SessionTemplatesUpdateOutputProviders]
     created_at: datetime
@@ -147,6 +148,7 @@ class mapSessionTemplatesUpdateOutput:
         return SessionTemplatesUpdateOutput(
         object=data.get('object'),
         id=data.get('id'),
+        status=data.get('status'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),

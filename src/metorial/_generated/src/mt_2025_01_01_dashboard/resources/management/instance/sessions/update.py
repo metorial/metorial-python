@@ -57,6 +57,7 @@ class ManagementInstanceSessionsUpdateOutputProviders:
 class ManagementInstanceSessionsUpdateOutput:
     object: str
     id: str
+    status: str
     connection_state: str
     connection_url: str
     usage: ManagementInstanceSessionsUpdateOutputUsage
@@ -200,6 +201,7 @@ class mapManagementInstanceSessionsUpdateOutput:
         return ManagementInstanceSessionsUpdateOutput(
         object=data.get('object'),
         id=data.get('id'),
+        status=data.get('status'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),

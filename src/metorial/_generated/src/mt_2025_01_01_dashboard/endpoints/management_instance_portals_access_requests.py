@@ -8,7 +8,7 @@ class MetorialManagementInstancePortalsAccessRequestsEndpoint(BaseMetorialEndpoi
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, portal_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, consumer_profile_id: Optional[Union[str, List[str]]] = None) -> DashboardInstancePortalsAccessRequestsListOutput:
+    def list(self, instance_id: str, portal_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, consumer_profile_id: Optional[Union[str, List[str]]] = None, search: Optional[str] = None) -> DashboardInstancePortalsAccessRequestsListOutput:
         """
     List portal consumer access requests
     Returns a paginated list of consumer access requests for a portal.
@@ -22,6 +22,7 @@ class MetorialManagementInstancePortalsAccessRequestsEndpoint(BaseMetorialEndpoi
     :param order: Optional[str] (optional)
     :param status: Optional[Union[str, List[str]]] (optional)
     :param consumer_profile_id: Optional[Union[str, List[str]]] (optional)
+    :param search: Optional[str] (optional)
     :return: DashboardInstancePortalsAccessRequestsListOutput
     """
         # Build query parameters from keyword arguments
@@ -40,6 +41,8 @@ class MetorialManagementInstancePortalsAccessRequestsEndpoint(BaseMetorialEndpoi
             query_dict["status"] = status
         if consumer_profile_id is not None:
             query_dict["consumer_profile_id"] = consumer_profile_id
+        if search is not None:
+            query_dict["search"] = search
 
         request = MetorialRequest(
             path=['instances', instance_id, 'portals', portal_id, 'access-requests'],

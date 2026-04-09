@@ -11,6 +11,14 @@ class DashboardInstanceMagicMcpTokensListOutputItemsServer:
     name: Optional[str] = None
     description: Optional[str] = None
 @dataclass
+class DashboardInstanceMagicMcpTokensListOutputItemsEndpoint:
+    object: str
+    id: str
+    status: str
+    slug: str
+    name: Optional[str] = None
+    description: Optional[str] = None
+@dataclass
 class DashboardInstanceMagicMcpTokensListOutputItemsGroups:
     object: str
     id: str
@@ -34,6 +42,7 @@ class DashboardInstanceMagicMcpTokensListOutputItems:
     name: Optional[str] = None
     description: Optional[str] = None
     server: Optional[DashboardInstanceMagicMcpTokensListOutputItemsServer] = None
+    endpoint: Optional[DashboardInstanceMagicMcpTokensListOutputItemsEndpoint] = None
 @dataclass
 class DashboardInstanceMagicMcpTokensListOutputPagination:
     has_more_before: bool
@@ -57,6 +66,26 @@ class mapDashboardInstanceMagicMcpTokensListOutputItemsServer:
 
     @staticmethod
     def to_dict(value: Union[DashboardInstanceMagicMcpTokensListOutputItemsServer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceMagicMcpTokensListOutputItemsEndpoint:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceMagicMcpTokensListOutputItemsEndpoint:
+        return DashboardInstanceMagicMcpTokensListOutputItemsEndpoint(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        slug=data.get('slug'),
+        name=data.get('name'),
+        description=data.get('description')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceMagicMcpTokensListOutputItemsEndpoint, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -97,6 +126,7 @@ class mapDashboardInstanceMagicMcpTokensListOutputItems:
         name=data.get('name'),
         description=data.get('description'),
         server=mapDashboardInstanceMagicMcpTokensListOutputItemsServer.from_dict(data.get('server')) if data.get('server') else None,
+        endpoint=mapDashboardInstanceMagicMcpTokensListOutputItemsEndpoint.from_dict(data.get('endpoint')) if data.get('endpoint') else None,
         groups=[mapDashboardInstanceMagicMcpTokensListOutputItemsGroups.from_dict(item) for item in data.get('groups', []) if item],
         metadata=data.get('metadata'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
@@ -154,6 +184,7 @@ class DashboardInstanceMagicMcpTokensListQuery:
     status: Optional[Union[str, List[str]]] = None
     magic_mcp_group_id: Optional[Union[str, List[str]]] = None
     magic_mcp_server_id: Optional[Union[str, List[str]]] = None
+    magic_mcp_endpoint_id: Optional[Union[str, List[str]]] = None
 
 
 class mapDashboardInstanceMagicMcpTokensListQuery:
@@ -167,7 +198,8 @@ class mapDashboardInstanceMagicMcpTokensListQuery:
         order=data.get('order'),
         status=data.get('status'),
         magic_mcp_group_id=data.get('magic_mcp_group_id'),
-        magic_mcp_server_id=data.get('magic_mcp_server_id')
+        magic_mcp_server_id=data.get('magic_mcp_server_id'),
+        magic_mcp_endpoint_id=data.get('magic_mcp_endpoint_id')
         )
 
     @staticmethod

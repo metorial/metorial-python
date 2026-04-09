@@ -46,6 +46,7 @@ class DashboardInstanceSessionTemplatesGetOutputProviders:
 class DashboardInstanceSessionTemplatesGetOutput:
     object: str
     id: str
+    status: str
     name: str
     providers: List[DashboardInstanceSessionTemplatesGetOutputProviders]
     created_at: datetime
@@ -147,6 +148,7 @@ class mapDashboardInstanceSessionTemplatesGetOutput:
         return DashboardInstanceSessionTemplatesGetOutput(
         object=data.get('object'),
         id=data.get('id'),
+        status=data.get('status'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),

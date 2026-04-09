@@ -53,6 +53,9 @@ class PortalsConsumerProfilesListQuery:
     before: Optional[str] = None
     cursor: Optional[str] = None
     order: Optional[str] = None
+    search: Optional[str] = None
+    id: Optional[str] = None
+    consumer_group_id: Optional[str] = None
 
 
 class mapPortalsConsumerProfilesListQuery:
@@ -63,7 +66,10 @@ class mapPortalsConsumerProfilesListQuery:
         after=data.get('after'),
         before=data.get('before'),
         cursor=data.get('cursor'),
-        order=data.get('order')
+        order=data.get('order'),
+        search=data.get('search'),
+        id=data.get('id'),
+        consumer_group_id=data.get('consumer_group_id')
         )
 
     @staticmethod

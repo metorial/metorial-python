@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Optional, Union
 from metorial_util_endpoint import BaseMetorialEndpoint, MetorialEndpointManager, MetorialRequest
-from ..resources import mapDashboardInstanceSessionTemplatesListOutput, DashboardInstanceSessionTemplatesListOutput, mapDashboardInstanceSessionTemplatesListQuery, DashboardInstanceSessionTemplatesListQuery, mapDashboardInstanceSessionTemplatesGetOutput, DashboardInstanceSessionTemplatesGetOutput, mapDashboardInstanceSessionTemplatesCreateOutput, DashboardInstanceSessionTemplatesCreateOutput, mapDashboardInstanceSessionTemplatesCreateBody, DashboardInstanceSessionTemplatesCreateBody, mapDashboardInstanceSessionTemplatesUpdateOutput, DashboardInstanceSessionTemplatesUpdateOutput, mapDashboardInstanceSessionTemplatesUpdateBody, DashboardInstanceSessionTemplatesUpdateBody
+from ..resources import mapDashboardInstanceSessionTemplatesListOutput, DashboardInstanceSessionTemplatesListOutput, mapDashboardInstanceSessionTemplatesListQuery, DashboardInstanceSessionTemplatesListQuery, mapDashboardInstanceSessionTemplatesGetOutput, DashboardInstanceSessionTemplatesGetOutput, mapDashboardInstanceSessionTemplatesCreateOutput, DashboardInstanceSessionTemplatesCreateOutput, mapDashboardInstanceSessionTemplatesCreateBody, DashboardInstanceSessionTemplatesCreateBody, mapDashboardInstanceSessionTemplatesUpdateOutput, DashboardInstanceSessionTemplatesUpdateOutput, mapDashboardInstanceSessionTemplatesUpdateBody, DashboardInstanceSessionTemplatesUpdateBody, mapDashboardInstanceSessionTemplatesDeleteOutput, DashboardInstanceSessionTemplatesDeleteOutput
 
 class MetorialSessionTemplatesEndpoint(BaseMetorialEndpoint):
     """Session templates define reusable configurations for sessions, including which providers to include. Templates can be used to quickly create new sessions with consistent settings."""
@@ -134,3 +134,16 @@ class MetorialSessionTemplatesEndpoint(BaseMetorialEndpoint):
             body=body_dict
         )
         return self._patch(request).transform(mapDashboardInstanceSessionTemplatesUpdateOutput.from_dict)
+
+    def delete(self, session_template_id: str) -> DashboardInstanceSessionTemplatesDeleteOutput:
+        """
+    Delete session template
+    Deletes a specific session template.
+
+    :param session_template_id: str
+    :return: DashboardInstanceSessionTemplatesDeleteOutput
+    """
+        request = MetorialRequest(
+            path=['session-templates', session_template_id]
+        )
+        return self._delete(request).transform(mapDashboardInstanceSessionTemplatesDeleteOutput.from_dict)

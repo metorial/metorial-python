@@ -3,6 +3,8 @@ from .callbacks_destinations import *
 from .callbacks_events import *
 from .callbacks_instances import *
 from .callbacks_notifications import *
+from .consumer_consumer_internal_oauth_authorizations import *
+from .consumer_consumer_internal_oauth_clients import *
 from .consumer_profile import *
 from .consumer_profile_groups import *
 from .consumer_providers import *
@@ -37,6 +39,7 @@ from .dashboard_instance_identities_delegation_requests import *
 from .dashboard_instance_identities_delegations import *
 from .dashboard_instance_identity_actors import *
 from .dashboard_instance_instance import *
+from .dashboard_instance_magic_mcp_endpoints import *
 from .dashboard_instance_magic_mcp_groups import *
 from .dashboard_instance_magic_mcp_servers import *
 from .dashboard_instance_magic_mcp_servers_provider import *
@@ -86,6 +89,7 @@ from .identities_delegations import *
 from .identity_actors import *
 from .instance import *
 from .instances import *
+from .magic_mcp_endpoints import *
 from .magic_mcp_groups import *
 from .magic_mcp_servers import *
 from .magic_mcp_servers_provider import *
@@ -113,6 +117,7 @@ from .management_instance_identities_delegation_requests import *
 from .management_instance_identities_delegations import *
 from .management_instance_identity_actors import *
 from .management_instance_instance import *
+from .management_instance_magic_mcp_endpoints import *
 from .management_instance_magic_mcp_groups import *
 from .management_instance_magic_mcp_servers import *
 from .management_instance_magic_mcp_servers_provider import *

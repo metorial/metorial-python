@@ -7,6 +7,7 @@ from .files import *
 from .identities import *
 from .identity_actors import *
 from .instance import *
+from .magic_mcp_endpoints import *
 from .magic_mcp_groups import *
 from .magic_mcp_servers import *
 from .magic_mcp_sessions import *

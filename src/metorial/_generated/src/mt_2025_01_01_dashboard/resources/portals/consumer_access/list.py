@@ -115,6 +115,8 @@ class PortalsConsumerAccessListQuery:
     before: Optional[str] = None
     cursor: Optional[str] = None
     order: Optional[str] = None
+    search: Optional[str] = None
+    id: Optional[str] = None
     consumer_group_id: Optional[Union[str, List[str]]] = None
     provider_template_id: Optional[Union[str, List[str]]] = None
     magic_mcp_server_id: Optional[Union[str, List[str]]] = None
@@ -130,6 +132,8 @@ class mapPortalsConsumerAccessListQuery:
         before=data.get('before'),
         cursor=data.get('cursor'),
         order=data.get('order'),
+        search=data.get('search'),
+        id=data.get('id'),
         consumer_group_id=data.get('consumer_group_id'),
         provider_template_id=data.get('provider_template_id'),
         magic_mcp_server_id=data.get('magic_mcp_server_id'),

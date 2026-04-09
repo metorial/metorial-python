@@ -6,6 +6,12 @@ from .endpoints import *
 # These types are automatically exported for better IDE support
 
 # Type classes
+# ConsumerConsumerInternalOauthAuthorizationsAcceptOutput
+# ConsumerConsumerInternalOauthAuthorizationsConnectMagicMcpEndpointBody
+# ConsumerConsumerInternalOauthAuthorizationsConnectMagicMcpEndpointOutput
+# ConsumerConsumerInternalOauthAuthorizationsGetOutput
+# ConsumerConsumerInternalOauthAuthorizationsRejectOutput
+# ConsumerConsumerInternalOauthClientsGetOutput
 # ConsumerProfileGetOutput
 # ConsumerProfileGroupsListOutput
 # ConsumerProfileGroupsListQuery
@@ -146,6 +152,18 @@ from .endpoints import *
 # DashboardInstanceIdentityActorsUpdateBody
 # DashboardInstanceIdentityActorsUpdateOutput
 # DashboardInstanceInstanceGetOutput
+# DashboardInstanceMagicMcpEndpointsAddServersBody
+# DashboardInstanceMagicMcpEndpointsAddServersOutput
+# DashboardInstanceMagicMcpEndpointsCreateBody
+# DashboardInstanceMagicMcpEndpointsCreateOutput
+# DashboardInstanceMagicMcpEndpointsDeleteOutput
+# DashboardInstanceMagicMcpEndpointsGetOutput
+# DashboardInstanceMagicMcpEndpointsListOutput
+# DashboardInstanceMagicMcpEndpointsListQuery
+# DashboardInstanceMagicMcpEndpointsRemoveServersBody
+# DashboardInstanceMagicMcpEndpointsRemoveServersOutput
+# DashboardInstanceMagicMcpEndpointsUpdateBody
+# DashboardInstanceMagicMcpEndpointsUpdateOutput
 # DashboardInstanceMagicMcpGroupsAddServersBody
 # DashboardInstanceMagicMcpGroupsAddServersOutput
 # DashboardInstanceMagicMcpGroupsCreateBody
@@ -172,6 +190,7 @@ from .endpoints import *
 # DashboardInstanceMagicMcpServersProviderListQuery
 # DashboardInstanceMagicMcpServersProviderUpdateBody
 # DashboardInstanceMagicMcpServersProviderUpdateOutput
+# DashboardInstanceMagicMcpServersToolsOutput
 # DashboardInstanceMagicMcpServersUpdateBody
 # DashboardInstanceMagicMcpServersUpdateOutput
 # DashboardInstanceMagicMcpSessionsGetOutput
@@ -313,6 +332,7 @@ from .endpoints import *
 # DashboardInstancePublishersListQuery
 # DashboardInstanceSessionTemplatesCreateBody
 # DashboardInstanceSessionTemplatesCreateOutput
+# DashboardInstanceSessionTemplatesDeleteOutput
 # DashboardInstanceSessionTemplatesGetOutput
 # DashboardInstanceSessionTemplatesListOutput
 # DashboardInstanceSessionTemplatesListQuery
@@ -331,6 +351,7 @@ from .endpoints import *
 # DashboardInstanceSessionsConnectionsListQuery
 # DashboardInstanceSessionsCreateBody
 # DashboardInstanceSessionsCreateOutput
+# DashboardInstanceSessionsDeleteOutput
 # DashboardInstanceSessionsErrorGroupsGetOutput
 # DashboardInstanceSessionsErrorGroupsListOutput
 # DashboardInstanceSessionsErrorGroupsListQuery
@@ -380,6 +401,12 @@ from .endpoints import *
 # TokenGetOutput
 
 # Mapper classes
+# mapConsumerConsumerInternalOauthAuthorizationsAcceptOutput
+# mapConsumerConsumerInternalOauthAuthorizationsConnectMagicMcpEndpointBody
+# mapConsumerConsumerInternalOauthAuthorizationsConnectMagicMcpEndpointOutput
+# mapConsumerConsumerInternalOauthAuthorizationsGetOutput
+# mapConsumerConsumerInternalOauthAuthorizationsRejectOutput
+# mapConsumerConsumerInternalOauthClientsGetOutput
 # mapConsumerProfileGetOutput
 # mapConsumerProfileGroupsListOutput
 # mapConsumerProfileGroupsListQuery
@@ -520,6 +547,18 @@ from .endpoints import *
 # mapDashboardInstanceIdentityActorsUpdateBody
 # mapDashboardInstanceIdentityActorsUpdateOutput
 # mapDashboardInstanceInstanceGetOutput
+# mapDashboardInstanceMagicMcpEndpointsAddServersBody
+# mapDashboardInstanceMagicMcpEndpointsAddServersOutput
+# mapDashboardInstanceMagicMcpEndpointsCreateBody
+# mapDashboardInstanceMagicMcpEndpointsCreateOutput
+# mapDashboardInstanceMagicMcpEndpointsDeleteOutput
+# mapDashboardInstanceMagicMcpEndpointsGetOutput
+# mapDashboardInstanceMagicMcpEndpointsListOutput
+# mapDashboardInstanceMagicMcpEndpointsListQuery
+# mapDashboardInstanceMagicMcpEndpointsRemoveServersBody
+# mapDashboardInstanceMagicMcpEndpointsRemoveServersOutput
+# mapDashboardInstanceMagicMcpEndpointsUpdateBody
+# mapDashboardInstanceMagicMcpEndpointsUpdateOutput
 # mapDashboardInstanceMagicMcpGroupsAddServersBody
 # mapDashboardInstanceMagicMcpGroupsAddServersOutput
 # mapDashboardInstanceMagicMcpGroupsCreateBody
@@ -546,6 +585,7 @@ from .endpoints import *
 # mapDashboardInstanceMagicMcpServersProviderListQuery
 # mapDashboardInstanceMagicMcpServersProviderUpdateBody
 # mapDashboardInstanceMagicMcpServersProviderUpdateOutput
+# mapDashboardInstanceMagicMcpServersToolsOutput
 # mapDashboardInstanceMagicMcpServersUpdateBody
 # mapDashboardInstanceMagicMcpServersUpdateOutput
 # mapDashboardInstanceMagicMcpSessionsGetOutput
@@ -687,6 +727,7 @@ from .endpoints import *
 # mapDashboardInstancePublishersListQuery
 # mapDashboardInstanceSessionTemplatesCreateBody
 # mapDashboardInstanceSessionTemplatesCreateOutput
+# mapDashboardInstanceSessionTemplatesDeleteOutput
 # mapDashboardInstanceSessionTemplatesGetOutput
 # mapDashboardInstanceSessionTemplatesListOutput
 # mapDashboardInstanceSessionTemplatesListQuery
@@ -705,6 +746,7 @@ from .endpoints import *
 # mapDashboardInstanceSessionsConnectionsListQuery
 # mapDashboardInstanceSessionsCreateBody
 # mapDashboardInstanceSessionsCreateOutput
+# mapDashboardInstanceSessionsDeleteOutput
 # mapDashboardInstanceSessionsErrorGroupsGetOutput
 # mapDashboardInstanceSessionsErrorGroupsListOutput
 # mapDashboardInstanceSessionsErrorGroupsListQuery

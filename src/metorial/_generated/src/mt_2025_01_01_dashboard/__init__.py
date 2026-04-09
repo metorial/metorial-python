@@ -133,6 +133,18 @@ from .endpoints import *
 # DashboardInstanceIdentityActorsListQuery
 # DashboardInstanceIdentityActorsUpdateBody
 # DashboardInstanceIdentityActorsUpdateOutput
+# DashboardInstanceMagicMcpEndpointsAddServersBody
+# DashboardInstanceMagicMcpEndpointsAddServersOutput
+# DashboardInstanceMagicMcpEndpointsCreateBody
+# DashboardInstanceMagicMcpEndpointsCreateOutput
+# DashboardInstanceMagicMcpEndpointsDeleteOutput
+# DashboardInstanceMagicMcpEndpointsGetOutput
+# DashboardInstanceMagicMcpEndpointsListOutput
+# DashboardInstanceMagicMcpEndpointsListQuery
+# DashboardInstanceMagicMcpEndpointsRemoveServersBody
+# DashboardInstanceMagicMcpEndpointsRemoveServersOutput
+# DashboardInstanceMagicMcpEndpointsUpdateBody
+# DashboardInstanceMagicMcpEndpointsUpdateOutput
 # DashboardInstanceMagicMcpGroupsAddServersBody
 # DashboardInstanceMagicMcpGroupsAddServersOutput
 # DashboardInstanceMagicMcpGroupsCreateBody
@@ -159,6 +171,7 @@ from .endpoints import *
 # DashboardInstanceMagicMcpServersProviderListQuery
 # DashboardInstanceMagicMcpServersProviderUpdateBody
 # DashboardInstanceMagicMcpServersProviderUpdateOutput
+# DashboardInstanceMagicMcpServersToolsOutput
 # DashboardInstanceMagicMcpServersUpdateBody
 # DashboardInstanceMagicMcpServersUpdateOutput
 # DashboardInstanceMagicMcpSessionsGetOutput
@@ -357,6 +370,7 @@ from .endpoints import *
 # DashboardInstanceScmReposPreviewOutput
 # DashboardInstanceSessionTemplatesCreateBody
 # DashboardInstanceSessionTemplatesCreateOutput
+# DashboardInstanceSessionTemplatesDeleteOutput
 # DashboardInstanceSessionTemplatesGetOutput
 # DashboardInstanceSessionTemplatesListOutput
 # DashboardInstanceSessionTemplatesListQuery
@@ -375,6 +389,7 @@ from .endpoints import *
 # DashboardInstanceSessionsConnectionsListQuery
 # DashboardInstanceSessionsCreateBody
 # DashboardInstanceSessionsCreateOutput
+# DashboardInstanceSessionsDeleteOutput
 # DashboardInstanceSessionsErrorGroupsGetOutput
 # DashboardInstanceSessionsErrorGroupsListOutput
 # DashboardInstanceSessionsErrorGroupsListQuery
@@ -691,6 +706,18 @@ from .endpoints import *
 # mapDashboardInstanceIdentityActorsListQuery
 # mapDashboardInstanceIdentityActorsUpdateBody
 # mapDashboardInstanceIdentityActorsUpdateOutput
+# mapDashboardInstanceMagicMcpEndpointsAddServersBody
+# mapDashboardInstanceMagicMcpEndpointsAddServersOutput
+# mapDashboardInstanceMagicMcpEndpointsCreateBody
+# mapDashboardInstanceMagicMcpEndpointsCreateOutput
+# mapDashboardInstanceMagicMcpEndpointsDeleteOutput
+# mapDashboardInstanceMagicMcpEndpointsGetOutput
+# mapDashboardInstanceMagicMcpEndpointsListOutput
+# mapDashboardInstanceMagicMcpEndpointsListQuery
+# mapDashboardInstanceMagicMcpEndpointsRemoveServersBody
+# mapDashboardInstanceMagicMcpEndpointsRemoveServersOutput
+# mapDashboardInstanceMagicMcpEndpointsUpdateBody
+# mapDashboardInstanceMagicMcpEndpointsUpdateOutput
 # mapDashboardInstanceMagicMcpGroupsAddServersBody
 # mapDashboardInstanceMagicMcpGroupsAddServersOutput
 # mapDashboardInstanceMagicMcpGroupsCreateBody
@@ -717,6 +744,7 @@ from .endpoints import *
 # mapDashboardInstanceMagicMcpServersProviderListQuery
 # mapDashboardInstanceMagicMcpServersProviderUpdateBody
 # mapDashboardInstanceMagicMcpServersProviderUpdateOutput
+# mapDashboardInstanceMagicMcpServersToolsOutput
 # mapDashboardInstanceMagicMcpServersUpdateBody
 # mapDashboardInstanceMagicMcpServersUpdateOutput
 # mapDashboardInstanceMagicMcpSessionsGetOutput
@@ -915,6 +943,7 @@ from .endpoints import *
 # mapDashboardInstanceScmReposPreviewOutput
 # mapDashboardInstanceSessionTemplatesCreateBody
 # mapDashboardInstanceSessionTemplatesCreateOutput
+# mapDashboardInstanceSessionTemplatesDeleteOutput
 # mapDashboardInstanceSessionTemplatesGetOutput
 # mapDashboardInstanceSessionTemplatesListOutput
 # mapDashboardInstanceSessionTemplatesListQuery
@@ -933,6 +962,7 @@ from .endpoints import *
 # mapDashboardInstanceSessionsConnectionsListQuery
 # mapDashboardInstanceSessionsCreateBody
 # mapDashboardInstanceSessionsCreateOutput
+# mapDashboardInstanceSessionsDeleteOutput
 # mapDashboardInstanceSessionsErrorGroupsGetOutput
 # mapDashboardInstanceSessionsErrorGroupsListOutput
 # mapDashboardInstanceSessionsErrorGroupsListQuery

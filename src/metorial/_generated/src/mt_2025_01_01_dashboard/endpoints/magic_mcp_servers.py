@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Optional, Union
 from metorial_util_endpoint import BaseMetorialEndpoint, MetorialEndpointManager, MetorialRequest
-from ..resources import mapDashboardInstanceMagicMcpServersListOutput, DashboardInstanceMagicMcpServersListOutput, mapDashboardInstanceMagicMcpServersListQuery, DashboardInstanceMagicMcpServersListQuery, mapDashboardInstanceMagicMcpServersGetOutput, DashboardInstanceMagicMcpServersGetOutput, mapDashboardInstanceMagicMcpServersCreateOutput, DashboardInstanceMagicMcpServersCreateOutput, mapDashboardInstanceMagicMcpServersCreateBody, DashboardInstanceMagicMcpServersCreateBody, mapDashboardInstanceMagicMcpServersDeleteOutput, DashboardInstanceMagicMcpServersDeleteOutput, mapDashboardInstanceMagicMcpServersUpdateOutput, DashboardInstanceMagicMcpServersUpdateOutput, mapDashboardInstanceMagicMcpServersUpdateBody, DashboardInstanceMagicMcpServersUpdateBody
+from ..resources import mapDashboardInstanceMagicMcpServersListOutput, DashboardInstanceMagicMcpServersListOutput, mapDashboardInstanceMagicMcpServersListQuery, DashboardInstanceMagicMcpServersListQuery, mapDashboardInstanceMagicMcpServersGetOutput, DashboardInstanceMagicMcpServersGetOutput, mapDashboardInstanceMagicMcpServersToolsOutput, DashboardInstanceMagicMcpServersToolsOutput, mapDashboardInstanceMagicMcpServersCreateOutput, DashboardInstanceMagicMcpServersCreateOutput, mapDashboardInstanceMagicMcpServersCreateBody, DashboardInstanceMagicMcpServersCreateBody, mapDashboardInstanceMagicMcpServersDeleteOutput, DashboardInstanceMagicMcpServersDeleteOutput, mapDashboardInstanceMagicMcpServersUpdateOutput, DashboardInstanceMagicMcpServersUpdateOutput, mapDashboardInstanceMagicMcpServersUpdateBody, DashboardInstanceMagicMcpServersUpdateBody
 
 class MetorialMagicMcpServersEndpoint(BaseMetorialEndpoint):
     """Magic MCP servers are stable MCP entrypoints backed by one Subspace session template."""
@@ -69,6 +69,19 @@ class MetorialMagicMcpServersEndpoint(BaseMetorialEndpoint):
             path=['magic-mcp-servers', magic_mcp_server_id]
         )
         return self._get(request).transform(mapDashboardInstanceMagicMcpServersGetOutput.from_dict)
+
+    def tools(self, magic_mcp_server_id: str) -> DashboardInstanceMagicMcpServersToolsOutput:
+        """
+    List magic MCP server tools
+    Returns the effective set of tools available through the providers backing a magic MCP server.
+
+    :param magic_mcp_server_id: str
+    :return: DashboardInstanceMagicMcpServersToolsOutput
+    """
+        request = MetorialRequest(
+            path=['magic-mcp-servers', magic_mcp_server_id, 'tools']
+        )
+        return self._get(request).transform(mapDashboardInstanceMagicMcpServersToolsOutput.from_dict)
 
     def create(self, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, consumer_profile_id: Optional[str] = None) -> DashboardInstanceMagicMcpServersCreateOutput:
         """

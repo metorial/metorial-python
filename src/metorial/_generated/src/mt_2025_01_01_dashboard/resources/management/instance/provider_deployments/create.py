@@ -31,6 +31,7 @@ class ManagementInstanceProviderDeploymentsCreateOutputDefaultConfig:
 class ManagementInstanceProviderDeploymentsCreateOutput:
     object: str
     id: str
+    status: str
     is_default: bool
     tool_filter: Dict[str, Any]
     provider_id: str
@@ -97,6 +98,7 @@ class mapManagementInstanceProviderDeploymentsCreateOutput:
         return ManagementInstanceProviderDeploymentsCreateOutput(
         object=data.get('object'),
         id=data.get('id'),
+        status=data.get('status'),
         is_default=data.get('is_default'),
         name=data.get('name'),
         description=data.get('description'),

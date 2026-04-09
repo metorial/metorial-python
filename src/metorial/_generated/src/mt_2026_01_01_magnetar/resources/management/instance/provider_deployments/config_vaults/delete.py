@@ -18,6 +18,7 @@ class ManagementInstanceProviderDeploymentsConfigVaultsDeleteOutputDeployment:
 class ManagementInstanceProviderDeploymentsConfigVaultsDeleteOutput:
     object: str
     id: str
+    status: str
     name: str
     provider_id: str
     created_at: datetime
@@ -56,6 +57,7 @@ class mapManagementInstanceProviderDeploymentsConfigVaultsDeleteOutput:
         return ManagementInstanceProviderDeploymentsConfigVaultsDeleteOutput(
         object=data.get('object'),
         id=data.get('id'),
+        status=data.get('status'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),

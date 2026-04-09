@@ -1,5 +1,6 @@
 from .connections import *
 from .create import *
+from .delete import *
 from .error_groups import *
 from .errors import *
 from .events import *

@@ -35,6 +35,7 @@ from .dashboard_instance_identities_delegation_configs import *
 from .dashboard_instance_identities_delegation_requests import *
 from .dashboard_instance_identities_delegations import *
 from .dashboard_instance_identity_actors import *
+from .dashboard_instance_magic_mcp_endpoints import *
 from .dashboard_instance_magic_mcp_groups import *
 from .dashboard_instance_magic_mcp_servers import *
 from .dashboard_instance_magic_mcp_servers_provider import *
@@ -120,6 +121,7 @@ from .identities_delegation_configs import *
 from .identities_delegation_requests import *
 from .identities_delegations import *
 from .identity_actors import *
+from .magic_mcp_endpoints import *
 from .magic_mcp_groups import *
 from .magic_mcp_servers import *
 from .magic_mcp_servers_provider import *
@@ -147,6 +149,7 @@ from .management_instance_identities_delegation_configs import *
 from .management_instance_identities_delegation_requests import *
 from .management_instance_identities_delegations import *
 from .management_instance_identity_actors import *
+from .management_instance_magic_mcp_endpoints import *
 from .management_instance_magic_mcp_groups import *
 from .management_instance_magic_mcp_servers import *
 from .management_instance_magic_mcp_servers_provider import *
@@ -169,6 +172,7 @@ from .management_instance_provider_deployments_auth_configs_imports import *
 from .management_instance_provider_deployments_auth_credentials import *
 from .management_instance_provider_deployments_config_vaults import *
 from .management_instance_provider_deployments_configs import *
+from .management_instance_provider_deployments_setup_sessions import *
 from .management_instance_provider_groups import *
 from .management_instance_provider_listings import *
 from .management_instance_provider_runs import *
@@ -240,6 +244,7 @@ from .provider_deployments_auth_configs_imports import *
 from .provider_deployments_auth_credentials import *
 from .provider_deployments_config_vaults import *
 from .provider_deployments_configs import *
+from .provider_deployments_setup_sessions import *
 from .provider_groups import *
 from .provider_listings import *
 from .provider_runs import *

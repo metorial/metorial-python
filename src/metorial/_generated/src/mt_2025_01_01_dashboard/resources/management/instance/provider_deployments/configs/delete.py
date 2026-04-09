@@ -29,6 +29,7 @@ class ManagementInstanceProviderDeploymentsConfigsDeleteOutputFromVaultDeploymen
 class ManagementInstanceProviderDeploymentsConfigsDeleteOutputFromVault:
     object: str
     id: str
+    status: str
     name: str
     provider_id: str
     created_at: datetime
@@ -40,6 +41,7 @@ class ManagementInstanceProviderDeploymentsConfigsDeleteOutputFromVault:
 class ManagementInstanceProviderDeploymentsConfigsDeleteOutput:
     object: str
     id: str
+    status: str
     is_default: bool
     tool_filter: Dict[str, Any]
     provider_id: str
@@ -105,6 +107,7 @@ class mapManagementInstanceProviderDeploymentsConfigsDeleteOutputFromVault:
         return ManagementInstanceProviderDeploymentsConfigsDeleteOutputFromVault(
         object=data.get('object'),
         id=data.get('id'),
+        status=data.get('status'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
@@ -128,6 +131,7 @@ class mapManagementInstanceProviderDeploymentsConfigsDeleteOutput:
         return ManagementInstanceProviderDeploymentsConfigsDeleteOutput(
         object=data.get('object'),
         id=data.get('id'),
+        status=data.get('status'),
         is_default=data.get('is_default'),
         name=data.get('name'),
         description=data.get('description'),
