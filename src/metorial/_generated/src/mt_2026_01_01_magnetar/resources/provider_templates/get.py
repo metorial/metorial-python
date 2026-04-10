@@ -11,6 +11,7 @@ class ProviderTemplatesGetOutput:
     name: str
     metadata: Dict[str, Any]
     provider_deployment_id: str
+    tool_filters: Dict[str, Any]
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
@@ -27,6 +28,7 @@ class mapProviderTemplatesGetOutput:
         description=data.get('description'),
         metadata=data.get('metadata'),
         provider_deployment_id=data.get('provider_deployment_id'),
+        tool_filters=data.get('tool_filters'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

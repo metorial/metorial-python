@@ -18,10 +18,13 @@ class PortalsConsumerAccessCreateOutputConsumerGroup:
 class PortalsConsumerAccessCreateOutput:
     object: str
     id: str
+    name: str
     access: Dict[str, Any]
     consumer_group: PortalsConsumerAccessCreateOutputConsumerGroup
     created_at: datetime
     updated_at: datetime
+    description: Optional[str] = None
+    readme: Optional[str] = None
 
 
 class mapPortalsConsumerAccessCreateOutputConsumerGroup:
@@ -53,6 +56,9 @@ class mapPortalsConsumerAccessCreateOutput:
         return PortalsConsumerAccessCreateOutput(
         object=data.get('object'),
         id=data.get('id'),
+        name=data.get('name'),
+        description=data.get('description'),
+        readme=data.get('readme'),
         access=data.get('access'),
         consumer_group=mapPortalsConsumerAccessCreateOutputConsumerGroup.from_dict(data.get('consumer_group')) if data.get('consumer_group') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
@@ -72,6 +78,9 @@ class mapPortalsConsumerAccessCreateOutput:
 class PortalsConsumerAccessCreateBody:
     consumer_group_id: str
     access: Dict[str, Any]
+    name: Optional[str] = None
+    description: Optional[str] = None
+    readme: Optional[str] = None
 
 
 class mapPortalsConsumerAccessCreateBody:
@@ -79,6 +88,9 @@ class mapPortalsConsumerAccessCreateBody:
     def from_dict(data: Dict[str, Any]) -> PortalsConsumerAccessCreateBody:
         return PortalsConsumerAccessCreateBody(
         consumer_group_id=data.get('consumer_group_id'),
+        name=data.get('name'),
+        description=data.get('description'),
+        readme=data.get('readme'),
         access=data.get('access')
         )
 

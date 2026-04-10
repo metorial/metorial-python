@@ -210,6 +210,8 @@ from .endpoints import *
 # DashboardInstancePortalsConsumerAccessGetOutput
 # DashboardInstancePortalsConsumerAccessListOutput
 # DashboardInstancePortalsConsumerAccessListQuery
+# DashboardInstancePortalsConsumerAccessUpdateBody
+# DashboardInstancePortalsConsumerAccessUpdateOutput
 # DashboardInstancePortalsConsumerGroupsCreateBody
 # DashboardInstancePortalsConsumerGroupsCreateOutput
 # DashboardInstancePortalsConsumerGroupsDeleteOutput
@@ -381,6 +383,7 @@ from .endpoints import *
 # DashboardInstanceSessionTemplatesGetOutput
 # DashboardInstanceSessionTemplatesListOutput
 # DashboardInstanceSessionTemplatesListQuery
+# DashboardInstanceSessionTemplatesListToolsOutput
 # DashboardInstanceSessionTemplatesProvidersCreateBody
 # DashboardInstanceSessionTemplatesProvidersCreateOutput
 # DashboardInstanceSessionTemplatesProvidersDeleteOutput
@@ -790,6 +793,8 @@ from .endpoints import *
 # mapDashboardInstancePortalsConsumerAccessGetOutput
 # mapDashboardInstancePortalsConsumerAccessListOutput
 # mapDashboardInstancePortalsConsumerAccessListQuery
+# mapDashboardInstancePortalsConsumerAccessUpdateBody
+# mapDashboardInstancePortalsConsumerAccessUpdateOutput
 # mapDashboardInstancePortalsConsumerGroupsCreateBody
 # mapDashboardInstancePortalsConsumerGroupsCreateOutput
 # mapDashboardInstancePortalsConsumerGroupsDeleteOutput
@@ -961,6 +966,7 @@ from .endpoints import *
 # mapDashboardInstanceSessionTemplatesGetOutput
 # mapDashboardInstanceSessionTemplatesListOutput
 # mapDashboardInstanceSessionTemplatesListQuery
+# mapDashboardInstanceSessionTemplatesListToolsOutput
 # mapDashboardInstanceSessionTemplatesProvidersCreateBody
 # mapDashboardInstanceSessionTemplatesProvidersCreateOutput
 # mapDashboardInstanceSessionTemplatesProvidersDeleteOutput

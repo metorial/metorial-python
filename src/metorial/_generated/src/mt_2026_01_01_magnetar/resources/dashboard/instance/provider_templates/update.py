@@ -11,6 +11,7 @@ class DashboardInstanceProviderTemplatesUpdateOutput:
     name: str
     metadata: Dict[str, Any]
     provider_deployment_id: str
+    tool_filters: Dict[str, Any]
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
@@ -27,6 +28,7 @@ class mapDashboardInstanceProviderTemplatesUpdateOutput:
         description=data.get('description'),
         metadata=data.get('metadata'),
         provider_deployment_id=data.get('provider_deployment_id'),
+        tool_filters=data.get('tool_filters'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -45,6 +47,7 @@ class DashboardInstanceProviderTemplatesUpdateBody:
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
+    tool_filters: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]] = None
 
 
 class mapDashboardInstanceProviderTemplatesUpdateBody:
@@ -53,7 +56,8 @@ class mapDashboardInstanceProviderTemplatesUpdateBody:
         return DashboardInstanceProviderTemplatesUpdateBody(
         name=data.get('name'),
         description=data.get('description'),
-        metadata=data.get('metadata')
+        metadata=data.get('metadata'),
+        tool_filters=data.get('tool_filters')
         )
 
     @staticmethod

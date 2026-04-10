@@ -336,6 +336,7 @@ from .endpoints import *
 # DashboardInstanceSessionTemplatesGetOutput
 # DashboardInstanceSessionTemplatesListOutput
 # DashboardInstanceSessionTemplatesListQuery
+# DashboardInstanceSessionTemplatesListToolsOutput
 # DashboardInstanceSessionTemplatesProvidersCreateBody
 # DashboardInstanceSessionTemplatesProvidersCreateOutput
 # DashboardInstanceSessionTemplatesProvidersDeleteOutput
@@ -731,6 +732,7 @@ from .endpoints import *
 # mapDashboardInstanceSessionTemplatesGetOutput
 # mapDashboardInstanceSessionTemplatesListOutput
 # mapDashboardInstanceSessionTemplatesListQuery
+# mapDashboardInstanceSessionTemplatesListToolsOutput
 # mapDashboardInstanceSessionTemplatesProvidersCreateBody
 # mapDashboardInstanceSessionTemplatesProvidersCreateOutput
 # mapDashboardInstanceSessionTemplatesProvidersDeleteOutput

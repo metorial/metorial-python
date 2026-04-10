@@ -4,7 +4,7 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
-class DashboardInstancePortalsConsumerAccessCreateOutputConsumerGroup:
+class ManagementInstancePortalsConsumerAccessUpdateOutputConsumerGroup:
     object: str
     id: str
     status: str
@@ -15,22 +15,22 @@ class DashboardInstancePortalsConsumerAccessCreateOutputConsumerGroup:
     updated_at: datetime
     description: Optional[str] = None
 @dataclass
-class DashboardInstancePortalsConsumerAccessCreateOutput:
+class ManagementInstancePortalsConsumerAccessUpdateOutput:
     object: str
     id: str
     name: str
     access: Dict[str, Any]
-    consumer_group: DashboardInstancePortalsConsumerAccessCreateOutputConsumerGroup
+    consumer_group: ManagementInstancePortalsConsumerAccessUpdateOutputConsumerGroup
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
     readme: Optional[str] = None
 
 
-class mapDashboardInstancePortalsConsumerAccessCreateOutputConsumerGroup:
+class mapManagementInstancePortalsConsumerAccessUpdateOutputConsumerGroup:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> DashboardInstancePortalsConsumerAccessCreateOutputConsumerGroup:
-        return DashboardInstancePortalsConsumerAccessCreateOutputConsumerGroup(
+    def from_dict(data: Dict[str, Any]) -> ManagementInstancePortalsConsumerAccessUpdateOutputConsumerGroup:
+        return ManagementInstancePortalsConsumerAccessUpdateOutputConsumerGroup(
         object=data.get('object'),
         id=data.get('id'),
         status=data.get('status'),
@@ -43,30 +43,30 @@ class mapDashboardInstancePortalsConsumerAccessCreateOutputConsumerGroup:
         )
 
     @staticmethod
-    def to_dict(value: Union[DashboardInstancePortalsConsumerAccessCreateOutputConsumerGroup, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[ManagementInstancePortalsConsumerAccessUpdateOutputConsumerGroup, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
             return value
         return dataclasses.asdict(value)
 
-class mapDashboardInstancePortalsConsumerAccessCreateOutput:
+class mapManagementInstancePortalsConsumerAccessUpdateOutput:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> DashboardInstancePortalsConsumerAccessCreateOutput:
-        return DashboardInstancePortalsConsumerAccessCreateOutput(
+    def from_dict(data: Dict[str, Any]) -> ManagementInstancePortalsConsumerAccessUpdateOutput:
+        return ManagementInstancePortalsConsumerAccessUpdateOutput(
         object=data.get('object'),
         id=data.get('id'),
         name=data.get('name'),
         description=data.get('description'),
         readme=data.get('readme'),
         access=data.get('access'),
-        consumer_group=mapDashboardInstancePortalsConsumerAccessCreateOutputConsumerGroup.from_dict(data.get('consumer_group')) if data.get('consumer_group') else None,
+        consumer_group=mapManagementInstancePortalsConsumerAccessUpdateOutputConsumerGroup.from_dict(data.get('consumer_group')) if data.get('consumer_group') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
-    def to_dict(value: Union[DashboardInstancePortalsConsumerAccessCreateOutput, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[ManagementInstancePortalsConsumerAccessUpdateOutput, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -75,27 +75,23 @@ class mapDashboardInstancePortalsConsumerAccessCreateOutput:
         return dataclasses.asdict(value)
 
 @dataclass
-class DashboardInstancePortalsConsumerAccessCreateBody:
-    consumer_group_id: str
-    access: Dict[str, Any]
+class ManagementInstancePortalsConsumerAccessUpdateBody:
     name: Optional[str] = None
     description: Optional[str] = None
     readme: Optional[str] = None
 
 
-class mapDashboardInstancePortalsConsumerAccessCreateBody:
+class mapManagementInstancePortalsConsumerAccessUpdateBody:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> DashboardInstancePortalsConsumerAccessCreateBody:
-        return DashboardInstancePortalsConsumerAccessCreateBody(
-        consumer_group_id=data.get('consumer_group_id'),
+    def from_dict(data: Dict[str, Any]) -> ManagementInstancePortalsConsumerAccessUpdateBody:
+        return ManagementInstancePortalsConsumerAccessUpdateBody(
         name=data.get('name'),
         description=data.get('description'),
-        readme=data.get('readme'),
-        access=data.get('access')
+        readme=data.get('readme')
         )
 
     @staticmethod
-    def to_dict(value: Union[DashboardInstancePortalsConsumerAccessCreateBody, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[ManagementInstancePortalsConsumerAccessUpdateBody, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):

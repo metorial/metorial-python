@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Optional, Union
 from metorial_util_endpoint import BaseMetorialEndpoint, MetorialEndpointManager, MetorialRequest
-from ..resources import mapDashboardInstancePortalsConsumerAccessListOutput, DashboardInstancePortalsConsumerAccessListOutput, mapDashboardInstancePortalsConsumerAccessListQuery, DashboardInstancePortalsConsumerAccessListQuery, mapDashboardInstancePortalsConsumerAccessGetOutput, DashboardInstancePortalsConsumerAccessGetOutput, mapDashboardInstancePortalsConsumerAccessCreateOutput, DashboardInstancePortalsConsumerAccessCreateOutput, mapDashboardInstancePortalsConsumerAccessCreateBody, DashboardInstancePortalsConsumerAccessCreateBody, mapDashboardInstancePortalsConsumerAccessDeleteOutput, DashboardInstancePortalsConsumerAccessDeleteOutput
+from ..resources import mapDashboardInstancePortalsConsumerAccessListOutput, DashboardInstancePortalsConsumerAccessListOutput, mapDashboardInstancePortalsConsumerAccessListQuery, DashboardInstancePortalsConsumerAccessListQuery, mapDashboardInstancePortalsConsumerAccessGetOutput, DashboardInstancePortalsConsumerAccessGetOutput, mapDashboardInstancePortalsConsumerAccessCreateOutput, DashboardInstancePortalsConsumerAccessCreateOutput, mapDashboardInstancePortalsConsumerAccessCreateBody, DashboardInstancePortalsConsumerAccessCreateBody, mapDashboardInstancePortalsConsumerAccessUpdateOutput, DashboardInstancePortalsConsumerAccessUpdateOutput, mapDashboardInstancePortalsConsumerAccessUpdateBody, DashboardInstancePortalsConsumerAccessUpdateBody, mapDashboardInstancePortalsConsumerAccessDeleteOutput, DashboardInstancePortalsConsumerAccessDeleteOutput
 
 class MetorialManagementInstancePortalsConsumerAccessEndpoint(BaseMetorialEndpoint):
     """Manage which consumer groups can access portal provider templates and MCP servers."""
@@ -71,7 +71,7 @@ class MetorialManagementInstancePortalsConsumerAccessEndpoint(BaseMetorialEndpoi
         )
         return self._get(request).transform(mapDashboardInstancePortalsConsumerAccessGetOutput.from_dict)
 
-    def create(self, instance_id: str, portal_id: str, *, consumer_group_id: str, access: Union[Dict[str, Any], Dict[str, Any]]) -> DashboardInstancePortalsConsumerAccessCreateOutput:
+    def create(self, instance_id: str, portal_id: str, *, consumer_group_id: str, access: Union[Dict[str, Any], Dict[str, Any]], name: Optional[str] = None, description: Optional[str] = None, readme: Optional[str] = None) -> DashboardInstancePortalsConsumerAccessCreateOutput:
         """
     Create portal consumer access
     Creates a new consumer access rule for the portal.
@@ -79,12 +79,21 @@ class MetorialManagementInstancePortalsConsumerAccessEndpoint(BaseMetorialEndpoi
     :param instance_id: str
     :param portal_id: str
     :param consumer_group_id: str
+    :param name: Optional[str] (optional)
+    :param description: Optional[str] (optional)
+    :param readme: Optional[str] (optional)
     :param access: Union[Dict[str, Any], Dict[str, Any]]
     :return: DashboardInstancePortalsConsumerAccessCreateOutput
     """
         # Build body parameters from keyword arguments
         body_dict = {}
         body_dict["consumer_group_id"] = consumer_group_id
+        if name is not None:
+            body_dict["name"] = name
+        if description is not None:
+            body_dict["description"] = description
+        if readme is not None:
+            body_dict["readme"] = readme
         body_dict["access"] = access
 
         request = MetorialRequest(
@@ -92,6 +101,34 @@ class MetorialManagementInstancePortalsConsumerAccessEndpoint(BaseMetorialEndpoi
             body=body_dict
         )
         return self._post(request).transform(mapDashboardInstancePortalsConsumerAccessCreateOutput.from_dict)
+
+    def update(self, instance_id: str, portal_id: str, consumer_access_id: str, *, name: Optional[str] = None, description: Optional[str] = None, readme: Optional[str] = None) -> DashboardInstancePortalsConsumerAccessUpdateOutput:
+        """
+    Update portal consumer access
+    Updates the shared listing fields for a portal consumer access rule.
+
+    :param instance_id: str
+    :param portal_id: str
+    :param consumer_access_id: str
+    :param name: Optional[str] (optional)
+    :param description: Optional[str] (optional)
+    :param readme: Optional[str] (optional)
+    :return: DashboardInstancePortalsConsumerAccessUpdateOutput
+    """
+        # Build body parameters from keyword arguments
+        body_dict = {}
+        if name is not None:
+            body_dict["name"] = name
+        if description is not None:
+            body_dict["description"] = description
+        if readme is not None:
+            body_dict["readme"] = readme
+
+        request = MetorialRequest(
+            path=['instances', instance_id, 'portals', portal_id, 'consumer-access', consumer_access_id],
+            body=body_dict
+        )
+        return self._patch(request).transform(mapDashboardInstancePortalsConsumerAccessUpdateOutput.from_dict)
 
     def delete(self, instance_id: str, portal_id: str, consumer_access_id: str) -> DashboardInstancePortalsConsumerAccessDeleteOutput:
         """

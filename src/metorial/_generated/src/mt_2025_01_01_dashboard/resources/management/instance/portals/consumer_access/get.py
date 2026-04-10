@@ -18,10 +18,13 @@ class ManagementInstancePortalsConsumerAccessGetOutputConsumerGroup:
 class ManagementInstancePortalsConsumerAccessGetOutput:
     object: str
     id: str
+    name: str
     access: Dict[str, Any]
     consumer_group: ManagementInstancePortalsConsumerAccessGetOutputConsumerGroup
     created_at: datetime
     updated_at: datetime
+    description: Optional[str] = None
+    readme: Optional[str] = None
 
 
 class mapManagementInstancePortalsConsumerAccessGetOutputConsumerGroup:
@@ -53,6 +56,9 @@ class mapManagementInstancePortalsConsumerAccessGetOutput:
         return ManagementInstancePortalsConsumerAccessGetOutput(
         object=data.get('object'),
         id=data.get('id'),
+        name=data.get('name'),
+        description=data.get('description'),
+        readme=data.get('readme'),
         access=data.get('access'),
         consumer_group=mapManagementInstancePortalsConsumerAccessGetOutputConsumerGroup.from_dict(data.get('consumer_group')) if data.get('consumer_group') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,

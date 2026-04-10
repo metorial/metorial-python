@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Optional, Union
 from metorial_util_endpoint import BaseMetorialEndpoint, MetorialEndpointManager, MetorialRequest
-from ..resources import mapDashboardInstanceSessionTemplatesListOutput, DashboardInstanceSessionTemplatesListOutput, mapDashboardInstanceSessionTemplatesListQuery, DashboardInstanceSessionTemplatesListQuery, mapDashboardInstanceSessionTemplatesGetOutput, DashboardInstanceSessionTemplatesGetOutput, mapDashboardInstanceSessionTemplatesCreateOutput, DashboardInstanceSessionTemplatesCreateOutput, mapDashboardInstanceSessionTemplatesCreateBody, DashboardInstanceSessionTemplatesCreateBody, mapDashboardInstanceSessionTemplatesUpdateOutput, DashboardInstanceSessionTemplatesUpdateOutput, mapDashboardInstanceSessionTemplatesUpdateBody, DashboardInstanceSessionTemplatesUpdateBody, mapDashboardInstanceSessionTemplatesDeleteOutput, DashboardInstanceSessionTemplatesDeleteOutput
+from ..resources import mapDashboardInstanceSessionTemplatesListOutput, DashboardInstanceSessionTemplatesListOutput, mapDashboardInstanceSessionTemplatesListQuery, DashboardInstanceSessionTemplatesListQuery, mapDashboardInstanceSessionTemplatesGetOutput, DashboardInstanceSessionTemplatesGetOutput, mapDashboardInstanceSessionTemplatesCreateOutput, DashboardInstanceSessionTemplatesCreateOutput, mapDashboardInstanceSessionTemplatesCreateBody, DashboardInstanceSessionTemplatesCreateBody, mapDashboardInstanceSessionTemplatesUpdateOutput, DashboardInstanceSessionTemplatesUpdateOutput, mapDashboardInstanceSessionTemplatesUpdateBody, DashboardInstanceSessionTemplatesUpdateBody, mapDashboardInstanceSessionTemplatesDeleteOutput, DashboardInstanceSessionTemplatesDeleteOutput, mapDashboardInstanceSessionTemplatesListToolsOutput, DashboardInstanceSessionTemplatesListToolsOutput
 
 class MetorialSessionTemplatesEndpoint(BaseMetorialEndpoint):
     """Session templates define reusable configurations for sessions, including which providers to include. Templates can be used to quickly create new sessions with consistent settings."""
@@ -147,3 +147,16 @@ class MetorialSessionTemplatesEndpoint(BaseMetorialEndpoint):
             path=['session-templates', session_template_id]
         )
         return self._delete(request).transform(mapDashboardInstanceSessionTemplatesDeleteOutput.from_dict)
+
+    def list_tools(self, session_template_id: str) -> DashboardInstanceSessionTemplatesListToolsOutput:
+        """
+    List session template tools
+    Returns the effective set of tools available through the providers in a session template, filtered by the tool filters of each provider, deployment, config, and auth config.
+
+    :param session_template_id: str
+    :return: DashboardInstanceSessionTemplatesListToolsOutput
+    """
+        request = MetorialRequest(
+            path=['session-templates', session_template_id, 'tools']
+        )
+        return self._get(request).transform(mapDashboardInstanceSessionTemplatesListToolsOutput.from_dict)
