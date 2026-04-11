@@ -55,9 +55,11 @@ class MagicMcpServersListQuery:
     order: Optional[str] = None
     status: Optional[Union[str, List[str]]] = None
     magic_mcp_group_id: Optional[Union[str, List[str]]] = None
+    provider_template_id: Optional[Union[str, List[str]]] = None
     consumer_id: Optional[Union[str, List[str]]] = None
     consumer_profile_id: Optional[Union[str, List[str]]] = None
     search: Optional[str] = None
+    id: Optional[Union[str, List[str]]] = None
     preconfigured_only: Optional[bool] = None
 
 
@@ -72,9 +74,11 @@ class mapMagicMcpServersListQuery:
         order=data.get('order'),
         status=data.get('status'),
         magic_mcp_group_id=data.get('magic_mcp_group_id'),
+        provider_template_id=data.get('provider_template_id'),
         consumer_id=data.get('consumer_id'),
         consumer_profile_id=data.get('consumer_profile_id'),
         search=data.get('search'),
+        id=data.get('id'),
         preconfigured_only=data.get('preconfigured_only')
         )
 

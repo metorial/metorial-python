@@ -8,7 +8,7 @@ class MetorialManagementInstanceMagicMcpServersEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, magic_mcp_group_id: Optional[Union[str, List[str]]] = None, consumer_id: Optional[Union[str, List[str]]] = None, consumer_profile_id: Optional[Union[str, List[str]]] = None, search: Optional[str] = None, preconfigured_only: Optional[bool] = None) -> DashboardInstanceMagicMcpServersListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, magic_mcp_group_id: Optional[Union[str, List[str]]] = None, provider_template_id: Optional[Union[str, List[str]]] = None, consumer_id: Optional[Union[str, List[str]]] = None, consumer_profile_id: Optional[Union[str, List[str]]] = None, search: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, preconfigured_only: Optional[bool] = None) -> DashboardInstanceMagicMcpServersListOutput:
         """
     List magic MCP servers
     Returns a paginated list of magic MCP servers.
@@ -21,9 +21,11 @@ class MetorialManagementInstanceMagicMcpServersEndpoint(BaseMetorialEndpoint):
     :param order: Optional[str] (optional)
     :param status: Optional[Union[str, List[str]]] (optional)
     :param magic_mcp_group_id: Optional[Union[str, List[str]]] (optional)
+    :param provider_template_id: Optional[Union[str, List[str]]] (optional)
     :param consumer_id: Optional[Union[str, List[str]]] (optional)
     :param consumer_profile_id: Optional[Union[str, List[str]]] (optional)
     :param search: Optional[str] (optional)
+    :param id: Optional[Union[str, List[str]]] (optional)
     :param preconfigured_only: Optional[bool] (optional)
     :return: DashboardInstanceMagicMcpServersListOutput
     """
@@ -43,12 +45,16 @@ class MetorialManagementInstanceMagicMcpServersEndpoint(BaseMetorialEndpoint):
             query_dict["status"] = status
         if magic_mcp_group_id is not None:
             query_dict["magic_mcp_group_id"] = magic_mcp_group_id
+        if provider_template_id is not None:
+            query_dict["provider_template_id"] = provider_template_id
         if consumer_id is not None:
             query_dict["consumer_id"] = consumer_id
         if consumer_profile_id is not None:
             query_dict["consumer_profile_id"] = consumer_profile_id
         if search is not None:
             query_dict["search"] = search
+        if id is not None:
+            query_dict["id"] = id
         if preconfigured_only is not None:
             query_dict["preconfigured_only"] = preconfigured_only
 

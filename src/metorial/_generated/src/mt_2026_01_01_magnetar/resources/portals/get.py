@@ -16,10 +16,6 @@ class PortalsGetOutputUrls:
     type: str
     url: str
 @dataclass
-class PortalsGetOutputBrand:
-    image: str
-    name: str
-@dataclass
 class PortalsGetOutput:
     object: str
     id: str
@@ -28,7 +24,6 @@ class PortalsGetOutput:
     slug: str
     auth: PortalsGetOutputAuth
     urls: List[PortalsGetOutputUrls]
-    brand: PortalsGetOutputBrand
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
@@ -82,22 +77,6 @@ class mapPortalsGetOutputUrls:
             return value
         return dataclasses.asdict(value)
 
-class mapPortalsGetOutputBrand:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> PortalsGetOutputBrand:
-        return PortalsGetOutputBrand(
-        image=data.get('image'),
-        name=data.get('name')
-        )
-
-    @staticmethod
-    def to_dict(value: Union[PortalsGetOutputBrand, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
 class mapPortalsGetOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> PortalsGetOutput:
@@ -110,7 +89,6 @@ class mapPortalsGetOutput:
         description=data.get('description'),
         auth=mapPortalsGetOutputAuth.from_dict(data.get('auth')) if data.get('auth') else None,
         urls=[mapPortalsGetOutputUrls.from_dict(item) for item in data.get('urls', []) if item],
-        brand=mapPortalsGetOutputBrand.from_dict(data.get('brand')) if data.get('brand') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

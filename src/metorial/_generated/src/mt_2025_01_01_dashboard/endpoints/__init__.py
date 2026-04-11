@@ -38,7 +38,7 @@ from .dashboard_instance_identity_actors import *
 from .dashboard_instance_magic_mcp_endpoints import *
 from .dashboard_instance_magic_mcp_groups import *
 from .dashboard_instance_magic_mcp_servers import *
-from .dashboard_instance_magic_mcp_servers_provider import *
+from .dashboard_instance_magic_mcp_servers_providers import *
 from .dashboard_instance_magic_mcp_sessions import *
 from .dashboard_instance_magic_mcp_tokens import *
 from .dashboard_instance_portals import *
@@ -125,7 +125,7 @@ from .identity_actors import *
 from .magic_mcp_endpoints import *
 from .magic_mcp_groups import *
 from .magic_mcp_servers import *
-from .magic_mcp_servers_provider import *
+from .magic_mcp_servers_providers import *
 from .magic_mcp_sessions import *
 from .magic_mcp_tokens import *
 from .management_instance_callbacks import *
@@ -153,7 +153,7 @@ from .management_instance_identity_actors import *
 from .management_instance_magic_mcp_endpoints import *
 from .management_instance_magic_mcp_groups import *
 from .management_instance_magic_mcp_servers import *
-from .management_instance_magic_mcp_servers_provider import *
+from .management_instance_magic_mcp_servers_providers import *
 from .management_instance_magic_mcp_sessions import *
 from .management_instance_magic_mcp_tokens import *
 from .management_instance_portals import *

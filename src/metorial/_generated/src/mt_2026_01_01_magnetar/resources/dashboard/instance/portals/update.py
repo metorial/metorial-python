@@ -16,10 +16,6 @@ class DashboardInstancePortalsUpdateOutputUrls:
     type: str
     url: str
 @dataclass
-class DashboardInstancePortalsUpdateOutputBrand:
-    image: str
-    name: str
-@dataclass
 class DashboardInstancePortalsUpdateOutput:
     object: str
     id: str
@@ -28,7 +24,6 @@ class DashboardInstancePortalsUpdateOutput:
     slug: str
     auth: DashboardInstancePortalsUpdateOutputAuth
     urls: List[DashboardInstancePortalsUpdateOutputUrls]
-    brand: DashboardInstancePortalsUpdateOutputBrand
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
@@ -82,22 +77,6 @@ class mapDashboardInstancePortalsUpdateOutputUrls:
             return value
         return dataclasses.asdict(value)
 
-class mapDashboardInstancePortalsUpdateOutputBrand:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> DashboardInstancePortalsUpdateOutputBrand:
-        return DashboardInstancePortalsUpdateOutputBrand(
-        image=data.get('image'),
-        name=data.get('name')
-        )
-
-    @staticmethod
-    def to_dict(value: Union[DashboardInstancePortalsUpdateOutputBrand, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
 class mapDashboardInstancePortalsUpdateOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstancePortalsUpdateOutput:
@@ -110,7 +89,6 @@ class mapDashboardInstancePortalsUpdateOutput:
         description=data.get('description'),
         auth=mapDashboardInstancePortalsUpdateOutputAuth.from_dict(data.get('auth')) if data.get('auth') else None,
         urls=[mapDashboardInstancePortalsUpdateOutputUrls.from_dict(item) for item in data.get('urls', []) if item],
-        brand=mapDashboardInstancePortalsUpdateOutputBrand.from_dict(data.get('brand')) if data.get('brand') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
