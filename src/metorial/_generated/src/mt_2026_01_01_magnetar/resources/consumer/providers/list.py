@@ -54,6 +54,7 @@ class ConsumerProvidersListQuery:
     cursor: Optional[str] = None
     order: Optional[str] = None
     search: Optional[str] = None
+    provider_group_id: Optional[str] = None
 
 
 class mapConsumerProvidersListQuery:
@@ -65,7 +66,8 @@ class mapConsumerProvidersListQuery:
         before=data.get('before'),
         cursor=data.get('cursor'),
         order=data.get('order'),
-        search=data.get('search')
+        search=data.get('search'),
+        provider_group_id=data.get('provider_group_id')
         )
 
     @staticmethod

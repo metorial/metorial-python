@@ -47,9 +47,11 @@ from .dashboard_instance_portals_auth_app import *
 from .dashboard_instance_portals_auth_sso_tenants import *
 from .dashboard_instance_portals_auth_sso_tenants_connections import *
 from .dashboard_instance_portals_consumer_access import *
+from .dashboard_instance_portals_consumer_access_listings import *
 from .dashboard_instance_portals_consumer_groups import *
 from .dashboard_instance_portals_consumer_invites import *
 from .dashboard_instance_portals_consumer_profiles import *
+from .dashboard_instance_portals_surface_provider_groups import *
 from .dashboard_instance_provider_categories import *
 from .dashboard_instance_provider_collections import *
 from .dashboard_instance_provider_deployments import *
@@ -162,9 +164,11 @@ from .management_instance_portals_auth_app import *
 from .management_instance_portals_auth_sso_tenants import *
 from .management_instance_portals_auth_sso_tenants_connections import *
 from .management_instance_portals_consumer_access import *
+from .management_instance_portals_consumer_access_listings import *
 from .management_instance_portals_consumer_groups import *
 from .management_instance_portals_consumer_invites import *
 from .management_instance_portals_consumer_profiles import *
+from .management_instance_portals_surface_provider_groups import *
 from .management_instance_provider_categories import *
 from .management_instance_provider_collections import *
 from .management_instance_provider_deployments import *
@@ -235,9 +239,11 @@ from .portals_auth_app import *
 from .portals_auth_sso_tenants import *
 from .portals_auth_sso_tenants_connections import *
 from .portals_consumer_access import *
+from .portals_consumer_access_listings import *
 from .portals_consumer_groups import *
 from .portals_consumer_invites import *
 from .portals_consumer_profiles import *
+from .portals_surface_provider_groups import *
 from .provider_categories import *
 from .provider_collections import *
 from .provider_deployments import *

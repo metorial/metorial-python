@@ -1,6 +1,7 @@
 from .access_requests import *
 from .auth import *
 from .consumer_access import *
+from .consumer_access_listings import *
 from .consumer_groups import *
 from .consumer_invites import *
 from .consumer_profiles import *
@@ -8,4 +9,5 @@ from .create import *
 from .delete import *
 from .get import *
 from .list import *
+from .surface_provider_groups import *
 from .update import *

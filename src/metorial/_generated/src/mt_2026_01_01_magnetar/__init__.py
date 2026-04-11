@@ -19,6 +19,8 @@ from .endpoints import *
 # ConsumerProvidersDeployOutput
 # ConsumerProvidersGetOutput
 # ConsumerProvidersGetSetupOutput
+# ConsumerProvidersGroupsListOutput
+# ConsumerProvidersGroupsListQuery
 # ConsumerProvidersListOutput
 # ConsumerProvidersListQuery
 # ConsumerProvidersRequestAccessBody
@@ -415,6 +417,8 @@ from .endpoints import *
 # mapConsumerProvidersDeployOutput
 # mapConsumerProvidersGetOutput
 # mapConsumerProvidersGetSetupOutput
+# mapConsumerProvidersGroupsListOutput
+# mapConsumerProvidersGroupsListQuery
 # mapConsumerProvidersListOutput
 # mapConsumerProvidersListQuery
 # mapConsumerProvidersRequestAccessBody

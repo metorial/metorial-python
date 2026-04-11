@@ -8,6 +8,7 @@ from .consumer_consumer_internal_oauth_clients import *
 from .consumer_profile import *
 from .consumer_profile_groups import *
 from .consumer_providers import *
+from .consumer_providers_groups import *
 from .consumer_session import *
 from .consumer_surfaces import *
 from .consumers import *
