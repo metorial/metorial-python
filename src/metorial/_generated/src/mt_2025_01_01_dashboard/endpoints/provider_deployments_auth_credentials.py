@@ -105,7 +105,7 @@ class MetorialProviderDeploymentsAuthCredentialsEndpoint(BaseMetorialEndpoint):
         )
         return self._post(request).transform(mapDashboardInstanceProviderDeploymentsAuthCredentialsCreateOutput.from_dict)
 
-    def update(self, provider_auth_credentials_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderDeploymentsAuthCredentialsUpdateOutput:
+    def update(self, provider_auth_credentials_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, client_id: Optional[str] = None, client_secret: Optional[str] = None, scopes: Optional[List[str]] = None) -> DashboardInstanceProviderDeploymentsAuthCredentialsUpdateOutput:
         """
     Update provider auth credentials
     Updates specific provider auth credentials.
@@ -114,6 +114,9 @@ class MetorialProviderDeploymentsAuthCredentialsEndpoint(BaseMetorialEndpoint):
     :param name: Optional[str] (optional)
     :param description: Optional[str] (optional)
     :param metadata: Optional[Dict[str, Any]] (optional)
+    :param client_id: Optional[str] (optional)
+    :param client_secret: Optional[str] (optional)
+    :param scopes: Optional[List[str]] (optional)
     :return: DashboardInstanceProviderDeploymentsAuthCredentialsUpdateOutput
     """
         # Build body parameters from keyword arguments
@@ -124,6 +127,12 @@ class MetorialProviderDeploymentsAuthCredentialsEndpoint(BaseMetorialEndpoint):
             body_dict["description"] = description
         if metadata is not None:
             body_dict["metadata"] = metadata
+        if client_id is not None:
+            body_dict["client_id"] = client_id
+        if client_secret is not None:
+            body_dict["client_secret"] = client_secret
+        if scopes is not None:
+            body_dict["scopes"] = scopes
 
         request = MetorialRequest(
             path=['provider-auth-credentials', provider_auth_credentials_id],
