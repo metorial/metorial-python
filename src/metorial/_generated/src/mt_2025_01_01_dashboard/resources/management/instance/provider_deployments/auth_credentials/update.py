@@ -51,6 +51,9 @@ class ManagementInstanceProviderDeploymentsAuthCredentialsUpdateBody:
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
+    client_id: Optional[str] = None
+    client_secret: Optional[str] = None
+    scopes: Optional[List[str]] = None
 
 
 class mapManagementInstanceProviderDeploymentsAuthCredentialsUpdateBody:
@@ -59,7 +62,10 @@ class mapManagementInstanceProviderDeploymentsAuthCredentialsUpdateBody:
         return ManagementInstanceProviderDeploymentsAuthCredentialsUpdateBody(
         name=data.get('name'),
         description=data.get('description'),
-        metadata=data.get('metadata')
+        metadata=data.get('metadata'),
+        client_id=data.get('client_id'),
+        client_secret=data.get('client_secret'),
+        scopes=data.get('scopes', [])
         )
 
     @staticmethod
