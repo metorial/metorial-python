@@ -31,6 +31,7 @@ class DashboardOrganizationsApiKeysUpdateOutputMachineAccessInstanceProject:
     slug: str
     name: str
     organization_id: str
+    magic_mcp_session_duration_minutes: float
     created_at: datetime
     updated_at: datetime
 @dataclass
@@ -155,6 +156,7 @@ class mapDashboardOrganizationsApiKeysUpdateOutputMachineAccessInstanceProject:
         slug=data.get('slug'),
         name=data.get('name'),
         organization_id=data.get('organization_id'),
+        magic_mcp_session_duration_minutes=data.get('magic_mcp_session_duration_minutes'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

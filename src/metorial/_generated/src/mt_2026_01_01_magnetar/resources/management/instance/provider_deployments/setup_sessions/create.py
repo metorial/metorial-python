@@ -59,6 +59,7 @@ class ManagementInstanceProviderDeploymentsSetupSessionsCreateOutputCredentials:
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
+    scopes: Optional[List[str]] = None
 @dataclass
 class ManagementInstanceProviderDeploymentsSetupSessionsCreateOutputAuthConfigDeployment:
     object: str
@@ -84,6 +85,7 @@ class ManagementInstanceProviderDeploymentsSetupSessionsCreateOutputAuthConfigCr
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
+    scopes: Optional[List[str]] = None
 @dataclass
 class ManagementInstanceProviderDeploymentsSetupSessionsCreateOutputAuthConfigAuthMethodInputSchema:
     type: str
@@ -324,6 +326,7 @@ class mapManagementInstanceProviderDeploymentsSetupSessionsCreateOutputCredentia
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        scopes=data.get('scopes', []),
         provider_id=data.get('provider_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
@@ -373,6 +376,7 @@ class mapManagementInstanceProviderDeploymentsSetupSessionsCreateOutputAuthConfi
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        scopes=data.get('scopes', []),
         provider_id=data.get('provider_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None

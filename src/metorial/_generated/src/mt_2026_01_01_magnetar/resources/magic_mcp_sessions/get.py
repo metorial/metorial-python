@@ -41,11 +41,14 @@ class MagicMcpSessionsGetOutputMagicMcpEndpoint:
 class MagicMcpSessionsGetOutput:
     object: str
     id: str
+    consumer_integration_ids: List[str]
     session_id: str
     created_at: datetime
     updated_at: datetime
     magic_mcp_server: Optional[MagicMcpSessionsGetOutputMagicMcpServer] = None
     magic_mcp_endpoint: Optional[MagicMcpSessionsGetOutputMagicMcpEndpoint] = None
+    consumer_profile_id: Optional[str] = None
+    expires_at: Optional[datetime] = None
 
 
 class mapMagicMcpSessionsGetOutputMagicMcpServerEndpoints:
@@ -126,7 +129,10 @@ class mapMagicMcpSessionsGetOutput:
         id=data.get('id'),
         magic_mcp_server=mapMagicMcpSessionsGetOutputMagicMcpServer.from_dict(data.get('magic_mcp_server')) if data.get('magic_mcp_server') else None,
         magic_mcp_endpoint=mapMagicMcpSessionsGetOutputMagicMcpEndpoint.from_dict(data.get('magic_mcp_endpoint')) if data.get('magic_mcp_endpoint') else None,
+        consumer_profile_id=data.get('consumer_profile_id'),
+        consumer_integration_ids=data.get('consumer_integration_ids', []),
         session_id=data.get('session_id'),
+        expires_at=datetime.fromisoformat(data.get('expires_at').replace('Z', '+00:00')) if data.get('expires_at') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

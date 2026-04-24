@@ -2,7 +2,6 @@
 Metorial Generated API Endpoints
 """
 
-from . import pulsar
-from . import dashboard
+from . import magnetar
 
-__all__ = ["pulsar", "dashboard"]
+__all__ = ["magnetar"]

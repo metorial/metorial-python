@@ -17,6 +17,7 @@ class DashboardInstanceProviderDeploymentsAuthCredentialsGetOutput:
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
+    scopes: Optional[List[str]] = None
 
 
 class mapDashboardInstanceProviderDeploymentsAuthCredentialsGetOutput:
@@ -32,6 +33,7 @@ class mapDashboardInstanceProviderDeploymentsAuthCredentialsGetOutput:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        scopes=data.get('scopes', []),
         provider_id=data.get('provider_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
