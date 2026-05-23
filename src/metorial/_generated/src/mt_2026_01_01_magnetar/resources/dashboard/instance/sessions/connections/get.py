@@ -26,6 +26,14 @@ class DashboardInstanceSessionsConnectionsGetOutputParticipant:
     data: DashboardInstanceSessionsConnectionsGetOutputParticipantData
     created_at: datetime
     provider_id: Optional[str] = None
+    connection_type: Optional[str] = None
+    agent_id: Optional[str] = None
+    agent_instance_id: Optional[str] = None
+    identity_actor_id: Optional[str] = None
+    identity_id: Optional[str] = None
+    agent_actor_id: Optional[str] = None
+    agent_client_id: Optional[str] = None
+    consumer_id: Optional[str] = None
 @dataclass
 class DashboardInstanceSessionsConnectionsGetOutput:
     object: str
@@ -103,6 +111,14 @@ class mapDashboardInstanceSessionsConnectionsGetOutputParticipant:
         name=data.get('name'),
         data=mapDashboardInstanceSessionsConnectionsGetOutputParticipantData.from_dict(data.get('data')) if data.get('data') else None,
         provider_id=data.get('provider_id'),
+        connection_type=data.get('connection_type'),
+        agent_id=data.get('agent_id'),
+        agent_instance_id=data.get('agent_instance_id'),
+        identity_actor_id=data.get('identity_actor_id'),
+        identity_id=data.get('identity_id'),
+        agent_actor_id=data.get('agent_actor_id'),
+        agent_client_id=data.get('agent_client_id'),
+        consumer_id=data.get('consumer_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 

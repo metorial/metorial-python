@@ -299,6 +299,8 @@ class ManagementInstanceProviderDeploymentsAuthConfigsListQuery:
     id: Optional[Union[str, List[str]]] = None
     provider_id: Optional[Union[str, List[str]]] = None
     provider_deployment_id: Optional[Union[str, List[str]]] = None
+    available_for_use: Optional[bool] = None
+    available_for_provider_deployment_id: Optional[str] = None
     provider_auth_credentials_id: Optional[Union[str, List[str]]] = None
     provider_auth_method_id: Optional[Union[str, List[str]]] = None
     actor_id: Optional[Union[str, List[str]]] = None
@@ -323,6 +325,8 @@ class mapManagementInstanceProviderDeploymentsAuthConfigsListQuery:
         id=data.get('id'),
         provider_id=data.get('provider_id'),
         provider_deployment_id=data.get('provider_deployment_id'),
+        available_for_use=data.get('available_for_use'),
+        available_for_provider_deployment_id=data.get('available_for_provider_deployment_id'),
         provider_auth_credentials_id=data.get('provider_auth_credentials_id'),
         provider_auth_method_id=data.get('provider_auth_method_id'),
         actor_id=data.get('actor_id'),

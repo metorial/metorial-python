@@ -4,106 +4,14 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
-class ManagementInstanceConsumersProfilesListOutputItemsGroupsGroup:
-    object: str
-    id: str
-    status: str
-    name: str
-    is_default: bool
-    sso_group_ids: List[str]
-    created_at: datetime
-    updated_at: datetime
-    description: Optional[str] = None
-@dataclass
-class ManagementInstanceConsumersProfilesListOutputItemsGroups:
-    object: str
-    group: ManagementInstanceConsumersProfilesListOutputItemsGroupsGroup
-    assigned_via: str
-@dataclass
-class ManagementInstanceConsumersProfilesListOutputItems:
-    object: str
-    id: str
-    name: str
-    email: str
-    image_url: str
-    consumer_id: str
-    status: str
-    created_at: datetime
-    updated_at: datetime
-    groups: Optional[List[ManagementInstanceConsumersProfilesListOutputItemsGroups]] = None
-@dataclass
 class ManagementInstanceConsumersProfilesListOutputPagination:
     has_more_before: bool
     has_more_after: bool
 @dataclass
 class ManagementInstanceConsumersProfilesListOutput:
-    items: List[ManagementInstanceConsumersProfilesListOutputItems]
+    items: List[Dict[str, Any]]
     pagination: ManagementInstanceConsumersProfilesListOutputPagination
 
-
-class mapManagementInstanceConsumersProfilesListOutputItemsGroupsGroup:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ManagementInstanceConsumersProfilesListOutputItemsGroupsGroup:
-        return ManagementInstanceConsumersProfilesListOutputItemsGroupsGroup(
-        object=data.get('object'),
-        id=data.get('id'),
-        status=data.get('status'),
-        name=data.get('name'),
-        description=data.get('description'),
-        is_default=data.get('is_default'),
-        sso_group_ids=data.get('sso_group_ids', []),
-        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[ManagementInstanceConsumersProfilesListOutputItemsGroupsGroup, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapManagementInstanceConsumersProfilesListOutputItemsGroups:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ManagementInstanceConsumersProfilesListOutputItemsGroups:
-        return ManagementInstanceConsumersProfilesListOutputItemsGroups(
-        object=data.get('object'),
-        group=mapManagementInstanceConsumersProfilesListOutputItemsGroupsGroup.from_dict(data.get('group')) if data.get('group') else None,
-        assigned_via=data.get('assigned_via')
-        )
-
-    @staticmethod
-    def to_dict(value: Union[ManagementInstanceConsumersProfilesListOutputItemsGroups, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapManagementInstanceConsumersProfilesListOutputItems:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ManagementInstanceConsumersProfilesListOutputItems:
-        return ManagementInstanceConsumersProfilesListOutputItems(
-        object=data.get('object'),
-        id=data.get('id'),
-        name=data.get('name'),
-        email=data.get('email'),
-        image_url=data.get('image_url'),
-        groups=[mapManagementInstanceConsumersProfilesListOutputItemsGroups.from_dict(item) for item in data.get('groups', []) if item],
-        consumer_id=data.get('consumer_id'),
-        status=data.get('status'),
-        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[ManagementInstanceConsumersProfilesListOutputItems, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
 
 class mapManagementInstanceConsumersProfilesListOutputPagination:
     @staticmethod
@@ -125,7 +33,7 @@ class mapManagementInstanceConsumersProfilesListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceConsumersProfilesListOutput:
         return ManagementInstanceConsumersProfilesListOutput(
-        items=[mapManagementInstanceConsumersProfilesListOutputItems.from_dict(item) for item in data.get('items', []) if item],
+        items=data.get('items', []),
         pagination=mapManagementInstanceConsumersProfilesListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )
 

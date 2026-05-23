@@ -10,11 +10,10 @@ class ProviderTemplatesCreateOutput:
     status: str
     name: str
     metadata: Dict[str, Any]
-    provider_deployment_id: str
-    tool_filters: Dict[str, Any]
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
+    integration_id: Optional[str] = None
 
 
 class mapProviderTemplatesCreateOutput:
@@ -27,8 +26,7 @@ class mapProviderTemplatesCreateOutput:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
-        provider_deployment_id=data.get('provider_deployment_id'),
-        tool_filters=data.get('tool_filters'),
+        integration_id=data.get('integration_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -43,21 +41,46 @@ class mapProviderTemplatesCreateOutput:
         return dataclasses.asdict(value)
 
 @dataclass
-class ProviderTemplatesCreateBodyProviderDeployment:
+class ProviderTemplatesCreateBodyProviders:
     provider_id: str
+    provider_deployment_id: Optional[str] = None
+    provider_auth_method_id: Optional[str] = None
+    provider_auth_credentials_id: Optional[str] = None
+    provider_config_id: Optional[str] = None
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
-    locked_provider_version_id: Optional[str] = None
+    tool_filters: Optional[Any] = None
 @dataclass
 class ProviderTemplatesCreateBody:
     name: str
+    providers: List[ProviderTemplatesCreateBodyProviders]
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
-    tool_filers: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]] = None
-    provider_deployment_id: Optional[str] = None
-    provider_deployment: Optional[ProviderTemplatesCreateBodyProviderDeployment] = None
 
+
+class mapProviderTemplatesCreateBodyProviders:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ProviderTemplatesCreateBodyProviders:
+        return ProviderTemplatesCreateBodyProviders(
+        provider_id=data.get('provider_id'),
+        provider_deployment_id=data.get('provider_deployment_id'),
+        provider_auth_method_id=data.get('provider_auth_method_id'),
+        provider_auth_credentials_id=data.get('provider_auth_credentials_id'),
+        provider_config_id=data.get('provider_config_id'),
+        name=data.get('name'),
+        description=data.get('description'),
+        metadata=data.get('metadata'),
+        tool_filters=data.get('tool_filters')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ProviderTemplatesCreateBodyProviders, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapProviderTemplatesCreateBody:
     @staticmethod
@@ -66,9 +89,7 @@ class mapProviderTemplatesCreateBody:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
-        tool_filers=data.get('tool_filers'),
-        provider_deployment_id=data.get('provider_deployment_id'),
-        provider_deployment=data.get('provider_deployment')
+        providers=[mapProviderTemplatesCreateBodyProviders.from_dict(item) for item in data.get('providers', []) if item]
         )
 
     @staticmethod

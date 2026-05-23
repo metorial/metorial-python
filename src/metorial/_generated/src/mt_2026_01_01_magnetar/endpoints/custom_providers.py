@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Optional, Union
 from metorial_util_endpoint import BaseMetorialEndpoint, MetorialEndpointManager, MetorialRequest
-from ..resources import mapDashboardInstanceCustomProvidersListOutput, DashboardInstanceCustomProvidersListOutput, mapDashboardInstanceCustomProvidersListQuery, DashboardInstanceCustomProvidersListQuery, mapDashboardInstanceCustomProvidersGetOutput, DashboardInstanceCustomProvidersGetOutput, mapDashboardInstanceCustomProvidersCreateOutput, DashboardInstanceCustomProvidersCreateOutput, mapDashboardInstanceCustomProvidersCreateBody, DashboardInstanceCustomProvidersCreateBody, mapDashboardInstanceCustomProvidersUpdateOutput, DashboardInstanceCustomProvidersUpdateOutput, mapDashboardInstanceCustomProvidersUpdateBody, DashboardInstanceCustomProvidersUpdateBody
+from ..resources import mapDashboardInstanceCustomProvidersListOutput, DashboardInstanceCustomProvidersListOutput, mapDashboardInstanceCustomProvidersListQuery, DashboardInstanceCustomProvidersListQuery, mapDashboardInstanceCustomProvidersGetOutput, DashboardInstanceCustomProvidersGetOutput, mapDashboardInstanceCustomProvidersGetEnvOutput, DashboardInstanceCustomProvidersGetEnvOutput, mapDashboardInstanceCustomProvidersCreateOutput, DashboardInstanceCustomProvidersCreateOutput, mapDashboardInstanceCustomProvidersCreateBody, DashboardInstanceCustomProvidersCreateBody, mapDashboardInstanceCustomProvidersUpdateOutput, DashboardInstanceCustomProvidersUpdateOutput, mapDashboardInstanceCustomProvidersUpdateBody, DashboardInstanceCustomProvidersUpdateBody
 
 class MetorialCustomProvidersEndpoint(BaseMetorialEndpoint):
     """Custom providers allow you to deploy your own MCP servers. Create providers from container images, remote URLs, or serverless functions."""
@@ -72,6 +72,19 @@ class MetorialCustomProvidersEndpoint(BaseMetorialEndpoint):
             path=['custom-providers', custom_provider_id]
         )
         return self._get(request).transform(mapDashboardInstanceCustomProvidersGetOutput.from_dict)
+
+    def get_env(self, custom_provider_id: str) -> DashboardInstanceCustomProvidersGetEnvOutput:
+        """
+    Get custom provider environment
+    Retrieves the environment variables for a specific custom provider by ID.
+
+    :param custom_provider_id: str
+    :return: DashboardInstanceCustomProvidersGetEnvOutput
+    """
+        request = MetorialRequest(
+            path=['custom-providers', custom_provider_id, 'env']
+        )
+        return self._get(request).transform(mapDashboardInstanceCustomProvidersGetEnvOutput.from_dict)
 
     def create(self, *, name: str, from_: Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, config: Optional[Dict[str, Any]] = None) -> DashboardInstanceCustomProvidersCreateOutput:
         """

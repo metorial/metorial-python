@@ -92,7 +92,7 @@ class MetorialManagementInstanceMagicMcpServersEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapDashboardInstanceMagicMcpServersToolsOutput.from_dict)
 
-    def create(self, instance_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, consumer_profile_id: Optional[str] = None) -> DashboardInstanceMagicMcpServersCreateOutput:
+    def create(self, instance_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, provider_template_id: Optional[str] = None, consumer_profile_id: Optional[str] = None) -> DashboardInstanceMagicMcpServersCreateOutput:
         """
     Create magic MCP server
     Creates a magic MCP server with a new session template. A Subspace session is created automatically on first connection and then reused.
@@ -101,6 +101,7 @@ class MetorialManagementInstanceMagicMcpServersEndpoint(BaseMetorialEndpoint):
     :param name: Optional[str] (optional)
     :param description: Optional[str] (optional)
     :param metadata: Optional[Dict[str, Any]] (optional)
+    :param provider_template_id: Optional[str] (optional)
     :param consumer_profile_id: Optional[str] (optional)
     :return: DashboardInstanceMagicMcpServersCreateOutput
     """
@@ -112,6 +113,8 @@ class MetorialManagementInstanceMagicMcpServersEndpoint(BaseMetorialEndpoint):
             body_dict["description"] = description
         if metadata is not None:
             body_dict["metadata"] = metadata
+        if provider_template_id is not None:
+            body_dict["provider_template_id"] = provider_template_id
         if consumer_profile_id is not None:
             body_dict["consumer_profile_id"] = consumer_profile_id
 
@@ -135,7 +138,7 @@ class MetorialManagementInstanceMagicMcpServersEndpoint(BaseMetorialEndpoint):
         )
         return self._delete(request).transform(mapDashboardInstanceMagicMcpServersDeleteOutput.from_dict)
 
-    def update(self, instance_id: str, magic_mcp_server_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, aliases: Optional[List[str]] = None, session_template_id: Optional[str] = None) -> DashboardInstanceMagicMcpServersUpdateOutput:
+    def update(self, instance_id: str, magic_mcp_server_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, aliases: Optional[List[str]] = None) -> DashboardInstanceMagicMcpServersUpdateOutput:
         """
     Update magic MCP server
     Updates a magic MCP server.
@@ -146,7 +149,6 @@ class MetorialManagementInstanceMagicMcpServersEndpoint(BaseMetorialEndpoint):
     :param description: Optional[str] (optional)
     :param metadata: Optional[Dict[str, Any]] (optional)
     :param aliases: Optional[List[str]] (optional)
-    :param session_template_id: Optional[str] (optional)
     :return: DashboardInstanceMagicMcpServersUpdateOutput
     """
         # Build body parameters from keyword arguments
@@ -159,8 +161,6 @@ class MetorialManagementInstanceMagicMcpServersEndpoint(BaseMetorialEndpoint):
             body_dict["metadata"] = metadata
         if aliases is not None:
             body_dict["aliases"] = aliases
-        if session_template_id is not None:
-            body_dict["session_template_id"] = session_template_id
 
         request = MetorialRequest(
             path=['instances', instance_id, 'magic-mcp-servers', magic_mcp_server_id],

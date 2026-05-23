@@ -1,0 +1,213 @@
+from dataclasses import dataclass
+from typing import Any, Dict, List, Optional, Union
+from datetime import datetime
+import dataclasses
+
+@dataclass
+class DashboardInstanceSkillsItemsListOutputItemsIntegrationConfiguration:
+    can_attach_custom_tool_filters: bool
+    can_attach_custom_provider_config: bool
+    can_override_tool_filters: bool
+@dataclass
+class DashboardInstanceSkillsItemsListOutputItemsIntegration:
+    object: str
+    id: str
+    slug: str
+    name: str
+    configuration: DashboardInstanceSkillsItemsListOutputItemsIntegrationConfiguration
+    created_at: datetime
+    updated_at: datetime
+    description: Optional[str] = None
+    metadata: Optional[Dict[str, Any]] = None
+    archived_at: Optional[datetime] = None
+@dataclass
+class DashboardInstanceSkillsItemsListOutputItemsProvider:
+    object: str
+    id: str
+    name: str
+    slug: str
+    created_at: datetime
+    updated_at: datetime
+    description: Optional[str] = None
+@dataclass
+class DashboardInstanceSkillsItemsListOutputItems:
+    object: str
+    id: str
+    status: str
+    type: str
+    skill_id: str
+    created_at: datetime
+    integration: Optional[DashboardInstanceSkillsItemsListOutputItemsIntegration] = None
+    provider: Optional[DashboardInstanceSkillsItemsListOutputItemsProvider] = None
+@dataclass
+class DashboardInstanceSkillsItemsListOutputPagination:
+    has_more_before: bool
+    has_more_after: bool
+@dataclass
+class DashboardInstanceSkillsItemsListOutput:
+    items: List[DashboardInstanceSkillsItemsListOutputItems]
+    pagination: DashboardInstanceSkillsItemsListOutputPagination
+
+
+class mapDashboardInstanceSkillsItemsListOutputItemsIntegrationConfiguration:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSkillsItemsListOutputItemsIntegrationConfiguration:
+        return DashboardInstanceSkillsItemsListOutputItemsIntegrationConfiguration(
+        can_attach_custom_tool_filters=data.get('can_attach_custom_tool_filters'),
+        can_attach_custom_provider_config=data.get('can_attach_custom_provider_config'),
+        can_override_tool_filters=data.get('can_override_tool_filters')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSkillsItemsListOutputItemsIntegrationConfiguration, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceSkillsItemsListOutputItemsIntegration:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSkillsItemsListOutputItemsIntegration:
+        return DashboardInstanceSkillsItemsListOutputItemsIntegration(
+        object=data.get('object'),
+        id=data.get('id'),
+        slug=data.get('slug'),
+        name=data.get('name'),
+        description=data.get('description'),
+        metadata=data.get('metadata'),
+        configuration=mapDashboardInstanceSkillsItemsListOutputItemsIntegrationConfiguration.from_dict(data.get('configuration')) if data.get('configuration') else None,
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
+        archived_at=datetime.fromisoformat(data.get('archived_at').replace('Z', '+00:00')) if data.get('archived_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSkillsItemsListOutputItemsIntegration, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceSkillsItemsListOutputItemsProvider:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSkillsItemsListOutputItemsProvider:
+        return DashboardInstanceSkillsItemsListOutputItemsProvider(
+        object=data.get('object'),
+        id=data.get('id'),
+        name=data.get('name'),
+        description=data.get('description'),
+        slug=data.get('slug'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSkillsItemsListOutputItemsProvider, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceSkillsItemsListOutputItems:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSkillsItemsListOutputItems:
+        return DashboardInstanceSkillsItemsListOutputItems(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        type=data.get('type'),
+        skill_id=data.get('skill_id'),
+        integration=mapDashboardInstanceSkillsItemsListOutputItemsIntegration.from_dict(data.get('integration')) if data.get('integration') else None,
+        provider=mapDashboardInstanceSkillsItemsListOutputItemsProvider.from_dict(data.get('provider')) if data.get('provider') else None,
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSkillsItemsListOutputItems, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceSkillsItemsListOutputPagination:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSkillsItemsListOutputPagination:
+        return DashboardInstanceSkillsItemsListOutputPagination(
+        has_more_before=data.get('has_more_before'),
+        has_more_after=data.get('has_more_after')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSkillsItemsListOutputPagination, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceSkillsItemsListOutput:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSkillsItemsListOutput:
+        return DashboardInstanceSkillsItemsListOutput(
+        items=[mapDashboardInstanceSkillsItemsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
+        pagination=mapDashboardInstanceSkillsItemsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSkillsItemsListOutput, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        # assume dataclass for generated models
+        return dataclasses.asdict(value)
+
+@dataclass
+class DashboardInstanceSkillsItemsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class DashboardInstanceSkillsItemsListQuery:
+    limit: Optional[float] = None
+    after: Optional[str] = None
+    before: Optional[str] = None
+    cursor: Optional[str] = None
+    order: Optional[str] = None
+    status: Optional[Union[str, List[str]]] = None
+    type: Optional[Union[str, List[str]]] = None
+    id: Optional[Union[str, List[str]]] = None
+    integration_id: Optional[Union[str, List[str]]] = None
+    provider_id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[DashboardInstanceSkillsItemsListQueryCreatedAt] = None
+
+
+class mapDashboardInstanceSkillsItemsListQuery:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSkillsItemsListQuery:
+        return DashboardInstanceSkillsItemsListQuery(
+        limit=data.get('limit'),
+        after=data.get('after'),
+        before=data.get('before'),
+        cursor=data.get('cursor'),
+        order=data.get('order'),
+        status=data.get('status'),
+        type=data.get('type'),
+        id=data.get('id'),
+        integration_id=data.get('integration_id'),
+        provider_id=data.get('provider_id'),
+        created_at=mapDashboardInstanceSkillsItemsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSkillsItemsListQuery, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        # assume dataclass for generated models
+        return dataclasses.asdict(value)
+

@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Optional, Union
 from metorial_util_endpoint import BaseMetorialEndpoint, MetorialEndpointManager, MetorialRequest
-from ..resources import mapDashboardInstanceCustomProvidersVersionsListOutput, DashboardInstanceCustomProvidersVersionsListOutput, mapDashboardInstanceCustomProvidersVersionsListQuery, DashboardInstanceCustomProvidersVersionsListQuery, mapDashboardInstanceCustomProvidersVersionsGetOutput, DashboardInstanceCustomProvidersVersionsGetOutput, mapDashboardInstanceCustomProvidersVersionsCreateOutput, DashboardInstanceCustomProvidersVersionsCreateOutput, mapDashboardInstanceCustomProvidersVersionsCreateBody, DashboardInstanceCustomProvidersVersionsCreateBody
+from ..resources import mapDashboardInstanceCustomProvidersVersionsListOutput, DashboardInstanceCustomProvidersVersionsListOutput, mapDashboardInstanceCustomProvidersVersionsListQuery, DashboardInstanceCustomProvidersVersionsListQuery, mapDashboardInstanceCustomProvidersVersionsGetOutput, DashboardInstanceCustomProvidersVersionsGetOutput, mapDashboardInstanceCustomProvidersVersionsGetEnvOutput, DashboardInstanceCustomProvidersVersionsGetEnvOutput, mapDashboardInstanceCustomProvidersVersionsCreateOutput, DashboardInstanceCustomProvidersVersionsCreateOutput, mapDashboardInstanceCustomProvidersVersionsCreateBody, DashboardInstanceCustomProvidersVersionsCreateBody
 
 class MetorialCustomProvidersVersionsEndpoint(BaseMetorialEndpoint):
     """Versions represent different releases of a custom provider. Each version can be deployed to environments."""
@@ -78,6 +78,19 @@ class MetorialCustomProvidersVersionsEndpoint(BaseMetorialEndpoint):
             path=['custom-provider-versions', custom_provider_version_id]
         )
         return self._get(request).transform(mapDashboardInstanceCustomProvidersVersionsGetOutput.from_dict)
+
+    def get_env(self, custom_provider_version_id: str) -> DashboardInstanceCustomProvidersVersionsGetEnvOutput:
+        """
+    Get custom provider version environment
+    Retrieves the environment variables for a specific version of a custom provider.
+
+    :param custom_provider_version_id: str
+    :return: DashboardInstanceCustomProvidersVersionsGetEnvOutput
+    """
+        request = MetorialRequest(
+            path=['custom-provider-versions', custom_provider_version_id, 'env']
+        )
+        return self._get(request).transform(mapDashboardInstanceCustomProvidersVersionsGetEnvOutput.from_dict)
 
     def create(self, *, custom_provider_id: str, from_: Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], config: Optional[Dict[str, Any]] = None) -> DashboardInstanceCustomProvidersVersionsCreateOutput:
         """

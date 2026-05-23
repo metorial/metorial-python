@@ -63,7 +63,7 @@ class MetorialDashboardInstanceMagicMcpEndpointsEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapDashboardInstanceMagicMcpEndpointsGetOutput.from_dict)
 
-    def create(self, instance_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, consumer_profile_id: Optional[str] = None, magic_mcp_server_ids: Optional[List[str]] = None, servers: Optional[List[Dict[str, Any]]] = None) -> DashboardInstanceMagicMcpEndpointsCreateOutput:
+    def create(self, instance_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, consumer_profile_id: Optional[str] = None, skill_plugin_id: Optional[str] = None, magic_mcp_servers: Optional[List[Dict[str, Any]]] = None) -> DashboardInstanceMagicMcpEndpointsCreateOutput:
         """
     Create magic MCP endpoint
     Creates a magic MCP endpoint.
@@ -73,8 +73,8 @@ class MetorialDashboardInstanceMagicMcpEndpointsEndpoint(BaseMetorialEndpoint):
     :param description: Optional[str] (optional)
     :param metadata: Optional[Dict[str, Any]] (optional)
     :param consumer_profile_id: Optional[str] (optional)
-    :param magic_mcp_server_ids: Optional[List[str]] (optional)
-    :param servers: Optional[List[Dict[str, Any]]] (optional)
+    :param skill_plugin_id: Optional[str] (optional)
+    :param magic_mcp_servers: Optional[List[Dict[str, Any]]] (optional)
     :return: DashboardInstanceMagicMcpEndpointsCreateOutput
     """
         # Build body parameters from keyword arguments
@@ -87,10 +87,10 @@ class MetorialDashboardInstanceMagicMcpEndpointsEndpoint(BaseMetorialEndpoint):
             body_dict["metadata"] = metadata
         if consumer_profile_id is not None:
             body_dict["consumer_profile_id"] = consumer_profile_id
-        if magic_mcp_server_ids is not None:
-            body_dict["magic_mcp_server_ids"] = magic_mcp_server_ids
-        if servers is not None:
-            body_dict["servers"] = servers
+        if skill_plugin_id is not None:
+            body_dict["skill_plugin_id"] = skill_plugin_id
+        if magic_mcp_servers is not None:
+            body_dict["magic_mcp_servers"] = magic_mcp_servers
 
         request = MetorialRequest(
             path=['dashboard', 'instances', instance_id, 'magic-mcp-endpoints'],
@@ -139,23 +139,20 @@ class MetorialDashboardInstanceMagicMcpEndpointsEndpoint(BaseMetorialEndpoint):
         )
         return self._patch(request).transform(mapDashboardInstanceMagicMcpEndpointsUpdateOutput.from_dict)
 
-    def add_servers(self, instance_id: str, magic_mcp_endpoint_id: str, *, magic_mcp_server_ids: Optional[List[str]] = None, servers: Optional[List[Dict[str, Any]]] = None) -> DashboardInstanceMagicMcpEndpointsAddServersOutput:
+    def add_servers(self, instance_id: str, magic_mcp_endpoint_id: str, *, magic_mcp_servers: Optional[List[Dict[str, Any]]] = None) -> DashboardInstanceMagicMcpEndpointsAddServersOutput:
         """
     Add servers to magic MCP endpoint
     Adds magic MCP servers to a magic MCP endpoint.
 
     :param instance_id: str
     :param magic_mcp_endpoint_id: str
-    :param magic_mcp_server_ids: Optional[List[str]] (optional)
-    :param servers: Optional[List[Dict[str, Any]]] (optional)
+    :param magic_mcp_servers: Optional[List[Dict[str, Any]]] (optional)
     :return: DashboardInstanceMagicMcpEndpointsAddServersOutput
     """
         # Build body parameters from keyword arguments
         body_dict = {}
-        if magic_mcp_server_ids is not None:
-            body_dict["magic_mcp_server_ids"] = magic_mcp_server_ids
-        if servers is not None:
-            body_dict["servers"] = servers
+        if magic_mcp_servers is not None:
+            body_dict["magic_mcp_servers"] = magic_mcp_servers
 
         request = MetorialRequest(
             path=['dashboard', 'instances', instance_id, 'magic-mcp-endpoints', magic_mcp_endpoint_id, 'add-servers'],

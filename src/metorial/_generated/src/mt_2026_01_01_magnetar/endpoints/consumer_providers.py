@@ -84,7 +84,7 @@ class MetorialConsumerProvidersEndpoint(BaseMetorialEndpoint):
     def setup(self, catalog_item_id: str, *, provider_auth_method_id: Optional[str] = None) -> ConsumerProvidersSetupOutput:
         """
     Start consumer provider setup
-    Starts an OAuth setup flow for a portal provider template.
+    Starts an integration setup flow for a portal provider template.
 
     :param catalog_item_id: str
     :param provider_auth_method_id: Optional[str] (optional)
@@ -104,7 +104,7 @@ class MetorialConsumerProvidersEndpoint(BaseMetorialEndpoint):
     def get_setup(self, catalog_item_id: str, provider_setup_session_id: str) -> ConsumerProvidersGetSetupOutput:
         """
     Get consumer provider setup
-    Reads the status of an OAuth setup flow for a portal provider template.
+    Reads the status of an integration setup flow for a portal provider template.
 
     :param catalog_item_id: str
     :param provider_setup_session_id: str
@@ -115,7 +115,7 @@ class MetorialConsumerProvidersEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapConsumerProvidersGetSetupOutput.from_dict)
 
-    def deploy(self, catalog_item_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, config: Optional[Dict[str, Any]] = None, auth: Optional[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any]]] = None) -> ConsumerProvidersDeployOutput:
+    def deploy(self, catalog_item_id: str, *, integration_setup_session_id: str, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None) -> ConsumerProvidersDeployOutput:
         """
     Deploy consumer provider
     Creates an owned Magic MCP server from a portal provider template.
@@ -124,8 +124,7 @@ class MetorialConsumerProvidersEndpoint(BaseMetorialEndpoint):
     :param name: Optional[str] (optional)
     :param description: Optional[str] (optional)
     :param metadata: Optional[Dict[str, Any]] (optional)
-    :param config: Optional[Dict[str, Any]] (optional)
-    :param auth: Optional[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any]]] (optional)
+    :param integration_setup_session_id: str
     :return: ConsumerProvidersDeployOutput
     """
         # Build body parameters from keyword arguments
@@ -136,10 +135,7 @@ class MetorialConsumerProvidersEndpoint(BaseMetorialEndpoint):
             body_dict["description"] = description
         if metadata is not None:
             body_dict["metadata"] = metadata
-        if config is not None:
-            body_dict["config"] = config
-        if auth is not None:
-            body_dict["auth"] = auth
+        body_dict["integration_setup_session_id"] = integration_setup_session_id
 
         request = MetorialRequest(
             path=['consumer', 'providers', catalog_item_id, 'deploy'],

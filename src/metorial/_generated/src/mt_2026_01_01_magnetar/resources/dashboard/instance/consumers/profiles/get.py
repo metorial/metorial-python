@@ -33,46 +33,6 @@ class DashboardInstanceConsumersProfilesGetOutput:
     groups: Optional[List[DashboardInstanceConsumersProfilesGetOutputGroups]] = None
 
 
-class mapDashboardInstanceConsumersProfilesGetOutputGroupsGroup:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> DashboardInstanceConsumersProfilesGetOutputGroupsGroup:
-        return DashboardInstanceConsumersProfilesGetOutputGroupsGroup(
-        object=data.get('object'),
-        id=data.get('id'),
-        status=data.get('status'),
-        name=data.get('name'),
-        description=data.get('description'),
-        is_default=data.get('is_default'),
-        sso_group_ids=data.get('sso_group_ids', []),
-        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[DashboardInstanceConsumersProfilesGetOutputGroupsGroup, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapDashboardInstanceConsumersProfilesGetOutputGroups:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> DashboardInstanceConsumersProfilesGetOutputGroups:
-        return DashboardInstanceConsumersProfilesGetOutputGroups(
-        object=data.get('object'),
-        group=mapDashboardInstanceConsumersProfilesGetOutputGroupsGroup.from_dict(data.get('group')) if data.get('group') else None,
-        assigned_via=data.get('assigned_via')
-        )
-
-    @staticmethod
-    def to_dict(value: Union[DashboardInstanceConsumersProfilesGetOutputGroups, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
 class mapDashboardInstanceConsumersProfilesGetOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceConsumersProfilesGetOutput:
@@ -82,11 +42,11 @@ class mapDashboardInstanceConsumersProfilesGetOutput:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
-        groups=[mapDashboardInstanceConsumersProfilesGetOutputGroups.from_dict(item) for item in data.get('groups', []) if item],
         consumer_id=data.get('consumer_id'),
         status=data.get('status'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
+        groups=[mapDashboardInstanceConsumersProfilesGetOutputGroups.from_dict(item) for item in data.get('groups', []) if item]
         )
 
     @staticmethod

@@ -4,6 +4,13 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class DashboardInstanceConsumerSurfacesListOutputItemsSkillConfiguration:
+    id: str
+    is_default: bool
+    allow_scripts: bool
+    allowed_file_extensions: List[str]
+    allow_non_standard_directories: bool
+@dataclass
 class DashboardInstanceConsumerSurfacesListOutputItemsAuth:
     object: str
     session_expiry_time_in_seconds: float
@@ -14,6 +21,9 @@ class DashboardInstanceConsumerSurfacesListOutputItems:
     id: str
     status: str
     name: str
+    allow_consumer_skill_authoring: bool
+    allow_consumer_skill_publishing: bool
+    skill_configuration: DashboardInstanceConsumerSurfacesListOutputItemsSkillConfiguration
     auth: DashboardInstanceConsumerSurfacesListOutputItemsAuth
     created_at: datetime
     updated_at: datetime
@@ -27,6 +37,25 @@ class DashboardInstanceConsumerSurfacesListOutput:
     items: List[DashboardInstanceConsumerSurfacesListOutputItems]
     pagination: DashboardInstanceConsumerSurfacesListOutputPagination
 
+
+class mapDashboardInstanceConsumerSurfacesListOutputItemsSkillConfiguration:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceConsumerSurfacesListOutputItemsSkillConfiguration:
+        return DashboardInstanceConsumerSurfacesListOutputItemsSkillConfiguration(
+        id=data.get('id'),
+        is_default=data.get('is_default'),
+        allow_scripts=data.get('allow_scripts'),
+        allowed_file_extensions=data.get('allowed_file_extensions', []),
+        allow_non_standard_directories=data.get('allow_non_standard_directories')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceConsumerSurfacesListOutputItemsSkillConfiguration, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapDashboardInstanceConsumerSurfacesListOutputItemsAuth:
     @staticmethod
@@ -54,6 +83,9 @@ class mapDashboardInstanceConsumerSurfacesListOutputItems:
         status=data.get('status'),
         name=data.get('name'),
         description=data.get('description'),
+        allow_consumer_skill_authoring=data.get('allow_consumer_skill_authoring'),
+        allow_consumer_skill_publishing=data.get('allow_consumer_skill_publishing'),
+        skill_configuration=mapDashboardInstanceConsumerSurfacesListOutputItemsSkillConfiguration.from_dict(data.get('skill_configuration')) if data.get('skill_configuration') else None,
         auth=mapDashboardInstanceConsumerSurfacesListOutputItemsAuth.from_dict(data.get('auth')) if data.get('auth') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None

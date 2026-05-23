@@ -8,7 +8,7 @@ class MetorialFilesEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, purpose: Optional[str] = None) -> DashboardInstanceFilesListOutput:
+    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, purpose: Optional[Union[str, List[str]]] = None, store_id: Optional[Union[str, List[str]]] = None, document_id: Optional[Union[str, List[str]]] = None, file_link_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceFilesListOutput:
         """
     List instance files
     Returns a paginated list of files owned by the instance.
@@ -18,7 +18,13 @@ class MetorialFilesEndpoint(BaseMetorialEndpoint):
     :param before: Optional[str] (optional)
     :param cursor: Optional[str] (optional)
     :param order: Optional[str] (optional)
-    :param purpose: Optional[str] (optional)
+    :param id: Optional[Union[str, List[str]]] (optional)
+    :param purpose: Optional[Union[str, List[str]]] (optional)
+    :param store_id: Optional[Union[str, List[str]]] (optional)
+    :param document_id: Optional[Union[str, List[str]]] (optional)
+    :param file_link_id: Optional[Union[str, List[str]]] (optional)
+    :param created_at: Optional[Dict[str, Any]] (optional)
+    :param updated_at: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceFilesListOutput
     """
         # Build query parameters from keyword arguments
@@ -33,8 +39,20 @@ class MetorialFilesEndpoint(BaseMetorialEndpoint):
             query_dict["cursor"] = cursor
         if order is not None:
             query_dict["order"] = order
+        if id is not None:
+            query_dict["id"] = id
         if purpose is not None:
             query_dict["purpose"] = purpose
+        if store_id is not None:
+            query_dict["store_id"] = store_id
+        if document_id is not None:
+            query_dict["document_id"] = document_id
+        if file_link_id is not None:
+            query_dict["file_link_id"] = file_link_id
+        if created_at is not None:
+            query_dict["created_at"] = created_at
+        if updated_at is not None:
+            query_dict["updated_at"] = updated_at
 
         request = MetorialRequest(
             path=['files'],

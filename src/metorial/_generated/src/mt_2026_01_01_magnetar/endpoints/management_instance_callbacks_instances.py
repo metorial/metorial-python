@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Optional, Union
 from metorial_util_endpoint import BaseMetorialEndpoint, MetorialEndpointManager, MetorialRequest
-from ..resources import mapDashboardInstanceCallbacksInstancesListOutput, DashboardInstanceCallbacksInstancesListOutput, mapDashboardInstanceCallbacksInstancesListQuery, DashboardInstanceCallbacksInstancesListQuery, mapDashboardInstanceCallbacksInstancesCreateOutput, DashboardInstanceCallbacksInstancesCreateOutput, mapDashboardInstanceCallbacksInstancesCreateBody, DashboardInstanceCallbacksInstancesCreateBody, mapDashboardInstanceCallbacksInstancesDeleteOutput, DashboardInstanceCallbacksInstancesDeleteOutput
+from ..resources import mapDashboardInstanceCallbacksInstancesListOutput, DashboardInstanceCallbacksInstancesListOutput, mapDashboardInstanceCallbacksInstancesListQuery, DashboardInstanceCallbacksInstancesListQuery, mapDashboardInstanceCallbacksInstancesGetOutput, DashboardInstanceCallbacksInstancesGetOutput, mapDashboardInstanceCallbacksInstancesCreateOutput, DashboardInstanceCallbacksInstancesCreateOutput, mapDashboardInstanceCallbacksInstancesCreateBody, DashboardInstanceCallbacksInstancesCreateBody, mapDashboardInstanceCallbacksInstancesDeleteOutput, DashboardInstanceCallbacksInstancesDeleteOutput
 
 class MetorialManagementInstanceCallbacksInstancesEndpoint(BaseMetorialEndpoint):
     """Attach or detach callback instances for a deployment/config/auth-config combination."""
@@ -58,6 +58,21 @@ class MetorialManagementInstanceCallbacksInstancesEndpoint(BaseMetorialEndpoint)
             query=query_dict
         )
         return self._get(request).transform(mapDashboardInstanceCallbacksInstancesListOutput.from_dict)
+
+    def get(self, instance_id: str, callback_id: str, callback_instance_id: str) -> DashboardInstanceCallbacksInstancesGetOutput:
+        """
+    Get callback instance
+    Retrieves a specific callback instance by ID.
+
+    :param instance_id: str
+    :param callback_id: str
+    :param callback_instance_id: str
+    :return: DashboardInstanceCallbacksInstancesGetOutput
+    """
+        request = MetorialRequest(
+            path=['instances', instance_id, 'callbacks', callback_id, 'instances', callback_instance_id]
+        )
+        return self._get(request).transform(mapDashboardInstanceCallbacksInstancesGetOutput.from_dict)
 
     def create(self, instance_id: str, callback_id: str, *, provider_config_id: str, provider_auth_config_id: Optional[str] = None) -> DashboardInstanceCallbacksInstancesCreateOutput:
         """

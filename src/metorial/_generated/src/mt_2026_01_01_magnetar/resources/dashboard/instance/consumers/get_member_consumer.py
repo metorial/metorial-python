@@ -4,42 +4,15 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
-class DashboardInstanceConsumersGetMemberConsumerOutputProfileGroupsGroup:
-    object: str
-    id: str
-    status: str
-    name: str
-    is_default: bool
-    sso_group_ids: List[str]
-    created_at: datetime
-    updated_at: datetime
-    description: Optional[str] = None
-@dataclass
-class DashboardInstanceConsumersGetMemberConsumerOutputProfileGroups:
-    object: str
-    group: DashboardInstanceConsumersGetMemberConsumerOutputProfileGroupsGroup
-    assigned_via: str
-@dataclass
-class DashboardInstanceConsumersGetMemberConsumerOutputProfile:
-    object: str
-    id: str
-    name: str
-    email: str
-    image_url: str
-    consumer_id: str
-    status: str
-    created_at: datetime
-    updated_at: datetime
-    groups: Optional[List[DashboardInstanceConsumersGetMemberConsumerOutputProfileGroups]] = None
-@dataclass
 class DashboardInstanceConsumersGetMemberConsumerOutput:
     object: str
     id: str
     name: str
     email: str
+    image_url: str
     created_at: datetime
     updated_at: datetime
-    profile: DashboardInstanceConsumersGetMemberConsumerOutputProfile
+    profile: Dict[str, Any]
 
 
 class mapDashboardInstanceConsumersGetMemberConsumerOutput:
@@ -50,9 +23,10 @@ class mapDashboardInstanceConsumersGetMemberConsumerOutput:
         id=data.get('id'),
         name=data.get('name'),
         email=data.get('email'),
+        image_url=data.get('image_url'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
-        profile=mapDashboardInstanceConsumersGetMemberConsumerOutputProfile.from_dict(data.get('profile')) if data.get('profile') else None
+        profile=data.get('profile')
         )
 
     @staticmethod

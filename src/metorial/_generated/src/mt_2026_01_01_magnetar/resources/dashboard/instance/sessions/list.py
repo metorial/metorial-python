@@ -71,6 +71,8 @@ class DashboardInstanceSessionsListOutputItems:
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
     client_secret: Optional[str] = None
+    identity_actor_id: Optional[str] = None
+    identity_id: Optional[str] = None
 @dataclass
 class DashboardInstanceSessionsListOutputPagination:
     has_more_before: bool
@@ -221,6 +223,8 @@ class mapDashboardInstanceSessionsListOutputItems:
         from_templates_ids=data.get('from_templates_ids', []),
         has_errors=data.get('has_errors'),
         has_warnings=data.get('has_warnings'),
+        identity_actor_id=data.get('identity_actor_id'),
+        identity_id=data.get('identity_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -283,6 +287,10 @@ class DashboardInstanceSessionsListQuery:
     order: Optional[str] = None
     status: Optional[Union[str, List[str]]] = None
     id: Optional[Union[str, List[str]]] = None
+    agent_id: Optional[Union[str, List[str]]] = None
+    actor_id: Optional[Union[str, List[str]]] = None
+    consumer_id: Optional[Union[str, List[str]]] = None
+    identity_id: Optional[Union[str, List[str]]] = None
     session_template_id: Optional[Union[str, List[str]]] = None
     session_provider_id: Optional[Union[str, List[str]]] = None
     provider_id: Optional[Union[str, List[str]]] = None
@@ -304,6 +312,10 @@ class mapDashboardInstanceSessionsListQuery:
         order=data.get('order'),
         status=data.get('status'),
         id=data.get('id'),
+        agent_id=data.get('agent_id'),
+        actor_id=data.get('actor_id'),
+        consumer_id=data.get('consumer_id'),
+        identity_id=data.get('identity_id'),
         session_template_id=data.get('session_template_id'),
         session_provider_id=data.get('session_provider_id'),
         provider_id=data.get('provider_id'),

@@ -26,6 +26,14 @@ class ManagementInstanceSessionsEventsGetOutputConnectionParticipant:
     data: ManagementInstanceSessionsEventsGetOutputConnectionParticipantData
     created_at: datetime
     provider_id: Optional[str] = None
+    connection_type: Optional[str] = None
+    agent_id: Optional[str] = None
+    agent_instance_id: Optional[str] = None
+    identity_actor_id: Optional[str] = None
+    identity_id: Optional[str] = None
+    agent_actor_id: Optional[str] = None
+    agent_client_id: Optional[str] = None
+    consumer_id: Optional[str] = None
 @dataclass
 class ManagementInstanceSessionsEventsGetOutputConnection:
     object: str
@@ -75,6 +83,50 @@ class ManagementInstanceSessionsEventsGetOutputMessageTransport:
     type: str
     mcp: Optional[ManagementInstanceSessionsEventsGetOutputMessageTransportMcp] = None
     tool_call: Optional[ManagementInstanceSessionsEventsGetOutputMessageTransportToolCall] = None
+@dataclass
+class ManagementInstanceSessionsEventsGetOutputMessageToolCallSenderParticipantData:
+    identifier: str
+    name: str
+@dataclass
+class ManagementInstanceSessionsEventsGetOutputMessageToolCallSenderParticipant:
+    object: str
+    id: str
+    type: str
+    identifier: str
+    name: str
+    data: ManagementInstanceSessionsEventsGetOutputMessageToolCallSenderParticipantData
+    created_at: datetime
+    provider_id: Optional[str] = None
+    connection_type: Optional[str] = None
+    agent_id: Optional[str] = None
+    agent_instance_id: Optional[str] = None
+    identity_actor_id: Optional[str] = None
+    identity_id: Optional[str] = None
+    agent_actor_id: Optional[str] = None
+    agent_client_id: Optional[str] = None
+    consumer_id: Optional[str] = None
+@dataclass
+class ManagementInstanceSessionsEventsGetOutputMessageToolCallResponderParticipantData:
+    identifier: str
+    name: str
+@dataclass
+class ManagementInstanceSessionsEventsGetOutputMessageToolCallResponderParticipant:
+    object: str
+    id: str
+    type: str
+    identifier: str
+    name: str
+    data: ManagementInstanceSessionsEventsGetOutputMessageToolCallResponderParticipantData
+    created_at: datetime
+    provider_id: Optional[str] = None
+    connection_type: Optional[str] = None
+    agent_id: Optional[str] = None
+    agent_instance_id: Optional[str] = None
+    identity_actor_id: Optional[str] = None
+    identity_id: Optional[str] = None
+    agent_actor_id: Optional[str] = None
+    agent_client_id: Optional[str] = None
+    consumer_id: Optional[str] = None
 @dataclass
 class ManagementInstanceSessionsEventsGetOutputMessageToolCallToolInputSchema:
     type: str
@@ -134,6 +186,8 @@ class ManagementInstanceSessionsEventsGetOutputMessageToolCall:
     session_provider_id: Optional[str] = None
     connection_id: Optional[str] = None
     provider_run_id: Optional[str] = None
+    sender_participant: Optional[ManagementInstanceSessionsEventsGetOutputMessageToolCallSenderParticipant] = None
+    responder_participant: Optional[ManagementInstanceSessionsEventsGetOutputMessageToolCallResponderParticipant] = None
     error: Optional[ManagementInstanceSessionsEventsGetOutputMessageToolCallError] = None
     input: Optional[Dict[str, Any]] = None
     output: Optional[Dict[str, Any]] = None
@@ -151,6 +205,14 @@ class ManagementInstanceSessionsEventsGetOutputMessageSenderParticipant:
     data: ManagementInstanceSessionsEventsGetOutputMessageSenderParticipantData
     created_at: datetime
     provider_id: Optional[str] = None
+    connection_type: Optional[str] = None
+    agent_id: Optional[str] = None
+    agent_instance_id: Optional[str] = None
+    identity_actor_id: Optional[str] = None
+    identity_id: Optional[str] = None
+    agent_actor_id: Optional[str] = None
+    agent_client_id: Optional[str] = None
+    consumer_id: Optional[str] = None
 @dataclass
 class ManagementInstanceSessionsEventsGetOutputMessageResponderParticipantData:
     identifier: str
@@ -165,6 +227,14 @@ class ManagementInstanceSessionsEventsGetOutputMessageResponderParticipant:
     data: ManagementInstanceSessionsEventsGetOutputMessageResponderParticipantData
     created_at: datetime
     provider_id: Optional[str] = None
+    connection_type: Optional[str] = None
+    agent_id: Optional[str] = None
+    agent_instance_id: Optional[str] = None
+    identity_actor_id: Optional[str] = None
+    identity_id: Optional[str] = None
+    agent_actor_id: Optional[str] = None
+    agent_client_id: Optional[str] = None
+    consumer_id: Optional[str] = None
 @dataclass
 class ManagementInstanceSessionsEventsGetOutputMessageError:
     object: str
@@ -297,6 +367,14 @@ class mapManagementInstanceSessionsEventsGetOutputConnectionParticipant:
         name=data.get('name'),
         data=mapManagementInstanceSessionsEventsGetOutputConnectionParticipantData.from_dict(data.get('data')) if data.get('data') else None,
         provider_id=data.get('provider_id'),
+        connection_type=data.get('connection_type'),
+        agent_id=data.get('agent_id'),
+        agent_instance_id=data.get('agent_instance_id'),
+        identity_actor_id=data.get('identity_actor_id'),
+        identity_id=data.get('identity_id'),
+        agent_actor_id=data.get('agent_actor_id'),
+        agent_client_id=data.get('agent_client_id'),
+        consumer_id=data.get('consumer_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
@@ -429,6 +507,98 @@ class mapManagementInstanceSessionsEventsGetOutputMessageTransport:
             return value
         return dataclasses.asdict(value)
 
+class mapManagementInstanceSessionsEventsGetOutputMessageToolCallSenderParticipantData:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceSessionsEventsGetOutputMessageToolCallSenderParticipantData:
+        return ManagementInstanceSessionsEventsGetOutputMessageToolCallSenderParticipantData(
+        identifier=data.get('identifier'),
+        name=data.get('name')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceSessionsEventsGetOutputMessageToolCallSenderParticipantData, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceSessionsEventsGetOutputMessageToolCallSenderParticipant:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceSessionsEventsGetOutputMessageToolCallSenderParticipant:
+        return ManagementInstanceSessionsEventsGetOutputMessageToolCallSenderParticipant(
+        object=data.get('object'),
+        id=data.get('id'),
+        type=data.get('type'),
+        identifier=data.get('identifier'),
+        name=data.get('name'),
+        data=mapManagementInstanceSessionsEventsGetOutputMessageToolCallSenderParticipantData.from_dict(data.get('data')) if data.get('data') else None,
+        provider_id=data.get('provider_id'),
+        connection_type=data.get('connection_type'),
+        agent_id=data.get('agent_id'),
+        agent_instance_id=data.get('agent_instance_id'),
+        identity_actor_id=data.get('identity_actor_id'),
+        identity_id=data.get('identity_id'),
+        agent_actor_id=data.get('agent_actor_id'),
+        agent_client_id=data.get('agent_client_id'),
+        consumer_id=data.get('consumer_id'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceSessionsEventsGetOutputMessageToolCallSenderParticipant, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceSessionsEventsGetOutputMessageToolCallResponderParticipantData:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceSessionsEventsGetOutputMessageToolCallResponderParticipantData:
+        return ManagementInstanceSessionsEventsGetOutputMessageToolCallResponderParticipantData(
+        identifier=data.get('identifier'),
+        name=data.get('name')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceSessionsEventsGetOutputMessageToolCallResponderParticipantData, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceSessionsEventsGetOutputMessageToolCallResponderParticipant:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceSessionsEventsGetOutputMessageToolCallResponderParticipant:
+        return ManagementInstanceSessionsEventsGetOutputMessageToolCallResponderParticipant(
+        object=data.get('object'),
+        id=data.get('id'),
+        type=data.get('type'),
+        identifier=data.get('identifier'),
+        name=data.get('name'),
+        data=mapManagementInstanceSessionsEventsGetOutputMessageToolCallResponderParticipantData.from_dict(data.get('data')) if data.get('data') else None,
+        provider_id=data.get('provider_id'),
+        connection_type=data.get('connection_type'),
+        agent_id=data.get('agent_id'),
+        agent_instance_id=data.get('agent_instance_id'),
+        identity_actor_id=data.get('identity_actor_id'),
+        identity_id=data.get('identity_id'),
+        agent_actor_id=data.get('agent_actor_id'),
+        agent_client_id=data.get('agent_client_id'),
+        consumer_id=data.get('consumer_id'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceSessionsEventsGetOutputMessageToolCallResponderParticipant, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapManagementInstanceSessionsEventsGetOutputMessageToolCallToolInputSchema:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceSessionsEventsGetOutputMessageToolCallToolInputSchema:
@@ -548,6 +718,8 @@ class mapManagementInstanceSessionsEventsGetOutputMessageToolCall:
         session_provider_id=data.get('session_provider_id'),
         connection_id=data.get('connection_id'),
         provider_run_id=data.get('provider_run_id'),
+        sender_participant=mapManagementInstanceSessionsEventsGetOutputMessageToolCallSenderParticipant.from_dict(data.get('sender_participant')) if data.get('sender_participant') else None,
+        responder_participant=mapManagementInstanceSessionsEventsGetOutputMessageToolCallResponderParticipant.from_dict(data.get('responder_participant')) if data.get('responder_participant') else None,
         tool=mapManagementInstanceSessionsEventsGetOutputMessageToolCallTool.from_dict(data.get('tool')) if data.get('tool') else None,
         error=mapManagementInstanceSessionsEventsGetOutputMessageToolCallError.from_dict(data.get('error')) if data.get('error') else None,
         input=data.get('input'),
@@ -590,6 +762,14 @@ class mapManagementInstanceSessionsEventsGetOutputMessageSenderParticipant:
         name=data.get('name'),
         data=mapManagementInstanceSessionsEventsGetOutputMessageSenderParticipantData.from_dict(data.get('data')) if data.get('data') else None,
         provider_id=data.get('provider_id'),
+        connection_type=data.get('connection_type'),
+        agent_id=data.get('agent_id'),
+        agent_instance_id=data.get('agent_instance_id'),
+        identity_actor_id=data.get('identity_actor_id'),
+        identity_id=data.get('identity_id'),
+        agent_actor_id=data.get('agent_actor_id'),
+        agent_client_id=data.get('agent_client_id'),
+        consumer_id=data.get('consumer_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
@@ -628,6 +808,14 @@ class mapManagementInstanceSessionsEventsGetOutputMessageResponderParticipant:
         name=data.get('name'),
         data=mapManagementInstanceSessionsEventsGetOutputMessageResponderParticipantData.from_dict(data.get('data')) if data.get('data') else None,
         provider_id=data.get('provider_id'),
+        connection_type=data.get('connection_type'),
+        agent_id=data.get('agent_id'),
+        agent_instance_id=data.get('agent_instance_id'),
+        identity_actor_id=data.get('identity_actor_id'),
+        identity_id=data.get('identity_id'),
+        agent_actor_id=data.get('agent_actor_id'),
+        agent_client_id=data.get('agent_client_id'),
+        consumer_id=data.get('consumer_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 

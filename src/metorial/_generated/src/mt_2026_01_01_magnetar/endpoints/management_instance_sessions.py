@@ -8,7 +8,7 @@ class MetorialManagementInstanceSessionsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, session_template_id: Optional[Union[str, List[str]]] = None, session_provider_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, provider_config_id: Optional[Union[str, List[str]]] = None, provider_auth_config_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceSessionsListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, agent_id: Optional[Union[str, List[str]]] = None, actor_id: Optional[Union[str, List[str]]] = None, consumer_id: Optional[Union[str, List[str]]] = None, identity_id: Optional[Union[str, List[str]]] = None, session_template_id: Optional[Union[str, List[str]]] = None, session_provider_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, provider_config_id: Optional[Union[str, List[str]]] = None, provider_auth_config_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceSessionsListOutput:
         """
     List sessions
     Returns a paginated list of sessions.
@@ -21,6 +21,10 @@ class MetorialManagementInstanceSessionsEndpoint(BaseMetorialEndpoint):
     :param order: Optional[str] (optional)
     :param status: Optional[Union[str, List[str]]] (optional)
     :param id: Optional[Union[str, List[str]]] (optional)
+    :param agent_id: Optional[Union[str, List[str]]] (optional)
+    :param actor_id: Optional[Union[str, List[str]]] (optional)
+    :param consumer_id: Optional[Union[str, List[str]]] (optional)
+    :param identity_id: Optional[Union[str, List[str]]] (optional)
     :param session_template_id: Optional[Union[str, List[str]]] (optional)
     :param session_provider_id: Optional[Union[str, List[str]]] (optional)
     :param provider_id: Optional[Union[str, List[str]]] (optional)
@@ -47,6 +51,14 @@ class MetorialManagementInstanceSessionsEndpoint(BaseMetorialEndpoint):
             query_dict["status"] = status
         if id is not None:
             query_dict["id"] = id
+        if agent_id is not None:
+            query_dict["agent_id"] = agent_id
+        if actor_id is not None:
+            query_dict["actor_id"] = actor_id
+        if consumer_id is not None:
+            query_dict["consumer_id"] = consumer_id
+        if identity_id is not None:
+            query_dict["identity_id"] = identity_id
         if session_template_id is not None:
             query_dict["session_template_id"] = session_template_id
         if session_provider_id is not None:

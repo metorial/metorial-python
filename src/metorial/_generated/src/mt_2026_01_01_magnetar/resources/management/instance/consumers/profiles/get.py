@@ -33,46 +33,6 @@ class ManagementInstanceConsumersProfilesGetOutput:
     groups: Optional[List[ManagementInstanceConsumersProfilesGetOutputGroups]] = None
 
 
-class mapManagementInstanceConsumersProfilesGetOutputGroupsGroup:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ManagementInstanceConsumersProfilesGetOutputGroupsGroup:
-        return ManagementInstanceConsumersProfilesGetOutputGroupsGroup(
-        object=data.get('object'),
-        id=data.get('id'),
-        status=data.get('status'),
-        name=data.get('name'),
-        description=data.get('description'),
-        is_default=data.get('is_default'),
-        sso_group_ids=data.get('sso_group_ids', []),
-        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[ManagementInstanceConsumersProfilesGetOutputGroupsGroup, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapManagementInstanceConsumersProfilesGetOutputGroups:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ManagementInstanceConsumersProfilesGetOutputGroups:
-        return ManagementInstanceConsumersProfilesGetOutputGroups(
-        object=data.get('object'),
-        group=mapManagementInstanceConsumersProfilesGetOutputGroupsGroup.from_dict(data.get('group')) if data.get('group') else None,
-        assigned_via=data.get('assigned_via')
-        )
-
-    @staticmethod
-    def to_dict(value: Union[ManagementInstanceConsumersProfilesGetOutputGroups, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
 class mapManagementInstanceConsumersProfilesGetOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceConsumersProfilesGetOutput:
@@ -82,11 +42,11 @@ class mapManagementInstanceConsumersProfilesGetOutput:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
-        groups=[mapManagementInstanceConsumersProfilesGetOutputGroups.from_dict(item) for item in data.get('groups', []) if item],
         consumer_id=data.get('consumer_id'),
         status=data.get('status'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
+        groups=[mapManagementInstanceConsumersProfilesGetOutputGroups.from_dict(item) for item in data.get('groups', []) if item]
         )
 
     @staticmethod

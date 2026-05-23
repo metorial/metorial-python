@@ -26,6 +26,14 @@ class SessionsConnectionsListOutputItemsParticipant:
     data: SessionsConnectionsListOutputItemsParticipantData
     created_at: datetime
     provider_id: Optional[str] = None
+    connection_type: Optional[str] = None
+    agent_id: Optional[str] = None
+    agent_instance_id: Optional[str] = None
+    identity_actor_id: Optional[str] = None
+    identity_id: Optional[str] = None
+    agent_actor_id: Optional[str] = None
+    agent_client_id: Optional[str] = None
+    consumer_id: Optional[str] = None
 @dataclass
 class SessionsConnectionsListOutputItems:
     object: str
@@ -111,6 +119,14 @@ class mapSessionsConnectionsListOutputItemsParticipant:
         name=data.get('name'),
         data=mapSessionsConnectionsListOutputItemsParticipantData.from_dict(data.get('data')) if data.get('data') else None,
         provider_id=data.get('provider_id'),
+        connection_type=data.get('connection_type'),
+        agent_id=data.get('agent_id'),
+        agent_instance_id=data.get('agent_instance_id'),
+        identity_actor_id=data.get('identity_actor_id'),
+        identity_id=data.get('identity_id'),
+        agent_actor_id=data.get('agent_actor_id'),
+        agent_client_id=data.get('agent_client_id'),
+        consumer_id=data.get('consumer_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
@@ -200,6 +216,11 @@ class SessionsConnectionsListQuery:
     status: Optional[Union[str, List[str]]] = None
     connection_state: Optional[Union[str, List[str]]] = None
     id: Optional[Union[str, List[str]]] = None
+    agent_id: Optional[Union[str, List[str]]] = None
+    actor_id: Optional[Union[str, List[str]]] = None
+    consumer_id: Optional[Union[str, List[str]]] = None
+    identity_id: Optional[Union[str, List[str]]] = None
+    agent_instance_id: Optional[Union[str, List[str]]] = None
     session_id: Optional[Union[str, List[str]]] = None
     session_provider_id: Optional[Union[str, List[str]]] = None
     participant_id: Optional[Union[str, List[str]]] = None
@@ -219,6 +240,11 @@ class mapSessionsConnectionsListQuery:
         status=data.get('status'),
         connection_state=data.get('connection_state'),
         id=data.get('id'),
+        agent_id=data.get('agent_id'),
+        actor_id=data.get('actor_id'),
+        consumer_id=data.get('consumer_id'),
+        identity_id=data.get('identity_id'),
+        agent_instance_id=data.get('agent_instance_id'),
         session_id=data.get('session_id'),
         session_provider_id=data.get('session_provider_id'),
         participant_id=data.get('participant_id'),

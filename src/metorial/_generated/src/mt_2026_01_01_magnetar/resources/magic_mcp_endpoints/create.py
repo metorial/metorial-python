@@ -14,9 +14,6 @@ class MagicMcpEndpointsCreateOutput:
     metadata: Dict[str, Any]
     created_at: datetime
     updated_at: datetime
-    consumer_profile_id: Optional[str] = None
-    session_template_id: Optional[str] = None
-    session_id: Optional[str] = None
     name: Optional[str] = None
     description: Optional[str] = None
 
@@ -30,9 +27,6 @@ class mapMagicMcpEndpointsCreateOutput:
         status=data.get('status'),
         slug=data.get('slug'),
         url=data.get('url'),
-        consumer_profile_id=data.get('consumer_profile_id'),
-        session_template_id=data.get('session_template_id'),
-        session_id=data.get('session_id'),
         servers=data.get('servers', []),
         name=data.get('name'),
         description=data.get('description'),
@@ -51,7 +45,7 @@ class mapMagicMcpEndpointsCreateOutput:
         return dataclasses.asdict(value)
 
 @dataclass
-class MagicMcpEndpointsCreateBodyServers:
+class MagicMcpEndpointsCreateBodyMagicMcpServers:
     magic_mcp_server_id: str
     tool_filters: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]] = None
 @dataclass
@@ -60,20 +54,20 @@ class MagicMcpEndpointsCreateBody:
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
     consumer_profile_id: Optional[str] = None
-    magic_mcp_server_ids: Optional[List[str]] = None
-    servers: Optional[List[MagicMcpEndpointsCreateBodyServers]] = None
+    skill_plugin_id: Optional[str] = None
+    magic_mcp_servers: Optional[List[MagicMcpEndpointsCreateBodyMagicMcpServers]] = None
 
 
-class mapMagicMcpEndpointsCreateBodyServers:
+class mapMagicMcpEndpointsCreateBodyMagicMcpServers:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> MagicMcpEndpointsCreateBodyServers:
-        return MagicMcpEndpointsCreateBodyServers(
+    def from_dict(data: Dict[str, Any]) -> MagicMcpEndpointsCreateBodyMagicMcpServers:
+        return MagicMcpEndpointsCreateBodyMagicMcpServers(
         magic_mcp_server_id=data.get('magic_mcp_server_id'),
         tool_filters=data.get('tool_filters')
         )
 
     @staticmethod
-    def to_dict(value: Union[MagicMcpEndpointsCreateBodyServers, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[MagicMcpEndpointsCreateBodyMagicMcpServers, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -88,8 +82,8 @@ class mapMagicMcpEndpointsCreateBody:
         description=data.get('description'),
         metadata=data.get('metadata'),
         consumer_profile_id=data.get('consumer_profile_id'),
-        magic_mcp_server_ids=data.get('magic_mcp_server_ids', []),
-        servers=[mapMagicMcpEndpointsCreateBodyServers.from_dict(item) for item in data.get('servers', []) if item]
+        skill_plugin_id=data.get('skill_plugin_id'),
+        magic_mcp_servers=[mapMagicMcpEndpointsCreateBodyMagicMcpServers.from_dict(item) for item in data.get('magic_mcp_servers', []) if item]
         )
 
     @staticmethod

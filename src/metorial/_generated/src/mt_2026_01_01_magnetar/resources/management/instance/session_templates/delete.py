@@ -53,6 +53,10 @@ class ManagementInstanceSessionTemplatesDeleteOutput:
     updated_at: datetime
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
+    integration_instance_id: Optional[str] = None
+    integration_instance_group_id: Optional[str] = None
+    identity_actor_id: Optional[str] = None
+    identity_id: Optional[str] = None
 
 
 class mapManagementInstanceSessionTemplatesDeleteOutputProvidersDeployment:
@@ -152,6 +156,10 @@ class mapManagementInstanceSessionTemplatesDeleteOutput:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        integration_instance_id=data.get('integration_instance_id'),
+        integration_instance_group_id=data.get('integration_instance_group_id'),
+        identity_actor_id=data.get('identity_actor_id'),
+        identity_id=data.get('identity_id'),
         providers=[mapManagementInstanceSessionTemplatesDeleteOutputProviders.from_dict(item) for item in data.get('providers', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None

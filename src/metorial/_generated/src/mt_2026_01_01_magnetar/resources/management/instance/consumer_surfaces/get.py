@@ -4,6 +4,13 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class ManagementInstanceConsumerSurfacesGetOutputSkillConfiguration:
+    id: str
+    is_default: bool
+    allow_scripts: bool
+    allowed_file_extensions: List[str]
+    allow_non_standard_directories: bool
+@dataclass
 class ManagementInstanceConsumerSurfacesGetOutputAuth:
     object: str
     session_expiry_time_in_seconds: float
@@ -14,11 +21,33 @@ class ManagementInstanceConsumerSurfacesGetOutput:
     id: str
     status: str
     name: str
+    allow_consumer_skill_authoring: bool
+    allow_consumer_skill_publishing: bool
+    skill_configuration: ManagementInstanceConsumerSurfacesGetOutputSkillConfiguration
     auth: ManagementInstanceConsumerSurfacesGetOutputAuth
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
 
+
+class mapManagementInstanceConsumerSurfacesGetOutputSkillConfiguration:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceConsumerSurfacesGetOutputSkillConfiguration:
+        return ManagementInstanceConsumerSurfacesGetOutputSkillConfiguration(
+        id=data.get('id'),
+        is_default=data.get('is_default'),
+        allow_scripts=data.get('allow_scripts'),
+        allowed_file_extensions=data.get('allowed_file_extensions', []),
+        allow_non_standard_directories=data.get('allow_non_standard_directories')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceConsumerSurfacesGetOutputSkillConfiguration, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapManagementInstanceConsumerSurfacesGetOutputAuth:
     @staticmethod
@@ -46,6 +75,9 @@ class mapManagementInstanceConsumerSurfacesGetOutput:
         status=data.get('status'),
         name=data.get('name'),
         description=data.get('description'),
+        allow_consumer_skill_authoring=data.get('allow_consumer_skill_authoring'),
+        allow_consumer_skill_publishing=data.get('allow_consumer_skill_publishing'),
+        skill_configuration=mapManagementInstanceConsumerSurfacesGetOutputSkillConfiguration.from_dict(data.get('skill_configuration')) if data.get('skill_configuration') else None,
         auth=mapManagementInstanceConsumerSurfacesGetOutputAuth.from_dict(data.get('auth')) if data.get('auth') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None

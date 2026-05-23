@@ -54,7 +54,7 @@ class MetorialDashboardInstancePortalsEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapDashboardInstancePortalsGetOutput.from_dict)
 
-    def create(self, instance_id: str, *, name: str, description: Optional[str] = None, allowed_redirect_url_filters: Optional[List[Dict[str, Any]]] = None, session_expiry_time_in_seconds: Optional[float] = None) -> DashboardInstancePortalsCreateOutput:
+    def create(self, instance_id: str, *, name: str, description: Optional[str] = None, allowed_redirect_url_filters: Optional[List[Dict[str, Any]]] = None, session_expiry_time_in_seconds: Optional[float] = None, allow_consumer_skill_authoring: Optional[bool] = None, allow_consumer_skill_publishing: Optional[bool] = None) -> DashboardInstancePortalsCreateOutput:
         """
     Create portal
     Creates a new portal for the instance.
@@ -64,6 +64,8 @@ class MetorialDashboardInstancePortalsEndpoint(BaseMetorialEndpoint):
     :param description: Optional[str] (optional)
     :param allowed_redirect_url_filters: Optional[List[Dict[str, Any]]] (optional)
     :param session_expiry_time_in_seconds: Optional[float] (optional)
+    :param allow_consumer_skill_authoring: Optional[bool] (optional)
+    :param allow_consumer_skill_publishing: Optional[bool] (optional)
     :return: DashboardInstancePortalsCreateOutput
     """
         # Build body parameters from keyword arguments
@@ -75,6 +77,10 @@ class MetorialDashboardInstancePortalsEndpoint(BaseMetorialEndpoint):
             body_dict["allowed_redirect_url_filters"] = allowed_redirect_url_filters
         if session_expiry_time_in_seconds is not None:
             body_dict["session_expiry_time_in_seconds"] = session_expiry_time_in_seconds
+        if allow_consumer_skill_authoring is not None:
+            body_dict["allow_consumer_skill_authoring"] = allow_consumer_skill_authoring
+        if allow_consumer_skill_publishing is not None:
+            body_dict["allow_consumer_skill_publishing"] = allow_consumer_skill_publishing
 
         request = MetorialRequest(
             path=['dashboard', 'instances', instance_id, 'portals'],
@@ -82,7 +88,7 @@ class MetorialDashboardInstancePortalsEndpoint(BaseMetorialEndpoint):
         )
         return self._post(request).transform(mapDashboardInstancePortalsCreateOutput.from_dict)
 
-    def update(self, instance_id: str, portal_id: str, *, name: Optional[str] = None, description: Optional[str] = None, allowed_redirect_url_filters: Optional[List[Dict[str, Any]]] = None, session_expiry_time_in_seconds: Optional[float] = None) -> DashboardInstancePortalsUpdateOutput:
+    def update(self, instance_id: str, portal_id: str, *, name: Optional[str] = None, description: Optional[str] = None, allowed_redirect_url_filters: Optional[List[Dict[str, Any]]] = None, session_expiry_time_in_seconds: Optional[float] = None, allow_consumer_skill_authoring: Optional[bool] = None, allow_consumer_skill_publishing: Optional[bool] = None, skill_configuration: Optional[Dict[str, Any]] = None) -> DashboardInstancePortalsUpdateOutput:
         """
     Update portal
     Updates an existing portal for the instance.
@@ -93,6 +99,9 @@ class MetorialDashboardInstancePortalsEndpoint(BaseMetorialEndpoint):
     :param description: Optional[str] (optional)
     :param allowed_redirect_url_filters: Optional[List[Dict[str, Any]]] (optional)
     :param session_expiry_time_in_seconds: Optional[float] (optional)
+    :param allow_consumer_skill_authoring: Optional[bool] (optional)
+    :param allow_consumer_skill_publishing: Optional[bool] (optional)
+    :param skill_configuration: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstancePortalsUpdateOutput
     """
         # Build body parameters from keyword arguments
@@ -105,6 +114,12 @@ class MetorialDashboardInstancePortalsEndpoint(BaseMetorialEndpoint):
             body_dict["allowed_redirect_url_filters"] = allowed_redirect_url_filters
         if session_expiry_time_in_seconds is not None:
             body_dict["session_expiry_time_in_seconds"] = session_expiry_time_in_seconds
+        if allow_consumer_skill_authoring is not None:
+            body_dict["allow_consumer_skill_authoring"] = allow_consumer_skill_authoring
+        if allow_consumer_skill_publishing is not None:
+            body_dict["allow_consumer_skill_publishing"] = allow_consumer_skill_publishing
+        if skill_configuration is not None:
+            body_dict["skill_configuration"] = skill_configuration
 
         request = MetorialRequest(
             path=['dashboard', 'instances', instance_id, 'portals', portal_id],

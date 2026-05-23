@@ -3,6 +3,7 @@ from .create import *
 from .deployments import *
 from .environments import *
 from .get import *
+from .get_env import *
 from .list import *
 from .update import *
 from .versions import *

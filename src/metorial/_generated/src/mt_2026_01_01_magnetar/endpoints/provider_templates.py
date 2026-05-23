@@ -8,7 +8,7 @@ class MetorialProviderTemplatesEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, search: Optional[str] = None, status: Optional[Union[str, List[str]]] = None) -> DashboardInstanceProviderTemplatesListOutput:
+    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, integration_id: Optional[Union[str, List[str]]] = None, search: Optional[str] = None, status: Optional[Union[str, List[str]]] = None) -> DashboardInstanceProviderTemplatesListOutput:
         """
     List provider templates
     Returns a paginated list of provider templates.
@@ -19,7 +19,7 @@ class MetorialProviderTemplatesEndpoint(BaseMetorialEndpoint):
     :param cursor: Optional[str] (optional)
     :param order: Optional[str] (optional)
     :param id: Optional[Union[str, List[str]]] (optional)
-    :param provider_deployment_id: Optional[Union[str, List[str]]] (optional)
+    :param integration_id: Optional[Union[str, List[str]]] (optional)
     :param search: Optional[str] (optional)
     :param status: Optional[Union[str, List[str]]] (optional)
     :return: DashboardInstanceProviderTemplatesListOutput
@@ -38,8 +38,8 @@ class MetorialProviderTemplatesEndpoint(BaseMetorialEndpoint):
             query_dict["order"] = order
         if id is not None:
             query_dict["id"] = id
-        if provider_deployment_id is not None:
-            query_dict["provider_deployment_id"] = provider_deployment_id
+        if integration_id is not None:
+            query_dict["integration_id"] = integration_id
         if search is not None:
             query_dict["search"] = search
         if status is not None:
@@ -64,7 +64,7 @@ class MetorialProviderTemplatesEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapDashboardInstanceProviderTemplatesGetOutput.from_dict)
 
-    def create(self, *, name: str, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, tool_filers: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None, provider_deployment_id: str = None, provider_deployment: Dict[str, Any] = None) -> DashboardInstanceProviderTemplatesCreateOutput:
+    def create(self, *, name: str, providers: List[Dict[str, Any]], description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderTemplatesCreateOutput:
         """
     Create provider template
     Creates a new provider template from an existing provider deployment or creates a minimal backing deployment first.
@@ -72,9 +72,7 @@ class MetorialProviderTemplatesEndpoint(BaseMetorialEndpoint):
     :param name: str
     :param description: Optional[str] (optional)
     :param metadata: Optional[Dict[str, Any]] (optional)
-    :param tool_filers: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] (optional)
-    :param provider_deployment_id: str (optional)
-    :param provider_deployment: Dict[str, Any] (optional)
+    :param providers: List[Dict[str, Any]]
     :return: DashboardInstanceProviderTemplatesCreateOutput
     """
         # Build body parameters from keyword arguments
@@ -84,12 +82,7 @@ class MetorialProviderTemplatesEndpoint(BaseMetorialEndpoint):
             body_dict["description"] = description
         if metadata is not None:
             body_dict["metadata"] = metadata
-        if tool_filers is not None:
-            body_dict["tool_filers"] = tool_filers
-        if provider_deployment_id is not None:
-            body_dict["provider_deployment_id"] = provider_deployment_id
-        if provider_deployment is not None:
-            body_dict["provider_deployment"] = provider_deployment
+        body_dict["providers"] = providers
 
         request = MetorialRequest(
             path=['provider-templates'],
@@ -97,7 +90,7 @@ class MetorialProviderTemplatesEndpoint(BaseMetorialEndpoint):
         )
         return self._post(request).transform(mapDashboardInstanceProviderTemplatesCreateOutput.from_dict)
 
-    def update(self, provider_template_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None) -> DashboardInstanceProviderTemplatesUpdateOutput:
+    def update(self, provider_template_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, providers: Optional[List[Dict[str, Any]]] = None) -> DashboardInstanceProviderTemplatesUpdateOutput:
         """
     Update provider template
     Updates an existing provider template.
@@ -106,7 +99,7 @@ class MetorialProviderTemplatesEndpoint(BaseMetorialEndpoint):
     :param name: Optional[str] (optional)
     :param description: Optional[str] (optional)
     :param metadata: Optional[Dict[str, Any]] (optional)
-    :param tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] (optional)
+    :param providers: Optional[List[Dict[str, Any]]] (optional)
     :return: DashboardInstanceProviderTemplatesUpdateOutput
     """
         # Build body parameters from keyword arguments
@@ -117,8 +110,8 @@ class MetorialProviderTemplatesEndpoint(BaseMetorialEndpoint):
             body_dict["description"] = description
         if metadata is not None:
             body_dict["metadata"] = metadata
-        if tool_filters is not None:
-            body_dict["tool_filters"] = tool_filters
+        if providers is not None:
+            body_dict["providers"] = providers
 
         request = MetorialRequest(
             path=['provider-templates', provider_template_id],

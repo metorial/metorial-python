@@ -10,11 +10,10 @@ class ProviderTemplatesDeleteOutput:
     status: str
     name: str
     metadata: Dict[str, Any]
-    provider_deployment_id: str
-    tool_filters: Dict[str, Any]
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
+    integration_id: Optional[str] = None
 
 
 class mapProviderTemplatesDeleteOutput:
@@ -27,8 +26,7 @@ class mapProviderTemplatesDeleteOutput:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
-        provider_deployment_id=data.get('provider_deployment_id'),
-        tool_filters=data.get('tool_filters'),
+        integration_id=data.get('integration_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

@@ -26,6 +26,14 @@ class DashboardInstanceSessionsEventsGetOutputConnectionParticipant:
     data: DashboardInstanceSessionsEventsGetOutputConnectionParticipantData
     created_at: datetime
     provider_id: Optional[str] = None
+    connection_type: Optional[str] = None
+    agent_id: Optional[str] = None
+    agent_instance_id: Optional[str] = None
+    identity_actor_id: Optional[str] = None
+    identity_id: Optional[str] = None
+    agent_actor_id: Optional[str] = None
+    agent_client_id: Optional[str] = None
+    consumer_id: Optional[str] = None
 @dataclass
 class DashboardInstanceSessionsEventsGetOutputConnection:
     object: str
@@ -75,6 +83,50 @@ class DashboardInstanceSessionsEventsGetOutputMessageTransport:
     type: str
     mcp: Optional[DashboardInstanceSessionsEventsGetOutputMessageTransportMcp] = None
     tool_call: Optional[DashboardInstanceSessionsEventsGetOutputMessageTransportToolCall] = None
+@dataclass
+class DashboardInstanceSessionsEventsGetOutputMessageToolCallSenderParticipantData:
+    identifier: str
+    name: str
+@dataclass
+class DashboardInstanceSessionsEventsGetOutputMessageToolCallSenderParticipant:
+    object: str
+    id: str
+    type: str
+    identifier: str
+    name: str
+    data: DashboardInstanceSessionsEventsGetOutputMessageToolCallSenderParticipantData
+    created_at: datetime
+    provider_id: Optional[str] = None
+    connection_type: Optional[str] = None
+    agent_id: Optional[str] = None
+    agent_instance_id: Optional[str] = None
+    identity_actor_id: Optional[str] = None
+    identity_id: Optional[str] = None
+    agent_actor_id: Optional[str] = None
+    agent_client_id: Optional[str] = None
+    consumer_id: Optional[str] = None
+@dataclass
+class DashboardInstanceSessionsEventsGetOutputMessageToolCallResponderParticipantData:
+    identifier: str
+    name: str
+@dataclass
+class DashboardInstanceSessionsEventsGetOutputMessageToolCallResponderParticipant:
+    object: str
+    id: str
+    type: str
+    identifier: str
+    name: str
+    data: DashboardInstanceSessionsEventsGetOutputMessageToolCallResponderParticipantData
+    created_at: datetime
+    provider_id: Optional[str] = None
+    connection_type: Optional[str] = None
+    agent_id: Optional[str] = None
+    agent_instance_id: Optional[str] = None
+    identity_actor_id: Optional[str] = None
+    identity_id: Optional[str] = None
+    agent_actor_id: Optional[str] = None
+    agent_client_id: Optional[str] = None
+    consumer_id: Optional[str] = None
 @dataclass
 class DashboardInstanceSessionsEventsGetOutputMessageToolCallToolInputSchema:
     type: str
@@ -134,6 +186,8 @@ class DashboardInstanceSessionsEventsGetOutputMessageToolCall:
     session_provider_id: Optional[str] = None
     connection_id: Optional[str] = None
     provider_run_id: Optional[str] = None
+    sender_participant: Optional[DashboardInstanceSessionsEventsGetOutputMessageToolCallSenderParticipant] = None
+    responder_participant: Optional[DashboardInstanceSessionsEventsGetOutputMessageToolCallResponderParticipant] = None
     error: Optional[DashboardInstanceSessionsEventsGetOutputMessageToolCallError] = None
     input: Optional[Dict[str, Any]] = None
     output: Optional[Dict[str, Any]] = None
@@ -151,6 +205,14 @@ class DashboardInstanceSessionsEventsGetOutputMessageSenderParticipant:
     data: DashboardInstanceSessionsEventsGetOutputMessageSenderParticipantData
     created_at: datetime
     provider_id: Optional[str] = None
+    connection_type: Optional[str] = None
+    agent_id: Optional[str] = None
+    agent_instance_id: Optional[str] = None
+    identity_actor_id: Optional[str] = None
+    identity_id: Optional[str] = None
+    agent_actor_id: Optional[str] = None
+    agent_client_id: Optional[str] = None
+    consumer_id: Optional[str] = None
 @dataclass
 class DashboardInstanceSessionsEventsGetOutputMessageResponderParticipantData:
     identifier: str
@@ -165,6 +227,14 @@ class DashboardInstanceSessionsEventsGetOutputMessageResponderParticipant:
     data: DashboardInstanceSessionsEventsGetOutputMessageResponderParticipantData
     created_at: datetime
     provider_id: Optional[str] = None
+    connection_type: Optional[str] = None
+    agent_id: Optional[str] = None
+    agent_instance_id: Optional[str] = None
+    identity_actor_id: Optional[str] = None
+    identity_id: Optional[str] = None
+    agent_actor_id: Optional[str] = None
+    agent_client_id: Optional[str] = None
+    consumer_id: Optional[str] = None
 @dataclass
 class DashboardInstanceSessionsEventsGetOutputMessageError:
     object: str
@@ -297,6 +367,14 @@ class mapDashboardInstanceSessionsEventsGetOutputConnectionParticipant:
         name=data.get('name'),
         data=mapDashboardInstanceSessionsEventsGetOutputConnectionParticipantData.from_dict(data.get('data')) if data.get('data') else None,
         provider_id=data.get('provider_id'),
+        connection_type=data.get('connection_type'),
+        agent_id=data.get('agent_id'),
+        agent_instance_id=data.get('agent_instance_id'),
+        identity_actor_id=data.get('identity_actor_id'),
+        identity_id=data.get('identity_id'),
+        agent_actor_id=data.get('agent_actor_id'),
+        agent_client_id=data.get('agent_client_id'),
+        consumer_id=data.get('consumer_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
@@ -429,6 +507,98 @@ class mapDashboardInstanceSessionsEventsGetOutputMessageTransport:
             return value
         return dataclasses.asdict(value)
 
+class mapDashboardInstanceSessionsEventsGetOutputMessageToolCallSenderParticipantData:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionsEventsGetOutputMessageToolCallSenderParticipantData:
+        return DashboardInstanceSessionsEventsGetOutputMessageToolCallSenderParticipantData(
+        identifier=data.get('identifier'),
+        name=data.get('name')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSessionsEventsGetOutputMessageToolCallSenderParticipantData, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceSessionsEventsGetOutputMessageToolCallSenderParticipant:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionsEventsGetOutputMessageToolCallSenderParticipant:
+        return DashboardInstanceSessionsEventsGetOutputMessageToolCallSenderParticipant(
+        object=data.get('object'),
+        id=data.get('id'),
+        type=data.get('type'),
+        identifier=data.get('identifier'),
+        name=data.get('name'),
+        data=mapDashboardInstanceSessionsEventsGetOutputMessageToolCallSenderParticipantData.from_dict(data.get('data')) if data.get('data') else None,
+        provider_id=data.get('provider_id'),
+        connection_type=data.get('connection_type'),
+        agent_id=data.get('agent_id'),
+        agent_instance_id=data.get('agent_instance_id'),
+        identity_actor_id=data.get('identity_actor_id'),
+        identity_id=data.get('identity_id'),
+        agent_actor_id=data.get('agent_actor_id'),
+        agent_client_id=data.get('agent_client_id'),
+        consumer_id=data.get('consumer_id'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSessionsEventsGetOutputMessageToolCallSenderParticipant, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceSessionsEventsGetOutputMessageToolCallResponderParticipantData:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionsEventsGetOutputMessageToolCallResponderParticipantData:
+        return DashboardInstanceSessionsEventsGetOutputMessageToolCallResponderParticipantData(
+        identifier=data.get('identifier'),
+        name=data.get('name')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSessionsEventsGetOutputMessageToolCallResponderParticipantData, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceSessionsEventsGetOutputMessageToolCallResponderParticipant:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionsEventsGetOutputMessageToolCallResponderParticipant:
+        return DashboardInstanceSessionsEventsGetOutputMessageToolCallResponderParticipant(
+        object=data.get('object'),
+        id=data.get('id'),
+        type=data.get('type'),
+        identifier=data.get('identifier'),
+        name=data.get('name'),
+        data=mapDashboardInstanceSessionsEventsGetOutputMessageToolCallResponderParticipantData.from_dict(data.get('data')) if data.get('data') else None,
+        provider_id=data.get('provider_id'),
+        connection_type=data.get('connection_type'),
+        agent_id=data.get('agent_id'),
+        agent_instance_id=data.get('agent_instance_id'),
+        identity_actor_id=data.get('identity_actor_id'),
+        identity_id=data.get('identity_id'),
+        agent_actor_id=data.get('agent_actor_id'),
+        agent_client_id=data.get('agent_client_id'),
+        consumer_id=data.get('consumer_id'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSessionsEventsGetOutputMessageToolCallResponderParticipant, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapDashboardInstanceSessionsEventsGetOutputMessageToolCallToolInputSchema:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionsEventsGetOutputMessageToolCallToolInputSchema:
@@ -548,6 +718,8 @@ class mapDashboardInstanceSessionsEventsGetOutputMessageToolCall:
         session_provider_id=data.get('session_provider_id'),
         connection_id=data.get('connection_id'),
         provider_run_id=data.get('provider_run_id'),
+        sender_participant=mapDashboardInstanceSessionsEventsGetOutputMessageToolCallSenderParticipant.from_dict(data.get('sender_participant')) if data.get('sender_participant') else None,
+        responder_participant=mapDashboardInstanceSessionsEventsGetOutputMessageToolCallResponderParticipant.from_dict(data.get('responder_participant')) if data.get('responder_participant') else None,
         tool=mapDashboardInstanceSessionsEventsGetOutputMessageToolCallTool.from_dict(data.get('tool')) if data.get('tool') else None,
         error=mapDashboardInstanceSessionsEventsGetOutputMessageToolCallError.from_dict(data.get('error')) if data.get('error') else None,
         input=data.get('input'),
@@ -590,6 +762,14 @@ class mapDashboardInstanceSessionsEventsGetOutputMessageSenderParticipant:
         name=data.get('name'),
         data=mapDashboardInstanceSessionsEventsGetOutputMessageSenderParticipantData.from_dict(data.get('data')) if data.get('data') else None,
         provider_id=data.get('provider_id'),
+        connection_type=data.get('connection_type'),
+        agent_id=data.get('agent_id'),
+        agent_instance_id=data.get('agent_instance_id'),
+        identity_actor_id=data.get('identity_actor_id'),
+        identity_id=data.get('identity_id'),
+        agent_actor_id=data.get('agent_actor_id'),
+        agent_client_id=data.get('agent_client_id'),
+        consumer_id=data.get('consumer_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
@@ -628,6 +808,14 @@ class mapDashboardInstanceSessionsEventsGetOutputMessageResponderParticipant:
         name=data.get('name'),
         data=mapDashboardInstanceSessionsEventsGetOutputMessageResponderParticipantData.from_dict(data.get('data')) if data.get('data') else None,
         provider_id=data.get('provider_id'),
+        connection_type=data.get('connection_type'),
+        agent_id=data.get('agent_id'),
+        agent_instance_id=data.get('agent_instance_id'),
+        identity_actor_id=data.get('identity_actor_id'),
+        identity_id=data.get('identity_id'),
+        agent_actor_id=data.get('agent_actor_id'),
+        agent_client_id=data.get('agent_client_id'),
+        consumer_id=data.get('consumer_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 

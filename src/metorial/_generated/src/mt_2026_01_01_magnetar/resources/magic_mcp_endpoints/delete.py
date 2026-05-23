@@ -14,9 +14,6 @@ class MagicMcpEndpointsDeleteOutput:
     metadata: Dict[str, Any]
     created_at: datetime
     updated_at: datetime
-    consumer_profile_id: Optional[str] = None
-    session_template_id: Optional[str] = None
-    session_id: Optional[str] = None
     name: Optional[str] = None
     description: Optional[str] = None
 
@@ -30,9 +27,6 @@ class mapMagicMcpEndpointsDeleteOutput:
         status=data.get('status'),
         slug=data.get('slug'),
         url=data.get('url'),
-        consumer_profile_id=data.get('consumer_profile_id'),
-        session_template_id=data.get('session_template_id'),
-        session_id=data.get('session_id'),
         servers=data.get('servers', []),
         name=data.get('name'),
         description=data.get('description'),

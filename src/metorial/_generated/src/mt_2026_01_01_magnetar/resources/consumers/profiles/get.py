@@ -33,46 +33,6 @@ class ConsumersProfilesGetOutput:
     groups: Optional[List[ConsumersProfilesGetOutputGroups]] = None
 
 
-class mapConsumersProfilesGetOutputGroupsGroup:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ConsumersProfilesGetOutputGroupsGroup:
-        return ConsumersProfilesGetOutputGroupsGroup(
-        object=data.get('object'),
-        id=data.get('id'),
-        status=data.get('status'),
-        name=data.get('name'),
-        description=data.get('description'),
-        is_default=data.get('is_default'),
-        sso_group_ids=data.get('sso_group_ids', []),
-        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[ConsumersProfilesGetOutputGroupsGroup, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapConsumersProfilesGetOutputGroups:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ConsumersProfilesGetOutputGroups:
-        return ConsumersProfilesGetOutputGroups(
-        object=data.get('object'),
-        group=mapConsumersProfilesGetOutputGroupsGroup.from_dict(data.get('group')) if data.get('group') else None,
-        assigned_via=data.get('assigned_via')
-        )
-
-    @staticmethod
-    def to_dict(value: Union[ConsumersProfilesGetOutputGroups, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
 class mapConsumersProfilesGetOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ConsumersProfilesGetOutput:
@@ -82,11 +42,11 @@ class mapConsumersProfilesGetOutput:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
-        groups=[mapConsumersProfilesGetOutputGroups.from_dict(item) for item in data.get('groups', []) if item],
         consumer_id=data.get('consumer_id'),
         status=data.get('status'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
+        groups=[mapConsumersProfilesGetOutputGroups.from_dict(item) for item in data.get('groups', []) if item]
         )
 
     @staticmethod

@@ -4,6 +4,14 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class ManagementInstancePortalsListOutputItemsSkillConfiguration:
+    object: str
+    id: str
+    is_default: bool
+    allow_scripts: bool
+    allowed_file_extensions: List[str]
+    allow_non_standard_directories: bool
+@dataclass
 class ManagementInstancePortalsListOutputItemsAuthAllowedRedirectUrlFilters:
     url: str
 @dataclass
@@ -22,6 +30,9 @@ class ManagementInstancePortalsListOutputItems:
     status: str
     name: str
     slug: str
+    allow_consumer_skill_authoring: bool
+    allow_consumer_skill_publishing: bool
+    skill_configuration: ManagementInstancePortalsListOutputItemsSkillConfiguration
     auth: ManagementInstancePortalsListOutputItemsAuth
     urls: List[ManagementInstancePortalsListOutputItemsUrls]
     created_at: datetime
@@ -36,6 +47,26 @@ class ManagementInstancePortalsListOutput:
     items: List[ManagementInstancePortalsListOutputItems]
     pagination: ManagementInstancePortalsListOutputPagination
 
+
+class mapManagementInstancePortalsListOutputItemsSkillConfiguration:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstancePortalsListOutputItemsSkillConfiguration:
+        return ManagementInstancePortalsListOutputItemsSkillConfiguration(
+        object=data.get('object'),
+        id=data.get('id'),
+        is_default=data.get('is_default'),
+        allow_scripts=data.get('allow_scripts'),
+        allowed_file_extensions=data.get('allowed_file_extensions', []),
+        allow_non_standard_directories=data.get('allow_non_standard_directories')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstancePortalsListOutputItemsSkillConfiguration, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapManagementInstancePortalsListOutputItemsAuthAllowedRedirectUrlFilters:
     @staticmethod
@@ -95,6 +126,9 @@ class mapManagementInstancePortalsListOutputItems:
         name=data.get('name'),
         slug=data.get('slug'),
         description=data.get('description'),
+        allow_consumer_skill_authoring=data.get('allow_consumer_skill_authoring'),
+        allow_consumer_skill_publishing=data.get('allow_consumer_skill_publishing'),
+        skill_configuration=mapManagementInstancePortalsListOutputItemsSkillConfiguration.from_dict(data.get('skill_configuration')) if data.get('skill_configuration') else None,
         auth=mapManagementInstancePortalsListOutputItemsAuth.from_dict(data.get('auth')) if data.get('auth') else None,
         urls=[mapManagementInstancePortalsListOutputItemsUrls.from_dict(item) for item in data.get('urls', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,

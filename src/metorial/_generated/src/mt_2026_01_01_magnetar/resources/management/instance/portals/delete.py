@@ -4,6 +4,14 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class ManagementInstancePortalsDeleteOutputSkillConfiguration:
+    object: str
+    id: str
+    is_default: bool
+    allow_scripts: bool
+    allowed_file_extensions: List[str]
+    allow_non_standard_directories: bool
+@dataclass
 class ManagementInstancePortalsDeleteOutputAuthAllowedRedirectUrlFilters:
     url: str
 @dataclass
@@ -22,12 +30,35 @@ class ManagementInstancePortalsDeleteOutput:
     status: str
     name: str
     slug: str
+    allow_consumer_skill_authoring: bool
+    allow_consumer_skill_publishing: bool
+    skill_configuration: ManagementInstancePortalsDeleteOutputSkillConfiguration
     auth: ManagementInstancePortalsDeleteOutputAuth
     urls: List[ManagementInstancePortalsDeleteOutputUrls]
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
 
+
+class mapManagementInstancePortalsDeleteOutputSkillConfiguration:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstancePortalsDeleteOutputSkillConfiguration:
+        return ManagementInstancePortalsDeleteOutputSkillConfiguration(
+        object=data.get('object'),
+        id=data.get('id'),
+        is_default=data.get('is_default'),
+        allow_scripts=data.get('allow_scripts'),
+        allowed_file_extensions=data.get('allowed_file_extensions', []),
+        allow_non_standard_directories=data.get('allow_non_standard_directories')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstancePortalsDeleteOutputSkillConfiguration, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapManagementInstancePortalsDeleteOutputAuthAllowedRedirectUrlFilters:
     @staticmethod
@@ -87,6 +118,9 @@ class mapManagementInstancePortalsDeleteOutput:
         name=data.get('name'),
         slug=data.get('slug'),
         description=data.get('description'),
+        allow_consumer_skill_authoring=data.get('allow_consumer_skill_authoring'),
+        allow_consumer_skill_publishing=data.get('allow_consumer_skill_publishing'),
+        skill_configuration=mapManagementInstancePortalsDeleteOutputSkillConfiguration.from_dict(data.get('skill_configuration')) if data.get('skill_configuration') else None,
         auth=mapManagementInstancePortalsDeleteOutputAuth.from_dict(data.get('auth')) if data.get('auth') else None,
         urls=[mapManagementInstancePortalsDeleteOutputUrls.from_dict(item) for item in data.get('urls', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,

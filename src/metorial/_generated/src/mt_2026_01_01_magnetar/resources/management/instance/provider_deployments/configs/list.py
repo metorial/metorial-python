@@ -214,6 +214,8 @@ class ManagementInstanceProviderDeploymentsConfigsListQuery:
     provider_id: Optional[Union[str, List[str]]] = None
     provider_specification_id: Optional[Union[str, List[str]]] = None
     provider_deployment_id: Optional[Union[str, List[str]]] = None
+    available_for_use: Optional[bool] = None
+    available_for_provider_deployment_id: Optional[str] = None
     provider_config_vault_id: Optional[Union[str, List[str]]] = None
     actor_id: Optional[Union[str, List[str]]] = None
     consumer_id: Optional[Union[str, List[str]]] = None
@@ -238,6 +240,8 @@ class mapManagementInstanceProviderDeploymentsConfigsListQuery:
         provider_id=data.get('provider_id'),
         provider_specification_id=data.get('provider_specification_id'),
         provider_deployment_id=data.get('provider_deployment_id'),
+        available_for_use=data.get('available_for_use'),
+        available_for_provider_deployment_id=data.get('available_for_provider_deployment_id'),
         provider_config_vault_id=data.get('provider_config_vault_id'),
         actor_id=data.get('actor_id'),
         consumer_id=data.get('consumer_id'),

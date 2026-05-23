@@ -8,7 +8,7 @@ class MetorialProviderDeploymentsAuthConfigsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, provider_auth_credentials_id: Optional[Union[str, List[str]]] = None, provider_auth_method_id: Optional[Union[str, List[str]]] = None, actor_id: Optional[Union[str, List[str]]] = None, consumer_id: Optional[Union[str, List[str]]] = None, identity_id: Optional[Union[str, List[str]]] = None, identity_credential_id: Optional[Union[str, List[str]]] = None, search: Optional[str] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderDeploymentsAuthConfigsListOutput:
+    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, available_for_use: Optional[bool] = None, available_for_provider_deployment_id: Optional[str] = None, provider_auth_credentials_id: Optional[Union[str, List[str]]] = None, provider_auth_method_id: Optional[Union[str, List[str]]] = None, actor_id: Optional[Union[str, List[str]]] = None, consumer_id: Optional[Union[str, List[str]]] = None, identity_id: Optional[Union[str, List[str]]] = None, identity_credential_id: Optional[Union[str, List[str]]] = None, search: Optional[str] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderDeploymentsAuthConfigsListOutput:
         """
     List provider auth configs
     Returns a paginated list of provider auth configs.
@@ -22,6 +22,8 @@ class MetorialProviderDeploymentsAuthConfigsEndpoint(BaseMetorialEndpoint):
     :param id: Optional[Union[str, List[str]]] (optional)
     :param provider_id: Optional[Union[str, List[str]]] (optional)
     :param provider_deployment_id: Optional[Union[str, List[str]]] (optional)
+    :param available_for_use: Optional[bool] (optional)
+    :param available_for_provider_deployment_id: Optional[str] (optional)
     :param provider_auth_credentials_id: Optional[Union[str, List[str]]] (optional)
     :param provider_auth_method_id: Optional[Union[str, List[str]]] (optional)
     :param actor_id: Optional[Union[str, List[str]]] (optional)
@@ -53,6 +55,10 @@ class MetorialProviderDeploymentsAuthConfigsEndpoint(BaseMetorialEndpoint):
             query_dict["provider_id"] = provider_id
         if provider_deployment_id is not None:
             query_dict["provider_deployment_id"] = provider_deployment_id
+        if available_for_use is not None:
+            query_dict["available_for_use"] = available_for_use
+        if available_for_provider_deployment_id is not None:
+            query_dict["available_for_provider_deployment_id"] = available_for_provider_deployment_id
         if provider_auth_credentials_id is not None:
             query_dict["provider_auth_credentials_id"] = provider_auth_credentials_id
         if provider_auth_method_id is not None:
