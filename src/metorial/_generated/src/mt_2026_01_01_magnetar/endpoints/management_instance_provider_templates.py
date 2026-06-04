@@ -66,7 +66,7 @@ class MetorialManagementInstanceProviderTemplatesEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapDashboardInstanceProviderTemplatesGetOutput.from_dict)
 
-    def create(self, instance_id: str, *, name: str, providers: List[Dict[str, Any]], description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderTemplatesCreateOutput:
+    def create(self, instance_id: str, *, name: str, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, providers: Optional[List[Dict[str, Any]]] = None, integration_id: Optional[str] = None) -> DashboardInstanceProviderTemplatesCreateOutput:
         """
     Create provider template
     Creates a new provider template from an existing provider deployment or creates a minimal backing deployment first.
@@ -75,7 +75,8 @@ class MetorialManagementInstanceProviderTemplatesEndpoint(BaseMetorialEndpoint):
     :param name: str
     :param description: Optional[str] (optional)
     :param metadata: Optional[Dict[str, Any]] (optional)
-    :param providers: List[Dict[str, Any]]
+    :param providers: Optional[List[Dict[str, Any]]] (optional)
+    :param integration_id: Optional[str] (optional)
     :return: DashboardInstanceProviderTemplatesCreateOutput
     """
         # Build body parameters from keyword arguments
@@ -85,7 +86,10 @@ class MetorialManagementInstanceProviderTemplatesEndpoint(BaseMetorialEndpoint):
             body_dict["description"] = description
         if metadata is not None:
             body_dict["metadata"] = metadata
-        body_dict["providers"] = providers
+        if providers is not None:
+            body_dict["providers"] = providers
+        if integration_id is not None:
+            body_dict["integration_id"] = integration_id
 
         request = MetorialRequest(
             path=['instances', instance_id, 'provider-templates'],

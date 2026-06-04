@@ -54,9 +54,10 @@ class ProviderTemplatesCreateBodyProviders:
 @dataclass
 class ProviderTemplatesCreateBody:
     name: str
-    providers: List[ProviderTemplatesCreateBodyProviders]
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
+    providers: Optional[List[ProviderTemplatesCreateBodyProviders]] = None
+    integration_id: Optional[str] = None
 
 
 class mapProviderTemplatesCreateBodyProviders:
@@ -89,7 +90,8 @@ class mapProviderTemplatesCreateBody:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
-        providers=[mapProviderTemplatesCreateBodyProviders.from_dict(item) for item in data.get('providers', []) if item]
+        providers=[mapProviderTemplatesCreateBodyProviders.from_dict(item) for item in data.get('providers', []) if item],
+        integration_id=data.get('integration_id')
         )
 
     @staticmethod

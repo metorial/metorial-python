@@ -8,7 +8,10 @@ from .conversations import *
 from .custom_providers import *
 from .dashboard import *
 from .documents import *
+from .enclaves import *
 from .files import *
+from .firewall_bindings import *
+from .firewalls import *
 from .identities import *
 from .identity_actors import *
 from .instance import *
@@ -20,7 +23,10 @@ from .magic_mcp_servers import *
 from .magic_mcp_sessions import *
 from .magic_mcp_tokens import *
 from .management import *
+from .network_policies import *
+from .networks import *
 from .portals import *
+from .provider import *
 from .provider_categories import *
 from .provider_collections import *
 from .provider_deployments import *

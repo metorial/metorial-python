@@ -1,0 +1,177 @@
+from dataclasses import dataclass
+from typing import Any, Dict, List, Optional, Union
+from datetime import datetime
+import dataclasses
+
+@dataclass
+class ManagementInstanceNetworkPoliciesUpdateOutputRulesPorts:
+    object: str
+    from_: float
+    to: float
+@dataclass
+class ManagementInstanceNetworkPoliciesUpdateOutputRules:
+    object: str
+    id: str
+    effect: str
+    direction: str
+    cidrs: List[str]
+    enabled: bool
+    priority: float
+    description: Optional[str] = None
+    ports: Optional[List[ManagementInstanceNetworkPoliciesUpdateOutputRulesPorts]] = None
+@dataclass
+class ManagementInstanceNetworkPoliciesUpdateOutput:
+    object: str
+    id: str
+    name: str
+    status: str
+    version: float
+    rules: List[ManagementInstanceNetworkPoliciesUpdateOutputRules]
+    created_at: datetime
+    updated_at: datetime
+    description: Optional[str] = None
+    firewall_ids: Optional[List[str]] = None
+    archived_at: Optional[datetime] = None
+
+
+class mapManagementInstanceNetworkPoliciesUpdateOutputRulesPorts:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceNetworkPoliciesUpdateOutputRulesPorts:
+        return ManagementInstanceNetworkPoliciesUpdateOutputRulesPorts(
+        object=data.get('object'),
+        from_=data.get('from'),
+        to=data.get('to')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceNetworkPoliciesUpdateOutputRulesPorts, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceNetworkPoliciesUpdateOutputRules:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceNetworkPoliciesUpdateOutputRules:
+        return ManagementInstanceNetworkPoliciesUpdateOutputRules(
+        object=data.get('object'),
+        id=data.get('id'),
+        effect=data.get('effect'),
+        direction=data.get('direction'),
+        cidrs=data.get('cidrs', []),
+        description=data.get('description'),
+        enabled=data.get('enabled'),
+        priority=data.get('priority'),
+        ports=[mapManagementInstanceNetworkPoliciesUpdateOutputRulesPorts.from_dict(item) for item in data.get('ports', []) if item]
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceNetworkPoliciesUpdateOutputRules, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceNetworkPoliciesUpdateOutput:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceNetworkPoliciesUpdateOutput:
+        return ManagementInstanceNetworkPoliciesUpdateOutput(
+        object=data.get('object'),
+        id=data.get('id'),
+        name=data.get('name'),
+        description=data.get('description'),
+        status=data.get('status'),
+        version=data.get('version'),
+        rules=[mapManagementInstanceNetworkPoliciesUpdateOutputRules.from_dict(item) for item in data.get('rules', []) if item],
+        firewall_ids=data.get('firewall_ids', []),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
+        archived_at=datetime.fromisoformat(data.get('archived_at').replace('Z', '+00:00')) if data.get('archived_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceNetworkPoliciesUpdateOutput, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        # assume dataclass for generated models
+        return dataclasses.asdict(value)
+
+@dataclass
+class ManagementInstanceNetworkPoliciesUpdateBodyRulesPorts:
+    from_: float
+    to: float
+@dataclass
+class ManagementInstanceNetworkPoliciesUpdateBodyRules:
+    effect: str
+    direction: str
+    cidrs: List[str]
+    enabled: bool
+    priority: float
+    description: Optional[str] = None
+    ports: Optional[List[ManagementInstanceNetworkPoliciesUpdateBodyRulesPorts]] = None
+@dataclass
+class ManagementInstanceNetworkPoliciesUpdateBody:
+    name: Optional[str] = None
+    description: Optional[str] = None
+    rules: Optional[List[ManagementInstanceNetworkPoliciesUpdateBodyRules]] = None
+
+
+class mapManagementInstanceNetworkPoliciesUpdateBodyRulesPorts:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceNetworkPoliciesUpdateBodyRulesPorts:
+        return ManagementInstanceNetworkPoliciesUpdateBodyRulesPorts(
+        from_=data.get('from'),
+        to=data.get('to')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceNetworkPoliciesUpdateBodyRulesPorts, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceNetworkPoliciesUpdateBodyRules:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceNetworkPoliciesUpdateBodyRules:
+        return ManagementInstanceNetworkPoliciesUpdateBodyRules(
+        effect=data.get('effect'),
+        direction=data.get('direction'),
+        cidrs=data.get('cidrs', []),
+        description=data.get('description'),
+        enabled=data.get('enabled'),
+        priority=data.get('priority'),
+        ports=[mapManagementInstanceNetworkPoliciesUpdateBodyRulesPorts.from_dict(item) for item in data.get('ports', []) if item]
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceNetworkPoliciesUpdateBodyRules, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceNetworkPoliciesUpdateBody:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceNetworkPoliciesUpdateBody:
+        return ManagementInstanceNetworkPoliciesUpdateBody(
+        name=data.get('name'),
+        description=data.get('description'),
+        rules=[mapManagementInstanceNetworkPoliciesUpdateBodyRules.from_dict(item) for item in data.get('rules', []) if item]
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceNetworkPoliciesUpdateBody, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        # assume dataclass for generated models
+        return dataclasses.asdict(value)
+

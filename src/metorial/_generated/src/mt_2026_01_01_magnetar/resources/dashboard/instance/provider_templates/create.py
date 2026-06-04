@@ -54,9 +54,10 @@ class DashboardInstanceProviderTemplatesCreateBodyProviders:
 @dataclass
 class DashboardInstanceProviderTemplatesCreateBody:
     name: str
-    providers: List[DashboardInstanceProviderTemplatesCreateBodyProviders]
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
+    providers: Optional[List[DashboardInstanceProviderTemplatesCreateBodyProviders]] = None
+    integration_id: Optional[str] = None
 
 
 class mapDashboardInstanceProviderTemplatesCreateBodyProviders:
@@ -89,7 +90,8 @@ class mapDashboardInstanceProviderTemplatesCreateBody:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
-        providers=[mapDashboardInstanceProviderTemplatesCreateBodyProviders.from_dict(item) for item in data.get('providers', []) if item]
+        providers=[mapDashboardInstanceProviderTemplatesCreateBodyProviders.from_dict(item) for item in data.get('providers', []) if item],
+        integration_id=data.get('integration_id')
         )
 
     @staticmethod
