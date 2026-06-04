@@ -98,10 +98,10 @@ from .dashboard_instance_provider_groups import *
 from .dashboard_instance_provider_listings import *
 from .dashboard_instance_provider_runs import *
 from .dashboard_instance_provider_templates import *
-from .dashboard_instance_providers_tools import *
 from .dashboard_instance_providers import *
 from .dashboard_instance_providers_auth_methods import *
 from .dashboard_instance_providers_specifications import *
+from .dashboard_instance_providers_tools import *
 from .dashboard_instance_providers_triggers import *
 from .dashboard_instance_providers_versions import *
 from .dashboard_instance_publishers import *
@@ -243,10 +243,10 @@ from .management_instance_provider_groups import *
 from .management_instance_provider_listings import *
 from .management_instance_provider_runs import *
 from .management_instance_provider_templates import *
-from .management_instance_providers_tools import *
 from .management_instance_providers import *
 from .management_instance_providers_auth_methods import *
 from .management_instance_providers_specifications import *
+from .management_instance_providers_tools import *
 from .management_instance_providers_triggers import *
 from .management_instance_providers_versions import *
 from .management_instance_publishers import *
@@ -309,10 +309,10 @@ from .provider_groups import *
 from .provider_listings import *
 from .provider_runs import *
 from .provider_templates import *
-from .providers_tools import *
 from .providers import *
 from .providers_auth_methods import *
 from .providers_specifications import *
+from .providers_tools import *
 from .providers_triggers import *
 from .providers_versions import *
 from .publishers import *

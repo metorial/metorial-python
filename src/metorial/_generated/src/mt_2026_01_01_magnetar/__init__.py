@@ -499,9 +499,6 @@ from .endpoints import *
 # DashboardInstanceProviderTemplatesListQuery
 # DashboardInstanceProviderTemplatesUpdateBody
 # DashboardInstanceProviderTemplatesUpdateOutput
-# DashboardInstanceProvidersToolsGetOutput
-# DashboardInstanceProvidersToolsListOutput
-# DashboardInstanceProvidersToolsListQuery
 # DashboardInstanceProvidersAuthMethodsGetOutput
 # DashboardInstanceProvidersAuthMethodsListOutput
 # DashboardInstanceProvidersAuthMethodsListQuery
@@ -511,6 +508,9 @@ from .endpoints import *
 # DashboardInstanceProvidersSpecificationsGetOutput
 # DashboardInstanceProvidersSpecificationsListOutput
 # DashboardInstanceProvidersSpecificationsListQuery
+# DashboardInstanceProvidersToolsGetOutput
+# DashboardInstanceProvidersToolsListOutput
+# DashboardInstanceProvidersToolsListQuery
 # DashboardInstanceProvidersTriggersGetOutput
 # DashboardInstanceProvidersTriggersListOutput
 # DashboardInstanceProvidersTriggersListQuery
@@ -1213,9 +1213,6 @@ from .endpoints import *
 # mapDashboardInstanceProviderTemplatesListQuery
 # mapDashboardInstanceProviderTemplatesUpdateBody
 # mapDashboardInstanceProviderTemplatesUpdateOutput
-# mapDashboardInstanceProvidersToolsGetOutput
-# mapDashboardInstanceProvidersToolsListOutput
-# mapDashboardInstanceProvidersToolsListQuery
 # mapDashboardInstanceProvidersAuthMethodsGetOutput
 # mapDashboardInstanceProvidersAuthMethodsListOutput
 # mapDashboardInstanceProvidersAuthMethodsListQuery
@@ -1225,6 +1222,9 @@ from .endpoints import *
 # mapDashboardInstanceProvidersSpecificationsGetOutput
 # mapDashboardInstanceProvidersSpecificationsListOutput
 # mapDashboardInstanceProvidersSpecificationsListQuery
+# mapDashboardInstanceProvidersToolsGetOutput
+# mapDashboardInstanceProvidersToolsListOutput
+# mapDashboardInstanceProvidersToolsListQuery
 # mapDashboardInstanceProvidersTriggersGetOutput
 # mapDashboardInstanceProvidersTriggersListOutput
 # mapDashboardInstanceProvidersTriggersListQuery
