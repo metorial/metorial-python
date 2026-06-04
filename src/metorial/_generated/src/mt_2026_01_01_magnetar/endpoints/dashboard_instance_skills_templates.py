@@ -59,7 +59,7 @@ class MetorialDashboardInstanceSkillsTemplatesEndpoint(BaseMetorialEndpoint):
             query_dict["updated_at"] = updated_at
 
         request = MetorialRequest(
-            path=['dashboard', 'instances', instance_id, 'skill-template'],
+            path=['dashboard', 'instances', instance_id, 'skill-templates'],
             query=query_dict
         )
         return self._get(request).transform(mapDashboardInstanceSkillsTemplatesListOutput.from_dict)
@@ -74,7 +74,7 @@ class MetorialDashboardInstanceSkillsTemplatesEndpoint(BaseMetorialEndpoint):
     :return: DashboardInstanceSkillsTemplatesGetOutput
     """
         request = MetorialRequest(
-            path=['dashboard', 'instances', instance_id, 'skill-template', skill_template_id]
+            path=['dashboard', 'instances', instance_id, 'skill-templates', skill_template_id]
         )
         return self._get(request).transform(mapDashboardInstanceSkillsTemplatesGetOutput.from_dict)
 
@@ -101,7 +101,7 @@ class MetorialDashboardInstanceSkillsTemplatesEndpoint(BaseMetorialEndpoint):
             body_dict["from_skill_Id"] = from_skill_id
 
         request = MetorialRequest(
-            path=['dashboard', 'instances', instance_id, 'skill-template'],
+            path=['dashboard', 'instances', instance_id, 'skill-templates'],
             body=body_dict
         )
         return self._post(request).transform(mapDashboardInstanceSkillsTemplatesCreateOutput.from_dict)
@@ -128,7 +128,7 @@ class MetorialDashboardInstanceSkillsTemplatesEndpoint(BaseMetorialEndpoint):
             body_dict["metadata"] = metadata
 
         request = MetorialRequest(
-            path=['dashboard', 'instances', instance_id, 'skill-template', skill_template_id],
+            path=['dashboard', 'instances', instance_id, 'skill-templates', skill_template_id],
             body=body_dict
         )
         return self._patch(request).transform(mapDashboardInstanceSkillsTemplatesUpdateOutput.from_dict)
@@ -143,6 +143,6 @@ class MetorialDashboardInstanceSkillsTemplatesEndpoint(BaseMetorialEndpoint):
     :return: DashboardInstanceSkillsTemplatesDeleteOutput
     """
         request = MetorialRequest(
-            path=['dashboard', 'instances', instance_id, 'skill-template', skill_template_id]
+            path=['dashboard', 'instances', instance_id, 'skill-templates', skill_template_id]
         )
         return self._delete(request).transform(mapDashboardInstanceSkillsTemplatesDeleteOutput.from_dict)

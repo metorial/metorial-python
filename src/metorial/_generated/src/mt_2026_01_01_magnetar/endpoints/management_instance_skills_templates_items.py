@@ -36,7 +36,7 @@ class MetorialManagementInstanceSkillsTemplatesItemsEndpoint(BaseMetorialEndpoin
             query_dict["order"] = order
 
         request = MetorialRequest(
-            path=['instances', instance_id, 'skill-template', skill_template_id, 'items'],
+            path=['instances', instance_id, 'skill-templates', skill_template_id, 'items'],
             query=query_dict
         )
         return self._get(request).transform(mapDashboardInstanceSkillsTemplatesItemsListOutput.from_dict)
@@ -52,7 +52,7 @@ class MetorialManagementInstanceSkillsTemplatesItemsEndpoint(BaseMetorialEndpoin
     :return: DashboardInstanceSkillsTemplatesItemsGetOutput
     """
         request = MetorialRequest(
-            path=['instances', instance_id, 'skill-template', skill_template_id, 'items', skill_template_item_id]
+            path=['instances', instance_id, 'skill-templates', skill_template_id, 'items', skill_template_item_id]
         )
         return self._get(request).transform(mapDashboardInstanceSkillsTemplatesItemsGetOutput.from_dict)
 
@@ -66,7 +66,7 @@ class MetorialManagementInstanceSkillsTemplatesItemsEndpoint(BaseMetorialEndpoin
     :return: DashboardInstanceSkillsTemplatesItemsCreateOutput
     """
         request = MetorialRequest(
-            path=['instances', instance_id, 'skill-template', skill_template_id, 'items']
+            path=['instances', instance_id, 'skill-templates', skill_template_id, 'items']
         )
         return self._post(request).transform(mapDashboardInstanceSkillsTemplatesItemsCreateOutput.from_dict)
 
@@ -81,6 +81,6 @@ class MetorialManagementInstanceSkillsTemplatesItemsEndpoint(BaseMetorialEndpoin
     :return: DashboardInstanceSkillsTemplatesItemsDeleteOutput
     """
         request = MetorialRequest(
-            path=['instances', instance_id, 'skill-template', skill_template_id, 'items', skill_template_item_id]
+            path=['instances', instance_id, 'skill-templates', skill_template_id, 'items', skill_template_item_id]
         )
         return self._delete(request).transform(mapDashboardInstanceSkillsTemplatesItemsDeleteOutput.from_dict)
