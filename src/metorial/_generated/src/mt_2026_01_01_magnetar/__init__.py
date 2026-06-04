@@ -499,9 +499,9 @@ from .endpoints import *
 # DashboardInstanceProviderTemplatesListQuery
 # DashboardInstanceProviderTemplatesUpdateBody
 # DashboardInstanceProviderTemplatesUpdateOutput
-# DashboardInstanceProviderToolsGetOutput
-# DashboardInstanceProviderToolsListOutput
-# DashboardInstanceProviderToolsListQuery
+# DashboardInstanceProvidersToolsGetOutput
+# DashboardInstanceProvidersToolsListOutput
+# DashboardInstanceProvidersToolsListQuery
 # DashboardInstanceProvidersAuthMethodsGetOutput
 # DashboardInstanceProvidersAuthMethodsListOutput
 # DashboardInstanceProvidersAuthMethodsListQuery
@@ -1213,9 +1213,9 @@ from .endpoints import *
 # mapDashboardInstanceProviderTemplatesListQuery
 # mapDashboardInstanceProviderTemplatesUpdateBody
 # mapDashboardInstanceProviderTemplatesUpdateOutput
-# mapDashboardInstanceProviderToolsGetOutput
-# mapDashboardInstanceProviderToolsListOutput
-# mapDashboardInstanceProviderToolsListQuery
+# mapDashboardInstanceProvidersToolsGetOutput
+# mapDashboardInstanceProvidersToolsListOutput
+# mapDashboardInstanceProvidersToolsListQuery
 # mapDashboardInstanceProvidersAuthMethodsGetOutput
 # mapDashboardInstanceProvidersAuthMethodsListOutput
 # mapDashboardInstanceProvidersAuthMethodsListQuery

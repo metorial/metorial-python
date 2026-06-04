@@ -98,7 +98,7 @@ from .dashboard_instance_provider_groups import *
 from .dashboard_instance_provider_listings import *
 from .dashboard_instance_provider_runs import *
 from .dashboard_instance_provider_templates import *
-from .dashboard_instance_provider_tools import *
+from .dashboard_instance_providers_tools import *
 from .dashboard_instance_providers import *
 from .dashboard_instance_providers_auth_methods import *
 from .dashboard_instance_providers_specifications import *
@@ -243,7 +243,7 @@ from .management_instance_provider_groups import *
 from .management_instance_provider_listings import *
 from .management_instance_provider_runs import *
 from .management_instance_provider_templates import *
-from .management_instance_provider_tools import *
+from .management_instance_providers_tools import *
 from .management_instance_providers import *
 from .management_instance_providers_auth_methods import *
 from .management_instance_providers_specifications import *
@@ -309,7 +309,7 @@ from .provider_groups import *
 from .provider_listings import *
 from .provider_runs import *
 from .provider_templates import *
-from .provider_tools import *
+from .providers_tools import *
 from .providers import *
 from .providers_auth_methods import *
 from .providers_specifications import *

@@ -4,19 +4,19 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
-class DashboardInstanceProviderToolsGetOutputInputSchema:
+class ManagementInstanceProvidersToolsGetOutputInputSchema:
     type: str
     schema: Dict[str, Any]
 @dataclass
-class DashboardInstanceProviderToolsGetOutputOutputSchema:
+class ManagementInstanceProvidersToolsGetOutputOutputSchema:
     type: str
     schema: Dict[str, Any]
 @dataclass
-class DashboardInstanceProviderToolsGetOutputTags:
+class ManagementInstanceProvidersToolsGetOutputTags:
     destructive: Optional[bool] = None
     read_only: Optional[bool] = None
 @dataclass
-class DashboardInstanceProviderToolsGetOutput:
+class ManagementInstanceProvidersToolsGetOutput:
     object: str
     id: str
     key: str
@@ -29,63 +29,63 @@ class DashboardInstanceProviderToolsGetOutput:
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
-    input_schema: Optional[DashboardInstanceProviderToolsGetOutputInputSchema] = None
-    output_schema: Optional[DashboardInstanceProviderToolsGetOutputOutputSchema] = None
-    tags: Optional[DashboardInstanceProviderToolsGetOutputTags] = None
+    input_schema: Optional[ManagementInstanceProvidersToolsGetOutputInputSchema] = None
+    output_schema: Optional[ManagementInstanceProvidersToolsGetOutputOutputSchema] = None
+    tags: Optional[ManagementInstanceProvidersToolsGetOutputTags] = None
 
 
-class mapDashboardInstanceProviderToolsGetOutputInputSchema:
+class mapManagementInstanceProvidersToolsGetOutputInputSchema:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderToolsGetOutputInputSchema:
-        return DashboardInstanceProviderToolsGetOutputInputSchema(
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceProvidersToolsGetOutputInputSchema:
+        return ManagementInstanceProvidersToolsGetOutputInputSchema(
         type=data.get('type'),
         schema=data.get('schema')
         )
 
     @staticmethod
-    def to_dict(value: Union[DashboardInstanceProviderToolsGetOutputInputSchema, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[ManagementInstanceProvidersToolsGetOutputInputSchema, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
             return value
         return dataclasses.asdict(value)
 
-class mapDashboardInstanceProviderToolsGetOutputOutputSchema:
+class mapManagementInstanceProvidersToolsGetOutputOutputSchema:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderToolsGetOutputOutputSchema:
-        return DashboardInstanceProviderToolsGetOutputOutputSchema(
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceProvidersToolsGetOutputOutputSchema:
+        return ManagementInstanceProvidersToolsGetOutputOutputSchema(
         type=data.get('type'),
         schema=data.get('schema')
         )
 
     @staticmethod
-    def to_dict(value: Union[DashboardInstanceProviderToolsGetOutputOutputSchema, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[ManagementInstanceProvidersToolsGetOutputOutputSchema, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
             return value
         return dataclasses.asdict(value)
 
-class mapDashboardInstanceProviderToolsGetOutputTags:
+class mapManagementInstanceProvidersToolsGetOutputTags:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderToolsGetOutputTags:
-        return DashboardInstanceProviderToolsGetOutputTags(
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceProvidersToolsGetOutputTags:
+        return ManagementInstanceProvidersToolsGetOutputTags(
         destructive=data.get('destructive'),
         read_only=data.get('read_only')
         )
 
     @staticmethod
-    def to_dict(value: Union[DashboardInstanceProviderToolsGetOutputTags, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[ManagementInstanceProvidersToolsGetOutputTags, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
             return value
         return dataclasses.asdict(value)
 
-class mapDashboardInstanceProviderToolsGetOutput:
+class mapManagementInstanceProvidersToolsGetOutput:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderToolsGetOutput:
-        return DashboardInstanceProviderToolsGetOutput(
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceProvidersToolsGetOutput:
+        return ManagementInstanceProvidersToolsGetOutput(
         object=data.get('object'),
         id=data.get('id'),
         key=data.get('key'),
@@ -94,9 +94,9 @@ class mapDashboardInstanceProviderToolsGetOutput:
         capabilities=data.get('capabilities'),
         constraints=data.get('constraints', []),
         instructions=data.get('instructions', []),
-        input_schema=mapDashboardInstanceProviderToolsGetOutputInputSchema.from_dict(data.get('input_schema')) if data.get('input_schema') else None,
-        output_schema=mapDashboardInstanceProviderToolsGetOutputOutputSchema.from_dict(data.get('output_schema')) if data.get('output_schema') else None,
-        tags=mapDashboardInstanceProviderToolsGetOutputTags.from_dict(data.get('tags')) if data.get('tags') else None,
+        input_schema=mapManagementInstanceProvidersToolsGetOutputInputSchema.from_dict(data.get('input_schema')) if data.get('input_schema') else None,
+        output_schema=mapManagementInstanceProvidersToolsGetOutputOutputSchema.from_dict(data.get('output_schema')) if data.get('output_schema') else None,
+        tags=mapManagementInstanceProvidersToolsGetOutputTags.from_dict(data.get('tags')) if data.get('tags') else None,
         specification_id=data.get('specification_id'),
         provider_id=data.get('provider_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
@@ -104,7 +104,7 @@ class mapDashboardInstanceProviderToolsGetOutput:
         )
 
     @staticmethod
-    def to_dict(value: Union[DashboardInstanceProviderToolsGetOutput, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[ManagementInstanceProvidersToolsGetOutput, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):

@@ -1,26 +1,25 @@
 from typing import Any, Dict, List, Optional, Union
 from metorial_util_endpoint import BaseMetorialEndpoint, MetorialEndpointManager, MetorialRequest
-from ..resources import mapDashboardInstanceProviderToolsListOutput, DashboardInstanceProviderToolsListOutput, mapDashboardInstanceProviderToolsListQuery, DashboardInstanceProviderToolsListQuery, mapDashboardInstanceProviderToolsGetOutput, DashboardInstanceProviderToolsGetOutput
+from ..resources import mapDashboardInstanceProvidersToolsListOutput, DashboardInstanceProvidersToolsListOutput, mapDashboardInstanceProvidersToolsListQuery, DashboardInstanceProvidersToolsListQuery, mapDashboardInstanceProvidersToolsGetOutput, DashboardInstanceProvidersToolsGetOutput
 
-class MetorialManagementInstanceProviderToolsEndpoint(BaseMetorialEndpoint):
+class MetorialProvidersToolsEndpoint(BaseMetorialEndpoint):
     """A tool is a single action a provider can perform like 'search_issues' or 'send_message'. Tools are what AI agents call via MCP. By default, tools from the latest provider version are returned. Use the optional version filter to get tools for a specific version."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, *, provider_version_id: str, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None) -> DashboardInstanceProviderToolsListOutput:
+    def list(self, *, provider_version_id: str, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None) -> DashboardInstanceProvidersToolsListOutput:
         """
     List provider tools
     Returns a paginated list of provider tools. By default returns tools from the latest version. Use optional filters to get tools for a specific version.
 
-    :param instance_id: str
     :param limit: Optional[float] (optional)
     :param after: Optional[str] (optional)
     :param before: Optional[str] (optional)
     :param cursor: Optional[str] (optional)
     :param order: Optional[str] (optional)
     :param provider_version_id: str
-    :return: DashboardInstanceProviderToolsListOutput
+    :return: DashboardInstanceProvidersToolsListOutput
     """
         # Build query parameters from keyword arguments
         query_dict = {}
@@ -37,21 +36,20 @@ class MetorialManagementInstanceProviderToolsEndpoint(BaseMetorialEndpoint):
         query_dict["provider_version_id"] = provider_version_id
 
         request = MetorialRequest(
-            path=['instances', instance_id, 'provider-tools'],
+            path=['provider-tools'],
             query=query_dict
         )
-        return self._get(request).transform(mapDashboardInstanceProviderToolsListOutput.from_dict)
+        return self._get(request).transform(mapDashboardInstanceProvidersToolsListOutput.from_dict)
 
-    def get(self, instance_id: str, provider_tool_id: str) -> DashboardInstanceProviderToolsGetOutput:
+    def get(self, provider_tool_id: str) -> DashboardInstanceProvidersToolsGetOutput:
         """
     Get provider tool
     Retrieves a specific provider tool by ID.
 
-    :param instance_id: str
     :param provider_tool_id: str
-    :return: DashboardInstanceProviderToolsGetOutput
+    :return: DashboardInstanceProvidersToolsGetOutput
     """
         request = MetorialRequest(
-            path=['instances', instance_id, 'provider-tools', provider_tool_id]
+            path=['provider-tools', provider_tool_id]
         )
-        return self._get(request).transform(mapDashboardInstanceProviderToolsGetOutput.from_dict)
+        return self._get(request).transform(mapDashboardInstanceProvidersToolsGetOutput.from_dict)

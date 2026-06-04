@@ -4,19 +4,19 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
-class ProviderToolsListOutputItemsInputSchema:
+class ProvidersToolsListOutputItemsInputSchema:
     type: str
     schema: Dict[str, Any]
 @dataclass
-class ProviderToolsListOutputItemsOutputSchema:
+class ProvidersToolsListOutputItemsOutputSchema:
     type: str
     schema: Dict[str, Any]
 @dataclass
-class ProviderToolsListOutputItemsTags:
+class ProvidersToolsListOutputItemsTags:
     destructive: Optional[bool] = None
     read_only: Optional[bool] = None
 @dataclass
-class ProviderToolsListOutputItems:
+class ProvidersToolsListOutputItems:
     object: str
     id: str
     key: str
@@ -29,71 +29,71 @@ class ProviderToolsListOutputItems:
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
-    input_schema: Optional[ProviderToolsListOutputItemsInputSchema] = None
-    output_schema: Optional[ProviderToolsListOutputItemsOutputSchema] = None
-    tags: Optional[ProviderToolsListOutputItemsTags] = None
+    input_schema: Optional[ProvidersToolsListOutputItemsInputSchema] = None
+    output_schema: Optional[ProvidersToolsListOutputItemsOutputSchema] = None
+    tags: Optional[ProvidersToolsListOutputItemsTags] = None
 @dataclass
-class ProviderToolsListOutputPagination:
+class ProvidersToolsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
 @dataclass
-class ProviderToolsListOutput:
-    items: List[ProviderToolsListOutputItems]
-    pagination: ProviderToolsListOutputPagination
+class ProvidersToolsListOutput:
+    items: List[ProvidersToolsListOutputItems]
+    pagination: ProvidersToolsListOutputPagination
 
 
-class mapProviderToolsListOutputItemsInputSchema:
+class mapProvidersToolsListOutputItemsInputSchema:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ProviderToolsListOutputItemsInputSchema:
-        return ProviderToolsListOutputItemsInputSchema(
+    def from_dict(data: Dict[str, Any]) -> ProvidersToolsListOutputItemsInputSchema:
+        return ProvidersToolsListOutputItemsInputSchema(
         type=data.get('type'),
         schema=data.get('schema')
         )
 
     @staticmethod
-    def to_dict(value: Union[ProviderToolsListOutputItemsInputSchema, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[ProvidersToolsListOutputItemsInputSchema, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
             return value
         return dataclasses.asdict(value)
 
-class mapProviderToolsListOutputItemsOutputSchema:
+class mapProvidersToolsListOutputItemsOutputSchema:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ProviderToolsListOutputItemsOutputSchema:
-        return ProviderToolsListOutputItemsOutputSchema(
+    def from_dict(data: Dict[str, Any]) -> ProvidersToolsListOutputItemsOutputSchema:
+        return ProvidersToolsListOutputItemsOutputSchema(
         type=data.get('type'),
         schema=data.get('schema')
         )
 
     @staticmethod
-    def to_dict(value: Union[ProviderToolsListOutputItemsOutputSchema, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[ProvidersToolsListOutputItemsOutputSchema, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
             return value
         return dataclasses.asdict(value)
 
-class mapProviderToolsListOutputItemsTags:
+class mapProvidersToolsListOutputItemsTags:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ProviderToolsListOutputItemsTags:
-        return ProviderToolsListOutputItemsTags(
+    def from_dict(data: Dict[str, Any]) -> ProvidersToolsListOutputItemsTags:
+        return ProvidersToolsListOutputItemsTags(
         destructive=data.get('destructive'),
         read_only=data.get('read_only')
         )
 
     @staticmethod
-    def to_dict(value: Union[ProviderToolsListOutputItemsTags, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[ProvidersToolsListOutputItemsTags, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
             return value
         return dataclasses.asdict(value)
 
-class mapProviderToolsListOutputItems:
+class mapProvidersToolsListOutputItems:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ProviderToolsListOutputItems:
-        return ProviderToolsListOutputItems(
+    def from_dict(data: Dict[str, Any]) -> ProvidersToolsListOutputItems:
+        return ProvidersToolsListOutputItems(
         object=data.get('object'),
         id=data.get('id'),
         key=data.get('key'),
@@ -102,9 +102,9 @@ class mapProviderToolsListOutputItems:
         capabilities=data.get('capabilities'),
         constraints=data.get('constraints', []),
         instructions=data.get('instructions', []),
-        input_schema=mapProviderToolsListOutputItemsInputSchema.from_dict(data.get('input_schema')) if data.get('input_schema') else None,
-        output_schema=mapProviderToolsListOutputItemsOutputSchema.from_dict(data.get('output_schema')) if data.get('output_schema') else None,
-        tags=mapProviderToolsListOutputItemsTags.from_dict(data.get('tags')) if data.get('tags') else None,
+        input_schema=mapProvidersToolsListOutputItemsInputSchema.from_dict(data.get('input_schema')) if data.get('input_schema') else None,
+        output_schema=mapProvidersToolsListOutputItemsOutputSchema.from_dict(data.get('output_schema')) if data.get('output_schema') else None,
+        tags=mapProvidersToolsListOutputItemsTags.from_dict(data.get('tags')) if data.get('tags') else None,
         specification_id=data.get('specification_id'),
         provider_id=data.get('provider_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
@@ -112,39 +112,39 @@ class mapProviderToolsListOutputItems:
         )
 
     @staticmethod
-    def to_dict(value: Union[ProviderToolsListOutputItems, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[ProvidersToolsListOutputItems, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
             return value
         return dataclasses.asdict(value)
 
-class mapProviderToolsListOutputPagination:
+class mapProvidersToolsListOutputPagination:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ProviderToolsListOutputPagination:
-        return ProviderToolsListOutputPagination(
+    def from_dict(data: Dict[str, Any]) -> ProvidersToolsListOutputPagination:
+        return ProvidersToolsListOutputPagination(
         has_more_before=data.get('has_more_before'),
         has_more_after=data.get('has_more_after')
         )
 
     @staticmethod
-    def to_dict(value: Union[ProviderToolsListOutputPagination, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[ProvidersToolsListOutputPagination, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
             return value
         return dataclasses.asdict(value)
 
-class mapProviderToolsListOutput:
+class mapProvidersToolsListOutput:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ProviderToolsListOutput:
-        return ProviderToolsListOutput(
-        items=[mapProviderToolsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
-        pagination=mapProviderToolsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
+    def from_dict(data: Dict[str, Any]) -> ProvidersToolsListOutput:
+        return ProvidersToolsListOutput(
+        items=[mapProvidersToolsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
+        pagination=mapProvidersToolsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )
 
     @staticmethod
-    def to_dict(value: Union[ProviderToolsListOutput, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[ProvidersToolsListOutput, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -153,7 +153,7 @@ class mapProviderToolsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
-class ProviderToolsListQuery:
+class ProvidersToolsListQuery:
     provider_version_id: str
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -162,10 +162,10 @@ class ProviderToolsListQuery:
     order: Optional[str] = None
 
 
-class mapProviderToolsListQuery:
+class mapProvidersToolsListQuery:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ProviderToolsListQuery:
-        return ProviderToolsListQuery(
+    def from_dict(data: Dict[str, Any]) -> ProvidersToolsListQuery:
+        return ProvidersToolsListQuery(
         limit=data.get('limit'),
         after=data.get('after'),
         before=data.get('before'),
@@ -175,7 +175,7 @@ class mapProviderToolsListQuery:
         )
 
     @staticmethod
-    def to_dict(value: Union[ProviderToolsListQuery, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[ProvidersToolsListQuery, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
