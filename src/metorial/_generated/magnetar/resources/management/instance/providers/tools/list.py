@@ -155,6 +155,7 @@ class mapManagementInstanceProvidersToolsListOutput:
 @dataclass
 class ManagementInstanceProvidersToolsListQuery:
     provider_version_id: str
+    provider_auth_method_id: Optional[Union[str, List[str]]] = None
     limit: Optional[float] = None
     after: Optional[str] = None
     before: Optional[str] = None
@@ -171,7 +172,8 @@ class mapManagementInstanceProvidersToolsListQuery:
         before=data.get('before'),
         cursor=data.get('cursor'),
         order=data.get('order'),
-        provider_version_id=data.get('provider_version_id')
+        provider_version_id=data.get('provider_version_id'),
+        provider_auth_method_id=data.get('provider_auth_method_id')
         )
 
     @staticmethod
@@ -182,4 +184,3 @@ class mapManagementInstanceProvidersToolsListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
-

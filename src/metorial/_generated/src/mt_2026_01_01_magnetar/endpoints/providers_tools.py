@@ -8,7 +8,7 @@ class MetorialProvidersToolsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, *, provider_version_id: str, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None) -> DashboardInstanceProvidersToolsListOutput:
+    def list(self, *, provider_version_id: str, provider_auth_method_id: Optional[Union[str, List[str]]] = None, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None) -> DashboardInstanceProvidersToolsListOutput:
         """
     List provider tools
     Returns a paginated list of provider tools. By default returns tools from the latest version. Use optional filters to get tools for a specific version.
@@ -19,6 +19,7 @@ class MetorialProvidersToolsEndpoint(BaseMetorialEndpoint):
     :param cursor: Optional[str] (optional)
     :param order: Optional[str] (optional)
     :param provider_version_id: str
+    :param provider_auth_method_id: Optional[Union[str, List[str]]] (optional)
     :return: DashboardInstanceProvidersToolsListOutput
     """
         # Build query parameters from keyword arguments
@@ -34,6 +35,8 @@ class MetorialProvidersToolsEndpoint(BaseMetorialEndpoint):
         if order is not None:
             query_dict["order"] = order
         query_dict["provider_version_id"] = provider_version_id
+        if provider_auth_method_id is not None:
+            query_dict["provider_auth_method_id"] = provider_auth_method_id
 
         request = MetorialRequest(
             path=['provider-tools'],
