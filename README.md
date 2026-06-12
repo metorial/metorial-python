@@ -23,7 +23,7 @@ This SDK formats MCP tools for each LLM provider. Pass the `provider` parameter 
 | ------------- | ----------------------- | --------------------- | ------------------------------------------ |
 | OpenAI        | `provider="openai"`     | `openai`              | `gpt-4.1`, `gpt-4o`, `o1`, `o3`            |
 | Anthropic     | `provider="anthropic"`  | `anthropic`           | `claude-sonnet-4-5`, `claude-opus-4`       |
-| Google Gemini | `provider="google"`     | `google-generativeai` | `gemini-2.5-pro`, `gemini-2.5-flash`       |
+| Google Gemini | `provider="google"`     | `google-genai` | `gemini-2.5-pro`, `gemini-2.5-flash`       |
 | Mistral       | `provider="mistral"`    | `mistralai`           | `mistral-large-latest`, `codestral-latest` |
 | DeepSeek      | `provider="deepseek"`   | `openai` (compatible) | `deepseek-chat`, `deepseek-reasoner`       |
 | Together AI   | `provider="togetherai"` | `openai` (compatible) | `Llama-4`, `Qwen-3`                        |
@@ -359,11 +359,12 @@ if response.stop_reason == "tool_use":
 
 ```python
 import os
-import google.generativeai as genai
+from google import genai
+from google.genai import types
 from metorial import Metorial, metorial_google
 
 metorial = Metorial(api_key=os.environ["METORIAL_API_KEY"])
-genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
+client = genai.Client(api_key=os.environ["GOOGLE_API_KEY"])
 
 deployment = metorial.provider_deployments.create(
     name="Metorial Search",
@@ -374,11 +375,13 @@ session = await metorial.connect(
     adapter=metorial_google(),
     providers=[{"provider_deployment_id": deployment.id}],
 )
-model = genai.GenerativeModel("gemini-2.5-pro", tools=session.tools())
-chat = model.start_chat()
+chat = client.chats.create(
+    model="gemini-2.5-pro",
+    config=types.GenerateContentConfig(tools=session.tools()),
+)
 response = chat.send_message("Search the web for the latest news about AI agents.")
 
-for part in response.parts:
+for part in response.candidates[0].content.parts:
     if fn := part.function_call:
         result = await session.call_tool(fn.name, dict(fn.args))
         # Continue conversation with result...
