@@ -5,6 +5,12 @@ All notable changes to the Metorial Python SDK will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.3] - 2026-06-12
+
+### Changed
+
+- Replaced the deprecated `google-generativeai` dependency with `google-genai`. The old SDK pinned `protobuf < 6`, which caused install conflicts with packages requiring protobuf 6+; `google-genai` has no protobuf dependency. The Google adapter is duck-typed and never imported `google.generativeai` directly, so clients built with either SDK continue to work.
+
 ## [2.3.2] - 2026-03-30
 
 ### Added
