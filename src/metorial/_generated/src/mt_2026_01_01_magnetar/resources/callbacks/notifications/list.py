@@ -52,6 +52,31 @@ class CallbacksNotificationsListOutputItemsDestination:
     event_types: Optional[List[str]] = None
     webhook: Optional[CallbacksNotificationsListOutputItemsDestinationWebhook] = None
 @dataclass
+class CallbacksNotificationsListOutputItemsAttemptsError:
+    code: str
+    message: str
+@dataclass
+class CallbacksNotificationsListOutputItemsAttemptsResponseHeaders:
+    key: str
+    value: str
+@dataclass
+class CallbacksNotificationsListOutputItemsAttemptsResponse:
+    status_code: float
+    body: Optional[str] = None
+    headers: Optional[List[CallbacksNotificationsListOutputItemsAttemptsResponseHeaders]] = None
+@dataclass
+class CallbacksNotificationsListOutputItemsAttempts:
+    object: str
+    id: str
+    status: str
+    attempt_number: float
+    duration_ms: float
+    created_at: datetime
+    started_at: datetime
+    completed_at: datetime
+    error: Optional[CallbacksNotificationsListOutputItemsAttemptsError] = None
+    response: Optional[CallbacksNotificationsListOutputItemsAttemptsResponse] = None
+@dataclass
 class CallbacksNotificationsListOutputItems:
     object: str
     id: str
@@ -62,6 +87,7 @@ class CallbacksNotificationsListOutputItems:
     created_at: datetime
     updated_at: datetime
     error: Optional[CallbacksNotificationsListOutputItemsError] = None
+    attempts: Optional[List[CallbacksNotificationsListOutputItemsAttempts]] = None
     last_attempt_at: Optional[datetime] = None
     next_attempt_at: Optional[datetime] = None
 @dataclass
@@ -206,6 +232,79 @@ class mapCallbacksNotificationsListOutputItemsDestination:
             return value
         return dataclasses.asdict(value)
 
+class mapCallbacksNotificationsListOutputItemsAttemptsError:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> CallbacksNotificationsListOutputItemsAttemptsError:
+        return CallbacksNotificationsListOutputItemsAttemptsError(
+        code=data.get('code'),
+        message=data.get('message')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[CallbacksNotificationsListOutputItemsAttemptsError, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapCallbacksNotificationsListOutputItemsAttemptsResponseHeaders:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> CallbacksNotificationsListOutputItemsAttemptsResponseHeaders:
+        return CallbacksNotificationsListOutputItemsAttemptsResponseHeaders(
+        key=data.get('key'),
+        value=data.get('value')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[CallbacksNotificationsListOutputItemsAttemptsResponseHeaders, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapCallbacksNotificationsListOutputItemsAttemptsResponse:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> CallbacksNotificationsListOutputItemsAttemptsResponse:
+        return CallbacksNotificationsListOutputItemsAttemptsResponse(
+        status_code=data.get('status_code'),
+        body=data.get('body'),
+        headers=[mapCallbacksNotificationsListOutputItemsAttemptsResponseHeaders.from_dict(item) for item in data.get('headers', []) if item]
+        )
+
+    @staticmethod
+    def to_dict(value: Union[CallbacksNotificationsListOutputItemsAttemptsResponse, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapCallbacksNotificationsListOutputItemsAttempts:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> CallbacksNotificationsListOutputItemsAttempts:
+        return CallbacksNotificationsListOutputItemsAttempts(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        attempt_number=data.get('attempt_number'),
+        duration_ms=data.get('duration_ms'),
+        error=mapCallbacksNotificationsListOutputItemsAttemptsError.from_dict(data.get('error')) if data.get('error') else None,
+        response=mapCallbacksNotificationsListOutputItemsAttemptsResponse.from_dict(data.get('response')) if data.get('response') else None,
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        started_at=datetime.fromisoformat(data.get('started_at').replace('Z', '+00:00')) if data.get('started_at') else None,
+        completed_at=datetime.fromisoformat(data.get('completed_at').replace('Z', '+00:00')) if data.get('completed_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[CallbacksNotificationsListOutputItemsAttempts, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapCallbacksNotificationsListOutputItems:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> CallbacksNotificationsListOutputItems:
@@ -217,6 +316,7 @@ class mapCallbacksNotificationsListOutputItems:
         attempt_count=data.get('attempt_count'),
         event=mapCallbacksNotificationsListOutputItemsEvent.from_dict(data.get('event')) if data.get('event') else None,
         destination=mapCallbacksNotificationsListOutputItemsDestination.from_dict(data.get('destination')) if data.get('destination') else None,
+        attempts=[mapCallbacksNotificationsListOutputItemsAttempts.from_dict(item) for item in data.get('attempts', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
         last_attempt_at=datetime.fromisoformat(data.get('last_attempt_at').replace('Z', '+00:00')) if data.get('last_attempt_at') else None,

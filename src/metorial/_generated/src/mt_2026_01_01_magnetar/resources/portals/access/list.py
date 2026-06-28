@@ -4,6 +4,11 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class PortalsAccessListOutputItemsListing:
+    id: str
+    name: str
+    description: Optional[str] = None
+@dataclass
 class PortalsAccessListOutputItemsConsumerGroup:
     object: str
     id: str
@@ -25,6 +30,7 @@ class PortalsAccessListOutputItems:
     updated_at: datetime
     description: Optional[str] = None
     readme: Optional[str] = None
+    listing: Optional[PortalsAccessListOutputItemsListing] = None
 @dataclass
 class PortalsAccessListOutputPagination:
     has_more_before: bool
@@ -34,6 +40,23 @@ class PortalsAccessListOutput:
     items: List[PortalsAccessListOutputItems]
     pagination: PortalsAccessListOutputPagination
 
+
+class mapPortalsAccessListOutputItemsListing:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> PortalsAccessListOutputItemsListing:
+        return PortalsAccessListOutputItemsListing(
+        id=data.get('id'),
+        name=data.get('name'),
+        description=data.get('description')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[PortalsAccessListOutputItemsListing, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapPortalsAccessListOutputItemsConsumerGroup:
     @staticmethod
@@ -67,6 +90,7 @@ class mapPortalsAccessListOutputItems:
         name=data.get('name'),
         description=data.get('description'),
         readme=data.get('readme'),
+        listing=mapPortalsAccessListOutputItemsListing.from_dict(data.get('listing')) if data.get('listing') else None,
         access=data.get('access'),
         consumer_group=mapPortalsAccessListOutputItemsConsumerGroup.from_dict(data.get('consumer_group')) if data.get('consumer_group') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,

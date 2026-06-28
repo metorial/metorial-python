@@ -52,6 +52,31 @@ class DashboardInstanceCallbacksNotificationsListOutputItemsDestination:
     event_types: Optional[List[str]] = None
     webhook: Optional[DashboardInstanceCallbacksNotificationsListOutputItemsDestinationWebhook] = None
 @dataclass
+class DashboardInstanceCallbacksNotificationsListOutputItemsAttemptsError:
+    code: str
+    message: str
+@dataclass
+class DashboardInstanceCallbacksNotificationsListOutputItemsAttemptsResponseHeaders:
+    key: str
+    value: str
+@dataclass
+class DashboardInstanceCallbacksNotificationsListOutputItemsAttemptsResponse:
+    status_code: float
+    body: Optional[str] = None
+    headers: Optional[List[DashboardInstanceCallbacksNotificationsListOutputItemsAttemptsResponseHeaders]] = None
+@dataclass
+class DashboardInstanceCallbacksNotificationsListOutputItemsAttempts:
+    object: str
+    id: str
+    status: str
+    attempt_number: float
+    duration_ms: float
+    created_at: datetime
+    started_at: datetime
+    completed_at: datetime
+    error: Optional[DashboardInstanceCallbacksNotificationsListOutputItemsAttemptsError] = None
+    response: Optional[DashboardInstanceCallbacksNotificationsListOutputItemsAttemptsResponse] = None
+@dataclass
 class DashboardInstanceCallbacksNotificationsListOutputItems:
     object: str
     id: str
@@ -62,6 +87,7 @@ class DashboardInstanceCallbacksNotificationsListOutputItems:
     created_at: datetime
     updated_at: datetime
     error: Optional[DashboardInstanceCallbacksNotificationsListOutputItemsError] = None
+    attempts: Optional[List[DashboardInstanceCallbacksNotificationsListOutputItemsAttempts]] = None
     last_attempt_at: Optional[datetime] = None
     next_attempt_at: Optional[datetime] = None
 @dataclass
@@ -206,6 +232,79 @@ class mapDashboardInstanceCallbacksNotificationsListOutputItemsDestination:
             return value
         return dataclasses.asdict(value)
 
+class mapDashboardInstanceCallbacksNotificationsListOutputItemsAttemptsError:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceCallbacksNotificationsListOutputItemsAttemptsError:
+        return DashboardInstanceCallbacksNotificationsListOutputItemsAttemptsError(
+        code=data.get('code'),
+        message=data.get('message')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceCallbacksNotificationsListOutputItemsAttemptsError, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceCallbacksNotificationsListOutputItemsAttemptsResponseHeaders:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceCallbacksNotificationsListOutputItemsAttemptsResponseHeaders:
+        return DashboardInstanceCallbacksNotificationsListOutputItemsAttemptsResponseHeaders(
+        key=data.get('key'),
+        value=data.get('value')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceCallbacksNotificationsListOutputItemsAttemptsResponseHeaders, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceCallbacksNotificationsListOutputItemsAttemptsResponse:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceCallbacksNotificationsListOutputItemsAttemptsResponse:
+        return DashboardInstanceCallbacksNotificationsListOutputItemsAttemptsResponse(
+        status_code=data.get('status_code'),
+        body=data.get('body'),
+        headers=[mapDashboardInstanceCallbacksNotificationsListOutputItemsAttemptsResponseHeaders.from_dict(item) for item in data.get('headers', []) if item]
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceCallbacksNotificationsListOutputItemsAttemptsResponse, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceCallbacksNotificationsListOutputItemsAttempts:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceCallbacksNotificationsListOutputItemsAttempts:
+        return DashboardInstanceCallbacksNotificationsListOutputItemsAttempts(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        attempt_number=data.get('attempt_number'),
+        duration_ms=data.get('duration_ms'),
+        error=mapDashboardInstanceCallbacksNotificationsListOutputItemsAttemptsError.from_dict(data.get('error')) if data.get('error') else None,
+        response=mapDashboardInstanceCallbacksNotificationsListOutputItemsAttemptsResponse.from_dict(data.get('response')) if data.get('response') else None,
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        started_at=datetime.fromisoformat(data.get('started_at').replace('Z', '+00:00')) if data.get('started_at') else None,
+        completed_at=datetime.fromisoformat(data.get('completed_at').replace('Z', '+00:00')) if data.get('completed_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceCallbacksNotificationsListOutputItemsAttempts, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapDashboardInstanceCallbacksNotificationsListOutputItems:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceCallbacksNotificationsListOutputItems:
@@ -217,6 +316,7 @@ class mapDashboardInstanceCallbacksNotificationsListOutputItems:
         attempt_count=data.get('attempt_count'),
         event=mapDashboardInstanceCallbacksNotificationsListOutputItemsEvent.from_dict(data.get('event')) if data.get('event') else None,
         destination=mapDashboardInstanceCallbacksNotificationsListOutputItemsDestination.from_dict(data.get('destination')) if data.get('destination') else None,
+        attempts=[mapDashboardInstanceCallbacksNotificationsListOutputItemsAttempts.from_dict(item) for item in data.get('attempts', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
         last_attempt_at=datetime.fromisoformat(data.get('last_attempt_at').replace('Z', '+00:00')) if data.get('last_attempt_at') else None,

@@ -4,6 +4,11 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class DashboardInstancePortalsAccessUpdateOutputListing:
+    id: str
+    name: str
+    description: Optional[str] = None
+@dataclass
 class DashboardInstancePortalsAccessUpdateOutputConsumerGroup:
     object: str
     id: str
@@ -25,7 +30,25 @@ class DashboardInstancePortalsAccessUpdateOutput:
     updated_at: datetime
     description: Optional[str] = None
     readme: Optional[str] = None
+    listing: Optional[DashboardInstancePortalsAccessUpdateOutputListing] = None
 
+
+class mapDashboardInstancePortalsAccessUpdateOutputListing:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstancePortalsAccessUpdateOutputListing:
+        return DashboardInstancePortalsAccessUpdateOutputListing(
+        id=data.get('id'),
+        name=data.get('name'),
+        description=data.get('description')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstancePortalsAccessUpdateOutputListing, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapDashboardInstancePortalsAccessUpdateOutputConsumerGroup:
     @staticmethod
@@ -59,6 +82,7 @@ class mapDashboardInstancePortalsAccessUpdateOutput:
         name=data.get('name'),
         description=data.get('description'),
         readme=data.get('readme'),
+        listing=mapDashboardInstancePortalsAccessUpdateOutputListing.from_dict(data.get('listing')) if data.get('listing') else None,
         access=data.get('access'),
         consumer_group=mapDashboardInstancePortalsAccessUpdateOutputConsumerGroup.from_dict(data.get('consumer_group')) if data.get('consumer_group') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,

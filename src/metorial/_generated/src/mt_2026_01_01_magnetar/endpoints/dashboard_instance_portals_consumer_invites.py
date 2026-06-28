@@ -8,7 +8,7 @@ class MetorialDashboardInstancePortalsConsumerInvitesEndpoint(BaseMetorialEndpoi
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, portal_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, search: Optional[str] = None, status: Optional[Union[str, List[str]]] = None) -> DashboardInstancePortalsConsumerInvitesListOutput:
+    def list(self, instance_id: str, portal_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, search: Optional[str] = None, email: Optional[Union[str, List[str]]] = None, status: Optional[Union[str, List[str]]] = None) -> DashboardInstancePortalsConsumerInvitesListOutput:
         """
     List portal consumer invites
     Returns a paginated list of invites for a portal.
@@ -21,6 +21,7 @@ class MetorialDashboardInstancePortalsConsumerInvitesEndpoint(BaseMetorialEndpoi
     :param cursor: Optional[str] (optional)
     :param order: Optional[str] (optional)
     :param search: Optional[str] (optional)
+    :param email: Optional[Union[str, List[str]]] (optional)
     :param status: Optional[Union[str, List[str]]] (optional)
     :return: DashboardInstancePortalsConsumerInvitesListOutput
     """
@@ -38,6 +39,8 @@ class MetorialDashboardInstancePortalsConsumerInvitesEndpoint(BaseMetorialEndpoi
             query_dict["order"] = order
         if search is not None:
             query_dict["search"] = search
+        if email is not None:
+            query_dict["email"] = email
         if status is not None:
             query_dict["status"] = status
 

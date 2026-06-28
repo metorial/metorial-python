@@ -52,6 +52,31 @@ class ManagementInstanceCallbacksNotificationsGetOutputDestination:
     event_types: Optional[List[str]] = None
     webhook: Optional[ManagementInstanceCallbacksNotificationsGetOutputDestinationWebhook] = None
 @dataclass
+class ManagementInstanceCallbacksNotificationsGetOutputAttemptsError:
+    code: str
+    message: str
+@dataclass
+class ManagementInstanceCallbacksNotificationsGetOutputAttemptsResponseHeaders:
+    key: str
+    value: str
+@dataclass
+class ManagementInstanceCallbacksNotificationsGetOutputAttemptsResponse:
+    status_code: float
+    body: Optional[str] = None
+    headers: Optional[List[ManagementInstanceCallbacksNotificationsGetOutputAttemptsResponseHeaders]] = None
+@dataclass
+class ManagementInstanceCallbacksNotificationsGetOutputAttempts:
+    object: str
+    id: str
+    status: str
+    attempt_number: float
+    duration_ms: float
+    created_at: datetime
+    started_at: datetime
+    completed_at: datetime
+    error: Optional[ManagementInstanceCallbacksNotificationsGetOutputAttemptsError] = None
+    response: Optional[ManagementInstanceCallbacksNotificationsGetOutputAttemptsResponse] = None
+@dataclass
 class ManagementInstanceCallbacksNotificationsGetOutput:
     object: str
     id: str
@@ -62,6 +87,7 @@ class ManagementInstanceCallbacksNotificationsGetOutput:
     created_at: datetime
     updated_at: datetime
     error: Optional[ManagementInstanceCallbacksNotificationsGetOutputError] = None
+    attempts: Optional[List[ManagementInstanceCallbacksNotificationsGetOutputAttempts]] = None
     last_attempt_at: Optional[datetime] = None
     next_attempt_at: Optional[datetime] = None
 
@@ -198,6 +224,79 @@ class mapManagementInstanceCallbacksNotificationsGetOutputDestination:
             return value
         return dataclasses.asdict(value)
 
+class mapManagementInstanceCallbacksNotificationsGetOutputAttemptsError:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceCallbacksNotificationsGetOutputAttemptsError:
+        return ManagementInstanceCallbacksNotificationsGetOutputAttemptsError(
+        code=data.get('code'),
+        message=data.get('message')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceCallbacksNotificationsGetOutputAttemptsError, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceCallbacksNotificationsGetOutputAttemptsResponseHeaders:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceCallbacksNotificationsGetOutputAttemptsResponseHeaders:
+        return ManagementInstanceCallbacksNotificationsGetOutputAttemptsResponseHeaders(
+        key=data.get('key'),
+        value=data.get('value')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceCallbacksNotificationsGetOutputAttemptsResponseHeaders, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceCallbacksNotificationsGetOutputAttemptsResponse:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceCallbacksNotificationsGetOutputAttemptsResponse:
+        return ManagementInstanceCallbacksNotificationsGetOutputAttemptsResponse(
+        status_code=data.get('status_code'),
+        body=data.get('body'),
+        headers=[mapManagementInstanceCallbacksNotificationsGetOutputAttemptsResponseHeaders.from_dict(item) for item in data.get('headers', []) if item]
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceCallbacksNotificationsGetOutputAttemptsResponse, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceCallbacksNotificationsGetOutputAttempts:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceCallbacksNotificationsGetOutputAttempts:
+        return ManagementInstanceCallbacksNotificationsGetOutputAttempts(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        attempt_number=data.get('attempt_number'),
+        duration_ms=data.get('duration_ms'),
+        error=mapManagementInstanceCallbacksNotificationsGetOutputAttemptsError.from_dict(data.get('error')) if data.get('error') else None,
+        response=mapManagementInstanceCallbacksNotificationsGetOutputAttemptsResponse.from_dict(data.get('response')) if data.get('response') else None,
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        started_at=datetime.fromisoformat(data.get('started_at').replace('Z', '+00:00')) if data.get('started_at') else None,
+        completed_at=datetime.fromisoformat(data.get('completed_at').replace('Z', '+00:00')) if data.get('completed_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceCallbacksNotificationsGetOutputAttempts, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapManagementInstanceCallbacksNotificationsGetOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceCallbacksNotificationsGetOutput:
@@ -209,6 +308,7 @@ class mapManagementInstanceCallbacksNotificationsGetOutput:
         attempt_count=data.get('attempt_count'),
         event=mapManagementInstanceCallbacksNotificationsGetOutputEvent.from_dict(data.get('event')) if data.get('event') else None,
         destination=mapManagementInstanceCallbacksNotificationsGetOutputDestination.from_dict(data.get('destination')) if data.get('destination') else None,
+        attempts=[mapManagementInstanceCallbacksNotificationsGetOutputAttempts.from_dict(item) for item in data.get('attempts', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
         last_attempt_at=datetime.fromisoformat(data.get('last_attempt_at').replace('Z', '+00:00')) if data.get('last_attempt_at') else None,

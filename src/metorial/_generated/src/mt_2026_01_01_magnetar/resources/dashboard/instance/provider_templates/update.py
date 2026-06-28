@@ -41,46 +41,11 @@ class mapDashboardInstanceProviderTemplatesUpdateOutput:
         return dataclasses.asdict(value)
 
 @dataclass
-class DashboardInstanceProviderTemplatesUpdateBodyProviders:
-    provider_id: str
-    provider_deployment_id: Optional[str] = None
-    provider_auth_method_id: Optional[str] = None
-    provider_auth_credentials_id: Optional[str] = None
-    provider_config_id: Optional[str] = None
-    name: Optional[str] = None
-    description: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None
-    tool_filters: Optional[Any] = None
-@dataclass
 class DashboardInstanceProviderTemplatesUpdateBody:
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
-    providers: Optional[List[DashboardInstanceProviderTemplatesUpdateBodyProviders]] = None
 
-
-class mapDashboardInstanceProviderTemplatesUpdateBodyProviders:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderTemplatesUpdateBodyProviders:
-        return DashboardInstanceProviderTemplatesUpdateBodyProviders(
-        provider_id=data.get('provider_id'),
-        provider_deployment_id=data.get('provider_deployment_id'),
-        provider_auth_method_id=data.get('provider_auth_method_id'),
-        provider_auth_credentials_id=data.get('provider_auth_credentials_id'),
-        provider_config_id=data.get('provider_config_id'),
-        name=data.get('name'),
-        description=data.get('description'),
-        metadata=data.get('metadata'),
-        tool_filters=data.get('tool_filters')
-        )
-
-    @staticmethod
-    def to_dict(value: Union[DashboardInstanceProviderTemplatesUpdateBodyProviders, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
 
 class mapDashboardInstanceProviderTemplatesUpdateBody:
     @staticmethod
@@ -88,8 +53,7 @@ class mapDashboardInstanceProviderTemplatesUpdateBody:
         return DashboardInstanceProviderTemplatesUpdateBody(
         name=data.get('name'),
         description=data.get('description'),
-        metadata=data.get('metadata'),
-        providers=[mapDashboardInstanceProviderTemplatesUpdateBodyProviders.from_dict(item) for item in data.get('providers', []) if item]
+        metadata=data.get('metadata')
         )
 
     @staticmethod

@@ -144,6 +144,7 @@ class DashboardInstanceSkillsListOutputItemsIntegrationsConfiguration:
     can_attach_custom_tool_filters: bool
     can_attach_custom_provider_config: bool
     can_override_tool_filters: bool
+    use_integration_name_in_tool_names: Optional[bool] = None
 @dataclass
 class DashboardInstanceSkillsListOutputItemsIntegrations:
     object: str
@@ -518,7 +519,8 @@ class mapDashboardInstanceSkillsListOutputItemsIntegrationsConfiguration:
         return DashboardInstanceSkillsListOutputItemsIntegrationsConfiguration(
         can_attach_custom_tool_filters=data.get('can_attach_custom_tool_filters'),
         can_attach_custom_provider_config=data.get('can_attach_custom_provider_config'),
-        can_override_tool_filters=data.get('can_override_tool_filters')
+        can_override_tool_filters=data.get('can_override_tool_filters'),
+        use_integration_name_in_tool_names=data.get('use_integration_name_in_tool_names')
         )
 
     @staticmethod

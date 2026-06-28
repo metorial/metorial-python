@@ -45,6 +45,7 @@ class DashboardOrganizationsApiKeysCreateOutputMachineAccessInstance:
     created_at: datetime
     updated_at: datetime
     project: DashboardOrganizationsApiKeysCreateOutputMachineAccessInstanceProject
+    sandbox_id: Optional[str] = None
 @dataclass
 class DashboardOrganizationsApiKeysCreateOutputMachineAccessOrganization:
     object: str
@@ -178,6 +179,7 @@ class mapDashboardOrganizationsApiKeysCreateOutputMachineAccessInstance:
         slug=data.get('slug'),
         name=data.get('name'),
         organization_id=data.get('organization_id'),
+        sandbox_id=data.get('sandbox_id'),
         type=data.get('type'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,

@@ -4,17 +4,23 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class CallbacksEventsListOutputItemsError:
+    code: Optional[str] = None
+    message: Optional[str] = None
+@dataclass
 class CallbacksEventsListOutputItems:
     object: str
     id: str
     type: str
     source_id: str
     trigger_key: str
-    input: Dict[str, Any]
-    output: Dict[str, Any]
+    status: str
     delivery_status: str
     callback_id: str
     created_at: datetime
+    input: Optional[Dict[str, Any]] = None
+    output: Optional[Dict[str, Any]] = None
+    error: Optional[CallbacksEventsListOutputItemsError] = None
     callback_instance_id: Optional[str] = None
 @dataclass
 class CallbacksEventsListOutputPagination:
@@ -25,6 +31,22 @@ class CallbacksEventsListOutput:
     items: List[CallbacksEventsListOutputItems]
     pagination: CallbacksEventsListOutputPagination
 
+
+class mapCallbacksEventsListOutputItemsError:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> CallbacksEventsListOutputItemsError:
+        return CallbacksEventsListOutputItemsError(
+        code=data.get('code'),
+        message=data.get('message')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[CallbacksEventsListOutputItemsError, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapCallbacksEventsListOutputItems:
     @staticmethod
@@ -37,6 +59,8 @@ class mapCallbacksEventsListOutputItems:
         trigger_key=data.get('trigger_key'),
         input=data.get('input'),
         output=data.get('output'),
+        status=data.get('status'),
+        error=mapCallbacksEventsListOutputItemsError.from_dict(data.get('error')) if data.get('error') else None,
         delivery_status=data.get('delivery_status'),
         callback_id=data.get('callback_id'),
         callback_instance_id=data.get('callback_instance_id'),

@@ -314,6 +314,7 @@ class mapConversationsCreateOutput:
 class ConversationsCreateBody:
     assistant_id: str
     title: Optional[str] = None
+    input: Optional[Dict[str, Any]] = None
 
 
 class mapConversationsCreateBody:
@@ -321,7 +322,8 @@ class mapConversationsCreateBody:
     def from_dict(data: Dict[str, Any]) -> ConversationsCreateBody:
         return ConversationsCreateBody(
         assistant_id=data.get('assistant_id'),
-        title=data.get('title')
+        title=data.get('title'),
+        input=data.get('input')
         )
 
     @staticmethod

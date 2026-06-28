@@ -71,6 +71,8 @@ from .dashboard_instance_magic_mcp_servers import *
 from .dashboard_instance_magic_mcp_servers_providers import *
 from .dashboard_instance_magic_mcp_sessions import *
 from .dashboard_instance_magic_mcp_tokens import *
+from .dashboard_instance_monitor_alerts import *
+from .dashboard_instance_monitors import *
 from .dashboard_instance_network_policies import *
 from .dashboard_instance_network_policies_rules import *
 from .dashboard_instance_networks import *
@@ -84,6 +86,8 @@ from .dashboard_instance_portals_consumer_groups import *
 from .dashboard_instance_portals_consumer_invites import *
 from .dashboard_instance_portals_consumer_profiles import *
 from .dashboard_instance_portals_listings import *
+from .dashboard_instance_proto_guard_alerts import *
+from .dashboard_instance_proto_guard_config import *
 from .dashboard_instance_provider_categories import *
 from .dashboard_instance_provider_collections import *
 from .dashboard_instance_provider_deployments import *
@@ -97,6 +101,7 @@ from .dashboard_instance_provider_deployments_setup_sessions import *
 from .dashboard_instance_provider_groups import *
 from .dashboard_instance_provider_listings import *
 from .dashboard_instance_provider_runs import *
+from .dashboard_instance_provider_specification_change_notifications import *
 from .dashboard_instance_provider_templates import *
 from .dashboard_instance_providers import *
 from .dashboard_instance_providers_auth_methods import *
@@ -216,6 +221,8 @@ from .management_instance_magic_mcp_servers import *
 from .management_instance_magic_mcp_servers_providers import *
 from .management_instance_magic_mcp_sessions import *
 from .management_instance_magic_mcp_tokens import *
+from .management_instance_monitor_alerts import *
+from .management_instance_monitors import *
 from .management_instance_network_policies import *
 from .management_instance_network_policies_rules import *
 from .management_instance_networks import *
@@ -229,6 +236,8 @@ from .management_instance_portals_consumer_groups import *
 from .management_instance_portals_consumer_invites import *
 from .management_instance_portals_consumer_profiles import *
 from .management_instance_portals_listings import *
+from .management_instance_proto_guard_alerts import *
+from .management_instance_proto_guard_config import *
 from .management_instance_provider_categories import *
 from .management_instance_provider_collections import *
 from .management_instance_provider_deployments import *
@@ -242,6 +251,7 @@ from .management_instance_provider_deployments_setup_sessions import *
 from .management_instance_provider_groups import *
 from .management_instance_provider_listings import *
 from .management_instance_provider_runs import *
+from .management_instance_provider_specification_change_notifications import *
 from .management_instance_provider_templates import *
 from .management_instance_providers import *
 from .management_instance_providers_auth_methods import *
@@ -282,6 +292,8 @@ from .management_instance_stores_participants import *
 from .management_instance_stores_permissions import *
 from .management_instance_tool_calls import *
 from .management_organization_api_keys import *
+from .monitor_alerts import *
+from .monitors import *
 from .network_policies import *
 from .network_policies_rules import *
 from .networks import *
@@ -295,6 +307,8 @@ from .portals_consumer_groups import *
 from .portals_consumer_invites import *
 from .portals_consumer_profiles import *
 from .portals_listings import *
+from .proto_guard_alerts import *
+from .proto_guard_config import *
 from .provider_categories import *
 from .provider_collections import *
 from .provider_deployments import *
@@ -308,6 +322,7 @@ from .provider_deployments_setup_sessions import *
 from .provider_groups import *
 from .provider_listings import *
 from .provider_runs import *
+from .provider_specification_change_notifications import *
 from .provider_templates import *
 from .providers import *
 from .providers_auth_methods import *

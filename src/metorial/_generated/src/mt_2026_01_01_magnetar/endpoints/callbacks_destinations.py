@@ -8,7 +8,7 @@ class MetorialCallbacksDestinationsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceCallbacksDestinationsListOutput:
+    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, callback_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceCallbacksDestinationsListOutput:
         """
     List callback destinations
     Returns a paginated list of callback destinations.
@@ -18,6 +18,7 @@ class MetorialCallbacksDestinationsEndpoint(BaseMetorialEndpoint):
     :param before: Optional[str] (optional)
     :param cursor: Optional[str] (optional)
     :param order: Optional[str] (optional)
+    :param callback_id: Optional[Union[str, List[str]]] (optional)
     :param created_at: Optional[Dict[str, Any]] (optional)
     :param updated_at: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceCallbacksDestinationsListOutput
@@ -34,6 +35,8 @@ class MetorialCallbacksDestinationsEndpoint(BaseMetorialEndpoint):
             query_dict["cursor"] = cursor
         if order is not None:
             query_dict["order"] = order
+        if callback_id is not None:
+            query_dict["callback_id"] = callback_id
         if created_at is not None:
             query_dict["created_at"] = created_at
         if updated_at is not None:

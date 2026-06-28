@@ -15,6 +15,7 @@ class CallbacksDestinationsListOutputItems:
     updated_at: datetime
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
+    signing_secret: Optional[str] = None
 @dataclass
 class CallbacksDestinationsListOutputPagination:
     has_more_before: bool
@@ -37,6 +38,7 @@ class mapCallbacksDestinationsListOutputItems:
         metadata=data.get('metadata'),
         url=data.get('url'),
         method=data.get('method'),
+        signing_secret=data.get('signing_secret'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -97,6 +99,7 @@ class CallbacksDestinationsListQuery:
     before: Optional[str] = None
     cursor: Optional[str] = None
     order: Optional[str] = None
+    callback_id: Optional[Union[str, List[str]]] = None
     created_at: Optional[CallbacksDestinationsListQueryCreatedAt] = None
     updated_at: Optional[CallbacksDestinationsListQueryUpdatedAt] = None
 
@@ -110,6 +113,7 @@ class mapCallbacksDestinationsListQuery:
         before=data.get('before'),
         cursor=data.get('cursor'),
         order=data.get('order'),
+        callback_id=data.get('callback_id'),
         created_at=mapCallbacksDestinationsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
         updated_at=mapCallbacksDestinationsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )

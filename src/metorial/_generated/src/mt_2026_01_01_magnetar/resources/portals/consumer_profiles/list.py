@@ -54,6 +54,7 @@ class PortalsConsumerProfilesListQuery:
     cursor: Optional[str] = None
     order: Optional[str] = None
     search: Optional[str] = None
+    email: Optional[Union[str, List[str]]] = None
     consumer_group_id: Optional[str] = None
     status: Optional[Union[str, List[str]]] = None
 
@@ -68,6 +69,7 @@ class mapPortalsConsumerProfilesListQuery:
         cursor=data.get('cursor'),
         order=data.get('order'),
         search=data.get('search'),
+        email=data.get('email'),
         consumer_group_id=data.get('consumer_group_id'),
         status=data.get('status')
         )

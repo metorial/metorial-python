@@ -8,6 +8,7 @@ class DashboardInstanceIntegrationsCreateOutputConfiguration:
     can_attach_custom_tool_filters: bool
     can_attach_custom_provider_config: bool
     can_override_tool_filters: bool
+    use_integration_name_in_tool_names: Optional[bool] = None
 @dataclass
 class DashboardInstanceIntegrationsCreateOutputProvidersConfig:
     object: str
@@ -60,7 +61,8 @@ class mapDashboardInstanceIntegrationsCreateOutputConfiguration:
         return DashboardInstanceIntegrationsCreateOutputConfiguration(
         can_attach_custom_tool_filters=data.get('can_attach_custom_tool_filters'),
         can_attach_custom_provider_config=data.get('can_attach_custom_provider_config'),
-        can_override_tool_filters=data.get('can_override_tool_filters')
+        can_override_tool_filters=data.get('can_override_tool_filters'),
+        use_integration_name_in_tool_names=data.get('use_integration_name_in_tool_names')
         )
 
     @staticmethod
@@ -157,6 +159,7 @@ class DashboardInstanceIntegrationsCreateBody:
     name: str
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
+    use_integration_name_in_tool_names: Optional[bool] = None
     can_attach_custom_tool_filters: Optional[bool] = None
     can_attach_custom_provider_config: Optional[bool] = None
     can_override_tool_filters: Optional[bool] = None
@@ -169,6 +172,7 @@ class mapDashboardInstanceIntegrationsCreateBody:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        use_integration_name_in_tool_names=data.get('use_integration_name_in_tool_names'),
         can_attach_custom_tool_filters=data.get('can_attach_custom_tool_filters'),
         can_attach_custom_provider_config=data.get('can_attach_custom_provider_config'),
         can_override_tool_filters=data.get('can_override_tool_filters')

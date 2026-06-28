@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Optional, Union
 from metorial_util_endpoint import BaseMetorialEndpoint, MetorialEndpointManager, MetorialRequest
-from ..resources import mapDashboardInstanceConversationsMessagesListOutput, DashboardInstanceConversationsMessagesListOutput, mapDashboardInstanceConversationsMessagesListQuery, DashboardInstanceConversationsMessagesListQuery, mapDashboardInstanceConversationsMessagesCreateOutput, DashboardInstanceConversationsMessagesCreateOutput, mapDashboardInstanceConversationsMessagesCreateBody, DashboardInstanceConversationsMessagesCreateBody, mapDashboardInstanceConversationsMessagesGetOutput, DashboardInstanceConversationsMessagesGetOutput
+from ..resources import mapDashboardInstanceConversationsMessagesListOutput, DashboardInstanceConversationsMessagesListOutput, mapDashboardInstanceConversationsMessagesListQuery, DashboardInstanceConversationsMessagesListQuery, mapDashboardInstanceConversationsMessagesCreateOutput, DashboardInstanceConversationsMessagesCreateOutput, mapDashboardInstanceConversationsMessagesCreateBody, DashboardInstanceConversationsMessagesCreateBody, mapDashboardInstanceConversationsMessagesGetOutput, DashboardInstanceConversationsMessagesGetOutput, mapDashboardInstanceConversationsMessagesHandoffResponsesOutput, DashboardInstanceConversationsMessagesHandoffResponsesOutput, mapDashboardInstanceConversationsMessagesHandoffResponsesBody, DashboardInstanceConversationsMessagesHandoffResponsesBody
 
 class MetorialManagementInstanceConversationsMessagesEndpoint(BaseMetorialEndpoint):
     """Assistant and conversation endpoints"""
@@ -81,3 +81,24 @@ class MetorialManagementInstanceConversationsMessagesEndpoint(BaseMetorialEndpoi
             path=['instances', instance_id, 'conversations', assistant_conversation_id, 'messages', assistant_message_id]
         )
         return self._get(request).transform(mapDashboardInstanceConversationsMessagesGetOutput.from_dict)
+
+    def handoff_responses(self, instance_id: str, assistant_conversation_id: str, assistant_message_id: str, *, responses: List[Dict[str, Any]]) -> DashboardInstanceConversationsMessagesHandoffResponsesOutput:
+        """
+    Respond to assistant handoffs
+    Submit one or more client handoff tool responses for a waiting message.
+
+    :param instance_id: str
+    :param assistant_conversation_id: str
+    :param assistant_message_id: str
+    :param responses: List[Dict[str, Any]]
+    :return: DashboardInstanceConversationsMessagesHandoffResponsesOutput
+    """
+        # Build body parameters from keyword arguments
+        body_dict = {}
+        body_dict["responses"] = responses
+
+        request = MetorialRequest(
+            path=['instances', instance_id, 'conversations', assistant_conversation_id, 'messages', assistant_message_id, 'handoff-responses'],
+            body=body_dict
+        )
+        return self._post(request).transform(mapDashboardInstanceConversationsMessagesHandoffResponsesOutput.from_dict)

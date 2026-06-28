@@ -8,7 +8,7 @@ class MetorialMagicMcpServersEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, magic_mcp_group_id: Optional[Union[str, List[str]]] = None, provider_template_id: Optional[Union[str, List[str]]] = None, consumer_id: Optional[Union[str, List[str]]] = None, consumer_profile_id: Optional[Union[str, List[str]]] = None, search: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, preconfigured_only: Optional[bool] = None) -> DashboardInstanceMagicMcpServersListOutput:
+    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, magic_mcp_group_id: Optional[Union[str, List[str]]] = None, provider_template_id: Optional[Union[str, List[str]]] = None, integration_instance_id: Optional[Union[str, List[str]]] = None, owner: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, consumer_id: Optional[Union[str, List[str]]] = None, consumer_profile_id: Optional[Union[str, List[str]]] = None, search: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, preconfigured_only: Optional[bool] = None) -> DashboardInstanceMagicMcpServersListOutput:
         """
     List magic MCP servers
     Returns a paginated list of magic MCP servers.
@@ -21,6 +21,9 @@ class MetorialMagicMcpServersEndpoint(BaseMetorialEndpoint):
     :param status: Optional[Union[str, List[str]]] (optional)
     :param magic_mcp_group_id: Optional[Union[str, List[str]]] (optional)
     :param provider_template_id: Optional[Union[str, List[str]]] (optional)
+    :param integration_instance_id: Optional[Union[str, List[str]]] (optional)
+    :param owner: Optional[Union[str, List[str]]] (optional)
+    :param provider_id: Optional[Union[str, List[str]]] (optional)
     :param consumer_id: Optional[Union[str, List[str]]] (optional)
     :param consumer_profile_id: Optional[Union[str, List[str]]] (optional)
     :param search: Optional[str] (optional)
@@ -46,6 +49,12 @@ class MetorialMagicMcpServersEndpoint(BaseMetorialEndpoint):
             query_dict["magic_mcp_group_id"] = magic_mcp_group_id
         if provider_template_id is not None:
             query_dict["provider_template_id"] = provider_template_id
+        if integration_instance_id is not None:
+            query_dict["integration_instance_id"] = integration_instance_id
+        if owner is not None:
+            query_dict["owner"] = owner
+        if provider_id is not None:
+            query_dict["provider_id"] = provider_id
         if consumer_id is not None:
             query_dict["consumer_id"] = consumer_id
         if consumer_profile_id is not None:
@@ -89,7 +98,7 @@ class MetorialMagicMcpServersEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapDashboardInstanceMagicMcpServersToolsOutput.from_dict)
 
-    def create(self, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, provider_template_id: Optional[str] = None, consumer_profile_id: Optional[str] = None) -> DashboardInstanceMagicMcpServersCreateOutput:
+    def create(self, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, provider_template_id: Optional[str] = None, integration_instance_id: Optional[str] = None, consumer_profile_id: Optional[str] = None) -> DashboardInstanceMagicMcpServersCreateOutput:
         """
     Create magic MCP server
     Creates a magic MCP server with a new session template. A Subspace session is created automatically on first connection and then reused.
@@ -98,6 +107,7 @@ class MetorialMagicMcpServersEndpoint(BaseMetorialEndpoint):
     :param description: Optional[str] (optional)
     :param metadata: Optional[Dict[str, Any]] (optional)
     :param provider_template_id: Optional[str] (optional)
+    :param integration_instance_id: Optional[str] (optional)
     :param consumer_profile_id: Optional[str] (optional)
     :return: DashboardInstanceMagicMcpServersCreateOutput
     """
@@ -111,6 +121,8 @@ class MetorialMagicMcpServersEndpoint(BaseMetorialEndpoint):
             body_dict["metadata"] = metadata
         if provider_template_id is not None:
             body_dict["provider_template_id"] = provider_template_id
+        if integration_instance_id is not None:
+            body_dict["integration_instance_id"] = integration_instance_id
         if consumer_profile_id is not None:
             body_dict["consumer_profile_id"] = consumer_profile_id
 

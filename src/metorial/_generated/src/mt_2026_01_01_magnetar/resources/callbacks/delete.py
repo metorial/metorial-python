@@ -26,6 +26,7 @@ class CallbacksDeleteOutputDestinations:
     updated_at: datetime
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
+    signing_secret: Optional[str] = None
 @dataclass
 class CallbacksDeleteOutputProviderTriggersProviderTrigger:
     object: str
@@ -90,6 +91,7 @@ class mapCallbacksDeleteOutputDestinations:
         metadata=data.get('metadata'),
         url=data.get('url'),
         method=data.get('method'),
+        signing_secret=data.get('signing_secret'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

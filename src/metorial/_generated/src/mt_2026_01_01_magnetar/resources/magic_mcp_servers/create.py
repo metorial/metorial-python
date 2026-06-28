@@ -412,6 +412,7 @@ class MagicMcpServersCreateBody:
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
     provider_template_id: Optional[str] = None
+    integration_instance_id: Optional[str] = None
     consumer_profile_id: Optional[str] = None
 
 
@@ -423,6 +424,7 @@ class mapMagicMcpServersCreateBody:
         description=data.get('description'),
         metadata=data.get('metadata'),
         provider_template_id=data.get('provider_template_id'),
+        integration_instance_id=data.get('integration_instance_id'),
         consumer_profile_id=data.get('consumer_profile_id')
         )
 

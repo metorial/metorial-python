@@ -54,7 +54,7 @@ class ConsumerProvidersListQuery:
     cursor: Optional[str] = None
     order: Optional[str] = None
     search: Optional[str] = None
-    provider_group_id: Optional[str] = None
+    provider_group_id: Optional[Union[str, List[str]]] = None
 
 
 class mapConsumerProvidersListQuery:

@@ -138,6 +138,7 @@ class PortalsConsumerInvitesListQuery:
     cursor: Optional[str] = None
     order: Optional[str] = None
     search: Optional[str] = None
+    email: Optional[Union[str, List[str]]] = None
     status: Optional[Union[str, List[str]]] = None
 
 
@@ -151,6 +152,7 @@ class mapPortalsConsumerInvitesListQuery:
         cursor=data.get('cursor'),
         order=data.get('order'),
         search=data.get('search'),
+        email=data.get('email'),
         status=data.get('status')
         )
 

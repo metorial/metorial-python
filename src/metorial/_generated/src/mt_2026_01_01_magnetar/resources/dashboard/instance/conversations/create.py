@@ -314,6 +314,7 @@ class mapDashboardInstanceConversationsCreateOutput:
 class DashboardInstanceConversationsCreateBody:
     assistant_id: str
     title: Optional[str] = None
+    input: Optional[Dict[str, Any]] = None
 
 
 class mapDashboardInstanceConversationsCreateBody:
@@ -321,7 +322,8 @@ class mapDashboardInstanceConversationsCreateBody:
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceConversationsCreateBody:
         return DashboardInstanceConversationsCreateBody(
         assistant_id=data.get('assistant_id'),
-        title=data.get('title')
+        title=data.get('title'),
+        input=data.get('input')
         )
 
     @staticmethod

@@ -4,17 +4,23 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class ManagementInstanceCallbacksEventsListOutputItemsError:
+    code: Optional[str] = None
+    message: Optional[str] = None
+@dataclass
 class ManagementInstanceCallbacksEventsListOutputItems:
     object: str
     id: str
     type: str
     source_id: str
     trigger_key: str
-    input: Dict[str, Any]
-    output: Dict[str, Any]
+    status: str
     delivery_status: str
     callback_id: str
     created_at: datetime
+    input: Optional[Dict[str, Any]] = None
+    output: Optional[Dict[str, Any]] = None
+    error: Optional[ManagementInstanceCallbacksEventsListOutputItemsError] = None
     callback_instance_id: Optional[str] = None
 @dataclass
 class ManagementInstanceCallbacksEventsListOutputPagination:
@@ -25,6 +31,22 @@ class ManagementInstanceCallbacksEventsListOutput:
     items: List[ManagementInstanceCallbacksEventsListOutputItems]
     pagination: ManagementInstanceCallbacksEventsListOutputPagination
 
+
+class mapManagementInstanceCallbacksEventsListOutputItemsError:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceCallbacksEventsListOutputItemsError:
+        return ManagementInstanceCallbacksEventsListOutputItemsError(
+        code=data.get('code'),
+        message=data.get('message')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceCallbacksEventsListOutputItemsError, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapManagementInstanceCallbacksEventsListOutputItems:
     @staticmethod
@@ -37,6 +59,8 @@ class mapManagementInstanceCallbacksEventsListOutputItems:
         trigger_key=data.get('trigger_key'),
         input=data.get('input'),
         output=data.get('output'),
+        status=data.get('status'),
+        error=mapManagementInstanceCallbacksEventsListOutputItemsError.from_dict(data.get('error')) if data.get('error') else None,
         delivery_status=data.get('delivery_status'),
         callback_id=data.get('callback_id'),
         callback_instance_id=data.get('callback_instance_id'),

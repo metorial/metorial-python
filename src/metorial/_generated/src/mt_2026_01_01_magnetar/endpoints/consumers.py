@@ -8,7 +8,7 @@ class MetorialConsumersEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, search: Optional[str] = None, id: Optional[str] = None) -> DashboardInstanceConsumersListOutput:
+    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, search: Optional[str] = None, email: Optional[Union[str, List[str]]] = None, id: Optional[str] = None) -> DashboardInstanceConsumersListOutput:
         """
     List consumers
     Returns a paginated list of consumers for an instance.
@@ -19,6 +19,7 @@ class MetorialConsumersEndpoint(BaseMetorialEndpoint):
     :param cursor: Optional[str] (optional)
     :param order: Optional[str] (optional)
     :param search: Optional[str] (optional)
+    :param email: Optional[Union[str, List[str]]] (optional)
     :param id: Optional[str] (optional)
     :return: DashboardInstanceConsumersListOutput
     """
@@ -36,6 +37,8 @@ class MetorialConsumersEndpoint(BaseMetorialEndpoint):
             query_dict["order"] = order
         if search is not None:
             query_dict["search"] = search
+        if email is not None:
+            query_dict["email"] = email
         if id is not None:
             query_dict["id"] = id
 

@@ -124,7 +124,7 @@ class MetorialProviderDeploymentsEndpoint(BaseMetorialEndpoint):
         )
         return self._post(request).transform(mapDashboardInstanceProviderDeploymentsCreateOutput.from_dict)
 
-    def update(self, provider_deployment_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None) -> DashboardInstanceProviderDeploymentsUpdateOutput:
+    def update(self, provider_deployment_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None, locked_provider_version_id: Optional[str] = None) -> DashboardInstanceProviderDeploymentsUpdateOutput:
         """
     Update provider deployment
     Updates a specific provider deployment.
@@ -134,6 +134,7 @@ class MetorialProviderDeploymentsEndpoint(BaseMetorialEndpoint):
     :param description: Optional[str] (optional)
     :param metadata: Optional[Dict[str, Any]] (optional)
     :param tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] (optional)
+    :param locked_provider_version_id: Optional[str] (optional)
     :return: DashboardInstanceProviderDeploymentsUpdateOutput
     """
         # Build body parameters from keyword arguments
@@ -146,6 +147,8 @@ class MetorialProviderDeploymentsEndpoint(BaseMetorialEndpoint):
             body_dict["metadata"] = metadata
         if tool_filters is not None:
             body_dict["tool_filters"] = tool_filters
+        if locked_provider_version_id is not None:
+            body_dict["locked_provider_version_id"] = locked_provider_version_id
 
         request = MetorialRequest(
             path=['provider-deployments', provider_deployment_id],

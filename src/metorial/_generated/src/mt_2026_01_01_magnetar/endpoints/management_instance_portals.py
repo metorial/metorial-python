@@ -8,7 +8,7 @@ class MetorialManagementInstancePortalsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None) -> DashboardInstancePortalsListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, search: Optional[str] = None) -> DashboardInstancePortalsListOutput:
         """
     List portals
     Returns a paginated list of portals.
@@ -19,6 +19,7 @@ class MetorialManagementInstancePortalsEndpoint(BaseMetorialEndpoint):
     :param before: Optional[str] (optional)
     :param cursor: Optional[str] (optional)
     :param order: Optional[str] (optional)
+    :param search: Optional[str] (optional)
     :return: DashboardInstancePortalsListOutput
     """
         # Build query parameters from keyword arguments
@@ -33,6 +34,8 @@ class MetorialManagementInstancePortalsEndpoint(BaseMetorialEndpoint):
             query_dict["cursor"] = cursor
         if order is not None:
             query_dict["order"] = order
+        if search is not None:
+            query_dict["search"] = search
 
         request = MetorialRequest(
             path=['instances', instance_id, 'portals'],

@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Optional, Union
 from metorial_util_endpoint import BaseMetorialEndpoint, MetorialEndpointManager, MetorialRequest
-from ..resources import mapDashboardInstancePortalsConsumerProfilesListOutput, DashboardInstancePortalsConsumerProfilesListOutput, mapDashboardInstancePortalsConsumerProfilesListQuery, DashboardInstancePortalsConsumerProfilesListQuery, mapDashboardInstancePortalsConsumerProfilesGetOutput, DashboardInstancePortalsConsumerProfilesGetOutput, mapDashboardInstancePortalsConsumerProfilesCreateOutput, DashboardInstancePortalsConsumerProfilesCreateOutput, mapDashboardInstancePortalsConsumerProfilesCreateBody, DashboardInstancePortalsConsumerProfilesCreateBody, mapDashboardInstancePortalsConsumerProfilesAssignGroupsOutput, DashboardInstancePortalsConsumerProfilesAssignGroupsOutput, mapDashboardInstancePortalsConsumerProfilesAssignGroupsBody, DashboardInstancePortalsConsumerProfilesAssignGroupsBody, mapDashboardInstancePortalsConsumerProfilesUnassignGroupsOutput, DashboardInstancePortalsConsumerProfilesUnassignGroupsOutput, mapDashboardInstancePortalsConsumerProfilesUnassignGroupsBody, DashboardInstancePortalsConsumerProfilesUnassignGroupsBody
+from ..resources import mapDashboardInstancePortalsConsumerProfilesListOutput, DashboardInstancePortalsConsumerProfilesListOutput, mapDashboardInstancePortalsConsumerProfilesListQuery, DashboardInstancePortalsConsumerProfilesListQuery, mapDashboardInstancePortalsConsumerProfilesGetOutput, DashboardInstancePortalsConsumerProfilesGetOutput, mapDashboardInstancePortalsConsumerProfilesCreateOutput, DashboardInstancePortalsConsumerProfilesCreateOutput, mapDashboardInstancePortalsConsumerProfilesCreateBody, DashboardInstancePortalsConsumerProfilesCreateBody, mapDashboardInstancePortalsConsumerProfilesDeleteOutput, DashboardInstancePortalsConsumerProfilesDeleteOutput, mapDashboardInstancePortalsConsumerProfilesAssignGroupsOutput, DashboardInstancePortalsConsumerProfilesAssignGroupsOutput, mapDashboardInstancePortalsConsumerProfilesAssignGroupsBody, DashboardInstancePortalsConsumerProfilesAssignGroupsBody, mapDashboardInstancePortalsConsumerProfilesUnassignGroupsOutput, DashboardInstancePortalsConsumerProfilesUnassignGroupsOutput, mapDashboardInstancePortalsConsumerProfilesUnassignGroupsBody, DashboardInstancePortalsConsumerProfilesUnassignGroupsBody
 
 class MetorialDashboardInstancePortalsConsumerProfilesEndpoint(BaseMetorialEndpoint):
     """Manage the consumers and effective group assignments for a portal."""
@@ -8,7 +8,7 @@ class MetorialDashboardInstancePortalsConsumerProfilesEndpoint(BaseMetorialEndpo
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, portal_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, search: Optional[str] = None, consumer_group_id: Optional[str] = None, status: Optional[Union[str, List[str]]] = None) -> DashboardInstancePortalsConsumerProfilesListOutput:
+    def list(self, instance_id: str, portal_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, search: Optional[str] = None, email: Optional[Union[str, List[str]]] = None, consumer_group_id: Optional[str] = None, status: Optional[Union[str, List[str]]] = None) -> DashboardInstancePortalsConsumerProfilesListOutput:
         """
     List portal consumer profiles
     Returns a paginated list of consumer profiles for a portal.
@@ -21,6 +21,7 @@ class MetorialDashboardInstancePortalsConsumerProfilesEndpoint(BaseMetorialEndpo
     :param cursor: Optional[str] (optional)
     :param order: Optional[str] (optional)
     :param search: Optional[str] (optional)
+    :param email: Optional[Union[str, List[str]]] (optional)
     :param consumer_group_id: Optional[str] (optional)
     :param status: Optional[Union[str, List[str]]] (optional)
     :return: DashboardInstancePortalsConsumerProfilesListOutput
@@ -39,6 +40,8 @@ class MetorialDashboardInstancePortalsConsumerProfilesEndpoint(BaseMetorialEndpo
             query_dict["order"] = order
         if search is not None:
             query_dict["search"] = search
+        if email is not None:
+            query_dict["email"] = email
         if consumer_group_id is not None:
             query_dict["consumer_group_id"] = consumer_group_id
         if status is not None:
@@ -86,6 +89,21 @@ class MetorialDashboardInstancePortalsConsumerProfilesEndpoint(BaseMetorialEndpo
             body=body_dict
         )
         return self._post(request).transform(mapDashboardInstancePortalsConsumerProfilesCreateOutput.from_dict)
+
+    def delete(self, instance_id: str, portal_id: str, consumer_profile_id: str) -> DashboardInstancePortalsConsumerProfilesDeleteOutput:
+        """
+    Delete portal consumer profile
+    Soft-deletes a portal consumer profile.
+
+    :param instance_id: str
+    :param portal_id: str
+    :param consumer_profile_id: str
+    :return: DashboardInstancePortalsConsumerProfilesDeleteOutput
+    """
+        request = MetorialRequest(
+            path=['dashboard', 'instances', instance_id, 'portals', portal_id, 'consumer-profile', consumer_profile_id]
+        )
+        return self._delete(request).transform(mapDashboardInstancePortalsConsumerProfilesDeleteOutput.from_dict)
 
     def assign_groups(self, instance_id: str, portal_id: str, consumer_profile_id: str, *, group_ids: List[str]) -> DashboardInstancePortalsConsumerProfilesAssignGroupsOutput:
         """

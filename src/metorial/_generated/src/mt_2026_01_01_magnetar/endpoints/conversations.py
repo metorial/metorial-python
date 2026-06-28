@@ -42,13 +42,14 @@ class MetorialConversationsEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapDashboardInstanceConversationsListOutput.from_dict)
 
-    def create(self, *, assistant_id: str, title: Optional[str] = None) -> DashboardInstanceConversationsCreateOutput:
+    def create(self, *, assistant_id: str, title: Optional[str] = None, input: Optional[Dict[str, Any]] = None) -> DashboardInstanceConversationsCreateOutput:
         """
     Create assistant conversation
     Create a new assistant conversation in an instance.
 
     :param assistant_id: str
     :param title: Optional[str] (optional)
+    :param input: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceConversationsCreateOutput
     """
         # Build body parameters from keyword arguments
@@ -56,6 +57,8 @@ class MetorialConversationsEndpoint(BaseMetorialEndpoint):
         body_dict["assistant_id"] = assistant_id
         if title is not None:
             body_dict["title"] = title
+        if input is not None:
+            body_dict["input"] = input
 
         request = MetorialRequest(
             path=['conversations'],

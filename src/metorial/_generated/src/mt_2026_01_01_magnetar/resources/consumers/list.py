@@ -84,6 +84,7 @@ class ConsumersListQuery:
     cursor: Optional[str] = None
     order: Optional[str] = None
     search: Optional[str] = None
+    email: Optional[Union[str, List[str]]] = None
     id: Optional[str] = None
 
 
@@ -97,6 +98,7 @@ class mapConsumersListQuery:
         cursor=data.get('cursor'),
         order=data.get('order'),
         search=data.get('search'),
+        email=data.get('email'),
         id=data.get('id')
         )
 

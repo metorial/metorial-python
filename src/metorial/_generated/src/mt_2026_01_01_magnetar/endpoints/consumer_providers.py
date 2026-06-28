@@ -8,7 +8,7 @@ class MetorialConsumerProvidersEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, search: Optional[str] = None, provider_group_id: Optional[str] = None) -> ConsumerProvidersListOutput:
+    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, search: Optional[str] = None, provider_group_id: Optional[Union[str, List[str]]] = None) -> ConsumerProvidersListOutput:
         """
     List consumer providers
     Returns the unified portal catalog with consumer availability.
@@ -19,7 +19,7 @@ class MetorialConsumerProvidersEndpoint(BaseMetorialEndpoint):
     :param cursor: Optional[str] (optional)
     :param order: Optional[str] (optional)
     :param search: Optional[str] (optional)
-    :param provider_group_id: Optional[str] (optional)
+    :param provider_group_id: Optional[Union[str, List[str]]] (optional)
     :return: ConsumerProvidersListOutput
     """
         # Build query parameters from keyword arguments

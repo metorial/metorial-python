@@ -126,6 +126,7 @@ class ProviderDeploymentsUpdateBody:
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
     tool_filters: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]] = None
+    locked_provider_version_id: Optional[str] = None
 
 
 class mapProviderDeploymentsUpdateBody:
@@ -135,7 +136,8 @@ class mapProviderDeploymentsUpdateBody:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
-        tool_filters=data.get('tool_filters')
+        tool_filters=data.get('tool_filters'),
+        locked_provider_version_id=data.get('locked_provider_version_id')
         )
 
     @staticmethod

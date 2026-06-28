@@ -78,7 +78,7 @@ class MetorialManagementInstanceSkillsEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapDashboardInstanceSkillsGetOutput.from_dict)
 
-    def create(self, instance_id: str, *, name: str, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, client_name: Optional[str] = None, client_description: Optional[str] = None, license: Optional[str] = None, compatibility: Optional[str] = None, client_metadata: Optional[Dict[str, Any]] = None, image_file_id: Optional[str] = None, template_id: Optional[str] = None) -> DashboardInstanceSkillsCreateOutput:
+    def create(self, instance_id: str, *, name: str, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, client_name: Optional[str] = None, client_description: Optional[str] = None, license: Optional[str] = None, compatibility: Optional[str] = None, client_metadata: Optional[Dict[str, Any]] = None, image_file_id: Optional[str] = None, template_id: Optional[str] = None, skill_group_id: Optional[str] = None) -> DashboardInstanceSkillsCreateOutput:
         """
     Create skill
     Creates a new skill.
@@ -94,6 +94,7 @@ class MetorialManagementInstanceSkillsEndpoint(BaseMetorialEndpoint):
     :param client_metadata: Optional[Dict[str, Any]] (optional)
     :param image_file_id: Optional[str] (optional)
     :param template_id: Optional[str] (optional)
+    :param skill_group_id: Optional[str] (optional)
     :return: DashboardInstanceSkillsCreateOutput
     """
         # Build body parameters from keyword arguments
@@ -117,6 +118,8 @@ class MetorialManagementInstanceSkillsEndpoint(BaseMetorialEndpoint):
             body_dict["image_file_id"] = image_file_id
         if template_id is not None:
             body_dict["template_id"] = template_id
+        if skill_group_id is not None:
+            body_dict["skill_group_id"] = skill_group_id
 
         request = MetorialRequest(
             path=['instances', instance_id, 'skills'],

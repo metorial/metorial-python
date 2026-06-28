@@ -4,6 +4,11 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class PortalsAccessDeleteOutputListing:
+    id: str
+    name: str
+    description: Optional[str] = None
+@dataclass
 class PortalsAccessDeleteOutputConsumerGroup:
     object: str
     id: str
@@ -25,7 +30,25 @@ class PortalsAccessDeleteOutput:
     updated_at: datetime
     description: Optional[str] = None
     readme: Optional[str] = None
+    listing: Optional[PortalsAccessDeleteOutputListing] = None
 
+
+class mapPortalsAccessDeleteOutputListing:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> PortalsAccessDeleteOutputListing:
+        return PortalsAccessDeleteOutputListing(
+        id=data.get('id'),
+        name=data.get('name'),
+        description=data.get('description')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[PortalsAccessDeleteOutputListing, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapPortalsAccessDeleteOutputConsumerGroup:
     @staticmethod
@@ -59,6 +82,7 @@ class mapPortalsAccessDeleteOutput:
         name=data.get('name'),
         description=data.get('description'),
         readme=data.get('readme'),
+        listing=mapPortalsAccessDeleteOutputListing.from_dict(data.get('listing')) if data.get('listing') else None,
         access=data.get('access'),
         consumer_group=mapPortalsAccessDeleteOutputConsumerGroup.from_dict(data.get('consumer_group')) if data.get('consumer_group') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,

@@ -69,6 +69,7 @@ class ConversationsMessagesCreateOutput:
     id: str
     conversation_item_id: str
     type: str
+    status: str
     request: ConversationsMessagesCreateOutputRequest
     items: List[Dict[str, Any]]
     created_at: datetime
@@ -229,6 +230,7 @@ class mapConversationsMessagesCreateOutput:
         id=data.get('id'),
         conversation_item_id=data.get('conversation_item_id'),
         type=data.get('type'),
+        status=data.get('status'),
         assistant_id=data.get('assistant_id'),
         parent_message_id=data.get('parent_message_id'),
         model=mapConversationsMessagesCreateOutputModel.from_dict(data.get('model')) if data.get('model') else None,

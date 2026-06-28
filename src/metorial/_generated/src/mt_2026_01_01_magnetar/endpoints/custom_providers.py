@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Optional, Union
 from metorial_util_endpoint import BaseMetorialEndpoint, MetorialEndpointManager, MetorialRequest
-from ..resources import mapDashboardInstanceCustomProvidersListOutput, DashboardInstanceCustomProvidersListOutput, mapDashboardInstanceCustomProvidersListQuery, DashboardInstanceCustomProvidersListQuery, mapDashboardInstanceCustomProvidersGetOutput, DashboardInstanceCustomProvidersGetOutput, mapDashboardInstanceCustomProvidersGetEnvOutput, DashboardInstanceCustomProvidersGetEnvOutput, mapDashboardInstanceCustomProvidersCreateOutput, DashboardInstanceCustomProvidersCreateOutput, mapDashboardInstanceCustomProvidersCreateBody, DashboardInstanceCustomProvidersCreateBody, mapDashboardInstanceCustomProvidersUpdateOutput, DashboardInstanceCustomProvidersUpdateOutput, mapDashboardInstanceCustomProvidersUpdateBody, DashboardInstanceCustomProvidersUpdateBody
+from ..resources import mapDashboardInstanceCustomProvidersListOutput, DashboardInstanceCustomProvidersListOutput, mapDashboardInstanceCustomProvidersListQuery, DashboardInstanceCustomProvidersListQuery, mapDashboardInstanceCustomProvidersGetOutput, DashboardInstanceCustomProvidersGetOutput, mapDashboardInstanceCustomProvidersGetEnvOutput, DashboardInstanceCustomProvidersGetEnvOutput, mapDashboardInstanceCustomProvidersCreateOutput, DashboardInstanceCustomProvidersCreateOutput, mapDashboardInstanceCustomProvidersCreateBody, DashboardInstanceCustomProvidersCreateBody, mapDashboardInstanceCustomProvidersUpdateOutput, DashboardInstanceCustomProvidersUpdateOutput, mapDashboardInstanceCustomProvidersUpdateBody, DashboardInstanceCustomProvidersUpdateBody, mapDashboardInstanceCustomProvidersArchiveOutput, DashboardInstanceCustomProvidersArchiveOutput
 
 class MetorialCustomProvidersEndpoint(BaseMetorialEndpoint):
     """Custom providers allow you to deploy your own MCP servers. Create providers from container images, remote URLs, or serverless functions."""
@@ -143,3 +143,16 @@ class MetorialCustomProvidersEndpoint(BaseMetorialEndpoint):
             body=body_dict
         )
         return self._patch(request).transform(mapDashboardInstanceCustomProvidersUpdateOutput.from_dict)
+
+    def archive(self, custom_provider_id: str) -> DashboardInstanceCustomProvidersArchiveOutput:
+        """
+    Archive custom provider
+    Archives a specific custom provider and disables new connections to it.
+
+    :param custom_provider_id: str
+    :return: DashboardInstanceCustomProvidersArchiveOutput
+    """
+        request = MetorialRequest(
+            path=['custom-providers', custom_provider_id, 'archive']
+        )
+        return self._post(request).transform(mapDashboardInstanceCustomProvidersArchiveOutput.from_dict)

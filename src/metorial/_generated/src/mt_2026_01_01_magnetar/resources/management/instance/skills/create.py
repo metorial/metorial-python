@@ -144,6 +144,7 @@ class ManagementInstanceSkillsCreateOutputIntegrationsConfiguration:
     can_attach_custom_tool_filters: bool
     can_attach_custom_provider_config: bool
     can_override_tool_filters: bool
+    use_integration_name_in_tool_names: Optional[bool] = None
 @dataclass
 class ManagementInstanceSkillsCreateOutputIntegrations:
     object: str
@@ -510,7 +511,8 @@ class mapManagementInstanceSkillsCreateOutputIntegrationsConfiguration:
         return ManagementInstanceSkillsCreateOutputIntegrationsConfiguration(
         can_attach_custom_tool_filters=data.get('can_attach_custom_tool_filters'),
         can_attach_custom_provider_config=data.get('can_attach_custom_provider_config'),
-        can_override_tool_filters=data.get('can_override_tool_filters')
+        can_override_tool_filters=data.get('can_override_tool_filters'),
+        use_integration_name_in_tool_names=data.get('use_integration_name_in_tool_names')
         )
 
     @staticmethod
@@ -612,6 +614,7 @@ class ManagementInstanceSkillsCreateBody:
     client_metadata: Optional[Dict[str, Any]] = None
     image_file_id: Optional[str] = None
     template_id: Optional[str] = None
+    skill_group_id: Optional[str] = None
 
 
 class mapManagementInstanceSkillsCreateBody:
@@ -627,7 +630,8 @@ class mapManagementInstanceSkillsCreateBody:
         compatibility=data.get('compatibility'),
         client_metadata=data.get('client_metadata'),
         image_file_id=data.get('image_file_id'),
-        template_id=data.get('template_id')
+        template_id=data.get('template_id'),
+        skill_group_id=data.get('skill_group_id')
         )
 
     @staticmethod

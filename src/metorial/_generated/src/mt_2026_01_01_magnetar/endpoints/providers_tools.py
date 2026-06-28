@@ -8,7 +8,7 @@ class MetorialProvidersToolsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, *, provider_version_id: str, provider_auth_method_id: Optional[Union[str, List[str]]] = None, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None) -> DashboardInstanceProvidersToolsListOutput:
+    def list(self, *, provider_version_id: str, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, provider_auth_method_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceProvidersToolsListOutput:
         """
     List provider tools
     Returns a paginated list of provider tools. By default returns tools from the latest version. Use optional filters to get tools for a specific version.

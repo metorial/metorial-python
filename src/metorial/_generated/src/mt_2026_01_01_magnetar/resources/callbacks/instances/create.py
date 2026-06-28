@@ -80,6 +80,7 @@ class CallbacksInstancesCreateOutput:
     created_at: datetime
     updated_at: datetime
     auth_config: Optional[CallbacksInstancesCreateOutputAuthConfig] = None
+    webhook_url: Optional[str] = None
 
 
 class mapCallbacksInstancesCreateOutputDeployment:
@@ -242,6 +243,7 @@ class mapCallbacksInstancesCreateOutput:
         deployment=mapCallbacksInstancesCreateOutputDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         config=mapCallbacksInstancesCreateOutputConfig.from_dict(data.get('config')) if data.get('config') else None,
         auth_config=mapCallbacksInstancesCreateOutputAuthConfig.from_dict(data.get('auth_config')) if data.get('auth_config') else None,
+        webhook_url=data.get('webhook_url'),
         triggers=[mapCallbacksInstancesCreateOutputTriggers.from_dict(item) for item in data.get('triggers', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None

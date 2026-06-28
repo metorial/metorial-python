@@ -456,6 +456,9 @@ class MagicMcpServersListQuery:
     status: Optional[Union[str, List[str]]] = None
     magic_mcp_group_id: Optional[Union[str, List[str]]] = None
     provider_template_id: Optional[Union[str, List[str]]] = None
+    integration_instance_id: Optional[Union[str, List[str]]] = None
+    owner: Optional[Union[str, List[str]]] = None
+    provider_id: Optional[Union[str, List[str]]] = None
     consumer_id: Optional[Union[str, List[str]]] = None
     consumer_profile_id: Optional[Union[str, List[str]]] = None
     search: Optional[str] = None
@@ -475,6 +478,9 @@ class mapMagicMcpServersListQuery:
         status=data.get('status'),
         magic_mcp_group_id=data.get('magic_mcp_group_id'),
         provider_template_id=data.get('provider_template_id'),
+        integration_instance_id=data.get('integration_instance_id'),
+        owner=data.get('owner'),
+        provider_id=data.get('provider_id'),
         consumer_id=data.get('consumer_id'),
         consumer_profile_id=data.get('consumer_profile_id'),
         search=data.get('search'),
