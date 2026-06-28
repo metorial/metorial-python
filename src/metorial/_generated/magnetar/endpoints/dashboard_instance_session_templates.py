@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Optional, Union
 from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, MetorialRequest
-from ..resources import mapDashboardInstanceSessionTemplatesListOutput, DashboardInstanceSessionTemplatesListOutput, mapDashboardInstanceSessionTemplatesListQuery, DashboardInstanceSessionTemplatesListQuery, mapDashboardInstanceSessionTemplatesGetOutput, DashboardInstanceSessionTemplatesGetOutput, mapDashboardInstanceSessionTemplatesCreateOutput, DashboardInstanceSessionTemplatesCreateOutput, mapDashboardInstanceSessionTemplatesCreateBody, DashboardInstanceSessionTemplatesCreateBody, mapDashboardInstanceSessionTemplatesUpdateOutput, DashboardInstanceSessionTemplatesUpdateOutput, mapDashboardInstanceSessionTemplatesUpdateBody, DashboardInstanceSessionTemplatesUpdateBody
+from ..resources import mapDashboardInstanceSessionTemplatesListOutput, DashboardInstanceSessionTemplatesListOutput, mapDashboardInstanceSessionTemplatesListQuery, DashboardInstanceSessionTemplatesListQuery, mapDashboardInstanceSessionTemplatesGetOutput, DashboardInstanceSessionTemplatesGetOutput, mapDashboardInstanceSessionTemplatesCreateOutput, DashboardInstanceSessionTemplatesCreateOutput, mapDashboardInstanceSessionTemplatesCreateBody, DashboardInstanceSessionTemplatesCreateBody, mapDashboardInstanceSessionTemplatesUpdateOutput, DashboardInstanceSessionTemplatesUpdateOutput, mapDashboardInstanceSessionTemplatesUpdateBody, DashboardInstanceSessionTemplatesUpdateBody, mapDashboardInstanceSessionTemplatesDeleteOutput, DashboardInstanceSessionTemplatesDeleteOutput, mapDashboardInstanceSessionTemplatesListToolsOutput, DashboardInstanceSessionTemplatesListToolsOutput
 
 class MetorialDashboardInstanceSessionTemplatesEndpoint(BaseMetorialEndpoint):
     """Session templates define reusable configurations for sessions, including which providers to include. Templates can be used to quickly create new sessions with consistent settings."""
@@ -8,7 +8,7 @@ class MetorialDashboardInstanceSessionTemplatesEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, session_id: Optional[Union[str, List[str]]] = None, session_provider_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, provider_config_id: Optional[Union[str, List[str]]] = None, provider_auth_config_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceSessionTemplatesListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, session_id: Optional[Union[str, List[str]]] = None, session_provider_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, provider_config_id: Optional[Union[str, List[str]]] = None, provider_auth_config_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceSessionTemplatesListOutput:
         """
     List session templates
     Returns a paginated list of session templates.
@@ -27,6 +27,8 @@ class MetorialDashboardInstanceSessionTemplatesEndpoint(BaseMetorialEndpoint):
     :param provider_deployment_id: Optional[Union[str, List[str]]] (optional)
     :param provider_config_id: Optional[Union[str, List[str]]] (optional)
     :param provider_auth_config_id: Optional[Union[str, List[str]]] (optional)
+    :param created_at: Optional[Dict[str, Any]] (optional)
+    :param updated_at: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceSessionTemplatesListOutput
     """
         # Build query parameters from keyword arguments
@@ -57,6 +59,10 @@ class MetorialDashboardInstanceSessionTemplatesEndpoint(BaseMetorialEndpoint):
             query_dict["provider_config_id"] = provider_config_id
         if provider_auth_config_id is not None:
             query_dict["provider_auth_config_id"] = provider_auth_config_id
+        if created_at is not None:
+            query_dict["created_at"] = created_at
+        if updated_at is not None:
+            query_dict["updated_at"] = updated_at
 
         request = MetorialRequest(
             path=['dashboard', 'instances', instance_id, 'session-templates'],
@@ -132,3 +138,31 @@ class MetorialDashboardInstanceSessionTemplatesEndpoint(BaseMetorialEndpoint):
             body=body_dict
         )
         return self._patch(request).transform(mapDashboardInstanceSessionTemplatesUpdateOutput.from_dict)
+
+    def delete(self, instance_id: str, session_template_id: str) -> DashboardInstanceSessionTemplatesDeleteOutput:
+        """
+    Delete session template
+    Deletes a specific session template.
+
+    :param instance_id: str
+    :param session_template_id: str
+    :return: DashboardInstanceSessionTemplatesDeleteOutput
+    """
+        request = MetorialRequest(
+            path=['dashboard', 'instances', instance_id, 'session-templates', session_template_id]
+        )
+        return self._delete(request).transform(mapDashboardInstanceSessionTemplatesDeleteOutput.from_dict)
+
+    def list_tools(self, instance_id: str, session_template_id: str) -> DashboardInstanceSessionTemplatesListToolsOutput:
+        """
+    List session template tools
+    Returns the effective set of tools available through the providers in a session template, filtered by the tool filters of each provider, deployment, config, and auth config.
+
+    :param instance_id: str
+    :param session_template_id: str
+    :return: DashboardInstanceSessionTemplatesListToolsOutput
+    """
+        request = MetorialRequest(
+            path=['dashboard', 'instances', instance_id, 'session-templates', session_template_id, 'tools']
+        )
+        return self._get(request).transform(mapDashboardInstanceSessionTemplatesListToolsOutput.from_dict)

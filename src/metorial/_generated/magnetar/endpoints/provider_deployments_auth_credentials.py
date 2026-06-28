@@ -8,7 +8,7 @@ class MetorialProviderDeploymentsAuthCredentialsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, search: Optional[str] = None) -> DashboardInstanceProviderDeploymentsAuthCredentialsListOutput:
+    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_auth_method_id: Optional[Union[str, List[str]]] = None, origin: Optional[Union[str, List[str]]] = None, search: Optional[str] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderDeploymentsAuthCredentialsListOutput:
         """
     List provider auth credentials
     Returns a paginated list of provider auth credentials.
@@ -21,7 +21,11 @@ class MetorialProviderDeploymentsAuthCredentialsEndpoint(BaseMetorialEndpoint):
     :param status: Optional[Union[str, List[str]]] (optional)
     :param id: Optional[Union[str, List[str]]] (optional)
     :param provider_id: Optional[Union[str, List[str]]] (optional)
+    :param provider_auth_method_id: Optional[Union[str, List[str]]] (optional)
+    :param origin: Optional[Union[str, List[str]]] (optional)
     :param search: Optional[str] (optional)
+    :param created_at: Optional[Dict[str, Any]] (optional)
+    :param updated_at: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceProviderDeploymentsAuthCredentialsListOutput
     """
         # Build query parameters from keyword arguments
@@ -42,8 +46,16 @@ class MetorialProviderDeploymentsAuthCredentialsEndpoint(BaseMetorialEndpoint):
             query_dict["id"] = id
         if provider_id is not None:
             query_dict["provider_id"] = provider_id
+        if provider_auth_method_id is not None:
+            query_dict["provider_auth_method_id"] = provider_auth_method_id
+        if origin is not None:
+            query_dict["origin"] = origin
         if search is not None:
             query_dict["search"] = search
+        if created_at is not None:
+            query_dict["created_at"] = created_at
+        if updated_at is not None:
+            query_dict["updated_at"] = updated_at
 
         request = MetorialRequest(
             path=['provider-auth-credentials'],
@@ -93,7 +105,7 @@ class MetorialProviderDeploymentsAuthCredentialsEndpoint(BaseMetorialEndpoint):
         )
         return self._post(request).transform(mapDashboardInstanceProviderDeploymentsAuthCredentialsCreateOutput.from_dict)
 
-    def update(self, provider_auth_credentials_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderDeploymentsAuthCredentialsUpdateOutput:
+    def update(self, provider_auth_credentials_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, client_id: Optional[str] = None, client_secret: Optional[str] = None, scopes: Optional[List[str]] = None) -> DashboardInstanceProviderDeploymentsAuthCredentialsUpdateOutput:
         """
     Update provider auth credentials
     Updates specific provider auth credentials.
@@ -102,6 +114,9 @@ class MetorialProviderDeploymentsAuthCredentialsEndpoint(BaseMetorialEndpoint):
     :param name: Optional[str] (optional)
     :param description: Optional[str] (optional)
     :param metadata: Optional[Dict[str, Any]] (optional)
+    :param client_id: Optional[str] (optional)
+    :param client_secret: Optional[str] (optional)
+    :param scopes: Optional[List[str]] (optional)
     :return: DashboardInstanceProviderDeploymentsAuthCredentialsUpdateOutput
     """
         # Build body parameters from keyword arguments
@@ -112,6 +127,12 @@ class MetorialProviderDeploymentsAuthCredentialsEndpoint(BaseMetorialEndpoint):
             body_dict["description"] = description
         if metadata is not None:
             body_dict["metadata"] = metadata
+        if client_id is not None:
+            body_dict["client_id"] = client_id
+        if client_secret is not None:
+            body_dict["client_secret"] = client_secret
+        if scopes is not None:
+            body_dict["scopes"] = scopes
 
         request = MetorialRequest(
             path=['provider-auth-credentials', provider_auth_credentials_id],

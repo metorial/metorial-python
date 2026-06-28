@@ -8,7 +8,7 @@ class MetorialIdentitiesEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, search: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, agent_id: Optional[Union[str, List[str]]] = None, actor_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceIdentitiesListOutput:
+    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, search: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, agent_id: Optional[Union[str, List[str]]] = None, actor_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceIdentitiesListOutput:
         """
     List identities
     Returns a paginated list of identities for the instance.
@@ -23,6 +23,8 @@ class MetorialIdentitiesEndpoint(BaseMetorialEndpoint):
     :param id: Optional[Union[str, List[str]]] (optional)
     :param agent_id: Optional[Union[str, List[str]]] (optional)
     :param actor_id: Optional[Union[str, List[str]]] (optional)
+    :param created_at: Optional[Dict[str, Any]] (optional)
+    :param updated_at: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceIdentitiesListOutput
     """
         # Build query parameters from keyword arguments
@@ -47,6 +49,10 @@ class MetorialIdentitiesEndpoint(BaseMetorialEndpoint):
             query_dict["agent_id"] = agent_id
         if actor_id is not None:
             query_dict["actor_id"] = actor_id
+        if created_at is not None:
+            query_dict["created_at"] = created_at
+        if updated_at is not None:
+            query_dict["updated_at"] = updated_at
 
         request = MetorialRequest(
             path=['identities'],

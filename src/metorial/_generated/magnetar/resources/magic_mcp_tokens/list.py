@@ -4,6 +4,21 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class MagicMcpTokensListOutputItemsServer:
+    object: str
+    id: str
+    status: str
+    name: Optional[str] = None
+    description: Optional[str] = None
+@dataclass
+class MagicMcpTokensListOutputItemsEndpoint:
+    object: str
+    id: str
+    status: str
+    slug: str
+    name: Optional[str] = None
+    description: Optional[str] = None
+@dataclass
 class MagicMcpTokensListOutputItemsGroups:
     object: str
     id: str
@@ -26,6 +41,8 @@ class MagicMcpTokensListOutputItems:
     updated_at: datetime
     name: Optional[str] = None
     description: Optional[str] = None
+    server: Optional[MagicMcpTokensListOutputItemsServer] = None
+    endpoint: Optional[MagicMcpTokensListOutputItemsEndpoint] = None
 @dataclass
 class MagicMcpTokensListOutputPagination:
     has_more_before: bool
@@ -35,6 +52,45 @@ class MagicMcpTokensListOutput:
     items: List[MagicMcpTokensListOutputItems]
     pagination: MagicMcpTokensListOutputPagination
 
+
+class mapMagicMcpTokensListOutputItemsServer:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> MagicMcpTokensListOutputItemsServer:
+        return MagicMcpTokensListOutputItemsServer(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        name=data.get('name'),
+        description=data.get('description')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[MagicMcpTokensListOutputItemsServer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapMagicMcpTokensListOutputItemsEndpoint:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> MagicMcpTokensListOutputItemsEndpoint:
+        return MagicMcpTokensListOutputItemsEndpoint(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        slug=data.get('slug'),
+        name=data.get('name'),
+        description=data.get('description')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[MagicMcpTokensListOutputItemsEndpoint, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapMagicMcpTokensListOutputItemsGroups:
     @staticmethod
@@ -69,6 +125,8 @@ class mapMagicMcpTokensListOutputItems:
         secret=data.get('secret'),
         name=data.get('name'),
         description=data.get('description'),
+        server=mapMagicMcpTokensListOutputItemsServer.from_dict(data.get('server')) if data.get('server') else None,
+        endpoint=mapMagicMcpTokensListOutputItemsEndpoint.from_dict(data.get('endpoint')) if data.get('endpoint') else None,
         groups=[mapMagicMcpTokensListOutputItemsGroups.from_dict(item) for item in data.get('groups', []) if item],
         metadata=data.get('metadata'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
@@ -125,6 +183,8 @@ class MagicMcpTokensListQuery:
     order: Optional[str] = None
     status: Optional[Union[str, List[str]]] = None
     magic_mcp_group_id: Optional[Union[str, List[str]]] = None
+    magic_mcp_server_id: Optional[Union[str, List[str]]] = None
+    magic_mcp_endpoint_id: Optional[Union[str, List[str]]] = None
 
 
 class mapMagicMcpTokensListQuery:
@@ -137,7 +197,9 @@ class mapMagicMcpTokensListQuery:
         cursor=data.get('cursor'),
         order=data.get('order'),
         status=data.get('status'),
-        magic_mcp_group_id=data.get('magic_mcp_group_id')
+        magic_mcp_group_id=data.get('magic_mcp_group_id'),
+        magic_mcp_server_id=data.get('magic_mcp_server_id'),
+        magic_mcp_endpoint_id=data.get('magic_mcp_endpoint_id')
         )
 
     @staticmethod

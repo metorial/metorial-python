@@ -361,6 +361,14 @@ class mapDashboardInstanceProviderListingsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class DashboardInstanceProviderListingsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class DashboardInstanceProviderListingsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class DashboardInstanceProviderListingsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -368,6 +376,7 @@ class DashboardInstanceProviderListingsListQuery:
     cursor: Optional[str] = None
     order: Optional[str] = None
     search: Optional[str] = None
+    id: Optional[Union[str, List[str]]] = None
     provider_category_id: Optional[Union[str, List[str]]] = None
     provider_collection_id: Optional[Union[str, List[str]]] = None
     provider_group_id: Optional[Union[str, List[str]]] = None
@@ -377,6 +386,8 @@ class DashboardInstanceProviderListingsListQuery:
     is_verified: Optional[bool] = None
     is_official: Optional[bool] = None
     is_metorial: Optional[bool] = None
+    created_at: Optional[DashboardInstanceProviderListingsListQueryCreatedAt] = None
+    updated_at: Optional[DashboardInstanceProviderListingsListQueryUpdatedAt] = None
 
 
 class mapDashboardInstanceProviderListingsListQuery:
@@ -389,6 +400,7 @@ class mapDashboardInstanceProviderListingsListQuery:
         cursor=data.get('cursor'),
         order=data.get('order'),
         search=data.get('search'),
+        id=data.get('id'),
         provider_category_id=data.get('provider_category_id'),
         provider_collection_id=data.get('provider_collection_id'),
         provider_group_id=data.get('provider_group_id'),
@@ -397,7 +409,9 @@ class mapDashboardInstanceProviderListingsListQuery:
         is_public=data.get('is_public'),
         is_verified=data.get('is_verified'),
         is_official=data.get('is_official'),
-        is_metorial=data.get('is_metorial')
+        is_metorial=data.get('is_metorial'),
+        created_at=mapDashboardInstanceProviderListingsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapDashboardInstanceProviderListingsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

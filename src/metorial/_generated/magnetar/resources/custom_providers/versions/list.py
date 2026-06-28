@@ -607,6 +607,14 @@ class mapCustomProvidersVersionsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class CustomProvidersVersionsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class CustomProvidersVersionsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class CustomProvidersVersionsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -620,6 +628,8 @@ class CustomProvidersVersionsListQuery:
     custom_provider_id: Optional[Union[str, List[str]]] = None
     custom_provider_deployment_id: Optional[Union[str, List[str]]] = None
     custom_provider_environment_id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[CustomProvidersVersionsListQueryCreatedAt] = None
+    updated_at: Optional[CustomProvidersVersionsListQueryUpdatedAt] = None
 
 
 class mapCustomProvidersVersionsListQuery:
@@ -637,7 +647,9 @@ class mapCustomProvidersVersionsListQuery:
         provider_version_id=data.get('provider_version_id'),
         custom_provider_id=data.get('custom_provider_id'),
         custom_provider_deployment_id=data.get('custom_provider_deployment_id'),
-        custom_provider_environment_id=data.get('custom_provider_environment_id')
+        custom_provider_environment_id=data.get('custom_provider_environment_id'),
+        created_at=mapCustomProvidersVersionsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapCustomProvidersVersionsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

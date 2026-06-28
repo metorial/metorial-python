@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Optional, Union
 from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, MetorialRequest
-from ..resources import mapDashboardInstanceCustomProvidersVersionsListOutput, DashboardInstanceCustomProvidersVersionsListOutput, mapDashboardInstanceCustomProvidersVersionsListQuery, DashboardInstanceCustomProvidersVersionsListQuery, mapDashboardInstanceCustomProvidersVersionsGetOutput, DashboardInstanceCustomProvidersVersionsGetOutput, mapDashboardInstanceCustomProvidersVersionsCreateOutput, DashboardInstanceCustomProvidersVersionsCreateOutput, mapDashboardInstanceCustomProvidersVersionsCreateBody, DashboardInstanceCustomProvidersVersionsCreateBody
+from ..resources import mapDashboardInstanceCustomProvidersVersionsListOutput, DashboardInstanceCustomProvidersVersionsListOutput, mapDashboardInstanceCustomProvidersVersionsListQuery, DashboardInstanceCustomProvidersVersionsListQuery, mapDashboardInstanceCustomProvidersVersionsGetOutput, DashboardInstanceCustomProvidersVersionsGetOutput, mapDashboardInstanceCustomProvidersVersionsGetEnvOutput, DashboardInstanceCustomProvidersVersionsGetEnvOutput, mapDashboardInstanceCustomProvidersVersionsCreateOutput, DashboardInstanceCustomProvidersVersionsCreateOutput, mapDashboardInstanceCustomProvidersVersionsCreateBody, DashboardInstanceCustomProvidersVersionsCreateBody
 
 class MetorialCustomProvidersVersionsEndpoint(BaseMetorialEndpoint):
     """Versions represent different releases of a custom provider. Each version can be deployed to environments."""
@@ -8,7 +8,7 @@ class MetorialCustomProvidersVersionsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_version_id: Optional[Union[str, List[str]]] = None, custom_provider_id: Optional[Union[str, List[str]]] = None, custom_provider_deployment_id: Optional[Union[str, List[str]]] = None, custom_provider_environment_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceCustomProvidersVersionsListOutput:
+    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_version_id: Optional[Union[str, List[str]]] = None, custom_provider_id: Optional[Union[str, List[str]]] = None, custom_provider_deployment_id: Optional[Union[str, List[str]]] = None, custom_provider_environment_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceCustomProvidersVersionsListOutput:
         """
     List custom provider versions
     Returns a paginated list of versions for a custom provider.
@@ -25,6 +25,8 @@ class MetorialCustomProvidersVersionsEndpoint(BaseMetorialEndpoint):
     :param custom_provider_id: Optional[Union[str, List[str]]] (optional)
     :param custom_provider_deployment_id: Optional[Union[str, List[str]]] (optional)
     :param custom_provider_environment_id: Optional[Union[str, List[str]]] (optional)
+    :param created_at: Optional[Dict[str, Any]] (optional)
+    :param updated_at: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceCustomProvidersVersionsListOutput
     """
         # Build query parameters from keyword arguments
@@ -53,6 +55,10 @@ class MetorialCustomProvidersVersionsEndpoint(BaseMetorialEndpoint):
             query_dict["custom_provider_deployment_id"] = custom_provider_deployment_id
         if custom_provider_environment_id is not None:
             query_dict["custom_provider_environment_id"] = custom_provider_environment_id
+        if created_at is not None:
+            query_dict["created_at"] = created_at
+        if updated_at is not None:
+            query_dict["updated_at"] = updated_at
 
         request = MetorialRequest(
             path=['custom-provider-versions'],
@@ -72,6 +78,19 @@ class MetorialCustomProvidersVersionsEndpoint(BaseMetorialEndpoint):
             path=['custom-provider-versions', custom_provider_version_id]
         )
         return self._get(request).transform(mapDashboardInstanceCustomProvidersVersionsGetOutput.from_dict)
+
+    def get_env(self, custom_provider_version_id: str) -> DashboardInstanceCustomProvidersVersionsGetEnvOutput:
+        """
+    Get custom provider version environment
+    Retrieves the environment variables for a specific version of a custom provider.
+
+    :param custom_provider_version_id: str
+    :return: DashboardInstanceCustomProvidersVersionsGetEnvOutput
+    """
+        request = MetorialRequest(
+            path=['custom-provider-versions', custom_provider_version_id, 'env']
+        )
+        return self._get(request).transform(mapDashboardInstanceCustomProvidersVersionsGetEnvOutput.from_dict)
 
     def create(self, *, custom_provider_id: str, from_: Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], config: Optional[Dict[str, Any]] = None) -> DashboardInstanceCustomProvidersVersionsCreateOutput:
         """

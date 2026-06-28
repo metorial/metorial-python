@@ -87,6 +87,14 @@ class mapDashboardInstanceSessionsErrorsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class DashboardInstanceSessionsErrorsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class DashboardInstanceSessionsErrorsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class DashboardInstanceSessionsErrorsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -102,6 +110,8 @@ class DashboardInstanceSessionsErrorsListQuery:
     provider_run_id: Optional[Union[str, List[str]]] = None
     provider_id: Optional[Union[str, List[str]]] = None
     session_message_id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[DashboardInstanceSessionsErrorsListQueryCreatedAt] = None
+    updated_at: Optional[DashboardInstanceSessionsErrorsListQueryUpdatedAt] = None
 
 
 class mapDashboardInstanceSessionsErrorsListQuery:
@@ -121,7 +131,9 @@ class mapDashboardInstanceSessionsErrorsListQuery:
         session_error_group_id=data.get('session_error_group_id'),
         provider_run_id=data.get('provider_run_id'),
         provider_id=data.get('provider_id'),
-        session_message_id=data.get('session_message_id')
+        session_message_id=data.get('session_message_id'),
+        created_at=mapDashboardInstanceSessionsErrorsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapDashboardInstanceSessionsErrorsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

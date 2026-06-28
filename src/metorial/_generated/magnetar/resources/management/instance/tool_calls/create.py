@@ -4,6 +4,50 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class ManagementInstanceToolCallsCreateOutputSenderParticipantData:
+    identifier: str
+    name: str
+@dataclass
+class ManagementInstanceToolCallsCreateOutputSenderParticipant:
+    object: str
+    id: str
+    type: str
+    identifier: str
+    name: str
+    data: ManagementInstanceToolCallsCreateOutputSenderParticipantData
+    created_at: datetime
+    provider_id: Optional[str] = None
+    connection_type: Optional[str] = None
+    agent_id: Optional[str] = None
+    agent_instance_id: Optional[str] = None
+    identity_actor_id: Optional[str] = None
+    identity_id: Optional[str] = None
+    agent_actor_id: Optional[str] = None
+    agent_client_id: Optional[str] = None
+    consumer_id: Optional[str] = None
+@dataclass
+class ManagementInstanceToolCallsCreateOutputResponderParticipantData:
+    identifier: str
+    name: str
+@dataclass
+class ManagementInstanceToolCallsCreateOutputResponderParticipant:
+    object: str
+    id: str
+    type: str
+    identifier: str
+    name: str
+    data: ManagementInstanceToolCallsCreateOutputResponderParticipantData
+    created_at: datetime
+    provider_id: Optional[str] = None
+    connection_type: Optional[str] = None
+    agent_id: Optional[str] = None
+    agent_instance_id: Optional[str] = None
+    identity_actor_id: Optional[str] = None
+    identity_id: Optional[str] = None
+    agent_actor_id: Optional[str] = None
+    agent_client_id: Optional[str] = None
+    consumer_id: Optional[str] = None
+@dataclass
 class ManagementInstanceToolCallsCreateOutputToolInputSchema:
     type: str
     schema: Dict[str, Any]
@@ -62,10 +106,104 @@ class ManagementInstanceToolCallsCreateOutput:
     session_provider_id: Optional[str] = None
     connection_id: Optional[str] = None
     provider_run_id: Optional[str] = None
+    sender_participant: Optional[ManagementInstanceToolCallsCreateOutputSenderParticipant] = None
+    responder_participant: Optional[ManagementInstanceToolCallsCreateOutputResponderParticipant] = None
     error: Optional[ManagementInstanceToolCallsCreateOutputError] = None
     input: Optional[Dict[str, Any]] = None
     output: Optional[Dict[str, Any]] = None
 
+
+class mapManagementInstanceToolCallsCreateOutputSenderParticipantData:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceToolCallsCreateOutputSenderParticipantData:
+        return ManagementInstanceToolCallsCreateOutputSenderParticipantData(
+        identifier=data.get('identifier'),
+        name=data.get('name')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceToolCallsCreateOutputSenderParticipantData, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceToolCallsCreateOutputSenderParticipant:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceToolCallsCreateOutputSenderParticipant:
+        return ManagementInstanceToolCallsCreateOutputSenderParticipant(
+        object=data.get('object'),
+        id=data.get('id'),
+        type=data.get('type'),
+        identifier=data.get('identifier'),
+        name=data.get('name'),
+        data=mapManagementInstanceToolCallsCreateOutputSenderParticipantData.from_dict(data.get('data')) if data.get('data') else None,
+        provider_id=data.get('provider_id'),
+        connection_type=data.get('connection_type'),
+        agent_id=data.get('agent_id'),
+        agent_instance_id=data.get('agent_instance_id'),
+        identity_actor_id=data.get('identity_actor_id'),
+        identity_id=data.get('identity_id'),
+        agent_actor_id=data.get('agent_actor_id'),
+        agent_client_id=data.get('agent_client_id'),
+        consumer_id=data.get('consumer_id'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceToolCallsCreateOutputSenderParticipant, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceToolCallsCreateOutputResponderParticipantData:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceToolCallsCreateOutputResponderParticipantData:
+        return ManagementInstanceToolCallsCreateOutputResponderParticipantData(
+        identifier=data.get('identifier'),
+        name=data.get('name')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceToolCallsCreateOutputResponderParticipantData, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceToolCallsCreateOutputResponderParticipant:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceToolCallsCreateOutputResponderParticipant:
+        return ManagementInstanceToolCallsCreateOutputResponderParticipant(
+        object=data.get('object'),
+        id=data.get('id'),
+        type=data.get('type'),
+        identifier=data.get('identifier'),
+        name=data.get('name'),
+        data=mapManagementInstanceToolCallsCreateOutputResponderParticipantData.from_dict(data.get('data')) if data.get('data') else None,
+        provider_id=data.get('provider_id'),
+        connection_type=data.get('connection_type'),
+        agent_id=data.get('agent_id'),
+        agent_instance_id=data.get('agent_instance_id'),
+        identity_actor_id=data.get('identity_actor_id'),
+        identity_id=data.get('identity_id'),
+        agent_actor_id=data.get('agent_actor_id'),
+        agent_client_id=data.get('agent_client_id'),
+        consumer_id=data.get('consumer_id'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceToolCallsCreateOutputResponderParticipant, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapManagementInstanceToolCallsCreateOutputToolInputSchema:
     @staticmethod
@@ -186,6 +324,8 @@ class mapManagementInstanceToolCallsCreateOutput:
         session_provider_id=data.get('session_provider_id'),
         connection_id=data.get('connection_id'),
         provider_run_id=data.get('provider_run_id'),
+        sender_participant=mapManagementInstanceToolCallsCreateOutputSenderParticipant.from_dict(data.get('sender_participant')) if data.get('sender_participant') else None,
+        responder_participant=mapManagementInstanceToolCallsCreateOutputResponderParticipant.from_dict(data.get('responder_participant')) if data.get('responder_participant') else None,
         tool=mapManagementInstanceToolCallsCreateOutputTool.from_dict(data.get('tool')) if data.get('tool') else None,
         error=mapManagementInstanceToolCallsCreateOutputError.from_dict(data.get('error')) if data.get('error') else None,
         input=data.get('input'),

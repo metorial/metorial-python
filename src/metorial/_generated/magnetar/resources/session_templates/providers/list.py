@@ -173,6 +173,14 @@ class mapSessionTemplatesProvidersListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class SessionTemplatesProvidersListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class SessionTemplatesProvidersListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class SessionTemplatesProvidersListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -182,11 +190,12 @@ class SessionTemplatesProvidersListQuery:
     status: Optional[Union[str, List[str]]] = None
     id: Optional[Union[str, List[str]]] = None
     session_template_id: Optional[Union[str, List[str]]] = None
-    session_template_template_id: Optional[Union[str, List[str]]] = None
     provider_id: Optional[Union[str, List[str]]] = None
     provider_deployment_id: Optional[Union[str, List[str]]] = None
     provider_config_id: Optional[Union[str, List[str]]] = None
     provider_auth_config_id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[SessionTemplatesProvidersListQueryCreatedAt] = None
+    updated_at: Optional[SessionTemplatesProvidersListQueryUpdatedAt] = None
 
 
 class mapSessionTemplatesProvidersListQuery:
@@ -201,11 +210,12 @@ class mapSessionTemplatesProvidersListQuery:
         status=data.get('status'),
         id=data.get('id'),
         session_template_id=data.get('session_template_id'),
-        session_template_template_id=data.get('session_template_template_id'),
         provider_id=data.get('provider_id'),
         provider_deployment_id=data.get('provider_deployment_id'),
         provider_config_id=data.get('provider_config_id'),
-        provider_auth_config_id=data.get('provider_auth_config_id')
+        provider_auth_config_id=data.get('provider_auth_config_id'),
+        created_at=mapSessionTemplatesProvidersListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapSessionTemplatesProvidersListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

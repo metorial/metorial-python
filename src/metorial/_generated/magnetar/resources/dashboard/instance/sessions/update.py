@@ -57,6 +57,7 @@ class DashboardInstanceSessionsUpdateOutputProviders:
 class DashboardInstanceSessionsUpdateOutput:
     object: str
     id: str
+    status: str
     connection_state: str
     connection_url: str
     usage: DashboardInstanceSessionsUpdateOutputUsage
@@ -70,6 +71,8 @@ class DashboardInstanceSessionsUpdateOutput:
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
     client_secret: Optional[str] = None
+    identity_actor_id: Optional[str] = None
+    identity_id: Optional[str] = None
 
 
 class mapDashboardInstanceSessionsUpdateOutputUsage:
@@ -200,6 +203,7 @@ class mapDashboardInstanceSessionsUpdateOutput:
         return DashboardInstanceSessionsUpdateOutput(
         object=data.get('object'),
         id=data.get('id'),
+        status=data.get('status'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
@@ -211,6 +215,8 @@ class mapDashboardInstanceSessionsUpdateOutput:
         from_templates_ids=data.get('from_templates_ids', []),
         has_errors=data.get('has_errors'),
         has_warnings=data.get('has_warnings'),
+        identity_actor_id=data.get('identity_actor_id'),
+        identity_id=data.get('identity_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

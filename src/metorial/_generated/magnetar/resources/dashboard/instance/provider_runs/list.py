@@ -83,6 +83,14 @@ class mapDashboardInstanceProviderRunsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class DashboardInstanceProviderRunsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class DashboardInstanceProviderRunsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class DashboardInstanceProviderRunsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -96,6 +104,8 @@ class DashboardInstanceProviderRunsListQuery:
     session_provider_id: Optional[Union[str, List[str]]] = None
     session_connection_id: Optional[Union[str, List[str]]] = None
     provider_version_id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[DashboardInstanceProviderRunsListQueryCreatedAt] = None
+    updated_at: Optional[DashboardInstanceProviderRunsListQueryUpdatedAt] = None
 
 
 class mapDashboardInstanceProviderRunsListQuery:
@@ -113,7 +123,9 @@ class mapDashboardInstanceProviderRunsListQuery:
         provider_id=data.get('provider_id'),
         session_provider_id=data.get('session_provider_id'),
         session_connection_id=data.get('session_connection_id'),
-        provider_version_id=data.get('provider_version_id')
+        provider_version_id=data.get('provider_version_id'),
+        created_at=mapDashboardInstanceProviderRunsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapDashboardInstanceProviderRunsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

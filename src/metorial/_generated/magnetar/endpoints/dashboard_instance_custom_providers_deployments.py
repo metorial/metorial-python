@@ -8,7 +8,7 @@ class MetorialDashboardInstanceCustomProvidersDeploymentsEndpoint(BaseMetorialEn
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, custom_provider_version_id: Optional[Union[str, List[str]]] = None, custom_provider_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceCustomProvidersDeploymentsListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, custom_provider_version_id: Optional[Union[str, List[str]]] = None, custom_provider_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceCustomProvidersDeploymentsListOutput:
         """
     List custom provider deployments
     Returns a paginated list of deployments for a custom provider.
@@ -23,6 +23,8 @@ class MetorialDashboardInstanceCustomProvidersDeploymentsEndpoint(BaseMetorialEn
     :param id: Optional[Union[str, List[str]]] (optional)
     :param custom_provider_version_id: Optional[Union[str, List[str]]] (optional)
     :param custom_provider_id: Optional[Union[str, List[str]]] (optional)
+    :param created_at: Optional[Dict[str, Any]] (optional)
+    :param updated_at: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceCustomProvidersDeploymentsListOutput
     """
         # Build query parameters from keyword arguments
@@ -45,6 +47,10 @@ class MetorialDashboardInstanceCustomProvidersDeploymentsEndpoint(BaseMetorialEn
             query_dict["custom_provider_version_id"] = custom_provider_version_id
         if custom_provider_id is not None:
             query_dict["custom_provider_id"] = custom_provider_id
+        if created_at is not None:
+            query_dict["created_at"] = created_at
+        if updated_at is not None:
+            query_dict["updated_at"] = updated_at
 
         request = MetorialRequest(
             path=['dashboard', 'instances', instance_id, 'custom-provider-deployments'],

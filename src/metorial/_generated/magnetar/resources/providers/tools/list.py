@@ -155,12 +155,12 @@ class mapProvidersToolsListOutput:
 @dataclass
 class ProvidersToolsListQuery:
     provider_version_id: str
-    provider_auth_method_id: Optional[Union[str, List[str]]] = None
     limit: Optional[float] = None
     after: Optional[str] = None
     before: Optional[str] = None
     cursor: Optional[str] = None
     order: Optional[str] = None
+    provider_auth_method_id: Optional[Union[str, List[str]]] = None
 
 
 class mapProvidersToolsListQuery:
@@ -184,3 +184,4 @@ class mapProvidersToolsListQuery:
             return value
         # assume dataclass for generated models
         return dataclasses.asdict(value)
+

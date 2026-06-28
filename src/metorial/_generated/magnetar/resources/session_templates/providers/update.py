@@ -133,33 +133,15 @@ class mapSessionTemplatesProvidersUpdateOutput:
         return dataclasses.asdict(value)
 
 @dataclass
-class SessionTemplatesProvidersUpdateBodyToolFilters:
-    tool_keys: Optional[List[str]] = None
-@dataclass
 class SessionTemplatesProvidersUpdateBody:
-    tool_filters: Optional[SessionTemplatesProvidersUpdateBodyToolFilters] = None
+    tool_filters: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]] = None
 
-
-class mapSessionTemplatesProvidersUpdateBodyToolFilters:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> SessionTemplatesProvidersUpdateBodyToolFilters:
-        return SessionTemplatesProvidersUpdateBodyToolFilters(
-        tool_keys=data.get('tool_keys', [])
-        )
-
-    @staticmethod
-    def to_dict(value: Union[SessionTemplatesProvidersUpdateBodyToolFilters, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
 
 class mapSessionTemplatesProvidersUpdateBody:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> SessionTemplatesProvidersUpdateBody:
         return SessionTemplatesProvidersUpdateBody(
-        tool_filters=mapSessionTemplatesProvidersUpdateBodyToolFilters.from_dict(data.get('tool_filters')) if data.get('tool_filters') else None
+        tool_filters=data.get('tool_filters')
         )
 
     @staticmethod

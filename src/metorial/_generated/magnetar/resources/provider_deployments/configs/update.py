@@ -29,6 +29,7 @@ class ProviderDeploymentsConfigsUpdateOutputFromVaultDeployment:
 class ProviderDeploymentsConfigsUpdateOutputFromVault:
     object: str
     id: str
+    status: str
     name: str
     provider_id: str
     created_at: datetime
@@ -40,7 +41,9 @@ class ProviderDeploymentsConfigsUpdateOutputFromVault:
 class ProviderDeploymentsConfigsUpdateOutput:
     object: str
     id: str
+    status: str
     is_default: bool
+    tool_filter: Dict[str, Any]
     provider_id: str
     specification_id: str
     created_at: datetime
@@ -104,6 +107,7 @@ class mapProviderDeploymentsConfigsUpdateOutputFromVault:
         return ProviderDeploymentsConfigsUpdateOutputFromVault(
         object=data.get('object'),
         id=data.get('id'),
+        status=data.get('status'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
@@ -127,10 +131,12 @@ class mapProviderDeploymentsConfigsUpdateOutput:
         return ProviderDeploymentsConfigsUpdateOutput(
         object=data.get('object'),
         id=data.get('id'),
+        status=data.get('status'),
         is_default=data.get('is_default'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        tool_filter=data.get('tool_filter'),
         provider_id=data.get('provider_id'),
         specification_id=data.get('specification_id'),
         deployment=mapProviderDeploymentsConfigsUpdateOutputDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
@@ -153,6 +159,7 @@ class ProviderDeploymentsConfigsUpdateBody:
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
+    tool_filters: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]] = None
 
 
 class mapProviderDeploymentsConfigsUpdateBody:
@@ -161,7 +168,8 @@ class mapProviderDeploymentsConfigsUpdateBody:
         return ProviderDeploymentsConfigsUpdateBody(
         name=data.get('name'),
         description=data.get('description'),
-        metadata=data.get('metadata')
+        metadata=data.get('metadata'),
+        tool_filters=data.get('tool_filters')
         )
 
     @staticmethod

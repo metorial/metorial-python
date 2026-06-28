@@ -8,7 +8,7 @@ class MetorialProviderRunsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, session_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, session_provider_id: Optional[Union[str, List[str]]] = None, session_connection_id: Optional[Union[str, List[str]]] = None, provider_version_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceProviderRunsListOutput:
+    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, session_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, session_provider_id: Optional[Union[str, List[str]]] = None, session_connection_id: Optional[Union[str, List[str]]] = None, provider_version_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderRunsListOutput:
         """
     List all provider runs
     Returns a paginated list of provider runs across all sessions.
@@ -25,6 +25,8 @@ class MetorialProviderRunsEndpoint(BaseMetorialEndpoint):
     :param session_provider_id: Optional[Union[str, List[str]]] (optional)
     :param session_connection_id: Optional[Union[str, List[str]]] (optional)
     :param provider_version_id: Optional[Union[str, List[str]]] (optional)
+    :param created_at: Optional[Dict[str, Any]] (optional)
+    :param updated_at: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceProviderRunsListOutput
     """
         # Build query parameters from keyword arguments
@@ -53,6 +55,10 @@ class MetorialProviderRunsEndpoint(BaseMetorialEndpoint):
             query_dict["session_connection_id"] = session_connection_id
         if provider_version_id is not None:
             query_dict["provider_version_id"] = provider_version_id
+        if created_at is not None:
+            query_dict["created_at"] = created_at
+        if updated_at is not None:
+            query_dict["updated_at"] = updated_at
 
         request = MetorialRequest(
             path=['provider-runs'],

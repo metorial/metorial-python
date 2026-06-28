@@ -31,7 +31,9 @@ class ProviderDeploymentsDeleteOutputDefaultConfig:
 class ProviderDeploymentsDeleteOutput:
     object: str
     id: str
+    status: str
     is_default: bool
+    tool_filter: Dict[str, Any]
     provider_id: str
     created_at: datetime
     updated_at: datetime
@@ -96,10 +98,12 @@ class mapProviderDeploymentsDeleteOutput:
         return ProviderDeploymentsDeleteOutput(
         object=data.get('object'),
         id=data.get('id'),
+        status=data.get('status'),
         is_default=data.get('is_default'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        tool_filter=data.get('tool_filter'),
         provider_id=data.get('provider_id'),
         locked_version=mapProviderDeploymentsDeleteOutputLockedVersion.from_dict(data.get('locked_version')) if data.get('locked_version') else None,
         default_config=mapProviderDeploymentsDeleteOutputDefaultConfig.from_dict(data.get('default_config')) if data.get('default_config') else None,
