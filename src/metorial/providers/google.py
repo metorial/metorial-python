@@ -150,17 +150,3 @@ class MetorialGoogleSession:
   async def call_tools(self, function_calls: Iterable[Any]) -> dict[str, Any]:
     """Execute function calls and return Google-compatible content."""
     return await call_google_tools(self._tool_mgr, list(function_calls))
-
-  @staticmethod
-  async def chat_completions(session: SessionWithToolManagerProtocol) -> dict[str, Any]:
-    """Resolve Google-formatted tools from a session-like object."""
-    tool_mgr = await session.get_tool_manager()
-    provider_session = MetorialGoogleSession(tool_mgr)
-    return {"tools": provider_session.tools}
-
-
-async def chat_completions(session: SessionWithToolManagerProtocol) -> dict[str, Any]:
-  """Module-level helper that resolves Google-formatted tools from a session."""
-  tool_mgr = await session.get_tool_manager()
-  provider_session = MetorialGoogleSession(tool_mgr)
-  return {"tools": provider_session.tools}

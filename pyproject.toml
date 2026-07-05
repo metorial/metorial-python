@@ -23,23 +23,36 @@ classifiers = [
 keywords = ["metorial", "ai", "llm", "mcp", "openai", "anthropic"]
 
 dependencies = [
-  # Core HTTP
+  # Core HTTP + MCP transport (always required)
   "aiohttp>=3.8.0",
   "aiohttp-sse-client>=0.2.1",
   "typing-extensions>=4.0.0",
   "httpx>=0.25.0",
   "requests>=2.25.0",
   "truststore>=0.8.0",
-  # Provider SDKs (all bundled)
+  "mcp>=1.0.0",
+]
+
+# Provider SDKs are optional: the Metorial SDK itself never imports them, they
+# are only needed by your own code that talks to a given LLM provider. Install
+# just the ones you use, e.g. `pip install metorial[openai]`, mirroring the
+# per-provider packages in the JS SDK. `metorial[all]` installs every provider.
+[project.optional-dependencies]
+openai = ["openai>=1.0.0"]
+anthropic = ["anthropic>=0.69.0"]
+google = ["google-genai>=1.0.0"]
+mistral = ["mistralai>=1.0.0"]
+# OpenAI-compatible providers use the OpenAI client against a custom base URL.
+openai-compatible = ["openai>=1.0.0"]
+deepseek = ["openai>=1.0.0"]
+xai = ["openai>=1.0.0"]
+togetherai = ["openai>=1.0.0"]
+all = [
   "openai>=1.0.0",
   "anthropic>=0.69.0",
   "google-genai>=1.0.0",
   "mistralai>=1.0.0",
-  # MCP
-  "mcp>=1.0.0",
 ]
-
-[project.optional-dependencies]
 dev = [
   "pytest>=7.0.0",
   "pytest-asyncio>=0.20.0",
@@ -87,22 +100,10 @@ ignore_errors = true
 disallow_untyped_defs = false
 disallow_incomplete_defs = false
 
-# Relax for test code
-[[tool.mypy.overrides]]
-module = "tests.*"
-disallow_untyped_defs = false
-disallow_incomplete_defs = false
-
 # Relax for integration modules (depend on optional third-party libraries)
 [[tool.mypy.overrides]]
 module = "metorial.integrations.*"
 ignore_errors = true
-disallow_untyped_defs = false
-disallow_incomplete_defs = false
-
-# Relax for provider adapters (depend on optional third-party libraries)
-[[tool.mypy.overrides]]
-module = "metorial.adapters.*"
 disallow_untyped_defs = false
 disallow_incomplete_defs = false
 
@@ -183,4 +184,9 @@ dev = [
     "ruff>=0.4.0",
     "cblack>=22.6.0",
     "pre-commit>=3.5.0",
+    # All provider SDKs for a complete local dev/type-check environment.
+    "openai>=1.0.0",
+    "anthropic>=0.69.0",
+    "google-genai>=1.0.0",
+    "mistralai>=1.0.0",
 ]

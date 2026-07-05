@@ -145,17 +145,3 @@ class MetorialMistralSession:
   async def call_tools(self, tool_calls: Iterable[Any]) -> list[dict[str, Any]]:
     """Execute tool calls and return Mistral-compatible messages."""
     return await call_mistral_tools(self._tool_mgr, list(tool_calls))
-
-  @staticmethod
-  async def chat_completions(session: SessionWithToolManagerProtocol) -> dict[str, Any]:
-    """Resolve Mistral-formatted tools from a session-like object."""
-    tool_mgr = await session.get_tool_manager()
-    provider_session = MetorialMistralSession(tool_mgr)
-    return {"tools": provider_session.tools}
-
-
-async def chat_completions(session: SessionWithToolManagerProtocol) -> dict[str, Any]:
-  """Module-level helper that resolves Mistral-formatted tools from a session."""
-  tool_mgr = await session.get_tool_manager()
-  provider_session = MetorialMistralSession(tool_mgr)
-  return {"tools": provider_session.tools}

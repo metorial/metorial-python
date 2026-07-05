@@ -153,17 +153,3 @@ class MetorialOpenAICompatibleSession:
   async def call_tools(self, tool_calls: Iterable[Any]) -> list[dict[str, Any]]:
     """Execute tool calls and return OpenAI-compatible messages."""
     return await call_openai_compatible_tools(self._tool_mgr, list(tool_calls))
-
-  @staticmethod
-  async def chat_completions(session: SessionWithToolManagerProtocol) -> dict[str, Any]:
-    """Resolve OpenAI-compatible formatted tools from a session-like object."""
-    tool_mgr = await session.get_tool_manager()
-    provider_session = MetorialOpenAICompatibleSession(tool_mgr)
-    return {"tools": provider_session.tools}
-
-
-async def chat_completions(session: SessionWithToolManagerProtocol) -> dict[str, Any]:
-  """Module-level helper that resolves OpenAI-compatible tools from a session."""
-  tool_mgr = await session.get_tool_manager()
-  provider_session = MetorialOpenAICompatibleSession(tool_mgr)
-  return {"tools": provider_session.tools}

@@ -10,14 +10,7 @@ from typing import TYPE_CHECKING, Any, cast
 
 import httpx
 
-from metorial._magnetar_sdk import (
-  MagnetarCustomProvidersGroup,
-  MagnetarProviderDeploymentsGroup,
-  MagnetarProvidersGroup,
-  MagnetarSessionsGroup,
-  MagnetarSessionTemplatesGroup,
-  create_magnetar_sdk,
-)
+from metorial._magnetar_sdk import create_magnetar_sdk
 from metorial._session import MetorialSession, SessionFactory
 from metorial.mcp import MagnetarMcpSessionInit, MetorialMagnetarMcpSession
 from metorial.mcp.magnetar_mcp_session import MagnetarCoreSDK
@@ -26,11 +19,32 @@ if TYPE_CHECKING:
   from metorial._generated.magnetar.endpoints.instance import (
     MetorialInstanceEndpoint as MagnetarInstanceEndpoint,
   )
+  from metorial._generated.magnetar.endpoints.provider_deployments_setup_sessions import (
+    MetorialProviderDeploymentsSetupSessionsEndpoint,
+  )
   from metorial._generated.magnetar.endpoints.provider_runs import (
     MetorialProviderRunsEndpoint,
   )
+  from metorial._generated.magnetar.endpoints.publishers import (
+    MetorialPublishersEndpoint,
+  )
   from metorial._generated.magnetar.endpoints.tool_calls import (
     MetorialToolCallsEndpoint,
+  )
+  from metorial._magnetar_sdk import (
+    MagnetarCallbacksGroup,
+    MagnetarCustomProvidersGroup,
+    MagnetarDocumentsGroup,
+    MagnetarFilesGroup,
+    MagnetarIntegrationsGroup,
+    MagnetarMagicMcpGroup,
+    MagnetarPortalsGroup,
+    MagnetarProviderDeploymentsGroup,
+    MagnetarProvidersGroup,
+    MagnetarSessionsGroup,
+    MagnetarSessionTemplatesGroup,
+    MagnetarSkillsGroup,
+    MagnetarStoresGroup,
   )
 
 
@@ -38,19 +52,23 @@ class MetorialBase:
   """Base class with shared Magnetar-only initialization and configuration logic."""
 
   _magnetar_instance: MagnetarInstanceEndpoint | None
-  _magnetar_publishers: Any | None
+  _magnetar_publishers: MetorialPublishersEndpoint | None
   _magnetar_providers: MagnetarProvidersGroup | None
-  _magnetar_provider_categories: Any | None
-  _magnetar_provider_collections: Any | None
-  _magnetar_provider_groups: Any | None
-  _magnetar_provider_listings: Any | None
   _magnetar_provider_deployments: MagnetarProviderDeploymentsGroup | None
-  _magnetar_provider_setup_sessions: Any | None
+  _magnetar_provider_setup_sessions: MetorialProviderDeploymentsSetupSessionsEndpoint | None
   _magnetar_sessions: MagnetarSessionsGroup | None
   _magnetar_session_templates: MagnetarSessionTemplatesGroup | None
   _magnetar_custom_providers: MagnetarCustomProvidersGroup | None
   _magnetar_provider_runs: MetorialProviderRunsEndpoint | None
   _magnetar_tool_calls: MetorialToolCallsEndpoint | None
+  _magnetar_integrations: MagnetarIntegrationsGroup | None
+  _magnetar_documents: MagnetarDocumentsGroup | None
+  _magnetar_stores: MagnetarStoresGroup | None
+  _magnetar_files: MagnetarFilesGroup | None
+  _magnetar_skills: MagnetarSkillsGroup | None
+  _magnetar_callbacks: MagnetarCallbacksGroup | None
+  _magnetar_magic_mcp: MagnetarMagicMcpGroup | None
+  _magnetar_portals: MagnetarPortalsGroup | None
   _magnetar_sdk_initialized: bool
 
   def __init__(
@@ -116,10 +134,6 @@ class MetorialBase:
     self._magnetar_instance = None
     self._magnetar_publishers = None
     self._magnetar_providers = None
-    self._magnetar_provider_categories = None
-    self._magnetar_provider_collections = None
-    self._magnetar_provider_groups = None
-    self._magnetar_provider_listings = None
     self._magnetar_provider_deployments = None
     self._magnetar_provider_setup_sessions = None
     self._magnetar_sessions = None
@@ -127,6 +141,14 @@ class MetorialBase:
     self._magnetar_provider_runs = None
     self._magnetar_tool_calls = None
     self._magnetar_custom_providers = None
+    self._magnetar_integrations = None
+    self._magnetar_documents = None
+    self._magnetar_stores = None
+    self._magnetar_files = None
+    self._magnetar_skills = None
+    self._magnetar_callbacks = None
+    self._magnetar_magic_mcp = None
+    self._magnetar_portals = None
     self._magnetar_sdk_initialized = False
     self._magnetar_sdk_init_error: Exception | None = None
 
@@ -141,10 +163,6 @@ class MetorialBase:
       self._magnetar_instance = sdk.instance
       self._magnetar_publishers = sdk.publishers
       self._magnetar_providers = sdk.providers
-      self._magnetar_provider_categories = sdk.provider_categories
-      self._magnetar_provider_collections = sdk.provider_collections
-      self._magnetar_provider_groups = sdk.provider_groups
-      self._magnetar_provider_listings = sdk.provider_listings
       self._magnetar_provider_deployments = sdk.provider_deployments
       self._magnetar_provider_setup_sessions = sdk.provider_setup_sessions
       self._magnetar_sessions = sdk.sessions
@@ -152,13 +170,21 @@ class MetorialBase:
       self._magnetar_provider_runs = sdk.provider_runs
       self._magnetar_tool_calls = sdk.tool_calls
       self._magnetar_custom_providers = sdk.custom_providers
+      self._magnetar_integrations = sdk.integrations
+      self._magnetar_documents = sdk.documents
+      self._magnetar_stores = sdk.stores
+      self._magnetar_files = sdk.files
+      self._magnetar_skills = sdk.skills
+      self._magnetar_callbacks = sdk.callbacks
+      self._magnetar_magic_mcp = sdk.magic_mcp
+      self._magnetar_portals = sdk.portals
       self._magnetar_sdk_initialized = True
     except Exception as e:
       self.logger.warning(f"Failed to initialize Magnetar SDK endpoints: {e}")
       self._magnetar_sdk_init_error = e
 
   @property
-  def instance(self) -> Any:
+  def instance(self) -> MagnetarInstanceEndpoint | None:
     self._ensure_magnetar_sdk_initialized()
     return self._magnetar_instance
 
@@ -168,29 +194,9 @@ class MetorialBase:
     return self._magnetar_providers
 
   @property
-  def publishers(self) -> Any:
+  def publishers(self) -> MetorialPublishersEndpoint | None:
     self._ensure_magnetar_sdk_initialized()
     return self._magnetar_publishers
-
-  @property
-  def provider_categories(self) -> Any:
-    self._ensure_magnetar_sdk_initialized()
-    return self._magnetar_provider_categories
-
-  @property
-  def provider_collections(self) -> Any:
-    self._ensure_magnetar_sdk_initialized()
-    return self._magnetar_provider_collections
-
-  @property
-  def provider_groups(self) -> Any:
-    self._ensure_magnetar_sdk_initialized()
-    return self._magnetar_provider_groups
-
-  @property
-  def provider_listings(self) -> Any:
-    self._ensure_magnetar_sdk_initialized()
-    return self._magnetar_provider_listings
 
   @property
   def provider_deployments(self) -> MagnetarProviderDeploymentsGroup | None:
@@ -198,7 +204,9 @@ class MetorialBase:
     return self._magnetar_provider_deployments
 
   @property
-  def provider_setup_sessions(self) -> Any:
+  def provider_setup_sessions(
+    self,
+  ) -> MetorialProviderDeploymentsSetupSessionsEndpoint | None:
     self._ensure_magnetar_sdk_initialized()
     return self._magnetar_provider_setup_sessions
 
@@ -213,19 +221,59 @@ class MetorialBase:
     return self._magnetar_session_templates
 
   @property
-  def provider_runs(self) -> Any:
+  def provider_runs(self) -> MetorialProviderRunsEndpoint | None:
     self._ensure_magnetar_sdk_initialized()
     return self._magnetar_provider_runs
 
   @property
-  def tool_calls(self) -> Any:
+  def tool_calls(self) -> MetorialToolCallsEndpoint | None:
     self._ensure_magnetar_sdk_initialized()
     return self._magnetar_tool_calls
 
   @property
-  def custom_providers(self) -> Any:
+  def custom_providers(self) -> MagnetarCustomProvidersGroup | None:
     self._ensure_magnetar_sdk_initialized()
     return self._magnetar_custom_providers
+
+  @property
+  def integrations(self) -> MagnetarIntegrationsGroup | None:
+    self._ensure_magnetar_sdk_initialized()
+    return self._magnetar_integrations
+
+  @property
+  def documents(self) -> MagnetarDocumentsGroup | None:
+    self._ensure_magnetar_sdk_initialized()
+    return self._magnetar_documents
+
+  @property
+  def stores(self) -> MagnetarStoresGroup | None:
+    self._ensure_magnetar_sdk_initialized()
+    return self._magnetar_stores
+
+  @property
+  def files(self) -> MagnetarFilesGroup | None:
+    self._ensure_magnetar_sdk_initialized()
+    return self._magnetar_files
+
+  @property
+  def skills(self) -> MagnetarSkillsGroup | None:
+    self._ensure_magnetar_sdk_initialized()
+    return self._magnetar_skills
+
+  @property
+  def callbacks(self) -> MagnetarCallbacksGroup | None:
+    self._ensure_magnetar_sdk_initialized()
+    return self._magnetar_callbacks
+
+  @property
+  def magic_mcp(self) -> MagnetarMagicMcpGroup | None:
+    self._ensure_magnetar_sdk_initialized()
+    return self._magnetar_magic_mcp
+
+  @property
+  def portals(self) -> MagnetarPortalsGroup | None:
+    self._ensure_magnetar_sdk_initialized()
+    return self._magnetar_portals
 
   @property
   def magnetar_sessions(self) -> MagnetarSessionsGroup | None:
@@ -269,15 +317,6 @@ class MetorialBase:
       from metorial.exceptions import MetorialAPIError
 
       raise MetorialAPIError(f"Failed to create Magnetar MCP session: {e}") from e
-
-  def create_mock_session(self) -> MetorialSession:
-    create_mock = getattr(SessionFactory, "create_mock_session", None)
-    if create_mock is None:
-      raise NotImplementedError("create_mock_session is not available")
-    result = create_mock()
-    if not isinstance(result, MetorialSession):
-      raise TypeError("create_mock_session did not return a MetorialSession")
-    return result
 
   async def close(self) -> None:
     try:

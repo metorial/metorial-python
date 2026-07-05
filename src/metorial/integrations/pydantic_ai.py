@@ -25,10 +25,9 @@ if TYPE_CHECKING:
   from metorial._client import ProviderSession
 
 try:
-  from pydantic_ai import Agent, RunContext, Tool
+  from pydantic_ai import Agent, Tool
 except ImportError:
   Agent = None
-  RunContext = None
   Tool = None
 
 

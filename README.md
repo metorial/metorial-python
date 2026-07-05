@@ -15,6 +15,17 @@ The official Python SDK for [Metorial](https://metorial.com). Give your AI agent
 pip install metorial
 ```
 
+| Install                                     | Provides                                         |
+| ------------------------------------------- | ------------------------------------------------ |
+| `pip install "metorial[openai]"`            | OpenAI (`openai`)                                |
+| `pip install "metorial[anthropic]"`         | Anthropic (`anthropic`)                          |
+| `pip install "metorial[google]"`            | Google Gemini (`google-genai`)                   |
+| `pip install "metorial[mistral]"`           | Mistral (`mistralai`)                            |
+| `pip install "metorial[openai-compatible]"` | DeepSeek / Together AI / xAI (OpenAI-compatible) |
+| `pip install "metorial[all]"`               | Every provider above                             |
+
+Combine extras as needed, e.g. `pip install "metorial[openai,anthropic]"`. Framework integrations (LangChain, PydanticAI, etc.) pull their own provider clients, so installing the framework is usually all you need.
+
 ## Supported LLM Integrations
 
 This SDK formats MCP tools for each LLM provider. Pass the `provider` parameter to get tools in the right format.
@@ -23,7 +34,7 @@ This SDK formats MCP tools for each LLM provider. Pass the `provider` parameter 
 | ------------- | ----------------------- | --------------------- | ------------------------------------------ |
 | OpenAI        | `provider="openai"`     | `openai`              | `gpt-4.1`, `gpt-4o`, `o1`, `o3`            |
 | Anthropic     | `provider="anthropic"`  | `anthropic`           | `claude-sonnet-4-5`, `claude-opus-4`       |
-| Google Gemini | `provider="google"`     | `google-genai` | `gemini-2.5-pro`, `gemini-2.5-flash`       |
+| Google Gemini | `provider="google"`     | `google-genai`        | `gemini-2.5-pro`, `gemini-2.5-flash`       |
 | Mistral       | `provider="mistral"`    | `mistralai`           | `mistral-large-latest`, `codestral-latest` |
 | DeepSeek      | `provider="deepseek"`   | `openai` (compatible) | `deepseek-chat`, `deepseek-reasoner`       |
 | Together AI   | `provider="togetherai"` | `openai` (compatible) | `Llama-4`, `Qwen-3`                        |
@@ -33,17 +44,17 @@ This SDK formats MCP tools for each LLM provider. Pass the `provider` parameter 
 
 For popular agent frameworks, we provide helper functions that convert tools to the framework's native format:
 
-| Framework     | Import                                                                      | Example                                         |
-| ------------- | --------------------------------------------------------------------------- | ------------------------------------------------ |
-| AutoGen       | `from metorial.integrations.autogen import create_autogen_tools`            | [example](./examples/autogen/example.py)         |
-| CrewAI        | `from metorial.integrations.crewai import create_crewai_tools`              | [example](./examples/crewai/example.py)          |
-| Google ADK    | `from metorial.integrations.google_adk import create_google_adk_tools`      | [example](./examples/google-adk/example.py)      |
-| LlamaIndex    | `from metorial.integrations.llamaindex import create_llamaindex_tools`      | [example](./examples/llamaindex/example.py)      |
-| PydanticAI    | `from metorial.integrations.pydantic_ai import create_pydantic_ai_tools`    | [example](./examples/pydantic-ai/example.py)     |
-| LangChain     | `from metorial.integrations.langchain import create_langchain_tools`        | [example](./examples/langchain/example.py)       |
-| LangGraph     | `from metorial.integrations.langgraph import create_langgraph_tools`        | [example](./examples/langgraph/example.py)       |
-| OpenAI Agents | `from metorial.integrations.openai_agents import create_openai_agent_tools` | [example](./examples/openai-agents/example.py)   |
-| Haystack      | `from metorial.integrations.haystack import create_haystack_tools`          | [example](./examples/haystack/example.py)        |
+| Framework     | Import                                                                      | Example                                        |
+| ------------- | --------------------------------------------------------------------------- | ---------------------------------------------- |
+| AutoGen       | `from metorial.integrations.autogen import create_autogen_tools`            | [example](./examples/autogen/example.py)       |
+| CrewAI        | `from metorial.integrations.crewai import create_crewai_tools`              | [example](./examples/crewai/example.py)        |
+| Google ADK    | `from metorial.integrations.google_adk import create_google_adk_tools`      | [example](./examples/google-adk/example.py)    |
+| LlamaIndex    | `from metorial.integrations.llamaindex import create_llamaindex_tools`      | [example](./examples/llamaindex/example.py)    |
+| PydanticAI    | `from metorial.integrations.pydantic_ai import create_pydantic_ai_tools`    | [example](./examples/pydantic-ai/example.py)   |
+| LangChain     | `from metorial.integrations.langchain import create_langchain_tools`        | [example](./examples/langchain/example.py)     |
+| LangGraph     | `from metorial.integrations.langgraph import create_langgraph_tools`        | [example](./examples/langgraph/example.py)     |
+| OpenAI Agents | `from metorial.integrations.openai_agents import create_openai_agent_tools` | [example](./examples/openai-agents/example.py) |
+| Haystack      | `from metorial.integrations.haystack import create_haystack_tools`          | [example](./examples/haystack/example.py)      |
 
 ## Quick Start
 
@@ -268,17 +279,17 @@ credentials = await metorial.provider_deployments.auth_credentials.create(
 
 Check out the `examples/` directory for complete working examples:
 
-| Example | Framework | Description |
-|---------|-----------|-------------|
-| [`autogen`](examples/autogen/) | AutoGen + OpenAI | AutoGen assistant with tool calls |
-| [`crewai`](examples/crewai/) | CrewAI + OpenAI | CrewAI agent with Metorial tools |
-| [`google-adk`](examples/google-adk/) | Google ADK + Gemini | Google ADK agent with async tool calls |
-| [`pydantic-ai`](examples/pydantic-ai/) | PydanticAI + Anthropic | PydanticAI agent with tool calls |
-| [`langchain`](examples/langchain/) | LangChain + Anthropic | LangChain agent with react pattern |
-| [`langgraph`](examples/langgraph/) | LangGraph + Anthropic | LangGraph streaming agent |
-| [`llamaindex`](examples/llamaindex/) | LlamaIndex + OpenAI | FunctionAgent with tool calls |
-| [`openai-agents`](examples/openai-agents/) | OpenAI Agents SDK | OpenAI Agents with tool calls |
-| [`haystack`](examples/haystack/) | Haystack + OpenAI | Haystack pipeline with tools |
+| Example                                    | Framework              | Description                            |
+| ------------------------------------------ | ---------------------- | -------------------------------------- |
+| [`autogen`](examples/autogen/)             | AutoGen + OpenAI       | AutoGen assistant with tool calls      |
+| [`crewai`](examples/crewai/)               | CrewAI + OpenAI        | CrewAI agent with Metorial tools       |
+| [`google-adk`](examples/google-adk/)       | Google ADK + Gemini    | Google ADK agent with async tool calls |
+| [`pydantic-ai`](examples/pydantic-ai/)     | PydanticAI + Anthropic | PydanticAI agent with tool calls       |
+| [`langchain`](examples/langchain/)         | LangChain + Anthropic  | LangChain agent with react pattern     |
+| [`langgraph`](examples/langgraph/)         | LangGraph + Anthropic  | LangGraph streaming agent              |
+| [`llamaindex`](examples/llamaindex/)       | LlamaIndex + OpenAI    | FunctionAgent with tool calls          |
+| [`openai-agents`](examples/openai-agents/) | OpenAI Agents SDK      | OpenAI Agents with tool calls          |
+| [`haystack`](examples/haystack/)           | Haystack + OpenAI      | Haystack pipeline with tools           |
 
 ## Provider Examples
 
