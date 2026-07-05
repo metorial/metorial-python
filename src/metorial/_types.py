@@ -2,7 +2,7 @@
 Type definitions for Metorial SDK to provide TypeScript-like experience.
 """
 
-from typing import TYPE_CHECKING, Any, TypedDict
+from typing import TYPE_CHECKING, Any
 
 
 class DictAttributeAccess(dict[str, Any]):
@@ -31,28 +31,6 @@ class DictAttributeAccess(dict[str, Any]):
       ) from None
 
 
-class ServerDeployment(TypedDict, total=False):
-  """Server deployment configuration with optional OAuth session.
-
-  Accepts both snake_case (preferred) and camelCase keys:
-  - server_deployment_id / serverDeploymentId / id
-  - oauth_session_id / oauthSessionId
-  """
-
-  server_deployment_id: str
-  oauth_session_id: str | None
-
-
-class OAuthSession(TypedDict):
-  """OAuth session information."""
-
-  id: str
-  url: str
-  status: str
-
-
-ServerDeployments = list[str] | list[ServerDeployment]
-
 if TYPE_CHECKING:
   from metorial._client import Metorial
 
@@ -62,8 +40,5 @@ else:
 
 __all__ = [
   "DictAttributeAccess",
-  "ServerDeployment",
-  "OAuthSession",
-  "ServerDeployments",
   "MetorialClient",
 ]

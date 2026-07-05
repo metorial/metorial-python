@@ -8,7 +8,7 @@ class MetorialDashboardInstanceProvidersToolsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, *, provider_version_id: str, provider_auth_method_id: Optional[Union[str, List[str]]] = None, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None) -> DashboardInstanceProvidersToolsListOutput:
+    def list(self, instance_id: str, *, provider_version_id: str, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, provider_auth_method_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceProvidersToolsListOutput:
         """
     List provider tools
     Returns a paginated list of provider tools. By default returns tools from the latest version. Use optional filters to get tools for a specific version.
@@ -40,7 +40,7 @@ class MetorialDashboardInstanceProvidersToolsEndpoint(BaseMetorialEndpoint):
             query_dict["provider_auth_method_id"] = provider_auth_method_id
 
         request = MetorialRequest(
-            path=['dashboard', 'instances', instance_id, 'providers-tools'],
+            path=['dashboard', 'instances', instance_id, 'provider-tools'],
             query=query_dict
         )
         return self._get(request).transform(mapDashboardInstanceProvidersToolsListOutput.from_dict)
@@ -55,6 +55,6 @@ class MetorialDashboardInstanceProvidersToolsEndpoint(BaseMetorialEndpoint):
     :return: DashboardInstanceProvidersToolsGetOutput
     """
         request = MetorialRequest(
-            path=['dashboard', 'instances', instance_id, 'providers-tools', provider_tool_id]
+            path=['dashboard', 'instances', instance_id, 'provider-tools', provider_tool_id]
         )
         return self._get(request).transform(mapDashboardInstanceProvidersToolsGetOutput.from_dict)

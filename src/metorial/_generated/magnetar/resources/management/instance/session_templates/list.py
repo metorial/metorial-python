@@ -46,12 +46,17 @@ class ManagementInstanceSessionTemplatesListOutputItemsProviders:
 class ManagementInstanceSessionTemplatesListOutputItems:
     object: str
     id: str
+    status: str
     name: str
     providers: List[ManagementInstanceSessionTemplatesListOutputItemsProviders]
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
+    integration_instance_id: Optional[str] = None
+    integration_instance_group_id: Optional[str] = None
+    identity_actor_id: Optional[str] = None
+    identity_id: Optional[str] = None
 @dataclass
 class ManagementInstanceSessionTemplatesListOutputPagination:
     has_more_before: bool
@@ -155,9 +160,14 @@ class mapManagementInstanceSessionTemplatesListOutputItems:
         return ManagementInstanceSessionTemplatesListOutputItems(
         object=data.get('object'),
         id=data.get('id'),
+        status=data.get('status'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        integration_instance_id=data.get('integration_instance_id'),
+        integration_instance_group_id=data.get('integration_instance_group_id'),
+        identity_actor_id=data.get('identity_actor_id'),
+        identity_id=data.get('identity_id'),
         providers=[mapManagementInstanceSessionTemplatesListOutputItemsProviders.from_dict(item) for item in data.get('providers', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
@@ -205,6 +215,14 @@ class mapManagementInstanceSessionTemplatesListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class ManagementInstanceSessionTemplatesListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class ManagementInstanceSessionTemplatesListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class ManagementInstanceSessionTemplatesListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -219,6 +237,8 @@ class ManagementInstanceSessionTemplatesListQuery:
     provider_deployment_id: Optional[Union[str, List[str]]] = None
     provider_config_id: Optional[Union[str, List[str]]] = None
     provider_auth_config_id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[ManagementInstanceSessionTemplatesListQueryCreatedAt] = None
+    updated_at: Optional[ManagementInstanceSessionTemplatesListQueryUpdatedAt] = None
 
 
 class mapManagementInstanceSessionTemplatesListQuery:
@@ -237,7 +257,9 @@ class mapManagementInstanceSessionTemplatesListQuery:
         provider_id=data.get('provider_id'),
         provider_deployment_id=data.get('provider_deployment_id'),
         provider_config_id=data.get('provider_config_id'),
-        provider_auth_config_id=data.get('provider_auth_config_id')
+        provider_auth_config_id=data.get('provider_auth_config_id'),
+        created_at=mapManagementInstanceSessionTemplatesListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapManagementInstanceSessionTemplatesListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

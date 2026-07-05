@@ -31,7 +31,9 @@ class DashboardInstanceProviderDeploymentsCreateOutputDefaultConfig:
 class DashboardInstanceProviderDeploymentsCreateOutput:
     object: str
     id: str
+    status: str
     is_default: bool
+    tool_filter: Dict[str, Any]
     provider_id: str
     created_at: datetime
     updated_at: datetime
@@ -96,10 +98,12 @@ class mapDashboardInstanceProviderDeploymentsCreateOutput:
         return DashboardInstanceProviderDeploymentsCreateOutput(
         object=data.get('object'),
         id=data.get('id'),
+        status=data.get('status'),
         is_default=data.get('is_default'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        tool_filter=data.get('tool_filter'),
         provider_id=data.get('provider_id'),
         locked_version=mapDashboardInstanceProviderDeploymentsCreateOutputLockedVersion.from_dict(data.get('locked_version')) if data.get('locked_version') else None,
         default_config=mapDashboardInstanceProviderDeploymentsCreateOutputDefaultConfig.from_dict(data.get('default_config')) if data.get('default_config') else None,
@@ -122,6 +126,7 @@ class DashboardInstanceProviderDeploymentsCreateBody:
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
+    tool_filters: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]] = None
     locked_provider_version_id: Optional[str] = None
     provider_config_id: Optional[str] = None
     provider_config: Optional[Dict[str, Any]] = None
@@ -134,6 +139,7 @@ class mapDashboardInstanceProviderDeploymentsCreateBody:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        tool_filters=data.get('tool_filters'),
         provider_id=data.get('provider_id'),
         locked_provider_version_id=data.get('locked_provider_version_id'),
         provider_config_id=data.get('provider_config_id'),

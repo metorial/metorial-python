@@ -407,6 +407,14 @@ class mapDashboardInstanceCustomProvidersListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class DashboardInstanceCustomProvidersListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class DashboardInstanceCustomProvidersListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class DashboardInstanceCustomProvidersListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -418,6 +426,8 @@ class DashboardInstanceCustomProvidersListQuery:
     id: Optional[Union[str, List[str]]] = None
     provider_id: Optional[Union[str, List[str]]] = None
     search: Optional[str] = None
+    created_at: Optional[DashboardInstanceCustomProvidersListQueryCreatedAt] = None
+    updated_at: Optional[DashboardInstanceCustomProvidersListQueryUpdatedAt] = None
 
 
 class mapDashboardInstanceCustomProvidersListQuery:
@@ -433,7 +443,9 @@ class mapDashboardInstanceCustomProvidersListQuery:
         type=data.get('type'),
         id=data.get('id'),
         provider_id=data.get('provider_id'),
-        search=data.get('search')
+        search=data.get('search'),
+        created_at=mapDashboardInstanceCustomProvidersListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapDashboardInstanceCustomProvidersListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

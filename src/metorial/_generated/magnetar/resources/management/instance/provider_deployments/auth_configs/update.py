@@ -4,7 +4,7 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
-class ManagementInstanceProviderDeploymentsAuthConfigsUpdateOutputDeploymentPreview:
+class ManagementInstanceProviderDeploymentsAuthConfigsUpdateOutputDeployment:
     object: str
     id: str
     is_default: bool
@@ -19,13 +19,16 @@ class ManagementInstanceProviderDeploymentsAuthConfigsUpdateOutputCredentials:
     object: str
     id: str
     type: str
+    status: str
     is_default: bool
+    is_managed: bool
     provider_id: str
     created_at: datetime
     updated_at: datetime
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
+    scopes: Optional[List[str]] = None
 @dataclass
 class ManagementInstanceProviderDeploymentsAuthConfigsUpdateOutputAuthMethodInputSchema:
     type: str
@@ -66,20 +69,21 @@ class ManagementInstanceProviderDeploymentsAuthConfigsUpdateOutput:
     status: str
     is_default: bool
     provider_id: str
+    tool_filter: Dict[str, Any]
     auth_method: ManagementInstanceProviderDeploymentsAuthConfigsUpdateOutputAuthMethod
     created_at: datetime
     updated_at: datetime
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
-    deployment_preview: Optional[ManagementInstanceProviderDeploymentsAuthConfigsUpdateOutputDeploymentPreview] = None
+    deployment: Optional[ManagementInstanceProviderDeploymentsAuthConfigsUpdateOutputDeployment] = None
     credentials: Optional[ManagementInstanceProviderDeploymentsAuthConfigsUpdateOutputCredentials] = None
 
 
-class mapManagementInstanceProviderDeploymentsAuthConfigsUpdateOutputDeploymentPreview:
+class mapManagementInstanceProviderDeploymentsAuthConfigsUpdateOutputDeployment:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderDeploymentsAuthConfigsUpdateOutputDeploymentPreview:
-        return ManagementInstanceProviderDeploymentsAuthConfigsUpdateOutputDeploymentPreview(
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderDeploymentsAuthConfigsUpdateOutputDeployment:
+        return ManagementInstanceProviderDeploymentsAuthConfigsUpdateOutputDeployment(
         object=data.get('object'),
         id=data.get('id'),
         is_default=data.get('is_default'),
@@ -92,7 +96,7 @@ class mapManagementInstanceProviderDeploymentsAuthConfigsUpdateOutputDeploymentP
         )
 
     @staticmethod
-    def to_dict(value: Union[ManagementInstanceProviderDeploymentsAuthConfigsUpdateOutputDeploymentPreview, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[ManagementInstanceProviderDeploymentsAuthConfigsUpdateOutputDeployment, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -106,10 +110,13 @@ class mapManagementInstanceProviderDeploymentsAuthConfigsUpdateOutputCredentials
         object=data.get('object'),
         id=data.get('id'),
         type=data.get('type'),
+        status=data.get('status'),
         is_default=data.get('is_default'),
+        is_managed=data.get('is_managed'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        scopes=data.get('scopes', []),
         provider_id=data.get('provider_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
@@ -216,7 +223,8 @@ class mapManagementInstanceProviderDeploymentsAuthConfigsUpdateOutput:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
-        deployment_preview=mapManagementInstanceProviderDeploymentsAuthConfigsUpdateOutputDeploymentPreview.from_dict(data.get('deployment_preview')) if data.get('deployment_preview') else None,
+        tool_filter=data.get('tool_filter'),
+        deployment=mapManagementInstanceProviderDeploymentsAuthConfigsUpdateOutputDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         credentials=mapManagementInstanceProviderDeploymentsAuthConfigsUpdateOutputCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,
         auth_method=mapManagementInstanceProviderDeploymentsAuthConfigsUpdateOutputAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
@@ -237,6 +245,7 @@ class ManagementInstanceProviderDeploymentsAuthConfigsUpdateBody:
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
+    tool_filters: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]] = None
 
 
 class mapManagementInstanceProviderDeploymentsAuthConfigsUpdateBody:
@@ -245,7 +254,8 @@ class mapManagementInstanceProviderDeploymentsAuthConfigsUpdateBody:
         return ManagementInstanceProviderDeploymentsAuthConfigsUpdateBody(
         name=data.get('name'),
         description=data.get('description'),
-        metadata=data.get('metadata')
+        metadata=data.get('metadata'),
+        tool_filters=data.get('tool_filters')
         )
 
     @staticmethod

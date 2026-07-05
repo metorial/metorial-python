@@ -307,6 +307,14 @@ class mapDashboardInstanceIdentitiesDelegationsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class DashboardInstanceIdentitiesDelegationsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class DashboardInstanceIdentitiesDelegationsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class DashboardInstanceIdentitiesDelegationsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -320,6 +328,8 @@ class DashboardInstanceIdentitiesDelegationsListQuery:
     delegator_actor_id: Optional[Union[str, List[str]]] = None
     delegatee_actor_id: Optional[Union[str, List[str]]] = None
     identity_id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[DashboardInstanceIdentitiesDelegationsListQueryCreatedAt] = None
+    updated_at: Optional[DashboardInstanceIdentitiesDelegationsListQueryUpdatedAt] = None
 
 
 class mapDashboardInstanceIdentitiesDelegationsListQuery:
@@ -337,7 +347,9 @@ class mapDashboardInstanceIdentitiesDelegationsListQuery:
         owner_actor_id=data.get('owner_actor_id'),
         delegator_actor_id=data.get('delegator_actor_id'),
         delegatee_actor_id=data.get('delegatee_actor_id'),
-        identity_id=data.get('identity_id')
+        identity_id=data.get('identity_id'),
+        created_at=mapDashboardInstanceIdentitiesDelegationsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapDashboardInstanceIdentitiesDelegationsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

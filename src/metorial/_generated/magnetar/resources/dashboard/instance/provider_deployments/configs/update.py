@@ -29,6 +29,7 @@ class DashboardInstanceProviderDeploymentsConfigsUpdateOutputFromVaultDeployment
 class DashboardInstanceProviderDeploymentsConfigsUpdateOutputFromVault:
     object: str
     id: str
+    status: str
     name: str
     provider_id: str
     created_at: datetime
@@ -40,7 +41,9 @@ class DashboardInstanceProviderDeploymentsConfigsUpdateOutputFromVault:
 class DashboardInstanceProviderDeploymentsConfigsUpdateOutput:
     object: str
     id: str
+    status: str
     is_default: bool
+    tool_filter: Dict[str, Any]
     provider_id: str
     specification_id: str
     created_at: datetime
@@ -104,6 +107,7 @@ class mapDashboardInstanceProviderDeploymentsConfigsUpdateOutputFromVault:
         return DashboardInstanceProviderDeploymentsConfigsUpdateOutputFromVault(
         object=data.get('object'),
         id=data.get('id'),
+        status=data.get('status'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
@@ -127,10 +131,12 @@ class mapDashboardInstanceProviderDeploymentsConfigsUpdateOutput:
         return DashboardInstanceProviderDeploymentsConfigsUpdateOutput(
         object=data.get('object'),
         id=data.get('id'),
+        status=data.get('status'),
         is_default=data.get('is_default'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        tool_filter=data.get('tool_filter'),
         provider_id=data.get('provider_id'),
         specification_id=data.get('specification_id'),
         deployment=mapDashboardInstanceProviderDeploymentsConfigsUpdateOutputDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
@@ -153,6 +159,7 @@ class DashboardInstanceProviderDeploymentsConfigsUpdateBody:
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
+    tool_filters: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]] = None
 
 
 class mapDashboardInstanceProviderDeploymentsConfigsUpdateBody:
@@ -161,7 +168,8 @@ class mapDashboardInstanceProviderDeploymentsConfigsUpdateBody:
         return DashboardInstanceProviderDeploymentsConfigsUpdateBody(
         name=data.get('name'),
         description=data.get('description'),
-        metadata=data.get('metadata')
+        metadata=data.get('metadata'),
+        tool_filters=data.get('tool_filters')
         )
 
     @staticmethod

@@ -1,0 +1,168 @@
+from dataclasses import dataclass
+from typing import Any, Dict, List, Optional, Union
+from datetime import datetime
+import dataclasses
+
+@dataclass
+class DashboardInstanceSkillsTemplatesDeleteOutputItemsIntegrationConfiguration:
+    can_attach_custom_tool_filters: bool
+    can_attach_custom_provider_config: bool
+    can_override_tool_filters: bool
+    use_integration_name_in_tool_names: Optional[bool] = None
+@dataclass
+class DashboardInstanceSkillsTemplatesDeleteOutputItemsIntegration:
+    object: str
+    id: str
+    slug: str
+    name: str
+    configuration: DashboardInstanceSkillsTemplatesDeleteOutputItemsIntegrationConfiguration
+    created_at: datetime
+    updated_at: datetime
+    description: Optional[str] = None
+    metadata: Optional[Dict[str, Any]] = None
+    archived_at: Optional[datetime] = None
+@dataclass
+class DashboardInstanceSkillsTemplatesDeleteOutputItemsProvider:
+    object: str
+    id: str
+    name: str
+    slug: str
+    created_at: datetime
+    updated_at: datetime
+    description: Optional[str] = None
+@dataclass
+class DashboardInstanceSkillsTemplatesDeleteOutputItems:
+    object: str
+    id: str
+    type: str
+    created_at: datetime
+    updated_at: datetime
+    integration: Optional[DashboardInstanceSkillsTemplatesDeleteOutputItemsIntegration] = None
+    provider: Optional[DashboardInstanceSkillsTemplatesDeleteOutputItemsProvider] = None
+@dataclass
+class DashboardInstanceSkillsTemplatesDeleteOutput:
+    object: str
+    id: str
+    status: str
+    owner: str
+    slug: str
+    name: str
+    metadata: Dict[str, Any]
+    store_id: str
+    items: List[DashboardInstanceSkillsTemplatesDeleteOutputItems]
+    created_at: datetime
+    updated_at: datetime
+    description: Optional[str] = None
+
+
+class mapDashboardInstanceSkillsTemplatesDeleteOutputItemsIntegrationConfiguration:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSkillsTemplatesDeleteOutputItemsIntegrationConfiguration:
+        return DashboardInstanceSkillsTemplatesDeleteOutputItemsIntegrationConfiguration(
+        can_attach_custom_tool_filters=data.get('can_attach_custom_tool_filters'),
+        can_attach_custom_provider_config=data.get('can_attach_custom_provider_config'),
+        can_override_tool_filters=data.get('can_override_tool_filters'),
+        use_integration_name_in_tool_names=data.get('use_integration_name_in_tool_names')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSkillsTemplatesDeleteOutputItemsIntegrationConfiguration, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceSkillsTemplatesDeleteOutputItemsIntegration:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSkillsTemplatesDeleteOutputItemsIntegration:
+        return DashboardInstanceSkillsTemplatesDeleteOutputItemsIntegration(
+        object=data.get('object'),
+        id=data.get('id'),
+        slug=data.get('slug'),
+        name=data.get('name'),
+        description=data.get('description'),
+        metadata=data.get('metadata'),
+        configuration=mapDashboardInstanceSkillsTemplatesDeleteOutputItemsIntegrationConfiguration.from_dict(data.get('configuration')) if data.get('configuration') else None,
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
+        archived_at=datetime.fromisoformat(data.get('archived_at').replace('Z', '+00:00')) if data.get('archived_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSkillsTemplatesDeleteOutputItemsIntegration, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceSkillsTemplatesDeleteOutputItemsProvider:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSkillsTemplatesDeleteOutputItemsProvider:
+        return DashboardInstanceSkillsTemplatesDeleteOutputItemsProvider(
+        object=data.get('object'),
+        id=data.get('id'),
+        name=data.get('name'),
+        description=data.get('description'),
+        slug=data.get('slug'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSkillsTemplatesDeleteOutputItemsProvider, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceSkillsTemplatesDeleteOutputItems:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSkillsTemplatesDeleteOutputItems:
+        return DashboardInstanceSkillsTemplatesDeleteOutputItems(
+        object=data.get('object'),
+        id=data.get('id'),
+        type=data.get('type'),
+        integration=mapDashboardInstanceSkillsTemplatesDeleteOutputItemsIntegration.from_dict(data.get('integration')) if data.get('integration') else None,
+        provider=mapDashboardInstanceSkillsTemplatesDeleteOutputItemsProvider.from_dict(data.get('provider')) if data.get('provider') else None,
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSkillsTemplatesDeleteOutputItems, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceSkillsTemplatesDeleteOutput:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSkillsTemplatesDeleteOutput:
+        return DashboardInstanceSkillsTemplatesDeleteOutput(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        owner=data.get('owner'),
+        slug=data.get('slug'),
+        name=data.get('name'),
+        description=data.get('description'),
+        metadata=data.get('metadata'),
+        store_id=data.get('store_id'),
+        items=[mapDashboardInstanceSkillsTemplatesDeleteOutputItems.from_dict(item) for item in data.get('items', []) if item],
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSkillsTemplatesDeleteOutput, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        # assume dataclass for generated models
+        return dataclasses.asdict(value)
+

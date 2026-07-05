@@ -8,13 +8,16 @@ class DashboardInstanceProviderDeploymentsAuthCredentialsDeleteOutput:
     object: str
     id: str
     type: str
+    status: str
     is_default: bool
+    is_managed: bool
     provider_id: str
     created_at: datetime
     updated_at: datetime
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
+    scopes: Optional[List[str]] = None
 
 
 class mapDashboardInstanceProviderDeploymentsAuthCredentialsDeleteOutput:
@@ -24,10 +27,13 @@ class mapDashboardInstanceProviderDeploymentsAuthCredentialsDeleteOutput:
         object=data.get('object'),
         id=data.get('id'),
         type=data.get('type'),
+        status=data.get('status'),
         is_default=data.get('is_default'),
+        is_managed=data.get('is_managed'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        scopes=data.get('scopes', []),
         provider_id=data.get('provider_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None

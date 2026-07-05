@@ -21,13 +21,6 @@ class MetorialXAISession(MetorialOpenAICompatibleSession):
     # XAI supports strict mode
     super().__init__(tool_mgr, with_strict=True)
 
-  @staticmethod
-  async def chat_completions(session: SessionWithToolManagerProtocol) -> dict[str, Any]:
-    """Resolve xAI-formatted tools from a session-like object."""
-    tool_mgr = await session.get_tool_manager()
-    provider_session = MetorialXAISession(tool_mgr)
-    return {"tools": provider_session.tools}
-
 
 def build_xai_tools(tool_mgr: ToolManagerProtocol | None) -> list[dict[str, Any]]:
   """Build XAI-compatible tool definitions from Metorial tools."""
@@ -45,10 +38,3 @@ async def call_xai_tools(
     return []
   session = MetorialXAISession(tool_mgr)
   return await session.call_tools(tool_calls)
-
-
-async def chat_completions(session: SessionWithToolManagerProtocol) -> dict[str, Any]:
-  """Module-level helper that resolves xAI-formatted tools from a session."""
-  tool_mgr = await session.get_tool_manager()
-  provider_session = MetorialXAISession(tool_mgr)
-  return {"tools": provider_session.tools}

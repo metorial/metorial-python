@@ -29,6 +29,7 @@ class DashboardInstanceProviderDeploymentsConfigsGetOutputFromVaultDeployment:
 class DashboardInstanceProviderDeploymentsConfigsGetOutputFromVault:
     object: str
     id: str
+    status: str
     name: str
     provider_id: str
     created_at: datetime
@@ -40,7 +41,9 @@ class DashboardInstanceProviderDeploymentsConfigsGetOutputFromVault:
 class DashboardInstanceProviderDeploymentsConfigsGetOutput:
     object: str
     id: str
+    status: str
     is_default: bool
+    tool_filter: Dict[str, Any]
     provider_id: str
     specification_id: str
     created_at: datetime
@@ -104,6 +107,7 @@ class mapDashboardInstanceProviderDeploymentsConfigsGetOutputFromVault:
         return DashboardInstanceProviderDeploymentsConfigsGetOutputFromVault(
         object=data.get('object'),
         id=data.get('id'),
+        status=data.get('status'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
@@ -127,10 +131,12 @@ class mapDashboardInstanceProviderDeploymentsConfigsGetOutput:
         return DashboardInstanceProviderDeploymentsConfigsGetOutput(
         object=data.get('object'),
         id=data.get('id'),
+        status=data.get('status'),
         is_default=data.get('is_default'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        tool_filter=data.get('tool_filter'),
         provider_id=data.get('provider_id'),
         specification_id=data.get('specification_id'),
         deployment=mapDashboardInstanceProviderDeploymentsConfigsGetOutputDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,

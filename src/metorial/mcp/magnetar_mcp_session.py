@@ -126,9 +126,14 @@ class MetorialMagnetarMcpSession:
       try:
         from metorial._endpoint import MetorialRequest
 
-        root = getattr(sessions_api, "_root", None)
-        base = getattr(root, "_base", None) if root is not None else None
-        manager = getattr(base, "manager", None) if base is not None else None
+        # Group endpoints subclass their generated base endpoint, so the
+        # endpoint manager is available directly as `.manager`. Fall back to
+        # the legacy `_root._base.manager` shape for older/mocked sessions.
+        manager = getattr(sessions_api, "manager", None)
+        if manager is None:
+          root = getattr(sessions_api, "_root", None)
+          base = getattr(root, "_base", None) if root is not None else None
+          manager = getattr(base, "manager", None) if base is not None else None
         if manager is None:
           raise AttributeError("Cannot access endpoint manager")
         request = MetorialRequest(path=["sessions"], body=api_payload)

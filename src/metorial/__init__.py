@@ -8,34 +8,27 @@ The official Python SDK for Metorial - The open source integration platform for 
 import logging as _logging
 
 from ._client import Metorial, ProviderSession
-
-# Configuration
-from ._config import (
-  MetorialConfig,
-  ProviderConfig,
-  get_provider_config,
-  load_config_from_env,
-  validate_config,
-)
 from ._magnetar_sdk import (
+  MagnetarCallbacksGroup,
   MagnetarCustomProvidersGroup,
+  MagnetarDocumentsGroup,
+  MagnetarFilesGroup,
+  MagnetarIntegrationsGroup,
+  MagnetarMagicMcpGroup,
+  MagnetarPortalsGroup,
   MagnetarProviderDeploymentsGroup,
   MagnetarProvidersGroup,
   MagnetarSDK,
   MagnetarSessionsGroup,
   MagnetarSessionTemplatesGroup,
+  MagnetarSkillsGroup,
+  MagnetarStoresGroup,
   create_magnetar_sdk,
 )
-
-# Raw response wrapper
-from ._raw_response import RawResponse
-from ._sdk import SDKConfig
+from ._sdk_shared import SDKConfig
 
 # Session management
 from ._session import MetorialSession, SessionFactory
-
-# Streaming types
-from ._streaming import StreamEvent, StreamEventType
 from ._tool_adapters import (
   MetorialTool,
   OpenAITool,
@@ -51,23 +44,6 @@ from ._tool_manager import CacheInfo, ToolManager
 # Types
 from ._types import DictAttributeAccess, MetorialClient
 from ._version import __version__
-
-# Adapters
-from .adapters import (
-  AnthropicAdapter,
-  ChatMessage,
-  ChatResponse,
-  DeepSeekAdapter,
-  GoogleAdapter,
-  MistralAdapter,
-  OpenAIAdapter,
-  OpenAICompatibleAdapter,
-  ProviderAdapter,
-  TogetherAIAdapter,
-  XAIAdapter,
-  create_provider_adapter,
-  infer_provider_type,
-)
 from .connectors import (
   ConnectedSession,
   MetorialAdapter,
@@ -162,12 +138,6 @@ __all__ = [
   # Core clients
   "Metorial",
   "ProviderSession",
-  # Configuration
-  "MetorialConfig",
-  "ProviderConfig",
-  "load_config_from_env",
-  "get_provider_config",
-  "validate_config",
   # Session
   "MetorialSession",
   "SessionFactory",
@@ -198,11 +168,6 @@ __all__ = [
   "MetorialTimeoutError",
   "MetorialDuplicateToolError",
   "is_metorial_sdk_error",
-  # Raw response
-  "RawResponse",
-  # Streaming
-  "StreamEvent",
-  "StreamEventType",
   # Types
   "DictAttributeAccess",
   "MetorialClient",
@@ -227,20 +192,6 @@ __all__ = [
   "metorial_llamaindex",
   "metorial_openai_agents",
   "metorial_haystack",
-  # Adapters
-  "ProviderAdapter",
-  "ChatMessage",
-  "ChatResponse",
-  "OpenAIAdapter",
-  "AnthropicAdapter",
-  "GoogleAdapter",
-  "MistralAdapter",
-  "DeepSeekAdapter",
-  "TogetherAIAdapter",
-  "XAIAdapter",
-  "OpenAICompatibleAdapter",
-  "infer_provider_type",
-  "create_provider_adapter",
   # Magnetar SDK
   "SDKConfig",
   "MagnetarSDK",
@@ -249,6 +200,14 @@ __all__ = [
   "MagnetarSessionsGroup",
   "MagnetarSessionTemplatesGroup",
   "MagnetarCustomProvidersGroup",
+  "MagnetarIntegrationsGroup",
+  "MagnetarDocumentsGroup",
+  "MagnetarStoresGroup",
+  "MagnetarFilesGroup",
+  "MagnetarSkillsGroup",
+  "MagnetarCallbacksGroup",
+  "MagnetarMagicMcpGroup",
+  "MagnetarPortalsGroup",
   "create_magnetar_sdk",
   # MCP
   "MetorialMagnetarMcpSession",

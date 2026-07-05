@@ -68,6 +68,9 @@ def _create_openai_agent_tool(tool: Any, tool_manager: Any) -> Any:
   """Create an OpenAI Agents SDK FunctionTool from a Metorial tool."""
   from metorial.integrations import _sanitize_schema, _sanitize_tool_name
 
+  # `tool_name` is the sanitized, agent-facing identifier; `original_name` is
+  # the real MCP tool name that must be used when executing the tool.
+  original_name = tool.name
   tool_name = _sanitize_tool_name(tool.name)
   tool_description = tool.description or f"Tool: {tool_name}"
   schema = _sanitize_schema(tool.get_parameters_as("json-schema") or {})
@@ -90,7 +93,7 @@ def _create_openai_agent_tool(tool: Any, tool_manager: Any) -> Any:
   async def tool_fn(**kwargs: Any) -> str:
     # Filter out None values
     filtered_kwargs = {k: v for k, v in kwargs.items() if v is not None}
-    result = await tool_manager.execute_tool(tool_name, filtered_kwargs)
+    result = await tool_manager.execute_tool(original_name, filtered_kwargs)
     if hasattr(result, "model_dump"):
       result = result.model_dump()
     return json.dumps(result, ensure_ascii=False, default=str)
@@ -103,12 +106,15 @@ def _create_openai_agent_tool(tool: Any, tool_manager: Any) -> Any:
     name=tool_name,
     description=tool_description,
     params_json_schema=params_schema,
-    on_invoke_tool=_make_invoke_handler(tool_name, tool_manager, original_required),
+    on_invoke_tool=_make_invoke_handler(original_name, tool_manager, original_required),
   )
 
 
 def _make_invoke_handler(tool_name: str, tool_manager: Any, required_params: set[str]):
-  """Create an invoke handler for the FunctionTool."""
+  """Create an invoke handler for the FunctionTool.
+
+  ``tool_name`` is the original MCP tool name used for execution.
+  """
 
   async def invoke_handler(ctx: Any, input_json: str) -> str:
     kwargs = json.loads(input_json) if input_json else {}

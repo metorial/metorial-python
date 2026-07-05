@@ -8,7 +8,7 @@ class MetorialManagementInstanceSessionsConnectionsEndpoint(BaseMetorialEndpoint
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, connection_state: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, session_id: Optional[Union[str, List[str]]] = None, session_provider_id: Optional[Union[str, List[str]]] = None, participant_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceSessionsConnectionsListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, connection_state: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, agent_id: Optional[Union[str, List[str]]] = None, actor_id: Optional[Union[str, List[str]]] = None, consumer_id: Optional[Union[str, List[str]]] = None, identity_id: Optional[Union[str, List[str]]] = None, agent_instance_id: Optional[Union[str, List[str]]] = None, session_id: Optional[Union[str, List[str]]] = None, session_provider_id: Optional[Union[str, List[str]]] = None, participant_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceSessionsConnectionsListOutput:
         """
     List session connections
     Returns a paginated list of connections for a session.
@@ -22,9 +22,16 @@ class MetorialManagementInstanceSessionsConnectionsEndpoint(BaseMetorialEndpoint
     :param status: Optional[Union[str, List[str]]] (optional)
     :param connection_state: Optional[Union[str, List[str]]] (optional)
     :param id: Optional[Union[str, List[str]]] (optional)
+    :param agent_id: Optional[Union[str, List[str]]] (optional)
+    :param actor_id: Optional[Union[str, List[str]]] (optional)
+    :param consumer_id: Optional[Union[str, List[str]]] (optional)
+    :param identity_id: Optional[Union[str, List[str]]] (optional)
+    :param agent_instance_id: Optional[Union[str, List[str]]] (optional)
     :param session_id: Optional[Union[str, List[str]]] (optional)
     :param session_provider_id: Optional[Union[str, List[str]]] (optional)
     :param participant_id: Optional[Union[str, List[str]]] (optional)
+    :param created_at: Optional[Dict[str, Any]] (optional)
+    :param updated_at: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceSessionsConnectionsListOutput
     """
         # Build query parameters from keyword arguments
@@ -45,12 +52,26 @@ class MetorialManagementInstanceSessionsConnectionsEndpoint(BaseMetorialEndpoint
             query_dict["connection_state"] = connection_state
         if id is not None:
             query_dict["id"] = id
+        if agent_id is not None:
+            query_dict["agent_id"] = agent_id
+        if actor_id is not None:
+            query_dict["actor_id"] = actor_id
+        if consumer_id is not None:
+            query_dict["consumer_id"] = consumer_id
+        if identity_id is not None:
+            query_dict["identity_id"] = identity_id
+        if agent_instance_id is not None:
+            query_dict["agent_instance_id"] = agent_instance_id
         if session_id is not None:
             query_dict["session_id"] = session_id
         if session_provider_id is not None:
             query_dict["session_provider_id"] = session_provider_id
         if participant_id is not None:
             query_dict["participant_id"] = participant_id
+        if created_at is not None:
+            query_dict["created_at"] = created_at
+        if updated_at is not None:
+            query_dict["updated_at"] = updated_at
 
         request = MetorialRequest(
             path=['instances', instance_id, 'session-connections'],

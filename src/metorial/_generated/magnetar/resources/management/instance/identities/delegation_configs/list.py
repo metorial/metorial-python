@@ -85,6 +85,14 @@ class mapManagementInstanceIdentitiesDelegationConfigsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class ManagementInstanceIdentitiesDelegationConfigsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class ManagementInstanceIdentitiesDelegationConfigsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class ManagementInstanceIdentitiesDelegationConfigsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -94,6 +102,8 @@ class ManagementInstanceIdentitiesDelegationConfigsListQuery:
     search: Optional[str] = None
     status: Optional[Union[str, List[str]]] = None
     id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[ManagementInstanceIdentitiesDelegationConfigsListQueryCreatedAt] = None
+    updated_at: Optional[ManagementInstanceIdentitiesDelegationConfigsListQueryUpdatedAt] = None
 
 
 class mapManagementInstanceIdentitiesDelegationConfigsListQuery:
@@ -107,7 +117,9 @@ class mapManagementInstanceIdentitiesDelegationConfigsListQuery:
         order=data.get('order'),
         search=data.get('search'),
         status=data.get('status'),
-        id=data.get('id')
+        id=data.get('id'),
+        created_at=mapManagementInstanceIdentitiesDelegationConfigsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapManagementInstanceIdentitiesDelegationConfigsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

@@ -59,11 +59,14 @@ def create_haystack_tools(session: "ProviderSession") -> list[Any]:
 
     from metorial.integrations import _sanitize_schema, _sanitize_tool_name
 
+    # Preserve the original MCP tool name for execution; the sanitized name is
+    # only the agent-facing identifier exposed to Haystack.
+    original_name = tool_name
     tool_name = _sanitize_tool_name(tool_name)
     input_schema = _sanitize_schema(input_schema)
 
     # Create executor function for this tool
-    tool_fn = _create_tool_function(session, tool_name)
+    tool_fn = _create_tool_function(session, original_name)
 
     haystack_tool = Tool(
       name=tool_name,
@@ -78,6 +81,8 @@ def create_haystack_tools(session: "ProviderSession") -> list[Any]:
 
 def _create_tool_function(session: "ProviderSession", tool_name: str):
   """Create a tool execution function for Haystack.
+
+  ``tool_name`` is the original MCP tool name used for execution.
 
   Haystack's ToolInvoker calls tool functions synchronously (possibly from a
   worker thread). We capture the event loop that owns the MCP session at

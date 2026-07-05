@@ -11,6 +11,7 @@ class DashboardInstanceInstanceGetOutputProject:
     slug: str
     name: str
     organization_id: str
+    magic_mcp_session_duration_minutes: float
     created_at: datetime
     updated_at: datetime
 @dataclass
@@ -24,6 +25,7 @@ class DashboardInstanceInstanceGetOutput:
     created_at: datetime
     updated_at: datetime
     project: DashboardInstanceInstanceGetOutputProject
+    sandbox_id: Optional[str] = None
 
 
 class mapDashboardInstanceInstanceGetOutputProject:
@@ -36,6 +38,7 @@ class mapDashboardInstanceInstanceGetOutputProject:
         slug=data.get('slug'),
         name=data.get('name'),
         organization_id=data.get('organization_id'),
+        magic_mcp_session_duration_minutes=data.get('magic_mcp_session_duration_minutes'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -57,6 +60,7 @@ class mapDashboardInstanceInstanceGetOutput:
         slug=data.get('slug'),
         name=data.get('name'),
         organization_id=data.get('organization_id'),
+        sandbox_id=data.get('sandbox_id'),
         type=data.get('type'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,

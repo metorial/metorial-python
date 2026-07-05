@@ -171,20 +171,13 @@ async def call_anthropic_tools(
       tool_name = function_obj.get("name")
       raw_args = function_obj.get("arguments", "{}")
 
-      # Parse arguments if they're a string
+      # Parse arguments if they're a JSON string
       try:
         tool_input = (
-          eval(raw_args) if isinstance(raw_args, str) and raw_args.strip() else {}
+          json.loads(raw_args) if isinstance(raw_args, str) and raw_args.strip() else {}
         )
       except Exception:
-        try:
-          tool_input = (
-            json.loads(raw_args)
-            if isinstance(raw_args, str) and raw_args.strip()
-            else {}
-          )
-        except Exception:
-          tool_input = {}
+        tool_input = {}
     else:
       # Direct tool call object format
       tool_use_id = _attr_or_key(tc, "id", "id")
@@ -269,17 +262,3 @@ class MetorialAnthropicSession:
   async def call_tools(self, tool_calls: Iterable[Any]) -> dict[str, Any]:
     """Execute tool calls and return Anthropic-compatible message."""
     return await call_anthropic_tools(self._tool_mgr, list(tool_calls))
-
-  @staticmethod
-  async def chat_completions(session: SessionWithToolManagerProtocol) -> dict[str, Any]:
-    """Resolve Anthropic-formatted tools from a session-like object."""
-    tool_mgr = await session.get_tool_manager()
-    provider_session = MetorialAnthropicSession(tool_mgr)
-    return {"tools": provider_session.tools}
-
-
-async def chat_completions(session: SessionWithToolManagerProtocol) -> dict[str, Any]:
-  """Module-level helper that resolves Anthropic-formatted tools from a session."""
-  tool_mgr = await session.get_tool_manager()
-  provider_session = MetorialAnthropicSession(tool_mgr)
-  return {"tools": provider_session.tools}

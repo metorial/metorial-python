@@ -1,0 +1,74 @@
+from typing import Any, Dict, List, Optional, Union
+from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, MetorialRequest
+from ..resources import mapDashboardInstanceEnclavesListOutput, DashboardInstanceEnclavesListOutput, mapDashboardInstanceEnclavesListQuery, DashboardInstanceEnclavesListQuery, mapDashboardInstanceEnclavesGetOutput, DashboardInstanceEnclavesGetOutput
+
+class MetorialEnclavesEndpoint(BaseMetorialEndpoint):
+    """Read enclave records for provider deployments in an instance."""
+
+    def __init__(self, config: MetorialEndpointManager):
+        super().__init__(config)
+
+    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, slug: Optional[Union[str, List[str]]] = None, network_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, firewall_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceEnclavesListOutput:
+        """
+    List enclaves
+    Returns a paginated list of enclaves.
+
+    :param limit: Optional[float] (optional)
+    :param after: Optional[str] (optional)
+    :param before: Optional[str] (optional)
+    :param cursor: Optional[str] (optional)
+    :param order: Optional[str] (optional)
+    :param id: Optional[Union[str, List[str]]] (optional)
+    :param slug: Optional[Union[str, List[str]]] (optional)
+    :param network_id: Optional[Union[str, List[str]]] (optional)
+    :param provider_deployment_id: Optional[Union[str, List[str]]] (optional)
+    :param provider_id: Optional[Union[str, List[str]]] (optional)
+    :param firewall_id: Optional[Union[str, List[str]]] (optional)
+    :param created_at: Optional[Dict[str, Any]] (optional)
+    :return: DashboardInstanceEnclavesListOutput
+    """
+        # Build query parameters from keyword arguments
+        query_dict = {}
+        if limit is not None:
+            query_dict["limit"] = limit
+        if after is not None:
+            query_dict["after"] = after
+        if before is not None:
+            query_dict["before"] = before
+        if cursor is not None:
+            query_dict["cursor"] = cursor
+        if order is not None:
+            query_dict["order"] = order
+        if id is not None:
+            query_dict["id"] = id
+        if slug is not None:
+            query_dict["slug"] = slug
+        if network_id is not None:
+            query_dict["network_id"] = network_id
+        if provider_deployment_id is not None:
+            query_dict["provider_deployment_id"] = provider_deployment_id
+        if provider_id is not None:
+            query_dict["provider_id"] = provider_id
+        if firewall_id is not None:
+            query_dict["firewall_id"] = firewall_id
+        if created_at is not None:
+            query_dict["created_at"] = created_at
+
+        request = MetorialRequest(
+            path=['enclaves'],
+            query=query_dict
+        )
+        return self._get(request).transform(mapDashboardInstanceEnclavesListOutput.from_dict)
+
+    def get(self, enclave_id: str) -> DashboardInstanceEnclavesGetOutput:
+        """
+    Get enclave
+    Retrieves a specific enclave by ID.
+
+    :param enclave_id: str
+    :return: DashboardInstanceEnclavesGetOutput
+    """
+        request = MetorialRequest(
+            path=['enclaves', enclave_id]
+        )
+        return self._get(request).transform(mapDashboardInstanceEnclavesGetOutput.from_dict)

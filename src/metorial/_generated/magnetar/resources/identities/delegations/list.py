@@ -307,6 +307,14 @@ class mapIdentitiesDelegationsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class IdentitiesDelegationsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class IdentitiesDelegationsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class IdentitiesDelegationsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -320,6 +328,8 @@ class IdentitiesDelegationsListQuery:
     delegator_actor_id: Optional[Union[str, List[str]]] = None
     delegatee_actor_id: Optional[Union[str, List[str]]] = None
     identity_id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[IdentitiesDelegationsListQueryCreatedAt] = None
+    updated_at: Optional[IdentitiesDelegationsListQueryUpdatedAt] = None
 
 
 class mapIdentitiesDelegationsListQuery:
@@ -337,7 +347,9 @@ class mapIdentitiesDelegationsListQuery:
         owner_actor_id=data.get('owner_actor_id'),
         delegator_actor_id=data.get('delegator_actor_id'),
         delegatee_actor_id=data.get('delegatee_actor_id'),
-        identity_id=data.get('identity_id')
+        identity_id=data.get('identity_id'),
+        created_at=mapIdentitiesDelegationsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapIdentitiesDelegationsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

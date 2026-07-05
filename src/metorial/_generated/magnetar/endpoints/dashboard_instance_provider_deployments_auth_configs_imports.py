@@ -8,7 +8,7 @@ class MetorialDashboardInstanceProviderDeploymentsAuthConfigsImportsEndpoint(Bas
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_auth_credentials_id: Optional[Union[str, List[str]]] = None, provider_auth_config_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceProviderDeploymentsAuthConfigsImportsListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_auth_credentials_id: Optional[Union[str, List[str]]] = None, provider_auth_config_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderDeploymentsAuthConfigsImportsListOutput:
         """
     List provider auth imports
     Returns a paginated list of provider auth imports.
@@ -24,6 +24,8 @@ class MetorialDashboardInstanceProviderDeploymentsAuthConfigsImportsEndpoint(Bas
     :param provider_auth_credentials_id: Optional[Union[str, List[str]]] (optional)
     :param provider_auth_config_id: Optional[Union[str, List[str]]] (optional)
     :param provider_deployment_id: Optional[Union[str, List[str]]] (optional)
+    :param created_at: Optional[Dict[str, Any]] (optional)
+    :param updated_at: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceProviderDeploymentsAuthConfigsImportsListOutput
     """
         # Build query parameters from keyword arguments
@@ -48,6 +50,10 @@ class MetorialDashboardInstanceProviderDeploymentsAuthConfigsImportsEndpoint(Bas
             query_dict["provider_auth_config_id"] = provider_auth_config_id
         if provider_deployment_id is not None:
             query_dict["provider_deployment_id"] = provider_deployment_id
+        if created_at is not None:
+            query_dict["created_at"] = created_at
+        if updated_at is not None:
+            query_dict["updated_at"] = updated_at
 
         request = MetorialRequest(
             path=['dashboard', 'instances', instance_id, 'provider-auth-config-imports'],

@@ -26,6 +26,50 @@ class ManagementInstanceSessionsMessagesListOutputItemsTransport:
     mcp: Optional[ManagementInstanceSessionsMessagesListOutputItemsTransportMcp] = None
     tool_call: Optional[ManagementInstanceSessionsMessagesListOutputItemsTransportToolCall] = None
 @dataclass
+class ManagementInstanceSessionsMessagesListOutputItemsToolCallSenderParticipantData:
+    identifier: str
+    name: str
+@dataclass
+class ManagementInstanceSessionsMessagesListOutputItemsToolCallSenderParticipant:
+    object: str
+    id: str
+    type: str
+    identifier: str
+    name: str
+    data: ManagementInstanceSessionsMessagesListOutputItemsToolCallSenderParticipantData
+    created_at: datetime
+    provider_id: Optional[str] = None
+    connection_type: Optional[str] = None
+    agent_id: Optional[str] = None
+    agent_instance_id: Optional[str] = None
+    identity_actor_id: Optional[str] = None
+    identity_id: Optional[str] = None
+    agent_actor_id: Optional[str] = None
+    agent_client_id: Optional[str] = None
+    consumer_id: Optional[str] = None
+@dataclass
+class ManagementInstanceSessionsMessagesListOutputItemsToolCallResponderParticipantData:
+    identifier: str
+    name: str
+@dataclass
+class ManagementInstanceSessionsMessagesListOutputItemsToolCallResponderParticipant:
+    object: str
+    id: str
+    type: str
+    identifier: str
+    name: str
+    data: ManagementInstanceSessionsMessagesListOutputItemsToolCallResponderParticipantData
+    created_at: datetime
+    provider_id: Optional[str] = None
+    connection_type: Optional[str] = None
+    agent_id: Optional[str] = None
+    agent_instance_id: Optional[str] = None
+    identity_actor_id: Optional[str] = None
+    identity_id: Optional[str] = None
+    agent_actor_id: Optional[str] = None
+    agent_client_id: Optional[str] = None
+    consumer_id: Optional[str] = None
+@dataclass
 class ManagementInstanceSessionsMessagesListOutputItemsToolCallToolInputSchema:
     type: str
     schema: Dict[str, Any]
@@ -84,9 +128,15 @@ class ManagementInstanceSessionsMessagesListOutputItemsToolCall:
     session_provider_id: Optional[str] = None
     connection_id: Optional[str] = None
     provider_run_id: Optional[str] = None
+    sender_participant: Optional[ManagementInstanceSessionsMessagesListOutputItemsToolCallSenderParticipant] = None
+    responder_participant: Optional[ManagementInstanceSessionsMessagesListOutputItemsToolCallResponderParticipant] = None
     error: Optional[ManagementInstanceSessionsMessagesListOutputItemsToolCallError] = None
     input: Optional[Dict[str, Any]] = None
     output: Optional[Dict[str, Any]] = None
+@dataclass
+class ManagementInstanceSessionsMessagesListOutputItemsSenderParticipantData:
+    identifier: str
+    name: str
 @dataclass
 class ManagementInstanceSessionsMessagesListOutputItemsSenderParticipant:
     object: str
@@ -94,9 +144,21 @@ class ManagementInstanceSessionsMessagesListOutputItemsSenderParticipant:
     type: str
     identifier: str
     name: str
-    data: Dict[str, Any]
+    data: ManagementInstanceSessionsMessagesListOutputItemsSenderParticipantData
     created_at: datetime
     provider_id: Optional[str] = None
+    connection_type: Optional[str] = None
+    agent_id: Optional[str] = None
+    agent_instance_id: Optional[str] = None
+    identity_actor_id: Optional[str] = None
+    identity_id: Optional[str] = None
+    agent_actor_id: Optional[str] = None
+    agent_client_id: Optional[str] = None
+    consumer_id: Optional[str] = None
+@dataclass
+class ManagementInstanceSessionsMessagesListOutputItemsResponderParticipantData:
+    identifier: str
+    name: str
 @dataclass
 class ManagementInstanceSessionsMessagesListOutputItemsResponderParticipant:
     object: str
@@ -104,9 +166,17 @@ class ManagementInstanceSessionsMessagesListOutputItemsResponderParticipant:
     type: str
     identifier: str
     name: str
-    data: Dict[str, Any]
+    data: ManagementInstanceSessionsMessagesListOutputItemsResponderParticipantData
     created_at: datetime
     provider_id: Optional[str] = None
+    connection_type: Optional[str] = None
+    agent_id: Optional[str] = None
+    agent_instance_id: Optional[str] = None
+    identity_actor_id: Optional[str] = None
+    identity_id: Optional[str] = None
+    agent_actor_id: Optional[str] = None
+    agent_client_id: Optional[str] = None
+    consumer_id: Optional[str] = None
 @dataclass
 class ManagementInstanceSessionsMessagesListOutputItemsError:
     object: str
@@ -215,6 +285,98 @@ class mapManagementInstanceSessionsMessagesListOutputItemsTransport:
 
     @staticmethod
     def to_dict(value: Union[ManagementInstanceSessionsMessagesListOutputItemsTransport, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceSessionsMessagesListOutputItemsToolCallSenderParticipantData:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceSessionsMessagesListOutputItemsToolCallSenderParticipantData:
+        return ManagementInstanceSessionsMessagesListOutputItemsToolCallSenderParticipantData(
+        identifier=data.get('identifier'),
+        name=data.get('name')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceSessionsMessagesListOutputItemsToolCallSenderParticipantData, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceSessionsMessagesListOutputItemsToolCallSenderParticipant:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceSessionsMessagesListOutputItemsToolCallSenderParticipant:
+        return ManagementInstanceSessionsMessagesListOutputItemsToolCallSenderParticipant(
+        object=data.get('object'),
+        id=data.get('id'),
+        type=data.get('type'),
+        identifier=data.get('identifier'),
+        name=data.get('name'),
+        data=mapManagementInstanceSessionsMessagesListOutputItemsToolCallSenderParticipantData.from_dict(data.get('data')) if data.get('data') else None,
+        provider_id=data.get('provider_id'),
+        connection_type=data.get('connection_type'),
+        agent_id=data.get('agent_id'),
+        agent_instance_id=data.get('agent_instance_id'),
+        identity_actor_id=data.get('identity_actor_id'),
+        identity_id=data.get('identity_id'),
+        agent_actor_id=data.get('agent_actor_id'),
+        agent_client_id=data.get('agent_client_id'),
+        consumer_id=data.get('consumer_id'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceSessionsMessagesListOutputItemsToolCallSenderParticipant, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceSessionsMessagesListOutputItemsToolCallResponderParticipantData:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceSessionsMessagesListOutputItemsToolCallResponderParticipantData:
+        return ManagementInstanceSessionsMessagesListOutputItemsToolCallResponderParticipantData(
+        identifier=data.get('identifier'),
+        name=data.get('name')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceSessionsMessagesListOutputItemsToolCallResponderParticipantData, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceSessionsMessagesListOutputItemsToolCallResponderParticipant:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceSessionsMessagesListOutputItemsToolCallResponderParticipant:
+        return ManagementInstanceSessionsMessagesListOutputItemsToolCallResponderParticipant(
+        object=data.get('object'),
+        id=data.get('id'),
+        type=data.get('type'),
+        identifier=data.get('identifier'),
+        name=data.get('name'),
+        data=mapManagementInstanceSessionsMessagesListOutputItemsToolCallResponderParticipantData.from_dict(data.get('data')) if data.get('data') else None,
+        provider_id=data.get('provider_id'),
+        connection_type=data.get('connection_type'),
+        agent_id=data.get('agent_id'),
+        agent_instance_id=data.get('agent_instance_id'),
+        identity_actor_id=data.get('identity_actor_id'),
+        identity_id=data.get('identity_id'),
+        agent_actor_id=data.get('agent_actor_id'),
+        agent_client_id=data.get('agent_client_id'),
+        consumer_id=data.get('consumer_id'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceSessionsMessagesListOutputItemsToolCallResponderParticipant, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -340,6 +502,8 @@ class mapManagementInstanceSessionsMessagesListOutputItemsToolCall:
         session_provider_id=data.get('session_provider_id'),
         connection_id=data.get('connection_id'),
         provider_run_id=data.get('provider_run_id'),
+        sender_participant=mapManagementInstanceSessionsMessagesListOutputItemsToolCallSenderParticipant.from_dict(data.get('sender_participant')) if data.get('sender_participant') else None,
+        responder_participant=mapManagementInstanceSessionsMessagesListOutputItemsToolCallResponderParticipant.from_dict(data.get('responder_participant')) if data.get('responder_participant') else None,
         tool=mapManagementInstanceSessionsMessagesListOutputItemsToolCallTool.from_dict(data.get('tool')) if data.get('tool') else None,
         error=mapManagementInstanceSessionsMessagesListOutputItemsToolCallError.from_dict(data.get('error')) if data.get('error') else None,
         input=data.get('input'),
@@ -355,6 +519,22 @@ class mapManagementInstanceSessionsMessagesListOutputItemsToolCall:
             return value
         return dataclasses.asdict(value)
 
+class mapManagementInstanceSessionsMessagesListOutputItemsSenderParticipantData:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceSessionsMessagesListOutputItemsSenderParticipantData:
+        return ManagementInstanceSessionsMessagesListOutputItemsSenderParticipantData(
+        identifier=data.get('identifier'),
+        name=data.get('name')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceSessionsMessagesListOutputItemsSenderParticipantData, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapManagementInstanceSessionsMessagesListOutputItemsSenderParticipant:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceSessionsMessagesListOutputItemsSenderParticipant:
@@ -364,13 +544,37 @@ class mapManagementInstanceSessionsMessagesListOutputItemsSenderParticipant:
         type=data.get('type'),
         identifier=data.get('identifier'),
         name=data.get('name'),
-        data=data.get('data'),
+        data=mapManagementInstanceSessionsMessagesListOutputItemsSenderParticipantData.from_dict(data.get('data')) if data.get('data') else None,
         provider_id=data.get('provider_id'),
+        connection_type=data.get('connection_type'),
+        agent_id=data.get('agent_id'),
+        agent_instance_id=data.get('agent_instance_id'),
+        identity_actor_id=data.get('identity_actor_id'),
+        identity_id=data.get('identity_id'),
+        agent_actor_id=data.get('agent_actor_id'),
+        agent_client_id=data.get('agent_client_id'),
+        consumer_id=data.get('consumer_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
     @staticmethod
     def to_dict(value: Union[ManagementInstanceSessionsMessagesListOutputItemsSenderParticipant, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceSessionsMessagesListOutputItemsResponderParticipantData:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceSessionsMessagesListOutputItemsResponderParticipantData:
+        return ManagementInstanceSessionsMessagesListOutputItemsResponderParticipantData(
+        identifier=data.get('identifier'),
+        name=data.get('name')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceSessionsMessagesListOutputItemsResponderParticipantData, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -386,8 +590,16 @@ class mapManagementInstanceSessionsMessagesListOutputItemsResponderParticipant:
         type=data.get('type'),
         identifier=data.get('identifier'),
         name=data.get('name'),
-        data=data.get('data'),
+        data=mapManagementInstanceSessionsMessagesListOutputItemsResponderParticipantData.from_dict(data.get('data')) if data.get('data') else None,
         provider_id=data.get('provider_id'),
+        connection_type=data.get('connection_type'),
+        agent_id=data.get('agent_id'),
+        agent_instance_id=data.get('agent_instance_id'),
+        identity_actor_id=data.get('identity_actor_id'),
+        identity_id=data.get('identity_id'),
+        agent_actor_id=data.get('agent_actor_id'),
+        agent_client_id=data.get('agent_client_id'),
+        consumer_id=data.get('consumer_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
@@ -491,6 +703,14 @@ class mapManagementInstanceSessionsMessagesListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class ManagementInstanceSessionsMessagesListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class ManagementInstanceSessionsMessagesListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class ManagementInstanceSessionsMessagesListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -508,6 +728,8 @@ class ManagementInstanceSessionsMessagesListQuery:
     error_id: Optional[Union[str, List[str]]] = None
     participant_id: Optional[Union[str, List[str]]] = None
     parent_message_id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[ManagementInstanceSessionsMessagesListQueryCreatedAt] = None
+    updated_at: Optional[ManagementInstanceSessionsMessagesListQueryUpdatedAt] = None
 
 
 class mapManagementInstanceSessionsMessagesListQuery:
@@ -529,7 +751,9 @@ class mapManagementInstanceSessionsMessagesListQuery:
         provider_run_id=data.get('provider_run_id'),
         error_id=data.get('error_id'),
         participant_id=data.get('participant_id'),
-        parent_message_id=data.get('parent_message_id')
+        parent_message_id=data.get('parent_message_id'),
+        created_at=mapManagementInstanceSessionsMessagesListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapManagementInstanceSessionsMessagesListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

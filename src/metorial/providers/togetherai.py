@@ -21,13 +21,6 @@ class MetorialTogetherAISession(MetorialOpenAICompatibleSession):
     # TogetherAI doesn't support strict mode
     super().__init__(tool_mgr, with_strict=False)
 
-  @staticmethod
-  async def chat_completions(session: SessionWithToolManagerProtocol) -> dict[str, Any]:
-    """Resolve TogetherAI-formatted tools from a session-like object."""
-    tool_mgr = await session.get_tool_manager()
-    provider_session = MetorialTogetherAISession(tool_mgr)
-    return {"tools": provider_session.tools}
-
 
 # Convenience functions
 def build_togetherai_tools(
@@ -48,10 +41,3 @@ async def call_togetherai_tools(
     return []
   session = MetorialTogetherAISession(tool_mgr)
   return await session.call_tools(tool_calls)
-
-
-async def chat_completions(session: SessionWithToolManagerProtocol) -> dict[str, Any]:
-  """Module-level helper that resolves TogetherAI-formatted tools from a session."""
-  tool_mgr = await session.get_tool_manager()
-  provider_session = MetorialTogetherAISession(tool_mgr)
-  return {"tools": provider_session.tools}

@@ -21,13 +21,6 @@ class MetorialDeepSeekSession(MetorialOpenAICompatibleSession):
     # DeepSeek doesn't support strict mode
     super().__init__(tool_mgr, with_strict=False)
 
-  @staticmethod
-  async def chat_completions(session: SessionWithToolManagerProtocol) -> dict[str, Any]:
-    """Resolve DeepSeek-formatted tools from a session-like object."""
-    tool_mgr = await session.get_tool_manager()
-    provider_session = MetorialDeepSeekSession(tool_mgr)
-    return {"tools": provider_session.tools}
-
 
 def build_deepseek_tools(tool_mgr: ToolManagerProtocol | None) -> list[dict[str, Any]]:
   """Build DeepSeek-compatible tool definitions from Metorial tools."""
@@ -45,10 +38,3 @@ async def call_deepseek_tools(
     return []
   session = MetorialDeepSeekSession(tool_mgr)
   return await session.call_tools(tool_calls)
-
-
-async def chat_completions(session: SessionWithToolManagerProtocol) -> dict[str, Any]:
-  """Module-level helper that resolves DeepSeek-formatted tools from a session."""
-  tool_mgr = await session.get_tool_manager()
-  provider_session = MetorialDeepSeekSession(tool_mgr)
-  return {"tools": provider_session.tools}

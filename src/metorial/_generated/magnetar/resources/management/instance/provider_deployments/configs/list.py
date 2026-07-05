@@ -29,6 +29,7 @@ class ManagementInstanceProviderDeploymentsConfigsListOutputItemsFromVaultDeploy
 class ManagementInstanceProviderDeploymentsConfigsListOutputItemsFromVault:
     object: str
     id: str
+    status: str
     name: str
     provider_id: str
     created_at: datetime
@@ -40,7 +41,9 @@ class ManagementInstanceProviderDeploymentsConfigsListOutputItemsFromVault:
 class ManagementInstanceProviderDeploymentsConfigsListOutputItems:
     object: str
     id: str
+    status: str
     is_default: bool
+    tool_filter: Dict[str, Any]
     provider_id: str
     specification_id: str
     created_at: datetime
@@ -112,6 +115,7 @@ class mapManagementInstanceProviderDeploymentsConfigsListOutputItemsFromVault:
         return ManagementInstanceProviderDeploymentsConfigsListOutputItemsFromVault(
         object=data.get('object'),
         id=data.get('id'),
+        status=data.get('status'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
@@ -135,10 +139,12 @@ class mapManagementInstanceProviderDeploymentsConfigsListOutputItems:
         return ManagementInstanceProviderDeploymentsConfigsListOutputItems(
         object=data.get('object'),
         id=data.get('id'),
+        status=data.get('status'),
         is_default=data.get('is_default'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        tool_filter=data.get('tool_filter'),
         provider_id=data.get('provider_id'),
         specification_id=data.get('specification_id'),
         deployment=mapManagementInstanceProviderDeploymentsConfigsListOutputItemsDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
@@ -189,6 +195,14 @@ class mapManagementInstanceProviderDeploymentsConfigsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class ManagementInstanceProviderDeploymentsConfigsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
+class ManagementInstanceProviderDeploymentsConfigsListQueryUpdatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class ManagementInstanceProviderDeploymentsConfigsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -200,8 +214,16 @@ class ManagementInstanceProviderDeploymentsConfigsListQuery:
     provider_id: Optional[Union[str, List[str]]] = None
     provider_specification_id: Optional[Union[str, List[str]]] = None
     provider_deployment_id: Optional[Union[str, List[str]]] = None
+    available_for_use: Optional[bool] = None
+    available_for_provider_deployment_id: Optional[str] = None
     provider_config_vault_id: Optional[Union[str, List[str]]] = None
+    actor_id: Optional[Union[str, List[str]]] = None
+    consumer_id: Optional[Union[str, List[str]]] = None
+    identity_id: Optional[Union[str, List[str]]] = None
+    identity_credential_id: Optional[Union[str, List[str]]] = None
     search: Optional[str] = None
+    created_at: Optional[ManagementInstanceProviderDeploymentsConfigsListQueryCreatedAt] = None
+    updated_at: Optional[ManagementInstanceProviderDeploymentsConfigsListQueryUpdatedAt] = None
 
 
 class mapManagementInstanceProviderDeploymentsConfigsListQuery:
@@ -218,8 +240,16 @@ class mapManagementInstanceProviderDeploymentsConfigsListQuery:
         provider_id=data.get('provider_id'),
         provider_specification_id=data.get('provider_specification_id'),
         provider_deployment_id=data.get('provider_deployment_id'),
+        available_for_use=data.get('available_for_use'),
+        available_for_provider_deployment_id=data.get('available_for_provider_deployment_id'),
         provider_config_vault_id=data.get('provider_config_vault_id'),
-        search=data.get('search')
+        actor_id=data.get('actor_id'),
+        consumer_id=data.get('consumer_id'),
+        identity_id=data.get('identity_id'),
+        identity_credential_id=data.get('identity_credential_id'),
+        search=data.get('search'),
+        created_at=mapManagementInstanceProviderDeploymentsConfigsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
+        updated_at=mapManagementInstanceProviderDeploymentsConfigsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
 
     @staticmethod

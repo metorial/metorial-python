@@ -5,7 +5,6 @@ from types import TracebackType
 from typing import TYPE_CHECKING, Any, Literal, TypeVar, cast
 
 from metorial._base import MetorialBase
-from metorial._client_core import ClientCoreMixin
 from metorial._session import MetorialSession
 from metorial.connectors import (
   ConnectedSession,
@@ -105,7 +104,7 @@ class ProviderSession:
         await self._connected_session.close()
 
 
-class Metorial(ClientCoreMixin, MetorialBase):
+class Metorial(MetorialBase):
   def _resolve_connect_adapter(
     self,
     adapter: MetorialAdapter[ConnectResult]
