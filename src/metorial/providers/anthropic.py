@@ -174,9 +174,7 @@ async def call_anthropic_tools(
       # Parse arguments if they're a JSON string
       try:
         tool_input = (
-          json.loads(raw_args)
-          if isinstance(raw_args, str) and raw_args.strip()
-          else {}
+          json.loads(raw_args) if isinstance(raw_args, str) and raw_args.strip() else {}
         )
       except Exception:
         tool_input = {}

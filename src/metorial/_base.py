@@ -55,7 +55,9 @@ class MetorialBase:
   _magnetar_publishers: MetorialPublishersEndpoint | None
   _magnetar_providers: MagnetarProvidersGroup | None
   _magnetar_provider_deployments: MagnetarProviderDeploymentsGroup | None
-  _magnetar_provider_setup_sessions: MetorialProviderDeploymentsSetupSessionsEndpoint | None
+  _magnetar_provider_setup_sessions: (
+    MetorialProviderDeploymentsSetupSessionsEndpoint | None
+  )
   _magnetar_sessions: MagnetarSessionsGroup | None
   _magnetar_session_templates: MagnetarSessionTemplatesGroup | None
   _magnetar_custom_providers: MagnetarCustomProvidersGroup | None
