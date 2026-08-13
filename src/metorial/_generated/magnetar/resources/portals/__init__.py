@@ -1,6 +1,5 @@
 from .access import *
 from .access_requests import *
-from .auth import *
 from .consumer_groups import *
 from .consumer_invites import *
 from .consumer_profiles import *

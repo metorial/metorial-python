@@ -101,15 +101,6 @@ from metorial._generated.magnetar.endpoints.portals_access import (
 from metorial._generated.magnetar.endpoints.portals_access_requests import (
   MetorialPortalsAccessRequestsEndpoint,
 )
-from metorial._generated.magnetar.endpoints.portals_auth_app import (
-  MetorialPortalsAuthAppEndpoint,
-)
-from metorial._generated.magnetar.endpoints.portals_auth_sso_tenants import (
-  MetorialPortalsAuthSsoTenantsEndpoint,
-)
-from metorial._generated.magnetar.endpoints.portals_auth_sso_tenants_connections import (
-  MetorialPortalsAuthSsoTenantsConnectionsEndpoint,
-)
 from metorial._generated.magnetar.endpoints.portals_consumer_groups import (
   MetorialPortalsConsumerGroupsEndpoint,
 )
@@ -356,26 +347,6 @@ class MagnetarMagicMcpServersGroup(MetorialMagicMcpServersEndpoint):
     self.providers = MetorialMagicMcpServersProvidersEndpoint(manager)
 
 
-class MagnetarPortalsAuthSsoTenantsGroup(MetorialPortalsAuthSsoTenantsEndpoint):
-  """Portal SSO tenants with connections sub-endpoint."""
-
-  connections: MetorialPortalsAuthSsoTenantsConnectionsEndpoint
-
-  def __init__(self, manager: MetorialEndpointManager) -> None:
-    super().__init__(manager)
-    self.connections = MetorialPortalsAuthSsoTenantsConnectionsEndpoint(manager)
-
-
-class MagnetarPortalsAuthGroup(MetorialPortalsAuthAppEndpoint):
-  """Portal auth (base: auth app) with sso_tenants sub-endpoint."""
-
-  sso_tenants: MagnetarPortalsAuthSsoTenantsGroup
-
-  def __init__(self, manager: MetorialEndpointManager) -> None:
-    super().__init__(manager)
-    self.sso_tenants = MagnetarPortalsAuthSsoTenantsGroup(manager)
-
-
 # ── Top-level endpoint groups ─────────────────────────────────────────────────
 
 
@@ -567,7 +538,6 @@ class MagnetarMagicMcpGroup:
 class MagnetarPortalsGroup(MetorialPortalsEndpoint):
   """Portals endpoint group with typed sub-endpoints."""
 
-  auth: MagnetarPortalsAuthGroup
   access: MetorialPortalsAccessEndpoint
   access_requests: MetorialPortalsAccessRequestsEndpoint
   listings: MetorialPortalsListingsEndpoint
@@ -577,7 +547,6 @@ class MagnetarPortalsGroup(MetorialPortalsEndpoint):
 
   def __init__(self, manager: MetorialEndpointManager) -> None:
     super().__init__(manager)
-    self.auth = MagnetarPortalsAuthGroup(manager)
     self.access = MetorialPortalsAccessEndpoint(manager)
     self.access_requests = MetorialPortalsAccessRequestsEndpoint(manager)
     self.listings = MetorialPortalsListingsEndpoint(manager)
