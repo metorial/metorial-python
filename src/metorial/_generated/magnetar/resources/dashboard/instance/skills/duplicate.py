@@ -4,6 +4,12 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class DashboardInstanceSkillsDuplicateOutputHierarchyCreatorOrganizationActorMember:
+    object: str
+    id: str
+    status: str
+    role: str
+@dataclass
 class DashboardInstanceSkillsDuplicateOutputHierarchyCreatorOrganizationActorTeams:
     id: str
     name: str
@@ -23,6 +29,7 @@ class DashboardInstanceSkillsDuplicateOutputHierarchyCreatorOrganizationActor:
     created_at: datetime
     updated_at: datetime
     email: Optional[str] = None
+    member: Optional[DashboardInstanceSkillsDuplicateOutputHierarchyCreatorOrganizationActorMember] = None
 @dataclass
 class DashboardInstanceSkillsDuplicateOutputHierarchyCreatorConsumer:
     object: str
@@ -32,6 +39,7 @@ class DashboardInstanceSkillsDuplicateOutputHierarchyCreatorConsumer:
     image_url: str
     created_at: datetime
     updated_at: datetime
+    user_id: Optional[str] = None
 @dataclass
 class DashboardInstanceSkillsDuplicateOutputHierarchyCreator:
     type: str
@@ -40,6 +48,13 @@ class DashboardInstanceSkillsDuplicateOutputHierarchyCreator:
     email: Optional[str] = None
     organization_actor: Optional[DashboardInstanceSkillsDuplicateOutputHierarchyCreatorOrganizationActor] = None
     consumer: Optional[DashboardInstanceSkillsDuplicateOutputHierarchyCreatorConsumer] = None
+    consumer_profile: Optional[Dict[str, Any]] = None
+@dataclass
+class DashboardInstanceSkillsDuplicateOutputHierarchyForkCreatorOrganizationActorMember:
+    object: str
+    id: str
+    status: str
+    role: str
 @dataclass
 class DashboardInstanceSkillsDuplicateOutputHierarchyForkCreatorOrganizationActorTeams:
     id: str
@@ -60,6 +75,7 @@ class DashboardInstanceSkillsDuplicateOutputHierarchyForkCreatorOrganizationActo
     created_at: datetime
     updated_at: datetime
     email: Optional[str] = None
+    member: Optional[DashboardInstanceSkillsDuplicateOutputHierarchyForkCreatorOrganizationActorMember] = None
 @dataclass
 class DashboardInstanceSkillsDuplicateOutputHierarchyForkCreatorConsumer:
     object: str
@@ -69,6 +85,7 @@ class DashboardInstanceSkillsDuplicateOutputHierarchyForkCreatorConsumer:
     image_url: str
     created_at: datetime
     updated_at: datetime
+    user_id: Optional[str] = None
 @dataclass
 class DashboardInstanceSkillsDuplicateOutputHierarchyForkCreator:
     type: str
@@ -77,6 +94,13 @@ class DashboardInstanceSkillsDuplicateOutputHierarchyForkCreator:
     email: Optional[str] = None
     organization_actor: Optional[DashboardInstanceSkillsDuplicateOutputHierarchyForkCreatorOrganizationActor] = None
     consumer: Optional[DashboardInstanceSkillsDuplicateOutputHierarchyForkCreatorConsumer] = None
+    consumer_profile: Optional[Dict[str, Any]] = None
+@dataclass
+class DashboardInstanceSkillsDuplicateOutputHierarchyForkOriginalCreatorOrganizationActorMember:
+    object: str
+    id: str
+    status: str
+    role: str
 @dataclass
 class DashboardInstanceSkillsDuplicateOutputHierarchyForkOriginalCreatorOrganizationActorTeams:
     id: str
@@ -97,6 +121,7 @@ class DashboardInstanceSkillsDuplicateOutputHierarchyForkOriginalCreatorOrganiza
     created_at: datetime
     updated_at: datetime
     email: Optional[str] = None
+    member: Optional[DashboardInstanceSkillsDuplicateOutputHierarchyForkOriginalCreatorOrganizationActorMember] = None
 @dataclass
 class DashboardInstanceSkillsDuplicateOutputHierarchyForkOriginalCreatorConsumer:
     object: str
@@ -106,6 +131,7 @@ class DashboardInstanceSkillsDuplicateOutputHierarchyForkOriginalCreatorConsumer
     image_url: str
     created_at: datetime
     updated_at: datetime
+    user_id: Optional[str] = None
 @dataclass
 class DashboardInstanceSkillsDuplicateOutputHierarchyForkOriginalCreator:
     type: str
@@ -114,6 +140,7 @@ class DashboardInstanceSkillsDuplicateOutputHierarchyForkOriginalCreator:
     email: Optional[str] = None
     organization_actor: Optional[DashboardInstanceSkillsDuplicateOutputHierarchyForkOriginalCreatorOrganizationActor] = None
     consumer: Optional[DashboardInstanceSkillsDuplicateOutputHierarchyForkOriginalCreatorConsumer] = None
+    consumer_profile: Optional[Dict[str, Any]] = None
 @dataclass
 class DashboardInstanceSkillsDuplicateOutputHierarchyFork:
     id: str
@@ -189,6 +216,24 @@ class DashboardInstanceSkillsDuplicateOutput:
     compatibility: Optional[str] = None
 
 
+class mapDashboardInstanceSkillsDuplicateOutputHierarchyCreatorOrganizationActorMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSkillsDuplicateOutputHierarchyCreatorOrganizationActorMember:
+        return DashboardInstanceSkillsDuplicateOutputHierarchyCreatorOrganizationActorMember(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        role=data.get('role')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSkillsDuplicateOutputHierarchyCreatorOrganizationActorMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapDashboardInstanceSkillsDuplicateOutputHierarchyCreatorOrganizationActorTeams:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceSkillsDuplicateOutputHierarchyCreatorOrganizationActorTeams:
@@ -220,6 +265,7 @@ class mapDashboardInstanceSkillsDuplicateOutputHierarchyCreatorOrganizationActor
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        member=mapDashboardInstanceSkillsDuplicateOutputHierarchyCreatorOrganizationActorMember.from_dict(data.get('member')) if data.get('member') else None,
         teams=[mapDashboardInstanceSkillsDuplicateOutputHierarchyCreatorOrganizationActorTeams.from_dict(item) for item in data.get('teams', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
@@ -242,6 +288,7 @@ class mapDashboardInstanceSkillsDuplicateOutputHierarchyCreatorConsumer:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        user_id=data.get('user_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -263,11 +310,30 @@ class mapDashboardInstanceSkillsDuplicateOutputHierarchyCreator:
         image_url=data.get('image_url'),
         email=data.get('email'),
         organization_actor=mapDashboardInstanceSkillsDuplicateOutputHierarchyCreatorOrganizationActor.from_dict(data.get('organization_actor')) if data.get('organization_actor') else None,
-        consumer=mapDashboardInstanceSkillsDuplicateOutputHierarchyCreatorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        consumer=mapDashboardInstanceSkillsDuplicateOutputHierarchyCreatorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None,
+        consumer_profile=data.get('consumer_profile')
         )
 
     @staticmethod
     def to_dict(value: Union[DashboardInstanceSkillsDuplicateOutputHierarchyCreator, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceSkillsDuplicateOutputHierarchyForkCreatorOrganizationActorMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSkillsDuplicateOutputHierarchyForkCreatorOrganizationActorMember:
+        return DashboardInstanceSkillsDuplicateOutputHierarchyForkCreatorOrganizationActorMember(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        role=data.get('role')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSkillsDuplicateOutputHierarchyForkCreatorOrganizationActorMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -305,6 +371,7 @@ class mapDashboardInstanceSkillsDuplicateOutputHierarchyForkCreatorOrganizationA
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        member=mapDashboardInstanceSkillsDuplicateOutputHierarchyForkCreatorOrganizationActorMember.from_dict(data.get('member')) if data.get('member') else None,
         teams=[mapDashboardInstanceSkillsDuplicateOutputHierarchyForkCreatorOrganizationActorTeams.from_dict(item) for item in data.get('teams', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
@@ -327,6 +394,7 @@ class mapDashboardInstanceSkillsDuplicateOutputHierarchyForkCreatorConsumer:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        user_id=data.get('user_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -348,11 +416,30 @@ class mapDashboardInstanceSkillsDuplicateOutputHierarchyForkCreator:
         image_url=data.get('image_url'),
         email=data.get('email'),
         organization_actor=mapDashboardInstanceSkillsDuplicateOutputHierarchyForkCreatorOrganizationActor.from_dict(data.get('organization_actor')) if data.get('organization_actor') else None,
-        consumer=mapDashboardInstanceSkillsDuplicateOutputHierarchyForkCreatorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        consumer=mapDashboardInstanceSkillsDuplicateOutputHierarchyForkCreatorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None,
+        consumer_profile=data.get('consumer_profile')
         )
 
     @staticmethod
     def to_dict(value: Union[DashboardInstanceSkillsDuplicateOutputHierarchyForkCreator, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceSkillsDuplicateOutputHierarchyForkOriginalCreatorOrganizationActorMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSkillsDuplicateOutputHierarchyForkOriginalCreatorOrganizationActorMember:
+        return DashboardInstanceSkillsDuplicateOutputHierarchyForkOriginalCreatorOrganizationActorMember(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        role=data.get('role')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSkillsDuplicateOutputHierarchyForkOriginalCreatorOrganizationActorMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -390,6 +477,7 @@ class mapDashboardInstanceSkillsDuplicateOutputHierarchyForkOriginalCreatorOrgan
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        member=mapDashboardInstanceSkillsDuplicateOutputHierarchyForkOriginalCreatorOrganizationActorMember.from_dict(data.get('member')) if data.get('member') else None,
         teams=[mapDashboardInstanceSkillsDuplicateOutputHierarchyForkOriginalCreatorOrganizationActorTeams.from_dict(item) for item in data.get('teams', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
@@ -412,6 +500,7 @@ class mapDashboardInstanceSkillsDuplicateOutputHierarchyForkOriginalCreatorConsu
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        user_id=data.get('user_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -433,7 +522,8 @@ class mapDashboardInstanceSkillsDuplicateOutputHierarchyForkOriginalCreator:
         image_url=data.get('image_url'),
         email=data.get('email'),
         organization_actor=mapDashboardInstanceSkillsDuplicateOutputHierarchyForkOriginalCreatorOrganizationActor.from_dict(data.get('organization_actor')) if data.get('organization_actor') else None,
-        consumer=mapDashboardInstanceSkillsDuplicateOutputHierarchyForkOriginalCreatorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        consumer=mapDashboardInstanceSkillsDuplicateOutputHierarchyForkOriginalCreatorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None,
+        consumer_profile=data.get('consumer_profile')
         )
 
     @staticmethod

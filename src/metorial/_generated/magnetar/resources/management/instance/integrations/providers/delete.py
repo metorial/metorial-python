@@ -15,6 +15,11 @@ class ManagementInstanceIntegrationsProvidersDeleteOutputConfig:
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
 @dataclass
+class ManagementInstanceIntegrationsProvidersDeleteOutputCallbacks:
+    object: str
+    status: str
+    callback_id: Optional[str] = None
+@dataclass
 class ManagementInstanceIntegrationsProvidersDeleteOutput:
     object: str
     id: str
@@ -23,6 +28,7 @@ class ManagementInstanceIntegrationsProvidersDeleteOutput:
     name: str
     provider_id: str
     deployment_id: str
+    callbacks: ManagementInstanceIntegrationsProvidersDeleteOutputCallbacks
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
@@ -57,6 +63,23 @@ class mapManagementInstanceIntegrationsProvidersDeleteOutputConfig:
             return value
         return dataclasses.asdict(value)
 
+class mapManagementInstanceIntegrationsProvidersDeleteOutputCallbacks:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceIntegrationsProvidersDeleteOutputCallbacks:
+        return ManagementInstanceIntegrationsProvidersDeleteOutputCallbacks(
+        object=data.get('object'),
+        status=data.get('status'),
+        callback_id=data.get('callback_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceIntegrationsProvidersDeleteOutputCallbacks, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapManagementInstanceIntegrationsProvidersDeleteOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceIntegrationsProvidersDeleteOutput:
@@ -74,6 +97,7 @@ class mapManagementInstanceIntegrationsProvidersDeleteOutput:
         auth_method_id=data.get('auth_method_id'),
         auth_credentials_id=data.get('auth_credentials_id'),
         config=mapManagementInstanceIntegrationsProvidersDeleteOutputConfig.from_dict(data.get('config')) if data.get('config') else None,
+        callbacks=mapManagementInstanceIntegrationsProvidersDeleteOutputCallbacks.from_dict(data.get('callbacks')) if data.get('callbacks') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
         archived_at=datetime.fromisoformat(data.get('archived_at').replace('Z', '+00:00')) if data.get('archived_at') else None

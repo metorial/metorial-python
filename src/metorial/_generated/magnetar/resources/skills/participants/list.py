@@ -4,6 +4,12 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class SkillsParticipantsListOutputItemsActorOrganizationActorMember:
+    object: str
+    id: str
+    status: str
+    role: str
+@dataclass
 class SkillsParticipantsListOutputItemsActorOrganizationActorTeams:
     id: str
     name: str
@@ -23,6 +29,7 @@ class SkillsParticipantsListOutputItemsActorOrganizationActor:
     created_at: datetime
     updated_at: datetime
     email: Optional[str] = None
+    member: Optional[SkillsParticipantsListOutputItemsActorOrganizationActorMember] = None
 @dataclass
 class SkillsParticipantsListOutputItemsActorConsumer:
     object: str
@@ -32,6 +39,7 @@ class SkillsParticipantsListOutputItemsActorConsumer:
     image_url: str
     created_at: datetime
     updated_at: datetime
+    user_id: Optional[str] = None
 @dataclass
 class SkillsParticipantsListOutputItemsActor:
     type: str
@@ -40,6 +48,7 @@ class SkillsParticipantsListOutputItemsActor:
     email: Optional[str] = None
     organization_actor: Optional[SkillsParticipantsListOutputItemsActorOrganizationActor] = None
     consumer: Optional[SkillsParticipantsListOutputItemsActorConsumer] = None
+    consumer_profile: Optional[Dict[str, Any]] = None
 @dataclass
 class SkillsParticipantsListOutputItems:
     object: str
@@ -58,6 +67,24 @@ class SkillsParticipantsListOutput:
     items: List[SkillsParticipantsListOutputItems]
     pagination: SkillsParticipantsListOutputPagination
 
+
+class mapSkillsParticipantsListOutputItemsActorOrganizationActorMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> SkillsParticipantsListOutputItemsActorOrganizationActorMember:
+        return SkillsParticipantsListOutputItemsActorOrganizationActorMember(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        role=data.get('role')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[SkillsParticipantsListOutputItemsActorOrganizationActorMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapSkillsParticipantsListOutputItemsActorOrganizationActorTeams:
     @staticmethod
@@ -90,6 +117,7 @@ class mapSkillsParticipantsListOutputItemsActorOrganizationActor:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        member=mapSkillsParticipantsListOutputItemsActorOrganizationActorMember.from_dict(data.get('member')) if data.get('member') else None,
         teams=[mapSkillsParticipantsListOutputItemsActorOrganizationActorTeams.from_dict(item) for item in data.get('teams', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
@@ -112,6 +140,7 @@ class mapSkillsParticipantsListOutputItemsActorConsumer:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        user_id=data.get('user_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -133,7 +162,8 @@ class mapSkillsParticipantsListOutputItemsActor:
         image_url=data.get('image_url'),
         email=data.get('email'),
         organization_actor=mapSkillsParticipantsListOutputItemsActorOrganizationActor.from_dict(data.get('organization_actor')) if data.get('organization_actor') else None,
-        consumer=mapSkillsParticipantsListOutputItemsActorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        consumer=mapSkillsParticipantsListOutputItemsActorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None,
+        consumer_profile=data.get('consumer_profile')
         )
 
     @staticmethod

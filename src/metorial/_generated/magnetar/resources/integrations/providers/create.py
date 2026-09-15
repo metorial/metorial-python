@@ -15,6 +15,11 @@ class IntegrationsProvidersCreateOutputConfig:
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
 @dataclass
+class IntegrationsProvidersCreateOutputCallbacks:
+    object: str
+    status: str
+    callback_id: Optional[str] = None
+@dataclass
 class IntegrationsProvidersCreateOutput:
     object: str
     id: str
@@ -23,6 +28,7 @@ class IntegrationsProvidersCreateOutput:
     name: str
     provider_id: str
     deployment_id: str
+    callbacks: IntegrationsProvidersCreateOutputCallbacks
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
@@ -57,6 +63,23 @@ class mapIntegrationsProvidersCreateOutputConfig:
             return value
         return dataclasses.asdict(value)
 
+class mapIntegrationsProvidersCreateOutputCallbacks:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> IntegrationsProvidersCreateOutputCallbacks:
+        return IntegrationsProvidersCreateOutputCallbacks(
+        object=data.get('object'),
+        status=data.get('status'),
+        callback_id=data.get('callback_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[IntegrationsProvidersCreateOutputCallbacks, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapIntegrationsProvidersCreateOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> IntegrationsProvidersCreateOutput:
@@ -74,6 +97,7 @@ class mapIntegrationsProvidersCreateOutput:
         auth_method_id=data.get('auth_method_id'),
         auth_credentials_id=data.get('auth_credentials_id'),
         config=mapIntegrationsProvidersCreateOutputConfig.from_dict(data.get('config')) if data.get('config') else None,
+        callbacks=mapIntegrationsProvidersCreateOutputCallbacks.from_dict(data.get('callbacks')) if data.get('callbacks') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
         archived_at=datetime.fromisoformat(data.get('archived_at').replace('Z', '+00:00')) if data.get('archived_at') else None
@@ -89,6 +113,9 @@ class mapIntegrationsProvidersCreateOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class IntegrationsProvidersCreateBodyCallbacks:
+    status: str
+@dataclass
 class IntegrationsProvidersCreateBody:
     integration_id: str
     provider_id: str
@@ -100,7 +127,23 @@ class IntegrationsProvidersCreateBody:
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
     tool_filters: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]] = None
+    callbacks: Optional[IntegrationsProvidersCreateBodyCallbacks] = None
 
+
+class mapIntegrationsProvidersCreateBodyCallbacks:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> IntegrationsProvidersCreateBodyCallbacks:
+        return IntegrationsProvidersCreateBodyCallbacks(
+        status=data.get('status')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[IntegrationsProvidersCreateBodyCallbacks, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapIntegrationsProvidersCreateBody:
     @staticmethod
@@ -115,7 +158,8 @@ class mapIntegrationsProvidersCreateBody:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
-        tool_filters=data.get('tool_filters')
+        tool_filters=data.get('tool_filters'),
+        callbacks=mapIntegrationsProvidersCreateBodyCallbacks.from_dict(data.get('callbacks')) if data.get('callbacks') else None
         )
 
     @staticmethod

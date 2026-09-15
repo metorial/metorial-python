@@ -4,6 +4,12 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class ManagementInstanceSkillsDeleteOutputHierarchyCreatorOrganizationActorMember:
+    object: str
+    id: str
+    status: str
+    role: str
+@dataclass
 class ManagementInstanceSkillsDeleteOutputHierarchyCreatorOrganizationActorTeams:
     id: str
     name: str
@@ -23,6 +29,7 @@ class ManagementInstanceSkillsDeleteOutputHierarchyCreatorOrganizationActor:
     created_at: datetime
     updated_at: datetime
     email: Optional[str] = None
+    member: Optional[ManagementInstanceSkillsDeleteOutputHierarchyCreatorOrganizationActorMember] = None
 @dataclass
 class ManagementInstanceSkillsDeleteOutputHierarchyCreatorConsumer:
     object: str
@@ -32,6 +39,7 @@ class ManagementInstanceSkillsDeleteOutputHierarchyCreatorConsumer:
     image_url: str
     created_at: datetime
     updated_at: datetime
+    user_id: Optional[str] = None
 @dataclass
 class ManagementInstanceSkillsDeleteOutputHierarchyCreator:
     type: str
@@ -40,6 +48,13 @@ class ManagementInstanceSkillsDeleteOutputHierarchyCreator:
     email: Optional[str] = None
     organization_actor: Optional[ManagementInstanceSkillsDeleteOutputHierarchyCreatorOrganizationActor] = None
     consumer: Optional[ManagementInstanceSkillsDeleteOutputHierarchyCreatorConsumer] = None
+    consumer_profile: Optional[Dict[str, Any]] = None
+@dataclass
+class ManagementInstanceSkillsDeleteOutputHierarchyForkCreatorOrganizationActorMember:
+    object: str
+    id: str
+    status: str
+    role: str
 @dataclass
 class ManagementInstanceSkillsDeleteOutputHierarchyForkCreatorOrganizationActorTeams:
     id: str
@@ -60,6 +75,7 @@ class ManagementInstanceSkillsDeleteOutputHierarchyForkCreatorOrganizationActor:
     created_at: datetime
     updated_at: datetime
     email: Optional[str] = None
+    member: Optional[ManagementInstanceSkillsDeleteOutputHierarchyForkCreatorOrganizationActorMember] = None
 @dataclass
 class ManagementInstanceSkillsDeleteOutputHierarchyForkCreatorConsumer:
     object: str
@@ -69,6 +85,7 @@ class ManagementInstanceSkillsDeleteOutputHierarchyForkCreatorConsumer:
     image_url: str
     created_at: datetime
     updated_at: datetime
+    user_id: Optional[str] = None
 @dataclass
 class ManagementInstanceSkillsDeleteOutputHierarchyForkCreator:
     type: str
@@ -77,6 +94,13 @@ class ManagementInstanceSkillsDeleteOutputHierarchyForkCreator:
     email: Optional[str] = None
     organization_actor: Optional[ManagementInstanceSkillsDeleteOutputHierarchyForkCreatorOrganizationActor] = None
     consumer: Optional[ManagementInstanceSkillsDeleteOutputHierarchyForkCreatorConsumer] = None
+    consumer_profile: Optional[Dict[str, Any]] = None
+@dataclass
+class ManagementInstanceSkillsDeleteOutputHierarchyForkOriginalCreatorOrganizationActorMember:
+    object: str
+    id: str
+    status: str
+    role: str
 @dataclass
 class ManagementInstanceSkillsDeleteOutputHierarchyForkOriginalCreatorOrganizationActorTeams:
     id: str
@@ -97,6 +121,7 @@ class ManagementInstanceSkillsDeleteOutputHierarchyForkOriginalCreatorOrganizati
     created_at: datetime
     updated_at: datetime
     email: Optional[str] = None
+    member: Optional[ManagementInstanceSkillsDeleteOutputHierarchyForkOriginalCreatorOrganizationActorMember] = None
 @dataclass
 class ManagementInstanceSkillsDeleteOutputHierarchyForkOriginalCreatorConsumer:
     object: str
@@ -106,6 +131,7 @@ class ManagementInstanceSkillsDeleteOutputHierarchyForkOriginalCreatorConsumer:
     image_url: str
     created_at: datetime
     updated_at: datetime
+    user_id: Optional[str] = None
 @dataclass
 class ManagementInstanceSkillsDeleteOutputHierarchyForkOriginalCreator:
     type: str
@@ -114,6 +140,7 @@ class ManagementInstanceSkillsDeleteOutputHierarchyForkOriginalCreator:
     email: Optional[str] = None
     organization_actor: Optional[ManagementInstanceSkillsDeleteOutputHierarchyForkOriginalCreatorOrganizationActor] = None
     consumer: Optional[ManagementInstanceSkillsDeleteOutputHierarchyForkOriginalCreatorConsumer] = None
+    consumer_profile: Optional[Dict[str, Any]] = None
 @dataclass
 class ManagementInstanceSkillsDeleteOutputHierarchyFork:
     id: str
@@ -189,6 +216,24 @@ class ManagementInstanceSkillsDeleteOutput:
     compatibility: Optional[str] = None
 
 
+class mapManagementInstanceSkillsDeleteOutputHierarchyCreatorOrganizationActorMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceSkillsDeleteOutputHierarchyCreatorOrganizationActorMember:
+        return ManagementInstanceSkillsDeleteOutputHierarchyCreatorOrganizationActorMember(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        role=data.get('role')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceSkillsDeleteOutputHierarchyCreatorOrganizationActorMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapManagementInstanceSkillsDeleteOutputHierarchyCreatorOrganizationActorTeams:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceSkillsDeleteOutputHierarchyCreatorOrganizationActorTeams:
@@ -220,6 +265,7 @@ class mapManagementInstanceSkillsDeleteOutputHierarchyCreatorOrganizationActor:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        member=mapManagementInstanceSkillsDeleteOutputHierarchyCreatorOrganizationActorMember.from_dict(data.get('member')) if data.get('member') else None,
         teams=[mapManagementInstanceSkillsDeleteOutputHierarchyCreatorOrganizationActorTeams.from_dict(item) for item in data.get('teams', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
@@ -242,6 +288,7 @@ class mapManagementInstanceSkillsDeleteOutputHierarchyCreatorConsumer:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        user_id=data.get('user_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -263,11 +310,30 @@ class mapManagementInstanceSkillsDeleteOutputHierarchyCreator:
         image_url=data.get('image_url'),
         email=data.get('email'),
         organization_actor=mapManagementInstanceSkillsDeleteOutputHierarchyCreatorOrganizationActor.from_dict(data.get('organization_actor')) if data.get('organization_actor') else None,
-        consumer=mapManagementInstanceSkillsDeleteOutputHierarchyCreatorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        consumer=mapManagementInstanceSkillsDeleteOutputHierarchyCreatorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None,
+        consumer_profile=data.get('consumer_profile')
         )
 
     @staticmethod
     def to_dict(value: Union[ManagementInstanceSkillsDeleteOutputHierarchyCreator, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceSkillsDeleteOutputHierarchyForkCreatorOrganizationActorMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceSkillsDeleteOutputHierarchyForkCreatorOrganizationActorMember:
+        return ManagementInstanceSkillsDeleteOutputHierarchyForkCreatorOrganizationActorMember(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        role=data.get('role')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceSkillsDeleteOutputHierarchyForkCreatorOrganizationActorMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -305,6 +371,7 @@ class mapManagementInstanceSkillsDeleteOutputHierarchyForkCreatorOrganizationAct
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        member=mapManagementInstanceSkillsDeleteOutputHierarchyForkCreatorOrganizationActorMember.from_dict(data.get('member')) if data.get('member') else None,
         teams=[mapManagementInstanceSkillsDeleteOutputHierarchyForkCreatorOrganizationActorTeams.from_dict(item) for item in data.get('teams', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
@@ -327,6 +394,7 @@ class mapManagementInstanceSkillsDeleteOutputHierarchyForkCreatorConsumer:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        user_id=data.get('user_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -348,11 +416,30 @@ class mapManagementInstanceSkillsDeleteOutputHierarchyForkCreator:
         image_url=data.get('image_url'),
         email=data.get('email'),
         organization_actor=mapManagementInstanceSkillsDeleteOutputHierarchyForkCreatorOrganizationActor.from_dict(data.get('organization_actor')) if data.get('organization_actor') else None,
-        consumer=mapManagementInstanceSkillsDeleteOutputHierarchyForkCreatorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        consumer=mapManagementInstanceSkillsDeleteOutputHierarchyForkCreatorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None,
+        consumer_profile=data.get('consumer_profile')
         )
 
     @staticmethod
     def to_dict(value: Union[ManagementInstanceSkillsDeleteOutputHierarchyForkCreator, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceSkillsDeleteOutputHierarchyForkOriginalCreatorOrganizationActorMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceSkillsDeleteOutputHierarchyForkOriginalCreatorOrganizationActorMember:
+        return ManagementInstanceSkillsDeleteOutputHierarchyForkOriginalCreatorOrganizationActorMember(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        role=data.get('role')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceSkillsDeleteOutputHierarchyForkOriginalCreatorOrganizationActorMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -390,6 +477,7 @@ class mapManagementInstanceSkillsDeleteOutputHierarchyForkOriginalCreatorOrganiz
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        member=mapManagementInstanceSkillsDeleteOutputHierarchyForkOriginalCreatorOrganizationActorMember.from_dict(data.get('member')) if data.get('member') else None,
         teams=[mapManagementInstanceSkillsDeleteOutputHierarchyForkOriginalCreatorOrganizationActorTeams.from_dict(item) for item in data.get('teams', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
@@ -412,6 +500,7 @@ class mapManagementInstanceSkillsDeleteOutputHierarchyForkOriginalCreatorConsume
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        user_id=data.get('user_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -433,7 +522,8 @@ class mapManagementInstanceSkillsDeleteOutputHierarchyForkOriginalCreator:
         image_url=data.get('image_url'),
         email=data.get('email'),
         organization_actor=mapManagementInstanceSkillsDeleteOutputHierarchyForkOriginalCreatorOrganizationActor.from_dict(data.get('organization_actor')) if data.get('organization_actor') else None,
-        consumer=mapManagementInstanceSkillsDeleteOutputHierarchyForkOriginalCreatorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        consumer=mapManagementInstanceSkillsDeleteOutputHierarchyForkOriginalCreatorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None,
+        consumer_profile=data.get('consumer_profile')
         )
 
     @staticmethod

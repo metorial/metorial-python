@@ -60,6 +60,7 @@ class ProviderDeploymentsAuthConfigsDeleteOutputAuthMethod:
     input_schema: Optional[ProviderDeploymentsAuthConfigsDeleteOutputAuthMethodInputSchema] = None
     output_schema: Optional[ProviderDeploymentsAuthConfigsDeleteOutputAuthMethodOutputSchema] = None
     scopes: Optional[List[ProviderDeploymentsAuthConfigsDeleteOutputAuthMethodScopes]] = None
+    adapters: Optional[List[str]] = None
 @dataclass
 class ProviderDeploymentsAuthConfigsDeleteOutput:
     object: str
@@ -195,6 +196,7 @@ class mapProviderDeploymentsAuthConfigsDeleteOutputAuthMethod:
         input_schema=mapProviderDeploymentsAuthConfigsDeleteOutputAuthMethodInputSchema.from_dict(data.get('input_schema')) if data.get('input_schema') else None,
         output_schema=mapProviderDeploymentsAuthConfigsDeleteOutputAuthMethodOutputSchema.from_dict(data.get('output_schema')) if data.get('output_schema') else None,
         scopes=[mapProviderDeploymentsAuthConfigsDeleteOutputAuthMethodScopes.from_dict(item) for item in data.get('scopes', []) if item],
+        adapters=data.get('adapters', []),
         provider_id=data.get('provider_id'),
         provider_specification_id=data.get('provider_specification_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,

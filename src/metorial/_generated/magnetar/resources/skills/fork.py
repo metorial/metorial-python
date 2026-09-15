@@ -4,6 +4,12 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class SkillsForkOutputHierarchyCreatorOrganizationActorMember:
+    object: str
+    id: str
+    status: str
+    role: str
+@dataclass
 class SkillsForkOutputHierarchyCreatorOrganizationActorTeams:
     id: str
     name: str
@@ -23,6 +29,7 @@ class SkillsForkOutputHierarchyCreatorOrganizationActor:
     created_at: datetime
     updated_at: datetime
     email: Optional[str] = None
+    member: Optional[SkillsForkOutputHierarchyCreatorOrganizationActorMember] = None
 @dataclass
 class SkillsForkOutputHierarchyCreatorConsumer:
     object: str
@@ -32,6 +39,7 @@ class SkillsForkOutputHierarchyCreatorConsumer:
     image_url: str
     created_at: datetime
     updated_at: datetime
+    user_id: Optional[str] = None
 @dataclass
 class SkillsForkOutputHierarchyCreator:
     type: str
@@ -40,6 +48,13 @@ class SkillsForkOutputHierarchyCreator:
     email: Optional[str] = None
     organization_actor: Optional[SkillsForkOutputHierarchyCreatorOrganizationActor] = None
     consumer: Optional[SkillsForkOutputHierarchyCreatorConsumer] = None
+    consumer_profile: Optional[Dict[str, Any]] = None
+@dataclass
+class SkillsForkOutputHierarchyForkCreatorOrganizationActorMember:
+    object: str
+    id: str
+    status: str
+    role: str
 @dataclass
 class SkillsForkOutputHierarchyForkCreatorOrganizationActorTeams:
     id: str
@@ -60,6 +75,7 @@ class SkillsForkOutputHierarchyForkCreatorOrganizationActor:
     created_at: datetime
     updated_at: datetime
     email: Optional[str] = None
+    member: Optional[SkillsForkOutputHierarchyForkCreatorOrganizationActorMember] = None
 @dataclass
 class SkillsForkOutputHierarchyForkCreatorConsumer:
     object: str
@@ -69,6 +85,7 @@ class SkillsForkOutputHierarchyForkCreatorConsumer:
     image_url: str
     created_at: datetime
     updated_at: datetime
+    user_id: Optional[str] = None
 @dataclass
 class SkillsForkOutputHierarchyForkCreator:
     type: str
@@ -77,6 +94,13 @@ class SkillsForkOutputHierarchyForkCreator:
     email: Optional[str] = None
     organization_actor: Optional[SkillsForkOutputHierarchyForkCreatorOrganizationActor] = None
     consumer: Optional[SkillsForkOutputHierarchyForkCreatorConsumer] = None
+    consumer_profile: Optional[Dict[str, Any]] = None
+@dataclass
+class SkillsForkOutputHierarchyForkOriginalCreatorOrganizationActorMember:
+    object: str
+    id: str
+    status: str
+    role: str
 @dataclass
 class SkillsForkOutputHierarchyForkOriginalCreatorOrganizationActorTeams:
     id: str
@@ -97,6 +121,7 @@ class SkillsForkOutputHierarchyForkOriginalCreatorOrganizationActor:
     created_at: datetime
     updated_at: datetime
     email: Optional[str] = None
+    member: Optional[SkillsForkOutputHierarchyForkOriginalCreatorOrganizationActorMember] = None
 @dataclass
 class SkillsForkOutputHierarchyForkOriginalCreatorConsumer:
     object: str
@@ -106,6 +131,7 @@ class SkillsForkOutputHierarchyForkOriginalCreatorConsumer:
     image_url: str
     created_at: datetime
     updated_at: datetime
+    user_id: Optional[str] = None
 @dataclass
 class SkillsForkOutputHierarchyForkOriginalCreator:
     type: str
@@ -114,6 +140,7 @@ class SkillsForkOutputHierarchyForkOriginalCreator:
     email: Optional[str] = None
     organization_actor: Optional[SkillsForkOutputHierarchyForkOriginalCreatorOrganizationActor] = None
     consumer: Optional[SkillsForkOutputHierarchyForkOriginalCreatorConsumer] = None
+    consumer_profile: Optional[Dict[str, Any]] = None
 @dataclass
 class SkillsForkOutputHierarchyFork:
     id: str
@@ -189,6 +216,24 @@ class SkillsForkOutput:
     compatibility: Optional[str] = None
 
 
+class mapSkillsForkOutputHierarchyCreatorOrganizationActorMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> SkillsForkOutputHierarchyCreatorOrganizationActorMember:
+        return SkillsForkOutputHierarchyCreatorOrganizationActorMember(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        role=data.get('role')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[SkillsForkOutputHierarchyCreatorOrganizationActorMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapSkillsForkOutputHierarchyCreatorOrganizationActorTeams:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> SkillsForkOutputHierarchyCreatorOrganizationActorTeams:
@@ -220,6 +265,7 @@ class mapSkillsForkOutputHierarchyCreatorOrganizationActor:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        member=mapSkillsForkOutputHierarchyCreatorOrganizationActorMember.from_dict(data.get('member')) if data.get('member') else None,
         teams=[mapSkillsForkOutputHierarchyCreatorOrganizationActorTeams.from_dict(item) for item in data.get('teams', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
@@ -242,6 +288,7 @@ class mapSkillsForkOutputHierarchyCreatorConsumer:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        user_id=data.get('user_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -263,11 +310,30 @@ class mapSkillsForkOutputHierarchyCreator:
         image_url=data.get('image_url'),
         email=data.get('email'),
         organization_actor=mapSkillsForkOutputHierarchyCreatorOrganizationActor.from_dict(data.get('organization_actor')) if data.get('organization_actor') else None,
-        consumer=mapSkillsForkOutputHierarchyCreatorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        consumer=mapSkillsForkOutputHierarchyCreatorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None,
+        consumer_profile=data.get('consumer_profile')
         )
 
     @staticmethod
     def to_dict(value: Union[SkillsForkOutputHierarchyCreator, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapSkillsForkOutputHierarchyForkCreatorOrganizationActorMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> SkillsForkOutputHierarchyForkCreatorOrganizationActorMember:
+        return SkillsForkOutputHierarchyForkCreatorOrganizationActorMember(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        role=data.get('role')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[SkillsForkOutputHierarchyForkCreatorOrganizationActorMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -305,6 +371,7 @@ class mapSkillsForkOutputHierarchyForkCreatorOrganizationActor:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        member=mapSkillsForkOutputHierarchyForkCreatorOrganizationActorMember.from_dict(data.get('member')) if data.get('member') else None,
         teams=[mapSkillsForkOutputHierarchyForkCreatorOrganizationActorTeams.from_dict(item) for item in data.get('teams', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
@@ -327,6 +394,7 @@ class mapSkillsForkOutputHierarchyForkCreatorConsumer:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        user_id=data.get('user_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -348,11 +416,30 @@ class mapSkillsForkOutputHierarchyForkCreator:
         image_url=data.get('image_url'),
         email=data.get('email'),
         organization_actor=mapSkillsForkOutputHierarchyForkCreatorOrganizationActor.from_dict(data.get('organization_actor')) if data.get('organization_actor') else None,
-        consumer=mapSkillsForkOutputHierarchyForkCreatorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        consumer=mapSkillsForkOutputHierarchyForkCreatorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None,
+        consumer_profile=data.get('consumer_profile')
         )
 
     @staticmethod
     def to_dict(value: Union[SkillsForkOutputHierarchyForkCreator, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapSkillsForkOutputHierarchyForkOriginalCreatorOrganizationActorMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> SkillsForkOutputHierarchyForkOriginalCreatorOrganizationActorMember:
+        return SkillsForkOutputHierarchyForkOriginalCreatorOrganizationActorMember(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        role=data.get('role')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[SkillsForkOutputHierarchyForkOriginalCreatorOrganizationActorMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -390,6 +477,7 @@ class mapSkillsForkOutputHierarchyForkOriginalCreatorOrganizationActor:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        member=mapSkillsForkOutputHierarchyForkOriginalCreatorOrganizationActorMember.from_dict(data.get('member')) if data.get('member') else None,
         teams=[mapSkillsForkOutputHierarchyForkOriginalCreatorOrganizationActorTeams.from_dict(item) for item in data.get('teams', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
@@ -412,6 +500,7 @@ class mapSkillsForkOutputHierarchyForkOriginalCreatorConsumer:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        user_id=data.get('user_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -433,7 +522,8 @@ class mapSkillsForkOutputHierarchyForkOriginalCreator:
         image_url=data.get('image_url'),
         email=data.get('email'),
         organization_actor=mapSkillsForkOutputHierarchyForkOriginalCreatorOrganizationActor.from_dict(data.get('organization_actor')) if data.get('organization_actor') else None,
-        consumer=mapSkillsForkOutputHierarchyForkOriginalCreatorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        consumer=mapSkillsForkOutputHierarchyForkOriginalCreatorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None,
+        consumer_profile=data.get('consumer_profile')
         )
 
     @staticmethod

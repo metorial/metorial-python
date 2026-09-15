@@ -8,7 +8,7 @@ class MetorialDashboardInstancePortalsAccessEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, portal_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, search: Optional[str] = None, consumer_group_id: Optional[Union[str, List[str]]] = None, provider_template_id: Optional[Union[str, List[str]]] = None, magic_mcp_server_id: Optional[Union[str, List[str]]] = None, skill_id: Optional[Union[str, List[str]]] = None, skill_template_id: Optional[Union[str, List[str]]] = None, skill_group_id: Optional[Union[str, List[str]]] = None, skill_marketplace_id: Optional[Union[str, List[str]]] = None, consumer_access_listing_id: Optional[Union[str, List[str]]] = None, type: Optional[Union[str, List[str]]] = None) -> DashboardInstancePortalsAccessListOutput:
+    def list(self, instance_id: str, portal_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, search: Optional[str] = None, consumer_group_id: Optional[Union[str, List[str]]] = None, provider_template_id: Optional[Union[str, List[str]]] = None, magic_mcp_server_id: Optional[Union[str, List[str]]] = None, skill_id: Optional[Union[str, List[str]]] = None, skill_template_id: Optional[Union[str, List[str]]] = None, skill_group_id: Optional[Union[str, List[str]]] = None, skill_marketplace_id: Optional[Union[str, List[str]]] = None, skill_plugin_id: Optional[Union[str, List[str]]] = None, consumer_access_listing_id: Optional[Union[str, List[str]]] = None, type: Optional[Union[str, List[str]]] = None) -> DashboardInstancePortalsAccessListOutput:
         """
     List portal access
     Returns a paginated list of consumer access rules for a portal.
@@ -28,6 +28,7 @@ class MetorialDashboardInstancePortalsAccessEndpoint(BaseMetorialEndpoint):
     :param skill_template_id: Optional[Union[str, List[str]]] (optional)
     :param skill_group_id: Optional[Union[str, List[str]]] (optional)
     :param skill_marketplace_id: Optional[Union[str, List[str]]] (optional)
+    :param skill_plugin_id: Optional[Union[str, List[str]]] (optional)
     :param consumer_access_listing_id: Optional[Union[str, List[str]]] (optional)
     :param type: Optional[Union[str, List[str]]] (optional)
     :return: DashboardInstancePortalsAccessListOutput
@@ -60,6 +61,8 @@ class MetorialDashboardInstancePortalsAccessEndpoint(BaseMetorialEndpoint):
             query_dict["skill_group_id"] = skill_group_id
         if skill_marketplace_id is not None:
             query_dict["skill_marketplace_id"] = skill_marketplace_id
+        if skill_plugin_id is not None:
+            query_dict["skill_plugin_id"] = skill_plugin_id
         if consumer_access_listing_id is not None:
             query_dict["consumer_access_listing_id"] = consumer_access_listing_id
         if type is not None:
@@ -86,7 +89,7 @@ class MetorialDashboardInstancePortalsAccessEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapDashboardInstancePortalsAccessGetOutput.from_dict)
 
-    def create(self, instance_id: str, portal_id: str, *, consumer_group_id: str, access: Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], name: Optional[str] = None, description: Optional[str] = None, readme: Optional[str] = None) -> DashboardInstancePortalsAccessCreateOutput:
+    def create(self, instance_id: str, portal_id: str, *, consumer_group_id: str, access: Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], name: Optional[str] = None, description: Optional[str] = None, readme: Optional[str] = None) -> DashboardInstancePortalsAccessCreateOutput:
         """
     Create portal access
     Creates a new consumer access rule for the portal.
@@ -97,7 +100,7 @@ class MetorialDashboardInstancePortalsAccessEndpoint(BaseMetorialEndpoint):
     :param name: Optional[str] (optional)
     :param description: Optional[str] (optional)
     :param readme: Optional[str] (optional)
-    :param access: Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]
+    :param access: Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]
     :return: DashboardInstancePortalsAccessCreateOutput
     """
         # Build body parameters from keyword arguments

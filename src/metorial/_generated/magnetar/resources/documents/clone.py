@@ -4,6 +4,12 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class DocumentsCloneOutputCreatedByOrganizationActorMember:
+    object: str
+    id: str
+    status: str
+    role: str
+@dataclass
 class DocumentsCloneOutputCreatedByOrganizationActorTeams:
     id: str
     name: str
@@ -23,6 +29,7 @@ class DocumentsCloneOutputCreatedByOrganizationActor:
     created_at: datetime
     updated_at: datetime
     email: Optional[str] = None
+    member: Optional[DocumentsCloneOutputCreatedByOrganizationActorMember] = None
 @dataclass
 class DocumentsCloneOutputCreatedByConsumer:
     object: str
@@ -32,6 +39,7 @@ class DocumentsCloneOutputCreatedByConsumer:
     image_url: str
     created_at: datetime
     updated_at: datetime
+    user_id: Optional[str] = None
 @dataclass
 class DocumentsCloneOutputCreatedBy:
     type: str
@@ -40,6 +48,7 @@ class DocumentsCloneOutputCreatedBy:
     email: Optional[str] = None
     organization_actor: Optional[DocumentsCloneOutputCreatedByOrganizationActor] = None
     consumer: Optional[DocumentsCloneOutputCreatedByConsumer] = None
+    consumer_profile: Optional[Dict[str, Any]] = None
 @dataclass
 class DocumentsCloneOutput:
     object: str
@@ -54,6 +63,24 @@ class DocumentsCloneOutput:
     current_version_id: Optional[str] = None
     created_by: Optional[DocumentsCloneOutputCreatedBy] = None
 
+
+class mapDocumentsCloneOutputCreatedByOrganizationActorMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DocumentsCloneOutputCreatedByOrganizationActorMember:
+        return DocumentsCloneOutputCreatedByOrganizationActorMember(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        role=data.get('role')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DocumentsCloneOutputCreatedByOrganizationActorMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapDocumentsCloneOutputCreatedByOrganizationActorTeams:
     @staticmethod
@@ -86,6 +113,7 @@ class mapDocumentsCloneOutputCreatedByOrganizationActor:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        member=mapDocumentsCloneOutputCreatedByOrganizationActorMember.from_dict(data.get('member')) if data.get('member') else None,
         teams=[mapDocumentsCloneOutputCreatedByOrganizationActorTeams.from_dict(item) for item in data.get('teams', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
@@ -108,6 +136,7 @@ class mapDocumentsCloneOutputCreatedByConsumer:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        user_id=data.get('user_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -129,7 +158,8 @@ class mapDocumentsCloneOutputCreatedBy:
         image_url=data.get('image_url'),
         email=data.get('email'),
         organization_actor=mapDocumentsCloneOutputCreatedByOrganizationActor.from_dict(data.get('organization_actor')) if data.get('organization_actor') else None,
-        consumer=mapDocumentsCloneOutputCreatedByConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        consumer=mapDocumentsCloneOutputCreatedByConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None,
+        consumer_profile=data.get('consumer_profile')
         )
 
     @staticmethod

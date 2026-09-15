@@ -62,7 +62,7 @@ class ManagementInstanceIntegrationsInstancesCreateSessionOutput:
     connection_url: str
     usage: ManagementInstanceIntegrationsInstancesCreateSessionOutputUsage
     providers: List[ManagementInstanceIntegrationsInstancesCreateSessionOutputProviders]
-    from_templates_ids: List[str]
+    from_template_ids: List[str]
     has_errors: bool
     has_warnings: bool
     created_at: datetime
@@ -212,7 +212,7 @@ class mapManagementInstanceIntegrationsInstancesCreateSessionOutput:
         client_secret=data.get('client_secret'),
         usage=mapManagementInstanceIntegrationsInstancesCreateSessionOutputUsage.from_dict(data.get('usage')) if data.get('usage') else None,
         providers=[mapManagementInstanceIntegrationsInstancesCreateSessionOutputProviders.from_dict(item) for item in data.get('providers', []) if item],
-        from_templates_ids=data.get('from_templates_ids', []),
+        from_template_ids=data.get('from_template_ids', []),
         has_errors=data.get('has_errors'),
         has_warnings=data.get('has_warnings'),
         identity_actor_id=data.get('identity_actor_id'),

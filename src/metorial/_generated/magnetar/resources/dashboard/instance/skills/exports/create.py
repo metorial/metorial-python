@@ -4,6 +4,12 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class DashboardInstanceSkillsExportsCreateOutputFileCreatedByOrganizationActorMember:
+    object: str
+    id: str
+    status: str
+    role: str
+@dataclass
 class DashboardInstanceSkillsExportsCreateOutputFileCreatedByOrganizationActorTeams:
     id: str
     name: str
@@ -23,6 +29,7 @@ class DashboardInstanceSkillsExportsCreateOutputFileCreatedByOrganizationActor:
     created_at: datetime
     updated_at: datetime
     email: Optional[str] = None
+    member: Optional[DashboardInstanceSkillsExportsCreateOutputFileCreatedByOrganizationActorMember] = None
 @dataclass
 class DashboardInstanceSkillsExportsCreateOutputFileCreatedByConsumer:
     object: str
@@ -32,6 +39,7 @@ class DashboardInstanceSkillsExportsCreateOutputFileCreatedByConsumer:
     image_url: str
     created_at: datetime
     updated_at: datetime
+    user_id: Optional[str] = None
 @dataclass
 class DashboardInstanceSkillsExportsCreateOutputFileCreatedBy:
     type: str
@@ -40,6 +48,7 @@ class DashboardInstanceSkillsExportsCreateOutputFileCreatedBy:
     email: Optional[str] = None
     organization_actor: Optional[DashboardInstanceSkillsExportsCreateOutputFileCreatedByOrganizationActor] = None
     consumer: Optional[DashboardInstanceSkillsExportsCreateOutputFileCreatedByConsumer] = None
+    consumer_profile: Optional[Dict[str, Any]] = None
 @dataclass
 class DashboardInstanceSkillsExportsCreateOutputFile:
     object: str
@@ -62,6 +71,12 @@ class DashboardInstanceSkillsExportsCreateOutputFileLink:
     created_at: datetime
     expires_at: Optional[datetime] = None
 @dataclass
+class DashboardInstanceSkillsExportsCreateOutputCreatedByOrganizationActorMember:
+    object: str
+    id: str
+    status: str
+    role: str
+@dataclass
 class DashboardInstanceSkillsExportsCreateOutputCreatedByOrganizationActorTeams:
     id: str
     name: str
@@ -81,6 +96,7 @@ class DashboardInstanceSkillsExportsCreateOutputCreatedByOrganizationActor:
     created_at: datetime
     updated_at: datetime
     email: Optional[str] = None
+    member: Optional[DashboardInstanceSkillsExportsCreateOutputCreatedByOrganizationActorMember] = None
 @dataclass
 class DashboardInstanceSkillsExportsCreateOutputCreatedByConsumer:
     object: str
@@ -90,6 +106,7 @@ class DashboardInstanceSkillsExportsCreateOutputCreatedByConsumer:
     image_url: str
     created_at: datetime
     updated_at: datetime
+    user_id: Optional[str] = None
 @dataclass
 class DashboardInstanceSkillsExportsCreateOutputCreatedBy:
     type: str
@@ -98,6 +115,7 @@ class DashboardInstanceSkillsExportsCreateOutputCreatedBy:
     email: Optional[str] = None
     organization_actor: Optional[DashboardInstanceSkillsExportsCreateOutputCreatedByOrganizationActor] = None
     consumer: Optional[DashboardInstanceSkillsExportsCreateOutputCreatedByConsumer] = None
+    consumer_profile: Optional[Dict[str, Any]] = None
 @dataclass
 class DashboardInstanceSkillsExportsCreateOutput:
     object: str
@@ -111,6 +129,24 @@ class DashboardInstanceSkillsExportsCreateOutput:
     started_at: Optional[datetime] = None
     completed_at: Optional[datetime] = None
 
+
+class mapDashboardInstanceSkillsExportsCreateOutputFileCreatedByOrganizationActorMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSkillsExportsCreateOutputFileCreatedByOrganizationActorMember:
+        return DashboardInstanceSkillsExportsCreateOutputFileCreatedByOrganizationActorMember(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        role=data.get('role')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSkillsExportsCreateOutputFileCreatedByOrganizationActorMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapDashboardInstanceSkillsExportsCreateOutputFileCreatedByOrganizationActorTeams:
     @staticmethod
@@ -143,6 +179,7 @@ class mapDashboardInstanceSkillsExportsCreateOutputFileCreatedByOrganizationActo
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        member=mapDashboardInstanceSkillsExportsCreateOutputFileCreatedByOrganizationActorMember.from_dict(data.get('member')) if data.get('member') else None,
         teams=[mapDashboardInstanceSkillsExportsCreateOutputFileCreatedByOrganizationActorTeams.from_dict(item) for item in data.get('teams', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
@@ -165,6 +202,7 @@ class mapDashboardInstanceSkillsExportsCreateOutputFileCreatedByConsumer:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        user_id=data.get('user_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -186,7 +224,8 @@ class mapDashboardInstanceSkillsExportsCreateOutputFileCreatedBy:
         image_url=data.get('image_url'),
         email=data.get('email'),
         organization_actor=mapDashboardInstanceSkillsExportsCreateOutputFileCreatedByOrganizationActor.from_dict(data.get('organization_actor')) if data.get('organization_actor') else None,
-        consumer=mapDashboardInstanceSkillsExportsCreateOutputFileCreatedByConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        consumer=mapDashboardInstanceSkillsExportsCreateOutputFileCreatedByConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None,
+        consumer_profile=data.get('consumer_profile')
         )
 
     @staticmethod
@@ -242,6 +281,24 @@ class mapDashboardInstanceSkillsExportsCreateOutputFileLink:
             return value
         return dataclasses.asdict(value)
 
+class mapDashboardInstanceSkillsExportsCreateOutputCreatedByOrganizationActorMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSkillsExportsCreateOutputCreatedByOrganizationActorMember:
+        return DashboardInstanceSkillsExportsCreateOutputCreatedByOrganizationActorMember(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        role=data.get('role')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSkillsExportsCreateOutputCreatedByOrganizationActorMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapDashboardInstanceSkillsExportsCreateOutputCreatedByOrganizationActorTeams:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceSkillsExportsCreateOutputCreatedByOrganizationActorTeams:
@@ -273,6 +330,7 @@ class mapDashboardInstanceSkillsExportsCreateOutputCreatedByOrganizationActor:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        member=mapDashboardInstanceSkillsExportsCreateOutputCreatedByOrganizationActorMember.from_dict(data.get('member')) if data.get('member') else None,
         teams=[mapDashboardInstanceSkillsExportsCreateOutputCreatedByOrganizationActorTeams.from_dict(item) for item in data.get('teams', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
@@ -295,6 +353,7 @@ class mapDashboardInstanceSkillsExportsCreateOutputCreatedByConsumer:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        user_id=data.get('user_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -316,7 +375,8 @@ class mapDashboardInstanceSkillsExportsCreateOutputCreatedBy:
         image_url=data.get('image_url'),
         email=data.get('email'),
         organization_actor=mapDashboardInstanceSkillsExportsCreateOutputCreatedByOrganizationActor.from_dict(data.get('organization_actor')) if data.get('organization_actor') else None,
-        consumer=mapDashboardInstanceSkillsExportsCreateOutputCreatedByConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        consumer=mapDashboardInstanceSkillsExportsCreateOutputCreatedByConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None,
+        consumer_profile=data.get('consumer_profile')
         )
 
     @staticmethod

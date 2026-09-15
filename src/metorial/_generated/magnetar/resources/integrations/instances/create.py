@@ -90,6 +90,7 @@ class IntegrationsInstancesCreateOutputProviders:
     tool_filter: Optional[Dict[str, Any]] = None
     config: Optional[IntegrationsInstancesCreateOutputProvidersConfig] = None
     auth_config: Optional[IntegrationsInstancesCreateOutputProvidersAuthConfig] = None
+    callback_instance_id: Optional[str] = None
     archived_at: Optional[datetime] = None
 @dataclass
 class IntegrationsInstancesCreateOutput:
@@ -280,6 +281,7 @@ class mapIntegrationsInstancesCreateOutputProviders:
         integration_provider=mapIntegrationsInstancesCreateOutputProvidersIntegrationProvider.from_dict(data.get('integration_provider')) if data.get('integration_provider') else None,
         config=mapIntegrationsInstancesCreateOutputProvidersConfig.from_dict(data.get('config')) if data.get('config') else None,
         auth_config=mapIntegrationsInstancesCreateOutputProvidersAuthConfig.from_dict(data.get('auth_config')) if data.get('auth_config') else None,
+        callback_instance_id=data.get('callback_instance_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
         archived_at=datetime.fromisoformat(data.get('archived_at').replace('Z', '+00:00')) if data.get('archived_at') else None

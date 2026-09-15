@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Optional, Union
 from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, MetorialRequest
-from ..resources import mapDashboardInstanceSkillsListOutput, DashboardInstanceSkillsListOutput, mapDashboardInstanceSkillsListQuery, DashboardInstanceSkillsListQuery, mapDashboardInstanceSkillsGetOutput, DashboardInstanceSkillsGetOutput, mapDashboardInstanceSkillsCreateOutput, DashboardInstanceSkillsCreateOutput, mapDashboardInstanceSkillsCreateBody, DashboardInstanceSkillsCreateBody, mapDashboardInstanceSkillsUpdateOutput, DashboardInstanceSkillsUpdateOutput, mapDashboardInstanceSkillsUpdateBody, DashboardInstanceSkillsUpdateBody, mapDashboardInstanceSkillsDeleteOutput, DashboardInstanceSkillsDeleteOutput, mapDashboardInstanceSkillsForkOutput, DashboardInstanceSkillsForkOutput, mapDashboardInstanceSkillsForkBody, DashboardInstanceSkillsForkBody, mapDashboardInstanceSkillsPublishConsumerSkillOutput, DashboardInstanceSkillsPublishConsumerSkillOutput, mapDashboardInstanceSkillsDuplicateOutput, DashboardInstanceSkillsDuplicateOutput, mapDashboardInstanceSkillsDuplicateBody, DashboardInstanceSkillsDuplicateBody
+from ..resources import mapDashboardInstanceSkillsListOutput, DashboardInstanceSkillsListOutput, mapDashboardInstanceSkillsListQuery, DashboardInstanceSkillsListQuery, mapDashboardInstanceSkillsGetOutput, DashboardInstanceSkillsGetOutput, mapDashboardInstanceSkillsCreateOutput, DashboardInstanceSkillsCreateOutput, mapDashboardInstanceSkillsCreateBody, DashboardInstanceSkillsCreateBody, mapDashboardInstanceSkillsUpdateOutput, DashboardInstanceSkillsUpdateOutput, mapDashboardInstanceSkillsUpdateBody, DashboardInstanceSkillsUpdateBody, mapDashboardInstanceSkillsDeleteOutput, DashboardInstanceSkillsDeleteOutput, mapDashboardInstanceSkillsForkOutput, DashboardInstanceSkillsForkOutput, mapDashboardInstanceSkillsForkBody, DashboardInstanceSkillsForkBody, mapDashboardInstanceSkillsPublishConsumerSkillOutput, DashboardInstanceSkillsPublishConsumerSkillOutput, mapDashboardInstanceSkillsShareOutput, DashboardInstanceSkillsShareOutput, mapDashboardInstanceSkillsShareBody, DashboardInstanceSkillsShareBody, mapDashboardInstanceSkillsDuplicateOutput, DashboardInstanceSkillsDuplicateOutput, mapDashboardInstanceSkillsDuplicateBody, DashboardInstanceSkillsDuplicateBody
 
 class MetorialSkillsEndpoint(BaseMetorialEndpoint):
     """Skills group provider and integration capabilities into reusable, owned compositions."""
@@ -236,6 +236,31 @@ class MetorialSkillsEndpoint(BaseMetorialEndpoint):
             path=['skills', skill_id, 'publish']
         )
         return self._post(request).transform(mapDashboardInstanceSkillsPublishConsumerSkillOutput.from_dict)
+
+    def share(self, skill_id: str, *, permission: str, consumer_profile_ids: Optional[List[str]] = None, organization_member_ids: Optional[List[str]] = None) -> DashboardInstanceSkillsShareOutput:
+        """
+    Share skill
+    Shares a skill with consumers or organization members.
+
+    :param skill_id: str
+    :param consumer_profile_ids: Optional[List[str]] (optional)
+    :param organization_member_ids: Optional[List[str]] (optional)
+    :param permission: str
+    :return: DashboardInstanceSkillsShareOutput
+    """
+        # Build body parameters from keyword arguments
+        body_dict = {}
+        if consumer_profile_ids is not None:
+            body_dict["consumer_profile_ids"] = consumer_profile_ids
+        if organization_member_ids is not None:
+            body_dict["organization_member_ids"] = organization_member_ids
+        body_dict["permission"] = permission
+
+        request = MetorialRequest(
+            path=['skills', skill_id, 'shares'],
+            body=body_dict
+        )
+        return self._post(request).transform(mapDashboardInstanceSkillsShareOutput.from_dict)
 
     def duplicate(self, skill_id: str, *, name: str, description: Optional[str] = None, client_name: Optional[str] = None, client_description: Optional[str] = None, license: Optional[str] = None, compatibility: Optional[str] = None, client_metadata: Optional[Dict[str, Any]] = None, metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceSkillsDuplicateOutput:
         """

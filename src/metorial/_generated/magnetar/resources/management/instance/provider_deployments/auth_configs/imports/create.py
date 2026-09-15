@@ -60,6 +60,7 @@ class ManagementInstanceProviderDeploymentsAuthConfigsImportsCreateOutputAuthCon
     input_schema: Optional[ManagementInstanceProviderDeploymentsAuthConfigsImportsCreateOutputAuthConfigAuthMethodInputSchema] = None
     output_schema: Optional[ManagementInstanceProviderDeploymentsAuthConfigsImportsCreateOutputAuthConfigAuthMethodOutputSchema] = None
     scopes: Optional[List[ManagementInstanceProviderDeploymentsAuthConfigsImportsCreateOutputAuthConfigAuthMethodScopes]] = None
+    adapters: Optional[List[str]] = None
 @dataclass
 class ManagementInstanceProviderDeploymentsAuthConfigsImportsCreateOutputAuthConfig:
     object: str
@@ -210,6 +211,7 @@ class mapManagementInstanceProviderDeploymentsAuthConfigsImportsCreateOutputAuth
         input_schema=mapManagementInstanceProviderDeploymentsAuthConfigsImportsCreateOutputAuthConfigAuthMethodInputSchema.from_dict(data.get('input_schema')) if data.get('input_schema') else None,
         output_schema=mapManagementInstanceProviderDeploymentsAuthConfigsImportsCreateOutputAuthConfigAuthMethodOutputSchema.from_dict(data.get('output_schema')) if data.get('output_schema') else None,
         scopes=[mapManagementInstanceProviderDeploymentsAuthConfigsImportsCreateOutputAuthConfigAuthMethodScopes.from_dict(item) for item in data.get('scopes', []) if item],
+        adapters=data.get('adapters', []),
         provider_id=data.get('provider_id'),
         provider_specification_id=data.get('provider_specification_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,

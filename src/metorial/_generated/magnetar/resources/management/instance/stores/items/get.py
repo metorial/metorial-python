@@ -4,6 +4,12 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class ManagementInstanceStoresItemsGetOutputFileCreatedByOrganizationActorMember:
+    object: str
+    id: str
+    status: str
+    role: str
+@dataclass
 class ManagementInstanceStoresItemsGetOutputFileCreatedByOrganizationActorTeams:
     id: str
     name: str
@@ -23,6 +29,7 @@ class ManagementInstanceStoresItemsGetOutputFileCreatedByOrganizationActor:
     created_at: datetime
     updated_at: datetime
     email: Optional[str] = None
+    member: Optional[ManagementInstanceStoresItemsGetOutputFileCreatedByOrganizationActorMember] = None
 @dataclass
 class ManagementInstanceStoresItemsGetOutputFileCreatedByConsumer:
     object: str
@@ -32,6 +39,7 @@ class ManagementInstanceStoresItemsGetOutputFileCreatedByConsumer:
     image_url: str
     created_at: datetime
     updated_at: datetime
+    user_id: Optional[str] = None
 @dataclass
 class ManagementInstanceStoresItemsGetOutputFileCreatedBy:
     type: str
@@ -40,6 +48,7 @@ class ManagementInstanceStoresItemsGetOutputFileCreatedBy:
     email: Optional[str] = None
     organization_actor: Optional[ManagementInstanceStoresItemsGetOutputFileCreatedByOrganizationActor] = None
     consumer: Optional[ManagementInstanceStoresItemsGetOutputFileCreatedByConsumer] = None
+    consumer_profile: Optional[Dict[str, Any]] = None
 @dataclass
 class ManagementInstanceStoresItemsGetOutputFile:
     object: str
@@ -53,6 +62,12 @@ class ManagementInstanceStoresItemsGetOutputFile:
     created_at: datetime
     updated_at: datetime
     created_by: Optional[ManagementInstanceStoresItemsGetOutputFileCreatedBy] = None
+@dataclass
+class ManagementInstanceStoresItemsGetOutputDocumentCreatedByOrganizationActorMember:
+    object: str
+    id: str
+    status: str
+    role: str
 @dataclass
 class ManagementInstanceStoresItemsGetOutputDocumentCreatedByOrganizationActorTeams:
     id: str
@@ -73,6 +88,7 @@ class ManagementInstanceStoresItemsGetOutputDocumentCreatedByOrganizationActor:
     created_at: datetime
     updated_at: datetime
     email: Optional[str] = None
+    member: Optional[ManagementInstanceStoresItemsGetOutputDocumentCreatedByOrganizationActorMember] = None
 @dataclass
 class ManagementInstanceStoresItemsGetOutputDocumentCreatedByConsumer:
     object: str
@@ -82,6 +98,7 @@ class ManagementInstanceStoresItemsGetOutputDocumentCreatedByConsumer:
     image_url: str
     created_at: datetime
     updated_at: datetime
+    user_id: Optional[str] = None
 @dataclass
 class ManagementInstanceStoresItemsGetOutputDocumentCreatedBy:
     type: str
@@ -90,6 +107,7 @@ class ManagementInstanceStoresItemsGetOutputDocumentCreatedBy:
     email: Optional[str] = None
     organization_actor: Optional[ManagementInstanceStoresItemsGetOutputDocumentCreatedByOrganizationActor] = None
     consumer: Optional[ManagementInstanceStoresItemsGetOutputDocumentCreatedByConsumer] = None
+    consumer_profile: Optional[Dict[str, Any]] = None
 @dataclass
 class ManagementInstanceStoresItemsGetOutputDocument:
     object: str
@@ -116,6 +134,24 @@ class ManagementInstanceStoresItemsGetOutput:
     file: Optional[ManagementInstanceStoresItemsGetOutputFile] = None
     document: Optional[ManagementInstanceStoresItemsGetOutputDocument] = None
 
+
+class mapManagementInstanceStoresItemsGetOutputFileCreatedByOrganizationActorMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceStoresItemsGetOutputFileCreatedByOrganizationActorMember:
+        return ManagementInstanceStoresItemsGetOutputFileCreatedByOrganizationActorMember(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        role=data.get('role')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceStoresItemsGetOutputFileCreatedByOrganizationActorMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapManagementInstanceStoresItemsGetOutputFileCreatedByOrganizationActorTeams:
     @staticmethod
@@ -148,6 +184,7 @@ class mapManagementInstanceStoresItemsGetOutputFileCreatedByOrganizationActor:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        member=mapManagementInstanceStoresItemsGetOutputFileCreatedByOrganizationActorMember.from_dict(data.get('member')) if data.get('member') else None,
         teams=[mapManagementInstanceStoresItemsGetOutputFileCreatedByOrganizationActorTeams.from_dict(item) for item in data.get('teams', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
@@ -170,6 +207,7 @@ class mapManagementInstanceStoresItemsGetOutputFileCreatedByConsumer:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        user_id=data.get('user_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -191,7 +229,8 @@ class mapManagementInstanceStoresItemsGetOutputFileCreatedBy:
         image_url=data.get('image_url'),
         email=data.get('email'),
         organization_actor=mapManagementInstanceStoresItemsGetOutputFileCreatedByOrganizationActor.from_dict(data.get('organization_actor')) if data.get('organization_actor') else None,
-        consumer=mapManagementInstanceStoresItemsGetOutputFileCreatedByConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        consumer=mapManagementInstanceStoresItemsGetOutputFileCreatedByConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None,
+        consumer_profile=data.get('consumer_profile')
         )
 
     @staticmethod
@@ -221,6 +260,24 @@ class mapManagementInstanceStoresItemsGetOutputFile:
 
     @staticmethod
     def to_dict(value: Union[ManagementInstanceStoresItemsGetOutputFile, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceStoresItemsGetOutputDocumentCreatedByOrganizationActorMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceStoresItemsGetOutputDocumentCreatedByOrganizationActorMember:
+        return ManagementInstanceStoresItemsGetOutputDocumentCreatedByOrganizationActorMember(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        role=data.get('role')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceStoresItemsGetOutputDocumentCreatedByOrganizationActorMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -258,6 +315,7 @@ class mapManagementInstanceStoresItemsGetOutputDocumentCreatedByOrganizationActo
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        member=mapManagementInstanceStoresItemsGetOutputDocumentCreatedByOrganizationActorMember.from_dict(data.get('member')) if data.get('member') else None,
         teams=[mapManagementInstanceStoresItemsGetOutputDocumentCreatedByOrganizationActorTeams.from_dict(item) for item in data.get('teams', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
@@ -280,6 +338,7 @@ class mapManagementInstanceStoresItemsGetOutputDocumentCreatedByConsumer:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        user_id=data.get('user_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -301,7 +360,8 @@ class mapManagementInstanceStoresItemsGetOutputDocumentCreatedBy:
         image_url=data.get('image_url'),
         email=data.get('email'),
         organization_actor=mapManagementInstanceStoresItemsGetOutputDocumentCreatedByOrganizationActor.from_dict(data.get('organization_actor')) if data.get('organization_actor') else None,
-        consumer=mapManagementInstanceStoresItemsGetOutputDocumentCreatedByConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        consumer=mapManagementInstanceStoresItemsGetOutputDocumentCreatedByConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None,
+        consumer_profile=data.get('consumer_profile')
         )
 
     @staticmethod

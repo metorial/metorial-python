@@ -4,6 +4,12 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class DocumentsParticipantsGetOutputActorOrganizationActorMember:
+    object: str
+    id: str
+    status: str
+    role: str
+@dataclass
 class DocumentsParticipantsGetOutputActorOrganizationActorTeams:
     id: str
     name: str
@@ -23,6 +29,7 @@ class DocumentsParticipantsGetOutputActorOrganizationActor:
     created_at: datetime
     updated_at: datetime
     email: Optional[str] = None
+    member: Optional[DocumentsParticipantsGetOutputActorOrganizationActorMember] = None
 @dataclass
 class DocumentsParticipantsGetOutputActorConsumer:
     object: str
@@ -32,6 +39,7 @@ class DocumentsParticipantsGetOutputActorConsumer:
     image_url: str
     created_at: datetime
     updated_at: datetime
+    user_id: Optional[str] = None
 @dataclass
 class DocumentsParticipantsGetOutputActor:
     type: str
@@ -40,6 +48,7 @@ class DocumentsParticipantsGetOutputActor:
     email: Optional[str] = None
     organization_actor: Optional[DocumentsParticipantsGetOutputActorOrganizationActor] = None
     consumer: Optional[DocumentsParticipantsGetOutputActorConsumer] = None
+    consumer_profile: Optional[Dict[str, Any]] = None
 @dataclass
 class DocumentsParticipantsGetOutput:
     object: str
@@ -51,6 +60,24 @@ class DocumentsParticipantsGetOutput:
     last_edited_at: Optional[datetime] = None
     last_viewed_at: Optional[datetime] = None
 
+
+class mapDocumentsParticipantsGetOutputActorOrganizationActorMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DocumentsParticipantsGetOutputActorOrganizationActorMember:
+        return DocumentsParticipantsGetOutputActorOrganizationActorMember(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        role=data.get('role')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DocumentsParticipantsGetOutputActorOrganizationActorMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapDocumentsParticipantsGetOutputActorOrganizationActorTeams:
     @staticmethod
@@ -83,6 +110,7 @@ class mapDocumentsParticipantsGetOutputActorOrganizationActor:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        member=mapDocumentsParticipantsGetOutputActorOrganizationActorMember.from_dict(data.get('member')) if data.get('member') else None,
         teams=[mapDocumentsParticipantsGetOutputActorOrganizationActorTeams.from_dict(item) for item in data.get('teams', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
@@ -105,6 +133,7 @@ class mapDocumentsParticipantsGetOutputActorConsumer:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        user_id=data.get('user_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -126,7 +155,8 @@ class mapDocumentsParticipantsGetOutputActor:
         image_url=data.get('image_url'),
         email=data.get('email'),
         organization_actor=mapDocumentsParticipantsGetOutputActorOrganizationActor.from_dict(data.get('organization_actor')) if data.get('organization_actor') else None,
-        consumer=mapDocumentsParticipantsGetOutputActorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        consumer=mapDocumentsParticipantsGetOutputActorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None,
+        consumer_profile=data.get('consumer_profile')
         )
 
     @staticmethod

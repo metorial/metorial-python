@@ -4,6 +4,12 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class ManagementInstanceDocumentsUpdateOutputCreatedByOrganizationActorMember:
+    object: str
+    id: str
+    status: str
+    role: str
+@dataclass
 class ManagementInstanceDocumentsUpdateOutputCreatedByOrganizationActorTeams:
     id: str
     name: str
@@ -23,6 +29,7 @@ class ManagementInstanceDocumentsUpdateOutputCreatedByOrganizationActor:
     created_at: datetime
     updated_at: datetime
     email: Optional[str] = None
+    member: Optional[ManagementInstanceDocumentsUpdateOutputCreatedByOrganizationActorMember] = None
 @dataclass
 class ManagementInstanceDocumentsUpdateOutputCreatedByConsumer:
     object: str
@@ -32,6 +39,7 @@ class ManagementInstanceDocumentsUpdateOutputCreatedByConsumer:
     image_url: str
     created_at: datetime
     updated_at: datetime
+    user_id: Optional[str] = None
 @dataclass
 class ManagementInstanceDocumentsUpdateOutputCreatedBy:
     type: str
@@ -40,6 +48,7 @@ class ManagementInstanceDocumentsUpdateOutputCreatedBy:
     email: Optional[str] = None
     organization_actor: Optional[ManagementInstanceDocumentsUpdateOutputCreatedByOrganizationActor] = None
     consumer: Optional[ManagementInstanceDocumentsUpdateOutputCreatedByConsumer] = None
+    consumer_profile: Optional[Dict[str, Any]] = None
 @dataclass
 class ManagementInstanceDocumentsUpdateOutput:
     object: str
@@ -54,6 +63,24 @@ class ManagementInstanceDocumentsUpdateOutput:
     current_version_id: Optional[str] = None
     created_by: Optional[ManagementInstanceDocumentsUpdateOutputCreatedBy] = None
 
+
+class mapManagementInstanceDocumentsUpdateOutputCreatedByOrganizationActorMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceDocumentsUpdateOutputCreatedByOrganizationActorMember:
+        return ManagementInstanceDocumentsUpdateOutputCreatedByOrganizationActorMember(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        role=data.get('role')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceDocumentsUpdateOutputCreatedByOrganizationActorMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapManagementInstanceDocumentsUpdateOutputCreatedByOrganizationActorTeams:
     @staticmethod
@@ -86,6 +113,7 @@ class mapManagementInstanceDocumentsUpdateOutputCreatedByOrganizationActor:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        member=mapManagementInstanceDocumentsUpdateOutputCreatedByOrganizationActorMember.from_dict(data.get('member')) if data.get('member') else None,
         teams=[mapManagementInstanceDocumentsUpdateOutputCreatedByOrganizationActorTeams.from_dict(item) for item in data.get('teams', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
@@ -108,6 +136,7 @@ class mapManagementInstanceDocumentsUpdateOutputCreatedByConsumer:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        user_id=data.get('user_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -129,7 +158,8 @@ class mapManagementInstanceDocumentsUpdateOutputCreatedBy:
         image_url=data.get('image_url'),
         email=data.get('email'),
         organization_actor=mapManagementInstanceDocumentsUpdateOutputCreatedByOrganizationActor.from_dict(data.get('organization_actor')) if data.get('organization_actor') else None,
-        consumer=mapManagementInstanceDocumentsUpdateOutputCreatedByConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        consumer=mapManagementInstanceDocumentsUpdateOutputCreatedByConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None,
+        consumer_profile=data.get('consumer_profile')
         )
 
     @staticmethod

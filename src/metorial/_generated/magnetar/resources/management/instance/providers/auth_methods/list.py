@@ -34,6 +34,7 @@ class ManagementInstanceProvidersAuthMethodsListOutputItems:
     input_schema: Optional[ManagementInstanceProvidersAuthMethodsListOutputItemsInputSchema] = None
     output_schema: Optional[ManagementInstanceProvidersAuthMethodsListOutputItemsOutputSchema] = None
     scopes: Optional[List[ManagementInstanceProvidersAuthMethodsListOutputItemsScopes]] = None
+    adapters: Optional[List[str]] = None
 @dataclass
 class ManagementInstanceProvidersAuthMethodsListOutputPagination:
     has_more_before: bool
@@ -109,6 +110,7 @@ class mapManagementInstanceProvidersAuthMethodsListOutputItems:
         input_schema=mapManagementInstanceProvidersAuthMethodsListOutputItemsInputSchema.from_dict(data.get('input_schema')) if data.get('input_schema') else None,
         output_schema=mapManagementInstanceProvidersAuthMethodsListOutputItemsOutputSchema.from_dict(data.get('output_schema')) if data.get('output_schema') else None,
         scopes=[mapManagementInstanceProvidersAuthMethodsListOutputItemsScopes.from_dict(item) for item in data.get('scopes', []) if item],
+        adapters=data.get('adapters', []),
         provider_id=data.get('provider_id'),
         provider_specification_id=data.get('provider_specification_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
@@ -164,6 +166,7 @@ class ManagementInstanceProvidersAuthMethodsListQuery:
     before: Optional[str] = None
     cursor: Optional[str] = None
     order: Optional[str] = None
+    adapter: Optional[str] = None
 
 
 class mapManagementInstanceProvidersAuthMethodsListQuery:
@@ -175,7 +178,8 @@ class mapManagementInstanceProvidersAuthMethodsListQuery:
         before=data.get('before'),
         cursor=data.get('cursor'),
         order=data.get('order'),
-        provider_version_id=data.get('provider_version_id')
+        provider_version_id=data.get('provider_version_id'),
+        adapter=data.get('adapter')
         )
 
     @staticmethod

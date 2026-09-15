@@ -26,6 +26,7 @@ class ManagementInstanceSkillsGroupsCreateOutput:
     id: str
     status: str
     name: str
+    allow_consumer_skill_assignment: bool
     skills: List[ManagementInstanceSkillsGroupsCreateOutputSkills]
     created_at: datetime
     updated_at: datetime
@@ -72,6 +73,7 @@ class mapManagementInstanceSkillsGroupsCreateOutput:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        allow_consumer_skill_assignment=data.get('allow_consumer_skill_assignment'),
         skills=[mapManagementInstanceSkillsGroupsCreateOutputSkills.from_dict(item) for item in data.get('skills', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
@@ -92,6 +94,7 @@ class ManagementInstanceSkillsGroupsCreateBody:
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
     skill_ids: Optional[List[str]] = None
+    allow_consumer_skill_assignment: Optional[bool] = None
 
 
 class mapManagementInstanceSkillsGroupsCreateBody:
@@ -101,7 +104,8 @@ class mapManagementInstanceSkillsGroupsCreateBody:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
-        skill_ids=data.get('skill_ids', [])
+        skill_ids=data.get('skill_ids', []),
+        allow_consumer_skill_assignment=data.get('allow_consumer_skill_assignment')
         )
 
     @staticmethod

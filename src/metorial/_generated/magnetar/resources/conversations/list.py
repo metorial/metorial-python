@@ -4,6 +4,12 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class ConversationsListOutputItemsCreatedByActorOrganizationActorMember:
+    object: str
+    id: str
+    status: str
+    role: str
+@dataclass
 class ConversationsListOutputItemsCreatedByActorOrganizationActorTeams:
     id: str
     name: str
@@ -23,6 +29,7 @@ class ConversationsListOutputItemsCreatedByActorOrganizationActor:
     created_at: datetime
     updated_at: datetime
     email: Optional[str] = None
+    member: Optional[ConversationsListOutputItemsCreatedByActorOrganizationActorMember] = None
 @dataclass
 class ConversationsListOutputItemsCreatedByActorConsumer:
     object: str
@@ -32,6 +39,7 @@ class ConversationsListOutputItemsCreatedByActorConsumer:
     image_url: str
     created_at: datetime
     updated_at: datetime
+    user_id: Optional[str] = None
 @dataclass
 class ConversationsListOutputItemsCreatedByActor:
     type: str
@@ -40,6 +48,7 @@ class ConversationsListOutputItemsCreatedByActor:
     email: Optional[str] = None
     organization_actor: Optional[ConversationsListOutputItemsCreatedByActorOrganizationActor] = None
     consumer: Optional[ConversationsListOutputItemsCreatedByActorConsumer] = None
+    consumer_profile: Optional[Dict[str, Any]] = None
 @dataclass
 class ConversationsListOutputItemsAssistantDefaultModelProvider:
     object: str
@@ -105,6 +114,24 @@ class ConversationsListOutput:
     pagination: ConversationsListOutputPagination
 
 
+class mapConversationsListOutputItemsCreatedByActorOrganizationActorMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ConversationsListOutputItemsCreatedByActorOrganizationActorMember:
+        return ConversationsListOutputItemsCreatedByActorOrganizationActorMember(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        role=data.get('role')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ConversationsListOutputItemsCreatedByActorOrganizationActorMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapConversationsListOutputItemsCreatedByActorOrganizationActorTeams:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ConversationsListOutputItemsCreatedByActorOrganizationActorTeams:
@@ -136,6 +163,7 @@ class mapConversationsListOutputItemsCreatedByActorOrganizationActor:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        member=mapConversationsListOutputItemsCreatedByActorOrganizationActorMember.from_dict(data.get('member')) if data.get('member') else None,
         teams=[mapConversationsListOutputItemsCreatedByActorOrganizationActorTeams.from_dict(item) for item in data.get('teams', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
@@ -158,6 +186,7 @@ class mapConversationsListOutputItemsCreatedByActorConsumer:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        user_id=data.get('user_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -179,7 +208,8 @@ class mapConversationsListOutputItemsCreatedByActor:
         image_url=data.get('image_url'),
         email=data.get('email'),
         organization_actor=mapConversationsListOutputItemsCreatedByActorOrganizationActor.from_dict(data.get('organization_actor')) if data.get('organization_actor') else None,
-        consumer=mapConversationsListOutputItemsCreatedByActorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        consumer=mapConversationsListOutputItemsCreatedByActorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None,
+        consumer_profile=data.get('consumer_profile')
         )
 
     @staticmethod

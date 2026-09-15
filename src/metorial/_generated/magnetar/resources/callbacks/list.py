@@ -4,56 +4,27 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
-class CallbacksListOutputItemsProviderDeployment:
+class CallbacksListOutputItemsProvider:
     object: str
     id: str
-    is_default: bool
-    provider_id: str
-    created_at: datetime
-    updated_at: datetime
-    name: Optional[str] = None
-    description: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None
-@dataclass
-class CallbacksListOutputItemsDestinations:
-    object: str
-    id: str
-    status: str
     name: str
-    url: str
-    method: str
+    slug: str
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None
-    signing_secret: Optional[str] = None
-@dataclass
-class CallbacksListOutputItemsProviderTriggersProviderTrigger:
-    object: str
-    id: str
-    key: str
-    name: str
-@dataclass
-class CallbacksListOutputItemsProviderTriggers:
-    object: str
-    id: str
-    provider_trigger: CallbacksListOutputItemsProviderTriggersProviderTrigger
-    event_types: List[str]
-    created_at: datetime
 @dataclass
 class CallbacksListOutputItems:
     object: str
     id: str
     status: str
     name: str
-    provider_deployment: CallbacksListOutputItemsProviderDeployment
-    destinations: List[CallbacksListOutputItemsDestinations]
-    provider_triggers: List[CallbacksListOutputItemsProviderTriggers]
+    integration_id: str
+    integration_provider_id: str
+    provider: CallbacksListOutputItemsProvider
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
-    poll_interval_seconds_override: Optional[float] = None
 @dataclass
 class CallbacksListOutputPagination:
     has_more_before: bool
@@ -64,85 +35,21 @@ class CallbacksListOutput:
     pagination: CallbacksListOutputPagination
 
 
-class mapCallbacksListOutputItemsProviderDeployment:
+class mapCallbacksListOutputItemsProvider:
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> CallbacksListOutputItemsProviderDeployment:
-        return CallbacksListOutputItemsProviderDeployment(
+    def from_dict(data: Dict[str, Any]) -> CallbacksListOutputItemsProvider:
+        return CallbacksListOutputItemsProvider(
         object=data.get('object'),
         id=data.get('id'),
-        is_default=data.get('is_default'),
         name=data.get('name'),
         description=data.get('description'),
-        metadata=data.get('metadata'),
-        provider_id=data.get('provider_id'),
+        slug=data.get('slug'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
-    def to_dict(value: Union[CallbacksListOutputItemsProviderDeployment, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapCallbacksListOutputItemsDestinations:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> CallbacksListOutputItemsDestinations:
-        return CallbacksListOutputItemsDestinations(
-        object=data.get('object'),
-        id=data.get('id'),
-        status=data.get('status'),
-        name=data.get('name'),
-        description=data.get('description'),
-        metadata=data.get('metadata'),
-        url=data.get('url'),
-        method=data.get('method'),
-        signing_secret=data.get('signing_secret'),
-        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
-        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[CallbacksListOutputItemsDestinations, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapCallbacksListOutputItemsProviderTriggersProviderTrigger:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> CallbacksListOutputItemsProviderTriggersProviderTrigger:
-        return CallbacksListOutputItemsProviderTriggersProviderTrigger(
-        object=data.get('object'),
-        id=data.get('id'),
-        key=data.get('key'),
-        name=data.get('name')
-        )
-
-    @staticmethod
-    def to_dict(value: Union[CallbacksListOutputItemsProviderTriggersProviderTrigger, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapCallbacksListOutputItemsProviderTriggers:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> CallbacksListOutputItemsProviderTriggers:
-        return CallbacksListOutputItemsProviderTriggers(
-        object=data.get('object'),
-        id=data.get('id'),
-        provider_trigger=mapCallbacksListOutputItemsProviderTriggersProviderTrigger.from_dict(data.get('provider_trigger')) if data.get('provider_trigger') else None,
-        event_types=data.get('event_types', []),
-        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[CallbacksListOutputItemsProviderTriggers, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+    def to_dict(value: Union[CallbacksListOutputItemsProvider, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -159,10 +66,9 @@ class mapCallbacksListOutputItems:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
-        poll_interval_seconds_override=data.get('poll_interval_seconds_override'),
-        provider_deployment=mapCallbacksListOutputItemsProviderDeployment.from_dict(data.get('provider_deployment')) if data.get('provider_deployment') else None,
-        destinations=[mapCallbacksListOutputItemsDestinations.from_dict(item) for item in data.get('destinations', []) if item],
-        provider_triggers=[mapCallbacksListOutputItemsProviderTriggers.from_dict(item) for item in data.get('provider_triggers', []) if item],
+        integration_id=data.get('integration_id'),
+        integration_provider_id=data.get('integration_provider_id'),
+        provider=mapCallbacksListOutputItemsProvider.from_dict(data.get('provider')) if data.get('provider') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -224,7 +130,9 @@ class CallbacksListQuery:
     cursor: Optional[str] = None
     order: Optional[str] = None
     id: Optional[Union[str, List[str]]] = None
-    provider_deployment_id: Optional[Union[str, List[str]]] = None
+    integration_id: Optional[Union[str, List[str]]] = None
+    integration_provider_id: Optional[Union[str, List[str]]] = None
+    provider_id: Optional[Union[str, List[str]]] = None
     status: Optional[Union[str, List[str]]] = None
     created_at: Optional[CallbacksListQueryCreatedAt] = None
     updated_at: Optional[CallbacksListQueryUpdatedAt] = None
@@ -240,7 +148,9 @@ class mapCallbacksListQuery:
         cursor=data.get('cursor'),
         order=data.get('order'),
         id=data.get('id'),
-        provider_deployment_id=data.get('provider_deployment_id'),
+        integration_id=data.get('integration_id'),
+        integration_provider_id=data.get('integration_provider_id'),
+        provider_id=data.get('provider_id'),
         status=data.get('status'),
         created_at=mapCallbacksListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
         updated_at=mapCallbacksListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None

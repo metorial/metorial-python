@@ -10,7 +10,6 @@ class DashboardInstancePortalsConsumerProfilesGetOutputGroupsGroup:
     status: str
     name: str
     is_default: bool
-    sso_group_ids: List[str]
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
@@ -30,6 +29,7 @@ class DashboardInstancePortalsConsumerProfilesGetOutput:
     status: str
     created_at: datetime
     updated_at: datetime
+    user_id: Optional[str] = None
     groups: Optional[List[DashboardInstancePortalsConsumerProfilesGetOutputGroups]] = None
 
 
@@ -43,6 +43,7 @@ class mapDashboardInstancePortalsConsumerProfilesGetOutput:
         email=data.get('email'),
         image_url=data.get('image_url'),
         consumer_id=data.get('consumer_id'),
+        user_id=data.get('user_id'),
         status=data.get('status'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,

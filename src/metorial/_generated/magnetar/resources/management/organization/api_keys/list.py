@@ -4,6 +4,12 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class ManagementOrganizationApiKeysListOutputItemsMachineAccessActorMember:
+    object: str
+    id: str
+    status: str
+    role: str
+@dataclass
 class ManagementOrganizationApiKeysListOutputItemsMachineAccessActorTeams:
     id: str
     name: str
@@ -23,6 +29,7 @@ class ManagementOrganizationApiKeysListOutputItemsMachineAccessActor:
     created_at: datetime
     updated_at: datetime
     email: Optional[str] = None
+    member: Optional[ManagementOrganizationApiKeysListOutputItemsMachineAccessActorMember] = None
 @dataclass
 class ManagementOrganizationApiKeysListOutputItemsMachineAccessInstanceProject:
     object: str
@@ -31,7 +38,6 @@ class ManagementOrganizationApiKeysListOutputItemsMachineAccessInstanceProject:
     slug: str
     name: str
     organization_id: str
-    magic_mcp_session_duration_minutes: float
     created_at: datetime
     updated_at: datetime
 @dataclass
@@ -56,6 +62,7 @@ class ManagementOrganizationApiKeysListOutputItemsMachineAccessOrganization:
     image_url: str
     created_at: datetime
     updated_at: datetime
+    magic_mcp_origin: Optional[str] = None
 @dataclass
 class ManagementOrganizationApiKeysListOutputItemsMachineAccessUser:
     object: str
@@ -111,6 +118,24 @@ class ManagementOrganizationApiKeysListOutput:
     pagination: ManagementOrganizationApiKeysListOutputPagination
 
 
+class mapManagementOrganizationApiKeysListOutputItemsMachineAccessActorMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementOrganizationApiKeysListOutputItemsMachineAccessActorMember:
+        return ManagementOrganizationApiKeysListOutputItemsMachineAccessActorMember(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        role=data.get('role')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementOrganizationApiKeysListOutputItemsMachineAccessActorMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapManagementOrganizationApiKeysListOutputItemsMachineAccessActorTeams:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementOrganizationApiKeysListOutputItemsMachineAccessActorTeams:
@@ -142,6 +167,7 @@ class mapManagementOrganizationApiKeysListOutputItemsMachineAccessActor:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        member=mapManagementOrganizationApiKeysListOutputItemsMachineAccessActorMember.from_dict(data.get('member')) if data.get('member') else None,
         teams=[mapManagementOrganizationApiKeysListOutputItemsMachineAccessActorTeams.from_dict(item) for item in data.get('teams', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
@@ -165,7 +191,6 @@ class mapManagementOrganizationApiKeysListOutputItemsMachineAccessInstanceProjec
         slug=data.get('slug'),
         name=data.get('name'),
         organization_id=data.get('organization_id'),
-        magic_mcp_session_duration_minutes=data.get('magic_mcp_session_duration_minutes'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -212,6 +237,7 @@ class mapManagementOrganizationApiKeysListOutputItemsMachineAccessOrganization:
         slug=data.get('slug'),
         name=data.get('name'),
         image_url=data.get('image_url'),
+        magic_mcp_origin=data.get('magic_mcp_origin'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

@@ -15,7 +15,6 @@ class PortalsAccessDeleteOutputConsumerGroup:
     status: str
     name: str
     is_default: bool
-    sso_group_ids: List[str]
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
@@ -28,6 +27,7 @@ class PortalsAccessDeleteOutput:
     consumer_group: PortalsAccessDeleteOutputConsumerGroup
     created_at: datetime
     updated_at: datetime
+    access_level: Optional[str] = None
     description: Optional[str] = None
     readme: Optional[str] = None
     listing: Optional[PortalsAccessDeleteOutputListing] = None
@@ -60,7 +60,6 @@ class mapPortalsAccessDeleteOutputConsumerGroup:
         name=data.get('name'),
         description=data.get('description'),
         is_default=data.get('is_default'),
-        sso_group_ids=data.get('sso_group_ids', []),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -79,6 +78,7 @@ class mapPortalsAccessDeleteOutput:
         return PortalsAccessDeleteOutput(
         object=data.get('object'),
         id=data.get('id'),
+        access_level=data.get('access_level'),
         name=data.get('name'),
         description=data.get('description'),
         readme=data.get('readme'),

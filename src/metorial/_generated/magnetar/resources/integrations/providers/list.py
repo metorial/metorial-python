@@ -15,6 +15,11 @@ class IntegrationsProvidersListOutputItemsConfig:
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
 @dataclass
+class IntegrationsProvidersListOutputItemsCallbacks:
+    object: str
+    status: str
+    callback_id: Optional[str] = None
+@dataclass
 class IntegrationsProvidersListOutputItems:
     object: str
     id: str
@@ -23,6 +28,7 @@ class IntegrationsProvidersListOutputItems:
     name: str
     provider_id: str
     deployment_id: str
+    callbacks: IntegrationsProvidersListOutputItemsCallbacks
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
@@ -65,6 +71,23 @@ class mapIntegrationsProvidersListOutputItemsConfig:
             return value
         return dataclasses.asdict(value)
 
+class mapIntegrationsProvidersListOutputItemsCallbacks:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> IntegrationsProvidersListOutputItemsCallbacks:
+        return IntegrationsProvidersListOutputItemsCallbacks(
+        object=data.get('object'),
+        status=data.get('status'),
+        callback_id=data.get('callback_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[IntegrationsProvidersListOutputItemsCallbacks, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapIntegrationsProvidersListOutputItems:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> IntegrationsProvidersListOutputItems:
@@ -82,6 +105,7 @@ class mapIntegrationsProvidersListOutputItems:
         auth_method_id=data.get('auth_method_id'),
         auth_credentials_id=data.get('auth_credentials_id'),
         config=mapIntegrationsProvidersListOutputItemsConfig.from_dict(data.get('config')) if data.get('config') else None,
+        callbacks=mapIntegrationsProvidersListOutputItemsCallbacks.from_dict(data.get('callbacks')) if data.get('callbacks') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
         archived_at=datetime.fromisoformat(data.get('archived_at').replace('Z', '+00:00')) if data.get('archived_at') else None

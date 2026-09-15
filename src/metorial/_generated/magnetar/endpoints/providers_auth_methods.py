@@ -8,7 +8,7 @@ class MetorialProvidersAuthMethodsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, *, provider_version_id: str, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None) -> DashboardInstanceProvidersAuthMethodsListOutput:
+    def list(self, *, provider_version_id: str, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, adapter: Optional[str] = None) -> DashboardInstanceProvidersAuthMethodsListOutput:
         """
     List provider auth methods
     Returns a paginated list of provider auth methods.
@@ -19,6 +19,7 @@ class MetorialProvidersAuthMethodsEndpoint(BaseMetorialEndpoint):
     :param cursor: Optional[str] (optional)
     :param order: Optional[str] (optional)
     :param provider_version_id: str
+    :param adapter: Optional[str] (optional)
     :return: DashboardInstanceProvidersAuthMethodsListOutput
     """
         # Build query parameters from keyword arguments
@@ -34,6 +35,8 @@ class MetorialProvidersAuthMethodsEndpoint(BaseMetorialEndpoint):
         if order is not None:
             query_dict["order"] = order
         query_dict["provider_version_id"] = provider_version_id
+        if adapter is not None:
+            query_dict["adapter"] = adapter
 
         request = MetorialRequest(
             path=['provider-auth-methods'],

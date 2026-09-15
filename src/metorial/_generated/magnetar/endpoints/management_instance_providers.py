@@ -8,7 +8,7 @@ class MetorialManagementInstanceProvidersEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceProvidersListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, search: Optional[str] = None, auth_method: Optional[Union[str, List[str]]] = None, auth_setup: Optional[Union[str, List[str]]] = None) -> DashboardInstanceProvidersListOutput:
         """
     List providers
     Returns a paginated list of providers.
@@ -20,6 +20,9 @@ class MetorialManagementInstanceProvidersEndpoint(BaseMetorialEndpoint):
     :param cursor: Optional[str] (optional)
     :param order: Optional[str] (optional)
     :param id: Optional[Union[str, List[str]]] (optional)
+    :param search: Optional[str] (optional)
+    :param auth_method: Optional[Union[str, List[str]]] (optional)
+    :param auth_setup: Optional[Union[str, List[str]]] (optional)
     :return: DashboardInstanceProvidersListOutput
     """
         # Build query parameters from keyword arguments
@@ -36,6 +39,12 @@ class MetorialManagementInstanceProvidersEndpoint(BaseMetorialEndpoint):
             query_dict["order"] = order
         if id is not None:
             query_dict["id"] = id
+        if search is not None:
+            query_dict["search"] = search
+        if auth_method is not None:
+            query_dict["auth_method"] = auth_method
+        if auth_setup is not None:
+            query_dict["auth_setup"] = auth_setup
 
         request = MetorialRequest(
             path=['instances', instance_id, 'providers'],

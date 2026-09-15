@@ -76,7 +76,7 @@ class MetorialSkillsPluginsEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapDashboardInstanceSkillsPluginsGetOutput.from_dict)
 
-    def create(self, *, name: str, description: Optional[str] = None, long_description: Optional[str] = None, category: Optional[str] = None, image_file_id: Optional[str] = None, skill_configuration_id: Optional[str] = None) -> DashboardInstanceSkillsPluginsCreateOutput:
+    def create(self, *, name: str, description: Optional[str] = None, long_description: Optional[str] = None, category: Optional[str] = None, image_file_id: Optional[str] = None, skill_configuration_id: Optional[str] = None, skill_marketplace_id: Optional[str] = None) -> DashboardInstanceSkillsPluginsCreateOutput:
         """
     Create skill plugin
     Creates a skill plugin.
@@ -87,6 +87,7 @@ class MetorialSkillsPluginsEndpoint(BaseMetorialEndpoint):
     :param category: Optional[str] (optional)
     :param image_file_id: Optional[str] (optional)
     :param skill_configuration_id: Optional[str] (optional)
+    :param skill_marketplace_id: Optional[str] (optional)
     :return: DashboardInstanceSkillsPluginsCreateOutput
     """
         # Build body parameters from keyword arguments
@@ -102,6 +103,8 @@ class MetorialSkillsPluginsEndpoint(BaseMetorialEndpoint):
             body_dict["image_file_id"] = image_file_id
         if skill_configuration_id is not None:
             body_dict["skill_configuration_id"] = skill_configuration_id
+        if skill_marketplace_id is not None:
+            body_dict["skill_marketplace_id"] = skill_marketplace_id
 
         request = MetorialRequest(
             path=['skill-plugins'],

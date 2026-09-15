@@ -4,6 +4,12 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class DashboardInstanceSkillsListOutputItemsHierarchyCreatorOrganizationActorMember:
+    object: str
+    id: str
+    status: str
+    role: str
+@dataclass
 class DashboardInstanceSkillsListOutputItemsHierarchyCreatorOrganizationActorTeams:
     id: str
     name: str
@@ -23,6 +29,7 @@ class DashboardInstanceSkillsListOutputItemsHierarchyCreatorOrganizationActor:
     created_at: datetime
     updated_at: datetime
     email: Optional[str] = None
+    member: Optional[DashboardInstanceSkillsListOutputItemsHierarchyCreatorOrganizationActorMember] = None
 @dataclass
 class DashboardInstanceSkillsListOutputItemsHierarchyCreatorConsumer:
     object: str
@@ -32,6 +39,7 @@ class DashboardInstanceSkillsListOutputItemsHierarchyCreatorConsumer:
     image_url: str
     created_at: datetime
     updated_at: datetime
+    user_id: Optional[str] = None
 @dataclass
 class DashboardInstanceSkillsListOutputItemsHierarchyCreator:
     type: str
@@ -40,6 +48,13 @@ class DashboardInstanceSkillsListOutputItemsHierarchyCreator:
     email: Optional[str] = None
     organization_actor: Optional[DashboardInstanceSkillsListOutputItemsHierarchyCreatorOrganizationActor] = None
     consumer: Optional[DashboardInstanceSkillsListOutputItemsHierarchyCreatorConsumer] = None
+    consumer_profile: Optional[Dict[str, Any]] = None
+@dataclass
+class DashboardInstanceSkillsListOutputItemsHierarchyForkCreatorOrganizationActorMember:
+    object: str
+    id: str
+    status: str
+    role: str
 @dataclass
 class DashboardInstanceSkillsListOutputItemsHierarchyForkCreatorOrganizationActorTeams:
     id: str
@@ -60,6 +75,7 @@ class DashboardInstanceSkillsListOutputItemsHierarchyForkCreatorOrganizationActo
     created_at: datetime
     updated_at: datetime
     email: Optional[str] = None
+    member: Optional[DashboardInstanceSkillsListOutputItemsHierarchyForkCreatorOrganizationActorMember] = None
 @dataclass
 class DashboardInstanceSkillsListOutputItemsHierarchyForkCreatorConsumer:
     object: str
@@ -69,6 +85,7 @@ class DashboardInstanceSkillsListOutputItemsHierarchyForkCreatorConsumer:
     image_url: str
     created_at: datetime
     updated_at: datetime
+    user_id: Optional[str] = None
 @dataclass
 class DashboardInstanceSkillsListOutputItemsHierarchyForkCreator:
     type: str
@@ -77,6 +94,13 @@ class DashboardInstanceSkillsListOutputItemsHierarchyForkCreator:
     email: Optional[str] = None
     organization_actor: Optional[DashboardInstanceSkillsListOutputItemsHierarchyForkCreatorOrganizationActor] = None
     consumer: Optional[DashboardInstanceSkillsListOutputItemsHierarchyForkCreatorConsumer] = None
+    consumer_profile: Optional[Dict[str, Any]] = None
+@dataclass
+class DashboardInstanceSkillsListOutputItemsHierarchyForkOriginalCreatorOrganizationActorMember:
+    object: str
+    id: str
+    status: str
+    role: str
 @dataclass
 class DashboardInstanceSkillsListOutputItemsHierarchyForkOriginalCreatorOrganizationActorTeams:
     id: str
@@ -97,6 +121,7 @@ class DashboardInstanceSkillsListOutputItemsHierarchyForkOriginalCreatorOrganiza
     created_at: datetime
     updated_at: datetime
     email: Optional[str] = None
+    member: Optional[DashboardInstanceSkillsListOutputItemsHierarchyForkOriginalCreatorOrganizationActorMember] = None
 @dataclass
 class DashboardInstanceSkillsListOutputItemsHierarchyForkOriginalCreatorConsumer:
     object: str
@@ -106,6 +131,7 @@ class DashboardInstanceSkillsListOutputItemsHierarchyForkOriginalCreatorConsumer
     image_url: str
     created_at: datetime
     updated_at: datetime
+    user_id: Optional[str] = None
 @dataclass
 class DashboardInstanceSkillsListOutputItemsHierarchyForkOriginalCreator:
     type: str
@@ -114,6 +140,7 @@ class DashboardInstanceSkillsListOutputItemsHierarchyForkOriginalCreator:
     email: Optional[str] = None
     organization_actor: Optional[DashboardInstanceSkillsListOutputItemsHierarchyForkOriginalCreatorOrganizationActor] = None
     consumer: Optional[DashboardInstanceSkillsListOutputItemsHierarchyForkOriginalCreatorConsumer] = None
+    consumer_profile: Optional[Dict[str, Any]] = None
 @dataclass
 class DashboardInstanceSkillsListOutputItemsHierarchyFork:
     id: str
@@ -197,6 +224,24 @@ class DashboardInstanceSkillsListOutput:
     pagination: DashboardInstanceSkillsListOutputPagination
 
 
+class mapDashboardInstanceSkillsListOutputItemsHierarchyCreatorOrganizationActorMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSkillsListOutputItemsHierarchyCreatorOrganizationActorMember:
+        return DashboardInstanceSkillsListOutputItemsHierarchyCreatorOrganizationActorMember(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        role=data.get('role')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSkillsListOutputItemsHierarchyCreatorOrganizationActorMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapDashboardInstanceSkillsListOutputItemsHierarchyCreatorOrganizationActorTeams:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceSkillsListOutputItemsHierarchyCreatorOrganizationActorTeams:
@@ -228,6 +273,7 @@ class mapDashboardInstanceSkillsListOutputItemsHierarchyCreatorOrganizationActor
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        member=mapDashboardInstanceSkillsListOutputItemsHierarchyCreatorOrganizationActorMember.from_dict(data.get('member')) if data.get('member') else None,
         teams=[mapDashboardInstanceSkillsListOutputItemsHierarchyCreatorOrganizationActorTeams.from_dict(item) for item in data.get('teams', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
@@ -250,6 +296,7 @@ class mapDashboardInstanceSkillsListOutputItemsHierarchyCreatorConsumer:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        user_id=data.get('user_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -271,11 +318,30 @@ class mapDashboardInstanceSkillsListOutputItemsHierarchyCreator:
         image_url=data.get('image_url'),
         email=data.get('email'),
         organization_actor=mapDashboardInstanceSkillsListOutputItemsHierarchyCreatorOrganizationActor.from_dict(data.get('organization_actor')) if data.get('organization_actor') else None,
-        consumer=mapDashboardInstanceSkillsListOutputItemsHierarchyCreatorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        consumer=mapDashboardInstanceSkillsListOutputItemsHierarchyCreatorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None,
+        consumer_profile=data.get('consumer_profile')
         )
 
     @staticmethod
     def to_dict(value: Union[DashboardInstanceSkillsListOutputItemsHierarchyCreator, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceSkillsListOutputItemsHierarchyForkCreatorOrganizationActorMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSkillsListOutputItemsHierarchyForkCreatorOrganizationActorMember:
+        return DashboardInstanceSkillsListOutputItemsHierarchyForkCreatorOrganizationActorMember(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        role=data.get('role')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSkillsListOutputItemsHierarchyForkCreatorOrganizationActorMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -313,6 +379,7 @@ class mapDashboardInstanceSkillsListOutputItemsHierarchyForkCreatorOrganizationA
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        member=mapDashboardInstanceSkillsListOutputItemsHierarchyForkCreatorOrganizationActorMember.from_dict(data.get('member')) if data.get('member') else None,
         teams=[mapDashboardInstanceSkillsListOutputItemsHierarchyForkCreatorOrganizationActorTeams.from_dict(item) for item in data.get('teams', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
@@ -335,6 +402,7 @@ class mapDashboardInstanceSkillsListOutputItemsHierarchyForkCreatorConsumer:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        user_id=data.get('user_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -356,11 +424,30 @@ class mapDashboardInstanceSkillsListOutputItemsHierarchyForkCreator:
         image_url=data.get('image_url'),
         email=data.get('email'),
         organization_actor=mapDashboardInstanceSkillsListOutputItemsHierarchyForkCreatorOrganizationActor.from_dict(data.get('organization_actor')) if data.get('organization_actor') else None,
-        consumer=mapDashboardInstanceSkillsListOutputItemsHierarchyForkCreatorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        consumer=mapDashboardInstanceSkillsListOutputItemsHierarchyForkCreatorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None,
+        consumer_profile=data.get('consumer_profile')
         )
 
     @staticmethod
     def to_dict(value: Union[DashboardInstanceSkillsListOutputItemsHierarchyForkCreator, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceSkillsListOutputItemsHierarchyForkOriginalCreatorOrganizationActorMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSkillsListOutputItemsHierarchyForkOriginalCreatorOrganizationActorMember:
+        return DashboardInstanceSkillsListOutputItemsHierarchyForkOriginalCreatorOrganizationActorMember(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        role=data.get('role')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSkillsListOutputItemsHierarchyForkOriginalCreatorOrganizationActorMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -398,6 +485,7 @@ class mapDashboardInstanceSkillsListOutputItemsHierarchyForkOriginalCreatorOrgan
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        member=mapDashboardInstanceSkillsListOutputItemsHierarchyForkOriginalCreatorOrganizationActorMember.from_dict(data.get('member')) if data.get('member') else None,
         teams=[mapDashboardInstanceSkillsListOutputItemsHierarchyForkOriginalCreatorOrganizationActorTeams.from_dict(item) for item in data.get('teams', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
@@ -420,6 +508,7 @@ class mapDashboardInstanceSkillsListOutputItemsHierarchyForkOriginalCreatorConsu
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        user_id=data.get('user_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -441,7 +530,8 @@ class mapDashboardInstanceSkillsListOutputItemsHierarchyForkOriginalCreator:
         image_url=data.get('image_url'),
         email=data.get('email'),
         organization_actor=mapDashboardInstanceSkillsListOutputItemsHierarchyForkOriginalCreatorOrganizationActor.from_dict(data.get('organization_actor')) if data.get('organization_actor') else None,
-        consumer=mapDashboardInstanceSkillsListOutputItemsHierarchyForkOriginalCreatorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        consumer=mapDashboardInstanceSkillsListOutputItemsHierarchyForkOriginalCreatorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None,
+        consumer_profile=data.get('consumer_profile')
         )
 
     @staticmethod

@@ -12,6 +12,7 @@ class DashboardInstanceConsumersGetOutput:
     image_url: str
     created_at: datetime
     updated_at: datetime
+    user_id: Optional[str] = None
 
 
 class mapDashboardInstanceConsumersGetOutput:
@@ -23,6 +24,7 @@ class mapDashboardInstanceConsumersGetOutput:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        user_id=data.get('user_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

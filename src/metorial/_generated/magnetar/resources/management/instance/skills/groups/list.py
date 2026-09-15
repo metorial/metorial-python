@@ -26,6 +26,7 @@ class ManagementInstanceSkillsGroupsListOutputItems:
     id: str
     status: str
     name: str
+    allow_consumer_skill_assignment: bool
     skills: List[ManagementInstanceSkillsGroupsListOutputItemsSkills]
     created_at: datetime
     updated_at: datetime
@@ -80,6 +81,7 @@ class mapManagementInstanceSkillsGroupsListOutputItems:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        allow_consumer_skill_assignment=data.get('allow_consumer_skill_assignment'),
         skills=[mapManagementInstanceSkillsGroupsListOutputItemsSkills.from_dict(item) for item in data.get('skills', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None

@@ -15,6 +15,11 @@ class DashboardInstanceIntegrationsProvidersCreateOutputConfig:
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
 @dataclass
+class DashboardInstanceIntegrationsProvidersCreateOutputCallbacks:
+    object: str
+    status: str
+    callback_id: Optional[str] = None
+@dataclass
 class DashboardInstanceIntegrationsProvidersCreateOutput:
     object: str
     id: str
@@ -23,6 +28,7 @@ class DashboardInstanceIntegrationsProvidersCreateOutput:
     name: str
     provider_id: str
     deployment_id: str
+    callbacks: DashboardInstanceIntegrationsProvidersCreateOutputCallbacks
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
@@ -57,6 +63,23 @@ class mapDashboardInstanceIntegrationsProvidersCreateOutputConfig:
             return value
         return dataclasses.asdict(value)
 
+class mapDashboardInstanceIntegrationsProvidersCreateOutputCallbacks:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceIntegrationsProvidersCreateOutputCallbacks:
+        return DashboardInstanceIntegrationsProvidersCreateOutputCallbacks(
+        object=data.get('object'),
+        status=data.get('status'),
+        callback_id=data.get('callback_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceIntegrationsProvidersCreateOutputCallbacks, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapDashboardInstanceIntegrationsProvidersCreateOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceIntegrationsProvidersCreateOutput:
@@ -74,6 +97,7 @@ class mapDashboardInstanceIntegrationsProvidersCreateOutput:
         auth_method_id=data.get('auth_method_id'),
         auth_credentials_id=data.get('auth_credentials_id'),
         config=mapDashboardInstanceIntegrationsProvidersCreateOutputConfig.from_dict(data.get('config')) if data.get('config') else None,
+        callbacks=mapDashboardInstanceIntegrationsProvidersCreateOutputCallbacks.from_dict(data.get('callbacks')) if data.get('callbacks') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
         archived_at=datetime.fromisoformat(data.get('archived_at').replace('Z', '+00:00')) if data.get('archived_at') else None
@@ -89,6 +113,9 @@ class mapDashboardInstanceIntegrationsProvidersCreateOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class DashboardInstanceIntegrationsProvidersCreateBodyCallbacks:
+    status: str
+@dataclass
 class DashboardInstanceIntegrationsProvidersCreateBody:
     integration_id: str
     provider_id: str
@@ -100,7 +127,23 @@ class DashboardInstanceIntegrationsProvidersCreateBody:
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
     tool_filters: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]] = None
+    callbacks: Optional[DashboardInstanceIntegrationsProvidersCreateBodyCallbacks] = None
 
+
+class mapDashboardInstanceIntegrationsProvidersCreateBodyCallbacks:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceIntegrationsProvidersCreateBodyCallbacks:
+        return DashboardInstanceIntegrationsProvidersCreateBodyCallbacks(
+        status=data.get('status')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceIntegrationsProvidersCreateBodyCallbacks, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapDashboardInstanceIntegrationsProvidersCreateBody:
     @staticmethod
@@ -115,7 +158,8 @@ class mapDashboardInstanceIntegrationsProvidersCreateBody:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
-        tool_filters=data.get('tool_filters')
+        tool_filters=data.get('tool_filters'),
+        callbacks=mapDashboardInstanceIntegrationsProvidersCreateBodyCallbacks.from_dict(data.get('callbacks')) if data.get('callbacks') else None
         )
 
     @staticmethod

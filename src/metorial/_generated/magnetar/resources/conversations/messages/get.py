@@ -19,6 +19,12 @@ class ConversationsMessagesGetOutputModel:
     context_window: float
     provider: ConversationsMessagesGetOutputModelProvider
 @dataclass
+class ConversationsMessagesGetOutputRequestActorOrganizationActorMember:
+    object: str
+    id: str
+    status: str
+    role: str
+@dataclass
 class ConversationsMessagesGetOutputRequestActorOrganizationActorTeams:
     id: str
     name: str
@@ -38,6 +44,7 @@ class ConversationsMessagesGetOutputRequestActorOrganizationActor:
     created_at: datetime
     updated_at: datetime
     email: Optional[str] = None
+    member: Optional[ConversationsMessagesGetOutputRequestActorOrganizationActorMember] = None
 @dataclass
 class ConversationsMessagesGetOutputRequestActorConsumer:
     object: str
@@ -47,6 +54,7 @@ class ConversationsMessagesGetOutputRequestActorConsumer:
     image_url: str
     created_at: datetime
     updated_at: datetime
+    user_id: Optional[str] = None
 @dataclass
 class ConversationsMessagesGetOutputRequestActor:
     type: str
@@ -55,6 +63,7 @@ class ConversationsMessagesGetOutputRequestActor:
     email: Optional[str] = None
     organization_actor: Optional[ConversationsMessagesGetOutputRequestActorOrganizationActor] = None
     consumer: Optional[ConversationsMessagesGetOutputRequestActorConsumer] = None
+    consumer_profile: Optional[Dict[str, Any]] = None
 @dataclass
 class ConversationsMessagesGetOutputRequest:
     object: str
@@ -117,6 +126,24 @@ class mapConversationsMessagesGetOutputModel:
             return value
         return dataclasses.asdict(value)
 
+class mapConversationsMessagesGetOutputRequestActorOrganizationActorMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ConversationsMessagesGetOutputRequestActorOrganizationActorMember:
+        return ConversationsMessagesGetOutputRequestActorOrganizationActorMember(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        role=data.get('role')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ConversationsMessagesGetOutputRequestActorOrganizationActorMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapConversationsMessagesGetOutputRequestActorOrganizationActorTeams:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ConversationsMessagesGetOutputRequestActorOrganizationActorTeams:
@@ -148,6 +175,7 @@ class mapConversationsMessagesGetOutputRequestActorOrganizationActor:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        member=mapConversationsMessagesGetOutputRequestActorOrganizationActorMember.from_dict(data.get('member')) if data.get('member') else None,
         teams=[mapConversationsMessagesGetOutputRequestActorOrganizationActorTeams.from_dict(item) for item in data.get('teams', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
@@ -170,6 +198,7 @@ class mapConversationsMessagesGetOutputRequestActorConsumer:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        user_id=data.get('user_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -191,7 +220,8 @@ class mapConversationsMessagesGetOutputRequestActor:
         image_url=data.get('image_url'),
         email=data.get('email'),
         organization_actor=mapConversationsMessagesGetOutputRequestActorOrganizationActor.from_dict(data.get('organization_actor')) if data.get('organization_actor') else None,
-        consumer=mapConversationsMessagesGetOutputRequestActorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        consumer=mapConversationsMessagesGetOutputRequestActorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None,
+        consumer_profile=data.get('consumer_profile')
         )
 
     @staticmethod

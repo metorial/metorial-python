@@ -4,6 +4,12 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class DocumentsDeleteOutputCreatedByOrganizationActorMember:
+    object: str
+    id: str
+    status: str
+    role: str
+@dataclass
 class DocumentsDeleteOutputCreatedByOrganizationActorTeams:
     id: str
     name: str
@@ -23,6 +29,7 @@ class DocumentsDeleteOutputCreatedByOrganizationActor:
     created_at: datetime
     updated_at: datetime
     email: Optional[str] = None
+    member: Optional[DocumentsDeleteOutputCreatedByOrganizationActorMember] = None
 @dataclass
 class DocumentsDeleteOutputCreatedByConsumer:
     object: str
@@ -32,6 +39,7 @@ class DocumentsDeleteOutputCreatedByConsumer:
     image_url: str
     created_at: datetime
     updated_at: datetime
+    user_id: Optional[str] = None
 @dataclass
 class DocumentsDeleteOutputCreatedBy:
     type: str
@@ -40,6 +48,7 @@ class DocumentsDeleteOutputCreatedBy:
     email: Optional[str] = None
     organization_actor: Optional[DocumentsDeleteOutputCreatedByOrganizationActor] = None
     consumer: Optional[DocumentsDeleteOutputCreatedByConsumer] = None
+    consumer_profile: Optional[Dict[str, Any]] = None
 @dataclass
 class DocumentsDeleteOutput:
     object: str
@@ -54,6 +63,24 @@ class DocumentsDeleteOutput:
     current_version_id: Optional[str] = None
     created_by: Optional[DocumentsDeleteOutputCreatedBy] = None
 
+
+class mapDocumentsDeleteOutputCreatedByOrganizationActorMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DocumentsDeleteOutputCreatedByOrganizationActorMember:
+        return DocumentsDeleteOutputCreatedByOrganizationActorMember(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        role=data.get('role')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DocumentsDeleteOutputCreatedByOrganizationActorMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapDocumentsDeleteOutputCreatedByOrganizationActorTeams:
     @staticmethod
@@ -86,6 +113,7 @@ class mapDocumentsDeleteOutputCreatedByOrganizationActor:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        member=mapDocumentsDeleteOutputCreatedByOrganizationActorMember.from_dict(data.get('member')) if data.get('member') else None,
         teams=[mapDocumentsDeleteOutputCreatedByOrganizationActorTeams.from_dict(item) for item in data.get('teams', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
@@ -108,6 +136,7 @@ class mapDocumentsDeleteOutputCreatedByConsumer:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        user_id=data.get('user_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -129,7 +158,8 @@ class mapDocumentsDeleteOutputCreatedBy:
         image_url=data.get('image_url'),
         email=data.get('email'),
         organization_actor=mapDocumentsDeleteOutputCreatedByOrganizationActor.from_dict(data.get('organization_actor')) if data.get('organization_actor') else None,
-        consumer=mapDocumentsDeleteOutputCreatedByConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        consumer=mapDocumentsDeleteOutputCreatedByConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None,
+        consumer_profile=data.get('consumer_profile')
         )
 
     @staticmethod

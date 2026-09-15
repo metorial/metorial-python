@@ -1,6 +1,7 @@
 from .clone import *
 from .create import *
 from .delete import *
+from .edit_token import *
 from .get import *
 from .list import *
 from .participants import *

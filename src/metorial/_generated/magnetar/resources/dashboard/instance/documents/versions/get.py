@@ -4,6 +4,12 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class DashboardInstanceDocumentsVersionsGetOutputEditorsOrganizationActorMember:
+    object: str
+    id: str
+    status: str
+    role: str
+@dataclass
 class DashboardInstanceDocumentsVersionsGetOutputEditorsOrganizationActorTeams:
     id: str
     name: str
@@ -23,6 +29,7 @@ class DashboardInstanceDocumentsVersionsGetOutputEditorsOrganizationActor:
     created_at: datetime
     updated_at: datetime
     email: Optional[str] = None
+    member: Optional[DashboardInstanceDocumentsVersionsGetOutputEditorsOrganizationActorMember] = None
 @dataclass
 class DashboardInstanceDocumentsVersionsGetOutputEditorsConsumer:
     object: str
@@ -32,6 +39,7 @@ class DashboardInstanceDocumentsVersionsGetOutputEditorsConsumer:
     image_url: str
     created_at: datetime
     updated_at: datetime
+    user_id: Optional[str] = None
 @dataclass
 class DashboardInstanceDocumentsVersionsGetOutputEditors:
     type: str
@@ -40,6 +48,7 @@ class DashboardInstanceDocumentsVersionsGetOutputEditors:
     email: Optional[str] = None
     organization_actor: Optional[DashboardInstanceDocumentsVersionsGetOutputEditorsOrganizationActor] = None
     consumer: Optional[DashboardInstanceDocumentsVersionsGetOutputEditorsConsumer] = None
+    consumer_profile: Optional[Dict[str, Any]] = None
 @dataclass
 class DashboardInstanceDocumentsVersionsGetOutput:
     object: str
@@ -52,6 +61,24 @@ class DashboardInstanceDocumentsVersionsGetOutput:
     previous_version_id: Optional[str] = None
     list_edited_at: Optional[datetime] = None
 
+
+class mapDashboardInstanceDocumentsVersionsGetOutputEditorsOrganizationActorMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceDocumentsVersionsGetOutputEditorsOrganizationActorMember:
+        return DashboardInstanceDocumentsVersionsGetOutputEditorsOrganizationActorMember(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        role=data.get('role')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceDocumentsVersionsGetOutputEditorsOrganizationActorMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapDashboardInstanceDocumentsVersionsGetOutputEditorsOrganizationActorTeams:
     @staticmethod
@@ -84,6 +111,7 @@ class mapDashboardInstanceDocumentsVersionsGetOutputEditorsOrganizationActor:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        member=mapDashboardInstanceDocumentsVersionsGetOutputEditorsOrganizationActorMember.from_dict(data.get('member')) if data.get('member') else None,
         teams=[mapDashboardInstanceDocumentsVersionsGetOutputEditorsOrganizationActorTeams.from_dict(item) for item in data.get('teams', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
@@ -106,6 +134,7 @@ class mapDashboardInstanceDocumentsVersionsGetOutputEditorsConsumer:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        user_id=data.get('user_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -127,7 +156,8 @@ class mapDashboardInstanceDocumentsVersionsGetOutputEditors:
         image_url=data.get('image_url'),
         email=data.get('email'),
         organization_actor=mapDashboardInstanceDocumentsVersionsGetOutputEditorsOrganizationActor.from_dict(data.get('organization_actor')) if data.get('organization_actor') else None,
-        consumer=mapDashboardInstanceDocumentsVersionsGetOutputEditorsConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        consumer=mapDashboardInstanceDocumentsVersionsGetOutputEditorsConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None,
+        consumer_profile=data.get('consumer_profile')
         )
 
     @staticmethod

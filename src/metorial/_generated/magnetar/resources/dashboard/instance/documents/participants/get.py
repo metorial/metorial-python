@@ -4,6 +4,12 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class DashboardInstanceDocumentsParticipantsGetOutputActorOrganizationActorMember:
+    object: str
+    id: str
+    status: str
+    role: str
+@dataclass
 class DashboardInstanceDocumentsParticipantsGetOutputActorOrganizationActorTeams:
     id: str
     name: str
@@ -23,6 +29,7 @@ class DashboardInstanceDocumentsParticipantsGetOutputActorOrganizationActor:
     created_at: datetime
     updated_at: datetime
     email: Optional[str] = None
+    member: Optional[DashboardInstanceDocumentsParticipantsGetOutputActorOrganizationActorMember] = None
 @dataclass
 class DashboardInstanceDocumentsParticipantsGetOutputActorConsumer:
     object: str
@@ -32,6 +39,7 @@ class DashboardInstanceDocumentsParticipantsGetOutputActorConsumer:
     image_url: str
     created_at: datetime
     updated_at: datetime
+    user_id: Optional[str] = None
 @dataclass
 class DashboardInstanceDocumentsParticipantsGetOutputActor:
     type: str
@@ -40,6 +48,7 @@ class DashboardInstanceDocumentsParticipantsGetOutputActor:
     email: Optional[str] = None
     organization_actor: Optional[DashboardInstanceDocumentsParticipantsGetOutputActorOrganizationActor] = None
     consumer: Optional[DashboardInstanceDocumentsParticipantsGetOutputActorConsumer] = None
+    consumer_profile: Optional[Dict[str, Any]] = None
 @dataclass
 class DashboardInstanceDocumentsParticipantsGetOutput:
     object: str
@@ -51,6 +60,24 @@ class DashboardInstanceDocumentsParticipantsGetOutput:
     last_edited_at: Optional[datetime] = None
     last_viewed_at: Optional[datetime] = None
 
+
+class mapDashboardInstanceDocumentsParticipantsGetOutputActorOrganizationActorMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceDocumentsParticipantsGetOutputActorOrganizationActorMember:
+        return DashboardInstanceDocumentsParticipantsGetOutputActorOrganizationActorMember(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        role=data.get('role')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceDocumentsParticipantsGetOutputActorOrganizationActorMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapDashboardInstanceDocumentsParticipantsGetOutputActorOrganizationActorTeams:
     @staticmethod
@@ -83,6 +110,7 @@ class mapDashboardInstanceDocumentsParticipantsGetOutputActorOrganizationActor:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        member=mapDashboardInstanceDocumentsParticipantsGetOutputActorOrganizationActorMember.from_dict(data.get('member')) if data.get('member') else None,
         teams=[mapDashboardInstanceDocumentsParticipantsGetOutputActorOrganizationActorTeams.from_dict(item) for item in data.get('teams', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
@@ -105,6 +133,7 @@ class mapDashboardInstanceDocumentsParticipantsGetOutputActorConsumer:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        user_id=data.get('user_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -126,7 +155,8 @@ class mapDashboardInstanceDocumentsParticipantsGetOutputActor:
         image_url=data.get('image_url'),
         email=data.get('email'),
         organization_actor=mapDashboardInstanceDocumentsParticipantsGetOutputActorOrganizationActor.from_dict(data.get('organization_actor')) if data.get('organization_actor') else None,
-        consumer=mapDashboardInstanceDocumentsParticipantsGetOutputActorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        consumer=mapDashboardInstanceDocumentsParticipantsGetOutputActorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None,
+        consumer_profile=data.get('consumer_profile')
         )
 
     @staticmethod

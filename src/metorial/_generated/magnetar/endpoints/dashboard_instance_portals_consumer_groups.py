@@ -62,7 +62,7 @@ class MetorialDashboardInstancePortalsConsumerGroupsEndpoint(BaseMetorialEndpoin
         )
         return self._get(request).transform(mapDashboardInstancePortalsConsumerGroupsGetOutput.from_dict)
 
-    def create(self, instance_id: str, portal_id: str, *, name: str, description: Optional[str] = None, sso_group_ids: Optional[List[str]] = None, is_default: Optional[bool] = None) -> DashboardInstancePortalsConsumerGroupsCreateOutput:
+    def create(self, instance_id: str, portal_id: str, *, name: str, description: Optional[str] = None, is_default: Optional[bool] = None) -> DashboardInstancePortalsConsumerGroupsCreateOutput:
         """
     Create portal consumer group
     Creates a new consumer group for the portal.
@@ -71,7 +71,6 @@ class MetorialDashboardInstancePortalsConsumerGroupsEndpoint(BaseMetorialEndpoin
     :param portal_id: str
     :param name: str
     :param description: Optional[str] (optional)
-    :param sso_group_ids: Optional[List[str]] (optional)
     :param is_default: Optional[bool] (optional)
     :return: DashboardInstancePortalsConsumerGroupsCreateOutput
     """
@@ -80,8 +79,6 @@ class MetorialDashboardInstancePortalsConsumerGroupsEndpoint(BaseMetorialEndpoin
         body_dict["name"] = name
         if description is not None:
             body_dict["description"] = description
-        if sso_group_ids is not None:
-            body_dict["sso_group_ids"] = sso_group_ids
         if is_default is not None:
             body_dict["is_default"] = is_default
 
@@ -91,7 +88,7 @@ class MetorialDashboardInstancePortalsConsumerGroupsEndpoint(BaseMetorialEndpoin
         )
         return self._post(request).transform(mapDashboardInstancePortalsConsumerGroupsCreateOutput.from_dict)
 
-    def update(self, instance_id: str, portal_id: str, consumer_group_id: str, *, name: Optional[str] = None, description: Optional[str] = None, sso_group_ids: Optional[List[str]] = None, is_default: Optional[bool] = None) -> DashboardInstancePortalsConsumerGroupsUpdateOutput:
+    def update(self, instance_id: str, portal_id: str, consumer_group_id: str, *, name: Optional[str] = None, description: Optional[str] = None, is_default: Optional[bool] = None) -> DashboardInstancePortalsConsumerGroupsUpdateOutput:
         """
     Update portal consumer group
     Updates a consumer group for the portal.
@@ -101,7 +98,6 @@ class MetorialDashboardInstancePortalsConsumerGroupsEndpoint(BaseMetorialEndpoin
     :param consumer_group_id: str
     :param name: Optional[str] (optional)
     :param description: Optional[str] (optional)
-    :param sso_group_ids: Optional[List[str]] (optional)
     :param is_default: Optional[bool] (optional)
     :return: DashboardInstancePortalsConsumerGroupsUpdateOutput
     """
@@ -111,8 +107,6 @@ class MetorialDashboardInstancePortalsConsumerGroupsEndpoint(BaseMetorialEndpoin
             body_dict["name"] = name
         if description is not None:
             body_dict["description"] = description
-        if sso_group_ids is not None:
-            body_dict["sso_group_ids"] = sso_group_ids
         if is_default is not None:
             body_dict["is_default"] = is_default
 

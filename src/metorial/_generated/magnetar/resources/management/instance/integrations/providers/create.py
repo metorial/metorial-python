@@ -15,6 +15,11 @@ class ManagementInstanceIntegrationsProvidersCreateOutputConfig:
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
 @dataclass
+class ManagementInstanceIntegrationsProvidersCreateOutputCallbacks:
+    object: str
+    status: str
+    callback_id: Optional[str] = None
+@dataclass
 class ManagementInstanceIntegrationsProvidersCreateOutput:
     object: str
     id: str
@@ -23,6 +28,7 @@ class ManagementInstanceIntegrationsProvidersCreateOutput:
     name: str
     provider_id: str
     deployment_id: str
+    callbacks: ManagementInstanceIntegrationsProvidersCreateOutputCallbacks
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
@@ -57,6 +63,23 @@ class mapManagementInstanceIntegrationsProvidersCreateOutputConfig:
             return value
         return dataclasses.asdict(value)
 
+class mapManagementInstanceIntegrationsProvidersCreateOutputCallbacks:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceIntegrationsProvidersCreateOutputCallbacks:
+        return ManagementInstanceIntegrationsProvidersCreateOutputCallbacks(
+        object=data.get('object'),
+        status=data.get('status'),
+        callback_id=data.get('callback_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceIntegrationsProvidersCreateOutputCallbacks, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapManagementInstanceIntegrationsProvidersCreateOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceIntegrationsProvidersCreateOutput:
@@ -74,6 +97,7 @@ class mapManagementInstanceIntegrationsProvidersCreateOutput:
         auth_method_id=data.get('auth_method_id'),
         auth_credentials_id=data.get('auth_credentials_id'),
         config=mapManagementInstanceIntegrationsProvidersCreateOutputConfig.from_dict(data.get('config')) if data.get('config') else None,
+        callbacks=mapManagementInstanceIntegrationsProvidersCreateOutputCallbacks.from_dict(data.get('callbacks')) if data.get('callbacks') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
         archived_at=datetime.fromisoformat(data.get('archived_at').replace('Z', '+00:00')) if data.get('archived_at') else None
@@ -89,6 +113,9 @@ class mapManagementInstanceIntegrationsProvidersCreateOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class ManagementInstanceIntegrationsProvidersCreateBodyCallbacks:
+    status: str
+@dataclass
 class ManagementInstanceIntegrationsProvidersCreateBody:
     integration_id: str
     provider_id: str
@@ -100,7 +127,23 @@ class ManagementInstanceIntegrationsProvidersCreateBody:
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
     tool_filters: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]] = None
+    callbacks: Optional[ManagementInstanceIntegrationsProvidersCreateBodyCallbacks] = None
 
+
+class mapManagementInstanceIntegrationsProvidersCreateBodyCallbacks:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceIntegrationsProvidersCreateBodyCallbacks:
+        return ManagementInstanceIntegrationsProvidersCreateBodyCallbacks(
+        status=data.get('status')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceIntegrationsProvidersCreateBodyCallbacks, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapManagementInstanceIntegrationsProvidersCreateBody:
     @staticmethod
@@ -115,7 +158,8 @@ class mapManagementInstanceIntegrationsProvidersCreateBody:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
-        tool_filters=data.get('tool_filters')
+        tool_filters=data.get('tool_filters'),
+        callbacks=mapManagementInstanceIntegrationsProvidersCreateBodyCallbacks.from_dict(data.get('callbacks')) if data.get('callbacks') else None
         )
 
     @staticmethod

@@ -206,6 +206,9 @@ class ProvidersListQuery:
     cursor: Optional[str] = None
     order: Optional[str] = None
     id: Optional[Union[str, List[str]]] = None
+    search: Optional[str] = None
+    auth_method: Optional[Union[str, List[str]]] = None
+    auth_setup: Optional[Union[str, List[str]]] = None
 
 
 class mapProvidersListQuery:
@@ -217,7 +220,10 @@ class mapProvidersListQuery:
         before=data.get('before'),
         cursor=data.get('cursor'),
         order=data.get('order'),
-        id=data.get('id')
+        id=data.get('id'),
+        search=data.get('search'),
+        auth_method=data.get('auth_method'),
+        auth_setup=data.get('auth_setup')
         )
 
     @staticmethod

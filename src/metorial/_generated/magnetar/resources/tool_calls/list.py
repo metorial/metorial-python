@@ -397,6 +397,7 @@ class ToolCallsListQuery:
     before: Optional[str] = None
     cursor: Optional[str] = None
     order: Optional[str] = None
+    session_id: Optional[Union[str, List[str]]] = None
     session_template_id: Optional[Union[str, List[str]]] = None
     session_provider_id: Optional[Union[str, List[str]]] = None
     provider_id: Optional[Union[str, List[str]]] = None
@@ -422,6 +423,7 @@ class mapToolCallsListQuery:
         before=data.get('before'),
         cursor=data.get('cursor'),
         order=data.get('order'),
+        session_id=data.get('session_id'),
         session_template_id=data.get('session_template_id'),
         session_provider_id=data.get('session_provider_id'),
         provider_id=data.get('provider_id'),

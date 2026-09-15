@@ -15,7 +15,6 @@ class ManagementInstancePortalsAccessListOutputItemsConsumerGroup:
     status: str
     name: str
     is_default: bool
-    sso_group_ids: List[str]
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
@@ -28,6 +27,7 @@ class ManagementInstancePortalsAccessListOutputItems:
     consumer_group: ManagementInstancePortalsAccessListOutputItemsConsumerGroup
     created_at: datetime
     updated_at: datetime
+    access_level: Optional[str] = None
     description: Optional[str] = None
     readme: Optional[str] = None
     listing: Optional[ManagementInstancePortalsAccessListOutputItemsListing] = None
@@ -68,7 +68,6 @@ class mapManagementInstancePortalsAccessListOutputItemsConsumerGroup:
         name=data.get('name'),
         description=data.get('description'),
         is_default=data.get('is_default'),
-        sso_group_ids=data.get('sso_group_ids', []),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -87,6 +86,7 @@ class mapManagementInstancePortalsAccessListOutputItems:
         return ManagementInstancePortalsAccessListOutputItems(
         object=data.get('object'),
         id=data.get('id'),
+        access_level=data.get('access_level'),
         name=data.get('name'),
         description=data.get('description'),
         readme=data.get('readme'),
@@ -153,6 +153,7 @@ class ManagementInstancePortalsAccessListQuery:
     skill_template_id: Optional[Union[str, List[str]]] = None
     skill_group_id: Optional[Union[str, List[str]]] = None
     skill_marketplace_id: Optional[Union[str, List[str]]] = None
+    skill_plugin_id: Optional[Union[str, List[str]]] = None
     consumer_access_listing_id: Optional[Union[str, List[str]]] = None
     type: Optional[Union[str, List[str]]] = None
 
@@ -174,6 +175,7 @@ class mapManagementInstancePortalsAccessListQuery:
         skill_template_id=data.get('skill_template_id'),
         skill_group_id=data.get('skill_group_id'),
         skill_marketplace_id=data.get('skill_marketplace_id'),
+        skill_plugin_id=data.get('skill_plugin_id'),
         consumer_access_listing_id=data.get('consumer_access_listing_id'),
         type=data.get('type')
         )

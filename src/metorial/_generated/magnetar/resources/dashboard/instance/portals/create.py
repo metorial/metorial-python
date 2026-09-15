@@ -35,6 +35,7 @@ class DashboardInstancePortalsCreateOutput:
     skill_configuration: DashboardInstancePortalsCreateOutputSkillConfiguration
     auth: DashboardInstancePortalsCreateOutputAuth
     urls: List[DashboardInstancePortalsCreateOutputUrls]
+    magic_mcp_url: str
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
@@ -123,6 +124,7 @@ class mapDashboardInstancePortalsCreateOutput:
         skill_configuration=mapDashboardInstancePortalsCreateOutputSkillConfiguration.from_dict(data.get('skill_configuration')) if data.get('skill_configuration') else None,
         auth=mapDashboardInstancePortalsCreateOutputAuth.from_dict(data.get('auth')) if data.get('auth') else None,
         urls=[mapDashboardInstancePortalsCreateOutputUrls.from_dict(item) for item in data.get('urls', []) if item],
+        magic_mcp_url=data.get('magic_mcp_url'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

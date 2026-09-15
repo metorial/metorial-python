@@ -70,7 +70,7 @@ class MetorialSkillsGroupsEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapDashboardInstanceSkillsGroupsGetOutput.from_dict)
 
-    def create(self, *, name: str, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, skill_ids: Optional[List[str]] = None) -> DashboardInstanceSkillsGroupsCreateOutput:
+    def create(self, *, name: str, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, skill_ids: Optional[List[str]] = None, allow_consumer_skill_assignment: Optional[bool] = None) -> DashboardInstanceSkillsGroupsCreateOutput:
         """
     Create skill group
     Creates a skill group.
@@ -79,6 +79,7 @@ class MetorialSkillsGroupsEndpoint(BaseMetorialEndpoint):
     :param description: Optional[str] (optional)
     :param metadata: Optional[Dict[str, Any]] (optional)
     :param skill_ids: Optional[List[str]] (optional)
+    :param allow_consumer_skill_assignment: Optional[bool] (optional)
     :return: DashboardInstanceSkillsGroupsCreateOutput
     """
         # Build body parameters from keyword arguments
@@ -90,6 +91,8 @@ class MetorialSkillsGroupsEndpoint(BaseMetorialEndpoint):
             body_dict["metadata"] = metadata
         if skill_ids is not None:
             body_dict["skill_ids"] = skill_ids
+        if allow_consumer_skill_assignment is not None:
+            body_dict["allow_consumer_skill_assignment"] = allow_consumer_skill_assignment
 
         request = MetorialRequest(
             path=['skill-groups'],
@@ -97,7 +100,7 @@ class MetorialSkillsGroupsEndpoint(BaseMetorialEndpoint):
         )
         return self._post(request).transform(mapDashboardInstanceSkillsGroupsCreateOutput.from_dict)
 
-    def update(self, skill_group_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, skill_ids: Optional[List[str]] = None) -> DashboardInstanceSkillsGroupsUpdateOutput:
+    def update(self, skill_group_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, skill_ids: Optional[List[str]] = None, allow_consumer_skill_assignment: Optional[bool] = None) -> DashboardInstanceSkillsGroupsUpdateOutput:
         """
     Update skill group
     Updates a skill group.
@@ -107,6 +110,7 @@ class MetorialSkillsGroupsEndpoint(BaseMetorialEndpoint):
     :param description: Optional[str] (optional)
     :param metadata: Optional[Dict[str, Any]] (optional)
     :param skill_ids: Optional[List[str]] (optional)
+    :param allow_consumer_skill_assignment: Optional[bool] (optional)
     :return: DashboardInstanceSkillsGroupsUpdateOutput
     """
         # Build body parameters from keyword arguments
@@ -119,6 +123,8 @@ class MetorialSkillsGroupsEndpoint(BaseMetorialEndpoint):
             body_dict["metadata"] = metadata
         if skill_ids is not None:
             body_dict["skill_ids"] = skill_ids
+        if allow_consumer_skill_assignment is not None:
+            body_dict["allow_consumer_skill_assignment"] = allow_consumer_skill_assignment
 
         request = MetorialRequest(
             path=['skill-groups', skill_group_id],

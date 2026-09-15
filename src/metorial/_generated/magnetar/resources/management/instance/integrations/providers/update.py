@@ -15,6 +15,11 @@ class ManagementInstanceIntegrationsProvidersUpdateOutputConfig:
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
 @dataclass
+class ManagementInstanceIntegrationsProvidersUpdateOutputCallbacks:
+    object: str
+    status: str
+    callback_id: Optional[str] = None
+@dataclass
 class ManagementInstanceIntegrationsProvidersUpdateOutput:
     object: str
     id: str
@@ -23,6 +28,7 @@ class ManagementInstanceIntegrationsProvidersUpdateOutput:
     name: str
     provider_id: str
     deployment_id: str
+    callbacks: ManagementInstanceIntegrationsProvidersUpdateOutputCallbacks
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
@@ -57,6 +63,23 @@ class mapManagementInstanceIntegrationsProvidersUpdateOutputConfig:
             return value
         return dataclasses.asdict(value)
 
+class mapManagementInstanceIntegrationsProvidersUpdateOutputCallbacks:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceIntegrationsProvidersUpdateOutputCallbacks:
+        return ManagementInstanceIntegrationsProvidersUpdateOutputCallbacks(
+        object=data.get('object'),
+        status=data.get('status'),
+        callback_id=data.get('callback_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceIntegrationsProvidersUpdateOutputCallbacks, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapManagementInstanceIntegrationsProvidersUpdateOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceIntegrationsProvidersUpdateOutput:
@@ -74,6 +97,7 @@ class mapManagementInstanceIntegrationsProvidersUpdateOutput:
         auth_method_id=data.get('auth_method_id'),
         auth_credentials_id=data.get('auth_credentials_id'),
         config=mapManagementInstanceIntegrationsProvidersUpdateOutputConfig.from_dict(data.get('config')) if data.get('config') else None,
+        callbacks=mapManagementInstanceIntegrationsProvidersUpdateOutputCallbacks.from_dict(data.get('callbacks')) if data.get('callbacks') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
         archived_at=datetime.fromisoformat(data.get('archived_at').replace('Z', '+00:00')) if data.get('archived_at') else None
@@ -89,6 +113,9 @@ class mapManagementInstanceIntegrationsProvidersUpdateOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class ManagementInstanceIntegrationsProvidersUpdateBodyCallbacks:
+    status: str
+@dataclass
 class ManagementInstanceIntegrationsProvidersUpdateBody:
     provider_deployment_id: Optional[str] = None
     provider_auth_method_id: Optional[str] = None
@@ -98,7 +125,23 @@ class ManagementInstanceIntegrationsProvidersUpdateBody:
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
     tool_filters: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]] = None
+    callbacks: Optional[ManagementInstanceIntegrationsProvidersUpdateBodyCallbacks] = None
 
+
+class mapManagementInstanceIntegrationsProvidersUpdateBodyCallbacks:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceIntegrationsProvidersUpdateBodyCallbacks:
+        return ManagementInstanceIntegrationsProvidersUpdateBodyCallbacks(
+        status=data.get('status')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceIntegrationsProvidersUpdateBodyCallbacks, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapManagementInstanceIntegrationsProvidersUpdateBody:
     @staticmethod
@@ -111,7 +154,8 @@ class mapManagementInstanceIntegrationsProvidersUpdateBody:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
-        tool_filters=data.get('tool_filters')
+        tool_filters=data.get('tool_filters'),
+        callbacks=mapManagementInstanceIntegrationsProvidersUpdateBodyCallbacks.from_dict(data.get('callbacks')) if data.get('callbacks') else None
         )
 
     @staticmethod

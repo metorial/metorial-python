@@ -10,7 +10,6 @@ class DashboardInstancePortalsConsumerGroupsCreateOutput:
     status: str
     name: str
     is_default: bool
-    sso_group_ids: List[str]
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
@@ -26,7 +25,6 @@ class mapDashboardInstancePortalsConsumerGroupsCreateOutput:
         name=data.get('name'),
         description=data.get('description'),
         is_default=data.get('is_default'),
-        sso_group_ids=data.get('sso_group_ids', []),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -44,7 +42,6 @@ class mapDashboardInstancePortalsConsumerGroupsCreateOutput:
 class DashboardInstancePortalsConsumerGroupsCreateBody:
     name: str
     description: Optional[str] = None
-    sso_group_ids: Optional[List[str]] = None
     is_default: Optional[bool] = None
 
 
@@ -54,7 +51,6 @@ class mapDashboardInstancePortalsConsumerGroupsCreateBody:
         return DashboardInstancePortalsConsumerGroupsCreateBody(
         name=data.get('name'),
         description=data.get('description'),
-        sso_group_ids=data.get('sso_group_ids', []),
         is_default=data.get('is_default')
         )
 

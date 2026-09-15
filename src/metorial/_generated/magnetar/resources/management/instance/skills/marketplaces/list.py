@@ -4,12 +4,30 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class ManagementInstanceSkillsMarketplacesListOutputItemsPluginsSkillPluginSkillsSkill:
+    object: str
+    id: str
+    status: str
+    slug: str
+    name: str
+    image_url: str
+    client_name: str
+    created_at: datetime
+    updated_at: datetime
+    description: Optional[str] = None
+    client_description: Optional[str] = None
+    client_metadata: Optional[Dict[str, Any]] = None
+    license: Optional[str] = None
+    compatibility: Optional[str] = None
+    metadata: Optional[Dict[str, Any]] = None
+@dataclass
 class ManagementInstanceSkillsMarketplacesListOutputItemsPluginsSkillPluginSkills:
     object: str
     id: str
     identifier: str
     status: str
     skill_id: str
+    skill: ManagementInstanceSkillsMarketplacesListOutputItemsPluginsSkillPluginSkillsSkill
     created_at: datetime
     updated_at: datetime
     client_name: Optional[str] = None
@@ -44,13 +62,15 @@ class ManagementInstanceSkillsMarketplacesListOutputItemsPlugins:
     updated_at: datetime
     skill_configuration_id: Optional[str] = None
     skill_marketplace_id: Optional[str] = None
-    skill_plugin_id: Optional[str] = None
     skill_plugin: Optional[ManagementInstanceSkillsMarketplacesListOutputItemsPluginsSkillPlugin] = None
 @dataclass
 class ManagementInstanceSkillsMarketplacesListOutputItems:
     object: str
     id: str
     status: str
+    repository_access_mode: str
+    force_merge_or_push: bool
+    merge_before_checks_pass: bool
     sync_status: str
     image_url: str
     name: str
@@ -70,6 +90,35 @@ class ManagementInstanceSkillsMarketplacesListOutput:
     pagination: ManagementInstanceSkillsMarketplacesListOutputPagination
 
 
+class mapManagementInstanceSkillsMarketplacesListOutputItemsPluginsSkillPluginSkillsSkill:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceSkillsMarketplacesListOutputItemsPluginsSkillPluginSkillsSkill:
+        return ManagementInstanceSkillsMarketplacesListOutputItemsPluginsSkillPluginSkillsSkill(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        slug=data.get('slug'),
+        name=data.get('name'),
+        description=data.get('description'),
+        image_url=data.get('image_url'),
+        client_name=data.get('client_name'),
+        client_description=data.get('client_description'),
+        client_metadata=data.get('client_metadata'),
+        license=data.get('license'),
+        compatibility=data.get('compatibility'),
+        metadata=data.get('metadata'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceSkillsMarketplacesListOutputItemsPluginsSkillPluginSkillsSkill, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapManagementInstanceSkillsMarketplacesListOutputItemsPluginsSkillPluginSkills:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceSkillsMarketplacesListOutputItemsPluginsSkillPluginSkills:
@@ -85,6 +134,7 @@ class mapManagementInstanceSkillsMarketplacesListOutputItemsPluginsSkillPluginSk
         compatibility=data.get('compatibility'),
         skill_configuration_id=data.get('skill_configuration_id'),
         skill_id=data.get('skill_id'),
+        skill=mapManagementInstanceSkillsMarketplacesListOutputItemsPluginsSkillPluginSkillsSkill.from_dict(data.get('skill')) if data.get('skill') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -135,7 +185,6 @@ class mapManagementInstanceSkillsMarketplacesListOutputItemsPlugins:
         identifier=data.get('identifier'),
         skill_configuration_id=data.get('skill_configuration_id'),
         skill_marketplace_id=data.get('skill_marketplace_id'),
-        skill_plugin_id=data.get('skill_plugin_id'),
         skill_plugin=mapManagementInstanceSkillsMarketplacesListOutputItemsPluginsSkillPlugin.from_dict(data.get('skill_plugin')) if data.get('skill_plugin') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
@@ -156,6 +205,9 @@ class mapManagementInstanceSkillsMarketplacesListOutputItems:
         object=data.get('object'),
         id=data.get('id'),
         status=data.get('status'),
+        repository_access_mode=data.get('repository_access_mode'),
+        force_merge_or_push=data.get('force_merge_or_push'),
+        merge_before_checks_pass=data.get('merge_before_checks_pass'),
         sync_status=data.get('sync_status'),
         image_url=data.get('image_url'),
         name=data.get('name'),

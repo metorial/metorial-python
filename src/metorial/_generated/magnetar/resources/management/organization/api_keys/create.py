@@ -4,6 +4,12 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class ManagementOrganizationApiKeysCreateOutputMachineAccessActorMember:
+    object: str
+    id: str
+    status: str
+    role: str
+@dataclass
 class ManagementOrganizationApiKeysCreateOutputMachineAccessActorTeams:
     id: str
     name: str
@@ -23,6 +29,7 @@ class ManagementOrganizationApiKeysCreateOutputMachineAccessActor:
     created_at: datetime
     updated_at: datetime
     email: Optional[str] = None
+    member: Optional[ManagementOrganizationApiKeysCreateOutputMachineAccessActorMember] = None
 @dataclass
 class ManagementOrganizationApiKeysCreateOutputMachineAccessInstanceProject:
     object: str
@@ -31,7 +38,6 @@ class ManagementOrganizationApiKeysCreateOutputMachineAccessInstanceProject:
     slug: str
     name: str
     organization_id: str
-    magic_mcp_session_duration_minutes: float
     created_at: datetime
     updated_at: datetime
 @dataclass
@@ -56,6 +62,7 @@ class ManagementOrganizationApiKeysCreateOutputMachineAccessOrganization:
     image_url: str
     created_at: datetime
     updated_at: datetime
+    magic_mcp_origin: Optional[str] = None
 @dataclass
 class ManagementOrganizationApiKeysCreateOutputMachineAccessUser:
     object: str
@@ -103,6 +110,24 @@ class ManagementOrganizationApiKeysCreateOutput:
     expires_at: Optional[datetime] = None
 
 
+class mapManagementOrganizationApiKeysCreateOutputMachineAccessActorMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementOrganizationApiKeysCreateOutputMachineAccessActorMember:
+        return ManagementOrganizationApiKeysCreateOutputMachineAccessActorMember(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        role=data.get('role')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementOrganizationApiKeysCreateOutputMachineAccessActorMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapManagementOrganizationApiKeysCreateOutputMachineAccessActorTeams:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementOrganizationApiKeysCreateOutputMachineAccessActorTeams:
@@ -134,6 +159,7 @@ class mapManagementOrganizationApiKeysCreateOutputMachineAccessActor:
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        member=mapManagementOrganizationApiKeysCreateOutputMachineAccessActorMember.from_dict(data.get('member')) if data.get('member') else None,
         teams=[mapManagementOrganizationApiKeysCreateOutputMachineAccessActorTeams.from_dict(item) for item in data.get('teams', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
@@ -157,7 +183,6 @@ class mapManagementOrganizationApiKeysCreateOutputMachineAccessInstanceProject:
         slug=data.get('slug'),
         name=data.get('name'),
         organization_id=data.get('organization_id'),
-        magic_mcp_session_duration_minutes=data.get('magic_mcp_session_duration_minutes'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -204,6 +229,7 @@ class mapManagementOrganizationApiKeysCreateOutputMachineAccessOrganization:
         slug=data.get('slug'),
         name=data.get('name'),
         image_url=data.get('image_url'),
+        magic_mcp_origin=data.get('magic_mcp_origin'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

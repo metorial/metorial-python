@@ -34,6 +34,7 @@ class ProviderDeploymentsSetupSessionsCreateOutputAuthMethod:
     input_schema: Optional[ProviderDeploymentsSetupSessionsCreateOutputAuthMethodInputSchema] = None
     output_schema: Optional[ProviderDeploymentsSetupSessionsCreateOutputAuthMethodOutputSchema] = None
     scopes: Optional[List[ProviderDeploymentsSetupSessionsCreateOutputAuthMethodScopes]] = None
+    adapters: Optional[List[str]] = None
 @dataclass
 class ProviderDeploymentsSetupSessionsCreateOutputDeployment:
     object: str
@@ -117,6 +118,7 @@ class ProviderDeploymentsSetupSessionsCreateOutputAuthConfigAuthMethod:
     input_schema: Optional[ProviderDeploymentsSetupSessionsCreateOutputAuthConfigAuthMethodInputSchema] = None
     output_schema: Optional[ProviderDeploymentsSetupSessionsCreateOutputAuthConfigAuthMethodOutputSchema] = None
     scopes: Optional[List[ProviderDeploymentsSetupSessionsCreateOutputAuthConfigAuthMethodScopes]] = None
+    adapters: Optional[List[str]] = None
 @dataclass
 class ProviderDeploymentsSetupSessionsCreateOutputAuthConfig:
     object: str
@@ -276,6 +278,7 @@ class mapProviderDeploymentsSetupSessionsCreateOutputAuthMethod:
         input_schema=mapProviderDeploymentsSetupSessionsCreateOutputAuthMethodInputSchema.from_dict(data.get('input_schema')) if data.get('input_schema') else None,
         output_schema=mapProviderDeploymentsSetupSessionsCreateOutputAuthMethodOutputSchema.from_dict(data.get('output_schema')) if data.get('output_schema') else None,
         scopes=[mapProviderDeploymentsSetupSessionsCreateOutputAuthMethodScopes.from_dict(item) for item in data.get('scopes', []) if item],
+        adapters=data.get('adapters', []),
         provider_id=data.get('provider_id'),
         provider_specification_id=data.get('provider_specification_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
@@ -455,6 +458,7 @@ class mapProviderDeploymentsSetupSessionsCreateOutputAuthConfigAuthMethod:
         input_schema=mapProviderDeploymentsSetupSessionsCreateOutputAuthConfigAuthMethodInputSchema.from_dict(data.get('input_schema')) if data.get('input_schema') else None,
         output_schema=mapProviderDeploymentsSetupSessionsCreateOutputAuthConfigAuthMethodOutputSchema.from_dict(data.get('output_schema')) if data.get('output_schema') else None,
         scopes=[mapProviderDeploymentsSetupSessionsCreateOutputAuthConfigAuthMethodScopes.from_dict(item) for item in data.get('scopes', []) if item],
+        adapters=data.get('adapters', []),
         provider_id=data.get('provider_id'),
         provider_specification_id=data.get('provider_specification_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,

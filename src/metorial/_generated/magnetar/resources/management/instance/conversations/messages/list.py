@@ -19,6 +19,12 @@ class ManagementInstanceConversationsMessagesListOutputItemsModel:
     context_window: float
     provider: ManagementInstanceConversationsMessagesListOutputItemsModelProvider
 @dataclass
+class ManagementInstanceConversationsMessagesListOutputItemsRequestActorOrganizationActorMember:
+    object: str
+    id: str
+    status: str
+    role: str
+@dataclass
 class ManagementInstanceConversationsMessagesListOutputItemsRequestActorOrganizationActorTeams:
     id: str
     name: str
@@ -38,6 +44,7 @@ class ManagementInstanceConversationsMessagesListOutputItemsRequestActorOrganiza
     created_at: datetime
     updated_at: datetime
     email: Optional[str] = None
+    member: Optional[ManagementInstanceConversationsMessagesListOutputItemsRequestActorOrganizationActorMember] = None
 @dataclass
 class ManagementInstanceConversationsMessagesListOutputItemsRequestActorConsumer:
     object: str
@@ -47,6 +54,7 @@ class ManagementInstanceConversationsMessagesListOutputItemsRequestActorConsumer
     image_url: str
     created_at: datetime
     updated_at: datetime
+    user_id: Optional[str] = None
 @dataclass
 class ManagementInstanceConversationsMessagesListOutputItemsRequestActor:
     type: str
@@ -55,6 +63,7 @@ class ManagementInstanceConversationsMessagesListOutputItemsRequestActor:
     email: Optional[str] = None
     organization_actor: Optional[ManagementInstanceConversationsMessagesListOutputItemsRequestActorOrganizationActor] = None
     consumer: Optional[ManagementInstanceConversationsMessagesListOutputItemsRequestActorConsumer] = None
+    consumer_profile: Optional[Dict[str, Any]] = None
 @dataclass
 class ManagementInstanceConversationsMessagesListOutputItemsRequest:
     object: str
@@ -125,6 +134,24 @@ class mapManagementInstanceConversationsMessagesListOutputItemsModel:
             return value
         return dataclasses.asdict(value)
 
+class mapManagementInstanceConversationsMessagesListOutputItemsRequestActorOrganizationActorMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceConversationsMessagesListOutputItemsRequestActorOrganizationActorMember:
+        return ManagementInstanceConversationsMessagesListOutputItemsRequestActorOrganizationActorMember(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        role=data.get('role')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceConversationsMessagesListOutputItemsRequestActorOrganizationActorMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapManagementInstanceConversationsMessagesListOutputItemsRequestActorOrganizationActorTeams:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceConversationsMessagesListOutputItemsRequestActorOrganizationActorTeams:
@@ -156,6 +183,7 @@ class mapManagementInstanceConversationsMessagesListOutputItemsRequestActorOrgan
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        member=mapManagementInstanceConversationsMessagesListOutputItemsRequestActorOrganizationActorMember.from_dict(data.get('member')) if data.get('member') else None,
         teams=[mapManagementInstanceConversationsMessagesListOutputItemsRequestActorOrganizationActorTeams.from_dict(item) for item in data.get('teams', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
@@ -178,6 +206,7 @@ class mapManagementInstanceConversationsMessagesListOutputItemsRequestActorConsu
         name=data.get('name'),
         email=data.get('email'),
         image_url=data.get('image_url'),
+        user_id=data.get('user_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -199,7 +228,8 @@ class mapManagementInstanceConversationsMessagesListOutputItemsRequestActor:
         image_url=data.get('image_url'),
         email=data.get('email'),
         organization_actor=mapManagementInstanceConversationsMessagesListOutputItemsRequestActorOrganizationActor.from_dict(data.get('organization_actor')) if data.get('organization_actor') else None,
-        consumer=mapManagementInstanceConversationsMessagesListOutputItemsRequestActorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        consumer=mapManagementInstanceConversationsMessagesListOutputItemsRequestActorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None,
+        consumer_profile=data.get('consumer_profile')
         )
 
     @staticmethod

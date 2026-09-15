@@ -54,6 +54,7 @@ class DashboardInstanceMagicMcpServersProvidersGetOutputAuthMethod:
     input_schema: Optional[DashboardInstanceMagicMcpServersProvidersGetOutputAuthMethodInputSchema] = None
     output_schema: Optional[DashboardInstanceMagicMcpServersProvidersGetOutputAuthMethodOutputSchema] = None
     scopes: Optional[List[DashboardInstanceMagicMcpServersProvidersGetOutputAuthMethodScopes]] = None
+    adapters: Optional[List[str]] = None
 @dataclass
 class DashboardInstanceMagicMcpServersProvidersGetOutputAuthCredentials:
     object: str
@@ -222,6 +223,7 @@ class mapDashboardInstanceMagicMcpServersProvidersGetOutputAuthMethod:
         input_schema=mapDashboardInstanceMagicMcpServersProvidersGetOutputAuthMethodInputSchema.from_dict(data.get('input_schema')) if data.get('input_schema') else None,
         output_schema=mapDashboardInstanceMagicMcpServersProvidersGetOutputAuthMethodOutputSchema.from_dict(data.get('output_schema')) if data.get('output_schema') else None,
         scopes=[mapDashboardInstanceMagicMcpServersProvidersGetOutputAuthMethodScopes.from_dict(item) for item in data.get('scopes', []) if item],
+        adapters=data.get('adapters', []),
         provider_id=data.get('provider_id'),
         provider_specification_id=data.get('provider_specification_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,

@@ -15,6 +15,11 @@ class DashboardInstanceIntegrationsProvidersUpdateOutputConfig:
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
 @dataclass
+class DashboardInstanceIntegrationsProvidersUpdateOutputCallbacks:
+    object: str
+    status: str
+    callback_id: Optional[str] = None
+@dataclass
 class DashboardInstanceIntegrationsProvidersUpdateOutput:
     object: str
     id: str
@@ -23,6 +28,7 @@ class DashboardInstanceIntegrationsProvidersUpdateOutput:
     name: str
     provider_id: str
     deployment_id: str
+    callbacks: DashboardInstanceIntegrationsProvidersUpdateOutputCallbacks
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
@@ -57,6 +63,23 @@ class mapDashboardInstanceIntegrationsProvidersUpdateOutputConfig:
             return value
         return dataclasses.asdict(value)
 
+class mapDashboardInstanceIntegrationsProvidersUpdateOutputCallbacks:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceIntegrationsProvidersUpdateOutputCallbacks:
+        return DashboardInstanceIntegrationsProvidersUpdateOutputCallbacks(
+        object=data.get('object'),
+        status=data.get('status'),
+        callback_id=data.get('callback_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceIntegrationsProvidersUpdateOutputCallbacks, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapDashboardInstanceIntegrationsProvidersUpdateOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceIntegrationsProvidersUpdateOutput:
@@ -74,6 +97,7 @@ class mapDashboardInstanceIntegrationsProvidersUpdateOutput:
         auth_method_id=data.get('auth_method_id'),
         auth_credentials_id=data.get('auth_credentials_id'),
         config=mapDashboardInstanceIntegrationsProvidersUpdateOutputConfig.from_dict(data.get('config')) if data.get('config') else None,
+        callbacks=mapDashboardInstanceIntegrationsProvidersUpdateOutputCallbacks.from_dict(data.get('callbacks')) if data.get('callbacks') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
         archived_at=datetime.fromisoformat(data.get('archived_at').replace('Z', '+00:00')) if data.get('archived_at') else None
@@ -89,6 +113,9 @@ class mapDashboardInstanceIntegrationsProvidersUpdateOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class DashboardInstanceIntegrationsProvidersUpdateBodyCallbacks:
+    status: str
+@dataclass
 class DashboardInstanceIntegrationsProvidersUpdateBody:
     provider_deployment_id: Optional[str] = None
     provider_auth_method_id: Optional[str] = None
@@ -98,7 +125,23 @@ class DashboardInstanceIntegrationsProvidersUpdateBody:
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
     tool_filters: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]] = None
+    callbacks: Optional[DashboardInstanceIntegrationsProvidersUpdateBodyCallbacks] = None
 
+
+class mapDashboardInstanceIntegrationsProvidersUpdateBodyCallbacks:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceIntegrationsProvidersUpdateBodyCallbacks:
+        return DashboardInstanceIntegrationsProvidersUpdateBodyCallbacks(
+        status=data.get('status')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceIntegrationsProvidersUpdateBodyCallbacks, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapDashboardInstanceIntegrationsProvidersUpdateBody:
     @staticmethod
@@ -111,7 +154,8 @@ class mapDashboardInstanceIntegrationsProvidersUpdateBody:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
-        tool_filters=data.get('tool_filters')
+        tool_filters=data.get('tool_filters'),
+        callbacks=mapDashboardInstanceIntegrationsProvidersUpdateBodyCallbacks.from_dict(data.get('callbacks')) if data.get('callbacks') else None
         )
 
     @staticmethod

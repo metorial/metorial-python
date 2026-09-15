@@ -21,6 +21,11 @@ class DashboardInstanceIntegrationsUpdateOutputProvidersConfig:
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
 @dataclass
+class DashboardInstanceIntegrationsUpdateOutputProvidersCallbacks:
+    object: str
+    status: str
+    callback_id: Optional[str] = None
+@dataclass
 class DashboardInstanceIntegrationsUpdateOutputProviders:
     object: str
     id: str
@@ -29,6 +34,7 @@ class DashboardInstanceIntegrationsUpdateOutputProviders:
     name: str
     provider_id: str
     deployment_id: str
+    callbacks: DashboardInstanceIntegrationsUpdateOutputProvidersCallbacks
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
@@ -96,6 +102,23 @@ class mapDashboardInstanceIntegrationsUpdateOutputProvidersConfig:
             return value
         return dataclasses.asdict(value)
 
+class mapDashboardInstanceIntegrationsUpdateOutputProvidersCallbacks:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceIntegrationsUpdateOutputProvidersCallbacks:
+        return DashboardInstanceIntegrationsUpdateOutputProvidersCallbacks(
+        object=data.get('object'),
+        status=data.get('status'),
+        callback_id=data.get('callback_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceIntegrationsUpdateOutputProvidersCallbacks, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapDashboardInstanceIntegrationsUpdateOutputProviders:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceIntegrationsUpdateOutputProviders:
@@ -113,6 +136,7 @@ class mapDashboardInstanceIntegrationsUpdateOutputProviders:
         auth_method_id=data.get('auth_method_id'),
         auth_credentials_id=data.get('auth_credentials_id'),
         config=mapDashboardInstanceIntegrationsUpdateOutputProvidersConfig.from_dict(data.get('config')) if data.get('config') else None,
+        callbacks=mapDashboardInstanceIntegrationsUpdateOutputProvidersCallbacks.from_dict(data.get('callbacks')) if data.get('callbacks') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
         archived_at=datetime.fromisoformat(data.get('archived_at').replace('Z', '+00:00')) if data.get('archived_at') else None

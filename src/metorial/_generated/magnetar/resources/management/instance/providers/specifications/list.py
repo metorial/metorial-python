@@ -63,6 +63,7 @@ class ManagementInstanceProvidersSpecificationsListOutputItemsAuthMethods:
     input_schema: Optional[ManagementInstanceProvidersSpecificationsListOutputItemsAuthMethodsInputSchema] = None
     output_schema: Optional[ManagementInstanceProvidersSpecificationsListOutputItemsAuthMethodsOutputSchema] = None
     scopes: Optional[List[ManagementInstanceProvidersSpecificationsListOutputItemsAuthMethodsScopes]] = None
+    adapters: Optional[List[str]] = None
 @dataclass
 class ManagementInstanceProvidersSpecificationsListOutputItems:
     object: str
@@ -229,6 +230,7 @@ class mapManagementInstanceProvidersSpecificationsListOutputItemsAuthMethods:
         input_schema=mapManagementInstanceProvidersSpecificationsListOutputItemsAuthMethodsInputSchema.from_dict(data.get('input_schema')) if data.get('input_schema') else None,
         output_schema=mapManagementInstanceProvidersSpecificationsListOutputItemsAuthMethodsOutputSchema.from_dict(data.get('output_schema')) if data.get('output_schema') else None,
         scopes=[mapManagementInstanceProvidersSpecificationsListOutputItemsAuthMethodsScopes.from_dict(item) for item in data.get('scopes', []) if item],
+        adapters=data.get('adapters', []),
         provider_id=data.get('provider_id'),
         provider_specification_id=data.get('provider_specification_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,

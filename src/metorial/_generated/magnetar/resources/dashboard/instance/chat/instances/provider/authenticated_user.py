@@ -1,0 +1,76 @@
+from dataclasses import dataclass
+from typing import Any, Dict, List, Optional, Union
+from datetime import datetime
+import dataclasses
+
+@dataclass
+class DashboardInstanceChatInstancesProviderAuthenticatedUserOutputWorkspace:
+    id: str
+    provider_workspace_id: str
+    name: Optional[str] = None
+    domain: Optional[str] = None
+    image_url: Optional[str] = None
+@dataclass
+class DashboardInstanceChatInstancesProviderAuthenticatedUserOutput:
+    object: str
+    type: str
+    role: str
+    provider_author_id: str
+    user_name: str
+    full_name: str
+    is_self: bool
+    id: Optional[str] = None
+    chat_id: Optional[str] = None
+    provider_type: Optional[str] = None
+    email: Optional[str] = None
+    image_url: Optional[str] = None
+    workspace: Optional[DashboardInstanceChatInstancesProviderAuthenticatedUserOutputWorkspace] = None
+
+
+class mapDashboardInstanceChatInstancesProviderAuthenticatedUserOutputWorkspace:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceChatInstancesProviderAuthenticatedUserOutputWorkspace:
+        return DashboardInstanceChatInstancesProviderAuthenticatedUserOutputWorkspace(
+        id=data.get('id'),
+        provider_workspace_id=data.get('provider_workspace_id'),
+        name=data.get('name'),
+        domain=data.get('domain'),
+        image_url=data.get('image_url')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceChatInstancesProviderAuthenticatedUserOutputWorkspace, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceChatInstancesProviderAuthenticatedUserOutput:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceChatInstancesProviderAuthenticatedUserOutput:
+        return DashboardInstanceChatInstancesProviderAuthenticatedUserOutput(
+        object=data.get('object'),
+        id=data.get('id'),
+        chat_id=data.get('chat_id'),
+        type=data.get('type'),
+        role=data.get('role'),
+        provider_type=data.get('provider_type'),
+        provider_author_id=data.get('provider_author_id'),
+        user_name=data.get('user_name'),
+        full_name=data.get('full_name'),
+        email=data.get('email'),
+        image_url=data.get('image_url'),
+        is_self=data.get('is_self'),
+        workspace=mapDashboardInstanceChatInstancesProviderAuthenticatedUserOutputWorkspace.from_dict(data.get('workspace')) if data.get('workspace') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceChatInstancesProviderAuthenticatedUserOutput, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        # assume dataclass for generated models
+        return dataclasses.asdict(value)
+

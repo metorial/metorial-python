@@ -70,7 +70,7 @@ class MetorialSkillsMarketplacesEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapDashboardInstanceSkillsMarketplacesGetOutput.from_dict)
 
-    def create(self, *, name: str, description: Optional[str] = None, image_file_id: Optional[str] = None, skill_configuration_id: Optional[str] = None) -> DashboardInstanceSkillsMarketplacesCreateOutput:
+    def create(self, *, name: str, description: Optional[str] = None, image_file_id: Optional[str] = None, skill_configuration_id: Optional[str] = None, repository_access_mode: Optional[str] = None, force_merge_or_push: Optional[bool] = None, merge_before_checks_pass: Optional[bool] = None) -> DashboardInstanceSkillsMarketplacesCreateOutput:
         """
     Create skill marketplace
     Creates a skill marketplace.
@@ -79,6 +79,9 @@ class MetorialSkillsMarketplacesEndpoint(BaseMetorialEndpoint):
     :param description: Optional[str] (optional)
     :param image_file_id: Optional[str] (optional)
     :param skill_configuration_id: Optional[str] (optional)
+    :param repository_access_mode: Optional[str] (optional)
+    :param force_merge_or_push: Optional[bool] (optional)
+    :param merge_before_checks_pass: Optional[bool] (optional)
     :return: DashboardInstanceSkillsMarketplacesCreateOutput
     """
         # Build body parameters from keyword arguments
@@ -90,6 +93,12 @@ class MetorialSkillsMarketplacesEndpoint(BaseMetorialEndpoint):
             body_dict["image_file_id"] = image_file_id
         if skill_configuration_id is not None:
             body_dict["skill_configuration_id"] = skill_configuration_id
+        if repository_access_mode is not None:
+            body_dict["repository_access_mode"] = repository_access_mode
+        if force_merge_or_push is not None:
+            body_dict["force_merge_or_push"] = force_merge_or_push
+        if merge_before_checks_pass is not None:
+            body_dict["merge_before_checks_pass"] = merge_before_checks_pass
 
         request = MetorialRequest(
             path=['skill-marketplaces'],
@@ -97,7 +106,7 @@ class MetorialSkillsMarketplacesEndpoint(BaseMetorialEndpoint):
         )
         return self._post(request).transform(mapDashboardInstanceSkillsMarketplacesCreateOutput.from_dict)
 
-    def update(self, skill_marketplace_id: str, *, name: Optional[str] = None, description: Optional[str] = None, image_file_id: Optional[str] = None, skill_configuration_id: Optional[str] = None) -> DashboardInstanceSkillsMarketplacesUpdateOutput:
+    def update(self, skill_marketplace_id: str, *, name: Optional[str] = None, description: Optional[str] = None, image_file_id: Optional[str] = None, skill_configuration_id: Optional[str] = None, repository_access_mode: Optional[str] = None, force_merge_or_push: Optional[bool] = None, merge_before_checks_pass: Optional[bool] = None) -> DashboardInstanceSkillsMarketplacesUpdateOutput:
         """
     Update skill marketplace
     Updates a skill marketplace.
@@ -107,6 +116,9 @@ class MetorialSkillsMarketplacesEndpoint(BaseMetorialEndpoint):
     :param description: Optional[str] (optional)
     :param image_file_id: Optional[str] (optional)
     :param skill_configuration_id: Optional[str] (optional)
+    :param repository_access_mode: Optional[str] (optional)
+    :param force_merge_or_push: Optional[bool] (optional)
+    :param merge_before_checks_pass: Optional[bool] (optional)
     :return: DashboardInstanceSkillsMarketplacesUpdateOutput
     """
         # Build body parameters from keyword arguments
@@ -119,6 +131,12 @@ class MetorialSkillsMarketplacesEndpoint(BaseMetorialEndpoint):
             body_dict["image_file_id"] = image_file_id
         if skill_configuration_id is not None:
             body_dict["skill_configuration_id"] = skill_configuration_id
+        if repository_access_mode is not None:
+            body_dict["repository_access_mode"] = repository_access_mode
+        if force_merge_or_push is not None:
+            body_dict["force_merge_or_push"] = force_merge_or_push
+        if merge_before_checks_pass is not None:
+            body_dict["merge_before_checks_pass"] = merge_before_checks_pass
 
         request = MetorialRequest(
             path=['skill-marketplaces', skill_marketplace_id],

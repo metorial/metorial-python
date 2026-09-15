@@ -59,6 +59,7 @@ class MagicMcpSessionsGetOutputMagicMcpServerProvidersAuthMethod:
     input_schema: Optional[MagicMcpSessionsGetOutputMagicMcpServerProvidersAuthMethodInputSchema] = None
     output_schema: Optional[MagicMcpSessionsGetOutputMagicMcpServerProvidersAuthMethodOutputSchema] = None
     scopes: Optional[List[MagicMcpSessionsGetOutputMagicMcpServerProvidersAuthMethodScopes]] = None
+    adapters: Optional[List[str]] = None
 @dataclass
 class MagicMcpSessionsGetOutputMagicMcpServerProvidersAuthCredentials:
     object: str
@@ -284,6 +285,7 @@ class mapMagicMcpSessionsGetOutputMagicMcpServerProvidersAuthMethod:
         input_schema=mapMagicMcpSessionsGetOutputMagicMcpServerProvidersAuthMethodInputSchema.from_dict(data.get('input_schema')) if data.get('input_schema') else None,
         output_schema=mapMagicMcpSessionsGetOutputMagicMcpServerProvidersAuthMethodOutputSchema.from_dict(data.get('output_schema')) if data.get('output_schema') else None,
         scopes=[mapMagicMcpSessionsGetOutputMagicMcpServerProvidersAuthMethodScopes.from_dict(item) for item in data.get('scopes', []) if item],
+        adapters=data.get('adapters', []),
         provider_id=data.get('provider_id'),
         provider_specification_id=data.get('provider_specification_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,

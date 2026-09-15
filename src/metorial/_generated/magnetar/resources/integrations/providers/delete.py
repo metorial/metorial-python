@@ -15,6 +15,11 @@ class IntegrationsProvidersDeleteOutputConfig:
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
 @dataclass
+class IntegrationsProvidersDeleteOutputCallbacks:
+    object: str
+    status: str
+    callback_id: Optional[str] = None
+@dataclass
 class IntegrationsProvidersDeleteOutput:
     object: str
     id: str
@@ -23,6 +28,7 @@ class IntegrationsProvidersDeleteOutput:
     name: str
     provider_id: str
     deployment_id: str
+    callbacks: IntegrationsProvidersDeleteOutputCallbacks
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
@@ -57,6 +63,23 @@ class mapIntegrationsProvidersDeleteOutputConfig:
             return value
         return dataclasses.asdict(value)
 
+class mapIntegrationsProvidersDeleteOutputCallbacks:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> IntegrationsProvidersDeleteOutputCallbacks:
+        return IntegrationsProvidersDeleteOutputCallbacks(
+        object=data.get('object'),
+        status=data.get('status'),
+        callback_id=data.get('callback_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[IntegrationsProvidersDeleteOutputCallbacks, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapIntegrationsProvidersDeleteOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> IntegrationsProvidersDeleteOutput:
@@ -74,6 +97,7 @@ class mapIntegrationsProvidersDeleteOutput:
         auth_method_id=data.get('auth_method_id'),
         auth_credentials_id=data.get('auth_credentials_id'),
         config=mapIntegrationsProvidersDeleteOutputConfig.from_dict(data.get('config')) if data.get('config') else None,
+        callbacks=mapIntegrationsProvidersDeleteOutputCallbacks.from_dict(data.get('callbacks')) if data.get('callbacks') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
         archived_at=datetime.fromisoformat(data.get('archived_at').replace('Z', '+00:00')) if data.get('archived_at') else None
