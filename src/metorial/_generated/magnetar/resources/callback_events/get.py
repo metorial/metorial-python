@@ -22,6 +22,7 @@ class CallbackEventsGetOutputDetailsWebhookRequest:
 @dataclass
 class CallbackEventsGetOutputDetailsWebhook:
     object: str
+    id: str
     status: str
     received_at: datetime
     request: Optional[CallbackEventsGetOutputDetailsWebhookRequest] = None
@@ -105,6 +106,7 @@ class mapCallbackEventsGetOutputDetailsWebhook:
     def from_dict(data: Dict[str, Any]) -> CallbackEventsGetOutputDetailsWebhook:
         return CallbackEventsGetOutputDetailsWebhook(
         object=data.get('object'),
+        id=data.get('id'),
         status=data.get('status'),
         request=mapCallbackEventsGetOutputDetailsWebhookRequest.from_dict(data.get('request')) if data.get('request') else None,
         received_at=datetime.fromisoformat(data.get('received_at').replace('Z', '+00:00')) if data.get('received_at') else None

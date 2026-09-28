@@ -28,7 +28,7 @@ class MetorialDashboardOrganizationsOutpostsAccessEndpoint(BaseMetorialEndpoint)
         )
         return self._post(request).transform(mapDashboardOrganizationsOutpostsAccessSetOutput.from_dict)
 
-    def list(self, organization_id: str, outpost_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, organization_id: Optional[str] = None, instance_id: Optional[str] = None) -> DashboardOrganizationsOutpostsAccessListOutput:
+    def list(self, organization_id: str, outpost_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, instance_id: Optional[str] = None) -> DashboardOrganizationsOutpostsAccessListOutput:
         """
     List outpost access
     List the access grants on an outpost, optionally filtered by organization or instance
@@ -40,7 +40,6 @@ class MetorialDashboardOrganizationsOutpostsAccessEndpoint(BaseMetorialEndpoint)
     :param before: Optional[str] (optional)
     :param cursor: Optional[str] (optional)
     :param order: Optional[str] (optional)
-    :param organization_id: Optional[str] (optional)
     :param instance_id: Optional[str] (optional)
     :return: DashboardOrganizationsOutpostsAccessListOutput
     """
@@ -56,8 +55,6 @@ class MetorialDashboardOrganizationsOutpostsAccessEndpoint(BaseMetorialEndpoint)
             query_dict["cursor"] = cursor
         if order is not None:
             query_dict["order"] = order
-        if organization_id is not None:
-            query_dict["organization_id"] = organization_id
         if instance_id is not None:
             query_dict["instance_id"] = instance_id
 

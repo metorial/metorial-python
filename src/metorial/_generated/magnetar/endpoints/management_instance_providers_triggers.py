@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Optional, Union
 from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, MetorialRequest
-from ..resources import mapDashboardInstanceProvidersTriggersListOutput, DashboardInstanceProvidersTriggersListOutput, mapDashboardInstanceProvidersTriggersListQuery, DashboardInstanceProvidersTriggersListQuery, mapDashboardInstanceProvidersTriggersGetOutput, DashboardInstanceProvidersTriggersGetOutput
+from ..resources import mapManagementInstanceProvidersTriggersListOutput, ManagementInstanceProvidersTriggersListOutput, mapManagementInstanceProvidersTriggersListQuery, ManagementInstanceProvidersTriggersListQuery, mapDashboardInstanceProvidersTriggersGetOutput, DashboardInstanceProvidersTriggersGetOutput
 
 class MetorialManagementInstanceProvidersTriggersEndpoint(BaseMetorialEndpoint):
     """A provider trigger describes an event source a provider can emit for callbacks. Use triggers to discover which callback subscriptions a provider version supports."""
@@ -8,7 +8,7 @@ class MetorialManagementInstanceProvidersTriggersEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, *, provider_version_id: str, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None) -> DashboardInstanceProvidersTriggersListOutput:
+    def list(self, instance_id: str, *, provider_version_id: str, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None) -> ManagementInstanceProvidersTriggersListOutput:
         """
     List provider triggers
     Returns a paginated list of provider triggers for a specific provider version.
@@ -20,7 +20,7 @@ class MetorialManagementInstanceProvidersTriggersEndpoint(BaseMetorialEndpoint):
     :param cursor: Optional[str] (optional)
     :param order: Optional[str] (optional)
     :param provider_version_id: str
-    :return: DashboardInstanceProvidersTriggersListOutput
+    :return: ManagementInstanceProvidersTriggersListOutput
     """
         # Build query parameters from keyword arguments
         query_dict = {}
@@ -40,7 +40,7 @@ class MetorialManagementInstanceProvidersTriggersEndpoint(BaseMetorialEndpoint):
             path=['instances', instance_id, 'provider-triggers'],
             query=query_dict
         )
-        return self._get(request).transform(mapDashboardInstanceProvidersTriggersListOutput.from_dict)
+        return self._get(request).transform(mapManagementInstanceProvidersTriggersListOutput.from_dict)
 
     def get(self, instance_id: str, provider_trigger_id: str) -> DashboardInstanceProvidersTriggersGetOutput:
         """

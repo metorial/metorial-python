@@ -14,17 +14,14 @@ from dataclasses import dataclass
 from typing import Any
 
 from metorial._endpoint import MetorialEndpointManager
+from metorial._generated.magnetar.endpoints.callback_events import (
+  MetorialCallbackEventsEndpoint,
+)
+from metorial._generated.magnetar.endpoints.callback_instances import (
+  MetorialCallbackInstancesEndpoint,
+)
 from metorial._generated.magnetar.endpoints.callbacks import (
   MetorialCallbacksEndpoint,
-)
-from metorial._generated.magnetar.endpoints.callbacks_destinations import (
-  MetorialCallbacksDestinationsEndpoint,
-)
-from metorial._generated.magnetar.endpoints.callbacks_events import (
-  MetorialCallbacksEventsEndpoint,
-)
-from metorial._generated.magnetar.endpoints.callbacks_instances import (
-  MetorialCallbacksInstancesEndpoint,
 )
 from metorial._generated.magnetar.endpoints.custom_providers import (
   MetorialCustomProvidersEndpoint,
@@ -507,15 +504,13 @@ class MagnetarSkillsGroup(MetorialSkillsEndpoint):
 class MagnetarCallbacksGroup(MetorialCallbacksEndpoint):
   """Callbacks endpoint group with typed sub-endpoints."""
 
-  destinations: MetorialCallbacksDestinationsEndpoint
-  events: MetorialCallbacksEventsEndpoint
-  instances: MetorialCallbacksInstancesEndpoint
+  events: MetorialCallbackEventsEndpoint
+  instances: MetorialCallbackInstancesEndpoint
 
   def __init__(self, manager: MetorialEndpointManager) -> None:
     super().__init__(manager)
-    self.destinations = MetorialCallbacksDestinationsEndpoint(manager)
-    self.events = MetorialCallbacksEventsEndpoint(manager)
-    self.instances = MetorialCallbacksInstancesEndpoint(manager)
+    self.events = MetorialCallbackEventsEndpoint(manager)
+    self.instances = MetorialCallbackInstancesEndpoint(manager)
 
 
 class MagnetarMagicMcpGroup:

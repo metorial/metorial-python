@@ -4,35 +4,6 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
-class CallbackEventsListOutputItemsDetailsError:
-    object: str
-    code: str
-    message: str
-@dataclass
-class CallbackEventsListOutputItemsDetailsWebhookRequestBody:
-    encoding: str
-    content: str
-@dataclass
-class CallbackEventsListOutputItemsDetailsWebhookRequest:
-    object: str
-    method: str
-    url: str
-    headers: Dict[str, str]
-    body: Optional[CallbackEventsListOutputItemsDetailsWebhookRequestBody] = None
-@dataclass
-class CallbackEventsListOutputItemsDetailsWebhook:
-    object: str
-    status: str
-    received_at: datetime
-    request: Optional[CallbackEventsListOutputItemsDetailsWebhookRequest] = None
-@dataclass
-class CallbackEventsListOutputItemsDetails:
-    object: str
-    status: str
-    payload: Optional[Dict[str, Any]] = None
-    error: Optional[CallbackEventsListOutputItemsDetailsError] = None
-    webhook: Optional[CallbackEventsListOutputItemsDetailsWebhook] = None
-@dataclass
 class CallbackEventsListOutputItems:
     object: str
     id: str
@@ -45,7 +16,6 @@ class CallbackEventsListOutputItems:
     created_at: datetime
     mapped_type: Optional[str] = None
     mapped_id: Optional[str] = None
-    details: Optional[CallbackEventsListOutputItemsDetails] = None
 @dataclass
 class CallbackEventsListOutputPagination:
     has_more_before: bool
@@ -55,95 +25,6 @@ class CallbackEventsListOutput:
     items: List[CallbackEventsListOutputItems]
     pagination: CallbackEventsListOutputPagination
 
-
-class mapCallbackEventsListOutputItemsDetailsError:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> CallbackEventsListOutputItemsDetailsError:
-        return CallbackEventsListOutputItemsDetailsError(
-        object=data.get('object'),
-        code=data.get('code'),
-        message=data.get('message')
-        )
-
-    @staticmethod
-    def to_dict(value: Union[CallbackEventsListOutputItemsDetailsError, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapCallbackEventsListOutputItemsDetailsWebhookRequestBody:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> CallbackEventsListOutputItemsDetailsWebhookRequestBody:
-        return CallbackEventsListOutputItemsDetailsWebhookRequestBody(
-        encoding=data.get('encoding'),
-        content=data.get('content')
-        )
-
-    @staticmethod
-    def to_dict(value: Union[CallbackEventsListOutputItemsDetailsWebhookRequestBody, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapCallbackEventsListOutputItemsDetailsWebhookRequest:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> CallbackEventsListOutputItemsDetailsWebhookRequest:
-        return CallbackEventsListOutputItemsDetailsWebhookRequest(
-        object=data.get('object'),
-        method=data.get('method'),
-        url=data.get('url'),
-        headers=data.get('headers'),
-        body=mapCallbackEventsListOutputItemsDetailsWebhookRequestBody.from_dict(data.get('body')) if data.get('body') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[CallbackEventsListOutputItemsDetailsWebhookRequest, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapCallbackEventsListOutputItemsDetailsWebhook:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> CallbackEventsListOutputItemsDetailsWebhook:
-        return CallbackEventsListOutputItemsDetailsWebhook(
-        object=data.get('object'),
-        status=data.get('status'),
-        request=mapCallbackEventsListOutputItemsDetailsWebhookRequest.from_dict(data.get('request')) if data.get('request') else None,
-        received_at=datetime.fromisoformat(data.get('received_at').replace('Z', '+00:00')) if data.get('received_at') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[CallbackEventsListOutputItemsDetailsWebhook, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapCallbackEventsListOutputItemsDetails:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> CallbackEventsListOutputItemsDetails:
-        return CallbackEventsListOutputItemsDetails(
-        object=data.get('object'),
-        status=data.get('status'),
-        payload=data.get('payload'),
-        error=mapCallbackEventsListOutputItemsDetailsError.from_dict(data.get('error')) if data.get('error') else None,
-        webhook=mapCallbackEventsListOutputItemsDetailsWebhook.from_dict(data.get('webhook')) if data.get('webhook') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[CallbackEventsListOutputItemsDetails, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
 
 class mapCallbackEventsListOutputItems:
     @staticmethod
@@ -158,7 +39,6 @@ class mapCallbackEventsListOutputItems:
         mapped_id=data.get('mapped_id'),
         callback_id=data.get('callback_id'),
         callback_instance_id=data.get('callback_instance_id'),
-        details=mapCallbackEventsListOutputItemsDetails.from_dict(data.get('details')) if data.get('details') else None,
         occurred_at=datetime.fromisoformat(data.get('occurred_at').replace('Z', '+00:00')) if data.get('occurred_at') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )

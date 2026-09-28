@@ -8,7 +8,7 @@ class MetorialCallbacksEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, integration_id: Optional[Union[str, List[str]]] = None, integration_provider_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, status: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceCallbacksListOutput:
+    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, integration_id: Optional[Union[str, List[str]]] = None, integration_provider_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, search: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceCallbacksListOutput:
         """
     List callbacks
     Returns a paginated list of callbacks.
@@ -22,6 +22,7 @@ class MetorialCallbacksEndpoint(BaseMetorialEndpoint):
     :param integration_id: Optional[Union[str, List[str]]] (optional)
     :param integration_provider_id: Optional[Union[str, List[str]]] (optional)
     :param provider_id: Optional[Union[str, List[str]]] (optional)
+    :param search: Optional[str] (optional)
     :param status: Optional[Union[str, List[str]]] (optional)
     :param created_at: Optional[Dict[str, Any]] (optional)
     :param updated_at: Optional[Dict[str, Any]] (optional)
@@ -47,6 +48,8 @@ class MetorialCallbacksEndpoint(BaseMetorialEndpoint):
             query_dict["integration_provider_id"] = integration_provider_id
         if provider_id is not None:
             query_dict["provider_id"] = provider_id
+        if search is not None:
+            query_dict["search"] = search
         if status is not None:
             query_dict["status"] = status
         if created_at is not None:
