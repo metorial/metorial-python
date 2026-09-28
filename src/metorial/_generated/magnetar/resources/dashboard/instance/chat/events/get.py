@@ -9,9 +9,10 @@ class DashboardInstanceChatEventsGetOutput:
     id: str
     type: str
     source: str
-    chat_id: str
+    chat_connection_id: str
     occurred_at: datetime
     created_at: datetime
+    chat_id: Optional[str] = None
     channel_id: Optional[str] = None
     thread_id: Optional[str] = None
     message_id: Optional[str] = None
@@ -32,6 +33,7 @@ class mapDashboardInstanceChatEventsGetOutput:
         id=data.get('id'),
         type=data.get('type'),
         source=data.get('source'),
+        chat_connection_id=data.get('chat_connection_id'),
         chat_id=data.get('chat_id'),
         channel_id=data.get('channel_id'),
         thread_id=data.get('thread_id'),

@@ -173,6 +173,8 @@ from .dashboard_instance_stores_participants import *
 from .dashboard_instance_stores_permissions import *
 from .dashboard_instance_tool_calls import *
 from .dashboard_organizations_api_keys import *
+from .dashboard_organizations_event_deliveries import *
+from .dashboard_organizations_event_delivery_attempts import *
 from .dashboard_organizations_event_destination_listeners import *
 from .dashboard_organizations_event_destinations import *
 from .dashboard_organizations_events import *
@@ -347,6 +349,8 @@ from .management_instance_stores_participants import *
 from .management_instance_stores_permissions import *
 from .management_instance_tool_calls import *
 from .management_organization_api_keys import *
+from .management_organization_event_deliveries import *
+from .management_organization_event_delivery_attempts import *
 from .management_organization_event_destination_listeners import *
 from .management_organization_event_destinations import *
 from .management_organization_events import *

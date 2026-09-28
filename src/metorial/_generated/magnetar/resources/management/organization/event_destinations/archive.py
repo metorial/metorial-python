@@ -9,6 +9,12 @@ class ManagementOrganizationEventDestinationsArchiveOutputWebhook:
     method: str
     signing_secret: Optional[str] = None
 @dataclass
+class ManagementOrganizationEventDestinationsArchiveOutputRetry:
+    strategy: str
+    max_attempts: float
+    base_delay_seconds: float
+    max_delay_seconds: float
+@dataclass
 class ManagementOrganizationEventDestinationsArchiveOutputListeners:
     object: str
     id: str
@@ -20,7 +26,8 @@ class ManagementOrganizationEventDestinationsArchiveOutputListeners:
     event_types: Optional[List[str]] = None
     callback_id: Optional[str] = None
     triggers: Optional[List[str]] = None
-    chat_integration_id: Optional[str] = None
+    chat_connection_id: Optional[str] = None
+    provider_id: Optional[str] = None
 @dataclass
 class ManagementOrganizationEventDestinationsArchiveOutput:
     object: str
@@ -29,6 +36,7 @@ class ManagementOrganizationEventDestinationsArchiveOutput:
     name: str
     status: str
     type: str
+    retry: ManagementOrganizationEventDestinationsArchiveOutputRetry
     listeners: List[ManagementOrganizationEventDestinationsArchiveOutputListeners]
     created_at: datetime
     updated_at: datetime
@@ -54,6 +62,24 @@ class mapManagementOrganizationEventDestinationsArchiveOutputWebhook:
             return value
         return dataclasses.asdict(value)
 
+class mapManagementOrganizationEventDestinationsArchiveOutputRetry:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementOrganizationEventDestinationsArchiveOutputRetry:
+        return ManagementOrganizationEventDestinationsArchiveOutputRetry(
+        strategy=data.get('strategy'),
+        max_attempts=data.get('max_attempts'),
+        base_delay_seconds=data.get('base_delay_seconds'),
+        max_delay_seconds=data.get('max_delay_seconds')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementOrganizationEventDestinationsArchiveOutputRetry, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapManagementOrganizationEventDestinationsArchiveOutputListeners:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementOrganizationEventDestinationsArchiveOutputListeners:
@@ -66,7 +92,8 @@ class mapManagementOrganizationEventDestinationsArchiveOutputListeners:
         event_types=data.get('event_types', []),
         callback_id=data.get('callback_id'),
         triggers=data.get('triggers', []),
-        chat_integration_id=data.get('chat_integration_id'),
+        chat_connection_id=data.get('chat_connection_id'),
+        provider_id=data.get('provider_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -91,6 +118,7 @@ class mapManagementOrganizationEventDestinationsArchiveOutput:
         status=data.get('status'),
         type=data.get('type'),
         webhook=mapManagementOrganizationEventDestinationsArchiveOutputWebhook.from_dict(data.get('webhook')) if data.get('webhook') else None,
+        retry=mapManagementOrganizationEventDestinationsArchiveOutputRetry.from_dict(data.get('retry')) if data.get('retry') else None,
         listeners=[mapManagementOrganizationEventDestinationsArchiveOutputListeners.from_dict(item) for item in data.get('listeners', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,

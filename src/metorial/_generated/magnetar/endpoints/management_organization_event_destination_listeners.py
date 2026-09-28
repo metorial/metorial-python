@@ -3,12 +3,12 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardOrganizationsEventDestinationListenersListOutput, DashboardOrganizationsEventDestinationListenersListOutput, mapDashboardOrganizationsEventDestinationListenersListQuery, DashboardOrganizationsEventDestinationListenersListQuery, mapDashboardOrganizationsEventDestinationListenersGetOutput, DashboardOrganizationsEventDestinationListenersGetOutput, mapDashboardOrganizationsEventDestinationListenersCreateOutput, DashboardOrganizationsEventDestinationListenersCreateOutput, mapDashboardOrganizationsEventDestinationListenersCreateBody, DashboardOrganizationsEventDestinationListenersCreateBody, mapDashboardOrganizationsEventDestinationListenersUpdateOutput, DashboardOrganizationsEventDestinationListenersUpdateOutput, mapDashboardOrganizationsEventDestinationListenersUpdateBody, DashboardOrganizationsEventDestinationListenersUpdateBody, mapDashboardOrganizationsEventDestinationListenersDeleteOutput, DashboardOrganizationsEventDestinationListenersDeleteOutput
 
 class MetorialManagementOrganizationEventDestinationListenersEndpoint(BaseMetorialEndpoint):
-    """Event destination listeners subscribe an event destination to events for a specific instance — generic resource events, a callback's trigger events, or a chat integration's events."""
+    """Event destination listeners subscribe an event destination to events for a specific instance — generic resource events, a callback's trigger events, or a chat connection's events."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, event_destination_id: Optional[Union[str, List[str]]] = None, instance_id: Optional[Union[str, List[str]]] = None, callback_id: Optional[Union[str, List[str]]] = None, chat_integration_id: Optional[Union[str, List[str]]] = None, type: Optional[Union[str, List[str]]] = None) -> DashboardOrganizationsEventDestinationListenersListOutput:
+    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, event_destination_id: Optional[Union[str, List[str]]] = None, instance_id: Optional[Union[str, List[str]]] = None, callback_id: Optional[Union[str, List[str]]] = None, chat_connection_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, type: Optional[Union[str, List[str]]] = None) -> DashboardOrganizationsEventDestinationListenersListOutput:
         """
     List event destination listeners
     Returns a paginated list of event destination listeners for the organization.
@@ -21,7 +21,8 @@ class MetorialManagementOrganizationEventDestinationListenersEndpoint(BaseMetori
     :param event_destination_id: Optional[Union[str, List[str]]] (optional)
     :param instance_id: Optional[Union[str, List[str]]] (optional)
     :param callback_id: Optional[Union[str, List[str]]] (optional)
-    :param chat_integration_id: Optional[Union[str, List[str]]] (optional)
+    :param chat_connection_id: Optional[Union[str, List[str]]] (optional)
+    :param provider_id: Optional[Union[str, List[str]]] (optional)
     :param type: Optional[Union[str, List[str]]] (optional)
     :return: DashboardOrganizationsEventDestinationListenersListOutput
     """
@@ -43,8 +44,10 @@ class MetorialManagementOrganizationEventDestinationListenersEndpoint(BaseMetori
             query_dict["instance_id"] = instance_id
         if callback_id is not None:
             query_dict["callback_id"] = callback_id
-        if chat_integration_id is not None:
-            query_dict["chat_integration_id"] = chat_integration_id
+        if chat_connection_id is not None:
+            query_dict["chat_connection_id"] = chat_connection_id
+        if provider_id is not None:
+            query_dict["provider_id"] = provider_id
         if type is not None:
             query_dict["type"] = type
 
@@ -70,7 +73,7 @@ class MetorialManagementOrganizationEventDestinationListenersEndpoint(BaseMetori
     def create(self) -> DashboardOrganizationsEventDestinationListenersCreateOutput:
         """
     Create event destination listener
-    Subscribes an event destination to events for this instance — generic resource events, a callback's trigger events, or a chat integration's events.
+    Subscribes an event destination to events for this instance — generic resource events, a callback's trigger events, or a chat connection's events.
 
 
     :return: DashboardOrganizationsEventDestinationListenersCreateOutput

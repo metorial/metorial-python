@@ -309,6 +309,7 @@ class ProviderDeploymentsAuthConfigsListQuery:
     consumer_id: Optional[Union[str, List[str]]] = None
     identity_id: Optional[Union[str, List[str]]] = None
     identity_credential_id: Optional[Union[str, List[str]]] = None
+    adapter: Optional[str] = None
     search: Optional[str] = None
     created_at: Optional[ProviderDeploymentsAuthConfigsListQueryCreatedAt] = None
     updated_at: Optional[ProviderDeploymentsAuthConfigsListQueryUpdatedAt] = None
@@ -335,6 +336,7 @@ class mapProviderDeploymentsAuthConfigsListQuery:
         consumer_id=data.get('consumer_id'),
         identity_id=data.get('identity_id'),
         identity_credential_id=data.get('identity_credential_id'),
+        adapter=data.get('adapter'),
         search=data.get('search'),
         created_at=mapProviderDeploymentsAuthConfigsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
         updated_at=mapProviderDeploymentsAuthConfigsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None

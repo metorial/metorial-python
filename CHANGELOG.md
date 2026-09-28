@@ -5,6 +5,12 @@ All notable changes to the Metorial Python SDK will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.1] - 2026-09-27
+
+### Changed
+
+- Hardened how the Autogen integration builds tools. `create_autogen_tools()` now constructs each tool wrapper from an explicit `inspect.Signature` instead of assembling and compiling a source string, so tool metadata returned by an MCP server (name, description, and JSON-schema property names) is only ever handled as data. Tool and parameter names are also validated (`^[A-Za-z_][A-Za-z0-9_]{0,63}$`, excluding Python keywords and reserved names); a tool with an unusable name is skipped with a logged warning. Behavior is unchanged for well-formed tools.
+
 ## [2.4.0] - 2026-07-05
 
 This release contains breaking API and packaging changes.

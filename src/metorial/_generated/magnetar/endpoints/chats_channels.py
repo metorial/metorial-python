@@ -8,7 +8,7 @@ class MetorialChatsChannelsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, chat_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, workspace_id: Optional[str] = None, type: Optional[str] = None, search: Optional[str] = None) -> DashboardInstanceChatsChannelsListOutput:
+    def list(self, chat_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, workspace_id: Optional[str] = None, type: Optional[str] = None, search: Optional[str] = None, has_access: Optional[bool] = None) -> DashboardInstanceChatsChannelsListOutput:
         """
     List chat channels
     Returns a paginated list of channels for a chat.
@@ -22,6 +22,7 @@ class MetorialChatsChannelsEndpoint(BaseMetorialEndpoint):
     :param workspace_id: Optional[str] (optional)
     :param type: Optional[str] (optional)
     :param search: Optional[str] (optional)
+    :param has_access: Optional[bool] (optional)
     :return: DashboardInstanceChatsChannelsListOutput
     """
         # Build query parameters from keyword arguments
@@ -42,6 +43,8 @@ class MetorialChatsChannelsEndpoint(BaseMetorialEndpoint):
             query_dict["type"] = type
         if search is not None:
             query_dict["search"] = search
+        if has_access is not None:
+            query_dict["has_access"] = has_access
 
         request = MetorialRequest(
             path=['chats', chat_id, 'channels'],

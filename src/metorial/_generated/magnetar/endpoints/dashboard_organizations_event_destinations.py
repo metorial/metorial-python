@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Optional, Union
 from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, MetorialRequest
-from ..resources import mapDashboardOrganizationsEventDestinationsListOutput, DashboardOrganizationsEventDestinationsListOutput, mapDashboardOrganizationsEventDestinationsListQuery, DashboardOrganizationsEventDestinationsListQuery, mapDashboardOrganizationsEventDestinationsGetOutput, DashboardOrganizationsEventDestinationsGetOutput, mapDashboardOrganizationsEventDestinationsCreateOutput, DashboardOrganizationsEventDestinationsCreateOutput, mapDashboardOrganizationsEventDestinationsCreateBody, DashboardOrganizationsEventDestinationsCreateBody, mapDashboardOrganizationsEventDestinationsUpdateOutput, DashboardOrganizationsEventDestinationsUpdateOutput, mapDashboardOrganizationsEventDestinationsUpdateBody, DashboardOrganizationsEventDestinationsUpdateBody, mapDashboardOrganizationsEventDestinationsArchiveOutput, DashboardOrganizationsEventDestinationsArchiveOutput, mapDashboardOrganizationsEventDestinationsRotateWebhookSecretOutput, DashboardOrganizationsEventDestinationsRotateWebhookSecretOutput
+from ..resources import mapDashboardOrganizationsEventDestinationsListOutput, DashboardOrganizationsEventDestinationsListOutput, mapDashboardOrganizationsEventDestinationsListQuery, DashboardOrganizationsEventDestinationsListQuery, mapDashboardOrganizationsEventDestinationsGetOutput, DashboardOrganizationsEventDestinationsGetOutput, mapDashboardOrganizationsEventDestinationsCreateOutput, DashboardOrganizationsEventDestinationsCreateOutput, mapDashboardOrganizationsEventDestinationsCreateBody, DashboardOrganizationsEventDestinationsCreateBody, mapDashboardOrganizationsEventDestinationsUpdateOutput, DashboardOrganizationsEventDestinationsUpdateOutput, mapDashboardOrganizationsEventDestinationsUpdateBody, DashboardOrganizationsEventDestinationsUpdateBody, mapDashboardOrganizationsEventDestinationsArchiveOutput, DashboardOrganizationsEventDestinationsArchiveOutput, mapDashboardOrganizationsEventDestinationsRotateWebhookSecretOutput, DashboardOrganizationsEventDestinationsRotateWebhookSecretOutput, mapDashboardOrganizationsEventDestinationsPingOutput, DashboardOrganizationsEventDestinationsPingOutput
 
 class MetorialDashboardOrganizationsEventDestinationsEndpoint(BaseMetorialEndpoint):
     """Event destinations are where Metorial delivers system events for your organization. Webhooks are currently the only supported delivery type."""
@@ -8,7 +8,7 @@ class MetorialDashboardOrganizationsEventDestinationsEndpoint(BaseMetorialEndpoi
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, organization_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None) -> DashboardOrganizationsEventDestinationsListOutput:
+    def list(self, organization_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, callback_id: Optional[Union[str, List[str]]] = None, chat_connection_id: Optional[Union[str, List[str]]] = None, search: Optional[str] = None) -> DashboardOrganizationsEventDestinationsListOutput:
         """
     List event destinations
     List all event destinations configured for the organization
@@ -20,6 +20,9 @@ class MetorialDashboardOrganizationsEventDestinationsEndpoint(BaseMetorialEndpoi
     :param cursor: Optional[str] (optional)
     :param order: Optional[str] (optional)
     :param status: Optional[Union[str, List[str]]] (optional)
+    :param callback_id: Optional[Union[str, List[str]]] (optional)
+    :param chat_connection_id: Optional[Union[str, List[str]]] (optional)
+    :param search: Optional[str] (optional)
     :return: DashboardOrganizationsEventDestinationsListOutput
     """
         # Build query parameters from keyword arguments
@@ -36,6 +39,12 @@ class MetorialDashboardOrganizationsEventDestinationsEndpoint(BaseMetorialEndpoi
             query_dict["order"] = order
         if status is not None:
             query_dict["status"] = status
+        if callback_id is not None:
+            query_dict["callback_id"] = callback_id
+        if chat_connection_id is not None:
+            query_dict["chat_connection_id"] = chat_connection_id
+        if search is not None:
+            query_dict["search"] = search
 
         request = MetorialRequest(
             path=['dashboard', 'organizations', organization_id, 'event-destinations'],
@@ -57,7 +66,7 @@ class MetorialDashboardOrganizationsEventDestinationsEndpoint(BaseMetorialEndpoi
         )
         return self._get(request).transform(mapDashboardOrganizationsEventDestinationsGetOutput.from_dict)
 
-    def create(self, organization_id: str, *, name: str, type: Any, webhook: Dict[str, Any], description: Optional[str] = None) -> DashboardOrganizationsEventDestinationsCreateOutput:
+    def create(self, organization_id: str, *, name: str, type: Any, webhook: Dict[str, Any], description: Optional[str] = None, retry: Optional[Dict[str, Any]] = None) -> DashboardOrganizationsEventDestinationsCreateOutput:
         """
     Create event destination
     Create an event destination for the organization
@@ -67,6 +76,7 @@ class MetorialDashboardOrganizationsEventDestinationsEndpoint(BaseMetorialEndpoi
     :param description: Optional[str] (optional)
     :param type: Any
     :param webhook: Dict[str, Any]
+    :param retry: Optional[Dict[str, Any]] (optional)
     :return: DashboardOrganizationsEventDestinationsCreateOutput
     """
         # Build body parameters from keyword arguments
@@ -76,6 +86,8 @@ class MetorialDashboardOrganizationsEventDestinationsEndpoint(BaseMetorialEndpoi
             body_dict["description"] = description
         body_dict["type"] = type
         body_dict["webhook"] = webhook
+        if retry is not None:
+            body_dict["retry"] = retry
 
         request = MetorialRequest(
             path=['dashboard', 'organizations', organization_id, 'event-destinations'],
@@ -83,7 +95,7 @@ class MetorialDashboardOrganizationsEventDestinationsEndpoint(BaseMetorialEndpoi
         )
         return self._post(request).transform(mapDashboardOrganizationsEventDestinationsCreateOutput.from_dict)
 
-    def update(self, organization_id: str, event_destination_id: str, *, name: Optional[str] = None, description: Optional[str] = None, webhook: Optional[Dict[str, Any]] = None) -> DashboardOrganizationsEventDestinationsUpdateOutput:
+    def update(self, organization_id: str, event_destination_id: str, *, name: Optional[str] = None, description: Optional[str] = None, webhook: Optional[Dict[str, Any]] = None, retry: Optional[Dict[str, Any]] = None) -> DashboardOrganizationsEventDestinationsUpdateOutput:
         """
     Update event destination
     Update an event destination configured for the organization
@@ -93,6 +105,7 @@ class MetorialDashboardOrganizationsEventDestinationsEndpoint(BaseMetorialEndpoi
     :param name: Optional[str] (optional)
     :param description: Optional[str] (optional)
     :param webhook: Optional[Dict[str, Any]] (optional)
+    :param retry: Optional[Dict[str, Any]] (optional)
     :return: DashboardOrganizationsEventDestinationsUpdateOutput
     """
         # Build body parameters from keyword arguments
@@ -103,6 +116,8 @@ class MetorialDashboardOrganizationsEventDestinationsEndpoint(BaseMetorialEndpoi
             body_dict["description"] = description
         if webhook is not None:
             body_dict["webhook"] = webhook
+        if retry is not None:
+            body_dict["retry"] = retry
 
         request = MetorialRequest(
             path=['dashboard', 'organizations', organization_id, 'event-destinations', event_destination_id],
@@ -137,3 +152,17 @@ class MetorialDashboardOrganizationsEventDestinationsEndpoint(BaseMetorialEndpoi
             path=['dashboard', 'organizations', organization_id, 'event-destinations', event_destination_id, 'rotate-webhook-secret']
         )
         return self._post(request).transform(mapDashboardOrganizationsEventDestinationsRotateWebhookSecretOutput.from_dict)
+
+    def ping(self, organization_id: str, event_destination_id: str) -> DashboardOrganizationsEventDestinationsPingOutput:
+        """
+    Ping event destination
+    Sends a test delivery to this event destination immediately, regardless of its listeners. The ping goes through the normal delivery/retry pipeline and shows up in delivery history.
+
+    :param organization_id: str
+    :param event_destination_id: str
+    :return: DashboardOrganizationsEventDestinationsPingOutput
+    """
+        request = MetorialRequest(
+            path=['dashboard', 'organizations', organization_id, 'event-destinations', event_destination_id, 'ping']
+        )
+        return self._post(request).transform(mapDashboardOrganizationsEventDestinationsPingOutput.from_dict)

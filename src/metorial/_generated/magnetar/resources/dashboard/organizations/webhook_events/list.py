@@ -7,6 +7,7 @@ import dataclasses
 class DashboardOrganizationsWebhookEventsListOutputItems:
     object: str
     name: str
+    description: str
 @dataclass
 class DashboardOrganizationsWebhookEventsListOutputPagination:
     has_more_before: bool
@@ -22,7 +23,8 @@ class mapDashboardOrganizationsWebhookEventsListOutputItems:
     def from_dict(data: Dict[str, Any]) -> DashboardOrganizationsWebhookEventsListOutputItems:
         return DashboardOrganizationsWebhookEventsListOutputItems(
         object=data.get('object'),
-        name=data.get('name')
+        name=data.get('name'),
+        description=data.get('description')
         )
 
     @staticmethod

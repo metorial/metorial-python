@@ -823,6 +823,13 @@ from .endpoints import *
 # DashboardOrganizationsApiKeysRotateOutput
 # DashboardOrganizationsApiKeysUpdateBody
 # DashboardOrganizationsApiKeysUpdateOutput
+# DashboardOrganizationsEventDeliveriesGetOutput
+# DashboardOrganizationsEventDeliveriesListOutput
+# DashboardOrganizationsEventDeliveriesListQuery
+# DashboardOrganizationsEventDeliveriesRetryOutput
+# DashboardOrganizationsEventDeliveryAttemptsGetOutput
+# DashboardOrganizationsEventDeliveryAttemptsListOutput
+# DashboardOrganizationsEventDeliveryAttemptsListQuery
 # DashboardOrganizationsEventDestinationListenersCreateBody
 # DashboardOrganizationsEventDestinationListenersCreateOutput
 # DashboardOrganizationsEventDestinationListenersDeleteOutput
@@ -837,6 +844,7 @@ from .endpoints import *
 # DashboardOrganizationsEventDestinationsGetOutput
 # DashboardOrganizationsEventDestinationsListOutput
 # DashboardOrganizationsEventDestinationsListQuery
+# DashboardOrganizationsEventDestinationsPingOutput
 # DashboardOrganizationsEventDestinationsRotateWebhookSecretOutput
 # DashboardOrganizationsEventDestinationsUpdateBody
 # DashboardOrganizationsEventDestinationsUpdateOutput
@@ -867,6 +875,8 @@ from .endpoints import *
 # DashboardOrganizationsWebhookEventsListOutput
 # InstancesGetOutput
 # InstancesListOutput
+# ManagementInstanceProvidersTriggersListOutput
+# ManagementInstanceProvidersTriggersListQuery
 # TestHelpersConsumerOauthAuthorizationsCreateBody
 # TestHelpersConsumerOauthAuthorizationsCreateOutput
 # TokenGetOutput
@@ -1689,6 +1699,13 @@ from .endpoints import *
 # mapDashboardOrganizationsApiKeysRotateOutput
 # mapDashboardOrganizationsApiKeysUpdateBody
 # mapDashboardOrganizationsApiKeysUpdateOutput
+# mapDashboardOrganizationsEventDeliveriesGetOutput
+# mapDashboardOrganizationsEventDeliveriesListOutput
+# mapDashboardOrganizationsEventDeliveriesListQuery
+# mapDashboardOrganizationsEventDeliveriesRetryOutput
+# mapDashboardOrganizationsEventDeliveryAttemptsGetOutput
+# mapDashboardOrganizationsEventDeliveryAttemptsListOutput
+# mapDashboardOrganizationsEventDeliveryAttemptsListQuery
 # mapDashboardOrganizationsEventDestinationListenersCreateBody
 # mapDashboardOrganizationsEventDestinationListenersCreateOutput
 # mapDashboardOrganizationsEventDestinationListenersDeleteOutput
@@ -1703,6 +1720,7 @@ from .endpoints import *
 # mapDashboardOrganizationsEventDestinationsGetOutput
 # mapDashboardOrganizationsEventDestinationsListOutput
 # mapDashboardOrganizationsEventDestinationsListQuery
+# mapDashboardOrganizationsEventDestinationsPingOutput
 # mapDashboardOrganizationsEventDestinationsRotateWebhookSecretOutput
 # mapDashboardOrganizationsEventDestinationsUpdateBody
 # mapDashboardOrganizationsEventDestinationsUpdateOutput
@@ -1733,6 +1751,8 @@ from .endpoints import *
 # mapDashboardOrganizationsWebhookEventsListOutput
 # mapInstancesGetOutput
 # mapInstancesListOutput
+# mapManagementInstanceProvidersTriggersListOutput
+# mapManagementInstanceProvidersTriggersListQuery
 # mapTestHelpersConsumerOauthAuthorizationsCreateBody
 # mapTestHelpersConsumerOauthAuthorizationsCreateOutput
 # mapTokenGetOutput
