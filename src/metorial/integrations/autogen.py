@@ -189,7 +189,17 @@ def create_autogen_tools(session: ProviderSession) -> list[Any]:
     for prop_name, prop_schema in required_props + optional_props:
       if not isinstance(prop_schema, dict):
         prop_schema = {}
-      py_type = type_map.get(prop_schema.get("type"), str)
+      # JSON Schema "type" may be a string or a list (e.g. ["string", "null"]
+      # for a nullable field). Normalize to a single hashable key before the
+      # lookup so a list type never raises TypeError and aborts the build.
+      json_type = prop_schema.get("type")
+      if isinstance(json_type, list):
+        json_type = next(
+          (t for t in json_type if isinstance(t, str) and t != "null"), None
+        )
+      if not isinstance(json_type, str):
+        json_type = None
+      py_type = type_map.get(json_type, str)
       if prop_name in required_params:
         params.append(
           inspect.Parameter(

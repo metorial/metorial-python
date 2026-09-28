@@ -205,6 +205,46 @@ async def test_normal_tool_signature_and_execution(autogen_mod):
   assert manager.calls == [("list-issues", {"q": "hi", "limit": 5})]
 
 
+def test_union_list_schema_type_does_not_abort_build(autogen_mod):
+  """A JSON-schema "type" list (e.g. ["string", "null"]) must not crash the loop.
+
+  A single nullable field previously raised TypeError (unhashable list key) and
+  dropped every tool; it should map to the concrete type and leave other tools
+  intact.
+  """
+  nullable = StubTool(
+    "nullable-tool",
+    "Has a nullable field.",
+    {
+      "type": "object",
+      "properties": {
+        "name": {"type": ["string", "null"]},
+        "count": {"type": ["integer", "null"]},
+        "weird": {"type": []},  # degenerate: no concrete type -> falls back to str
+      },
+      "required": ["name"],
+    },
+  )
+  plain = StubTool("plain-tool", "Plain.", {"properties": {"q": {"type": "string"}}})
+
+  _, built = _build(autogen_mod, [nullable, plain])
+
+  # Both tools survive; the nullable field did not abort the whole build.
+  names = {t.name for t in built}
+  assert names == {"nullable_tool", "plain_tool"}
+
+  ft = next(t for t in built if t.name == "nullable_tool")
+  sig = inspect.signature(ft.func)
+  # "string" chosen from ["string", "null"]; required -> no default.
+  assert sig.parameters["name"].annotation is str
+  assert sig.parameters["name"].default is inspect.Parameter.empty
+  # "integer" chosen from ["integer", "null"]; optional -> int | None, default None.
+  assert sig.parameters["count"].annotation == (int | None)
+  assert sig.parameters["count"].default is None
+  # Empty type list -> str fallback.
+  assert sig.parameters["weird"].annotation == (str | None)
+
+
 def test_none_tool_manager_returns_empty(autogen_mod):
   autogen_mod.FunctionTool = RecordingFunctionTool
   assert autogen_mod.create_autogen_tools(StubSession(None)) == []
