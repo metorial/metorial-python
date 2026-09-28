@@ -73,7 +73,7 @@ class MetorialIntegrationsEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapDashboardInstanceIntegrationsGetOutput.from_dict)
 
-    def create(self, *, name: str, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, use_integration_name_in_tool_names: Optional[bool] = None, can_attach_custom_tool_filters: Optional[bool] = None, can_attach_custom_provider_config: Optional[bool] = None, can_override_tool_filters: Optional[bool] = None) -> DashboardInstanceIntegrationsCreateOutput:
+    def create(self, *, name: str, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, use_integration_name_in_tool_names: Optional[bool] = None, can_attach_custom_tool_filters: Optional[bool] = None, can_attach_custom_provider_config: Optional[bool] = None, can_override_tool_filters: Optional[bool] = None, enable_callback_tools: Optional[bool] = None) -> DashboardInstanceIntegrationsCreateOutput:
         """
     Create integration
     Creates a new integration.
@@ -85,6 +85,7 @@ class MetorialIntegrationsEndpoint(BaseMetorialEndpoint):
     :param can_attach_custom_tool_filters: Optional[bool] (optional)
     :param can_attach_custom_provider_config: Optional[bool] (optional)
     :param can_override_tool_filters: Optional[bool] (optional)
+    :param enable_callback_tools: Optional[bool] (optional)
     :return: DashboardInstanceIntegrationsCreateOutput
     """
         # Build body parameters from keyword arguments
@@ -102,6 +103,8 @@ class MetorialIntegrationsEndpoint(BaseMetorialEndpoint):
             body_dict["can_attach_custom_provider_config"] = can_attach_custom_provider_config
         if can_override_tool_filters is not None:
             body_dict["can_override_tool_filters"] = can_override_tool_filters
+        if enable_callback_tools is not None:
+            body_dict["enable_callback_tools"] = enable_callback_tools
 
         request = MetorialRequest(
             path=['integrations'],
@@ -109,7 +112,7 @@ class MetorialIntegrationsEndpoint(BaseMetorialEndpoint):
         )
         return self._post(request).transform(mapDashboardInstanceIntegrationsCreateOutput.from_dict)
 
-    def update(self, integration_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, use_integration_name_in_tool_names: Optional[bool] = None, can_attach_custom_tool_filters: Optional[bool] = None, can_attach_custom_provider_config: Optional[bool] = None, can_override_tool_filters: Optional[bool] = None) -> DashboardInstanceIntegrationsUpdateOutput:
+    def update(self, integration_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, use_integration_name_in_tool_names: Optional[bool] = None, can_attach_custom_tool_filters: Optional[bool] = None, can_attach_custom_provider_config: Optional[bool] = None, can_override_tool_filters: Optional[bool] = None, enable_callback_tools: Optional[bool] = None) -> DashboardInstanceIntegrationsUpdateOutput:
         """
     Update integration
     Updates a specific integration.
@@ -122,6 +125,7 @@ class MetorialIntegrationsEndpoint(BaseMetorialEndpoint):
     :param can_attach_custom_tool_filters: Optional[bool] (optional)
     :param can_attach_custom_provider_config: Optional[bool] (optional)
     :param can_override_tool_filters: Optional[bool] (optional)
+    :param enable_callback_tools: Optional[bool] (optional)
     :return: DashboardInstanceIntegrationsUpdateOutput
     """
         # Build body parameters from keyword arguments
@@ -140,6 +144,8 @@ class MetorialIntegrationsEndpoint(BaseMetorialEndpoint):
             body_dict["can_attach_custom_provider_config"] = can_attach_custom_provider_config
         if can_override_tool_filters is not None:
             body_dict["can_override_tool_filters"] = can_override_tool_filters
+        if enable_callback_tools is not None:
+            body_dict["enable_callback_tools"] = enable_callback_tools
 
         request = MetorialRequest(
             path=['integrations', integration_id],

@@ -128,12 +128,13 @@ class mapDashboardInstanceProvidersTriggersListOutput:
 
 @dataclass
 class DashboardInstanceProvidersTriggersListQuery:
-    provider_version_id: str
     limit: Optional[float] = None
     after: Optional[str] = None
     before: Optional[str] = None
     cursor: Optional[str] = None
     order: Optional[str] = None
+    provider_version_id: Optional[str] = None
+    user_managed_callbacks: Optional[bool] = None
 
 
 class mapDashboardInstanceProvidersTriggersListQuery:
@@ -145,7 +146,8 @@ class mapDashboardInstanceProvidersTriggersListQuery:
         before=data.get('before'),
         cursor=data.get('cursor'),
         order=data.get('order'),
-        provider_version_id=data.get('provider_version_id')
+        provider_version_id=data.get('provider_version_id'),
+        user_managed_callbacks=data.get('user_managed_callbacks')
         )
 
     @staticmethod

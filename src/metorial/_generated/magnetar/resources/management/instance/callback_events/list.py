@@ -4,35 +4,6 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
-class ManagementInstanceCallbackEventsListOutputItemsDetailsError:
-    object: str
-    code: str
-    message: str
-@dataclass
-class ManagementInstanceCallbackEventsListOutputItemsDetailsWebhookRequestBody:
-    encoding: str
-    content: str
-@dataclass
-class ManagementInstanceCallbackEventsListOutputItemsDetailsWebhookRequest:
-    object: str
-    method: str
-    url: str
-    headers: Dict[str, str]
-    body: Optional[ManagementInstanceCallbackEventsListOutputItemsDetailsWebhookRequestBody] = None
-@dataclass
-class ManagementInstanceCallbackEventsListOutputItemsDetailsWebhook:
-    object: str
-    status: str
-    received_at: datetime
-    request: Optional[ManagementInstanceCallbackEventsListOutputItemsDetailsWebhookRequest] = None
-@dataclass
-class ManagementInstanceCallbackEventsListOutputItemsDetails:
-    object: str
-    status: str
-    payload: Optional[Dict[str, Any]] = None
-    error: Optional[ManagementInstanceCallbackEventsListOutputItemsDetailsError] = None
-    webhook: Optional[ManagementInstanceCallbackEventsListOutputItemsDetailsWebhook] = None
-@dataclass
 class ManagementInstanceCallbackEventsListOutputItems:
     object: str
     id: str
@@ -45,7 +16,6 @@ class ManagementInstanceCallbackEventsListOutputItems:
     created_at: datetime
     mapped_type: Optional[str] = None
     mapped_id: Optional[str] = None
-    details: Optional[ManagementInstanceCallbackEventsListOutputItemsDetails] = None
 @dataclass
 class ManagementInstanceCallbackEventsListOutputPagination:
     has_more_before: bool
@@ -55,95 +25,6 @@ class ManagementInstanceCallbackEventsListOutput:
     items: List[ManagementInstanceCallbackEventsListOutputItems]
     pagination: ManagementInstanceCallbackEventsListOutputPagination
 
-
-class mapManagementInstanceCallbackEventsListOutputItemsDetailsError:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ManagementInstanceCallbackEventsListOutputItemsDetailsError:
-        return ManagementInstanceCallbackEventsListOutputItemsDetailsError(
-        object=data.get('object'),
-        code=data.get('code'),
-        message=data.get('message')
-        )
-
-    @staticmethod
-    def to_dict(value: Union[ManagementInstanceCallbackEventsListOutputItemsDetailsError, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapManagementInstanceCallbackEventsListOutputItemsDetailsWebhookRequestBody:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ManagementInstanceCallbackEventsListOutputItemsDetailsWebhookRequestBody:
-        return ManagementInstanceCallbackEventsListOutputItemsDetailsWebhookRequestBody(
-        encoding=data.get('encoding'),
-        content=data.get('content')
-        )
-
-    @staticmethod
-    def to_dict(value: Union[ManagementInstanceCallbackEventsListOutputItemsDetailsWebhookRequestBody, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapManagementInstanceCallbackEventsListOutputItemsDetailsWebhookRequest:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ManagementInstanceCallbackEventsListOutputItemsDetailsWebhookRequest:
-        return ManagementInstanceCallbackEventsListOutputItemsDetailsWebhookRequest(
-        object=data.get('object'),
-        method=data.get('method'),
-        url=data.get('url'),
-        headers=data.get('headers'),
-        body=mapManagementInstanceCallbackEventsListOutputItemsDetailsWebhookRequestBody.from_dict(data.get('body')) if data.get('body') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[ManagementInstanceCallbackEventsListOutputItemsDetailsWebhookRequest, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapManagementInstanceCallbackEventsListOutputItemsDetailsWebhook:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ManagementInstanceCallbackEventsListOutputItemsDetailsWebhook:
-        return ManagementInstanceCallbackEventsListOutputItemsDetailsWebhook(
-        object=data.get('object'),
-        status=data.get('status'),
-        request=mapManagementInstanceCallbackEventsListOutputItemsDetailsWebhookRequest.from_dict(data.get('request')) if data.get('request') else None,
-        received_at=datetime.fromisoformat(data.get('received_at').replace('Z', '+00:00')) if data.get('received_at') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[ManagementInstanceCallbackEventsListOutputItemsDetailsWebhook, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
-
-class mapManagementInstanceCallbackEventsListOutputItemsDetails:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ManagementInstanceCallbackEventsListOutputItemsDetails:
-        return ManagementInstanceCallbackEventsListOutputItemsDetails(
-        object=data.get('object'),
-        status=data.get('status'),
-        payload=data.get('payload'),
-        error=mapManagementInstanceCallbackEventsListOutputItemsDetailsError.from_dict(data.get('error')) if data.get('error') else None,
-        webhook=mapManagementInstanceCallbackEventsListOutputItemsDetailsWebhook.from_dict(data.get('webhook')) if data.get('webhook') else None
-        )
-
-    @staticmethod
-    def to_dict(value: Union[ManagementInstanceCallbackEventsListOutputItemsDetails, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
 
 class mapManagementInstanceCallbackEventsListOutputItems:
     @staticmethod
@@ -158,7 +39,6 @@ class mapManagementInstanceCallbackEventsListOutputItems:
         mapped_id=data.get('mapped_id'),
         callback_id=data.get('callback_id'),
         callback_instance_id=data.get('callback_instance_id'),
-        details=mapManagementInstanceCallbackEventsListOutputItemsDetails.from_dict(data.get('details')) if data.get('details') else None,
         occurred_at=datetime.fromisoformat(data.get('occurred_at').replace('Z', '+00:00')) if data.get('occurred_at') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )

@@ -171,6 +171,7 @@ class ManagementInstanceSkillsDuplicateOutputIntegrationsConfiguration:
     can_attach_custom_tool_filters: bool
     can_attach_custom_provider_config: bool
     can_override_tool_filters: bool
+    enable_callback_tools: bool
     use_integration_name_in_tool_names: Optional[bool] = None
 @dataclass
 class ManagementInstanceSkillsDuplicateOutputIntegrations:
@@ -602,6 +603,7 @@ class mapManagementInstanceSkillsDuplicateOutputIntegrationsConfiguration:
         can_attach_custom_tool_filters=data.get('can_attach_custom_tool_filters'),
         can_attach_custom_provider_config=data.get('can_attach_custom_provider_config'),
         can_override_tool_filters=data.get('can_override_tool_filters'),
+        enable_callback_tools=data.get('enable_callback_tools'),
         use_integration_name_in_tool_names=data.get('use_integration_name_in_tool_names')
         )
 

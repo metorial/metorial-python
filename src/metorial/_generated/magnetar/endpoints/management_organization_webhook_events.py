@@ -2,7 +2,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardOrganizationsWebhookEventsListOutput, DashboardOrganizationsWebhookEventsListOutput
 
 class MetorialManagementOrganizationWebhookEventsEndpoint(BaseMetorialEndpoint):
-    """Events are the record of everything Metorial delivers to your event destinations — normal resource events, callback occurrences, and chat integration events."""
+    """Events are the record of everything Metorial delivers to your event destinations — normal resource events, callback occurrences, chat connection events, and manual pings."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)

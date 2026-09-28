@@ -12,11 +12,13 @@ class DashboardOrganizationsEventsGetOutput:
     event_type: str
     created_at: datetime
     instance_id: Optional[str] = None
-    payload: Optional[Dict[str, Any]] = None
     callback_id: Optional[str] = None
+    callback_event_id: Optional[str] = None
     callback_trigger_key: Optional[str] = None
     chat_event_id: Optional[str] = None
-    chat_integration_id: Optional[str] = None
+    chat_connection_id: Optional[str] = None
+    provider_id: Optional[str] = None
+    payload: Optional[Dict[str, Any]] = None
 
 
 class mapDashboardOrganizationsEventsGetOutput:
@@ -29,12 +31,14 @@ class mapDashboardOrganizationsEventsGetOutput:
         instance_id=data.get('instance_id'),
         source=data.get('source'),
         event_type=data.get('event_type'),
-        payload=data.get('payload'),
         callback_id=data.get('callback_id'),
+        callback_event_id=data.get('callback_event_id'),
         callback_trigger_key=data.get('callback_trigger_key'),
         chat_event_id=data.get('chat_event_id'),
-        chat_integration_id=data.get('chat_integration_id'),
-        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
+        chat_connection_id=data.get('chat_connection_id'),
+        provider_id=data.get('provider_id'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        payload=data.get('payload')
         )
 
     @staticmethod

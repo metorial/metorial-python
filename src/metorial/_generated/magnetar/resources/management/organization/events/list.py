@@ -12,11 +12,12 @@ class ManagementOrganizationEventsListOutputItems:
     event_type: str
     created_at: datetime
     instance_id: Optional[str] = None
-    payload: Optional[Dict[str, Any]] = None
     callback_id: Optional[str] = None
+    callback_event_id: Optional[str] = None
     callback_trigger_key: Optional[str] = None
     chat_event_id: Optional[str] = None
-    chat_integration_id: Optional[str] = None
+    chat_connection_id: Optional[str] = None
+    provider_id: Optional[str] = None
 @dataclass
 class ManagementOrganizationEventsListOutputPagination:
     has_more_before: bool
@@ -37,11 +38,12 @@ class mapManagementOrganizationEventsListOutputItems:
         instance_id=data.get('instance_id'),
         source=data.get('source'),
         event_type=data.get('event_type'),
-        payload=data.get('payload'),
         callback_id=data.get('callback_id'),
+        callback_event_id=data.get('callback_event_id'),
         callback_trigger_key=data.get('callback_trigger_key'),
         chat_event_id=data.get('chat_event_id'),
-        chat_integration_id=data.get('chat_integration_id'),
+        chat_connection_id=data.get('chat_connection_id'),
+        provider_id=data.get('provider_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
@@ -87,6 +89,10 @@ class mapManagementOrganizationEventsListOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class ManagementOrganizationEventsListQueryCreatedAt:
+    gt: Optional[datetime] = None
+    lt: Optional[datetime] = None
+@dataclass
 class ManagementOrganizationEventsListQuery:
     limit: Optional[float] = None
     after: Optional[str] = None
@@ -98,7 +104,9 @@ class ManagementOrganizationEventsListQuery:
     source: Optional[Union[str, List[str]]] = None
     callback_id: Optional[Union[str, List[str]]] = None
     callback_trigger_key: Optional[Union[str, List[str]]] = None
-    chat_integration_id: Optional[Union[str, List[str]]] = None
+    chat_connection_id: Optional[Union[str, List[str]]] = None
+    provider_id: Optional[Union[str, List[str]]] = None
+    created_at: Optional[ManagementOrganizationEventsListQueryCreatedAt] = None
 
 
 class mapManagementOrganizationEventsListQuery:
@@ -115,7 +123,9 @@ class mapManagementOrganizationEventsListQuery:
         source=data.get('source'),
         callback_id=data.get('callback_id'),
         callback_trigger_key=data.get('callback_trigger_key'),
-        chat_integration_id=data.get('chat_integration_id')
+        chat_connection_id=data.get('chat_connection_id'),
+        provider_id=data.get('provider_id'),
+        created_at=mapManagementOrganizationEventsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None
         )
 
     @staticmethod

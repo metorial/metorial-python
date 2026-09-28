@@ -8,10 +8,10 @@ class MetorialDashboardInstanceProvidersTriggersEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, *, provider_version_id: str, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None) -> DashboardInstanceProvidersTriggersListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, provider_version_id: Optional[str] = None, user_managed_callbacks: Optional[bool] = None) -> DashboardInstanceProvidersTriggersListOutput:
         """
     List provider triggers
-    Returns a paginated list of provider triggers for a specific provider version.
+    Returns a paginated list of provider triggers for a provider version or all active user-managed callbacks in the instance.
 
     :param instance_id: str
     :param limit: Optional[float] (optional)
@@ -19,7 +19,8 @@ class MetorialDashboardInstanceProvidersTriggersEndpoint(BaseMetorialEndpoint):
     :param before: Optional[str] (optional)
     :param cursor: Optional[str] (optional)
     :param order: Optional[str] (optional)
-    :param provider_version_id: str
+    :param provider_version_id: Optional[str] (optional)
+    :param user_managed_callbacks: Optional[bool] (optional)
     :return: DashboardInstanceProvidersTriggersListOutput
     """
         # Build query parameters from keyword arguments
@@ -34,7 +35,10 @@ class MetorialDashboardInstanceProvidersTriggersEndpoint(BaseMetorialEndpoint):
             query_dict["cursor"] = cursor
         if order is not None:
             query_dict["order"] = order
-        query_dict["provider_version_id"] = provider_version_id
+        if provider_version_id is not None:
+            query_dict["provider_version_id"] = provider_version_id
+        if user_managed_callbacks is not None:
+            query_dict["user_managed_callbacks"] = user_managed_callbacks
 
         request = MetorialRequest(
             path=['dashboard', 'instances', instance_id, 'provider-triggers'],

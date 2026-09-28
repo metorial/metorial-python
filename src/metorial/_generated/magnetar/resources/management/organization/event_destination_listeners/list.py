@@ -15,7 +15,8 @@ class ManagementOrganizationEventDestinationListenersListOutputItems:
     event_types: Optional[List[str]] = None
     callback_id: Optional[str] = None
     triggers: Optional[List[str]] = None
-    chat_integration_id: Optional[str] = None
+    chat_connection_id: Optional[str] = None
+    provider_id: Optional[str] = None
 @dataclass
 class ManagementOrganizationEventDestinationListenersListOutputPagination:
     has_more_before: bool
@@ -38,7 +39,8 @@ class mapManagementOrganizationEventDestinationListenersListOutputItems:
         event_types=data.get('event_types', []),
         callback_id=data.get('callback_id'),
         triggers=data.get('triggers', []),
-        chat_integration_id=data.get('chat_integration_id'),
+        chat_connection_id=data.get('chat_connection_id'),
+        provider_id=data.get('provider_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -94,7 +96,8 @@ class ManagementOrganizationEventDestinationListenersListQuery:
     event_destination_id: Optional[Union[str, List[str]]] = None
     instance_id: Optional[Union[str, List[str]]] = None
     callback_id: Optional[Union[str, List[str]]] = None
-    chat_integration_id: Optional[Union[str, List[str]]] = None
+    chat_connection_id: Optional[Union[str, List[str]]] = None
+    provider_id: Optional[Union[str, List[str]]] = None
     type: Optional[Union[str, List[str]]] = None
 
 
@@ -110,7 +113,8 @@ class mapManagementOrganizationEventDestinationListenersListQuery:
         event_destination_id=data.get('event_destination_id'),
         instance_id=data.get('instance_id'),
         callback_id=data.get('callback_id'),
-        chat_integration_id=data.get('chat_integration_id'),
+        chat_connection_id=data.get('chat_connection_id'),
+        provider_id=data.get('provider_id'),
         type=data.get('type')
         )
 

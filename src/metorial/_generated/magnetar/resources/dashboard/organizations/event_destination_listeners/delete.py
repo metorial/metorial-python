@@ -15,7 +15,8 @@ class DashboardOrganizationsEventDestinationListenersDeleteOutput:
     event_types: Optional[List[str]] = None
     callback_id: Optional[str] = None
     triggers: Optional[List[str]] = None
-    chat_integration_id: Optional[str] = None
+    chat_connection_id: Optional[str] = None
+    provider_id: Optional[str] = None
 
 
 class mapDashboardOrganizationsEventDestinationListenersDeleteOutput:
@@ -30,7 +31,8 @@ class mapDashboardOrganizationsEventDestinationListenersDeleteOutput:
         event_types=data.get('event_types', []),
         callback_id=data.get('callback_id'),
         triggers=data.get('triggers', []),
-        chat_integration_id=data.get('chat_integration_id'),
+        chat_connection_id=data.get('chat_connection_id'),
+        provider_id=data.get('provider_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

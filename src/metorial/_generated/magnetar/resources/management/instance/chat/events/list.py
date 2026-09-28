@@ -9,9 +9,10 @@ class ManagementInstanceChatEventsListOutputItems:
     id: str
     type: str
     source: str
-    chat_id: str
+    chat_connection_id: str
     occurred_at: datetime
     created_at: datetime
+    chat_id: Optional[str] = None
     channel_id: Optional[str] = None
     thread_id: Optional[str] = None
     message_id: Optional[str] = None
@@ -21,7 +22,6 @@ class ManagementInstanceChatEventsListOutputItems:
     provider_thread_id: Optional[str] = None
     provider_message_id: Optional[str] = None
     provider_author_id: Optional[str] = None
-    payload: Optional[Dict[str, Any]] = None
 @dataclass
 class ManagementInstanceChatEventsListOutputPagination:
     has_more_before: bool
@@ -40,6 +40,7 @@ class mapManagementInstanceChatEventsListOutputItems:
         id=data.get('id'),
         type=data.get('type'),
         source=data.get('source'),
+        chat_connection_id=data.get('chat_connection_id'),
         chat_id=data.get('chat_id'),
         channel_id=data.get('channel_id'),
         thread_id=data.get('thread_id'),
@@ -50,7 +51,6 @@ class mapManagementInstanceChatEventsListOutputItems:
         provider_thread_id=data.get('provider_thread_id'),
         provider_message_id=data.get('provider_message_id'),
         provider_author_id=data.get('provider_author_id'),
-        payload=data.get('payload'),
         occurred_at=datetime.fromisoformat(data.get('occurred_at').replace('Z', '+00:00')) if data.get('occurred_at') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )

@@ -3,12 +3,12 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardOrganizationsEventsListOutput, DashboardOrganizationsEventsListOutput, mapDashboardOrganizationsEventsListQuery, DashboardOrganizationsEventsListQuery, mapDashboardOrganizationsEventsGetOutput, DashboardOrganizationsEventsGetOutput
 
 class MetorialDashboardOrganizationsEventsEndpoint(BaseMetorialEndpoint):
-    """Events are the record of everything Metorial delivers to your event destinations — normal resource events, callback occurrences, and chat integration events."""
+    """Events are the record of everything Metorial delivers to your event destinations — normal resource events, callback occurrences, chat connection events, and manual pings."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, organization_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, instance_id: Optional[str] = None, event_type: Optional[Union[str, List[str]]] = None, source: Optional[Union[str, List[str]]] = None, callback_id: Optional[Union[str, List[str]]] = None, callback_trigger_key: Optional[Union[str, List[str]]] = None, chat_integration_id: Optional[Union[str, List[str]]] = None) -> DashboardOrganizationsEventsListOutput:
+    def list(self, organization_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, instance_id: Optional[str] = None, event_type: Optional[Union[str, List[str]]] = None, source: Optional[Union[str, List[str]]] = None, callback_id: Optional[Union[str, List[str]]] = None, callback_trigger_key: Optional[Union[str, List[str]]] = None, chat_connection_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None) -> DashboardOrganizationsEventsListOutput:
         """
     List events
     List events recorded for the organization
@@ -24,7 +24,9 @@ class MetorialDashboardOrganizationsEventsEndpoint(BaseMetorialEndpoint):
     :param source: Optional[Union[str, List[str]]] (optional)
     :param callback_id: Optional[Union[str, List[str]]] (optional)
     :param callback_trigger_key: Optional[Union[str, List[str]]] (optional)
-    :param chat_integration_id: Optional[Union[str, List[str]]] (optional)
+    :param chat_connection_id: Optional[Union[str, List[str]]] (optional)
+    :param provider_id: Optional[Union[str, List[str]]] (optional)
+    :param created_at: Optional[Dict[str, Any]] (optional)
     :return: DashboardOrganizationsEventsListOutput
     """
         # Build query parameters from keyword arguments
@@ -49,8 +51,12 @@ class MetorialDashboardOrganizationsEventsEndpoint(BaseMetorialEndpoint):
             query_dict["callback_id"] = callback_id
         if callback_trigger_key is not None:
             query_dict["callback_trigger_key"] = callback_trigger_key
-        if chat_integration_id is not None:
-            query_dict["chat_integration_id"] = chat_integration_id
+        if chat_connection_id is not None:
+            query_dict["chat_connection_id"] = chat_connection_id
+        if provider_id is not None:
+            query_dict["provider_id"] = provider_id
+        if created_at is not None:
+            query_dict["created_at"] = created_at
 
         request = MetorialRequest(
             path=['dashboard', 'organizations', organization_id, 'events'],
