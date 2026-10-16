@@ -736,8 +736,7 @@ class MagnetarFilesGroup(MetorialFilesEndpoint):
   ) -> DashboardInstanceFilesGetOutput:
     """Upload a file and return the created file.
 
-    ``file`` is a path, raw bytes, or a binary file object. Directories are
-    zipped first, with their contents at the root of the archive. Bytes and
+    ``file`` is a file path, raw bytes, or a binary file object. Bytes and
     unnamed streams need ``file_name``. Files over 100 MB are uploaded
     through a presigned storage URL.
     """

@@ -1,11 +1,8 @@
 from __future__ import annotations
 
 import io
-import logging
 import mimetypes
 import os
-import tempfile
-import zipfile
 from collections.abc import Iterator
 from contextlib import contextmanager
 from dataclasses import dataclass
@@ -19,8 +16,6 @@ from metorial._generated.magnetar.resources import (
   mapDashboardInstanceFilesGetOutput,
 )
 from metorial.exceptions import MetorialSDKError
-
-logger = logging.getLogger(__name__)
 
 # Must stay in sync with maxDirectUploadSize in the files API.
 MAX_DIRECT_UPLOAD_SIZE = 100 * 1024 * 1024
@@ -183,17 +178,8 @@ def _open_source(
 
   if isinstance(file, (str, os.PathLike)):
     path = os.path.abspath(os.fspath(file))
-    if os.path.isdir(path):
-      with _zip_directory(path) as archive:
-        name = file_name or os.path.basename(path.rstrip(os.sep)) + ".zip"
-        with open(archive, "rb") as stream:
-          yield _Source(
-            stream=stream,
-            name=name,
-            content_type=content_type or "application/zip",
-            size=os.path.getsize(archive),
-          )
-      return
+    if not os.path.isfile(path):
+      raise ValueError(f"{os.fspath(file)} is not a file")
 
     name = file_name or os.path.basename(path)
     with open(path, "rb") as stream:
@@ -225,43 +211,6 @@ def _open_source(
     content_type=content_type or _guess_content_type(name),
     size=size,
   )
-
-
-@contextmanager
-def _zip_directory(directory: str) -> Iterator[str]:
-  """Zips the directory's contents (not the directory itself) into a temporary
-  file. Symlinks and special files are skipped."""
-  handle, archive = tempfile.mkstemp(prefix="metorial-upload-", suffix=".zip")
-  os.close(handle)
-
-  try:
-    files = 0
-    with zipfile.ZipFile(archive, "w", compression=zipfile.ZIP_DEFLATED) as zip_file:
-      for root, directories, names in os.walk(directory):
-        directories.sort()
-        for name in directories:
-          path = os.path.join(root, name)
-          if os.path.islink(path):
-            logger.warning("Skipping %s: not a regular file", path)
-            continue
-          zip_file.write(path, os.path.relpath(path, directory))
-
-        for name in sorted(names):
-          path = os.path.join(root, name)
-          if os.path.islink(path) or not os.path.isfile(path):
-            logger.warning("Skipping %s: not a regular file", path)
-            continue
-          if os.path.samefile(path, archive):
-            continue
-          zip_file.write(path, os.path.relpath(path, directory))
-          files += 1
-
-    if files == 0:
-      raise ValueError(f"{directory} has no files to upload")
-
-    yield archive
-  finally:
-    os.remove(archive)
 
 
 def _guess_content_type(name: str) -> str:

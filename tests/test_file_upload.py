@@ -2,9 +2,7 @@ from __future__ import annotations
 
 import io
 import json
-import os
 import threading
-import zipfile
 from collections.abc import Iterator
 from email.parser import BytesParser
 from email.policy import HTTP
@@ -187,32 +185,15 @@ def test_small_files_are_sent_as_multipart(
   assert request["files"]["file"] == ("notes.txt", "text/plain", b"hello")
 
 
-def test_directories_are_zipped(
+def test_directories_are_rejected(
   api: tuple[FakeFilesApi, MetorialEndpointManager], tmp_path: Path
 ) -> None:
   fake, manager = api
-  context = tmp_path / "context"
-  (context / "src").mkdir(parents=True)
-  (context / "empty").mkdir()
-  (context / "Dockerfile").write_text("FROM alpine")
-  (context / "src" / "main.py").write_text("print('hi')")
-  os.symlink("Dockerfile", context / "link")
+  (tmp_path / "notes.txt").write_text("hello")
 
-  upload(manager, str(context), purpose="sandbox_image_build_context")
-
-  name, content_type, data = fake.requests[0]["files"]["file"]
-  assert (name, content_type) == ("context.zip", "application/zip")
-  with zipfile.ZipFile(io.BytesIO(data)) as archive:
-    assert sorted(archive.namelist()) == ["Dockerfile", "empty/", "src/", "src/main.py"]
-    assert archive.read("src/main.py") == b"print('hi')"
-
-
-def test_empty_directories_are_rejected(
-  api: tuple[FakeFilesApi, MetorialEndpointManager], tmp_path: Path
-) -> None:
-  _, manager = api
-  with pytest.raises(ValueError, match="no files"):
+  with pytest.raises(ValueError, match="is not a file"):
     upload(manager, tmp_path)
+  assert fake.requests == []
 
 
 def test_bytes_and_streams_need_a_name(
