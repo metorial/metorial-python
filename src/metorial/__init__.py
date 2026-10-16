@@ -113,6 +113,19 @@ from .providers import (
   build_openai_tools,
   call_openai_tools,
 )
+from .sandbox import (
+  SandboxAccessError,
+  SandboxCommandError,
+  SandboxCommandResult,
+  SandboxConnectionNotice,
+  SandboxFileEntry,
+  SandboxFileList,
+  SandboxFiles,
+  SandboxPort,
+  SandboxProcess,
+  SandboxProcessExit,
+  SandboxShell,
+)
 
 
 def _configure_sdk_logging() -> None:
@@ -215,6 +228,18 @@ __all__ = [
   "MagnetarMagicMcpGroup",
   "MagnetarPortalsGroup",
   "create_magnetar_sdk",
+  # Sandbox access
+  "SandboxAccessError",
+  "SandboxCommandError",
+  "SandboxCommandResult",
+  "SandboxConnectionNotice",
+  "SandboxFileEntry",
+  "SandboxFileList",
+  "SandboxFiles",
+  "SandboxPort",
+  "SandboxProcess",
+  "SandboxProcessExit",
+  "SandboxShell",
   # MCP
   "MetorialMagnetarMcpSession",
   "MagnetarMcpSessionInit",

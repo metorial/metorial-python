@@ -10,8 +10,12 @@ dynamic ``__getattr__`` delegation.
 
 from __future__ import annotations
 
+import asyncio
+from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any
+
+import httpx
 
 from metorial._endpoint import MetorialEndpointManager
 from metorial._generated.magnetar.endpoints.callback_events import (
@@ -334,6 +338,15 @@ from metorial._generated.magnetar.endpoints.tool_calls import (
 )
 from metorial._sdk_builder import MetorialSDKBuilder
 from metorial._sdk_shared import SDKConfig, get_api_host, get_headers
+from metorial.sandbox import (
+  SandboxAccessCache,
+  SandboxAccessError,
+  SandboxAccessGrant,
+  SandboxConnectionNotice,
+  SandboxFiles,
+  SandboxPort,
+  SandboxShell,
+)
 
 # ── Nested endpoint groups ────────────────────────────────────────────────────
 
@@ -488,6 +501,69 @@ class MagnetarSandboxMachinesGroup(MetorialSandboxMachinesEndpoint):
     self.events = MetorialSandboxMachinesEventsEndpoint(manager)
     self.errors = MetorialSandboxMachinesErrorsEndpoint(manager)
     self.usage_history = MetorialSandboxMachinesUsageEndpoint(manager)
+
+  def _access_cache(
+    self, kind: str, machine_id: str, ttl_seconds: float | None, port: int = 0
+  ) -> SandboxAccessCache:
+    async def provider() -> SandboxAccessGrant:
+      if kind == "port":
+        grant: Any = await asyncio.to_thread(
+          self.access.ports, machine_id, ports=[port], ttl_seconds=ttl_seconds
+        )
+        url = (grant.urls.ports or {}).get(str(port))
+        label = f"Port {port}"
+      elif kind == "files":
+        grant = await asyncio.to_thread(
+          self.access.files, machine_id, ttl_seconds=ttl_seconds
+        )
+        url, label = grant.urls.files, "File"
+      else:
+        grant = await asyncio.to_thread(
+          self.access.shell, machine_id, ttl_seconds=ttl_seconds
+        )
+        url, label = grant.urls.exec_, "Command"
+
+      if not url:
+        raise SandboxAccessError(
+          "unavailable", f"{label} access is not available for this machine."
+        )
+      return SandboxAccessGrant(url=url, token=grant.token, expires_at=grant.expires_at)
+
+    return SandboxAccessCache(provider)
+
+  async def files(
+    self,
+    machine_id: str,
+    *,
+    ttl_seconds: float | None = None,
+    on_notice: Callable[[SandboxConnectionNotice], None] | None = None,
+  ) -> SandboxFiles:
+    return await SandboxFiles.connect(
+      self._access_cache("files", machine_id, ttl_seconds), on_notice=on_notice
+    )
+
+  async def shell(
+    self,
+    machine_id: str,
+    *,
+    ttl_seconds: float | None = None,
+    on_notice: Callable[[SandboxConnectionNotice], None] | None = None,
+  ) -> SandboxShell:
+    return await SandboxShell.connect(
+      self._access_cache("shell", machine_id, ttl_seconds), on_notice=on_notice
+    )
+
+  async def connect(
+    self,
+    machine_id: str,
+    port: int,
+    *,
+    ttl_seconds: float | None = None,
+    client: httpx.AsyncClient | None = None,
+  ) -> SandboxPort:
+    return await SandboxPort.connect(
+      port, self._access_cache("port", machine_id, ttl_seconds, port), client=client
+    )
 
 
 class MagnetarSandboxImagesGroup(MetorialSandboxImagesEndpoint):
