@@ -7,6 +7,7 @@ import dataclasses
 class ManagementInstanceSandboxMachinesAccessFilesOutputUrls:
     type: str
     shell: Optional[str] = None
+    exec_: Optional[str] = None
     files: Optional[str] = None
     ports: Optional[Dict[str, str]] = None
 @dataclass
@@ -25,6 +26,7 @@ class mapManagementInstanceSandboxMachinesAccessFilesOutputUrls:
         return ManagementInstanceSandboxMachinesAccessFilesOutputUrls(
         type=data.get('type'),
         shell=data.get('shell'),
+        exec_=data.get('exec'),
         files=data.get('files'),
         ports=data.get('ports')
         )
