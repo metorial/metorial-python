@@ -33,6 +33,8 @@ if TYPE_CHECKING:
   )
   from metorial._magnetar_sdk import (
     MagnetarCallbacksGroup,
+    MagnetarChatGroup,
+    MagnetarChatsGroup,
     MagnetarCustomProvidersGroup,
     MagnetarDocumentsGroup,
     MagnetarFilesGroup,
@@ -41,6 +43,7 @@ if TYPE_CHECKING:
     MagnetarPortalsGroup,
     MagnetarProviderDeploymentsGroup,
     MagnetarProvidersGroup,
+    MagnetarSandboxGroup,
     MagnetarSessionsGroup,
     MagnetarSessionTemplatesGroup,
     MagnetarSkillsGroup,
@@ -69,6 +72,9 @@ class MetorialBase:
   _magnetar_files: MagnetarFilesGroup | None
   _magnetar_skills: MagnetarSkillsGroup | None
   _magnetar_callbacks: MagnetarCallbacksGroup | None
+  _magnetar_chats: MagnetarChatsGroup | None
+  _magnetar_chat: MagnetarChatGroup | None
+  _magnetar_sandbox: MagnetarSandboxGroup | None
   _magnetar_magic_mcp: MagnetarMagicMcpGroup | None
   _magnetar_portals: MagnetarPortalsGroup | None
   _magnetar_sdk_initialized: bool
@@ -149,6 +155,9 @@ class MetorialBase:
     self._magnetar_files = None
     self._magnetar_skills = None
     self._magnetar_callbacks = None
+    self._magnetar_chats = None
+    self._magnetar_chat = None
+    self._magnetar_sandbox = None
     self._magnetar_magic_mcp = None
     self._magnetar_portals = None
     self._magnetar_sdk_initialized = False
@@ -178,6 +187,9 @@ class MetorialBase:
       self._magnetar_files = sdk.files
       self._magnetar_skills = sdk.skills
       self._magnetar_callbacks = sdk.callbacks
+      self._magnetar_chats = sdk.chats
+      self._magnetar_chat = sdk.chat
+      self._magnetar_sandbox = sdk.sandbox
       self._magnetar_magic_mcp = sdk.magic_mcp
       self._magnetar_portals = sdk.portals
       self._magnetar_sdk_initialized = True
@@ -266,6 +278,21 @@ class MetorialBase:
   def callbacks(self) -> MagnetarCallbacksGroup | None:
     self._ensure_magnetar_sdk_initialized()
     return self._magnetar_callbacks
+
+  @property
+  def chats(self) -> MagnetarChatsGroup | None:
+    self._ensure_magnetar_sdk_initialized()
+    return self._magnetar_chats
+
+  @property
+  def chat(self) -> MagnetarChatGroup | None:
+    self._ensure_magnetar_sdk_initialized()
+    return self._magnetar_chat
+
+  @property
+  def sandbox(self) -> MagnetarSandboxGroup | None:
+    self._ensure_magnetar_sdk_initialized()
+    return self._magnetar_sandbox
 
   @property
   def magic_mcp(self) -> MagnetarMagicMcpGroup | None:

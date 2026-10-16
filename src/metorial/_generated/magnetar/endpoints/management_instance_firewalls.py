@@ -3,12 +3,12 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceFirewallsListOutput, DashboardInstanceFirewallsListOutput, mapDashboardInstanceFirewallsListQuery, DashboardInstanceFirewallsListQuery, mapDashboardInstanceFirewallsGetOutput, DashboardInstanceFirewallsGetOutput, mapDashboardInstanceFirewallsCreateOutput, DashboardInstanceFirewallsCreateOutput, mapDashboardInstanceFirewallsCreateBody, DashboardInstanceFirewallsCreateBody, mapDashboardInstanceFirewallsUpdateOutput, DashboardInstanceFirewallsUpdateOutput, mapDashboardInstanceFirewallsUpdateBody, DashboardInstanceFirewallsUpdateBody, mapDashboardInstanceFirewallsDeleteOutput, DashboardInstanceFirewallsDeleteOutput
 
 class MetorialManagementInstanceFirewallsEndpoint(BaseMetorialEndpoint):
-    """Manage firewalls and their attached network policies."""
+    """Manage firewalls and their attached network policies. Firewalls apply to integration enclaves, providers, and sandbox machines."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, slug: Optional[Union[str, List[str]]] = None, status: Optional[Union[str, List[str]]] = None, network_id: Optional[Union[str, List[str]]] = None, enclave_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, network_policy_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceFirewallsListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, search: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, slug: Optional[Union[str, List[str]]] = None, status: Optional[Union[str, List[str]]] = None, enclave_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, network_policy_id: Optional[Union[str, List[str]]] = None, machine_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceFirewallsListOutput:
         """
     List firewalls
     Returns a paginated list of firewalls.
@@ -19,13 +19,14 @@ class MetorialManagementInstanceFirewallsEndpoint(BaseMetorialEndpoint):
     :param before: Optional[str] (optional)
     :param cursor: Optional[str] (optional)
     :param order: Optional[str] (optional)
+    :param search: Optional[str] (optional)
     :param id: Optional[Union[str, List[str]]] (optional)
     :param slug: Optional[Union[str, List[str]]] (optional)
     :param status: Optional[Union[str, List[str]]] (optional)
-    :param network_id: Optional[Union[str, List[str]]] (optional)
     :param enclave_id: Optional[Union[str, List[str]]] (optional)
     :param provider_id: Optional[Union[str, List[str]]] (optional)
     :param network_policy_id: Optional[Union[str, List[str]]] (optional)
+    :param machine_id: Optional[Union[str, List[str]]] (optional)
     :param created_at: Optional[Dict[str, Any]] (optional)
     :param updated_at: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceFirewallsListOutput
@@ -42,20 +43,22 @@ class MetorialManagementInstanceFirewallsEndpoint(BaseMetorialEndpoint):
             query_dict["cursor"] = cursor
         if order is not None:
             query_dict["order"] = order
+        if search is not None:
+            query_dict["search"] = search
         if id is not None:
             query_dict["id"] = id
         if slug is not None:
             query_dict["slug"] = slug
         if status is not None:
             query_dict["status"] = status
-        if network_id is not None:
-            query_dict["network_id"] = network_id
         if enclave_id is not None:
             query_dict["enclave_id"] = enclave_id
         if provider_id is not None:
             query_dict["provider_id"] = provider_id
         if network_policy_id is not None:
             query_dict["network_policy_id"] = network_policy_id
+        if machine_id is not None:
+            query_dict["machine_id"] = machine_id
         if created_at is not None:
             query_dict["created_at"] = created_at
         if updated_at is not None:
@@ -81,7 +84,7 @@ class MetorialManagementInstanceFirewallsEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapDashboardInstanceFirewallsGetOutput.from_dict)
 
-    def create(self, instance_id: str, *, name: str, network_id: str, description: Optional[str] = None, slug: Optional[str] = None, bindings: Optional[List[Dict[str, Any]]] = None, network_policy_ids: Optional[List[str]] = None) -> DashboardInstanceFirewallsCreateOutput:
+    def create(self, instance_id: str, *, name: str, description: Optional[str] = None, slug: Optional[str] = None, network_policy_ids: Optional[List[str]] = None) -> DashboardInstanceFirewallsCreateOutput:
         """
     Create firewall
     Creates a new firewall.
@@ -90,8 +93,6 @@ class MetorialManagementInstanceFirewallsEndpoint(BaseMetorialEndpoint):
     :param name: str
     :param description: Optional[str] (optional)
     :param slug: Optional[str] (optional)
-    :param network_id: str
-    :param bindings: Optional[List[Dict[str, Any]]] (optional)
     :param network_policy_ids: Optional[List[str]] (optional)
     :return: DashboardInstanceFirewallsCreateOutput
     """
@@ -102,9 +103,6 @@ class MetorialManagementInstanceFirewallsEndpoint(BaseMetorialEndpoint):
             body_dict["description"] = description
         if slug is not None:
             body_dict["slug"] = slug
-        body_dict["network_id"] = network_id
-        if bindings is not None:
-            body_dict["bindings"] = bindings
         if network_policy_ids is not None:
             body_dict["network_policy_ids"] = network_policy_ids
 

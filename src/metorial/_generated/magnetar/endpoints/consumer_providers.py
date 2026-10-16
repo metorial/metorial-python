@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Optional, Union
 from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, MetorialRequest
-from ..resources import mapConsumerProvidersListOutput, ConsumerProvidersListOutput, mapConsumerProvidersListQuery, ConsumerProvidersListQuery, mapConsumerProvidersGetOutput, ConsumerProvidersGetOutput, mapConsumerProvidersRequestAccessOutput, ConsumerProvidersRequestAccessOutput, mapConsumerProvidersRequestAccessBody, ConsumerProvidersRequestAccessBody, mapConsumerProvidersSetupOutput, ConsumerProvidersSetupOutput, mapConsumerProvidersSetupBody, ConsumerProvidersSetupBody, mapConsumerProvidersGetSetupOutput, ConsumerProvidersGetSetupOutput, mapConsumerProvidersDeployOutput, ConsumerProvidersDeployOutput, mapConsumerProvidersDeployBody, ConsumerProvidersDeployBody
+from ..resources import mapConsumerProvidersListOutput, ConsumerProvidersListOutput, mapConsumerProvidersListQuery, ConsumerProvidersListQuery, mapConsumerProvidersGetOutput, ConsumerProvidersGetOutput, mapConsumerProvidersRequestAccessOutput, ConsumerProvidersRequestAccessOutput, mapConsumerProvidersRequestAccessBody, ConsumerProvidersRequestAccessBody, mapConsumerProvidersSetupOutput, ConsumerProvidersSetupOutput, mapConsumerProvidersSetupBody, ConsumerProvidersSetupBody, mapConsumerProvidersGetSetupOutput, ConsumerProvidersGetSetupOutput, mapConsumerProvidersDeployOutput, ConsumerProvidersDeployOutput, mapConsumerProvidersDeployBody, ConsumerProvidersDeployBody, mapConsumerProvidersReconnectOutput, ConsumerProvidersReconnectOutput, mapConsumerProvidersReconnectBody, ConsumerProvidersReconnectBody
 
 class MetorialConsumerProvidersEndpoint(BaseMetorialEndpoint):
     """Browse and configure portal providers from the consumer side."""
@@ -142,3 +142,24 @@ class MetorialConsumerProvidersEndpoint(BaseMetorialEndpoint):
             body=body_dict
         )
         return self._post(request).transform(mapConsumerProvidersDeployOutput.from_dict)
+
+    def reconnect(self, catalog_item_id: str, *, magic_mcp_server_id: str, integration_setup_session_id: str) -> ConsumerProvidersReconnectOutput:
+        """
+    Reconnect consumer provider
+    Relinks an existing owned Magic MCP server to a freshly completed integration setup, keeping its URL.
+
+    :param catalog_item_id: str
+    :param magic_mcp_server_id: str
+    :param integration_setup_session_id: str
+    :return: ConsumerProvidersReconnectOutput
+    """
+        # Build body parameters from keyword arguments
+        body_dict = {}
+        body_dict["magic_mcp_server_id"] = magic_mcp_server_id
+        body_dict["integration_setup_session_id"] = integration_setup_session_id
+
+        request = MetorialRequest(
+            path=['consumer', 'providers', catalog_item_id, 'reconnect'],
+            body=body_dict
+        )
+        return self._post(request).transform(mapConsumerProvidersReconnectOutput.from_dict)

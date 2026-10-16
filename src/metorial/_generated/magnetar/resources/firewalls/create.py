@@ -33,7 +33,6 @@ class FirewallsCreateOutput:
     slug: str
     name: str
     status: str
-    network_id: str
     network_policies: List[FirewallsCreateOutputNetworkPolicies]
     created_at: datetime
     updated_at: datetime
@@ -110,7 +109,6 @@ class mapFirewallsCreateOutput:
         name=data.get('name'),
         description=data.get('description'),
         status=data.get('status'),
-        network_id=data.get('network_id'),
         network_policies=[mapFirewallsCreateOutputNetworkPolicies.from_dict(item) for item in data.get('network_policies', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
@@ -127,38 +125,12 @@ class mapFirewallsCreateOutput:
         return dataclasses.asdict(value)
 
 @dataclass
-class FirewallsCreateBodyBindings:
-    target_type: str
-    enclave_id: Optional[str] = None
-    provider_id: Optional[str] = None
-    network_id: Optional[str] = None
-@dataclass
 class FirewallsCreateBody:
     name: str
-    network_id: str
     description: Optional[str] = None
     slug: Optional[str] = None
-    bindings: Optional[List[FirewallsCreateBodyBindings]] = None
     network_policy_ids: Optional[List[str]] = None
 
-
-class mapFirewallsCreateBodyBindings:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> FirewallsCreateBodyBindings:
-        return FirewallsCreateBodyBindings(
-        target_type=data.get('target_type'),
-        enclave_id=data.get('enclave_id'),
-        provider_id=data.get('provider_id'),
-        network_id=data.get('network_id')
-        )
-
-    @staticmethod
-    def to_dict(value: Union[FirewallsCreateBodyBindings, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
 
 class mapFirewallsCreateBody:
     @staticmethod
@@ -167,8 +139,6 @@ class mapFirewallsCreateBody:
         name=data.get('name'),
         description=data.get('description'),
         slug=data.get('slug'),
-        network_id=data.get('network_id'),
-        bindings=[mapFirewallsCreateBodyBindings.from_dict(item) for item in data.get('bindings', []) if item],
         network_policy_ids=data.get('network_policy_ids', [])
         )
 

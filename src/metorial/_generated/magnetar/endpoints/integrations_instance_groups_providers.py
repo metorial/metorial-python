@@ -94,14 +94,14 @@ class MetorialIntegrationsInstanceGroupsProvidersEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapDashboardInstanceIntegrationsInstanceGroupsProvidersGetOutput.from_dict)
 
-    def set(self, integration_instance_group_id: str, integration_instance_provider_id: str, *, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None) -> DashboardInstanceIntegrationsInstanceGroupsProvidersSetOutput:
+    def set(self, integration_instance_group_id: str, integration_instance_provider_id: str, *, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None) -> DashboardInstanceIntegrationsInstanceGroupsProvidersSetOutput:
         """
     Set integration instance group provider
     Creates or updates the effective integration instance group provider materialization.
 
     :param integration_instance_group_id: str
     :param integration_instance_provider_id: str
-    :param tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] (optional)
+    :param tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] (optional)
     :return: DashboardInstanceIntegrationsInstanceGroupsProvidersSetOutput
     """
         # Build body parameters from keyword arguments

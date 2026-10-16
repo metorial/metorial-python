@@ -33,7 +33,6 @@ class DashboardInstanceFirewallsGetOutput:
     slug: str
     name: str
     status: str
-    network_id: str
     network_policies: List[DashboardInstanceFirewallsGetOutputNetworkPolicies]
     created_at: datetime
     updated_at: datetime
@@ -110,7 +109,6 @@ class mapDashboardInstanceFirewallsGetOutput:
         name=data.get('name'),
         description=data.get('description'),
         status=data.get('status'),
-        network_id=data.get('network_id'),
         network_policies=[mapDashboardInstanceFirewallsGetOutputNetworkPolicies.from_dict(item) for item in data.get('network_policies', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,

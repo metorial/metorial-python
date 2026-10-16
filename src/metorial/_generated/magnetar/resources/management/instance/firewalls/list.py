@@ -33,7 +33,6 @@ class ManagementInstanceFirewallsListOutputItems:
     slug: str
     name: str
     status: str
-    network_id: str
     network_policies: List[ManagementInstanceFirewallsListOutputItemsNetworkPolicies]
     created_at: datetime
     updated_at: datetime
@@ -118,7 +117,6 @@ class mapManagementInstanceFirewallsListOutputItems:
         name=data.get('name'),
         description=data.get('description'),
         status=data.get('status'),
-        network_id=data.get('network_id'),
         network_policies=[mapManagementInstanceFirewallsListOutputItemsNetworkPolicies.from_dict(item) for item in data.get('network_policies', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
@@ -181,13 +179,14 @@ class ManagementInstanceFirewallsListQuery:
     before: Optional[str] = None
     cursor: Optional[str] = None
     order: Optional[str] = None
+    search: Optional[str] = None
     id: Optional[Union[str, List[str]]] = None
     slug: Optional[Union[str, List[str]]] = None
     status: Optional[Union[str, List[str]]] = None
-    network_id: Optional[Union[str, List[str]]] = None
     enclave_id: Optional[Union[str, List[str]]] = None
     provider_id: Optional[Union[str, List[str]]] = None
     network_policy_id: Optional[Union[str, List[str]]] = None
+    machine_id: Optional[Union[str, List[str]]] = None
     created_at: Optional[ManagementInstanceFirewallsListQueryCreatedAt] = None
     updated_at: Optional[ManagementInstanceFirewallsListQueryUpdatedAt] = None
 
@@ -201,13 +200,14 @@ class mapManagementInstanceFirewallsListQuery:
         before=data.get('before'),
         cursor=data.get('cursor'),
         order=data.get('order'),
+        search=data.get('search'),
         id=data.get('id'),
         slug=data.get('slug'),
         status=data.get('status'),
-        network_id=data.get('network_id'),
         enclave_id=data.get('enclave_id'),
         provider_id=data.get('provider_id'),
         network_policy_id=data.get('network_policy_id'),
+        machine_id=data.get('machine_id'),
         created_at=mapManagementInstanceFirewallsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
         updated_at=mapManagementInstanceFirewallsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )

@@ -24,6 +24,7 @@ class ProvidersSpecificationsGetOutputTools:
     capabilities: Dict[str, Any]
     constraints: List[str]
     instructions: List[str]
+    tool_category_keys: List[str]
     specification_id: str
     provider_id: str
     created_at: datetime
@@ -32,6 +33,14 @@ class ProvidersSpecificationsGetOutputTools:
     input_schema: Optional[ProvidersSpecificationsGetOutputToolsInputSchema] = None
     output_schema: Optional[ProvidersSpecificationsGetOutputToolsOutputSchema] = None
     tags: Optional[ProvidersSpecificationsGetOutputToolsTags] = None
+@dataclass
+class ProvidersSpecificationsGetOutputToolCategories:
+    object: str
+    key: str
+    name: str
+    tool_count: float
+    description: Optional[str] = None
+    image_url: Optional[str] = None
 @dataclass
 class ProvidersSpecificationsGetOutputAuthMethodsInputSchema:
     type: str
@@ -73,6 +82,7 @@ class ProvidersSpecificationsGetOutput:
     config_schema: Dict[str, Any]
     config_visibility: str
     tools: List[ProvidersSpecificationsGetOutputTools]
+    tool_categories: List[ProvidersSpecificationsGetOutputToolCategories]
     auth_methods: List[ProvidersSpecificationsGetOutputAuthMethods]
     provider_id: str
     created_at: datetime
@@ -143,6 +153,7 @@ class mapProvidersSpecificationsGetOutputTools:
         input_schema=mapProvidersSpecificationsGetOutputToolsInputSchema.from_dict(data.get('input_schema')) if data.get('input_schema') else None,
         output_schema=mapProvidersSpecificationsGetOutputToolsOutputSchema.from_dict(data.get('output_schema')) if data.get('output_schema') else None,
         tags=mapProvidersSpecificationsGetOutputToolsTags.from_dict(data.get('tags')) if data.get('tags') else None,
+        tool_category_keys=data.get('tool_category_keys', []),
         specification_id=data.get('specification_id'),
         provider_id=data.get('provider_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
@@ -151,6 +162,26 @@ class mapProvidersSpecificationsGetOutputTools:
 
     @staticmethod
     def to_dict(value: Union[ProvidersSpecificationsGetOutputTools, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapProvidersSpecificationsGetOutputToolCategories:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ProvidersSpecificationsGetOutputToolCategories:
+        return ProvidersSpecificationsGetOutputToolCategories(
+        object=data.get('object'),
+        key=data.get('key'),
+        name=data.get('name'),
+        description=data.get('description'),
+        image_url=data.get('image_url'),
+        tool_count=data.get('tool_count')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ProvidersSpecificationsGetOutputToolCategories, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -249,6 +280,7 @@ class mapProvidersSpecificationsGetOutput:
         config_schema=data.get('config_schema'),
         config_visibility=data.get('config_visibility'),
         tools=[mapProvidersSpecificationsGetOutputTools.from_dict(item) for item in data.get('tools', []) if item],
+        tool_categories=[mapProvidersSpecificationsGetOutputToolCategories.from_dict(item) for item in data.get('tool_categories', []) if item],
         auth_methods=[mapProvidersSpecificationsGetOutputAuthMethods.from_dict(item) for item in data.get('auth_methods', []) if item],
         provider_id=data.get('provider_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,

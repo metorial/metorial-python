@@ -79,7 +79,7 @@ class MetorialSessionTemplatesProvidersEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapDashboardInstanceSessionTemplatesProvidersGetOutput.from_dict)
 
-    def create(self, *, session_template_id: str, provider_deployment_id: Optional[str] = None, provider_config_id: Optional[str] = None, provider_config_vault_id: Optional[str] = None, provider_auth_config_id: Optional[str] = None, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None) -> DashboardInstanceSessionTemplatesProvidersCreateOutput:
+    def create(self, *, session_template_id: str, provider_deployment_id: Optional[str] = None, provider_config_id: Optional[str] = None, provider_config_vault_id: Optional[str] = None, provider_auth_config_id: Optional[str] = None, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None) -> DashboardInstanceSessionTemplatesProvidersCreateOutput:
         """
     Create session template provider
     Adds a new provider configuration to a session template.
@@ -89,7 +89,7 @@ class MetorialSessionTemplatesProvidersEndpoint(BaseMetorialEndpoint):
     :param provider_config_id: Optional[str] (optional)
     :param provider_config_vault_id: Optional[str] (optional)
     :param provider_auth_config_id: Optional[str] (optional)
-    :param tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] (optional)
+    :param tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] (optional)
     :return: DashboardInstanceSessionTemplatesProvidersCreateOutput
     """
         # Build body parameters from keyword arguments
@@ -112,13 +112,13 @@ class MetorialSessionTemplatesProvidersEndpoint(BaseMetorialEndpoint):
         )
         return self._post(request).transform(mapDashboardInstanceSessionTemplatesProvidersCreateOutput.from_dict)
 
-    def update(self, session_template_provider_id: str, *, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None) -> DashboardInstanceSessionTemplatesProvidersUpdateOutput:
+    def update(self, session_template_provider_id: str, *, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None) -> DashboardInstanceSessionTemplatesProvidersUpdateOutput:
         """
     Update session template provider
     Updates a provider configuration in a session template.
 
     :param session_template_provider_id: str
-    :param tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] (optional)
+    :param tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] (optional)
     :return: DashboardInstanceSessionTemplatesProvidersUpdateOutput
     """
         # Build body parameters from keyword arguments

@@ -87,7 +87,7 @@ class MetorialDashboardInstanceIntegrationsProvidersEndpoint(BaseMetorialEndpoin
         )
         return self._get(request).transform(mapDashboardInstanceIntegrationsProvidersGetOutput.from_dict)
 
-    def create(self, instance_id: str, *, integration_id: str, provider_id: str, provider_deployment_id: str, provider_auth_method_id: Optional[str] = None, provider_auth_credentials_id: Optional[str] = None, provider_config_id: Optional[str] = None, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None, callbacks: Optional[Dict[str, Any]] = None) -> DashboardInstanceIntegrationsProvidersCreateOutput:
+    def create(self, instance_id: str, *, integration_id: str, provider_id: str, provider_deployment_id: str, provider_auth_method_id: Optional[str] = None, provider_auth_credentials_id: Optional[str] = None, provider_config_id: Optional[str] = None, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None, callbacks: Optional[Dict[str, Any]] = None) -> DashboardInstanceIntegrationsProvidersCreateOutput:
         """
     Create integration provider
     Creates a new integration provider.
@@ -102,7 +102,7 @@ class MetorialDashboardInstanceIntegrationsProvidersEndpoint(BaseMetorialEndpoin
     :param name: Optional[str] (optional)
     :param description: Optional[str] (optional)
     :param metadata: Optional[Dict[str, Any]] (optional)
-    :param tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] (optional)
+    :param tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] (optional)
     :param callbacks: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceIntegrationsProvidersCreateOutput
     """
@@ -134,7 +134,7 @@ class MetorialDashboardInstanceIntegrationsProvidersEndpoint(BaseMetorialEndpoin
         )
         return self._post(request).transform(mapDashboardInstanceIntegrationsProvidersCreateOutput.from_dict)
 
-    def update(self, instance_id: str, integration_provider_id: str, *, provider_deployment_id: Optional[str] = None, provider_auth_method_id: Optional[str] = None, provider_auth_credentials_id: Optional[str] = None, provider_config_id: Optional[str] = None, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None, callbacks: Optional[Dict[str, Any]] = None) -> DashboardInstanceIntegrationsProvidersUpdateOutput:
+    def update(self, instance_id: str, integration_provider_id: str, *, provider_deployment_id: Optional[str] = None, provider_auth_method_id: Optional[str] = None, provider_auth_credentials_id: Optional[str] = None, provider_config_id: Optional[str] = None, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None, callbacks: Optional[Dict[str, Any]] = None) -> DashboardInstanceIntegrationsProvidersUpdateOutput:
         """
     Update integration provider
     Updates a specific integration provider.
@@ -148,7 +148,7 @@ class MetorialDashboardInstanceIntegrationsProvidersEndpoint(BaseMetorialEndpoin
     :param name: Optional[str] (optional)
     :param description: Optional[str] (optional)
     :param metadata: Optional[Dict[str, Any]] (optional)
-    :param tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] (optional)
+    :param tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] (optional)
     :param callbacks: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceIntegrationsProvidersUpdateOutput
     """

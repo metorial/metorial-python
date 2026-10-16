@@ -70,7 +70,7 @@ class MetorialMagicMcpServersProvidersEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapDashboardInstanceMagicMcpServersProvidersListOutput.from_dict)
 
-    def create(self, magic_mcp_server_id: str, *, provider_id: str, provider_deployment_id: Optional[str] = None, provider_config_id: Optional[str] = None, provider_auth_config_id: Optional[str] = None, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None) -> DashboardInstanceMagicMcpServersProvidersCreateOutput:
+    def create(self, magic_mcp_server_id: str, *, provider_id: str, provider_deployment_id: Optional[str] = None, provider_config_id: Optional[str] = None, provider_auth_config_id: Optional[str] = None, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None) -> DashboardInstanceMagicMcpServersProvidersCreateOutput:
         """
     Create magic MCP server provider
     Creates a configurable provider row for a magic MCP server.
@@ -80,7 +80,7 @@ class MetorialMagicMcpServersProvidersEndpoint(BaseMetorialEndpoint):
     :param provider_deployment_id: Optional[str] (optional)
     :param provider_config_id: Optional[str] (optional)
     :param provider_auth_config_id: Optional[str] (optional)
-    :param tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] (optional)
+    :param tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] (optional)
     :return: DashboardInstanceMagicMcpServersProvidersCreateOutput
     """
         # Build body parameters from keyword arguments
@@ -115,7 +115,7 @@ class MetorialMagicMcpServersProvidersEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapDashboardInstanceMagicMcpServersProvidersGetOutput.from_dict)
 
-    def update(self, magic_mcp_server_id: str, magic_mcp_server_provider_id: str, *, provider_deployment_id: Optional[str] = None, provider_config_id: Optional[str] = None, provider_auth_config_id: Optional[str] = None, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None) -> DashboardInstanceMagicMcpServersProvidersUpdateOutput:
+    def update(self, magic_mcp_server_id: str, magic_mcp_server_provider_id: str, *, provider_deployment_id: Optional[str] = None, provider_config_id: Optional[str] = None, provider_auth_config_id: Optional[str] = None, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None) -> DashboardInstanceMagicMcpServersProvidersUpdateOutput:
         """
     Update magic MCP server provider
     Updates a backing integration provider and then sets the corresponding integration instance provider for a magic MCP server.
@@ -125,7 +125,7 @@ class MetorialMagicMcpServersProvidersEndpoint(BaseMetorialEndpoint):
     :param provider_deployment_id: Optional[str] (optional)
     :param provider_config_id: Optional[str] (optional)
     :param provider_auth_config_id: Optional[str] (optional)
-    :param tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] (optional)
+    :param tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] (optional)
     :return: DashboardInstanceMagicMcpServersProvidersUpdateOutput
     """
         # Build body parameters from keyword arguments

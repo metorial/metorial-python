@@ -10,6 +10,8 @@ import logging as _logging
 from ._client import Metorial, ProviderSession
 from ._magnetar_sdk import (
   MagnetarCallbacksGroup,
+  MagnetarChatGroup,
+  MagnetarChatsGroup,
   MagnetarCustomProvidersGroup,
   MagnetarDocumentsGroup,
   MagnetarFilesGroup,
@@ -18,6 +20,7 @@ from ._magnetar_sdk import (
   MagnetarPortalsGroup,
   MagnetarProviderDeploymentsGroup,
   MagnetarProvidersGroup,
+  MagnetarSandboxGroup,
   MagnetarSDK,
   MagnetarSessionsGroup,
   MagnetarSessionTemplatesGroup,
@@ -206,6 +209,9 @@ __all__ = [
   "MagnetarFilesGroup",
   "MagnetarSkillsGroup",
   "MagnetarCallbacksGroup",
+  "MagnetarChatsGroup",
+  "MagnetarChatGroup",
+  "MagnetarSandboxGroup",
   "MagnetarMagicMcpGroup",
   "MagnetarPortalsGroup",
   "create_magnetar_sdk",

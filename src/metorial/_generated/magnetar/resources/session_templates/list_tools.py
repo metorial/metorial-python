@@ -24,6 +24,7 @@ class SessionTemplatesListToolsOutputItems:
     capabilities: Dict[str, Any]
     constraints: List[str]
     instructions: List[str]
+    tool_category_keys: List[str]
     specification_id: str
     provider_id: str
     created_at: datetime
@@ -101,6 +102,7 @@ class mapSessionTemplatesListToolsOutputItems:
         input_schema=mapSessionTemplatesListToolsOutputItemsInputSchema.from_dict(data.get('input_schema')) if data.get('input_schema') else None,
         output_schema=mapSessionTemplatesListToolsOutputItemsOutputSchema.from_dict(data.get('output_schema')) if data.get('output_schema') else None,
         tags=mapSessionTemplatesListToolsOutputItemsTags.from_dict(data.get('tags')) if data.get('tags') else None,
+        tool_category_keys=data.get('tool_category_keys', []),
         specification_id=data.get('specification_id'),
         provider_id=data.get('provider_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,

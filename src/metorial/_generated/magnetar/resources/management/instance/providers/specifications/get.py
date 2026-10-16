@@ -24,6 +24,7 @@ class ManagementInstanceProvidersSpecificationsGetOutputTools:
     capabilities: Dict[str, Any]
     constraints: List[str]
     instructions: List[str]
+    tool_category_keys: List[str]
     specification_id: str
     provider_id: str
     created_at: datetime
@@ -32,6 +33,14 @@ class ManagementInstanceProvidersSpecificationsGetOutputTools:
     input_schema: Optional[ManagementInstanceProvidersSpecificationsGetOutputToolsInputSchema] = None
     output_schema: Optional[ManagementInstanceProvidersSpecificationsGetOutputToolsOutputSchema] = None
     tags: Optional[ManagementInstanceProvidersSpecificationsGetOutputToolsTags] = None
+@dataclass
+class ManagementInstanceProvidersSpecificationsGetOutputToolCategories:
+    object: str
+    key: str
+    name: str
+    tool_count: float
+    description: Optional[str] = None
+    image_url: Optional[str] = None
 @dataclass
 class ManagementInstanceProvidersSpecificationsGetOutputAuthMethodsInputSchema:
     type: str
@@ -73,6 +82,7 @@ class ManagementInstanceProvidersSpecificationsGetOutput:
     config_schema: Dict[str, Any]
     config_visibility: str
     tools: List[ManagementInstanceProvidersSpecificationsGetOutputTools]
+    tool_categories: List[ManagementInstanceProvidersSpecificationsGetOutputToolCategories]
     auth_methods: List[ManagementInstanceProvidersSpecificationsGetOutputAuthMethods]
     provider_id: str
     created_at: datetime
@@ -143,6 +153,7 @@ class mapManagementInstanceProvidersSpecificationsGetOutputTools:
         input_schema=mapManagementInstanceProvidersSpecificationsGetOutputToolsInputSchema.from_dict(data.get('input_schema')) if data.get('input_schema') else None,
         output_schema=mapManagementInstanceProvidersSpecificationsGetOutputToolsOutputSchema.from_dict(data.get('output_schema')) if data.get('output_schema') else None,
         tags=mapManagementInstanceProvidersSpecificationsGetOutputToolsTags.from_dict(data.get('tags')) if data.get('tags') else None,
+        tool_category_keys=data.get('tool_category_keys', []),
         specification_id=data.get('specification_id'),
         provider_id=data.get('provider_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
@@ -151,6 +162,26 @@ class mapManagementInstanceProvidersSpecificationsGetOutputTools:
 
     @staticmethod
     def to_dict(value: Union[ManagementInstanceProvidersSpecificationsGetOutputTools, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceProvidersSpecificationsGetOutputToolCategories:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceProvidersSpecificationsGetOutputToolCategories:
+        return ManagementInstanceProvidersSpecificationsGetOutputToolCategories(
+        object=data.get('object'),
+        key=data.get('key'),
+        name=data.get('name'),
+        description=data.get('description'),
+        image_url=data.get('image_url'),
+        tool_count=data.get('tool_count')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceProvidersSpecificationsGetOutputToolCategories, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -249,6 +280,7 @@ class mapManagementInstanceProvidersSpecificationsGetOutput:
         config_schema=data.get('config_schema'),
         config_visibility=data.get('config_visibility'),
         tools=[mapManagementInstanceProvidersSpecificationsGetOutputTools.from_dict(item) for item in data.get('tools', []) if item],
+        tool_categories=[mapManagementInstanceProvidersSpecificationsGetOutputToolCategories.from_dict(item) for item in data.get('tool_categories', []) if item],
         auth_methods=[mapManagementInstanceProvidersSpecificationsGetOutputAuthMethods.from_dict(item) for item in data.get('auth_methods', []) if item],
         provider_id=data.get('provider_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,

@@ -102,7 +102,7 @@ class MetorialManagementInstanceProviderDeploymentsAuthConfigsEndpoint(BaseMetor
         )
         return self._get(request).transform(mapDashboardInstanceProviderDeploymentsAuthConfigsGetOutput.from_dict)
 
-    def create(self, instance_id: str, *, provider_auth_method_id: str, value: Dict[str, Any], name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None, provider_deployment_id: Optional[str] = None) -> DashboardInstanceProviderDeploymentsAuthConfigsCreateOutput:
+    def create(self, instance_id: str, *, provider_auth_method_id: str, value: Dict[str, Any], name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None, provider_deployment_id: Optional[str] = None) -> DashboardInstanceProviderDeploymentsAuthConfigsCreateOutput:
         """
     Create provider auth config
     Creates a new provider auth config.
@@ -111,7 +111,7 @@ class MetorialManagementInstanceProviderDeploymentsAuthConfigsEndpoint(BaseMetor
     :param name: Optional[str] (optional)
     :param description: Optional[str] (optional)
     :param metadata: Optional[Dict[str, Any]] (optional)
-    :param tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] (optional)
+    :param tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] (optional)
     :param provider_auth_method_id: str
     :param provider_deployment_id: Optional[str] (optional)
     :param value: Dict[str, Any]
@@ -138,7 +138,7 @@ class MetorialManagementInstanceProviderDeploymentsAuthConfigsEndpoint(BaseMetor
         )
         return self._post(request).transform(mapDashboardInstanceProviderDeploymentsAuthConfigsCreateOutput.from_dict)
 
-    def update(self, instance_id: str, provider_auth_config_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None) -> DashboardInstanceProviderDeploymentsAuthConfigsUpdateOutput:
+    def update(self, instance_id: str, provider_auth_config_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None) -> DashboardInstanceProviderDeploymentsAuthConfigsUpdateOutput:
         """
     Update provider auth config
     Updates a specific provider auth config.
@@ -148,7 +148,7 @@ class MetorialManagementInstanceProviderDeploymentsAuthConfigsEndpoint(BaseMetor
     :param name: Optional[str] (optional)
     :param description: Optional[str] (optional)
     :param metadata: Optional[Dict[str, Any]] (optional)
-    :param tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] (optional)
+    :param tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] (optional)
     :return: DashboardInstanceProviderDeploymentsAuthConfigsUpdateOutput
     """
         # Build body parameters from keyword arguments

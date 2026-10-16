@@ -33,7 +33,6 @@ class ManagementInstanceFirewallsCreateOutput:
     slug: str
     name: str
     status: str
-    network_id: str
     network_policies: List[ManagementInstanceFirewallsCreateOutputNetworkPolicies]
     created_at: datetime
     updated_at: datetime
@@ -110,7 +109,6 @@ class mapManagementInstanceFirewallsCreateOutput:
         name=data.get('name'),
         description=data.get('description'),
         status=data.get('status'),
-        network_id=data.get('network_id'),
         network_policies=[mapManagementInstanceFirewallsCreateOutputNetworkPolicies.from_dict(item) for item in data.get('network_policies', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
@@ -127,38 +125,12 @@ class mapManagementInstanceFirewallsCreateOutput:
         return dataclasses.asdict(value)
 
 @dataclass
-class ManagementInstanceFirewallsCreateBodyBindings:
-    target_type: str
-    enclave_id: Optional[str] = None
-    provider_id: Optional[str] = None
-    network_id: Optional[str] = None
-@dataclass
 class ManagementInstanceFirewallsCreateBody:
     name: str
-    network_id: str
     description: Optional[str] = None
     slug: Optional[str] = None
-    bindings: Optional[List[ManagementInstanceFirewallsCreateBodyBindings]] = None
     network_policy_ids: Optional[List[str]] = None
 
-
-class mapManagementInstanceFirewallsCreateBodyBindings:
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> ManagementInstanceFirewallsCreateBodyBindings:
-        return ManagementInstanceFirewallsCreateBodyBindings(
-        target_type=data.get('target_type'),
-        enclave_id=data.get('enclave_id'),
-        provider_id=data.get('provider_id'),
-        network_id=data.get('network_id')
-        )
-
-    @staticmethod
-    def to_dict(value: Union[ManagementInstanceFirewallsCreateBodyBindings, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
-        if value is None:
-            return None
-        if isinstance(value, dict):
-            return value
-        return dataclasses.asdict(value)
 
 class mapManagementInstanceFirewallsCreateBody:
     @staticmethod
@@ -167,8 +139,6 @@ class mapManagementInstanceFirewallsCreateBody:
         name=data.get('name'),
         description=data.get('description'),
         slug=data.get('slug'),
-        network_id=data.get('network_id'),
-        bindings=[mapManagementInstanceFirewallsCreateBodyBindings.from_dict(item) for item in data.get('bindings', []) if item],
         network_policy_ids=data.get('network_policy_ids', [])
         )
 

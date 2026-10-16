@@ -23,6 +23,48 @@ from metorial._generated.magnetar.endpoints.callback_instances import (
 from metorial._generated.magnetar.endpoints.callbacks import (
   MetorialCallbacksEndpoint,
 )
+from metorial._generated.magnetar.endpoints.chat_connections import (
+  MetorialChatConnectionsEndpoint,
+)
+from metorial._generated.magnetar.endpoints.chat_events import (
+  MetorialChatEventsEndpoint,
+)
+from metorial._generated.magnetar.endpoints.chat_instances import (
+  MetorialChatInstancesEndpoint,
+)
+from metorial._generated.magnetar.endpoints.chat_instances_provider import (
+  MetorialChatInstancesProviderEndpoint,
+)
+from metorial._generated.magnetar.endpoints.chat_workspaces import (
+  MetorialChatWorkspacesEndpoint,
+)
+from metorial._generated.magnetar.endpoints.chats import (
+  MetorialChatsEndpoint,
+)
+from metorial._generated.magnetar.endpoints.chats_channels import (
+  MetorialChatsChannelsEndpoint,
+)
+from metorial._generated.magnetar.endpoints.chats_channels_members import (
+  MetorialChatsChannelsMembersEndpoint,
+)
+from metorial._generated.magnetar.endpoints.chats_channels_typing import (
+  MetorialChatsChannelsTypingEndpoint,
+)
+from metorial._generated.magnetar.endpoints.chats_commands import (
+  MetorialChatsCommandsEndpoint,
+)
+from metorial._generated.magnetar.endpoints.chats_dms import (
+  MetorialChatsDmsEndpoint,
+)
+from metorial._generated.magnetar.endpoints.chats_messages import (
+  MetorialChatsMessagesEndpoint,
+)
+from metorial._generated.magnetar.endpoints.chats_messages_reactions import (
+  MetorialChatsMessagesReactionsEndpoint,
+)
+from metorial._generated.magnetar.endpoints.chats_threads import (
+  MetorialChatsThreadsEndpoint,
+)
 from metorial._generated.magnetar.endpoints.custom_providers import (
   MetorialCustomProvidersEndpoint,
 )
@@ -157,6 +199,54 @@ from metorial._generated.magnetar.endpoints.providers_versions import (
 )
 from metorial._generated.magnetar.endpoints.publishers import (
   MetorialPublishersEndpoint,
+)
+from metorial._generated.magnetar.endpoints.sandbox_disks import (
+  MetorialSandboxDisksEndpoint,
+)
+from metorial._generated.magnetar.endpoints.sandbox_disks_mounts import (
+  MetorialSandboxDisksMountsEndpoint,
+)
+from metorial._generated.magnetar.endpoints.sandbox_disks_resizes import (
+  MetorialSandboxDisksResizesEndpoint,
+)
+from metorial._generated.magnetar.endpoints.sandbox_image_builds import (
+  MetorialSandboxImageBuildsEndpoint,
+)
+from metorial._generated.magnetar.endpoints.sandbox_images import (
+  MetorialSandboxImagesEndpoint,
+)
+from metorial._generated.magnetar.endpoints.sandbox_images_builds import (
+  MetorialSandboxImagesBuildsEndpoint,
+)
+from metorial._generated.magnetar.endpoints.sandbox_images_versions import (
+  MetorialSandboxImagesVersionsEndpoint,
+)
+from metorial._generated.magnetar.endpoints.sandbox_machines import (
+  MetorialSandboxMachinesEndpoint,
+)
+from metorial._generated.magnetar.endpoints.sandbox_machines_access import (
+  MetorialSandboxMachinesAccessEndpoint,
+)
+from metorial._generated.magnetar.endpoints.sandbox_machines_errors import (
+  MetorialSandboxMachinesErrorsEndpoint,
+)
+from metorial._generated.magnetar.endpoints.sandbox_machines_events import (
+  MetorialSandboxMachinesEventsEndpoint,
+)
+from metorial._generated.magnetar.endpoints.sandbox_machines_instances import (
+  MetorialSandboxMachinesInstancesEndpoint,
+)
+from metorial._generated.magnetar.endpoints.sandbox_machines_operations import (
+  MetorialSandboxMachinesOperationsEndpoint,
+)
+from metorial._generated.magnetar.endpoints.sandbox_machines_usage import (
+  MetorialSandboxMachinesUsageEndpoint,
+)
+from metorial._generated.magnetar.endpoints.sandbox_regions import (
+  MetorialSandboxRegionsEndpoint,
+)
+from metorial._generated.magnetar.endpoints.sandbox_specs import (
+  MetorialSandboxSpecsEndpoint,
 )
 from metorial._generated.magnetar.endpoints.session_templates import (
   MetorialSessionTemplatesEndpoint,
@@ -344,6 +434,86 @@ class MagnetarMagicMcpServersGroup(MetorialMagicMcpServersEndpoint):
     self.providers = MetorialMagicMcpServersProvidersEndpoint(manager)
 
 
+class MagnetarChatsChannelsGroup(MetorialChatsChannelsEndpoint):
+  """Chat channels with members/typing sub-endpoints."""
+
+  members: MetorialChatsChannelsMembersEndpoint
+  typing: MetorialChatsChannelsTypingEndpoint
+
+  def __init__(self, manager: MetorialEndpointManager) -> None:
+    super().__init__(manager)
+    self.members = MetorialChatsChannelsMembersEndpoint(manager)
+    self.typing = MetorialChatsChannelsTypingEndpoint(manager)
+
+
+class MagnetarChatsMessagesGroup(MetorialChatsMessagesEndpoint):
+  """Chat messages with reactions sub-endpoint."""
+
+  reactions: MetorialChatsMessagesReactionsEndpoint
+
+  def __init__(self, manager: MetorialEndpointManager) -> None:
+    super().__init__(manager)
+    self.reactions = MetorialChatsMessagesReactionsEndpoint(manager)
+
+
+class MagnetarChatInstancesGroup(MetorialChatInstancesEndpoint):
+  """Chat instances with provider sub-endpoint."""
+
+  provider: MetorialChatInstancesProviderEndpoint
+
+  def __init__(self, manager: MetorialEndpointManager) -> None:
+    super().__init__(manager)
+    self.provider = MetorialChatInstancesProviderEndpoint(manager)
+
+
+class MagnetarSandboxMachinesGroup(MetorialSandboxMachinesEndpoint):
+  """Sandbox machines with typed sub-endpoints.
+
+  ``usage_history`` is the timeline/summary controller; it can't be named
+  ``usage`` because that is already the machine's usage-samples method.
+  """
+
+  access: MetorialSandboxMachinesAccessEndpoint
+  instances: MetorialSandboxMachinesInstancesEndpoint
+  operations: MetorialSandboxMachinesOperationsEndpoint
+  events: MetorialSandboxMachinesEventsEndpoint
+  errors: MetorialSandboxMachinesErrorsEndpoint
+  usage_history: MetorialSandboxMachinesUsageEndpoint
+
+  def __init__(self, manager: MetorialEndpointManager) -> None:
+    super().__init__(manager)
+    self.access = MetorialSandboxMachinesAccessEndpoint(manager)
+    self.instances = MetorialSandboxMachinesInstancesEndpoint(manager)
+    self.operations = MetorialSandboxMachinesOperationsEndpoint(manager)
+    self.events = MetorialSandboxMachinesEventsEndpoint(manager)
+    self.errors = MetorialSandboxMachinesErrorsEndpoint(manager)
+    self.usage_history = MetorialSandboxMachinesUsageEndpoint(manager)
+
+
+class MagnetarSandboxImagesGroup(MetorialSandboxImagesEndpoint):
+  """Sandbox images with versions/builds sub-endpoints."""
+
+  versions: MetorialSandboxImagesVersionsEndpoint
+  builds: MetorialSandboxImagesBuildsEndpoint
+
+  def __init__(self, manager: MetorialEndpointManager) -> None:
+    super().__init__(manager)
+    self.versions = MetorialSandboxImagesVersionsEndpoint(manager)
+    self.builds = MetorialSandboxImagesBuildsEndpoint(manager)
+
+
+class MagnetarSandboxDisksGroup(MetorialSandboxDisksEndpoint):
+  """Sandbox disks with mounts/resizes sub-endpoints."""
+
+  mounts: MetorialSandboxDisksMountsEndpoint
+  resizes: MetorialSandboxDisksResizesEndpoint
+
+  def __init__(self, manager: MetorialEndpointManager) -> None:
+    super().__init__(manager)
+    self.mounts = MetorialSandboxDisksMountsEndpoint(manager)
+    self.resizes = MetorialSandboxDisksResizesEndpoint(manager)
+
+
 # ── Top-level endpoint groups ─────────────────────────────────────────────────
 
 
@@ -513,6 +683,58 @@ class MagnetarCallbacksGroup(MetorialCallbacksEndpoint):
     self.instances = MetorialCallbackInstancesEndpoint(manager)
 
 
+class MagnetarChatsGroup(MetorialChatsEndpoint):
+  """Chats endpoint group with typed sub-endpoints."""
+
+  channels: MagnetarChatsChannelsGroup
+  dms: MetorialChatsDmsEndpoint
+  threads: MetorialChatsThreadsEndpoint
+  messages: MagnetarChatsMessagesGroup
+  commands: MetorialChatsCommandsEndpoint
+
+  def __init__(self, manager: MetorialEndpointManager) -> None:
+    super().__init__(manager)
+    self.channels = MagnetarChatsChannelsGroup(manager)
+    self.dms = MetorialChatsDmsEndpoint(manager)
+    self.threads = MetorialChatsThreadsEndpoint(manager)
+    self.messages = MagnetarChatsMessagesGroup(manager)
+    self.commands = MetorialChatsCommandsEndpoint(manager)
+
+
+class MagnetarChatGroup:
+  """Chat platform namespace (no base endpoint), mirrors Node's ``chat`` object."""
+
+  workspaces: MetorialChatWorkspacesEndpoint
+  connections: MetorialChatConnectionsEndpoint
+  events: MetorialChatEventsEndpoint
+  instances: MagnetarChatInstancesGroup
+
+  def __init__(self, manager: MetorialEndpointManager) -> None:
+    self.workspaces = MetorialChatWorkspacesEndpoint(manager)
+    self.connections = MetorialChatConnectionsEndpoint(manager)
+    self.events = MetorialChatEventsEndpoint(manager)
+    self.instances = MagnetarChatInstancesGroup(manager)
+
+
+class MagnetarSandboxGroup:
+  """Sandbox namespace (no base endpoint), mirrors Node's ``sandbox`` object."""
+
+  machines: MagnetarSandboxMachinesGroup
+  images: MagnetarSandboxImagesGroup
+  image_builds: MetorialSandboxImageBuildsEndpoint
+  disks: MagnetarSandboxDisksGroup
+  regions: MetorialSandboxRegionsEndpoint
+  specs: MetorialSandboxSpecsEndpoint
+
+  def __init__(self, manager: MetorialEndpointManager) -> None:
+    self.machines = MagnetarSandboxMachinesGroup(manager)
+    self.images = MagnetarSandboxImagesGroup(manager)
+    self.image_builds = MetorialSandboxImageBuildsEndpoint(manager)
+    self.disks = MagnetarSandboxDisksGroup(manager)
+    self.regions = MetorialSandboxRegionsEndpoint(manager)
+    self.specs = MetorialSandboxSpecsEndpoint(manager)
+
+
 class MagnetarMagicMcpGroup:
   """Magic-MCP namespace (no base endpoint), mirrors Node's ``magicMcp`` object."""
 
@@ -569,6 +791,9 @@ class MagnetarSDK:
   files: MagnetarFilesGroup
   skills: MagnetarSkillsGroup
   callbacks: MagnetarCallbacksGroup
+  chats: MagnetarChatsGroup
+  chat: MagnetarChatGroup
+  sandbox: MagnetarSandboxGroup
   magic_mcp: MagnetarMagicMcpGroup
   portals: MagnetarPortalsGroup
 
@@ -599,6 +824,9 @@ def get_magnetar_endpoints(manager: MetorialEndpointManager) -> dict[str, Any]:
     "files": MagnetarFilesGroup(manager),
     "skills": MagnetarSkillsGroup(manager),
     "callbacks": MagnetarCallbacksGroup(manager),
+    "chats": MagnetarChatsGroup(manager),
+    "chat": MagnetarChatGroup(manager),
+    "sandbox": MagnetarSandboxGroup(manager),
     "magic_mcp": MagnetarMagicMcpGroup(manager),
     "portals": MagnetarPortalsGroup(manager),
   }
@@ -638,6 +866,9 @@ def _to_magnetar_typed_sdk(raw: dict[str, Any]) -> MagnetarSDK:
     files=raw["files"],
     skills=raw["skills"],
     callbacks=raw["callbacks"],
+    chats=raw["chats"],
+    chat=raw["chat"],
+    sandbox=raw["sandbox"],
     magic_mcp=raw["magic_mcp"],
     portals=raw["portals"],
   )

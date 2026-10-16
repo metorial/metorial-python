@@ -10,13 +10,14 @@ from .consumers import *
 from .conversations import *
 from .custom_providers import *
 from .documents import *
-from .enclaves import *
 from .files import *
-from .firewall_bindings import *
 from .firewalls import *
 from .identities import *
 from .identity_actors import *
 from .instance import *
+from .integration_enclaves import *
+from .integration_firewall_assignments import *
+from .integration_internet_gateway import *
 from .integrations import *
 from .magic_mcp_endpoints import *
 from .magic_mcp_groups import *
@@ -26,7 +27,6 @@ from .magic_mcp_tokens import *
 from .monitor_alerts import *
 from .monitors import *
 from .network_policies import *
-from .networks import *
 from .portals import *
 from .proto_guard_alerts import *
 from .proto_guard_config import *
@@ -40,6 +40,7 @@ from .provider_specification_change_notifications import *
 from .provider_templates import *
 from .providers import *
 from .publishers import *
+from .sandbox import *
 from .session_templates import *
 from .sessions import *
 from .skills import *

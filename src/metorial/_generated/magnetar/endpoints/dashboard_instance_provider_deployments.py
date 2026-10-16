@@ -87,7 +87,7 @@ class MetorialDashboardInstanceProviderDeploymentsEndpoint(BaseMetorialEndpoint)
         )
         return self._get(request).transform(mapDashboardInstanceProviderDeploymentsGetOutput.from_dict)
 
-    def create(self, instance_id: str, *, provider_id: str, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None, locked_provider_version_id: Optional[str] = None, provider_config_id: Optional[str] = None, provider_config: Optional[Union[Dict[str, Any], Dict[str, Any]]] = None) -> DashboardInstanceProviderDeploymentsCreateOutput:
+    def create(self, instance_id: str, *, provider_id: str, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None, locked_provider_version_id: Optional[str] = None, provider_config_id: Optional[str] = None, provider_config: Optional[Union[Dict[str, Any], Dict[str, Any]]] = None) -> DashboardInstanceProviderDeploymentsCreateOutput:
         """
     Create provider deployment
     Creates a new provider deployment.
@@ -96,7 +96,7 @@ class MetorialDashboardInstanceProviderDeploymentsEndpoint(BaseMetorialEndpoint)
     :param name: Optional[str] (optional)
     :param description: Optional[str] (optional)
     :param metadata: Optional[Dict[str, Any]] (optional)
-    :param tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] (optional)
+    :param tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] (optional)
     :param provider_id: str
     :param locked_provider_version_id: Optional[str] (optional)
     :param provider_config_id: Optional[str] (optional)
@@ -127,7 +127,7 @@ class MetorialDashboardInstanceProviderDeploymentsEndpoint(BaseMetorialEndpoint)
         )
         return self._post(request).transform(mapDashboardInstanceProviderDeploymentsCreateOutput.from_dict)
 
-    def update(self, instance_id: str, provider_deployment_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None, locked_provider_version_id: Optional[str] = None) -> DashboardInstanceProviderDeploymentsUpdateOutput:
+    def update(self, instance_id: str, provider_deployment_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None, locked_provider_version_id: Optional[str] = None) -> DashboardInstanceProviderDeploymentsUpdateOutput:
         """
     Update provider deployment
     Updates a specific provider deployment.
@@ -137,7 +137,7 @@ class MetorialDashboardInstanceProviderDeploymentsEndpoint(BaseMetorialEndpoint)
     :param name: Optional[str] (optional)
     :param description: Optional[str] (optional)
     :param metadata: Optional[Dict[str, Any]] (optional)
-    :param tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] (optional)
+    :param tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] (optional)
     :param locked_provider_version_id: Optional[str] (optional)
     :return: DashboardInstanceProviderDeploymentsUpdateOutput
     """

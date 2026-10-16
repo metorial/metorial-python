@@ -91,7 +91,7 @@ class MetorialIntegrationsInstancesProvidersEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapDashboardInstanceIntegrationsInstancesProvidersGetOutput.from_dict)
 
-    def set(self, integration_instance_id: str, provider_id: str, *, provider_deployment_id: Optional[str] = None, provider_config_id: Optional[str] = None, provider_auth_config_id: Optional[str] = None, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None, is_override_tool_filter: Optional[bool] = None) -> DashboardInstanceIntegrationsInstancesProvidersSetOutput:
+    def set(self, integration_instance_id: str, provider_id: str, *, provider_deployment_id: Optional[str] = None, provider_config_id: Optional[str] = None, provider_auth_config_id: Optional[str] = None, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None, is_override_tool_filter: Optional[bool] = None) -> DashboardInstanceIntegrationsInstancesProvidersSetOutput:
         """
     Set integration instance provider
     Creates or updates the effective integration instance provider materialization.
@@ -101,7 +101,7 @@ class MetorialIntegrationsInstancesProvidersEndpoint(BaseMetorialEndpoint):
     :param provider_deployment_id: Optional[str] (optional)
     :param provider_config_id: Optional[str] (optional)
     :param provider_auth_config_id: Optional[str] (optional)
-    :param tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] (optional)
+    :param tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] (optional)
     :param is_override_tool_filter: Optional[bool] (optional)
     :return: DashboardInstanceIntegrationsInstancesProvidersSetOutput
     """
