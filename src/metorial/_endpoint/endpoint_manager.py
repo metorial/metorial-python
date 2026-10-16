@@ -47,8 +47,12 @@ class MetorialEndpointManager:
     has_body = method in {"POST", "PUT", "PATCH"}
     json_payload = None
     files_payload = None
+    data_payload = None
 
-    if has_body and request.body is not None:
+    if has_body and request.files is not None:
+      files_payload = request.files
+      data_payload = request.data
+    elif has_body and request.body is not None:
       # If body is a file-like object, send as multipart
       if hasattr(request.body, "read"):
         files_payload = request.body
@@ -67,6 +71,7 @@ class MetorialEndpointManager:
         headers=headers,
         json=json_payload,
         files=files_payload,
+        data=data_payload,
         allow_redirects=True,
         timeout=30,
       )

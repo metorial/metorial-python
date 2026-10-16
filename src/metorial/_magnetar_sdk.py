@@ -18,6 +18,7 @@ from typing import Any
 import httpx
 
 from metorial._endpoint import MetorialEndpointManager
+from metorial._file_upload import FileSource, upload_file
 from metorial._generated.magnetar.endpoints.callback_events import (
   MetorialCallbackEventsEndpoint,
 )
@@ -336,6 +337,7 @@ from metorial._generated.magnetar.endpoints.stores_participants import (
 from metorial._generated.magnetar.endpoints.tool_calls import (
   MetorialToolCallsEndpoint,
 )
+from metorial._generated.magnetar.resources import DashboardInstanceFilesGetOutput
 from metorial._sdk_builder import MetorialSDKBuilder
 from metorial._sdk_shared import SDKConfig, get_api_host, get_headers
 from metorial.sandbox import (
@@ -717,6 +719,40 @@ class MagnetarFilesGroup(MetorialFilesEndpoint):
   def __init__(self, manager: MetorialEndpointManager) -> None:
     super().__init__(manager)
     self.links = MetorialFilesLinksEndpoint(manager)
+    self._manager = manager
+
+  def upload(
+    self,
+    file: FileSource,
+    *,
+    purpose: str = "generic",
+    title: str | None = None,
+    file_name: str | None = None,
+    content_type: str | None = None,
+    store_id: str | None = None,
+    store_path: str | None = None,
+    store_replace: bool = False,
+    instance_id: str | None = None,
+  ) -> DashboardInstanceFilesGetOutput:
+    """Upload a file and return the created file.
+
+    ``file`` is a path, raw bytes, or a binary file object. Directories are
+    zipped first, with their contents at the root of the archive. Bytes and
+    unnamed streams need ``file_name``. Files over 100 MB are uploaded
+    through a presigned storage URL.
+    """
+    return upload_file(
+      self._manager,
+      file,
+      purpose=purpose,
+      title=title,
+      file_name=file_name,
+      content_type=content_type,
+      store_id=store_id,
+      store_path=store_path,
+      store_replace=store_replace,
+      instance_id=instance_id,
+    )
 
 
 class MagnetarSkillsGroup(MetorialSkillsEndpoint):

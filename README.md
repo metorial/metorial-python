@@ -527,6 +527,20 @@ result = await agent.run(
 print(result.output)
 ```
 
+## Uploading Files
+
+`files.upload` takes a path, raw bytes, or a binary file object. Directories are zipped automatically, and files over 100 MB go through a presigned storage URL.
+
+```python
+file = metorial.files.upload("./report.pdf")
+
+build_context = metorial.files.upload(
+    "./build-context", purpose="sandbox_image_build_context"
+)
+
+notes = metorial.files.upload(b"hello", file_name="notes.txt", title="Notes")
+```
+
 ## Error Handling
 
 ```python
