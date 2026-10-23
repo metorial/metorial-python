@@ -38,6 +38,11 @@ class DashboardInstanceProviderDeploymentsConfigsGetOutputFromVault:
     metadata: Optional[Dict[str, Any]] = None
     deployment: Optional[DashboardInstanceProviderDeploymentsConfigsGetOutputFromVaultDeployment] = None
 @dataclass
+class DashboardInstanceProviderDeploymentsConfigsGetOutputOwnerActor:
+    id: str
+    type: str
+    consumer_id: Optional[str] = None
+@dataclass
 class DashboardInstanceProviderDeploymentsConfigsGetOutput:
     object: str
     id: str
@@ -53,6 +58,7 @@ class DashboardInstanceProviderDeploymentsConfigsGetOutput:
     metadata: Optional[Dict[str, Any]] = None
     deployment: Optional[DashboardInstanceProviderDeploymentsConfigsGetOutputDeployment] = None
     from_vault: Optional[DashboardInstanceProviderDeploymentsConfigsGetOutputFromVault] = None
+    owner_actor: Optional[DashboardInstanceProviderDeploymentsConfigsGetOutputOwnerActor] = None
 
 
 class mapDashboardInstanceProviderDeploymentsConfigsGetOutputDeployment:
@@ -125,6 +131,23 @@ class mapDashboardInstanceProviderDeploymentsConfigsGetOutputFromVault:
             return value
         return dataclasses.asdict(value)
 
+class mapDashboardInstanceProviderDeploymentsConfigsGetOutputOwnerActor:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderDeploymentsConfigsGetOutputOwnerActor:
+        return DashboardInstanceProviderDeploymentsConfigsGetOutputOwnerActor(
+        id=data.get('id'),
+        type=data.get('type'),
+        consumer_id=data.get('consumer_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceProviderDeploymentsConfigsGetOutputOwnerActor, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapDashboardInstanceProviderDeploymentsConfigsGetOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderDeploymentsConfigsGetOutput:
@@ -141,6 +164,7 @@ class mapDashboardInstanceProviderDeploymentsConfigsGetOutput:
         specification_id=data.get('specification_id'),
         deployment=mapDashboardInstanceProviderDeploymentsConfigsGetOutputDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         from_vault=mapDashboardInstanceProviderDeploymentsConfigsGetOutputFromVault.from_dict(data.get('from_vault')) if data.get('from_vault') else None,
+        owner_actor=mapDashboardInstanceProviderDeploymentsConfigsGetOutputOwnerActor.from_dict(data.get('owner_actor')) if data.get('owner_actor') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

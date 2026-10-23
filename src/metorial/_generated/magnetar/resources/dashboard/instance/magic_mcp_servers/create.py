@@ -118,6 +118,11 @@ class DashboardInstanceMagicMcpServersCreateOutputProviders:
     auth_config: Optional[DashboardInstanceMagicMcpServersCreateOutputProvidersAuthConfig] = None
     archived_at: Optional[datetime] = None
 @dataclass
+class DashboardInstanceMagicMcpServersCreateOutputOwnerActor:
+    id: str
+    type: str
+    consumer_id: Optional[str] = None
+@dataclass
 class DashboardInstanceMagicMcpServersCreateOutput:
     object: str
     id: str
@@ -132,6 +137,7 @@ class DashboardInstanceMagicMcpServersCreateOutput:
     provider_template_id: Optional[str] = None
     name: Optional[str] = None
     description: Optional[str] = None
+    owner_actor: Optional[DashboardInstanceMagicMcpServersCreateOutputOwnerActor] = None
 
 
 class mapDashboardInstanceMagicMcpServersCreateOutputEndpoints:
@@ -380,6 +386,23 @@ class mapDashboardInstanceMagicMcpServersCreateOutputProviders:
             return value
         return dataclasses.asdict(value)
 
+class mapDashboardInstanceMagicMcpServersCreateOutputOwnerActor:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceMagicMcpServersCreateOutputOwnerActor:
+        return DashboardInstanceMagicMcpServersCreateOutputOwnerActor(
+        id=data.get('id'),
+        type=data.get('type'),
+        consumer_id=data.get('consumer_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceMagicMcpServersCreateOutputOwnerActor, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapDashboardInstanceMagicMcpServersCreateOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceMagicMcpServersCreateOutput:
@@ -395,6 +418,7 @@ class mapDashboardInstanceMagicMcpServersCreateOutput:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        owner_actor=mapDashboardInstanceMagicMcpServersCreateOutputOwnerActor.from_dict(data.get('owner_actor')) if data.get('owner_actor') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

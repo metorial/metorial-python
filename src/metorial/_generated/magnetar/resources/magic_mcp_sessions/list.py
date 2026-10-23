@@ -118,6 +118,11 @@ class MagicMcpSessionsListOutputItemsMagicMcpServerProviders:
     auth_config: Optional[MagicMcpSessionsListOutputItemsMagicMcpServerProvidersAuthConfig] = None
     archived_at: Optional[datetime] = None
 @dataclass
+class MagicMcpSessionsListOutputItemsMagicMcpServerOwnerActor:
+    id: str
+    type: str
+    consumer_id: Optional[str] = None
+@dataclass
 class MagicMcpSessionsListOutputItemsMagicMcpServer:
     object: str
     id: str
@@ -132,6 +137,7 @@ class MagicMcpSessionsListOutputItemsMagicMcpServer:
     provider_template_id: Optional[str] = None
     name: Optional[str] = None
     description: Optional[str] = None
+    owner_actor: Optional[MagicMcpSessionsListOutputItemsMagicMcpServerOwnerActor] = None
 @dataclass
 class MagicMcpSessionsListOutputItemsMagicMcpEndpoint:
     object: str
@@ -141,6 +147,7 @@ class MagicMcpSessionsListOutputItemsMagicMcpEndpoint:
     url: str
     servers: List[Dict[str, Any]]
     metadata: Dict[str, Any]
+    enable_skill_editing: bool
     created_at: datetime
     updated_at: datetime
     name: Optional[str] = None
@@ -413,6 +420,23 @@ class mapMagicMcpSessionsListOutputItemsMagicMcpServerProviders:
             return value
         return dataclasses.asdict(value)
 
+class mapMagicMcpSessionsListOutputItemsMagicMcpServerOwnerActor:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> MagicMcpSessionsListOutputItemsMagicMcpServerOwnerActor:
+        return MagicMcpSessionsListOutputItemsMagicMcpServerOwnerActor(
+        id=data.get('id'),
+        type=data.get('type'),
+        consumer_id=data.get('consumer_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[MagicMcpSessionsListOutputItemsMagicMcpServerOwnerActor, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapMagicMcpSessionsListOutputItemsMagicMcpServer:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> MagicMcpSessionsListOutputItemsMagicMcpServer:
@@ -428,6 +452,7 @@ class mapMagicMcpSessionsListOutputItemsMagicMcpServer:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        owner_actor=mapMagicMcpSessionsListOutputItemsMagicMcpServerOwnerActor.from_dict(data.get('owner_actor')) if data.get('owner_actor') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -453,6 +478,7 @@ class mapMagicMcpSessionsListOutputItemsMagicMcpEndpoint:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        enable_skill_editing=data.get('enable_skill_editing'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

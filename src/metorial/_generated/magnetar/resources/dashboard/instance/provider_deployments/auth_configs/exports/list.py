@@ -62,6 +62,11 @@ class DashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAuthC
     scopes: Optional[List[DashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAuthConfigAuthMethodScopes]] = None
     adapters: Optional[List[str]] = None
 @dataclass
+class DashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAuthConfigOwnerActor:
+    id: str
+    type: str
+    consumer_id: Optional[str] = None
+@dataclass
 class DashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAuthConfig:
     object: str
     id: str
@@ -79,6 +84,7 @@ class DashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAuthC
     metadata: Optional[Dict[str, Any]] = None
     deployment: Optional[DashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAuthConfigDeployment] = None
     credentials: Optional[DashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAuthConfigCredentials] = None
+    owner_actor: Optional[DashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAuthConfigOwnerActor] = None
 @dataclass
 class DashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItems:
     object: str
@@ -235,6 +241,23 @@ class mapDashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAu
             return value
         return dataclasses.asdict(value)
 
+class mapDashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAuthConfigOwnerActor:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAuthConfigOwnerActor:
+        return DashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAuthConfigOwnerActor(
+        id=data.get('id'),
+        type=data.get('type'),
+        consumer_id=data.get('consumer_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAuthConfigOwnerActor, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapDashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAuthConfig:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAuthConfig:
@@ -253,6 +276,7 @@ class mapDashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAu
         deployment=mapDashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAuthConfigDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         credentials=mapDashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAuthConfigCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,
         auth_method=mapDashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAuthConfigAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
+        owner_actor=mapDashboardInstanceProviderDeploymentsAuthConfigsExportsListOutputItemsAuthConfigOwnerActor.from_dict(data.get('owner_actor')) if data.get('owner_actor') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

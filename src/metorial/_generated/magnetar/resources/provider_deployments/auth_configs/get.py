@@ -62,6 +62,11 @@ class ProviderDeploymentsAuthConfigsGetOutputAuthMethod:
     scopes: Optional[List[ProviderDeploymentsAuthConfigsGetOutputAuthMethodScopes]] = None
     adapters: Optional[List[str]] = None
 @dataclass
+class ProviderDeploymentsAuthConfigsGetOutputOwnerActor:
+    id: str
+    type: str
+    consumer_id: Optional[str] = None
+@dataclass
 class ProviderDeploymentsAuthConfigsGetOutput:
     object: str
     id: str
@@ -79,6 +84,7 @@ class ProviderDeploymentsAuthConfigsGetOutput:
     metadata: Optional[Dict[str, Any]] = None
     deployment: Optional[ProviderDeploymentsAuthConfigsGetOutputDeployment] = None
     credentials: Optional[ProviderDeploymentsAuthConfigsGetOutputCredentials] = None
+    owner_actor: Optional[ProviderDeploymentsAuthConfigsGetOutputOwnerActor] = None
 
 
 class mapProviderDeploymentsAuthConfigsGetOutputDeployment:
@@ -211,6 +217,23 @@ class mapProviderDeploymentsAuthConfigsGetOutputAuthMethod:
             return value
         return dataclasses.asdict(value)
 
+class mapProviderDeploymentsAuthConfigsGetOutputOwnerActor:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsAuthConfigsGetOutputOwnerActor:
+        return ProviderDeploymentsAuthConfigsGetOutputOwnerActor(
+        id=data.get('id'),
+        type=data.get('type'),
+        consumer_id=data.get('consumer_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ProviderDeploymentsAuthConfigsGetOutputOwnerActor, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapProviderDeploymentsAuthConfigsGetOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsAuthConfigsGetOutput:
@@ -229,6 +252,7 @@ class mapProviderDeploymentsAuthConfigsGetOutput:
         deployment=mapProviderDeploymentsAuthConfigsGetOutputDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         credentials=mapProviderDeploymentsAuthConfigsGetOutputCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,
         auth_method=mapProviderDeploymentsAuthConfigsGetOutputAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
+        owner_actor=mapProviderDeploymentsAuthConfigsGetOutputOwnerActor.from_dict(data.get('owner_actor')) if data.get('owner_actor') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

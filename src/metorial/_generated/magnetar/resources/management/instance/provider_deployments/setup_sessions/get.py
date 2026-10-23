@@ -4,6 +4,15 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class ManagementInstanceProviderDeploymentsSetupSessionsGetOutputError:
+    code: str
+    message: str
+@dataclass
+class ManagementInstanceProviderDeploymentsSetupSessionsGetOutputOwnerActor:
+    id: str
+    type: str
+    consumer_id: Optional[str] = None
+@dataclass
 class ManagementInstanceProviderDeploymentsSetupSessionsGetOutputAuthMethodInputSchema:
     type: str
     schema: Dict[str, Any]
@@ -120,6 +129,11 @@ class ManagementInstanceProviderDeploymentsSetupSessionsGetOutputAuthConfigAuthM
     scopes: Optional[List[ManagementInstanceProviderDeploymentsSetupSessionsGetOutputAuthConfigAuthMethodScopes]] = None
     adapters: Optional[List[str]] = None
 @dataclass
+class ManagementInstanceProviderDeploymentsSetupSessionsGetOutputAuthConfigOwnerActor:
+    id: str
+    type: str
+    consumer_id: Optional[str] = None
+@dataclass
 class ManagementInstanceProviderDeploymentsSetupSessionsGetOutputAuthConfig:
     object: str
     id: str
@@ -137,6 +151,7 @@ class ManagementInstanceProviderDeploymentsSetupSessionsGetOutputAuthConfig:
     metadata: Optional[Dict[str, Any]] = None
     deployment: Optional[ManagementInstanceProviderDeploymentsSetupSessionsGetOutputAuthConfigDeployment] = None
     credentials: Optional[ManagementInstanceProviderDeploymentsSetupSessionsGetOutputAuthConfigCredentials] = None
+    owner_actor: Optional[ManagementInstanceProviderDeploymentsSetupSessionsGetOutputAuthConfigOwnerActor] = None
 @dataclass
 class ManagementInstanceProviderDeploymentsSetupSessionsGetOutputConfigDeployment:
     object: str
@@ -172,6 +187,11 @@ class ManagementInstanceProviderDeploymentsSetupSessionsGetOutputConfigFromVault
     metadata: Optional[Dict[str, Any]] = None
     deployment: Optional[ManagementInstanceProviderDeploymentsSetupSessionsGetOutputConfigFromVaultDeployment] = None
 @dataclass
+class ManagementInstanceProviderDeploymentsSetupSessionsGetOutputConfigOwnerActor:
+    id: str
+    type: str
+    consumer_id: Optional[str] = None
+@dataclass
 class ManagementInstanceProviderDeploymentsSetupSessionsGetOutputConfig:
     object: str
     id: str
@@ -187,6 +207,7 @@ class ManagementInstanceProviderDeploymentsSetupSessionsGetOutputConfig:
     metadata: Optional[Dict[str, Any]] = None
     deployment: Optional[ManagementInstanceProviderDeploymentsSetupSessionsGetOutputConfigDeployment] = None
     from_vault: Optional[ManagementInstanceProviderDeploymentsSetupSessionsGetOutputConfigFromVault] = None
+    owner_actor: Optional[ManagementInstanceProviderDeploymentsSetupSessionsGetOutputConfigOwnerActor] = None
 @dataclass
 class ManagementInstanceProviderDeploymentsSetupSessionsGetOutput:
     object: str
@@ -198,6 +219,7 @@ class ManagementInstanceProviderDeploymentsSetupSessionsGetOutput:
     created_at: datetime
     updated_at: datetime
     expires_at: datetime
+    error: Optional[ManagementInstanceProviderDeploymentsSetupSessionsGetOutputError] = None
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
@@ -205,6 +227,7 @@ class ManagementInstanceProviderDeploymentsSetupSessionsGetOutput:
     provider_id: Optional[str] = None
     identity_id: Optional[str] = None
     identity_credential_id: Optional[str] = None
+    owner_actor: Optional[ManagementInstanceProviderDeploymentsSetupSessionsGetOutputOwnerActor] = None
     auth_method: Optional[ManagementInstanceProviderDeploymentsSetupSessionsGetOutputAuthMethod] = None
     deployment: Optional[ManagementInstanceProviderDeploymentsSetupSessionsGetOutputDeployment] = None
     credentials: Optional[ManagementInstanceProviderDeploymentsSetupSessionsGetOutputCredentials] = None
@@ -212,6 +235,39 @@ class ManagementInstanceProviderDeploymentsSetupSessionsGetOutput:
     config: Optional[ManagementInstanceProviderDeploymentsSetupSessionsGetOutputConfig] = None
     redirect_url: Optional[str] = None
 
+
+class mapManagementInstanceProviderDeploymentsSetupSessionsGetOutputError:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderDeploymentsSetupSessionsGetOutputError:
+        return ManagementInstanceProviderDeploymentsSetupSessionsGetOutputError(
+        code=data.get('code'),
+        message=data.get('message')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceProviderDeploymentsSetupSessionsGetOutputError, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceProviderDeploymentsSetupSessionsGetOutputOwnerActor:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderDeploymentsSetupSessionsGetOutputOwnerActor:
+        return ManagementInstanceProviderDeploymentsSetupSessionsGetOutputOwnerActor(
+        id=data.get('id'),
+        type=data.get('type'),
+        consumer_id=data.get('consumer_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceProviderDeploymentsSetupSessionsGetOutputOwnerActor, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapManagementInstanceProviderDeploymentsSetupSessionsGetOutputAuthMethodInputSchema:
     @staticmethod
@@ -473,6 +529,23 @@ class mapManagementInstanceProviderDeploymentsSetupSessionsGetOutputAuthConfigAu
             return value
         return dataclasses.asdict(value)
 
+class mapManagementInstanceProviderDeploymentsSetupSessionsGetOutputAuthConfigOwnerActor:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderDeploymentsSetupSessionsGetOutputAuthConfigOwnerActor:
+        return ManagementInstanceProviderDeploymentsSetupSessionsGetOutputAuthConfigOwnerActor(
+        id=data.get('id'),
+        type=data.get('type'),
+        consumer_id=data.get('consumer_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceProviderDeploymentsSetupSessionsGetOutputAuthConfigOwnerActor, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapManagementInstanceProviderDeploymentsSetupSessionsGetOutputAuthConfig:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderDeploymentsSetupSessionsGetOutputAuthConfig:
@@ -491,6 +564,7 @@ class mapManagementInstanceProviderDeploymentsSetupSessionsGetOutputAuthConfig:
         deployment=mapManagementInstanceProviderDeploymentsSetupSessionsGetOutputAuthConfigDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         credentials=mapManagementInstanceProviderDeploymentsSetupSessionsGetOutputAuthConfigCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,
         auth_method=mapManagementInstanceProviderDeploymentsSetupSessionsGetOutputAuthConfigAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
+        owner_actor=mapManagementInstanceProviderDeploymentsSetupSessionsGetOutputAuthConfigOwnerActor.from_dict(data.get('owner_actor')) if data.get('owner_actor') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -573,6 +647,23 @@ class mapManagementInstanceProviderDeploymentsSetupSessionsGetOutputConfigFromVa
             return value
         return dataclasses.asdict(value)
 
+class mapManagementInstanceProviderDeploymentsSetupSessionsGetOutputConfigOwnerActor:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderDeploymentsSetupSessionsGetOutputConfigOwnerActor:
+        return ManagementInstanceProviderDeploymentsSetupSessionsGetOutputConfigOwnerActor(
+        id=data.get('id'),
+        type=data.get('type'),
+        consumer_id=data.get('consumer_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceProviderDeploymentsSetupSessionsGetOutputConfigOwnerActor, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapManagementInstanceProviderDeploymentsSetupSessionsGetOutputConfig:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderDeploymentsSetupSessionsGetOutputConfig:
@@ -589,6 +680,7 @@ class mapManagementInstanceProviderDeploymentsSetupSessionsGetOutputConfig:
         specification_id=data.get('specification_id'),
         deployment=mapManagementInstanceProviderDeploymentsSetupSessionsGetOutputConfigDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         from_vault=mapManagementInstanceProviderDeploymentsSetupSessionsGetOutputConfigFromVault.from_dict(data.get('from_vault')) if data.get('from_vault') else None,
+        owner_actor=mapManagementInstanceProviderDeploymentsSetupSessionsGetOutputConfigOwnerActor.from_dict(data.get('owner_actor')) if data.get('owner_actor') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -610,6 +702,7 @@ class mapManagementInstanceProviderDeploymentsSetupSessionsGetOutput:
         type=data.get('type'),
         status=data.get('status'),
         url=data.get('url'),
+        error=mapManagementInstanceProviderDeploymentsSetupSessionsGetOutputError.from_dict(data.get('error')) if data.get('error') else None,
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
@@ -617,6 +710,7 @@ class mapManagementInstanceProviderDeploymentsSetupSessionsGetOutput:
         provider_id=data.get('provider_id'),
         identity_id=data.get('identity_id'),
         identity_credential_id=data.get('identity_credential_id'),
+        owner_actor=mapManagementInstanceProviderDeploymentsSetupSessionsGetOutputOwnerActor.from_dict(data.get('owner_actor')) if data.get('owner_actor') else None,
         auth_method=mapManagementInstanceProviderDeploymentsSetupSessionsGetOutputAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
         deployment=mapManagementInstanceProviderDeploymentsSetupSessionsGetOutputDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         credentials=mapManagementInstanceProviderDeploymentsSetupSessionsGetOutputCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,

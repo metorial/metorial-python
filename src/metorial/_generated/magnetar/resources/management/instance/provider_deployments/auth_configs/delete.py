@@ -62,6 +62,11 @@ class ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputAuthMethod:
     scopes: Optional[List[ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputAuthMethodScopes]] = None
     adapters: Optional[List[str]] = None
 @dataclass
+class ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputOwnerActor:
+    id: str
+    type: str
+    consumer_id: Optional[str] = None
+@dataclass
 class ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutput:
     object: str
     id: str
@@ -79,6 +84,7 @@ class ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutput:
     metadata: Optional[Dict[str, Any]] = None
     deployment: Optional[ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputDeployment] = None
     credentials: Optional[ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputCredentials] = None
+    owner_actor: Optional[ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputOwnerActor] = None
 
 
 class mapManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputDeployment:
@@ -211,6 +217,23 @@ class mapManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputAuthMethod:
             return value
         return dataclasses.asdict(value)
 
+class mapManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputOwnerActor:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputOwnerActor:
+        return ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputOwnerActor(
+        id=data.get('id'),
+        type=data.get('type'),
+        consumer_id=data.get('consumer_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputOwnerActor, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapManagementInstanceProviderDeploymentsAuthConfigsDeleteOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutput:
@@ -229,6 +252,7 @@ class mapManagementInstanceProviderDeploymentsAuthConfigsDeleteOutput:
         deployment=mapManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         credentials=mapManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,
         auth_method=mapManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
+        owner_actor=mapManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputOwnerActor.from_dict(data.get('owner_actor')) if data.get('owner_actor') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
