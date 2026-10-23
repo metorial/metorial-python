@@ -38,6 +38,11 @@ class ManagementInstanceProviderDeploymentsConfigsListOutputItemsFromVault:
     metadata: Optional[Dict[str, Any]] = None
     deployment: Optional[ManagementInstanceProviderDeploymentsConfigsListOutputItemsFromVaultDeployment] = None
 @dataclass
+class ManagementInstanceProviderDeploymentsConfigsListOutputItemsOwnerActor:
+    id: str
+    type: str
+    consumer_id: Optional[str] = None
+@dataclass
 class ManagementInstanceProviderDeploymentsConfigsListOutputItems:
     object: str
     id: str
@@ -53,6 +58,7 @@ class ManagementInstanceProviderDeploymentsConfigsListOutputItems:
     metadata: Optional[Dict[str, Any]] = None
     deployment: Optional[ManagementInstanceProviderDeploymentsConfigsListOutputItemsDeployment] = None
     from_vault: Optional[ManagementInstanceProviderDeploymentsConfigsListOutputItemsFromVault] = None
+    owner_actor: Optional[ManagementInstanceProviderDeploymentsConfigsListOutputItemsOwnerActor] = None
 @dataclass
 class ManagementInstanceProviderDeploymentsConfigsListOutputPagination:
     has_more_before: bool
@@ -133,6 +139,23 @@ class mapManagementInstanceProviderDeploymentsConfigsListOutputItemsFromVault:
             return value
         return dataclasses.asdict(value)
 
+class mapManagementInstanceProviderDeploymentsConfigsListOutputItemsOwnerActor:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderDeploymentsConfigsListOutputItemsOwnerActor:
+        return ManagementInstanceProviderDeploymentsConfigsListOutputItemsOwnerActor(
+        id=data.get('id'),
+        type=data.get('type'),
+        consumer_id=data.get('consumer_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceProviderDeploymentsConfigsListOutputItemsOwnerActor, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapManagementInstanceProviderDeploymentsConfigsListOutputItems:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderDeploymentsConfigsListOutputItems:
@@ -149,6 +172,7 @@ class mapManagementInstanceProviderDeploymentsConfigsListOutputItems:
         specification_id=data.get('specification_id'),
         deployment=mapManagementInstanceProviderDeploymentsConfigsListOutputItemsDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         from_vault=mapManagementInstanceProviderDeploymentsConfigsListOutputItemsFromVault.from_dict(data.get('from_vault')) if data.get('from_vault') else None,
+        owner_actor=mapManagementInstanceProviderDeploymentsConfigsListOutputItemsOwnerActor.from_dict(data.get('owner_actor')) if data.get('owner_actor') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

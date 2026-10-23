@@ -26,6 +26,7 @@ class ConsumerAgentsGetOutputMagicMcpEndpoints:
     url: str
     servers: List[Dict[str, Any]]
     metadata: Dict[str, Any]
+    enable_skill_editing: bool
     created_at: datetime
     updated_at: datetime
     name: Optional[str] = None
@@ -76,6 +77,7 @@ class mapConsumerAgentsGetOutputMagicMcpEndpoints:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        enable_skill_editing=data.get('enable_skill_editing'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

@@ -4,6 +4,7 @@ from .create import *
 from .delete import *
 from .duplicate import *
 from .exports import *
+from .files import *
 from .fork import *
 from .fork_syncs import *
 from .get import *

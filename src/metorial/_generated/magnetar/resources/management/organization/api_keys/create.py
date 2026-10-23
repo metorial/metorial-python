@@ -326,9 +326,9 @@ class mapManagementOrganizationApiKeysCreateOutput:
 
 @dataclass
 class ManagementOrganizationApiKeysCreateBody:
+    type: str
+    instance_id: str
     name: str
-    type: Optional[str] = None
-    instance_id: Optional[str] = None
     description: Optional[str] = None
     expires_at: Optional[datetime] = None
     ip_filters: Optional[List[str]] = None

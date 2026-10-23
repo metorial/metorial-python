@@ -4,6 +4,11 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class DashboardInstanceIntegrationsInstancesCreateOutputOwnerActor:
+    id: str
+    type: str
+    consumer_id: Optional[str] = None
+@dataclass
 class DashboardInstanceIntegrationsInstancesCreateOutputImplementation:
     type: str
     magic_mcp_server_id: str
@@ -106,9 +111,27 @@ class DashboardInstanceIntegrationsInstancesCreateOutput:
     metadata: Optional[Dict[str, Any]] = None
     identity_actor_id: Optional[str] = None
     identity_id: Optional[str] = None
+    owner_actor: Optional[DashboardInstanceIntegrationsInstancesCreateOutputOwnerActor] = None
     implementation: Optional[DashboardInstanceIntegrationsInstancesCreateOutputImplementation] = None
     archived_at: Optional[datetime] = None
 
+
+class mapDashboardInstanceIntegrationsInstancesCreateOutputOwnerActor:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceIntegrationsInstancesCreateOutputOwnerActor:
+        return DashboardInstanceIntegrationsInstancesCreateOutputOwnerActor(
+        id=data.get('id'),
+        type=data.get('type'),
+        consumer_id=data.get('consumer_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceIntegrationsInstancesCreateOutputOwnerActor, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapDashboardInstanceIntegrationsInstancesCreateOutputImplementation:
     @staticmethod
@@ -308,6 +331,7 @@ class mapDashboardInstanceIntegrationsInstancesCreateOutput:
         integration_id=data.get('integration_id'),
         identity_actor_id=data.get('identity_actor_id'),
         identity_id=data.get('identity_id'),
+        owner_actor=mapDashboardInstanceIntegrationsInstancesCreateOutputOwnerActor.from_dict(data.get('owner_actor')) if data.get('owner_actor') else None,
         implementation=mapDashboardInstanceIntegrationsInstancesCreateOutputImplementation.from_dict(data.get('implementation')) if data.get('implementation') else None,
         providers=[mapDashboardInstanceIntegrationsInstancesCreateOutputProviders.from_dict(item) for item in data.get('providers', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,

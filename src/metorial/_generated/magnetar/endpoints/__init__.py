@@ -22,6 +22,7 @@ from .consumer_agents import *
 from .consumer_consumer_internal_oauth_authorizations import *
 from .consumer_consumer_internal_oauth_clients import *
 from .consumer_identity_credentials import *
+from .consumer_oauth_authorizations import *
 from .consumer_profile import *
 from .consumer_profile_groups import *
 from .consumer_providers import *
@@ -166,6 +167,7 @@ from .dashboard_instance_skills import *
 from .dashboard_instance_skills_agents import *
 from .dashboard_instance_skills_configurations import *
 from .dashboard_instance_skills_exports import *
+from .dashboard_instance_skills_files import *
 from .dashboard_instance_skills_fork_syncs import *
 from .dashboard_instance_skills_groups import *
 from .dashboard_instance_skills_groups_items import *
@@ -360,6 +362,7 @@ from .management_instance_skills import *
 from .management_instance_skills_agents import *
 from .management_instance_skills_configurations import *
 from .management_instance_skills_exports import *
+from .management_instance_skills_files import *
 from .management_instance_skills_fork_syncs import *
 from .management_instance_skills_groups import *
 from .management_instance_skills_groups_items import *
@@ -459,6 +462,7 @@ from .skills import *
 from .skills_agents import *
 from .skills_configurations import *
 from .skills_exports import *
+from .skills_files import *
 from .skills_fork_syncs import *
 from .skills_groups import *
 from .skills_groups_items import *

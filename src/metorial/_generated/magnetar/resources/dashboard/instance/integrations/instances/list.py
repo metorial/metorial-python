@@ -4,6 +4,11 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class DashboardInstanceIntegrationsInstancesListOutputItemsOwnerActor:
+    id: str
+    type: str
+    consumer_id: Optional[str] = None
+@dataclass
 class DashboardInstanceIntegrationsInstancesListOutputItemsImplementation:
     type: str
     magic_mcp_server_id: str
@@ -106,6 +111,7 @@ class DashboardInstanceIntegrationsInstancesListOutputItems:
     metadata: Optional[Dict[str, Any]] = None
     identity_actor_id: Optional[str] = None
     identity_id: Optional[str] = None
+    owner_actor: Optional[DashboardInstanceIntegrationsInstancesListOutputItemsOwnerActor] = None
     implementation: Optional[DashboardInstanceIntegrationsInstancesListOutputItemsImplementation] = None
     archived_at: Optional[datetime] = None
 @dataclass
@@ -117,6 +123,23 @@ class DashboardInstanceIntegrationsInstancesListOutput:
     items: List[DashboardInstanceIntegrationsInstancesListOutputItems]
     pagination: DashboardInstanceIntegrationsInstancesListOutputPagination
 
+
+class mapDashboardInstanceIntegrationsInstancesListOutputItemsOwnerActor:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceIntegrationsInstancesListOutputItemsOwnerActor:
+        return DashboardInstanceIntegrationsInstancesListOutputItemsOwnerActor(
+        id=data.get('id'),
+        type=data.get('type'),
+        consumer_id=data.get('consumer_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceIntegrationsInstancesListOutputItemsOwnerActor, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapDashboardInstanceIntegrationsInstancesListOutputItemsImplementation:
     @staticmethod
@@ -316,6 +339,7 @@ class mapDashboardInstanceIntegrationsInstancesListOutputItems:
         integration_id=data.get('integration_id'),
         identity_actor_id=data.get('identity_actor_id'),
         identity_id=data.get('identity_id'),
+        owner_actor=mapDashboardInstanceIntegrationsInstancesListOutputItemsOwnerActor.from_dict(data.get('owner_actor')) if data.get('owner_actor') else None,
         implementation=mapDashboardInstanceIntegrationsInstancesListOutputItemsImplementation.from_dict(data.get('implementation')) if data.get('implementation') else None,
         providers=[mapDashboardInstanceIntegrationsInstancesListOutputItemsProviders.from_dict(item) for item in data.get('providers', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,

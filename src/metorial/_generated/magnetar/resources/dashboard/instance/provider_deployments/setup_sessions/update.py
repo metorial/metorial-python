@@ -4,6 +4,15 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputError:
+    code: str
+    message: str
+@dataclass
+class DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputOwnerActor:
+    id: str
+    type: str
+    consumer_id: Optional[str] = None
+@dataclass
 class DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputAuthMethodInputSchema:
     type: str
     schema: Dict[str, Any]
@@ -120,6 +129,11 @@ class DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputAuthConfigAut
     scopes: Optional[List[DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputAuthConfigAuthMethodScopes]] = None
     adapters: Optional[List[str]] = None
 @dataclass
+class DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputAuthConfigOwnerActor:
+    id: str
+    type: str
+    consumer_id: Optional[str] = None
+@dataclass
 class DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputAuthConfig:
     object: str
     id: str
@@ -137,6 +151,7 @@ class DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputAuthConfig:
     metadata: Optional[Dict[str, Any]] = None
     deployment: Optional[DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputAuthConfigDeployment] = None
     credentials: Optional[DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputAuthConfigCredentials] = None
+    owner_actor: Optional[DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputAuthConfigOwnerActor] = None
 @dataclass
 class DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputConfigDeployment:
     object: str
@@ -172,6 +187,11 @@ class DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputConfigFromVau
     metadata: Optional[Dict[str, Any]] = None
     deployment: Optional[DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputConfigFromVaultDeployment] = None
 @dataclass
+class DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputConfigOwnerActor:
+    id: str
+    type: str
+    consumer_id: Optional[str] = None
+@dataclass
 class DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputConfig:
     object: str
     id: str
@@ -187,6 +207,7 @@ class DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputConfig:
     metadata: Optional[Dict[str, Any]] = None
     deployment: Optional[DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputConfigDeployment] = None
     from_vault: Optional[DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputConfigFromVault] = None
+    owner_actor: Optional[DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputConfigOwnerActor] = None
 @dataclass
 class DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutput:
     object: str
@@ -198,6 +219,7 @@ class DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutput:
     created_at: datetime
     updated_at: datetime
     expires_at: datetime
+    error: Optional[DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputError] = None
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
@@ -205,6 +227,7 @@ class DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutput:
     provider_id: Optional[str] = None
     identity_id: Optional[str] = None
     identity_credential_id: Optional[str] = None
+    owner_actor: Optional[DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputOwnerActor] = None
     auth_method: Optional[DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputAuthMethod] = None
     deployment: Optional[DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputDeployment] = None
     credentials: Optional[DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputCredentials] = None
@@ -212,6 +235,39 @@ class DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutput:
     config: Optional[DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputConfig] = None
     redirect_url: Optional[str] = None
 
+
+class mapDashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputError:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputError:
+        return DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputError(
+        code=data.get('code'),
+        message=data.get('message')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputError, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputOwnerActor:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputOwnerActor:
+        return DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputOwnerActor(
+        id=data.get('id'),
+        type=data.get('type'),
+        consumer_id=data.get('consumer_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputOwnerActor, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapDashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputAuthMethodInputSchema:
     @staticmethod
@@ -473,6 +529,23 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputAuthConfig
             return value
         return dataclasses.asdict(value)
 
+class mapDashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputAuthConfigOwnerActor:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputAuthConfigOwnerActor:
+        return DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputAuthConfigOwnerActor(
+        id=data.get('id'),
+        type=data.get('type'),
+        consumer_id=data.get('consumer_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputAuthConfigOwnerActor, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapDashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputAuthConfig:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputAuthConfig:
@@ -491,6 +564,7 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputAuthConfig
         deployment=mapDashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputAuthConfigDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         credentials=mapDashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputAuthConfigCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,
         auth_method=mapDashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputAuthConfigAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
+        owner_actor=mapDashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputAuthConfigOwnerActor.from_dict(data.get('owner_actor')) if data.get('owner_actor') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -573,6 +647,23 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputConfigFrom
             return value
         return dataclasses.asdict(value)
 
+class mapDashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputConfigOwnerActor:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputConfigOwnerActor:
+        return DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputConfigOwnerActor(
+        id=data.get('id'),
+        type=data.get('type'),
+        consumer_id=data.get('consumer_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputConfigOwnerActor, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapDashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputConfig:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputConfig:
@@ -589,6 +680,7 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputConfig:
         specification_id=data.get('specification_id'),
         deployment=mapDashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputConfigDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         from_vault=mapDashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputConfigFromVault.from_dict(data.get('from_vault')) if data.get('from_vault') else None,
+        owner_actor=mapDashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputConfigOwnerActor.from_dict(data.get('owner_actor')) if data.get('owner_actor') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -610,6 +702,7 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsUpdateOutput:
         type=data.get('type'),
         status=data.get('status'),
         url=data.get('url'),
+        error=mapDashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputError.from_dict(data.get('error')) if data.get('error') else None,
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
@@ -617,6 +710,7 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsUpdateOutput:
         provider_id=data.get('provider_id'),
         identity_id=data.get('identity_id'),
         identity_credential_id=data.get('identity_credential_id'),
+        owner_actor=mapDashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputOwnerActor.from_dict(data.get('owner_actor')) if data.get('owner_actor') else None,
         auth_method=mapDashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
         deployment=mapDashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         credentials=mapDashboardInstanceProviderDeploymentsSetupSessionsUpdateOutputCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,

@@ -12,6 +12,7 @@ class DashboardInstanceMagicMcpEndpointsCreateOutput:
     url: str
     servers: List[Dict[str, Any]]
     metadata: Dict[str, Any]
+    enable_skill_editing: bool
     created_at: datetime
     updated_at: datetime
     name: Optional[str] = None
@@ -31,6 +32,7 @@ class mapDashboardInstanceMagicMcpEndpointsCreateOutput:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        enable_skill_editing=data.get('enable_skill_editing'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -55,6 +57,7 @@ class DashboardInstanceMagicMcpEndpointsCreateBody:
     metadata: Optional[Dict[str, Any]] = None
     consumer_profile_id: Optional[str] = None
     skill_plugin_id: Optional[str] = None
+    enable_skill_editing: Optional[bool] = None
     magic_mcp_servers: Optional[List[DashboardInstanceMagicMcpEndpointsCreateBodyMagicMcpServers]] = None
 
 
@@ -83,6 +86,7 @@ class mapDashboardInstanceMagicMcpEndpointsCreateBody:
         metadata=data.get('metadata'),
         consumer_profile_id=data.get('consumer_profile_id'),
         skill_plugin_id=data.get('skill_plugin_id'),
+        enable_skill_editing=data.get('enable_skill_editing'),
         magic_mcp_servers=[mapDashboardInstanceMagicMcpEndpointsCreateBodyMagicMcpServers.from_dict(item) for item in data.get('magic_mcp_servers', []) if item]
         )
 

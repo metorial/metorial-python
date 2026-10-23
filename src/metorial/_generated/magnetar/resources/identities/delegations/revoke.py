@@ -28,6 +28,8 @@ class IdentitiesDelegationsRevokeOutputPartiesActor:
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
     agent_id: Optional[str] = None
+    consumer_id: Optional[str] = None
+    default_identity_id: Optional[str] = None
 @dataclass
 class IdentitiesDelegationsRevokeOutputParties:
     object: str
@@ -47,6 +49,8 @@ class IdentitiesDelegationsRevokeOutputRequestRequester:
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
     agent_id: Optional[str] = None
+    consumer_id: Optional[str] = None
+    default_identity_id: Optional[str] = None
 @dataclass
 class IdentitiesDelegationsRevokeOutputRequest:
     object: str
@@ -136,6 +140,8 @@ class mapIdentitiesDelegationsRevokeOutputPartiesActor:
         description=data.get('description'),
         metadata=data.get('metadata'),
         agent_id=data.get('agent_id'),
+        consumer_id=data.get('consumer_id'),
+        default_identity_id=data.get('default_identity_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -179,6 +185,8 @@ class mapIdentitiesDelegationsRevokeOutputRequestRequester:
         description=data.get('description'),
         metadata=data.get('metadata'),
         agent_id=data.get('agent_id'),
+        consumer_id=data.get('consumer_id'),
+        default_identity_id=data.get('default_identity_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

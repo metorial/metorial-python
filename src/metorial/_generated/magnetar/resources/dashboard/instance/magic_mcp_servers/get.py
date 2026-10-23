@@ -118,6 +118,11 @@ class DashboardInstanceMagicMcpServersGetOutputProviders:
     auth_config: Optional[DashboardInstanceMagicMcpServersGetOutputProvidersAuthConfig] = None
     archived_at: Optional[datetime] = None
 @dataclass
+class DashboardInstanceMagicMcpServersGetOutputOwnerActor:
+    id: str
+    type: str
+    consumer_id: Optional[str] = None
+@dataclass
 class DashboardInstanceMagicMcpServersGetOutput:
     object: str
     id: str
@@ -132,6 +137,7 @@ class DashboardInstanceMagicMcpServersGetOutput:
     provider_template_id: Optional[str] = None
     name: Optional[str] = None
     description: Optional[str] = None
+    owner_actor: Optional[DashboardInstanceMagicMcpServersGetOutputOwnerActor] = None
 
 
 class mapDashboardInstanceMagicMcpServersGetOutputEndpoints:
@@ -380,6 +386,23 @@ class mapDashboardInstanceMagicMcpServersGetOutputProviders:
             return value
         return dataclasses.asdict(value)
 
+class mapDashboardInstanceMagicMcpServersGetOutputOwnerActor:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceMagicMcpServersGetOutputOwnerActor:
+        return DashboardInstanceMagicMcpServersGetOutputOwnerActor(
+        id=data.get('id'),
+        type=data.get('type'),
+        consumer_id=data.get('consumer_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceMagicMcpServersGetOutputOwnerActor, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapDashboardInstanceMagicMcpServersGetOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceMagicMcpServersGetOutput:
@@ -395,6 +418,7 @@ class mapDashboardInstanceMagicMcpServersGetOutput:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        owner_actor=mapDashboardInstanceMagicMcpServersGetOutputOwnerActor.from_dict(data.get('owner_actor')) if data.get('owner_actor') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

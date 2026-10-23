@@ -38,6 +38,11 @@ class ManagementInstanceProviderDeploymentsConfigsDeleteOutputFromVault:
     metadata: Optional[Dict[str, Any]] = None
     deployment: Optional[ManagementInstanceProviderDeploymentsConfigsDeleteOutputFromVaultDeployment] = None
 @dataclass
+class ManagementInstanceProviderDeploymentsConfigsDeleteOutputOwnerActor:
+    id: str
+    type: str
+    consumer_id: Optional[str] = None
+@dataclass
 class ManagementInstanceProviderDeploymentsConfigsDeleteOutput:
     object: str
     id: str
@@ -53,6 +58,7 @@ class ManagementInstanceProviderDeploymentsConfigsDeleteOutput:
     metadata: Optional[Dict[str, Any]] = None
     deployment: Optional[ManagementInstanceProviderDeploymentsConfigsDeleteOutputDeployment] = None
     from_vault: Optional[ManagementInstanceProviderDeploymentsConfigsDeleteOutputFromVault] = None
+    owner_actor: Optional[ManagementInstanceProviderDeploymentsConfigsDeleteOutputOwnerActor] = None
 
 
 class mapManagementInstanceProviderDeploymentsConfigsDeleteOutputDeployment:
@@ -125,6 +131,23 @@ class mapManagementInstanceProviderDeploymentsConfigsDeleteOutputFromVault:
             return value
         return dataclasses.asdict(value)
 
+class mapManagementInstanceProviderDeploymentsConfigsDeleteOutputOwnerActor:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderDeploymentsConfigsDeleteOutputOwnerActor:
+        return ManagementInstanceProviderDeploymentsConfigsDeleteOutputOwnerActor(
+        id=data.get('id'),
+        type=data.get('type'),
+        consumer_id=data.get('consumer_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceProviderDeploymentsConfigsDeleteOutputOwnerActor, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapManagementInstanceProviderDeploymentsConfigsDeleteOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderDeploymentsConfigsDeleteOutput:
@@ -141,6 +164,7 @@ class mapManagementInstanceProviderDeploymentsConfigsDeleteOutput:
         specification_id=data.get('specification_id'),
         deployment=mapManagementInstanceProviderDeploymentsConfigsDeleteOutputDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         from_vault=mapManagementInstanceProviderDeploymentsConfigsDeleteOutputFromVault.from_dict(data.get('from_vault')) if data.get('from_vault') else None,
+        owner_actor=mapManagementInstanceProviderDeploymentsConfigsDeleteOutputOwnerActor.from_dict(data.get('owner_actor')) if data.get('owner_actor') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

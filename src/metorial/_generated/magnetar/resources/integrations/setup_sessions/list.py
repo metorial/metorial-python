@@ -4,6 +4,16 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class IntegrationsSetupSessionsListOutputItemsOwnerActor:
+    id: str
+    type: str
+    consumer_id: Optional[str] = None
+@dataclass
+class IntegrationsSetupSessionsListOutputItemsIntegrationInstanceOwnerActor:
+    id: str
+    type: str
+    consumer_id: Optional[str] = None
+@dataclass
 class IntegrationsSetupSessionsListOutputItemsIntegrationInstanceImplementation:
     type: str
     magic_mcp_server_id: str
@@ -106,6 +116,7 @@ class IntegrationsSetupSessionsListOutputItemsIntegrationInstance:
     metadata: Optional[Dict[str, Any]] = None
     identity_actor_id: Optional[str] = None
     identity_id: Optional[str] = None
+    owner_actor: Optional[IntegrationsSetupSessionsListOutputItemsIntegrationInstanceOwnerActor] = None
     implementation: Optional[IntegrationsSetupSessionsListOutputItemsIntegrationInstanceImplementation] = None
     archived_at: Optional[datetime] = None
 @dataclass
@@ -124,6 +135,7 @@ class IntegrationsSetupSessionsListOutputItems:
     metadata: Optional[Dict[str, Any]] = None
     configuration: Optional[Dict[str, Any]] = None
     redirect_url: Optional[str] = None
+    owner_actor: Optional[IntegrationsSetupSessionsListOutputItemsOwnerActor] = None
 @dataclass
 class IntegrationsSetupSessionsListOutputPagination:
     has_more_before: bool
@@ -133,6 +145,40 @@ class IntegrationsSetupSessionsListOutput:
     items: List[IntegrationsSetupSessionsListOutputItems]
     pagination: IntegrationsSetupSessionsListOutputPagination
 
+
+class mapIntegrationsSetupSessionsListOutputItemsOwnerActor:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> IntegrationsSetupSessionsListOutputItemsOwnerActor:
+        return IntegrationsSetupSessionsListOutputItemsOwnerActor(
+        id=data.get('id'),
+        type=data.get('type'),
+        consumer_id=data.get('consumer_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[IntegrationsSetupSessionsListOutputItemsOwnerActor, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapIntegrationsSetupSessionsListOutputItemsIntegrationInstanceOwnerActor:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> IntegrationsSetupSessionsListOutputItemsIntegrationInstanceOwnerActor:
+        return IntegrationsSetupSessionsListOutputItemsIntegrationInstanceOwnerActor(
+        id=data.get('id'),
+        type=data.get('type'),
+        consumer_id=data.get('consumer_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[IntegrationsSetupSessionsListOutputItemsIntegrationInstanceOwnerActor, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapIntegrationsSetupSessionsListOutputItemsIntegrationInstanceImplementation:
     @staticmethod
@@ -332,6 +378,7 @@ class mapIntegrationsSetupSessionsListOutputItemsIntegrationInstance:
         integration_id=data.get('integration_id'),
         identity_actor_id=data.get('identity_actor_id'),
         identity_id=data.get('identity_id'),
+        owner_actor=mapIntegrationsSetupSessionsListOutputItemsIntegrationInstanceOwnerActor.from_dict(data.get('owner_actor')) if data.get('owner_actor') else None,
         implementation=mapIntegrationsSetupSessionsListOutputItemsIntegrationInstanceImplementation.from_dict(data.get('implementation')) if data.get('implementation') else None,
         providers=[mapIntegrationsSetupSessionsListOutputItemsIntegrationInstanceProviders.from_dict(item) for item in data.get('providers', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
@@ -361,6 +408,7 @@ class mapIntegrationsSetupSessionsListOutputItems:
         configuration=data.get('configuration'),
         redirect_url=data.get('redirect_url'),
         integration_id=data.get('integration_id'),
+        owner_actor=mapIntegrationsSetupSessionsListOutputItemsOwnerActor.from_dict(data.get('owner_actor')) if data.get('owner_actor') else None,
         integration_instance=mapIntegrationsSetupSessionsListOutputItemsIntegrationInstance.from_dict(data.get('integration_instance')) if data.get('integration_instance') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,

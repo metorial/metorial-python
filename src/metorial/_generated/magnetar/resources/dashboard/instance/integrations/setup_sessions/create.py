@@ -4,6 +4,16 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class DashboardInstanceIntegrationsSetupSessionsCreateOutputOwnerActor:
+    id: str
+    type: str
+    consumer_id: Optional[str] = None
+@dataclass
+class DashboardInstanceIntegrationsSetupSessionsCreateOutputIntegrationInstanceOwnerActor:
+    id: str
+    type: str
+    consumer_id: Optional[str] = None
+@dataclass
 class DashboardInstanceIntegrationsSetupSessionsCreateOutputIntegrationInstanceImplementation:
     type: str
     magic_mcp_server_id: str
@@ -106,6 +116,7 @@ class DashboardInstanceIntegrationsSetupSessionsCreateOutputIntegrationInstance:
     metadata: Optional[Dict[str, Any]] = None
     identity_actor_id: Optional[str] = None
     identity_id: Optional[str] = None
+    owner_actor: Optional[DashboardInstanceIntegrationsSetupSessionsCreateOutputIntegrationInstanceOwnerActor] = None
     implementation: Optional[DashboardInstanceIntegrationsSetupSessionsCreateOutputIntegrationInstanceImplementation] = None
     archived_at: Optional[datetime] = None
 @dataclass
@@ -124,7 +135,42 @@ class DashboardInstanceIntegrationsSetupSessionsCreateOutput:
     metadata: Optional[Dict[str, Any]] = None
     configuration: Optional[Dict[str, Any]] = None
     redirect_url: Optional[str] = None
+    owner_actor: Optional[DashboardInstanceIntegrationsSetupSessionsCreateOutputOwnerActor] = None
 
+
+class mapDashboardInstanceIntegrationsSetupSessionsCreateOutputOwnerActor:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceIntegrationsSetupSessionsCreateOutputOwnerActor:
+        return DashboardInstanceIntegrationsSetupSessionsCreateOutputOwnerActor(
+        id=data.get('id'),
+        type=data.get('type'),
+        consumer_id=data.get('consumer_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceIntegrationsSetupSessionsCreateOutputOwnerActor, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceIntegrationsSetupSessionsCreateOutputIntegrationInstanceOwnerActor:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceIntegrationsSetupSessionsCreateOutputIntegrationInstanceOwnerActor:
+        return DashboardInstanceIntegrationsSetupSessionsCreateOutputIntegrationInstanceOwnerActor(
+        id=data.get('id'),
+        type=data.get('type'),
+        consumer_id=data.get('consumer_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceIntegrationsSetupSessionsCreateOutputIntegrationInstanceOwnerActor, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapDashboardInstanceIntegrationsSetupSessionsCreateOutputIntegrationInstanceImplementation:
     @staticmethod
@@ -324,6 +370,7 @@ class mapDashboardInstanceIntegrationsSetupSessionsCreateOutputIntegrationInstan
         integration_id=data.get('integration_id'),
         identity_actor_id=data.get('identity_actor_id'),
         identity_id=data.get('identity_id'),
+        owner_actor=mapDashboardInstanceIntegrationsSetupSessionsCreateOutputIntegrationInstanceOwnerActor.from_dict(data.get('owner_actor')) if data.get('owner_actor') else None,
         implementation=mapDashboardInstanceIntegrationsSetupSessionsCreateOutputIntegrationInstanceImplementation.from_dict(data.get('implementation')) if data.get('implementation') else None,
         providers=[mapDashboardInstanceIntegrationsSetupSessionsCreateOutputIntegrationInstanceProviders.from_dict(item) for item in data.get('providers', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
@@ -353,6 +400,7 @@ class mapDashboardInstanceIntegrationsSetupSessionsCreateOutput:
         configuration=data.get('configuration'),
         redirect_url=data.get('redirect_url'),
         integration_id=data.get('integration_id'),
+        owner_actor=mapDashboardInstanceIntegrationsSetupSessionsCreateOutputOwnerActor.from_dict(data.get('owner_actor')) if data.get('owner_actor') else None,
         integration_instance=mapDashboardInstanceIntegrationsSetupSessionsCreateOutputIntegrationInstance.from_dict(data.get('integration_instance')) if data.get('integration_instance') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
@@ -397,6 +445,7 @@ class DashboardInstanceIntegrationsSetupSessionsCreateBodyConfiguration:
 class DashboardInstanceIntegrationsSetupSessionsCreateBody:
     integration_id: str
     name: str
+    integration_instance_id: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
     identity_actor_id: Optional[str] = None
@@ -520,6 +569,7 @@ class mapDashboardInstanceIntegrationsSetupSessionsCreateBody:
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceIntegrationsSetupSessionsCreateBody:
         return DashboardInstanceIntegrationsSetupSessionsCreateBody(
         integration_id=data.get('integration_id'),
+        integration_instance_id=data.get('integration_instance_id'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
