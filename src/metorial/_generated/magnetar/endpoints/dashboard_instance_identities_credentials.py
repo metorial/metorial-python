@@ -8,7 +8,7 @@ class MetorialDashboardInstanceIdentitiesCredentialsEndpoint(BaseMetorialEndpoin
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, agent_id: Optional[Union[str, List[str]]] = None, actor_id: Optional[Union[str, List[str]]] = None, identity_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, provider_config_id: Optional[Union[str, List[str]]] = None, provider_auth_config_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceIdentitiesCredentialsListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, agent_id: Optional[Union[str, List[str]]] = None, actor_id: Optional[Union[str, List[str]]] = None, consumer_profile_id: Optional[Union[str, List[str]]] = None, identity_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, provider_config_id: Optional[Union[str, List[str]]] = None, provider_auth_config_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceIdentitiesCredentialsListOutput:
         """
     List identity credentials
     Returns a paginated list of identity credentials for the instance.
@@ -23,6 +23,7 @@ class MetorialDashboardInstanceIdentitiesCredentialsEndpoint(BaseMetorialEndpoin
     :param id: Optional[Union[str, List[str]]] (optional)
     :param agent_id: Optional[Union[str, List[str]]] (optional)
     :param actor_id: Optional[Union[str, List[str]]] (optional)
+    :param consumer_profile_id: Optional[Union[str, List[str]]] (optional)
     :param identity_id: Optional[Union[str, List[str]]] (optional)
     :param provider_id: Optional[Union[str, List[str]]] (optional)
     :param provider_deployment_id: Optional[Union[str, List[str]]] (optional)
@@ -52,6 +53,8 @@ class MetorialDashboardInstanceIdentitiesCredentialsEndpoint(BaseMetorialEndpoin
             query_dict["agent_id"] = agent_id
         if actor_id is not None:
             query_dict["actor_id"] = actor_id
+        if consumer_profile_id is not None:
+            query_dict["consumer_profile_id"] = consumer_profile_id
         if identity_id is not None:
             query_dict["identity_id"] = identity_id
         if provider_id is not None:

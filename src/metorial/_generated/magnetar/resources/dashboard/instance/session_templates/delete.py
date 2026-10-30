@@ -4,6 +4,28 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class DashboardInstanceSessionTemplatesDeleteOutputAccessOwnerOrganizationMember:
+    id: str
+@dataclass
+class DashboardInstanceSessionTemplatesDeleteOutputAccessOwnerConsumer:
+    id: str
+    profile_id: str
+    portal_id: Optional[str] = None
+@dataclass
+class DashboardInstanceSessionTemplatesDeleteOutputAccessOwner:
+    type: str
+    name: Optional[str] = None
+    image_url: Optional[str] = None
+    email: Optional[str] = None
+    organization_member: Optional[DashboardInstanceSessionTemplatesDeleteOutputAccessOwnerOrganizationMember] = None
+    consumer: Optional[DashboardInstanceSessionTemplatesDeleteOutputAccessOwnerConsumer] = None
+@dataclass
+class DashboardInstanceSessionTemplatesDeleteOutputAccess:
+    type: str
+    visibility: str
+    source: Optional[str] = None
+    owner: Optional[DashboardInstanceSessionTemplatesDeleteOutputAccessOwner] = None
+@dataclass
 class DashboardInstanceSessionTemplatesDeleteOutputProvidersDeployment:
     object: str
     id: str
@@ -48,6 +70,7 @@ class DashboardInstanceSessionTemplatesDeleteOutput:
     id: str
     status: str
     name: str
+    access: DashboardInstanceSessionTemplatesDeleteOutputAccess
     providers: List[DashboardInstanceSessionTemplatesDeleteOutputProviders]
     created_at: datetime
     updated_at: datetime
@@ -58,6 +81,76 @@ class DashboardInstanceSessionTemplatesDeleteOutput:
     identity_actor_id: Optional[str] = None
     identity_id: Optional[str] = None
 
+
+class mapDashboardInstanceSessionTemplatesDeleteOutputAccessOwnerOrganizationMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionTemplatesDeleteOutputAccessOwnerOrganizationMember:
+        return DashboardInstanceSessionTemplatesDeleteOutputAccessOwnerOrganizationMember(
+        id=data.get('id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSessionTemplatesDeleteOutputAccessOwnerOrganizationMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceSessionTemplatesDeleteOutputAccessOwnerConsumer:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionTemplatesDeleteOutputAccessOwnerConsumer:
+        return DashboardInstanceSessionTemplatesDeleteOutputAccessOwnerConsumer(
+        id=data.get('id'),
+        profile_id=data.get('profile_id'),
+        portal_id=data.get('portal_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSessionTemplatesDeleteOutputAccessOwnerConsumer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceSessionTemplatesDeleteOutputAccessOwner:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionTemplatesDeleteOutputAccessOwner:
+        return DashboardInstanceSessionTemplatesDeleteOutputAccessOwner(
+        type=data.get('type'),
+        name=data.get('name'),
+        image_url=data.get('image_url'),
+        email=data.get('email'),
+        organization_member=mapDashboardInstanceSessionTemplatesDeleteOutputAccessOwnerOrganizationMember.from_dict(data.get('organization_member')) if data.get('organization_member') else None,
+        consumer=mapDashboardInstanceSessionTemplatesDeleteOutputAccessOwnerConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSessionTemplatesDeleteOutputAccessOwner, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceSessionTemplatesDeleteOutputAccess:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionTemplatesDeleteOutputAccess:
+        return DashboardInstanceSessionTemplatesDeleteOutputAccess(
+        source=data.get('source'),
+        type=data.get('type'),
+        visibility=data.get('visibility'),
+        owner=mapDashboardInstanceSessionTemplatesDeleteOutputAccessOwner.from_dict(data.get('owner')) if data.get('owner') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSessionTemplatesDeleteOutputAccess, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapDashboardInstanceSessionTemplatesDeleteOutputProvidersDeployment:
     @staticmethod
@@ -159,6 +252,7 @@ class mapDashboardInstanceSessionTemplatesDeleteOutput:
         integration_instance_id=data.get('integration_instance_id'),
         integration_instance_group_id=data.get('integration_instance_group_id'),
         identity_actor_id=data.get('identity_actor_id'),
+        access=mapDashboardInstanceSessionTemplatesDeleteOutputAccess.from_dict(data.get('access')) if data.get('access') else None,
         identity_id=data.get('identity_id'),
         providers=[mapDashboardInstanceSessionTemplatesDeleteOutputProviders.from_dict(item) for item in data.get('providers', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,

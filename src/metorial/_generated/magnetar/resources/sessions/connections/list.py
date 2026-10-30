@@ -218,6 +218,7 @@ class SessionsConnectionsListQuery:
     id: Optional[Union[str, List[str]]] = None
     agent_id: Optional[Union[str, List[str]]] = None
     actor_id: Optional[Union[str, List[str]]] = None
+    consumer_profile_id: Optional[Union[str, List[str]]] = None
     consumer_id: Optional[Union[str, List[str]]] = None
     identity_id: Optional[Union[str, List[str]]] = None
     agent_instance_id: Optional[Union[str, List[str]]] = None
@@ -242,6 +243,7 @@ class mapSessionsConnectionsListQuery:
         id=data.get('id'),
         agent_id=data.get('agent_id'),
         actor_id=data.get('actor_id'),
+        consumer_profile_id=data.get('consumer_profile_id'),
         consumer_id=data.get('consumer_id'),
         identity_id=data.get('identity_id'),
         agent_instance_id=data.get('agent_instance_id'),

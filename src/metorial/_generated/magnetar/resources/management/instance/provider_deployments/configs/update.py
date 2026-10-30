@@ -38,6 +38,28 @@ class ManagementInstanceProviderDeploymentsConfigsUpdateOutputFromVault:
     metadata: Optional[Dict[str, Any]] = None
     deployment: Optional[ManagementInstanceProviderDeploymentsConfigsUpdateOutputFromVaultDeployment] = None
 @dataclass
+class ManagementInstanceProviderDeploymentsConfigsUpdateOutputAccessOwnerOrganizationMember:
+    id: str
+@dataclass
+class ManagementInstanceProviderDeploymentsConfigsUpdateOutputAccessOwnerConsumer:
+    id: str
+    profile_id: str
+    portal_id: Optional[str] = None
+@dataclass
+class ManagementInstanceProviderDeploymentsConfigsUpdateOutputAccessOwner:
+    type: str
+    name: Optional[str] = None
+    image_url: Optional[str] = None
+    email: Optional[str] = None
+    organization_member: Optional[ManagementInstanceProviderDeploymentsConfigsUpdateOutputAccessOwnerOrganizationMember] = None
+    consumer: Optional[ManagementInstanceProviderDeploymentsConfigsUpdateOutputAccessOwnerConsumer] = None
+@dataclass
+class ManagementInstanceProviderDeploymentsConfigsUpdateOutputAccess:
+    type: str
+    visibility: str
+    source: Optional[str] = None
+    owner: Optional[ManagementInstanceProviderDeploymentsConfigsUpdateOutputAccessOwner] = None
+@dataclass
 class ManagementInstanceProviderDeploymentsConfigsUpdateOutput:
     object: str
     id: str
@@ -46,6 +68,7 @@ class ManagementInstanceProviderDeploymentsConfigsUpdateOutput:
     tool_filter: Dict[str, Any]
     provider_id: str
     specification_id: str
+    access: ManagementInstanceProviderDeploymentsConfigsUpdateOutputAccess
     created_at: datetime
     updated_at: datetime
     name: Optional[str] = None
@@ -125,6 +148,76 @@ class mapManagementInstanceProviderDeploymentsConfigsUpdateOutputFromVault:
             return value
         return dataclasses.asdict(value)
 
+class mapManagementInstanceProviderDeploymentsConfigsUpdateOutputAccessOwnerOrganizationMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderDeploymentsConfigsUpdateOutputAccessOwnerOrganizationMember:
+        return ManagementInstanceProviderDeploymentsConfigsUpdateOutputAccessOwnerOrganizationMember(
+        id=data.get('id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceProviderDeploymentsConfigsUpdateOutputAccessOwnerOrganizationMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceProviderDeploymentsConfigsUpdateOutputAccessOwnerConsumer:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderDeploymentsConfigsUpdateOutputAccessOwnerConsumer:
+        return ManagementInstanceProviderDeploymentsConfigsUpdateOutputAccessOwnerConsumer(
+        id=data.get('id'),
+        profile_id=data.get('profile_id'),
+        portal_id=data.get('portal_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceProviderDeploymentsConfigsUpdateOutputAccessOwnerConsumer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceProviderDeploymentsConfigsUpdateOutputAccessOwner:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderDeploymentsConfigsUpdateOutputAccessOwner:
+        return ManagementInstanceProviderDeploymentsConfigsUpdateOutputAccessOwner(
+        type=data.get('type'),
+        name=data.get('name'),
+        image_url=data.get('image_url'),
+        email=data.get('email'),
+        organization_member=mapManagementInstanceProviderDeploymentsConfigsUpdateOutputAccessOwnerOrganizationMember.from_dict(data.get('organization_member')) if data.get('organization_member') else None,
+        consumer=mapManagementInstanceProviderDeploymentsConfigsUpdateOutputAccessOwnerConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceProviderDeploymentsConfigsUpdateOutputAccessOwner, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceProviderDeploymentsConfigsUpdateOutputAccess:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderDeploymentsConfigsUpdateOutputAccess:
+        return ManagementInstanceProviderDeploymentsConfigsUpdateOutputAccess(
+        source=data.get('source'),
+        type=data.get('type'),
+        visibility=data.get('visibility'),
+        owner=mapManagementInstanceProviderDeploymentsConfigsUpdateOutputAccessOwner.from_dict(data.get('owner')) if data.get('owner') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceProviderDeploymentsConfigsUpdateOutputAccess, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapManagementInstanceProviderDeploymentsConfigsUpdateOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderDeploymentsConfigsUpdateOutput:
@@ -141,6 +234,7 @@ class mapManagementInstanceProviderDeploymentsConfigsUpdateOutput:
         specification_id=data.get('specification_id'),
         deployment=mapManagementInstanceProviderDeploymentsConfigsUpdateOutputDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         from_vault=mapManagementInstanceProviderDeploymentsConfigsUpdateOutputFromVault.from_dict(data.get('from_vault')) if data.get('from_vault') else None,
+        access=mapManagementInstanceProviderDeploymentsConfigsUpdateOutputAccess.from_dict(data.get('access')) if data.get('access') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

@@ -101,6 +101,7 @@ class DashboardInstanceProvidersVersionsListQuery:
     order: Optional[str] = None
     id: Optional[Union[str, List[str]]] = None
     provider_id: Optional[Union[str, List[str]]] = None
+    search: Optional[str] = None
     created_at: Optional[DashboardInstanceProvidersVersionsListQueryCreatedAt] = None
     updated_at: Optional[DashboardInstanceProvidersVersionsListQueryUpdatedAt] = None
 
@@ -116,6 +117,7 @@ class mapDashboardInstanceProvidersVersionsListQuery:
         order=data.get('order'),
         id=data.get('id'),
         provider_id=data.get('provider_id'),
+        search=data.get('search'),
         created_at=mapDashboardInstanceProvidersVersionsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
         updated_at=mapDashboardInstanceProvidersVersionsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )

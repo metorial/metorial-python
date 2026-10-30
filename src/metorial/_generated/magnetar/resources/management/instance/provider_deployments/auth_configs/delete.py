@@ -62,6 +62,28 @@ class ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputAuthMethod:
     scopes: Optional[List[ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputAuthMethodScopes]] = None
     adapters: Optional[List[str]] = None
 @dataclass
+class ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwnerOrganizationMember:
+    id: str
+@dataclass
+class ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwnerConsumer:
+    id: str
+    profile_id: str
+    portal_id: Optional[str] = None
+@dataclass
+class ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwner:
+    type: str
+    name: Optional[str] = None
+    image_url: Optional[str] = None
+    email: Optional[str] = None
+    organization_member: Optional[ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwnerOrganizationMember] = None
+    consumer: Optional[ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwnerConsumer] = None
+@dataclass
+class ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputAccess:
+    type: str
+    visibility: str
+    source: Optional[str] = None
+    owner: Optional[ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwner] = None
+@dataclass
 class ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutput:
     object: str
     id: str
@@ -72,6 +94,7 @@ class ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutput:
     provider_id: str
     tool_filter: Dict[str, Any]
     auth_method: ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputAuthMethod
+    access: ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputAccess
     created_at: datetime
     updated_at: datetime
     name: Optional[str] = None
@@ -211,6 +234,76 @@ class mapManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputAuthMethod:
             return value
         return dataclasses.asdict(value)
 
+class mapManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwnerOrganizationMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwnerOrganizationMember:
+        return ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwnerOrganizationMember(
+        id=data.get('id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwnerOrganizationMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwnerConsumer:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwnerConsumer:
+        return ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwnerConsumer(
+        id=data.get('id'),
+        profile_id=data.get('profile_id'),
+        portal_id=data.get('portal_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwnerConsumer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwner:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwner:
+        return ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwner(
+        type=data.get('type'),
+        name=data.get('name'),
+        image_url=data.get('image_url'),
+        email=data.get('email'),
+        organization_member=mapManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwnerOrganizationMember.from_dict(data.get('organization_member')) if data.get('organization_member') else None,
+        consumer=mapManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwnerConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwner, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputAccess:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputAccess:
+        return ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputAccess(
+        source=data.get('source'),
+        type=data.get('type'),
+        visibility=data.get('visibility'),
+        owner=mapManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwner.from_dict(data.get('owner')) if data.get('owner') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputAccess, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapManagementInstanceProviderDeploymentsAuthConfigsDeleteOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderDeploymentsAuthConfigsDeleteOutput:
@@ -229,6 +322,7 @@ class mapManagementInstanceProviderDeploymentsAuthConfigsDeleteOutput:
         deployment=mapManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         credentials=mapManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,
         auth_method=mapManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
+        access=mapManagementInstanceProviderDeploymentsAuthConfigsDeleteOutputAccess.from_dict(data.get('access')) if data.get('access') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

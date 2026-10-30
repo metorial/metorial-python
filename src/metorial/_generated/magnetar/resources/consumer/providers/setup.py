@@ -4,6 +4,50 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class ConsumerProvidersSetupOutputAccessOwnerOrganizationMember:
+    id: str
+@dataclass
+class ConsumerProvidersSetupOutputAccessOwnerConsumer:
+    id: str
+    profile_id: str
+    portal_id: Optional[str] = None
+@dataclass
+class ConsumerProvidersSetupOutputAccessOwner:
+    type: str
+    name: Optional[str] = None
+    image_url: Optional[str] = None
+    email: Optional[str] = None
+    organization_member: Optional[ConsumerProvidersSetupOutputAccessOwnerOrganizationMember] = None
+    consumer: Optional[ConsumerProvidersSetupOutputAccessOwnerConsumer] = None
+@dataclass
+class ConsumerProvidersSetupOutputAccess:
+    type: str
+    visibility: str
+    source: Optional[str] = None
+    owner: Optional[ConsumerProvidersSetupOutputAccessOwner] = None
+@dataclass
+class ConsumerProvidersSetupOutputIntegrationInstanceAccessOwnerOrganizationMember:
+    id: str
+@dataclass
+class ConsumerProvidersSetupOutputIntegrationInstanceAccessOwnerConsumer:
+    id: str
+    profile_id: str
+    portal_id: Optional[str] = None
+@dataclass
+class ConsumerProvidersSetupOutputIntegrationInstanceAccessOwner:
+    type: str
+    name: Optional[str] = None
+    image_url: Optional[str] = None
+    email: Optional[str] = None
+    organization_member: Optional[ConsumerProvidersSetupOutputIntegrationInstanceAccessOwnerOrganizationMember] = None
+    consumer: Optional[ConsumerProvidersSetupOutputIntegrationInstanceAccessOwnerConsumer] = None
+@dataclass
+class ConsumerProvidersSetupOutputIntegrationInstanceAccess:
+    type: str
+    visibility: str
+    source: Optional[str] = None
+    owner: Optional[ConsumerProvidersSetupOutputIntegrationInstanceAccessOwner] = None
+@dataclass
 class ConsumerProvidersSetupOutputIntegrationInstanceImplementation:
     type: str
     magic_mcp_server_id: str
@@ -99,6 +143,7 @@ class ConsumerProvidersSetupOutputIntegrationInstance:
     status: str
     name: str
     integration_id: str
+    access: ConsumerProvidersSetupOutputIntegrationInstanceAccess
     providers: List[ConsumerProvidersSetupOutputIntegrationInstanceProviders]
     created_at: datetime
     updated_at: datetime
@@ -115,6 +160,7 @@ class ConsumerProvidersSetupOutput:
     status: str
     url: str
     integration_id: str
+    access: ConsumerProvidersSetupOutputAccess
     integration_instance: ConsumerProvidersSetupOutputIntegrationInstance
     created_at: datetime
     updated_at: datetime
@@ -125,6 +171,146 @@ class ConsumerProvidersSetupOutput:
     configuration: Optional[Dict[str, Any]] = None
     redirect_url: Optional[str] = None
 
+
+class mapConsumerProvidersSetupOutputAccessOwnerOrganizationMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ConsumerProvidersSetupOutputAccessOwnerOrganizationMember:
+        return ConsumerProvidersSetupOutputAccessOwnerOrganizationMember(
+        id=data.get('id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ConsumerProvidersSetupOutputAccessOwnerOrganizationMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapConsumerProvidersSetupOutputAccessOwnerConsumer:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ConsumerProvidersSetupOutputAccessOwnerConsumer:
+        return ConsumerProvidersSetupOutputAccessOwnerConsumer(
+        id=data.get('id'),
+        profile_id=data.get('profile_id'),
+        portal_id=data.get('portal_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ConsumerProvidersSetupOutputAccessOwnerConsumer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapConsumerProvidersSetupOutputAccessOwner:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ConsumerProvidersSetupOutputAccessOwner:
+        return ConsumerProvidersSetupOutputAccessOwner(
+        type=data.get('type'),
+        name=data.get('name'),
+        image_url=data.get('image_url'),
+        email=data.get('email'),
+        organization_member=mapConsumerProvidersSetupOutputAccessOwnerOrganizationMember.from_dict(data.get('organization_member')) if data.get('organization_member') else None,
+        consumer=mapConsumerProvidersSetupOutputAccessOwnerConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ConsumerProvidersSetupOutputAccessOwner, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapConsumerProvidersSetupOutputAccess:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ConsumerProvidersSetupOutputAccess:
+        return ConsumerProvidersSetupOutputAccess(
+        source=data.get('source'),
+        type=data.get('type'),
+        visibility=data.get('visibility'),
+        owner=mapConsumerProvidersSetupOutputAccessOwner.from_dict(data.get('owner')) if data.get('owner') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ConsumerProvidersSetupOutputAccess, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapConsumerProvidersSetupOutputIntegrationInstanceAccessOwnerOrganizationMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ConsumerProvidersSetupOutputIntegrationInstanceAccessOwnerOrganizationMember:
+        return ConsumerProvidersSetupOutputIntegrationInstanceAccessOwnerOrganizationMember(
+        id=data.get('id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ConsumerProvidersSetupOutputIntegrationInstanceAccessOwnerOrganizationMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapConsumerProvidersSetupOutputIntegrationInstanceAccessOwnerConsumer:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ConsumerProvidersSetupOutputIntegrationInstanceAccessOwnerConsumer:
+        return ConsumerProvidersSetupOutputIntegrationInstanceAccessOwnerConsumer(
+        id=data.get('id'),
+        profile_id=data.get('profile_id'),
+        portal_id=data.get('portal_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ConsumerProvidersSetupOutputIntegrationInstanceAccessOwnerConsumer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapConsumerProvidersSetupOutputIntegrationInstanceAccessOwner:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ConsumerProvidersSetupOutputIntegrationInstanceAccessOwner:
+        return ConsumerProvidersSetupOutputIntegrationInstanceAccessOwner(
+        type=data.get('type'),
+        name=data.get('name'),
+        image_url=data.get('image_url'),
+        email=data.get('email'),
+        organization_member=mapConsumerProvidersSetupOutputIntegrationInstanceAccessOwnerOrganizationMember.from_dict(data.get('organization_member')) if data.get('organization_member') else None,
+        consumer=mapConsumerProvidersSetupOutputIntegrationInstanceAccessOwnerConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ConsumerProvidersSetupOutputIntegrationInstanceAccessOwner, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapConsumerProvidersSetupOutputIntegrationInstanceAccess:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ConsumerProvidersSetupOutputIntegrationInstanceAccess:
+        return ConsumerProvidersSetupOutputIntegrationInstanceAccess(
+        source=data.get('source'),
+        type=data.get('type'),
+        visibility=data.get('visibility'),
+        owner=mapConsumerProvidersSetupOutputIntegrationInstanceAccessOwner.from_dict(data.get('owner')) if data.get('owner') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ConsumerProvidersSetupOutputIntegrationInstanceAccess, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapConsumerProvidersSetupOutputIntegrationInstanceImplementation:
     @staticmethod
@@ -324,6 +510,7 @@ class mapConsumerProvidersSetupOutputIntegrationInstance:
         integration_id=data.get('integration_id'),
         identity_actor_id=data.get('identity_actor_id'),
         identity_id=data.get('identity_id'),
+        access=mapConsumerProvidersSetupOutputIntegrationInstanceAccess.from_dict(data.get('access')) if data.get('access') else None,
         implementation=mapConsumerProvidersSetupOutputIntegrationInstanceImplementation.from_dict(data.get('implementation')) if data.get('implementation') else None,
         providers=[mapConsumerProvidersSetupOutputIntegrationInstanceProviders.from_dict(item) for item in data.get('providers', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
@@ -353,6 +540,7 @@ class mapConsumerProvidersSetupOutput:
         configuration=data.get('configuration'),
         redirect_url=data.get('redirect_url'),
         integration_id=data.get('integration_id'),
+        access=mapConsumerProvidersSetupOutputAccess.from_dict(data.get('access')) if data.get('access') else None,
         integration_instance=mapConsumerProvidersSetupOutputIntegrationInstance.from_dict(data.get('integration_instance')) if data.get('integration_instance') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,

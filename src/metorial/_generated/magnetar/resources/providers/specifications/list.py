@@ -356,6 +356,7 @@ class ProvidersSpecificationsListQuery:
     provider_version_id: Optional[Union[str, List[str]]] = None
     provider_deployment_id: Optional[Union[str, List[str]]] = None
     provider_config_id: Optional[Union[str, List[str]]] = None
+    search: Optional[str] = None
     created_at: Optional[ProvidersSpecificationsListQueryCreatedAt] = None
     updated_at: Optional[ProvidersSpecificationsListQueryUpdatedAt] = None
 
@@ -374,6 +375,7 @@ class mapProvidersSpecificationsListQuery:
         provider_version_id=data.get('provider_version_id'),
         provider_deployment_id=data.get('provider_deployment_id'),
         provider_config_id=data.get('provider_config_id'),
+        search=data.get('search'),
         created_at=mapProvidersSpecificationsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
         updated_at=mapProvidersSpecificationsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )

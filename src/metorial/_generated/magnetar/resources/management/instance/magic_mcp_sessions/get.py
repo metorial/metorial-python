@@ -118,6 +118,28 @@ class ManagementInstanceMagicMcpSessionsGetOutputMagicMcpServerProviders:
     auth_config: Optional[ManagementInstanceMagicMcpSessionsGetOutputMagicMcpServerProvidersAuthConfig] = None
     archived_at: Optional[datetime] = None
 @dataclass
+class ManagementInstanceMagicMcpSessionsGetOutputMagicMcpServerAccessOwnerOrganizationMember:
+    id: str
+@dataclass
+class ManagementInstanceMagicMcpSessionsGetOutputMagicMcpServerAccessOwnerConsumer:
+    id: str
+    profile_id: str
+    portal_id: Optional[str] = None
+@dataclass
+class ManagementInstanceMagicMcpSessionsGetOutputMagicMcpServerAccessOwner:
+    type: str
+    name: Optional[str] = None
+    image_url: Optional[str] = None
+    email: Optional[str] = None
+    organization_member: Optional[ManagementInstanceMagicMcpSessionsGetOutputMagicMcpServerAccessOwnerOrganizationMember] = None
+    consumer: Optional[ManagementInstanceMagicMcpSessionsGetOutputMagicMcpServerAccessOwnerConsumer] = None
+@dataclass
+class ManagementInstanceMagicMcpSessionsGetOutputMagicMcpServerAccess:
+    type: str
+    visibility: str
+    source: Optional[str] = None
+    owner: Optional[ManagementInstanceMagicMcpSessionsGetOutputMagicMcpServerAccessOwner] = None
+@dataclass
 class ManagementInstanceMagicMcpSessionsGetOutputMagicMcpServer:
     object: str
     id: str
@@ -127,11 +149,34 @@ class ManagementInstanceMagicMcpSessionsGetOutputMagicMcpServer:
     endpoints: List[ManagementInstanceMagicMcpSessionsGetOutputMagicMcpServerEndpoints]
     providers: List[ManagementInstanceMagicMcpSessionsGetOutputMagicMcpServerProviders]
     metadata: Dict[str, Any]
+    access: ManagementInstanceMagicMcpSessionsGetOutputMagicMcpServerAccess
     created_at: datetime
     updated_at: datetime
     provider_template_id: Optional[str] = None
     name: Optional[str] = None
     description: Optional[str] = None
+@dataclass
+class ManagementInstanceMagicMcpSessionsGetOutputMagicMcpEndpointAccessOwnerOrganizationMember:
+    id: str
+@dataclass
+class ManagementInstanceMagicMcpSessionsGetOutputMagicMcpEndpointAccessOwnerConsumer:
+    id: str
+    profile_id: str
+    portal_id: Optional[str] = None
+@dataclass
+class ManagementInstanceMagicMcpSessionsGetOutputMagicMcpEndpointAccessOwner:
+    type: str
+    name: Optional[str] = None
+    image_url: Optional[str] = None
+    email: Optional[str] = None
+    organization_member: Optional[ManagementInstanceMagicMcpSessionsGetOutputMagicMcpEndpointAccessOwnerOrganizationMember] = None
+    consumer: Optional[ManagementInstanceMagicMcpSessionsGetOutputMagicMcpEndpointAccessOwnerConsumer] = None
+@dataclass
+class ManagementInstanceMagicMcpSessionsGetOutputMagicMcpEndpointAccess:
+    type: str
+    visibility: str
+    source: Optional[str] = None
+    owner: Optional[ManagementInstanceMagicMcpSessionsGetOutputMagicMcpEndpointAccessOwner] = None
 @dataclass
 class ManagementInstanceMagicMcpSessionsGetOutputMagicMcpEndpoint:
     object: str
@@ -141,6 +186,8 @@ class ManagementInstanceMagicMcpSessionsGetOutputMagicMcpEndpoint:
     url: str
     servers: List[Dict[str, Any]]
     metadata: Dict[str, Any]
+    enable_skill_editing: bool
+    access: ManagementInstanceMagicMcpSessionsGetOutputMagicMcpEndpointAccess
     created_at: datetime
     updated_at: datetime
     name: Optional[str] = None
@@ -405,6 +452,76 @@ class mapManagementInstanceMagicMcpSessionsGetOutputMagicMcpServerProviders:
             return value
         return dataclasses.asdict(value)
 
+class mapManagementInstanceMagicMcpSessionsGetOutputMagicMcpServerAccessOwnerOrganizationMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceMagicMcpSessionsGetOutputMagicMcpServerAccessOwnerOrganizationMember:
+        return ManagementInstanceMagicMcpSessionsGetOutputMagicMcpServerAccessOwnerOrganizationMember(
+        id=data.get('id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceMagicMcpSessionsGetOutputMagicMcpServerAccessOwnerOrganizationMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceMagicMcpSessionsGetOutputMagicMcpServerAccessOwnerConsumer:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceMagicMcpSessionsGetOutputMagicMcpServerAccessOwnerConsumer:
+        return ManagementInstanceMagicMcpSessionsGetOutputMagicMcpServerAccessOwnerConsumer(
+        id=data.get('id'),
+        profile_id=data.get('profile_id'),
+        portal_id=data.get('portal_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceMagicMcpSessionsGetOutputMagicMcpServerAccessOwnerConsumer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceMagicMcpSessionsGetOutputMagicMcpServerAccessOwner:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceMagicMcpSessionsGetOutputMagicMcpServerAccessOwner:
+        return ManagementInstanceMagicMcpSessionsGetOutputMagicMcpServerAccessOwner(
+        type=data.get('type'),
+        name=data.get('name'),
+        image_url=data.get('image_url'),
+        email=data.get('email'),
+        organization_member=mapManagementInstanceMagicMcpSessionsGetOutputMagicMcpServerAccessOwnerOrganizationMember.from_dict(data.get('organization_member')) if data.get('organization_member') else None,
+        consumer=mapManagementInstanceMagicMcpSessionsGetOutputMagicMcpServerAccessOwnerConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceMagicMcpSessionsGetOutputMagicMcpServerAccessOwner, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceMagicMcpSessionsGetOutputMagicMcpServerAccess:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceMagicMcpSessionsGetOutputMagicMcpServerAccess:
+        return ManagementInstanceMagicMcpSessionsGetOutputMagicMcpServerAccess(
+        source=data.get('source'),
+        type=data.get('type'),
+        visibility=data.get('visibility'),
+        owner=mapManagementInstanceMagicMcpSessionsGetOutputMagicMcpServerAccessOwner.from_dict(data.get('owner')) if data.get('owner') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceMagicMcpSessionsGetOutputMagicMcpServerAccess, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapManagementInstanceMagicMcpSessionsGetOutputMagicMcpServer:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceMagicMcpSessionsGetOutputMagicMcpServer:
@@ -420,12 +537,83 @@ class mapManagementInstanceMagicMcpSessionsGetOutputMagicMcpServer:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        access=mapManagementInstanceMagicMcpSessionsGetOutputMagicMcpServerAccess.from_dict(data.get('access')) if data.get('access') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod
     def to_dict(value: Union[ManagementInstanceMagicMcpSessionsGetOutputMagicMcpServer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceMagicMcpSessionsGetOutputMagicMcpEndpointAccessOwnerOrganizationMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceMagicMcpSessionsGetOutputMagicMcpEndpointAccessOwnerOrganizationMember:
+        return ManagementInstanceMagicMcpSessionsGetOutputMagicMcpEndpointAccessOwnerOrganizationMember(
+        id=data.get('id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceMagicMcpSessionsGetOutputMagicMcpEndpointAccessOwnerOrganizationMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceMagicMcpSessionsGetOutputMagicMcpEndpointAccessOwnerConsumer:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceMagicMcpSessionsGetOutputMagicMcpEndpointAccessOwnerConsumer:
+        return ManagementInstanceMagicMcpSessionsGetOutputMagicMcpEndpointAccessOwnerConsumer(
+        id=data.get('id'),
+        profile_id=data.get('profile_id'),
+        portal_id=data.get('portal_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceMagicMcpSessionsGetOutputMagicMcpEndpointAccessOwnerConsumer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceMagicMcpSessionsGetOutputMagicMcpEndpointAccessOwner:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceMagicMcpSessionsGetOutputMagicMcpEndpointAccessOwner:
+        return ManagementInstanceMagicMcpSessionsGetOutputMagicMcpEndpointAccessOwner(
+        type=data.get('type'),
+        name=data.get('name'),
+        image_url=data.get('image_url'),
+        email=data.get('email'),
+        organization_member=mapManagementInstanceMagicMcpSessionsGetOutputMagicMcpEndpointAccessOwnerOrganizationMember.from_dict(data.get('organization_member')) if data.get('organization_member') else None,
+        consumer=mapManagementInstanceMagicMcpSessionsGetOutputMagicMcpEndpointAccessOwnerConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceMagicMcpSessionsGetOutputMagicMcpEndpointAccessOwner, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceMagicMcpSessionsGetOutputMagicMcpEndpointAccess:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceMagicMcpSessionsGetOutputMagicMcpEndpointAccess:
+        return ManagementInstanceMagicMcpSessionsGetOutputMagicMcpEndpointAccess(
+        source=data.get('source'),
+        type=data.get('type'),
+        visibility=data.get('visibility'),
+        owner=mapManagementInstanceMagicMcpSessionsGetOutputMagicMcpEndpointAccessOwner.from_dict(data.get('owner')) if data.get('owner') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceMagicMcpSessionsGetOutputMagicMcpEndpointAccess, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
         if value is None:
             return None
         if isinstance(value, dict):
@@ -445,6 +633,8 @@ class mapManagementInstanceMagicMcpSessionsGetOutputMagicMcpEndpoint:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        enable_skill_editing=data.get('enable_skill_editing'),
+        access=mapManagementInstanceMagicMcpSessionsGetOutputMagicMcpEndpointAccess.from_dict(data.get('access')) if data.get('access') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

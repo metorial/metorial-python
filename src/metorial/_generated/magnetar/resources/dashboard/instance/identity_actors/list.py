@@ -15,6 +15,8 @@ class DashboardInstanceIdentityActorsListOutputItems:
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
     agent_id: Optional[str] = None
+    consumer_id: Optional[str] = None
+    default_identity_id: Optional[str] = None
 @dataclass
 class DashboardInstanceIdentityActorsListOutputPagination:
     has_more_before: bool
@@ -37,6 +39,8 @@ class mapDashboardInstanceIdentityActorsListOutputItems:
         description=data.get('description'),
         metadata=data.get('metadata'),
         agent_id=data.get('agent_id'),
+        consumer_id=data.get('consumer_id'),
+        default_identity_id=data.get('default_identity_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -101,6 +105,7 @@ class DashboardInstanceIdentityActorsListQuery:
     status: Optional[Union[str, List[str]]] = None
     id: Optional[Union[str, List[str]]] = None
     agent_id: Optional[Union[str, List[str]]] = None
+    consumer_profile_id: Optional[Union[str, List[str]]] = None
     consumer_id: Optional[Union[str, List[str]]] = None
     created_at: Optional[DashboardInstanceIdentityActorsListQueryCreatedAt] = None
     updated_at: Optional[DashboardInstanceIdentityActorsListQueryUpdatedAt] = None
@@ -119,6 +124,7 @@ class mapDashboardInstanceIdentityActorsListQuery:
         status=data.get('status'),
         id=data.get('id'),
         agent_id=data.get('agent_id'),
+        consumer_profile_id=data.get('consumer_profile_id'),
         consumer_id=data.get('consumer_id'),
         created_at=mapDashboardInstanceIdentityActorsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
         updated_at=mapDashboardInstanceIdentityActorsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None

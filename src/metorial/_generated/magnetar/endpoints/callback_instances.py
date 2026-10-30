@@ -8,7 +8,7 @@ class MetorialCallbackInstancesEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, callback_id: Optional[Union[str, List[str]]] = None, integration_id: Optional[Union[str, List[str]]] = None, integration_instance_id: Optional[Union[str, List[str]]] = None, integration_instance_provider_id: Optional[Union[str, List[str]]] = None, status: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceCallbackInstancesListOutput:
+    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, callback_id: Optional[Union[str, List[str]]] = None, integration_id: Optional[Union[str, List[str]]] = None, integration_instance_id: Optional[Union[str, List[str]]] = None, integration_instance_provider_id: Optional[Union[str, List[str]]] = None, status: Optional[Union[str, List[str]]] = None, search: Optional[str] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceCallbackInstancesListOutput:
         """
     List callback instances
     Returns a paginated list of callback instances.
@@ -24,6 +24,7 @@ class MetorialCallbackInstancesEndpoint(BaseMetorialEndpoint):
     :param integration_instance_id: Optional[Union[str, List[str]]] (optional)
     :param integration_instance_provider_id: Optional[Union[str, List[str]]] (optional)
     :param status: Optional[Union[str, List[str]]] (optional)
+    :param search: Optional[str] (optional)
     :param created_at: Optional[Dict[str, Any]] (optional)
     :param updated_at: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceCallbackInstancesListOutput
@@ -52,6 +53,8 @@ class MetorialCallbackInstancesEndpoint(BaseMetorialEndpoint):
             query_dict["integration_instance_provider_id"] = integration_instance_provider_id
         if status is not None:
             query_dict["status"] = status
+        if search is not None:
+            query_dict["search"] = search
         if created_at is not None:
             query_dict["created_at"] = created_at
         if updated_at is not None:

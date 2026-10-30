@@ -89,6 +89,7 @@ class DashboardInstanceMagicMcpGroupsListQuery:
     order: Optional[str] = None
     status: Optional[Union[str, List[str]]] = None
     search: Optional[str] = None
+    id: Optional[Union[str, List[str]]] = None
 
 
 class mapDashboardInstanceMagicMcpGroupsListQuery:
@@ -101,7 +102,8 @@ class mapDashboardInstanceMagicMcpGroupsListQuery:
         cursor=data.get('cursor'),
         order=data.get('order'),
         status=data.get('status'),
-        search=data.get('search')
+        search=data.get('search'),
+        id=data.get('id')
         )
 
     @staticmethod
