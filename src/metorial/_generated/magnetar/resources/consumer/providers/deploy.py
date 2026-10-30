@@ -118,6 +118,28 @@ class ConsumerProvidersDeployOutputProviders:
     auth_config: Optional[ConsumerProvidersDeployOutputProvidersAuthConfig] = None
     archived_at: Optional[datetime] = None
 @dataclass
+class ConsumerProvidersDeployOutputAccessOwnerOrganizationMember:
+    id: str
+@dataclass
+class ConsumerProvidersDeployOutputAccessOwnerConsumer:
+    id: str
+    profile_id: str
+    portal_id: Optional[str] = None
+@dataclass
+class ConsumerProvidersDeployOutputAccessOwner:
+    type: str
+    name: Optional[str] = None
+    image_url: Optional[str] = None
+    email: Optional[str] = None
+    organization_member: Optional[ConsumerProvidersDeployOutputAccessOwnerOrganizationMember] = None
+    consumer: Optional[ConsumerProvidersDeployOutputAccessOwnerConsumer] = None
+@dataclass
+class ConsumerProvidersDeployOutputAccess:
+    type: str
+    visibility: str
+    source: Optional[str] = None
+    owner: Optional[ConsumerProvidersDeployOutputAccessOwner] = None
+@dataclass
 class ConsumerProvidersDeployOutput:
     object: str
     id: str
@@ -127,6 +149,7 @@ class ConsumerProvidersDeployOutput:
     endpoints: List[ConsumerProvidersDeployOutputEndpoints]
     providers: List[ConsumerProvidersDeployOutputProviders]
     metadata: Dict[str, Any]
+    access: ConsumerProvidersDeployOutputAccess
     created_at: datetime
     updated_at: datetime
     provider_template_id: Optional[str] = None
@@ -380,6 +403,76 @@ class mapConsumerProvidersDeployOutputProviders:
             return value
         return dataclasses.asdict(value)
 
+class mapConsumerProvidersDeployOutputAccessOwnerOrganizationMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ConsumerProvidersDeployOutputAccessOwnerOrganizationMember:
+        return ConsumerProvidersDeployOutputAccessOwnerOrganizationMember(
+        id=data.get('id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ConsumerProvidersDeployOutputAccessOwnerOrganizationMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapConsumerProvidersDeployOutputAccessOwnerConsumer:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ConsumerProvidersDeployOutputAccessOwnerConsumer:
+        return ConsumerProvidersDeployOutputAccessOwnerConsumer(
+        id=data.get('id'),
+        profile_id=data.get('profile_id'),
+        portal_id=data.get('portal_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ConsumerProvidersDeployOutputAccessOwnerConsumer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapConsumerProvidersDeployOutputAccessOwner:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ConsumerProvidersDeployOutputAccessOwner:
+        return ConsumerProvidersDeployOutputAccessOwner(
+        type=data.get('type'),
+        name=data.get('name'),
+        image_url=data.get('image_url'),
+        email=data.get('email'),
+        organization_member=mapConsumerProvidersDeployOutputAccessOwnerOrganizationMember.from_dict(data.get('organization_member')) if data.get('organization_member') else None,
+        consumer=mapConsumerProvidersDeployOutputAccessOwnerConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ConsumerProvidersDeployOutputAccessOwner, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapConsumerProvidersDeployOutputAccess:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ConsumerProvidersDeployOutputAccess:
+        return ConsumerProvidersDeployOutputAccess(
+        source=data.get('source'),
+        type=data.get('type'),
+        visibility=data.get('visibility'),
+        owner=mapConsumerProvidersDeployOutputAccessOwner.from_dict(data.get('owner')) if data.get('owner') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ConsumerProvidersDeployOutputAccess, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapConsumerProvidersDeployOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ConsumerProvidersDeployOutput:
@@ -395,6 +488,7 @@ class mapConsumerProvidersDeployOutput:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        access=mapConsumerProvidersDeployOutputAccess.from_dict(data.get('access')) if data.get('access') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

@@ -99,6 +99,7 @@ class DashboardInstanceCallbackInstancesListQuery:
     integration_instance_id: Optional[Union[str, List[str]]] = None
     integration_instance_provider_id: Optional[Union[str, List[str]]] = None
     status: Optional[Union[str, List[str]]] = None
+    search: Optional[str] = None
     created_at: Optional[DashboardInstanceCallbackInstancesListQueryCreatedAt] = None
     updated_at: Optional[DashboardInstanceCallbackInstancesListQueryUpdatedAt] = None
 
@@ -118,6 +119,7 @@ class mapDashboardInstanceCallbackInstancesListQuery:
         integration_instance_id=data.get('integration_instance_id'),
         integration_instance_provider_id=data.get('integration_instance_provider_id'),
         status=data.get('status'),
+        search=data.get('search'),
         created_at=mapDashboardInstanceCallbackInstancesListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
         updated_at=mapDashboardInstanceCallbackInstancesListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )

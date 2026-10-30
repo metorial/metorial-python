@@ -50,13 +50,70 @@ class DashboardInstanceStoresParticipantsListOutputItemsActor:
     consumer: Optional[DashboardInstanceStoresParticipantsListOutputItemsActorConsumer] = None
     consumer_profile: Optional[Dict[str, Any]] = None
 @dataclass
+class DashboardInstanceStoresParticipantsListOutputItemsSurfacesActorOrganizationActorMember:
+    object: str
+    id: str
+    status: str
+    role: str
+@dataclass
+class DashboardInstanceStoresParticipantsListOutputItemsSurfacesActorOrganizationActorTeams:
+    id: str
+    name: str
+    slug: str
+    assignment_id: str
+    created_at: datetime
+    updated_at: datetime
+@dataclass
+class DashboardInstanceStoresParticipantsListOutputItemsSurfacesActorOrganizationActor:
+    object: str
+    id: str
+    type: str
+    organization_id: str
+    name: str
+    image_url: str
+    teams: List[DashboardInstanceStoresParticipantsListOutputItemsSurfacesActorOrganizationActorTeams]
+    created_at: datetime
+    updated_at: datetime
+    email: Optional[str] = None
+    member: Optional[DashboardInstanceStoresParticipantsListOutputItemsSurfacesActorOrganizationActorMember] = None
+@dataclass
+class DashboardInstanceStoresParticipantsListOutputItemsSurfacesActorConsumer:
+    object: str
+    id: str
+    name: str
+    email: str
+    image_url: str
+    created_at: datetime
+    updated_at: datetime
+    user_id: Optional[str] = None
+@dataclass
+class DashboardInstanceStoresParticipantsListOutputItemsSurfacesActor:
+    type: str
+    name: str
+    image_url: Optional[str] = None
+    email: Optional[str] = None
+    organization_actor: Optional[DashboardInstanceStoresParticipantsListOutputItemsSurfacesActorOrganizationActor] = None
+    consumer: Optional[DashboardInstanceStoresParticipantsListOutputItemsSurfacesActorConsumer] = None
+    consumer_profile: Optional[Dict[str, Any]] = None
+@dataclass
+class DashboardInstanceStoresParticipantsListOutputItemsSurfaces:
+    id: str
+    roles: List[str]
+    actor: DashboardInstanceStoresParticipantsListOutputItemsSurfacesActor
+    created_at: datetime
+    last_active_at: Optional[datetime] = None
+@dataclass
 class DashboardInstanceStoresParticipantsListOutputItems:
     object: str
     id: str
     store_id: str
     permissions: List[str]
+    roles: List[str]
     actor: DashboardInstanceStoresParticipantsListOutputItemsActor
     created_at: datetime
+    updated_at: datetime
+    surfaces: Optional[List[DashboardInstanceStoresParticipantsListOutputItemsSurfaces]] = None
+    last_active_at: Optional[datetime] = None
 @dataclass
 class DashboardInstanceStoresParticipantsListOutputPagination:
     has_more_before: bool
@@ -173,6 +230,131 @@ class mapDashboardInstanceStoresParticipantsListOutputItemsActor:
             return value
         return dataclasses.asdict(value)
 
+class mapDashboardInstanceStoresParticipantsListOutputItemsSurfacesActorOrganizationActorMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceStoresParticipantsListOutputItemsSurfacesActorOrganizationActorMember:
+        return DashboardInstanceStoresParticipantsListOutputItemsSurfacesActorOrganizationActorMember(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        role=data.get('role')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceStoresParticipantsListOutputItemsSurfacesActorOrganizationActorMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceStoresParticipantsListOutputItemsSurfacesActorOrganizationActorTeams:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceStoresParticipantsListOutputItemsSurfacesActorOrganizationActorTeams:
+        return DashboardInstanceStoresParticipantsListOutputItemsSurfacesActorOrganizationActorTeams(
+        id=data.get('id'),
+        name=data.get('name'),
+        slug=data.get('slug'),
+        assignment_id=data.get('assignment_id'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceStoresParticipantsListOutputItemsSurfacesActorOrganizationActorTeams, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceStoresParticipantsListOutputItemsSurfacesActorOrganizationActor:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceStoresParticipantsListOutputItemsSurfacesActorOrganizationActor:
+        return DashboardInstanceStoresParticipantsListOutputItemsSurfacesActorOrganizationActor(
+        object=data.get('object'),
+        id=data.get('id'),
+        type=data.get('type'),
+        organization_id=data.get('organization_id'),
+        name=data.get('name'),
+        email=data.get('email'),
+        image_url=data.get('image_url'),
+        member=mapDashboardInstanceStoresParticipantsListOutputItemsSurfacesActorOrganizationActorMember.from_dict(data.get('member')) if data.get('member') else None,
+        teams=[mapDashboardInstanceStoresParticipantsListOutputItemsSurfacesActorOrganizationActorTeams.from_dict(item) for item in data.get('teams', []) if item],
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceStoresParticipantsListOutputItemsSurfacesActorOrganizationActor, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceStoresParticipantsListOutputItemsSurfacesActorConsumer:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceStoresParticipantsListOutputItemsSurfacesActorConsumer:
+        return DashboardInstanceStoresParticipantsListOutputItemsSurfacesActorConsumer(
+        object=data.get('object'),
+        id=data.get('id'),
+        name=data.get('name'),
+        email=data.get('email'),
+        image_url=data.get('image_url'),
+        user_id=data.get('user_id'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceStoresParticipantsListOutputItemsSurfacesActorConsumer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceStoresParticipantsListOutputItemsSurfacesActor:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceStoresParticipantsListOutputItemsSurfacesActor:
+        return DashboardInstanceStoresParticipantsListOutputItemsSurfacesActor(
+        type=data.get('type'),
+        name=data.get('name'),
+        image_url=data.get('image_url'),
+        email=data.get('email'),
+        organization_actor=mapDashboardInstanceStoresParticipantsListOutputItemsSurfacesActorOrganizationActor.from_dict(data.get('organization_actor')) if data.get('organization_actor') else None,
+        consumer=mapDashboardInstanceStoresParticipantsListOutputItemsSurfacesActorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None,
+        consumer_profile=data.get('consumer_profile')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceStoresParticipantsListOutputItemsSurfacesActor, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceStoresParticipantsListOutputItemsSurfaces:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceStoresParticipantsListOutputItemsSurfaces:
+        return DashboardInstanceStoresParticipantsListOutputItemsSurfaces(
+        id=data.get('id'),
+        roles=data.get('roles', []),
+        actor=mapDashboardInstanceStoresParticipantsListOutputItemsSurfacesActor.from_dict(data.get('actor')) if data.get('actor') else None,
+        last_active_at=datetime.fromisoformat(data.get('last_active_at').replace('Z', '+00:00')) if data.get('last_active_at') else None,
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceStoresParticipantsListOutputItemsSurfaces, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapDashboardInstanceStoresParticipantsListOutputItems:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceStoresParticipantsListOutputItems:
@@ -181,8 +363,12 @@ class mapDashboardInstanceStoresParticipantsListOutputItems:
         id=data.get('id'),
         store_id=data.get('store_id'),
         permissions=data.get('permissions', []),
+        roles=data.get('roles', []),
         actor=mapDashboardInstanceStoresParticipantsListOutputItemsActor.from_dict(data.get('actor')) if data.get('actor') else None,
-        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
+        surfaces=[mapDashboardInstanceStoresParticipantsListOutputItemsSurfaces.from_dict(item) for item in data.get('surfaces', []) if item],
+        last_active_at=datetime.fromisoformat(data.get('last_active_at').replace('Z', '+00:00')) if data.get('last_active_at') else None,
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod

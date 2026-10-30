@@ -4,6 +4,28 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class ManagementInstanceSessionTemplatesDeleteOutputAccessOwnerOrganizationMember:
+    id: str
+@dataclass
+class ManagementInstanceSessionTemplatesDeleteOutputAccessOwnerConsumer:
+    id: str
+    profile_id: str
+    portal_id: Optional[str] = None
+@dataclass
+class ManagementInstanceSessionTemplatesDeleteOutputAccessOwner:
+    type: str
+    name: Optional[str] = None
+    image_url: Optional[str] = None
+    email: Optional[str] = None
+    organization_member: Optional[ManagementInstanceSessionTemplatesDeleteOutputAccessOwnerOrganizationMember] = None
+    consumer: Optional[ManagementInstanceSessionTemplatesDeleteOutputAccessOwnerConsumer] = None
+@dataclass
+class ManagementInstanceSessionTemplatesDeleteOutputAccess:
+    type: str
+    visibility: str
+    source: Optional[str] = None
+    owner: Optional[ManagementInstanceSessionTemplatesDeleteOutputAccessOwner] = None
+@dataclass
 class ManagementInstanceSessionTemplatesDeleteOutputProvidersDeployment:
     object: str
     id: str
@@ -48,6 +70,7 @@ class ManagementInstanceSessionTemplatesDeleteOutput:
     id: str
     status: str
     name: str
+    access: ManagementInstanceSessionTemplatesDeleteOutputAccess
     providers: List[ManagementInstanceSessionTemplatesDeleteOutputProviders]
     created_at: datetime
     updated_at: datetime
@@ -58,6 +81,76 @@ class ManagementInstanceSessionTemplatesDeleteOutput:
     identity_actor_id: Optional[str] = None
     identity_id: Optional[str] = None
 
+
+class mapManagementInstanceSessionTemplatesDeleteOutputAccessOwnerOrganizationMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceSessionTemplatesDeleteOutputAccessOwnerOrganizationMember:
+        return ManagementInstanceSessionTemplatesDeleteOutputAccessOwnerOrganizationMember(
+        id=data.get('id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceSessionTemplatesDeleteOutputAccessOwnerOrganizationMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceSessionTemplatesDeleteOutputAccessOwnerConsumer:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceSessionTemplatesDeleteOutputAccessOwnerConsumer:
+        return ManagementInstanceSessionTemplatesDeleteOutputAccessOwnerConsumer(
+        id=data.get('id'),
+        profile_id=data.get('profile_id'),
+        portal_id=data.get('portal_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceSessionTemplatesDeleteOutputAccessOwnerConsumer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceSessionTemplatesDeleteOutputAccessOwner:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceSessionTemplatesDeleteOutputAccessOwner:
+        return ManagementInstanceSessionTemplatesDeleteOutputAccessOwner(
+        type=data.get('type'),
+        name=data.get('name'),
+        image_url=data.get('image_url'),
+        email=data.get('email'),
+        organization_member=mapManagementInstanceSessionTemplatesDeleteOutputAccessOwnerOrganizationMember.from_dict(data.get('organization_member')) if data.get('organization_member') else None,
+        consumer=mapManagementInstanceSessionTemplatesDeleteOutputAccessOwnerConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceSessionTemplatesDeleteOutputAccessOwner, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceSessionTemplatesDeleteOutputAccess:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceSessionTemplatesDeleteOutputAccess:
+        return ManagementInstanceSessionTemplatesDeleteOutputAccess(
+        source=data.get('source'),
+        type=data.get('type'),
+        visibility=data.get('visibility'),
+        owner=mapManagementInstanceSessionTemplatesDeleteOutputAccessOwner.from_dict(data.get('owner')) if data.get('owner') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceSessionTemplatesDeleteOutputAccess, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapManagementInstanceSessionTemplatesDeleteOutputProvidersDeployment:
     @staticmethod
@@ -159,6 +252,7 @@ class mapManagementInstanceSessionTemplatesDeleteOutput:
         integration_instance_id=data.get('integration_instance_id'),
         integration_instance_group_id=data.get('integration_instance_group_id'),
         identity_actor_id=data.get('identity_actor_id'),
+        access=mapManagementInstanceSessionTemplatesDeleteOutputAccess.from_dict(data.get('access')) if data.get('access') else None,
         identity_id=data.get('identity_id'),
         providers=[mapManagementInstanceSessionTemplatesDeleteOutputProviders.from_dict(item) for item in data.get('providers', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,

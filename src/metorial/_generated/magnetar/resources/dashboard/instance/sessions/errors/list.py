@@ -112,6 +112,7 @@ class DashboardInstanceSessionsErrorsListQuery:
     session_message_id: Optional[Union[str, List[str]]] = None
     created_at: Optional[DashboardInstanceSessionsErrorsListQueryCreatedAt] = None
     updated_at: Optional[DashboardInstanceSessionsErrorsListQueryUpdatedAt] = None
+    search: Optional[str] = None
 
 
 class mapDashboardInstanceSessionsErrorsListQuery:
@@ -133,7 +134,8 @@ class mapDashboardInstanceSessionsErrorsListQuery:
         provider_id=data.get('provider_id'),
         session_message_id=data.get('session_message_id'),
         created_at=mapDashboardInstanceSessionsErrorsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=mapDashboardInstanceSessionsErrorsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
+        updated_at=mapDashboardInstanceSessionsErrorsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None,
+        search=data.get('search')
         )
 
     @staticmethod

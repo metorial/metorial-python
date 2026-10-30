@@ -4,6 +4,28 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class DashboardInstanceMagicMcpEndpointsListOutputItemsAccessOwnerOrganizationMember:
+    id: str
+@dataclass
+class DashboardInstanceMagicMcpEndpointsListOutputItemsAccessOwnerConsumer:
+    id: str
+    profile_id: str
+    portal_id: Optional[str] = None
+@dataclass
+class DashboardInstanceMagicMcpEndpointsListOutputItemsAccessOwner:
+    type: str
+    name: Optional[str] = None
+    image_url: Optional[str] = None
+    email: Optional[str] = None
+    organization_member: Optional[DashboardInstanceMagicMcpEndpointsListOutputItemsAccessOwnerOrganizationMember] = None
+    consumer: Optional[DashboardInstanceMagicMcpEndpointsListOutputItemsAccessOwnerConsumer] = None
+@dataclass
+class DashboardInstanceMagicMcpEndpointsListOutputItemsAccess:
+    type: str
+    visibility: str
+    source: Optional[str] = None
+    owner: Optional[DashboardInstanceMagicMcpEndpointsListOutputItemsAccessOwner] = None
+@dataclass
 class DashboardInstanceMagicMcpEndpointsListOutputItems:
     object: str
     id: str
@@ -12,6 +34,8 @@ class DashboardInstanceMagicMcpEndpointsListOutputItems:
     url: str
     servers: List[Dict[str, Any]]
     metadata: Dict[str, Any]
+    enable_skill_editing: bool
+    access: DashboardInstanceMagicMcpEndpointsListOutputItemsAccess
     created_at: datetime
     updated_at: datetime
     name: Optional[str] = None
@@ -26,6 +50,76 @@ class DashboardInstanceMagicMcpEndpointsListOutput:
     pagination: DashboardInstanceMagicMcpEndpointsListOutputPagination
 
 
+class mapDashboardInstanceMagicMcpEndpointsListOutputItemsAccessOwnerOrganizationMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceMagicMcpEndpointsListOutputItemsAccessOwnerOrganizationMember:
+        return DashboardInstanceMagicMcpEndpointsListOutputItemsAccessOwnerOrganizationMember(
+        id=data.get('id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceMagicMcpEndpointsListOutputItemsAccessOwnerOrganizationMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceMagicMcpEndpointsListOutputItemsAccessOwnerConsumer:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceMagicMcpEndpointsListOutputItemsAccessOwnerConsumer:
+        return DashboardInstanceMagicMcpEndpointsListOutputItemsAccessOwnerConsumer(
+        id=data.get('id'),
+        profile_id=data.get('profile_id'),
+        portal_id=data.get('portal_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceMagicMcpEndpointsListOutputItemsAccessOwnerConsumer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceMagicMcpEndpointsListOutputItemsAccessOwner:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceMagicMcpEndpointsListOutputItemsAccessOwner:
+        return DashboardInstanceMagicMcpEndpointsListOutputItemsAccessOwner(
+        type=data.get('type'),
+        name=data.get('name'),
+        image_url=data.get('image_url'),
+        email=data.get('email'),
+        organization_member=mapDashboardInstanceMagicMcpEndpointsListOutputItemsAccessOwnerOrganizationMember.from_dict(data.get('organization_member')) if data.get('organization_member') else None,
+        consumer=mapDashboardInstanceMagicMcpEndpointsListOutputItemsAccessOwnerConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceMagicMcpEndpointsListOutputItemsAccessOwner, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceMagicMcpEndpointsListOutputItemsAccess:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceMagicMcpEndpointsListOutputItemsAccess:
+        return DashboardInstanceMagicMcpEndpointsListOutputItemsAccess(
+        source=data.get('source'),
+        type=data.get('type'),
+        visibility=data.get('visibility'),
+        owner=mapDashboardInstanceMagicMcpEndpointsListOutputItemsAccessOwner.from_dict(data.get('owner')) if data.get('owner') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceMagicMcpEndpointsListOutputItemsAccess, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapDashboardInstanceMagicMcpEndpointsListOutputItems:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceMagicMcpEndpointsListOutputItems:
@@ -39,6 +133,8 @@ class mapDashboardInstanceMagicMcpEndpointsListOutputItems:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        enable_skill_editing=data.get('enable_skill_editing'),
+        access=mapDashboardInstanceMagicMcpEndpointsListOutputItemsAccess.from_dict(data.get('access')) if data.get('access') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -91,6 +187,7 @@ class DashboardInstanceMagicMcpEndpointsListQuery:
     before: Optional[str] = None
     cursor: Optional[str] = None
     order: Optional[str] = None
+    ownership: Optional[str] = None
     status: Optional[Union[str, List[str]]] = None
     magic_mcp_server_id: Optional[Union[str, List[str]]] = None
     search: Optional[str] = None
@@ -105,6 +202,7 @@ class mapDashboardInstanceMagicMcpEndpointsListQuery:
         before=data.get('before'),
         cursor=data.get('cursor'),
         order=data.get('order'),
+        ownership=data.get('ownership'),
         status=data.get('status'),
         magic_mcp_server_id=data.get('magic_mcp_server_id'),
         search=data.get('search')

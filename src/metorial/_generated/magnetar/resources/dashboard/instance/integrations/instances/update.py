@@ -4,6 +4,28 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class DashboardInstanceIntegrationsInstancesUpdateOutputAccessOwnerOrganizationMember:
+    id: str
+@dataclass
+class DashboardInstanceIntegrationsInstancesUpdateOutputAccessOwnerConsumer:
+    id: str
+    profile_id: str
+    portal_id: Optional[str] = None
+@dataclass
+class DashboardInstanceIntegrationsInstancesUpdateOutputAccessOwner:
+    type: str
+    name: Optional[str] = None
+    image_url: Optional[str] = None
+    email: Optional[str] = None
+    organization_member: Optional[DashboardInstanceIntegrationsInstancesUpdateOutputAccessOwnerOrganizationMember] = None
+    consumer: Optional[DashboardInstanceIntegrationsInstancesUpdateOutputAccessOwnerConsumer] = None
+@dataclass
+class DashboardInstanceIntegrationsInstancesUpdateOutputAccess:
+    type: str
+    visibility: str
+    source: Optional[str] = None
+    owner: Optional[DashboardInstanceIntegrationsInstancesUpdateOutputAccessOwner] = None
+@dataclass
 class DashboardInstanceIntegrationsInstancesUpdateOutputImplementation:
     type: str
     magic_mcp_server_id: str
@@ -99,6 +121,7 @@ class DashboardInstanceIntegrationsInstancesUpdateOutput:
     status: str
     name: str
     integration_id: str
+    access: DashboardInstanceIntegrationsInstancesUpdateOutputAccess
     providers: List[DashboardInstanceIntegrationsInstancesUpdateOutputProviders]
     created_at: datetime
     updated_at: datetime
@@ -109,6 +132,76 @@ class DashboardInstanceIntegrationsInstancesUpdateOutput:
     implementation: Optional[DashboardInstanceIntegrationsInstancesUpdateOutputImplementation] = None
     archived_at: Optional[datetime] = None
 
+
+class mapDashboardInstanceIntegrationsInstancesUpdateOutputAccessOwnerOrganizationMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceIntegrationsInstancesUpdateOutputAccessOwnerOrganizationMember:
+        return DashboardInstanceIntegrationsInstancesUpdateOutputAccessOwnerOrganizationMember(
+        id=data.get('id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceIntegrationsInstancesUpdateOutputAccessOwnerOrganizationMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceIntegrationsInstancesUpdateOutputAccessOwnerConsumer:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceIntegrationsInstancesUpdateOutputAccessOwnerConsumer:
+        return DashboardInstanceIntegrationsInstancesUpdateOutputAccessOwnerConsumer(
+        id=data.get('id'),
+        profile_id=data.get('profile_id'),
+        portal_id=data.get('portal_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceIntegrationsInstancesUpdateOutputAccessOwnerConsumer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceIntegrationsInstancesUpdateOutputAccessOwner:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceIntegrationsInstancesUpdateOutputAccessOwner:
+        return DashboardInstanceIntegrationsInstancesUpdateOutputAccessOwner(
+        type=data.get('type'),
+        name=data.get('name'),
+        image_url=data.get('image_url'),
+        email=data.get('email'),
+        organization_member=mapDashboardInstanceIntegrationsInstancesUpdateOutputAccessOwnerOrganizationMember.from_dict(data.get('organization_member')) if data.get('organization_member') else None,
+        consumer=mapDashboardInstanceIntegrationsInstancesUpdateOutputAccessOwnerConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceIntegrationsInstancesUpdateOutputAccessOwner, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceIntegrationsInstancesUpdateOutputAccess:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceIntegrationsInstancesUpdateOutputAccess:
+        return DashboardInstanceIntegrationsInstancesUpdateOutputAccess(
+        source=data.get('source'),
+        type=data.get('type'),
+        visibility=data.get('visibility'),
+        owner=mapDashboardInstanceIntegrationsInstancesUpdateOutputAccessOwner.from_dict(data.get('owner')) if data.get('owner') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceIntegrationsInstancesUpdateOutputAccess, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapDashboardInstanceIntegrationsInstancesUpdateOutputImplementation:
     @staticmethod
@@ -308,6 +401,7 @@ class mapDashboardInstanceIntegrationsInstancesUpdateOutput:
         integration_id=data.get('integration_id'),
         identity_actor_id=data.get('identity_actor_id'),
         identity_id=data.get('identity_id'),
+        access=mapDashboardInstanceIntegrationsInstancesUpdateOutputAccess.from_dict(data.get('access')) if data.get('access') else None,
         implementation=mapDashboardInstanceIntegrationsInstancesUpdateOutputImplementation.from_dict(data.get('implementation')) if data.get('implementation') else None,
         providers=[mapDashboardInstanceIntegrationsInstancesUpdateOutputProviders.from_dict(item) for item in data.get('providers', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,

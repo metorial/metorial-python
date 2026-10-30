@@ -62,6 +62,28 @@ class DashboardInstanceProviderDeploymentsAuthConfigsDeleteOutputAuthMethod:
     scopes: Optional[List[DashboardInstanceProviderDeploymentsAuthConfigsDeleteOutputAuthMethodScopes]] = None
     adapters: Optional[List[str]] = None
 @dataclass
+class DashboardInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwnerOrganizationMember:
+    id: str
+@dataclass
+class DashboardInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwnerConsumer:
+    id: str
+    profile_id: str
+    portal_id: Optional[str] = None
+@dataclass
+class DashboardInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwner:
+    type: str
+    name: Optional[str] = None
+    image_url: Optional[str] = None
+    email: Optional[str] = None
+    organization_member: Optional[DashboardInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwnerOrganizationMember] = None
+    consumer: Optional[DashboardInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwnerConsumer] = None
+@dataclass
+class DashboardInstanceProviderDeploymentsAuthConfigsDeleteOutputAccess:
+    type: str
+    visibility: str
+    source: Optional[str] = None
+    owner: Optional[DashboardInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwner] = None
+@dataclass
 class DashboardInstanceProviderDeploymentsAuthConfigsDeleteOutput:
     object: str
     id: str
@@ -72,6 +94,7 @@ class DashboardInstanceProviderDeploymentsAuthConfigsDeleteOutput:
     provider_id: str
     tool_filter: Dict[str, Any]
     auth_method: DashboardInstanceProviderDeploymentsAuthConfigsDeleteOutputAuthMethod
+    access: DashboardInstanceProviderDeploymentsAuthConfigsDeleteOutputAccess
     created_at: datetime
     updated_at: datetime
     name: Optional[str] = None
@@ -211,6 +234,76 @@ class mapDashboardInstanceProviderDeploymentsAuthConfigsDeleteOutputAuthMethod:
             return value
         return dataclasses.asdict(value)
 
+class mapDashboardInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwnerOrganizationMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwnerOrganizationMember:
+        return DashboardInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwnerOrganizationMember(
+        id=data.get('id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwnerOrganizationMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwnerConsumer:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwnerConsumer:
+        return DashboardInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwnerConsumer(
+        id=data.get('id'),
+        profile_id=data.get('profile_id'),
+        portal_id=data.get('portal_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwnerConsumer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwner:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwner:
+        return DashboardInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwner(
+        type=data.get('type'),
+        name=data.get('name'),
+        image_url=data.get('image_url'),
+        email=data.get('email'),
+        organization_member=mapDashboardInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwnerOrganizationMember.from_dict(data.get('organization_member')) if data.get('organization_member') else None,
+        consumer=mapDashboardInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwnerConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwner, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceProviderDeploymentsAuthConfigsDeleteOutputAccess:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderDeploymentsAuthConfigsDeleteOutputAccess:
+        return DashboardInstanceProviderDeploymentsAuthConfigsDeleteOutputAccess(
+        source=data.get('source'),
+        type=data.get('type'),
+        visibility=data.get('visibility'),
+        owner=mapDashboardInstanceProviderDeploymentsAuthConfigsDeleteOutputAccessOwner.from_dict(data.get('owner')) if data.get('owner') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceProviderDeploymentsAuthConfigsDeleteOutputAccess, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapDashboardInstanceProviderDeploymentsAuthConfigsDeleteOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderDeploymentsAuthConfigsDeleteOutput:
@@ -229,6 +322,7 @@ class mapDashboardInstanceProviderDeploymentsAuthConfigsDeleteOutput:
         deployment=mapDashboardInstanceProviderDeploymentsAuthConfigsDeleteOutputDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         credentials=mapDashboardInstanceProviderDeploymentsAuthConfigsDeleteOutputCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,
         auth_method=mapDashboardInstanceProviderDeploymentsAuthConfigsDeleteOutputAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
+        access=mapDashboardInstanceProviderDeploymentsAuthConfigsDeleteOutputAccess.from_dict(data.get('access')) if data.get('access') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

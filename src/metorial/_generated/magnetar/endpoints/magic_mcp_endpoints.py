@@ -8,7 +8,7 @@ class MetorialMagicMcpEndpointsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, magic_mcp_server_id: Optional[Union[str, List[str]]] = None, search: Optional[str] = None) -> DashboardInstanceMagicMcpEndpointsListOutput:
+    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, ownership: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, magic_mcp_server_id: Optional[Union[str, List[str]]] = None, search: Optional[str] = None) -> DashboardInstanceMagicMcpEndpointsListOutput:
         """
     List magic MCP endpoints
     Returns a paginated list of magic MCP endpoints.
@@ -18,6 +18,7 @@ class MetorialMagicMcpEndpointsEndpoint(BaseMetorialEndpoint):
     :param before: Optional[str] (optional)
     :param cursor: Optional[str] (optional)
     :param order: Optional[str] (optional)
+    :param ownership: Optional[str] (optional)
     :param status: Optional[Union[str, List[str]]] (optional)
     :param magic_mcp_server_id: Optional[Union[str, List[str]]] (optional)
     :param search: Optional[str] (optional)
@@ -35,6 +36,8 @@ class MetorialMagicMcpEndpointsEndpoint(BaseMetorialEndpoint):
             query_dict["cursor"] = cursor
         if order is not None:
             query_dict["order"] = order
+        if ownership is not None:
+            query_dict["ownership"] = ownership
         if status is not None:
             query_dict["status"] = status
         if magic_mcp_server_id is not None:
@@ -61,7 +64,7 @@ class MetorialMagicMcpEndpointsEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapDashboardInstanceMagicMcpEndpointsGetOutput.from_dict)
 
-    def create(self, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, consumer_profile_id: Optional[str] = None, skill_plugin_id: Optional[str] = None, magic_mcp_servers: Optional[List[Dict[str, Any]]] = None) -> DashboardInstanceMagicMcpEndpointsCreateOutput:
+    def create(self, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, consumer_profile_id: Optional[str] = None, skill_plugin_id: Optional[str] = None, enable_skill_editing: Optional[bool] = None, magic_mcp_servers: Optional[List[Dict[str, Any]]] = None) -> DashboardInstanceMagicMcpEndpointsCreateOutput:
         """
     Create magic MCP endpoint
     Creates a magic MCP endpoint.
@@ -71,6 +74,7 @@ class MetorialMagicMcpEndpointsEndpoint(BaseMetorialEndpoint):
     :param metadata: Optional[Dict[str, Any]] (optional)
     :param consumer_profile_id: Optional[str] (optional)
     :param skill_plugin_id: Optional[str] (optional)
+    :param enable_skill_editing: Optional[bool] (optional)
     :param magic_mcp_servers: Optional[List[Dict[str, Any]]] (optional)
     :return: DashboardInstanceMagicMcpEndpointsCreateOutput
     """
@@ -86,6 +90,8 @@ class MetorialMagicMcpEndpointsEndpoint(BaseMetorialEndpoint):
             body_dict["consumer_profile_id"] = consumer_profile_id
         if skill_plugin_id is not None:
             body_dict["skill_plugin_id"] = skill_plugin_id
+        if enable_skill_editing is not None:
+            body_dict["enable_skill_editing"] = enable_skill_editing
         if magic_mcp_servers is not None:
             body_dict["magic_mcp_servers"] = magic_mcp_servers
 
@@ -108,7 +114,7 @@ class MetorialMagicMcpEndpointsEndpoint(BaseMetorialEndpoint):
         )
         return self._delete(request).transform(mapDashboardInstanceMagicMcpEndpointsDeleteOutput.from_dict)
 
-    def update(self, magic_mcp_endpoint_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceMagicMcpEndpointsUpdateOutput:
+    def update(self, magic_mcp_endpoint_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, enable_skill_editing: Optional[bool] = None) -> DashboardInstanceMagicMcpEndpointsUpdateOutput:
         """
     Update magic MCP endpoint
     Updates a magic MCP endpoint.
@@ -117,6 +123,7 @@ class MetorialMagicMcpEndpointsEndpoint(BaseMetorialEndpoint):
     :param name: Optional[str] (optional)
     :param description: Optional[str] (optional)
     :param metadata: Optional[Dict[str, Any]] (optional)
+    :param enable_skill_editing: Optional[bool] (optional)
     :return: DashboardInstanceMagicMcpEndpointsUpdateOutput
     """
         # Build body parameters from keyword arguments
@@ -127,6 +134,8 @@ class MetorialMagicMcpEndpointsEndpoint(BaseMetorialEndpoint):
             body_dict["description"] = description
         if metadata is not None:
             body_dict["metadata"] = metadata
+        if enable_skill_editing is not None:
+            body_dict["enable_skill_editing"] = enable_skill_editing
 
         request = MetorialRequest(
             path=['magic-mcp-endpoints', magic_mcp_endpoint_id],

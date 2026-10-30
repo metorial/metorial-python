@@ -4,6 +4,28 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class ManagementInstanceIntegrationsInstancesCreateSessionTemplateOutputAccessOwnerOrganizationMember:
+    id: str
+@dataclass
+class ManagementInstanceIntegrationsInstancesCreateSessionTemplateOutputAccessOwnerConsumer:
+    id: str
+    profile_id: str
+    portal_id: Optional[str] = None
+@dataclass
+class ManagementInstanceIntegrationsInstancesCreateSessionTemplateOutputAccessOwner:
+    type: str
+    name: Optional[str] = None
+    image_url: Optional[str] = None
+    email: Optional[str] = None
+    organization_member: Optional[ManagementInstanceIntegrationsInstancesCreateSessionTemplateOutputAccessOwnerOrganizationMember] = None
+    consumer: Optional[ManagementInstanceIntegrationsInstancesCreateSessionTemplateOutputAccessOwnerConsumer] = None
+@dataclass
+class ManagementInstanceIntegrationsInstancesCreateSessionTemplateOutputAccess:
+    type: str
+    visibility: str
+    source: Optional[str] = None
+    owner: Optional[ManagementInstanceIntegrationsInstancesCreateSessionTemplateOutputAccessOwner] = None
+@dataclass
 class ManagementInstanceIntegrationsInstancesCreateSessionTemplateOutputProvidersDeployment:
     object: str
     id: str
@@ -48,6 +70,7 @@ class ManagementInstanceIntegrationsInstancesCreateSessionTemplateOutput:
     id: str
     status: str
     name: str
+    access: ManagementInstanceIntegrationsInstancesCreateSessionTemplateOutputAccess
     providers: List[ManagementInstanceIntegrationsInstancesCreateSessionTemplateOutputProviders]
     created_at: datetime
     updated_at: datetime
@@ -58,6 +81,76 @@ class ManagementInstanceIntegrationsInstancesCreateSessionTemplateOutput:
     identity_actor_id: Optional[str] = None
     identity_id: Optional[str] = None
 
+
+class mapManagementInstanceIntegrationsInstancesCreateSessionTemplateOutputAccessOwnerOrganizationMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceIntegrationsInstancesCreateSessionTemplateOutputAccessOwnerOrganizationMember:
+        return ManagementInstanceIntegrationsInstancesCreateSessionTemplateOutputAccessOwnerOrganizationMember(
+        id=data.get('id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceIntegrationsInstancesCreateSessionTemplateOutputAccessOwnerOrganizationMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceIntegrationsInstancesCreateSessionTemplateOutputAccessOwnerConsumer:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceIntegrationsInstancesCreateSessionTemplateOutputAccessOwnerConsumer:
+        return ManagementInstanceIntegrationsInstancesCreateSessionTemplateOutputAccessOwnerConsumer(
+        id=data.get('id'),
+        profile_id=data.get('profile_id'),
+        portal_id=data.get('portal_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceIntegrationsInstancesCreateSessionTemplateOutputAccessOwnerConsumer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceIntegrationsInstancesCreateSessionTemplateOutputAccessOwner:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceIntegrationsInstancesCreateSessionTemplateOutputAccessOwner:
+        return ManagementInstanceIntegrationsInstancesCreateSessionTemplateOutputAccessOwner(
+        type=data.get('type'),
+        name=data.get('name'),
+        image_url=data.get('image_url'),
+        email=data.get('email'),
+        organization_member=mapManagementInstanceIntegrationsInstancesCreateSessionTemplateOutputAccessOwnerOrganizationMember.from_dict(data.get('organization_member')) if data.get('organization_member') else None,
+        consumer=mapManagementInstanceIntegrationsInstancesCreateSessionTemplateOutputAccessOwnerConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceIntegrationsInstancesCreateSessionTemplateOutputAccessOwner, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceIntegrationsInstancesCreateSessionTemplateOutputAccess:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceIntegrationsInstancesCreateSessionTemplateOutputAccess:
+        return ManagementInstanceIntegrationsInstancesCreateSessionTemplateOutputAccess(
+        source=data.get('source'),
+        type=data.get('type'),
+        visibility=data.get('visibility'),
+        owner=mapManagementInstanceIntegrationsInstancesCreateSessionTemplateOutputAccessOwner.from_dict(data.get('owner')) if data.get('owner') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceIntegrationsInstancesCreateSessionTemplateOutputAccess, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapManagementInstanceIntegrationsInstancesCreateSessionTemplateOutputProvidersDeployment:
     @staticmethod
@@ -159,6 +252,7 @@ class mapManagementInstanceIntegrationsInstancesCreateSessionTemplateOutput:
         integration_instance_id=data.get('integration_instance_id'),
         integration_instance_group_id=data.get('integration_instance_group_id'),
         identity_actor_id=data.get('identity_actor_id'),
+        access=mapManagementInstanceIntegrationsInstancesCreateSessionTemplateOutputAccess.from_dict(data.get('access')) if data.get('access') else None,
         identity_id=data.get('identity_id'),
         providers=[mapManagementInstanceIntegrationsInstancesCreateSessionTemplateOutputProviders.from_dict(item) for item in data.get('providers', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,

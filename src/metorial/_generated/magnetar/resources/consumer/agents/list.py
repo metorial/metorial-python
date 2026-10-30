@@ -18,6 +18,28 @@ class ConsumerAgentsListOutputItemsAgent:
     metadata: Optional[Dict[str, Any]] = None
     archived_at: Optional[datetime] = None
 @dataclass
+class ConsumerAgentsListOutputItemsMagicMcpEndpointsAccessOwnerOrganizationMember:
+    id: str
+@dataclass
+class ConsumerAgentsListOutputItemsMagicMcpEndpointsAccessOwnerConsumer:
+    id: str
+    profile_id: str
+    portal_id: Optional[str] = None
+@dataclass
+class ConsumerAgentsListOutputItemsMagicMcpEndpointsAccessOwner:
+    type: str
+    name: Optional[str] = None
+    image_url: Optional[str] = None
+    email: Optional[str] = None
+    organization_member: Optional[ConsumerAgentsListOutputItemsMagicMcpEndpointsAccessOwnerOrganizationMember] = None
+    consumer: Optional[ConsumerAgentsListOutputItemsMagicMcpEndpointsAccessOwnerConsumer] = None
+@dataclass
+class ConsumerAgentsListOutputItemsMagicMcpEndpointsAccess:
+    type: str
+    visibility: str
+    source: Optional[str] = None
+    owner: Optional[ConsumerAgentsListOutputItemsMagicMcpEndpointsAccessOwner] = None
+@dataclass
 class ConsumerAgentsListOutputItemsMagicMcpEndpoints:
     object: str
     id: str
@@ -26,6 +48,8 @@ class ConsumerAgentsListOutputItemsMagicMcpEndpoints:
     url: str
     servers: List[Dict[str, Any]]
     metadata: Dict[str, Any]
+    enable_skill_editing: bool
+    access: ConsumerAgentsListOutputItemsMagicMcpEndpointsAccess
     created_at: datetime
     updated_at: datetime
     name: Optional[str] = None
@@ -71,6 +95,76 @@ class mapConsumerAgentsListOutputItemsAgent:
             return value
         return dataclasses.asdict(value)
 
+class mapConsumerAgentsListOutputItemsMagicMcpEndpointsAccessOwnerOrganizationMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ConsumerAgentsListOutputItemsMagicMcpEndpointsAccessOwnerOrganizationMember:
+        return ConsumerAgentsListOutputItemsMagicMcpEndpointsAccessOwnerOrganizationMember(
+        id=data.get('id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ConsumerAgentsListOutputItemsMagicMcpEndpointsAccessOwnerOrganizationMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapConsumerAgentsListOutputItemsMagicMcpEndpointsAccessOwnerConsumer:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ConsumerAgentsListOutputItemsMagicMcpEndpointsAccessOwnerConsumer:
+        return ConsumerAgentsListOutputItemsMagicMcpEndpointsAccessOwnerConsumer(
+        id=data.get('id'),
+        profile_id=data.get('profile_id'),
+        portal_id=data.get('portal_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ConsumerAgentsListOutputItemsMagicMcpEndpointsAccessOwnerConsumer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapConsumerAgentsListOutputItemsMagicMcpEndpointsAccessOwner:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ConsumerAgentsListOutputItemsMagicMcpEndpointsAccessOwner:
+        return ConsumerAgentsListOutputItemsMagicMcpEndpointsAccessOwner(
+        type=data.get('type'),
+        name=data.get('name'),
+        image_url=data.get('image_url'),
+        email=data.get('email'),
+        organization_member=mapConsumerAgentsListOutputItemsMagicMcpEndpointsAccessOwnerOrganizationMember.from_dict(data.get('organization_member')) if data.get('organization_member') else None,
+        consumer=mapConsumerAgentsListOutputItemsMagicMcpEndpointsAccessOwnerConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ConsumerAgentsListOutputItemsMagicMcpEndpointsAccessOwner, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapConsumerAgentsListOutputItemsMagicMcpEndpointsAccess:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ConsumerAgentsListOutputItemsMagicMcpEndpointsAccess:
+        return ConsumerAgentsListOutputItemsMagicMcpEndpointsAccess(
+        source=data.get('source'),
+        type=data.get('type'),
+        visibility=data.get('visibility'),
+        owner=mapConsumerAgentsListOutputItemsMagicMcpEndpointsAccessOwner.from_dict(data.get('owner')) if data.get('owner') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ConsumerAgentsListOutputItemsMagicMcpEndpointsAccess, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapConsumerAgentsListOutputItemsMagicMcpEndpoints:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ConsumerAgentsListOutputItemsMagicMcpEndpoints:
@@ -84,6 +178,8 @@ class mapConsumerAgentsListOutputItemsMagicMcpEndpoints:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        enable_skill_editing=data.get('enable_skill_editing'),
+        access=mapConsumerAgentsListOutputItemsMagicMcpEndpointsAccess.from_dict(data.get('access')) if data.get('access') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

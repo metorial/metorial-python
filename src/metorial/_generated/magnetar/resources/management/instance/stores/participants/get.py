@@ -50,13 +50,70 @@ class ManagementInstanceStoresParticipantsGetOutputActor:
     consumer: Optional[ManagementInstanceStoresParticipantsGetOutputActorConsumer] = None
     consumer_profile: Optional[Dict[str, Any]] = None
 @dataclass
+class ManagementInstanceStoresParticipantsGetOutputSurfacesActorOrganizationActorMember:
+    object: str
+    id: str
+    status: str
+    role: str
+@dataclass
+class ManagementInstanceStoresParticipantsGetOutputSurfacesActorOrganizationActorTeams:
+    id: str
+    name: str
+    slug: str
+    assignment_id: str
+    created_at: datetime
+    updated_at: datetime
+@dataclass
+class ManagementInstanceStoresParticipantsGetOutputSurfacesActorOrganizationActor:
+    object: str
+    id: str
+    type: str
+    organization_id: str
+    name: str
+    image_url: str
+    teams: List[ManagementInstanceStoresParticipantsGetOutputSurfacesActorOrganizationActorTeams]
+    created_at: datetime
+    updated_at: datetime
+    email: Optional[str] = None
+    member: Optional[ManagementInstanceStoresParticipantsGetOutputSurfacesActorOrganizationActorMember] = None
+@dataclass
+class ManagementInstanceStoresParticipantsGetOutputSurfacesActorConsumer:
+    object: str
+    id: str
+    name: str
+    email: str
+    image_url: str
+    created_at: datetime
+    updated_at: datetime
+    user_id: Optional[str] = None
+@dataclass
+class ManagementInstanceStoresParticipantsGetOutputSurfacesActor:
+    type: str
+    name: str
+    image_url: Optional[str] = None
+    email: Optional[str] = None
+    organization_actor: Optional[ManagementInstanceStoresParticipantsGetOutputSurfacesActorOrganizationActor] = None
+    consumer: Optional[ManagementInstanceStoresParticipantsGetOutputSurfacesActorConsumer] = None
+    consumer_profile: Optional[Dict[str, Any]] = None
+@dataclass
+class ManagementInstanceStoresParticipantsGetOutputSurfaces:
+    id: str
+    roles: List[str]
+    actor: ManagementInstanceStoresParticipantsGetOutputSurfacesActor
+    created_at: datetime
+    last_active_at: Optional[datetime] = None
+@dataclass
 class ManagementInstanceStoresParticipantsGetOutput:
     object: str
     id: str
     store_id: str
     permissions: List[str]
+    roles: List[str]
     actor: ManagementInstanceStoresParticipantsGetOutputActor
     created_at: datetime
+    updated_at: datetime
+    surfaces: Optional[List[ManagementInstanceStoresParticipantsGetOutputSurfaces]] = None
+    last_active_at: Optional[datetime] = None
 
 
 class mapManagementInstanceStoresParticipantsGetOutputActorOrganizationActorMember:
@@ -165,6 +222,131 @@ class mapManagementInstanceStoresParticipantsGetOutputActor:
             return value
         return dataclasses.asdict(value)
 
+class mapManagementInstanceStoresParticipantsGetOutputSurfacesActorOrganizationActorMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceStoresParticipantsGetOutputSurfacesActorOrganizationActorMember:
+        return ManagementInstanceStoresParticipantsGetOutputSurfacesActorOrganizationActorMember(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        role=data.get('role')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceStoresParticipantsGetOutputSurfacesActorOrganizationActorMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceStoresParticipantsGetOutputSurfacesActorOrganizationActorTeams:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceStoresParticipantsGetOutputSurfacesActorOrganizationActorTeams:
+        return ManagementInstanceStoresParticipantsGetOutputSurfacesActorOrganizationActorTeams(
+        id=data.get('id'),
+        name=data.get('name'),
+        slug=data.get('slug'),
+        assignment_id=data.get('assignment_id'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceStoresParticipantsGetOutputSurfacesActorOrganizationActorTeams, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceStoresParticipantsGetOutputSurfacesActorOrganizationActor:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceStoresParticipantsGetOutputSurfacesActorOrganizationActor:
+        return ManagementInstanceStoresParticipantsGetOutputSurfacesActorOrganizationActor(
+        object=data.get('object'),
+        id=data.get('id'),
+        type=data.get('type'),
+        organization_id=data.get('organization_id'),
+        name=data.get('name'),
+        email=data.get('email'),
+        image_url=data.get('image_url'),
+        member=mapManagementInstanceStoresParticipantsGetOutputSurfacesActorOrganizationActorMember.from_dict(data.get('member')) if data.get('member') else None,
+        teams=[mapManagementInstanceStoresParticipantsGetOutputSurfacesActorOrganizationActorTeams.from_dict(item) for item in data.get('teams', []) if item],
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceStoresParticipantsGetOutputSurfacesActorOrganizationActor, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceStoresParticipantsGetOutputSurfacesActorConsumer:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceStoresParticipantsGetOutputSurfacesActorConsumer:
+        return ManagementInstanceStoresParticipantsGetOutputSurfacesActorConsumer(
+        object=data.get('object'),
+        id=data.get('id'),
+        name=data.get('name'),
+        email=data.get('email'),
+        image_url=data.get('image_url'),
+        user_id=data.get('user_id'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceStoresParticipantsGetOutputSurfacesActorConsumer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceStoresParticipantsGetOutputSurfacesActor:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceStoresParticipantsGetOutputSurfacesActor:
+        return ManagementInstanceStoresParticipantsGetOutputSurfacesActor(
+        type=data.get('type'),
+        name=data.get('name'),
+        image_url=data.get('image_url'),
+        email=data.get('email'),
+        organization_actor=mapManagementInstanceStoresParticipantsGetOutputSurfacesActorOrganizationActor.from_dict(data.get('organization_actor')) if data.get('organization_actor') else None,
+        consumer=mapManagementInstanceStoresParticipantsGetOutputSurfacesActorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None,
+        consumer_profile=data.get('consumer_profile')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceStoresParticipantsGetOutputSurfacesActor, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceStoresParticipantsGetOutputSurfaces:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceStoresParticipantsGetOutputSurfaces:
+        return ManagementInstanceStoresParticipantsGetOutputSurfaces(
+        id=data.get('id'),
+        roles=data.get('roles', []),
+        actor=mapManagementInstanceStoresParticipantsGetOutputSurfacesActor.from_dict(data.get('actor')) if data.get('actor') else None,
+        last_active_at=datetime.fromisoformat(data.get('last_active_at').replace('Z', '+00:00')) if data.get('last_active_at') else None,
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceStoresParticipantsGetOutputSurfaces, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapManagementInstanceStoresParticipantsGetOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceStoresParticipantsGetOutput:
@@ -173,8 +355,12 @@ class mapManagementInstanceStoresParticipantsGetOutput:
         id=data.get('id'),
         store_id=data.get('store_id'),
         permissions=data.get('permissions', []),
+        roles=data.get('roles', []),
         actor=mapManagementInstanceStoresParticipantsGetOutputActor.from_dict(data.get('actor')) if data.get('actor') else None,
-        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
+        surfaces=[mapManagementInstanceStoresParticipantsGetOutputSurfaces.from_dict(item) for item in data.get('surfaces', []) if item],
+        last_active_at=datetime.fromisoformat(data.get('last_active_at').replace('Z', '+00:00')) if data.get('last_active_at') else None,
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
 
     @staticmethod

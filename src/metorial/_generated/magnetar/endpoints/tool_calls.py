@@ -8,7 +8,7 @@ class MetorialToolCallsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, session_id: Optional[Union[str, List[str]]] = None, session_template_id: Optional[Union[str, List[str]]] = None, session_provider_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, provider_config_id: Optional[Union[str, List[str]]] = None, provider_auth_config_id: Optional[Union[str, List[str]]] = None, agent_id: Optional[Union[str, List[str]]] = None, actor_id: Optional[Union[str, List[str]]] = None, consumer_id: Optional[Union[str, List[str]]] = None, identity_id: Optional[Union[str, List[str]]] = None, agent_instance_id: Optional[Union[str, List[str]]] = None, tool_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceToolCallsListOutput:
+    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, session_id: Optional[Union[str, List[str]]] = None, session_template_id: Optional[Union[str, List[str]]] = None, session_provider_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, provider_config_id: Optional[Union[str, List[str]]] = None, provider_auth_config_id: Optional[Union[str, List[str]]] = None, agent_id: Optional[Union[str, List[str]]] = None, actor_id: Optional[Union[str, List[str]]] = None, consumer_profile_id: Optional[Union[str, List[str]]] = None, consumer_id: Optional[Union[str, List[str]]] = None, identity_id: Optional[Union[str, List[str]]] = None, agent_instance_id: Optional[Union[str, List[str]]] = None, tool_id: Optional[Union[str, List[str]]] = None, status: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None, search: Optional[str] = None) -> DashboardInstanceToolCallsListOutput:
         """
     List all tool calls
     Returns a paginated list of tool calls across all sessions.
@@ -27,12 +27,15 @@ class MetorialToolCallsEndpoint(BaseMetorialEndpoint):
     :param provider_auth_config_id: Optional[Union[str, List[str]]] (optional)
     :param agent_id: Optional[Union[str, List[str]]] (optional)
     :param actor_id: Optional[Union[str, List[str]]] (optional)
+    :param consumer_profile_id: Optional[Union[str, List[str]]] (optional)
     :param consumer_id: Optional[Union[str, List[str]]] (optional)
     :param identity_id: Optional[Union[str, List[str]]] (optional)
     :param agent_instance_id: Optional[Union[str, List[str]]] (optional)
     :param tool_id: Optional[Union[str, List[str]]] (optional)
+    :param status: Optional[Union[str, List[str]]] (optional)
     :param created_at: Optional[Dict[str, Any]] (optional)
     :param updated_at: Optional[Dict[str, Any]] (optional)
+    :param search: Optional[str] (optional)
     :return: DashboardInstanceToolCallsListOutput
     """
         # Build query parameters from keyword arguments
@@ -65,6 +68,8 @@ class MetorialToolCallsEndpoint(BaseMetorialEndpoint):
             query_dict["agent_id"] = agent_id
         if actor_id is not None:
             query_dict["actor_id"] = actor_id
+        if consumer_profile_id is not None:
+            query_dict["consumer_profile_id"] = consumer_profile_id
         if consumer_id is not None:
             query_dict["consumer_id"] = consumer_id
         if identity_id is not None:
@@ -73,10 +78,14 @@ class MetorialToolCallsEndpoint(BaseMetorialEndpoint):
             query_dict["agent_instance_id"] = agent_instance_id
         if tool_id is not None:
             query_dict["tool_id"] = tool_id
+        if status is not None:
+            query_dict["status"] = status
         if created_at is not None:
             query_dict["created_at"] = created_at
         if updated_at is not None:
             query_dict["updated_at"] = updated_at
+        if search is not None:
+            query_dict["search"] = search
 
         request = MetorialRequest(
             path=['tool-calls'],

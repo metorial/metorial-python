@@ -8,7 +8,7 @@ class MetorialSessionsErrorGroupsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, type: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, session_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceSessionsErrorGroupsListOutput:
+    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, type: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, session_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, search: Optional[str] = None) -> DashboardInstanceSessionsErrorGroupsListOutput:
         """
     List all session error groups
     Returns a paginated list of error groups across all sessions.
@@ -22,6 +22,7 @@ class MetorialSessionsErrorGroupsEndpoint(BaseMetorialEndpoint):
     :param id: Optional[Union[str, List[str]]] (optional)
     :param session_id: Optional[Union[str, List[str]]] (optional)
     :param provider_id: Optional[Union[str, List[str]]] (optional)
+    :param search: Optional[str] (optional)
     :return: DashboardInstanceSessionsErrorGroupsListOutput
     """
         # Build query parameters from keyword arguments
@@ -44,6 +45,8 @@ class MetorialSessionsErrorGroupsEndpoint(BaseMetorialEndpoint):
             query_dict["session_id"] = session_id
         if provider_id is not None:
             query_dict["provider_id"] = provider_id
+        if search is not None:
+            query_dict["search"] = search
 
         request = MetorialRequest(
             path=['session-error-groups'],

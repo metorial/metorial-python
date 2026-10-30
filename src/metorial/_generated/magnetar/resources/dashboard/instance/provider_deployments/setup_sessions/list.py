@@ -4,6 +4,32 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsError:
+    code: str
+    message: str
+@dataclass
+class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAccessOwnerOrganizationMember:
+    id: str
+@dataclass
+class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAccessOwnerConsumer:
+    id: str
+    profile_id: str
+    portal_id: Optional[str] = None
+@dataclass
+class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAccessOwner:
+    type: str
+    name: Optional[str] = None
+    image_url: Optional[str] = None
+    email: Optional[str] = None
+    organization_member: Optional[DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAccessOwnerOrganizationMember] = None
+    consumer: Optional[DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAccessOwnerConsumer] = None
+@dataclass
+class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAccess:
+    type: str
+    visibility: str
+    source: Optional[str] = None
+    owner: Optional[DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAccessOwner] = None
+@dataclass
 class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthMethodInputSchema:
     type: str
     schema: Dict[str, Any]
@@ -120,6 +146,28 @@ class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfig
     scopes: Optional[List[DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAuthMethodScopes]] = None
     adapters: Optional[List[str]] = None
 @dataclass
+class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwnerOrganizationMember:
+    id: str
+@dataclass
+class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwnerConsumer:
+    id: str
+    profile_id: str
+    portal_id: Optional[str] = None
+@dataclass
+class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwner:
+    type: str
+    name: Optional[str] = None
+    image_url: Optional[str] = None
+    email: Optional[str] = None
+    organization_member: Optional[DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwnerOrganizationMember] = None
+    consumer: Optional[DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwnerConsumer] = None
+@dataclass
+class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccess:
+    type: str
+    visibility: str
+    source: Optional[str] = None
+    owner: Optional[DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwner] = None
+@dataclass
 class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfig:
     object: str
     id: str
@@ -130,6 +178,7 @@ class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfig
     provider_id: str
     tool_filter: Dict[str, Any]
     auth_method: DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAuthMethod
+    access: DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccess
     created_at: datetime
     updated_at: datetime
     name: Optional[str] = None
@@ -172,6 +221,28 @@ class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigFrom
     metadata: Optional[Dict[str, Any]] = None
     deployment: Optional[DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigFromVaultDeployment] = None
 @dataclass
+class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwnerOrganizationMember:
+    id: str
+@dataclass
+class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwnerConsumer:
+    id: str
+    profile_id: str
+    portal_id: Optional[str] = None
+@dataclass
+class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwner:
+    type: str
+    name: Optional[str] = None
+    image_url: Optional[str] = None
+    email: Optional[str] = None
+    organization_member: Optional[DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwnerOrganizationMember] = None
+    consumer: Optional[DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwnerConsumer] = None
+@dataclass
+class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigAccess:
+    type: str
+    visibility: str
+    source: Optional[str] = None
+    owner: Optional[DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwner] = None
+@dataclass
 class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfig:
     object: str
     id: str
@@ -180,6 +251,7 @@ class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfig:
     tool_filter: Dict[str, Any]
     provider_id: str
     specification_id: str
+    access: DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigAccess
     created_at: datetime
     updated_at: datetime
     name: Optional[str] = None
@@ -194,10 +266,12 @@ class DashboardInstanceProviderDeploymentsSetupSessionsListOutputItems:
     type: str
     status: str
     url: str
+    access: DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAccess
     ui_mode: str
     created_at: datetime
     updated_at: datetime
     expires_at: datetime
+    error: Optional[DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsError] = None
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
@@ -220,6 +294,92 @@ class DashboardInstanceProviderDeploymentsSetupSessionsListOutput:
     items: List[DashboardInstanceProviderDeploymentsSetupSessionsListOutputItems]
     pagination: DashboardInstanceProviderDeploymentsSetupSessionsListOutputPagination
 
+
+class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsError:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsError:
+        return DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsError(
+        code=data.get('code'),
+        message=data.get('message')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsError, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAccessOwnerOrganizationMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAccessOwnerOrganizationMember:
+        return DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAccessOwnerOrganizationMember(
+        id=data.get('id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAccessOwnerOrganizationMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAccessOwnerConsumer:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAccessOwnerConsumer:
+        return DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAccessOwnerConsumer(
+        id=data.get('id'),
+        profile_id=data.get('profile_id'),
+        portal_id=data.get('portal_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAccessOwnerConsumer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAccessOwner:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAccessOwner:
+        return DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAccessOwner(
+        type=data.get('type'),
+        name=data.get('name'),
+        image_url=data.get('image_url'),
+        email=data.get('email'),
+        organization_member=mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAccessOwnerOrganizationMember.from_dict(data.get('organization_member')) if data.get('organization_member') else None,
+        consumer=mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAccessOwnerConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAccessOwner, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAccess:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAccess:
+        return DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAccess(
+        source=data.get('source'),
+        type=data.get('type'),
+        visibility=data.get('visibility'),
+        owner=mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAccessOwner.from_dict(data.get('owner')) if data.get('owner') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAccess, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthMethodInputSchema:
     @staticmethod
@@ -481,6 +641,76 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthCon
             return value
         return dataclasses.asdict(value)
 
+class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwnerOrganizationMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwnerOrganizationMember:
+        return DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwnerOrganizationMember(
+        id=data.get('id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwnerOrganizationMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwnerConsumer:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwnerConsumer:
+        return DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwnerConsumer(
+        id=data.get('id'),
+        profile_id=data.get('profile_id'),
+        portal_id=data.get('portal_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwnerConsumer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwner:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwner:
+        return DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwner(
+        type=data.get('type'),
+        name=data.get('name'),
+        image_url=data.get('image_url'),
+        email=data.get('email'),
+        organization_member=mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwnerOrganizationMember.from_dict(data.get('organization_member')) if data.get('organization_member') else None,
+        consumer=mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwnerConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwner, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccess:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccess:
+        return DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccess(
+        source=data.get('source'),
+        type=data.get('type'),
+        visibility=data.get('visibility'),
+        owner=mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwner.from_dict(data.get('owner')) if data.get('owner') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccess, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfig:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfig:
@@ -499,6 +729,7 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthCon
         deployment=mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         credentials=mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,
         auth_method=mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
+        access=mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccess.from_dict(data.get('access')) if data.get('access') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -581,6 +812,76 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigF
             return value
         return dataclasses.asdict(value)
 
+class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwnerOrganizationMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwnerOrganizationMember:
+        return DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwnerOrganizationMember(
+        id=data.get('id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwnerOrganizationMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwnerConsumer:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwnerConsumer:
+        return DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwnerConsumer(
+        id=data.get('id'),
+        profile_id=data.get('profile_id'),
+        portal_id=data.get('portal_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwnerConsumer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwner:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwner:
+        return DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwner(
+        type=data.get('type'),
+        name=data.get('name'),
+        image_url=data.get('image_url'),
+        email=data.get('email'),
+        organization_member=mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwnerOrganizationMember.from_dict(data.get('organization_member')) if data.get('organization_member') else None,
+        consumer=mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwnerConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwner, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigAccess:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigAccess:
+        return DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigAccess(
+        source=data.get('source'),
+        type=data.get('type'),
+        visibility=data.get('visibility'),
+        owner=mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwner.from_dict(data.get('owner')) if data.get('owner') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigAccess, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfig:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfig:
@@ -597,6 +898,7 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfig:
         specification_id=data.get('specification_id'),
         deployment=mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         from_vault=mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigFromVault.from_dict(data.get('from_vault')) if data.get('from_vault') else None,
+        access=mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsConfigAccess.from_dict(data.get('access')) if data.get('access') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -618,6 +920,7 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItems:
         type=data.get('type'),
         status=data.get('status'),
         url=data.get('url'),
+        error=mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsError.from_dict(data.get('error')) if data.get('error') else None,
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
@@ -625,6 +928,7 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItems:
         provider_id=data.get('provider_id'),
         identity_id=data.get('identity_id'),
         identity_credential_id=data.get('identity_credential_id'),
+        access=mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAccess.from_dict(data.get('access')) if data.get('access') else None,
         auth_method=mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
         deployment=mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         credentials=mapDashboardInstanceProviderDeploymentsSetupSessionsListOutputItemsCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,
@@ -700,6 +1004,7 @@ class DashboardInstanceProviderDeploymentsSetupSessionsListQuery:
     provider_auth_config_id: Optional[Union[str, List[str]]] = None
     provider_auth_credentials_id: Optional[Union[str, List[str]]] = None
     status: Optional[Union[str, List[str]]] = None
+    type: Optional[Union[str, List[str]]] = None
     created_at: Optional[DashboardInstanceProviderDeploymentsSetupSessionsListQueryCreatedAt] = None
     updated_at: Optional[DashboardInstanceProviderDeploymentsSetupSessionsListQueryUpdatedAt] = None
 
@@ -720,6 +1025,7 @@ class mapDashboardInstanceProviderDeploymentsSetupSessionsListQuery:
         provider_auth_config_id=data.get('provider_auth_config_id'),
         provider_auth_credentials_id=data.get('provider_auth_credentials_id'),
         status=data.get('status'),
+        type=data.get('type'),
         created_at=mapDashboardInstanceProviderDeploymentsSetupSessionsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
         updated_at=mapDashboardInstanceProviderDeploymentsSetupSessionsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
