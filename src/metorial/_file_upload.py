@@ -6,7 +6,7 @@ import os
 from collections.abc import Iterator
 from contextlib import contextmanager
 from dataclasses import dataclass
-from typing import IO, Any, Union
+from typing import IO, Any, Dict, Optional, Union
 
 import requests
 
@@ -118,7 +118,9 @@ def _upload_with_url(
       }
     )
 
-  _put_to_storage(upload.get("method") or "PUT", upload["url"], source)
+  _put_to_storage(
+    upload.get("method") or "PUT", upload["url"], source, upload.get("headers") or {}
+  )
 
   complete: dict[str, Any] = {"mode": "complete", "file_upload_id": session["id"]}
   if instance_id is not None:
@@ -126,7 +128,9 @@ def _upload_with_url(
   return manager._request("POST", MetorialRequest(path=["files"], body=complete))
 
 
-def _put_to_storage(method: str, url: str, source: _Source) -> None:
+def _put_to_storage(
+  method: str, url: str, source: _Source, extra_headers: Optional[Dict[str, str]] = None
+) -> None:
   # The URL signature covers the content type, so it must match the declared
   # file_type, and Metorial credentials must not be sent to the storage backend.
   try:
@@ -135,6 +139,7 @@ def _put_to_storage(method: str, url: str, source: _Source) -> None:
       url,
       data=source.stream,
       headers={
+        **(extra_headers or {}),
         "Content-Type": source.content_type,
         "Content-Length": str(source.size),
       },

@@ -76,7 +76,11 @@ class FakeFilesApi:
         {
           "object": "file_upload",
           "id": "fup_1",
-          "upload": {"url": f"http://{host}/storage", "method": "PUT"},
+          "upload": {
+            "url": f"http://{host}/storage",
+            "method": "PUT",
+            "headers": {"x-ms-blob-type": "BlockBlob"},
+          },
         },
       )
     else:
@@ -235,6 +239,7 @@ def test_large_files_use_an_upload_url(
   assert put["method"] == "PUT"
   assert put["body"] == b"large contents"
   assert put["headers"]["Content-Type"] == "application/octet-stream"
+  assert put["headers"]["x-ms-blob-type"] == "BlockBlob"
   assert "Authorization" not in put["headers"]
   assert complete["json"] == {
     "mode": "complete",
