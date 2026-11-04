@@ -54,6 +54,28 @@ class ManagementInstanceSessionsUpdateOutputProviders:
     from_template_provider_id: Optional[str] = None
     auth_config: Optional[ManagementInstanceSessionsUpdateOutputProvidersAuthConfig] = None
 @dataclass
+class ManagementInstanceSessionsUpdateOutputAccessOwnerOrganizationMember:
+    id: str
+@dataclass
+class ManagementInstanceSessionsUpdateOutputAccessOwnerConsumer:
+    id: str
+    profile_id: str
+    portal_id: Optional[str] = None
+@dataclass
+class ManagementInstanceSessionsUpdateOutputAccessOwner:
+    type: str
+    name: Optional[str] = None
+    image_url: Optional[str] = None
+    email: Optional[str] = None
+    organization_member: Optional[ManagementInstanceSessionsUpdateOutputAccessOwnerOrganizationMember] = None
+    consumer: Optional[ManagementInstanceSessionsUpdateOutputAccessOwnerConsumer] = None
+@dataclass
+class ManagementInstanceSessionsUpdateOutputAccess:
+    type: str
+    visibility: str
+    source: Optional[str] = None
+    owner: Optional[ManagementInstanceSessionsUpdateOutputAccessOwner] = None
+@dataclass
 class ManagementInstanceSessionsUpdateOutput:
     object: str
     id: str
@@ -65,6 +87,7 @@ class ManagementInstanceSessionsUpdateOutput:
     from_template_ids: List[str]
     has_errors: bool
     has_warnings: bool
+    access: ManagementInstanceSessionsUpdateOutputAccess
     created_at: datetime
     updated_at: datetime
     name: Optional[str] = None
@@ -197,6 +220,76 @@ class mapManagementInstanceSessionsUpdateOutputProviders:
             return value
         return dataclasses.asdict(value)
 
+class mapManagementInstanceSessionsUpdateOutputAccessOwnerOrganizationMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceSessionsUpdateOutputAccessOwnerOrganizationMember:
+        return ManagementInstanceSessionsUpdateOutputAccessOwnerOrganizationMember(
+        id=data.get('id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceSessionsUpdateOutputAccessOwnerOrganizationMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceSessionsUpdateOutputAccessOwnerConsumer:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceSessionsUpdateOutputAccessOwnerConsumer:
+        return ManagementInstanceSessionsUpdateOutputAccessOwnerConsumer(
+        id=data.get('id'),
+        profile_id=data.get('profile_id'),
+        portal_id=data.get('portal_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceSessionsUpdateOutputAccessOwnerConsumer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceSessionsUpdateOutputAccessOwner:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceSessionsUpdateOutputAccessOwner:
+        return ManagementInstanceSessionsUpdateOutputAccessOwner(
+        type=data.get('type'),
+        name=data.get('name'),
+        image_url=data.get('image_url'),
+        email=data.get('email'),
+        organization_member=mapManagementInstanceSessionsUpdateOutputAccessOwnerOrganizationMember.from_dict(data.get('organization_member')) if data.get('organization_member') else None,
+        consumer=mapManagementInstanceSessionsUpdateOutputAccessOwnerConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceSessionsUpdateOutputAccessOwner, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceSessionsUpdateOutputAccess:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceSessionsUpdateOutputAccess:
+        return ManagementInstanceSessionsUpdateOutputAccess(
+        source=data.get('source'),
+        type=data.get('type'),
+        visibility=data.get('visibility'),
+        owner=mapManagementInstanceSessionsUpdateOutputAccessOwner.from_dict(data.get('owner')) if data.get('owner') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceSessionsUpdateOutputAccess, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapManagementInstanceSessionsUpdateOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceSessionsUpdateOutput:
@@ -216,6 +309,7 @@ class mapManagementInstanceSessionsUpdateOutput:
         has_errors=data.get('has_errors'),
         has_warnings=data.get('has_warnings'),
         identity_actor_id=data.get('identity_actor_id'),
+        access=mapManagementInstanceSessionsUpdateOutputAccess.from_dict(data.get('access')) if data.get('access') else None,
         identity_id=data.get('identity_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None

@@ -8,7 +8,7 @@ class MetorialManagementInstanceSessionsMessagesEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, type: Optional[Union[str, List[str]]] = None, source: Optional[Union[str, List[str]]] = None, hierarchy: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, session_id: Optional[Union[str, List[str]]] = None, session_provider_id: Optional[Union[str, List[str]]] = None, session_connection_id: Optional[Union[str, List[str]]] = None, provider_run_id: Optional[Union[str, List[str]]] = None, error_id: Optional[Union[str, List[str]]] = None, participant_id: Optional[Union[str, List[str]]] = None, parent_message_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceSessionsMessagesListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, type: Optional[Union[str, List[str]]] = None, source: Optional[Union[str, List[str]]] = None, hierarchy: Optional[Union[str, List[str]]] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, session_id: Optional[Union[str, List[str]]] = None, session_provider_id: Optional[Union[str, List[str]]] = None, session_connection_id: Optional[Union[str, List[str]]] = None, provider_run_id: Optional[Union[str, List[str]]] = None, error_id: Optional[Union[str, List[str]]] = None, participant_id: Optional[Union[str, List[str]]] = None, parent_message_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceSessionsMessagesListOutput:
         """
     List session messages
     Returns a paginated list of messages for a session.
@@ -22,6 +22,7 @@ class MetorialManagementInstanceSessionsMessagesEndpoint(BaseMetorialEndpoint):
     :param type: Optional[Union[str, List[str]]] (optional)
     :param source: Optional[Union[str, List[str]]] (optional)
     :param hierarchy: Optional[Union[str, List[str]]] (optional)
+    :param status: Optional[Union[str, List[str]]] (optional)
     :param id: Optional[Union[str, List[str]]] (optional)
     :param session_id: Optional[Union[str, List[str]]] (optional)
     :param session_provider_id: Optional[Union[str, List[str]]] (optional)
@@ -52,6 +53,8 @@ class MetorialManagementInstanceSessionsMessagesEndpoint(BaseMetorialEndpoint):
             query_dict["source"] = source
         if hierarchy is not None:
             query_dict["hierarchy"] = hierarchy
+        if status is not None:
+            query_dict["status"] = status
         if id is not None:
             query_dict["id"] = id
         if session_id is not None:

@@ -8,7 +8,7 @@ class MetorialDashboardInstanceMagicMcpGroupsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, search: Optional[str] = None) -> DashboardInstanceMagicMcpGroupsListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, search: Optional[str] = None, id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceMagicMcpGroupsListOutput:
         """
     List magic MCP groups
     Returns a paginated list of magic MCP groups.
@@ -21,6 +21,7 @@ class MetorialDashboardInstanceMagicMcpGroupsEndpoint(BaseMetorialEndpoint):
     :param order: Optional[str] (optional)
     :param status: Optional[Union[str, List[str]]] (optional)
     :param search: Optional[str] (optional)
+    :param id: Optional[Union[str, List[str]]] (optional)
     :return: DashboardInstanceMagicMcpGroupsListOutput
     """
         # Build query parameters from keyword arguments
@@ -39,6 +40,8 @@ class MetorialDashboardInstanceMagicMcpGroupsEndpoint(BaseMetorialEndpoint):
             query_dict["status"] = status
         if search is not None:
             query_dict["search"] = search
+        if id is not None:
+            query_dict["id"] = id
 
         request = MetorialRequest(
             path=['dashboard', 'instances', instance_id, 'magic-mcp-groups'],
@@ -88,7 +91,7 @@ class MetorialDashboardInstanceMagicMcpGroupsEndpoint(BaseMetorialEndpoint):
     def delete(self, instance_id: str, magic_mcp_group_id: str) -> DashboardInstanceMagicMcpGroupsDeleteOutput:
         """
     Delete magic MCP group
-    Deletes a magic MCP group.
+    Deletes a magic MCP group. Fails while the group is the only group of an active magic MCP token, so that deleting a group never widens what a token can access.
 
     :param instance_id: str
     :param magic_mcp_group_id: str

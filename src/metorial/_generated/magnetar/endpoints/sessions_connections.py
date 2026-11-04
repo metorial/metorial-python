@@ -8,7 +8,7 @@ class MetorialSessionsConnectionsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, connection_state: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, agent_id: Optional[Union[str, List[str]]] = None, actor_id: Optional[Union[str, List[str]]] = None, consumer_id: Optional[Union[str, List[str]]] = None, identity_id: Optional[Union[str, List[str]]] = None, agent_instance_id: Optional[Union[str, List[str]]] = None, session_id: Optional[Union[str, List[str]]] = None, session_provider_id: Optional[Union[str, List[str]]] = None, participant_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceSessionsConnectionsListOutput:
+    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, connection_state: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, agent_id: Optional[Union[str, List[str]]] = None, actor_id: Optional[Union[str, List[str]]] = None, consumer_profile_id: Optional[Union[str, List[str]]] = None, consumer_id: Optional[Union[str, List[str]]] = None, identity_id: Optional[Union[str, List[str]]] = None, agent_instance_id: Optional[Union[str, List[str]]] = None, session_id: Optional[Union[str, List[str]]] = None, session_provider_id: Optional[Union[str, List[str]]] = None, participant_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceSessionsConnectionsListOutput:
         """
     List session connections
     Returns a paginated list of connections for a session.
@@ -23,6 +23,7 @@ class MetorialSessionsConnectionsEndpoint(BaseMetorialEndpoint):
     :param id: Optional[Union[str, List[str]]] (optional)
     :param agent_id: Optional[Union[str, List[str]]] (optional)
     :param actor_id: Optional[Union[str, List[str]]] (optional)
+    :param consumer_profile_id: Optional[Union[str, List[str]]] (optional)
     :param consumer_id: Optional[Union[str, List[str]]] (optional)
     :param identity_id: Optional[Union[str, List[str]]] (optional)
     :param agent_instance_id: Optional[Union[str, List[str]]] (optional)
@@ -55,6 +56,8 @@ class MetorialSessionsConnectionsEndpoint(BaseMetorialEndpoint):
             query_dict["agent_id"] = agent_id
         if actor_id is not None:
             query_dict["actor_id"] = actor_id
+        if consumer_profile_id is not None:
+            query_dict["consumer_profile_id"] = consumer_profile_id
         if consumer_id is not None:
             query_dict["consumer_id"] = consumer_id
         if identity_id is not None:

@@ -722,6 +722,7 @@ class SessionsMessagesListQuery:
     type: Optional[Union[str, List[str]]] = None
     source: Optional[Union[str, List[str]]] = None
     hierarchy: Optional[Union[str, List[str]]] = None
+    status: Optional[Union[str, List[str]]] = None
     id: Optional[Union[str, List[str]]] = None
     session_id: Optional[Union[str, List[str]]] = None
     session_provider_id: Optional[Union[str, List[str]]] = None
@@ -746,6 +747,7 @@ class mapSessionsMessagesListQuery:
         type=data.get('type'),
         source=data.get('source'),
         hierarchy=data.get('hierarchy'),
+        status=data.get('status'),
         id=data.get('id'),
         session_id=data.get('session_id'),
         session_provider_id=data.get('session_provider_id'),

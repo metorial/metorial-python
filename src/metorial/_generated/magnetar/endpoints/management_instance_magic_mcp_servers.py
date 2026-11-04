@@ -8,7 +8,7 @@ class MetorialManagementInstanceMagicMcpServersEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, magic_mcp_group_id: Optional[Union[str, List[str]]] = None, provider_template_id: Optional[Union[str, List[str]]] = None, integration_instance_id: Optional[Union[str, List[str]]] = None, owner: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, consumer_id: Optional[Union[str, List[str]]] = None, consumer_profile_id: Optional[Union[str, List[str]]] = None, search: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, preconfigured_only: Optional[bool] = None) -> DashboardInstanceMagicMcpServersListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, ownership: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, magic_mcp_group_id: Optional[Union[str, List[str]]] = None, provider_template_id: Optional[Union[str, List[str]]] = None, integration_instance_id: Optional[Union[str, List[str]]] = None, owner: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, consumer_id: Optional[Union[str, List[str]]] = None, consumer_profile_id: Optional[Union[str, List[str]]] = None, search: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, preconfigured_only: Optional[bool] = None) -> DashboardInstanceMagicMcpServersListOutput:
         """
     List magic MCP servers
     Returns a paginated list of magic MCP servers.
@@ -19,6 +19,7 @@ class MetorialManagementInstanceMagicMcpServersEndpoint(BaseMetorialEndpoint):
     :param before: Optional[str] (optional)
     :param cursor: Optional[str] (optional)
     :param order: Optional[str] (optional)
+    :param ownership: Optional[str] (optional)
     :param status: Optional[Union[str, List[str]]] (optional)
     :param magic_mcp_group_id: Optional[Union[str, List[str]]] (optional)
     :param provider_template_id: Optional[Union[str, List[str]]] (optional)
@@ -44,6 +45,8 @@ class MetorialManagementInstanceMagicMcpServersEndpoint(BaseMetorialEndpoint):
             query_dict["cursor"] = cursor
         if order is not None:
             query_dict["order"] = order
+        if ownership is not None:
+            query_dict["ownership"] = ownership
         if status is not None:
             query_dict["status"] = status
         if magic_mcp_group_id is not None:

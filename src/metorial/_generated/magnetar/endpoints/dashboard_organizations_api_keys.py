@@ -61,14 +61,14 @@ class MetorialDashboardOrganizationsApiKeysEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapDashboardOrganizationsApiKeysGetOutput.from_dict)
 
-    def create(self, organization_id: str, *, name: str, type: Any = None, instance_id: str = None, description: Optional[str] = None, expires_at: Optional[datetime] = None, ip_filters: Optional[List[str]] = None) -> DashboardOrganizationsApiKeysCreateOutput:
+    def create(self, organization_id: str, *, type: str, instance_id: str, name: str, description: Optional[str] = None, expires_at: Optional[datetime] = None, ip_filters: Optional[List[str]] = None) -> DashboardOrganizationsApiKeysCreateOutput:
         """
     Create API key
     Create a new API key
 
     :param organization_id: str
-    :param type: Any (optional)
-    :param instance_id: str (optional)
+    :param type: str
+    :param instance_id: str
     :param name: str
     :param description: Optional[str] (optional)
     :param expires_at: Optional[datetime] (optional)
@@ -77,10 +77,8 @@ class MetorialDashboardOrganizationsApiKeysEndpoint(BaseMetorialEndpoint):
     """
         # Build body parameters from keyword arguments
         body_dict = {}
-        if type is not None:
-            body_dict["type"] = type
-        if instance_id is not None:
-            body_dict["instance_id"] = instance_id
+        body_dict["type"] = type
+        body_dict["instance_id"] = instance_id
         body_dict["name"] = name
         if description is not None:
             body_dict["description"] = description

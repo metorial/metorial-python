@@ -73,13 +73,14 @@ class MetorialDashboardInstanceIntegrationsSetupSessionsEndpoint(BaseMetorialEnd
         )
         return self._get(request).transform(mapDashboardInstanceIntegrationsSetupSessionsGetOutput.from_dict)
 
-    def create(self, instance_id: str, *, integration_id: str, name: str, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, identity_actor_id: Optional[str] = None, identity_id: Optional[str] = None, expires_at: Optional[datetime] = None, redirect_url: Optional[str] = None, configuration: Optional[Dict[str, Any]] = None) -> DashboardInstanceIntegrationsSetupSessionsCreateOutput:
+    def create(self, instance_id: str, *, integration_id: str, name: str, integration_instance_id: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, identity_actor_id: Optional[str] = None, identity_id: Optional[str] = None, expires_at: Optional[datetime] = None, redirect_url: Optional[str] = None, configuration: Optional[Dict[str, Any]] = None) -> DashboardInstanceIntegrationsSetupSessionsCreateOutput:
         """
     Create integration setup session
-    Creates a new integration setup session and draft integration instance.
+    Creates a new integration setup session. Creates a draft integration instance unless integration_instance_id is given, in which case that instance is reused and its config and auth config are overwritten on completion.
 
     :param instance_id: str
     :param integration_id: str
+    :param integration_instance_id: Optional[str] (optional)
     :param name: str
     :param description: Optional[str] (optional)
     :param metadata: Optional[Dict[str, Any]] (optional)
@@ -93,6 +94,8 @@ class MetorialDashboardInstanceIntegrationsSetupSessionsEndpoint(BaseMetorialEnd
         # Build body parameters from keyword arguments
         body_dict = {}
         body_dict["integration_id"] = integration_id
+        if integration_instance_id is not None:
+            body_dict["integration_instance_id"] = integration_instance_id
         body_dict["name"] = name
         if description is not None:
             body_dict["description"] = description

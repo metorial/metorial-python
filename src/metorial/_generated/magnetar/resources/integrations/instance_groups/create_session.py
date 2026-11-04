@@ -54,6 +54,28 @@ class IntegrationsInstanceGroupsCreateSessionOutputProviders:
     from_template_provider_id: Optional[str] = None
     auth_config: Optional[IntegrationsInstanceGroupsCreateSessionOutputProvidersAuthConfig] = None
 @dataclass
+class IntegrationsInstanceGroupsCreateSessionOutputAccessOwnerOrganizationMember:
+    id: str
+@dataclass
+class IntegrationsInstanceGroupsCreateSessionOutputAccessOwnerConsumer:
+    id: str
+    profile_id: str
+    portal_id: Optional[str] = None
+@dataclass
+class IntegrationsInstanceGroupsCreateSessionOutputAccessOwner:
+    type: str
+    name: Optional[str] = None
+    image_url: Optional[str] = None
+    email: Optional[str] = None
+    organization_member: Optional[IntegrationsInstanceGroupsCreateSessionOutputAccessOwnerOrganizationMember] = None
+    consumer: Optional[IntegrationsInstanceGroupsCreateSessionOutputAccessOwnerConsumer] = None
+@dataclass
+class IntegrationsInstanceGroupsCreateSessionOutputAccess:
+    type: str
+    visibility: str
+    source: Optional[str] = None
+    owner: Optional[IntegrationsInstanceGroupsCreateSessionOutputAccessOwner] = None
+@dataclass
 class IntegrationsInstanceGroupsCreateSessionOutput:
     object: str
     id: str
@@ -65,6 +87,7 @@ class IntegrationsInstanceGroupsCreateSessionOutput:
     from_template_ids: List[str]
     has_errors: bool
     has_warnings: bool
+    access: IntegrationsInstanceGroupsCreateSessionOutputAccess
     created_at: datetime
     updated_at: datetime
     name: Optional[str] = None
@@ -197,6 +220,76 @@ class mapIntegrationsInstanceGroupsCreateSessionOutputProviders:
             return value
         return dataclasses.asdict(value)
 
+class mapIntegrationsInstanceGroupsCreateSessionOutputAccessOwnerOrganizationMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> IntegrationsInstanceGroupsCreateSessionOutputAccessOwnerOrganizationMember:
+        return IntegrationsInstanceGroupsCreateSessionOutputAccessOwnerOrganizationMember(
+        id=data.get('id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[IntegrationsInstanceGroupsCreateSessionOutputAccessOwnerOrganizationMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapIntegrationsInstanceGroupsCreateSessionOutputAccessOwnerConsumer:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> IntegrationsInstanceGroupsCreateSessionOutputAccessOwnerConsumer:
+        return IntegrationsInstanceGroupsCreateSessionOutputAccessOwnerConsumer(
+        id=data.get('id'),
+        profile_id=data.get('profile_id'),
+        portal_id=data.get('portal_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[IntegrationsInstanceGroupsCreateSessionOutputAccessOwnerConsumer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapIntegrationsInstanceGroupsCreateSessionOutputAccessOwner:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> IntegrationsInstanceGroupsCreateSessionOutputAccessOwner:
+        return IntegrationsInstanceGroupsCreateSessionOutputAccessOwner(
+        type=data.get('type'),
+        name=data.get('name'),
+        image_url=data.get('image_url'),
+        email=data.get('email'),
+        organization_member=mapIntegrationsInstanceGroupsCreateSessionOutputAccessOwnerOrganizationMember.from_dict(data.get('organization_member')) if data.get('organization_member') else None,
+        consumer=mapIntegrationsInstanceGroupsCreateSessionOutputAccessOwnerConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[IntegrationsInstanceGroupsCreateSessionOutputAccessOwner, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapIntegrationsInstanceGroupsCreateSessionOutputAccess:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> IntegrationsInstanceGroupsCreateSessionOutputAccess:
+        return IntegrationsInstanceGroupsCreateSessionOutputAccess(
+        source=data.get('source'),
+        type=data.get('type'),
+        visibility=data.get('visibility'),
+        owner=mapIntegrationsInstanceGroupsCreateSessionOutputAccessOwner.from_dict(data.get('owner')) if data.get('owner') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[IntegrationsInstanceGroupsCreateSessionOutputAccess, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapIntegrationsInstanceGroupsCreateSessionOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> IntegrationsInstanceGroupsCreateSessionOutput:
@@ -216,6 +309,7 @@ class mapIntegrationsInstanceGroupsCreateSessionOutput:
         has_errors=data.get('has_errors'),
         has_warnings=data.get('has_warnings'),
         identity_actor_id=data.get('identity_actor_id'),
+        access=mapIntegrationsInstanceGroupsCreateSessionOutputAccess.from_dict(data.get('access')) if data.get('access') else None,
         identity_id=data.get('identity_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None

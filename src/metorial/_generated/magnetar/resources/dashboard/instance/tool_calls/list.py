@@ -408,12 +408,15 @@ class DashboardInstanceToolCallsListQuery:
     provider_auth_config_id: Optional[Union[str, List[str]]] = None
     agent_id: Optional[Union[str, List[str]]] = None
     actor_id: Optional[Union[str, List[str]]] = None
+    consumer_profile_id: Optional[Union[str, List[str]]] = None
     consumer_id: Optional[Union[str, List[str]]] = None
     identity_id: Optional[Union[str, List[str]]] = None
     agent_instance_id: Optional[Union[str, List[str]]] = None
     tool_id: Optional[Union[str, List[str]]] = None
+    status: Optional[Union[str, List[str]]] = None
     created_at: Optional[DashboardInstanceToolCallsListQueryCreatedAt] = None
     updated_at: Optional[DashboardInstanceToolCallsListQueryUpdatedAt] = None
+    search: Optional[str] = None
 
 
 class mapDashboardInstanceToolCallsListQuery:
@@ -434,12 +437,15 @@ class mapDashboardInstanceToolCallsListQuery:
         provider_auth_config_id=data.get('provider_auth_config_id'),
         agent_id=data.get('agent_id'),
         actor_id=data.get('actor_id'),
+        consumer_profile_id=data.get('consumer_profile_id'),
         consumer_id=data.get('consumer_id'),
         identity_id=data.get('identity_id'),
         agent_instance_id=data.get('agent_instance_id'),
         tool_id=data.get('tool_id'),
+        status=data.get('status'),
         created_at=mapDashboardInstanceToolCallsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=mapDashboardInstanceToolCallsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
+        updated_at=mapDashboardInstanceToolCallsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None,
+        search=data.get('search')
         )
 
     @staticmethod

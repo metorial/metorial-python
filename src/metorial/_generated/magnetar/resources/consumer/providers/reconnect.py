@@ -118,6 +118,28 @@ class ConsumerProvidersReconnectOutputProviders:
     auth_config: Optional[ConsumerProvidersReconnectOutputProvidersAuthConfig] = None
     archived_at: Optional[datetime] = None
 @dataclass
+class ConsumerProvidersReconnectOutputAccessOwnerOrganizationMember:
+    id: str
+@dataclass
+class ConsumerProvidersReconnectOutputAccessOwnerConsumer:
+    id: str
+    profile_id: str
+    portal_id: Optional[str] = None
+@dataclass
+class ConsumerProvidersReconnectOutputAccessOwner:
+    type: str
+    name: Optional[str] = None
+    image_url: Optional[str] = None
+    email: Optional[str] = None
+    organization_member: Optional[ConsumerProvidersReconnectOutputAccessOwnerOrganizationMember] = None
+    consumer: Optional[ConsumerProvidersReconnectOutputAccessOwnerConsumer] = None
+@dataclass
+class ConsumerProvidersReconnectOutputAccess:
+    type: str
+    visibility: str
+    source: Optional[str] = None
+    owner: Optional[ConsumerProvidersReconnectOutputAccessOwner] = None
+@dataclass
 class ConsumerProvidersReconnectOutput:
     object: str
     id: str
@@ -127,6 +149,7 @@ class ConsumerProvidersReconnectOutput:
     endpoints: List[ConsumerProvidersReconnectOutputEndpoints]
     providers: List[ConsumerProvidersReconnectOutputProviders]
     metadata: Dict[str, Any]
+    access: ConsumerProvidersReconnectOutputAccess
     created_at: datetime
     updated_at: datetime
     provider_template_id: Optional[str] = None
@@ -380,6 +403,76 @@ class mapConsumerProvidersReconnectOutputProviders:
             return value
         return dataclasses.asdict(value)
 
+class mapConsumerProvidersReconnectOutputAccessOwnerOrganizationMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ConsumerProvidersReconnectOutputAccessOwnerOrganizationMember:
+        return ConsumerProvidersReconnectOutputAccessOwnerOrganizationMember(
+        id=data.get('id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ConsumerProvidersReconnectOutputAccessOwnerOrganizationMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapConsumerProvidersReconnectOutputAccessOwnerConsumer:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ConsumerProvidersReconnectOutputAccessOwnerConsumer:
+        return ConsumerProvidersReconnectOutputAccessOwnerConsumer(
+        id=data.get('id'),
+        profile_id=data.get('profile_id'),
+        portal_id=data.get('portal_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ConsumerProvidersReconnectOutputAccessOwnerConsumer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapConsumerProvidersReconnectOutputAccessOwner:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ConsumerProvidersReconnectOutputAccessOwner:
+        return ConsumerProvidersReconnectOutputAccessOwner(
+        type=data.get('type'),
+        name=data.get('name'),
+        image_url=data.get('image_url'),
+        email=data.get('email'),
+        organization_member=mapConsumerProvidersReconnectOutputAccessOwnerOrganizationMember.from_dict(data.get('organization_member')) if data.get('organization_member') else None,
+        consumer=mapConsumerProvidersReconnectOutputAccessOwnerConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ConsumerProvidersReconnectOutputAccessOwner, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapConsumerProvidersReconnectOutputAccess:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ConsumerProvidersReconnectOutputAccess:
+        return ConsumerProvidersReconnectOutputAccess(
+        source=data.get('source'),
+        type=data.get('type'),
+        visibility=data.get('visibility'),
+        owner=mapConsumerProvidersReconnectOutputAccessOwner.from_dict(data.get('owner')) if data.get('owner') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ConsumerProvidersReconnectOutputAccess, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapConsumerProvidersReconnectOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ConsumerProvidersReconnectOutput:
@@ -395,6 +488,7 @@ class mapConsumerProvidersReconnectOutput:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        access=mapConsumerProvidersReconnectOutputAccess.from_dict(data.get('access')) if data.get('access') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

@@ -26,12 +26,35 @@ class IntegrationsInstanceGroupsUpdateOutputProviders:
     tool_filter: Optional[Dict[str, Any]] = None
     archived_at: Optional[datetime] = None
 @dataclass
+class IntegrationsInstanceGroupsUpdateOutputAccessOwnerOrganizationMember:
+    id: str
+@dataclass
+class IntegrationsInstanceGroupsUpdateOutputAccessOwnerConsumer:
+    id: str
+    profile_id: str
+    portal_id: Optional[str] = None
+@dataclass
+class IntegrationsInstanceGroupsUpdateOutputAccessOwner:
+    type: str
+    name: Optional[str] = None
+    image_url: Optional[str] = None
+    email: Optional[str] = None
+    organization_member: Optional[IntegrationsInstanceGroupsUpdateOutputAccessOwnerOrganizationMember] = None
+    consumer: Optional[IntegrationsInstanceGroupsUpdateOutputAccessOwnerConsumer] = None
+@dataclass
+class IntegrationsInstanceGroupsUpdateOutputAccess:
+    type: str
+    visibility: str
+    source: Optional[str] = None
+    owner: Optional[IntegrationsInstanceGroupsUpdateOutputAccessOwner] = None
+@dataclass
 class IntegrationsInstanceGroupsUpdateOutput:
     object: str
     id: str
     status: str
     name: str
     providers: List[IntegrationsInstanceGroupsUpdateOutputProviders]
+    access: IntegrationsInstanceGroupsUpdateOutputAccess
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
@@ -86,6 +109,76 @@ class mapIntegrationsInstanceGroupsUpdateOutputProviders:
             return value
         return dataclasses.asdict(value)
 
+class mapIntegrationsInstanceGroupsUpdateOutputAccessOwnerOrganizationMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> IntegrationsInstanceGroupsUpdateOutputAccessOwnerOrganizationMember:
+        return IntegrationsInstanceGroupsUpdateOutputAccessOwnerOrganizationMember(
+        id=data.get('id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[IntegrationsInstanceGroupsUpdateOutputAccessOwnerOrganizationMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapIntegrationsInstanceGroupsUpdateOutputAccessOwnerConsumer:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> IntegrationsInstanceGroupsUpdateOutputAccessOwnerConsumer:
+        return IntegrationsInstanceGroupsUpdateOutputAccessOwnerConsumer(
+        id=data.get('id'),
+        profile_id=data.get('profile_id'),
+        portal_id=data.get('portal_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[IntegrationsInstanceGroupsUpdateOutputAccessOwnerConsumer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapIntegrationsInstanceGroupsUpdateOutputAccessOwner:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> IntegrationsInstanceGroupsUpdateOutputAccessOwner:
+        return IntegrationsInstanceGroupsUpdateOutputAccessOwner(
+        type=data.get('type'),
+        name=data.get('name'),
+        image_url=data.get('image_url'),
+        email=data.get('email'),
+        organization_member=mapIntegrationsInstanceGroupsUpdateOutputAccessOwnerOrganizationMember.from_dict(data.get('organization_member')) if data.get('organization_member') else None,
+        consumer=mapIntegrationsInstanceGroupsUpdateOutputAccessOwnerConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[IntegrationsInstanceGroupsUpdateOutputAccessOwner, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapIntegrationsInstanceGroupsUpdateOutputAccess:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> IntegrationsInstanceGroupsUpdateOutputAccess:
+        return IntegrationsInstanceGroupsUpdateOutputAccess(
+        source=data.get('source'),
+        type=data.get('type'),
+        visibility=data.get('visibility'),
+        owner=mapIntegrationsInstanceGroupsUpdateOutputAccessOwner.from_dict(data.get('owner')) if data.get('owner') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[IntegrationsInstanceGroupsUpdateOutputAccess, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapIntegrationsInstanceGroupsUpdateOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> IntegrationsInstanceGroupsUpdateOutput:
@@ -98,6 +191,7 @@ class mapIntegrationsInstanceGroupsUpdateOutput:
         metadata=data.get('metadata'),
         implementation=mapIntegrationsInstanceGroupsUpdateOutputImplementation.from_dict(data.get('implementation')) if data.get('implementation') else None,
         providers=[mapIntegrationsInstanceGroupsUpdateOutputProviders.from_dict(item) for item in data.get('providers', []) if item],
+        access=mapIntegrationsInstanceGroupsUpdateOutputAccess.from_dict(data.get('access')) if data.get('access') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
         archived_at=datetime.fromisoformat(data.get('archived_at').replace('Z', '+00:00')) if data.get('archived_at') else None

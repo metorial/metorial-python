@@ -87,7 +87,7 @@ class DashboardInstanceConsumersListQuery:
     order: Optional[str] = None
     search: Optional[str] = None
     email: Optional[Union[str, List[str]]] = None
-    id: Optional[str] = None
+    id: Optional[Union[str, List[str]]] = None
 
 
 class mapDashboardInstanceConsumersListQuery:

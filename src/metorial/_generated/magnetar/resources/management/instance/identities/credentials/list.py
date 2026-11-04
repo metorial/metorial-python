@@ -103,6 +103,7 @@ class ManagementInstanceIdentitiesCredentialsListQuery:
     id: Optional[Union[str, List[str]]] = None
     agent_id: Optional[Union[str, List[str]]] = None
     actor_id: Optional[Union[str, List[str]]] = None
+    consumer_profile_id: Optional[Union[str, List[str]]] = None
     identity_id: Optional[Union[str, List[str]]] = None
     provider_id: Optional[Union[str, List[str]]] = None
     provider_deployment_id: Optional[Union[str, List[str]]] = None
@@ -125,6 +126,7 @@ class mapManagementInstanceIdentitiesCredentialsListQuery:
         id=data.get('id'),
         agent_id=data.get('agent_id'),
         actor_id=data.get('actor_id'),
+        consumer_profile_id=data.get('consumer_profile_id'),
         identity_id=data.get('identity_id'),
         provider_id=data.get('provider_id'),
         provider_deployment_id=data.get('provider_deployment_id'),

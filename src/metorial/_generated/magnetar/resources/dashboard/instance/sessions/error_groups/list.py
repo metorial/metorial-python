@@ -89,6 +89,7 @@ class DashboardInstanceSessionsErrorGroupsListQuery:
     id: Optional[Union[str, List[str]]] = None
     session_id: Optional[Union[str, List[str]]] = None
     provider_id: Optional[Union[str, List[str]]] = None
+    search: Optional[str] = None
 
 
 class mapDashboardInstanceSessionsErrorGroupsListQuery:
@@ -103,7 +104,8 @@ class mapDashboardInstanceSessionsErrorGroupsListQuery:
         type=data.get('type'),
         id=data.get('id'),
         session_id=data.get('session_id'),
-        provider_id=data.get('provider_id')
+        provider_id=data.get('provider_id'),
+        search=data.get('search')
         )
 
     @staticmethod

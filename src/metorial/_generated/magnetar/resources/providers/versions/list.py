@@ -101,6 +101,7 @@ class ProvidersVersionsListQuery:
     order: Optional[str] = None
     id: Optional[Union[str, List[str]]] = None
     provider_id: Optional[Union[str, List[str]]] = None
+    search: Optional[str] = None
     created_at: Optional[ProvidersVersionsListQueryCreatedAt] = None
     updated_at: Optional[ProvidersVersionsListQueryUpdatedAt] = None
 
@@ -116,6 +117,7 @@ class mapProvidersVersionsListQuery:
         order=data.get('order'),
         id=data.get('id'),
         provider_id=data.get('provider_id'),
+        search=data.get('search'),
         created_at=mapProvidersVersionsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
         updated_at=mapProvidersVersionsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )
