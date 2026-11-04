@@ -6,7 +6,7 @@ import os
 from collections.abc import Iterator
 from contextlib import contextmanager
 from dataclasses import dataclass
-from typing import IO, Any, Dict, Optional, Union
+from typing import IO, Any, Union
 
 import requests
 
@@ -129,7 +129,7 @@ def _upload_with_url(
 
 
 def _put_to_storage(
-  method: str, url: str, source: _Source, extra_headers: Optional[Dict[str, str]] = None
+  method: str, url: str, source: _Source, extra_headers: dict[str, str] | None = None
 ) -> None:
   # The URL signature covers the content type, so it must match the declared
   # file_type, and Metorial credentials must not be sent to the storage backend.
