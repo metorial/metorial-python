@@ -3,6 +3,7 @@ from .create import *
 from .delete import *
 from .errors import *
 from .events import *
+from .exec import *
 from .get import *
 from .hibernate import *
 from .instances import *

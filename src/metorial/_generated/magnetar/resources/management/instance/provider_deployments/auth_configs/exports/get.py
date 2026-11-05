@@ -62,6 +62,28 @@ class ManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfig
     scopes: Optional[List[ManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfigAuthMethodScopes]] = None
     adapters: Optional[List[str]] = None
 @dataclass
+class ManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfigAccessOwnerOrganizationMember:
+    id: str
+@dataclass
+class ManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfigAccessOwnerConsumer:
+    id: str
+    profile_id: str
+    portal_id: Optional[str] = None
+@dataclass
+class ManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfigAccessOwner:
+    type: str
+    name: Optional[str] = None
+    image_url: Optional[str] = None
+    email: Optional[str] = None
+    organization_member: Optional[ManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfigAccessOwnerOrganizationMember] = None
+    consumer: Optional[ManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfigAccessOwnerConsumer] = None
+@dataclass
+class ManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfigAccess:
+    type: str
+    visibility: str
+    source: Optional[str] = None
+    owner: Optional[ManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfigAccessOwner] = None
+@dataclass
 class ManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfig:
     object: str
     id: str
@@ -72,6 +94,7 @@ class ManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfig
     provider_id: str
     tool_filter: Dict[str, Any]
     auth_method: ManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfigAuthMethod
+    access: ManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfigAccess
     created_at: datetime
     updated_at: datetime
     name: Optional[str] = None
@@ -227,6 +250,76 @@ class mapManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthCon
             return value
         return dataclasses.asdict(value)
 
+class mapManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfigAccessOwnerOrganizationMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfigAccessOwnerOrganizationMember:
+        return ManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfigAccessOwnerOrganizationMember(
+        id=data.get('id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfigAccessOwnerOrganizationMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfigAccessOwnerConsumer:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfigAccessOwnerConsumer:
+        return ManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfigAccessOwnerConsumer(
+        id=data.get('id'),
+        profile_id=data.get('profile_id'),
+        portal_id=data.get('portal_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfigAccessOwnerConsumer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfigAccessOwner:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfigAccessOwner:
+        return ManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfigAccessOwner(
+        type=data.get('type'),
+        name=data.get('name'),
+        image_url=data.get('image_url'),
+        email=data.get('email'),
+        organization_member=mapManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfigAccessOwnerOrganizationMember.from_dict(data.get('organization_member')) if data.get('organization_member') else None,
+        consumer=mapManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfigAccessOwnerConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfigAccessOwner, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfigAccess:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfigAccess:
+        return ManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfigAccess(
+        source=data.get('source'),
+        type=data.get('type'),
+        visibility=data.get('visibility'),
+        owner=mapManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfigAccessOwner.from_dict(data.get('owner')) if data.get('owner') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfigAccess, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfig:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfig:
@@ -245,6 +338,7 @@ class mapManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthCon
         deployment=mapManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfigDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         credentials=mapManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfigCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,
         auth_method=mapManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfigAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
+        access=mapManagementInstanceProviderDeploymentsAuthConfigsExportsGetOutputAuthConfigAccess.from_dict(data.get('access')) if data.get('access') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

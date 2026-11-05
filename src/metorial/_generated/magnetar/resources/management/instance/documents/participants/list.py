@@ -59,6 +59,7 @@ class ManagementInstanceDocumentsParticipantsListOutputItems:
     created_at: datetime
     last_edited_at: Optional[datetime] = None
     last_viewed_at: Optional[datetime] = None
+    store_participant_id: Optional[str] = None
 @dataclass
 class ManagementInstanceDocumentsParticipantsListOutputPagination:
     has_more_before: bool
@@ -186,6 +187,7 @@ class mapManagementInstanceDocumentsParticipantsListOutputItems:
         last_edited_at=datetime.fromisoformat(data.get('last_edited_at').replace('Z', '+00:00')) if data.get('last_edited_at') else None,
         last_viewed_at=datetime.fromisoformat(data.get('last_viewed_at').replace('Z', '+00:00')) if data.get('last_viewed_at') else None,
         actor=mapManagementInstanceDocumentsParticipantsListOutputItemsActor.from_dict(data.get('actor')) if data.get('actor') else None,
+        store_participant_id=data.get('store_participant_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 

@@ -4,6 +4,32 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class ProviderDeploymentsSetupSessionsListOutputItemsError:
+    code: str
+    message: str
+@dataclass
+class ProviderDeploymentsSetupSessionsListOutputItemsAccessOwnerOrganizationMember:
+    id: str
+@dataclass
+class ProviderDeploymentsSetupSessionsListOutputItemsAccessOwnerConsumer:
+    id: str
+    profile_id: str
+    portal_id: Optional[str] = None
+@dataclass
+class ProviderDeploymentsSetupSessionsListOutputItemsAccessOwner:
+    type: str
+    name: Optional[str] = None
+    image_url: Optional[str] = None
+    email: Optional[str] = None
+    organization_member: Optional[ProviderDeploymentsSetupSessionsListOutputItemsAccessOwnerOrganizationMember] = None
+    consumer: Optional[ProviderDeploymentsSetupSessionsListOutputItemsAccessOwnerConsumer] = None
+@dataclass
+class ProviderDeploymentsSetupSessionsListOutputItemsAccess:
+    type: str
+    visibility: str
+    source: Optional[str] = None
+    owner: Optional[ProviderDeploymentsSetupSessionsListOutputItemsAccessOwner] = None
+@dataclass
 class ProviderDeploymentsSetupSessionsListOutputItemsAuthMethodInputSchema:
     type: str
     schema: Dict[str, Any]
@@ -120,6 +146,28 @@ class ProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAuthMethod:
     scopes: Optional[List[ProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAuthMethodScopes]] = None
     adapters: Optional[List[str]] = None
 @dataclass
+class ProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwnerOrganizationMember:
+    id: str
+@dataclass
+class ProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwnerConsumer:
+    id: str
+    profile_id: str
+    portal_id: Optional[str] = None
+@dataclass
+class ProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwner:
+    type: str
+    name: Optional[str] = None
+    image_url: Optional[str] = None
+    email: Optional[str] = None
+    organization_member: Optional[ProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwnerOrganizationMember] = None
+    consumer: Optional[ProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwnerConsumer] = None
+@dataclass
+class ProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccess:
+    type: str
+    visibility: str
+    source: Optional[str] = None
+    owner: Optional[ProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwner] = None
+@dataclass
 class ProviderDeploymentsSetupSessionsListOutputItemsAuthConfig:
     object: str
     id: str
@@ -130,6 +178,7 @@ class ProviderDeploymentsSetupSessionsListOutputItemsAuthConfig:
     provider_id: str
     tool_filter: Dict[str, Any]
     auth_method: ProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAuthMethod
+    access: ProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccess
     created_at: datetime
     updated_at: datetime
     name: Optional[str] = None
@@ -172,6 +221,28 @@ class ProviderDeploymentsSetupSessionsListOutputItemsConfigFromVault:
     metadata: Optional[Dict[str, Any]] = None
     deployment: Optional[ProviderDeploymentsSetupSessionsListOutputItemsConfigFromVaultDeployment] = None
 @dataclass
+class ProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwnerOrganizationMember:
+    id: str
+@dataclass
+class ProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwnerConsumer:
+    id: str
+    profile_id: str
+    portal_id: Optional[str] = None
+@dataclass
+class ProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwner:
+    type: str
+    name: Optional[str] = None
+    image_url: Optional[str] = None
+    email: Optional[str] = None
+    organization_member: Optional[ProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwnerOrganizationMember] = None
+    consumer: Optional[ProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwnerConsumer] = None
+@dataclass
+class ProviderDeploymentsSetupSessionsListOutputItemsConfigAccess:
+    type: str
+    visibility: str
+    source: Optional[str] = None
+    owner: Optional[ProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwner] = None
+@dataclass
 class ProviderDeploymentsSetupSessionsListOutputItemsConfig:
     object: str
     id: str
@@ -180,6 +251,7 @@ class ProviderDeploymentsSetupSessionsListOutputItemsConfig:
     tool_filter: Dict[str, Any]
     provider_id: str
     specification_id: str
+    access: ProviderDeploymentsSetupSessionsListOutputItemsConfigAccess
     created_at: datetime
     updated_at: datetime
     name: Optional[str] = None
@@ -194,10 +266,12 @@ class ProviderDeploymentsSetupSessionsListOutputItems:
     type: str
     status: str
     url: str
+    access: ProviderDeploymentsSetupSessionsListOutputItemsAccess
     ui_mode: str
     created_at: datetime
     updated_at: datetime
     expires_at: datetime
+    error: Optional[ProviderDeploymentsSetupSessionsListOutputItemsError] = None
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
@@ -220,6 +294,92 @@ class ProviderDeploymentsSetupSessionsListOutput:
     items: List[ProviderDeploymentsSetupSessionsListOutputItems]
     pagination: ProviderDeploymentsSetupSessionsListOutputPagination
 
+
+class mapProviderDeploymentsSetupSessionsListOutputItemsError:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsSetupSessionsListOutputItemsError:
+        return ProviderDeploymentsSetupSessionsListOutputItemsError(
+        code=data.get('code'),
+        message=data.get('message')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ProviderDeploymentsSetupSessionsListOutputItemsError, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapProviderDeploymentsSetupSessionsListOutputItemsAccessOwnerOrganizationMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsSetupSessionsListOutputItemsAccessOwnerOrganizationMember:
+        return ProviderDeploymentsSetupSessionsListOutputItemsAccessOwnerOrganizationMember(
+        id=data.get('id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ProviderDeploymentsSetupSessionsListOutputItemsAccessOwnerOrganizationMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapProviderDeploymentsSetupSessionsListOutputItemsAccessOwnerConsumer:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsSetupSessionsListOutputItemsAccessOwnerConsumer:
+        return ProviderDeploymentsSetupSessionsListOutputItemsAccessOwnerConsumer(
+        id=data.get('id'),
+        profile_id=data.get('profile_id'),
+        portal_id=data.get('portal_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ProviderDeploymentsSetupSessionsListOutputItemsAccessOwnerConsumer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapProviderDeploymentsSetupSessionsListOutputItemsAccessOwner:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsSetupSessionsListOutputItemsAccessOwner:
+        return ProviderDeploymentsSetupSessionsListOutputItemsAccessOwner(
+        type=data.get('type'),
+        name=data.get('name'),
+        image_url=data.get('image_url'),
+        email=data.get('email'),
+        organization_member=mapProviderDeploymentsSetupSessionsListOutputItemsAccessOwnerOrganizationMember.from_dict(data.get('organization_member')) if data.get('organization_member') else None,
+        consumer=mapProviderDeploymentsSetupSessionsListOutputItemsAccessOwnerConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ProviderDeploymentsSetupSessionsListOutputItemsAccessOwner, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapProviderDeploymentsSetupSessionsListOutputItemsAccess:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsSetupSessionsListOutputItemsAccess:
+        return ProviderDeploymentsSetupSessionsListOutputItemsAccess(
+        source=data.get('source'),
+        type=data.get('type'),
+        visibility=data.get('visibility'),
+        owner=mapProviderDeploymentsSetupSessionsListOutputItemsAccessOwner.from_dict(data.get('owner')) if data.get('owner') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ProviderDeploymentsSetupSessionsListOutputItemsAccess, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapProviderDeploymentsSetupSessionsListOutputItemsAuthMethodInputSchema:
     @staticmethod
@@ -481,6 +641,76 @@ class mapProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAuthMethod:
             return value
         return dataclasses.asdict(value)
 
+class mapProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwnerOrganizationMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwnerOrganizationMember:
+        return ProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwnerOrganizationMember(
+        id=data.get('id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwnerOrganizationMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwnerConsumer:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwnerConsumer:
+        return ProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwnerConsumer(
+        id=data.get('id'),
+        profile_id=data.get('profile_id'),
+        portal_id=data.get('portal_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwnerConsumer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwner:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwner:
+        return ProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwner(
+        type=data.get('type'),
+        name=data.get('name'),
+        image_url=data.get('image_url'),
+        email=data.get('email'),
+        organization_member=mapProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwnerOrganizationMember.from_dict(data.get('organization_member')) if data.get('organization_member') else None,
+        consumer=mapProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwnerConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwner, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccess:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccess:
+        return ProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccess(
+        source=data.get('source'),
+        type=data.get('type'),
+        visibility=data.get('visibility'),
+        owner=mapProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccessOwner.from_dict(data.get('owner')) if data.get('owner') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccess, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapProviderDeploymentsSetupSessionsListOutputItemsAuthConfig:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsSetupSessionsListOutputItemsAuthConfig:
@@ -499,6 +729,7 @@ class mapProviderDeploymentsSetupSessionsListOutputItemsAuthConfig:
         deployment=mapProviderDeploymentsSetupSessionsListOutputItemsAuthConfigDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         credentials=mapProviderDeploymentsSetupSessionsListOutputItemsAuthConfigCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,
         auth_method=mapProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
+        access=mapProviderDeploymentsSetupSessionsListOutputItemsAuthConfigAccess.from_dict(data.get('access')) if data.get('access') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -581,6 +812,76 @@ class mapProviderDeploymentsSetupSessionsListOutputItemsConfigFromVault:
             return value
         return dataclasses.asdict(value)
 
+class mapProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwnerOrganizationMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwnerOrganizationMember:
+        return ProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwnerOrganizationMember(
+        id=data.get('id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwnerOrganizationMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwnerConsumer:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwnerConsumer:
+        return ProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwnerConsumer(
+        id=data.get('id'),
+        profile_id=data.get('profile_id'),
+        portal_id=data.get('portal_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwnerConsumer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwner:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwner:
+        return ProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwner(
+        type=data.get('type'),
+        name=data.get('name'),
+        image_url=data.get('image_url'),
+        email=data.get('email'),
+        organization_member=mapProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwnerOrganizationMember.from_dict(data.get('organization_member')) if data.get('organization_member') else None,
+        consumer=mapProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwnerConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwner, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapProviderDeploymentsSetupSessionsListOutputItemsConfigAccess:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsSetupSessionsListOutputItemsConfigAccess:
+        return ProviderDeploymentsSetupSessionsListOutputItemsConfigAccess(
+        source=data.get('source'),
+        type=data.get('type'),
+        visibility=data.get('visibility'),
+        owner=mapProviderDeploymentsSetupSessionsListOutputItemsConfigAccessOwner.from_dict(data.get('owner')) if data.get('owner') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ProviderDeploymentsSetupSessionsListOutputItemsConfigAccess, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapProviderDeploymentsSetupSessionsListOutputItemsConfig:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsSetupSessionsListOutputItemsConfig:
@@ -597,6 +898,7 @@ class mapProviderDeploymentsSetupSessionsListOutputItemsConfig:
         specification_id=data.get('specification_id'),
         deployment=mapProviderDeploymentsSetupSessionsListOutputItemsConfigDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         from_vault=mapProviderDeploymentsSetupSessionsListOutputItemsConfigFromVault.from_dict(data.get('from_vault')) if data.get('from_vault') else None,
+        access=mapProviderDeploymentsSetupSessionsListOutputItemsConfigAccess.from_dict(data.get('access')) if data.get('access') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -618,6 +920,7 @@ class mapProviderDeploymentsSetupSessionsListOutputItems:
         type=data.get('type'),
         status=data.get('status'),
         url=data.get('url'),
+        error=mapProviderDeploymentsSetupSessionsListOutputItemsError.from_dict(data.get('error')) if data.get('error') else None,
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
@@ -625,6 +928,7 @@ class mapProviderDeploymentsSetupSessionsListOutputItems:
         provider_id=data.get('provider_id'),
         identity_id=data.get('identity_id'),
         identity_credential_id=data.get('identity_credential_id'),
+        access=mapProviderDeploymentsSetupSessionsListOutputItemsAccess.from_dict(data.get('access')) if data.get('access') else None,
         auth_method=mapProviderDeploymentsSetupSessionsListOutputItemsAuthMethod.from_dict(data.get('auth_method')) if data.get('auth_method') else None,
         deployment=mapProviderDeploymentsSetupSessionsListOutputItemsDeployment.from_dict(data.get('deployment')) if data.get('deployment') else None,
         credentials=mapProviderDeploymentsSetupSessionsListOutputItemsCredentials.from_dict(data.get('credentials')) if data.get('credentials') else None,
@@ -700,6 +1004,7 @@ class ProviderDeploymentsSetupSessionsListQuery:
     provider_auth_config_id: Optional[Union[str, List[str]]] = None
     provider_auth_credentials_id: Optional[Union[str, List[str]]] = None
     status: Optional[Union[str, List[str]]] = None
+    type: Optional[Union[str, List[str]]] = None
     created_at: Optional[ProviderDeploymentsSetupSessionsListQueryCreatedAt] = None
     updated_at: Optional[ProviderDeploymentsSetupSessionsListQueryUpdatedAt] = None
 
@@ -720,6 +1025,7 @@ class mapProviderDeploymentsSetupSessionsListQuery:
         provider_auth_config_id=data.get('provider_auth_config_id'),
         provider_auth_credentials_id=data.get('provider_auth_credentials_id'),
         status=data.get('status'),
+        type=data.get('type'),
         created_at=mapProviderDeploymentsSetupSessionsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
         updated_at=mapProviderDeploymentsSetupSessionsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
         )

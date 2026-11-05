@@ -8,7 +8,7 @@ class MetorialManagementInstanceProviderDeploymentsConfigsEndpoint(BaseMetorialE
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_specification_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, available_for_use: Optional[bool] = None, available_for_provider_deployment_id: Optional[str] = None, provider_config_vault_id: Optional[Union[str, List[str]]] = None, actor_id: Optional[Union[str, List[str]]] = None, consumer_id: Optional[Union[str, List[str]]] = None, identity_id: Optional[Union[str, List[str]]] = None, identity_credential_id: Optional[Union[str, List[str]]] = None, search: Optional[str] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderDeploymentsConfigsListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, ownership: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_specification_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, available_for_use: Optional[bool] = None, available_for_provider_deployment_id: Optional[str] = None, provider_config_vault_id: Optional[Union[str, List[str]]] = None, actor_id: Optional[Union[str, List[str]]] = None, consumer_id: Optional[Union[str, List[str]]] = None, identity_id: Optional[Union[str, List[str]]] = None, identity_credential_id: Optional[Union[str, List[str]]] = None, search: Optional[str] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderDeploymentsConfigsListOutput:
         """
     List provider configs
     Returns a paginated list of provider configs.
@@ -19,6 +19,7 @@ class MetorialManagementInstanceProviderDeploymentsConfigsEndpoint(BaseMetorialE
     :param before: Optional[str] (optional)
     :param cursor: Optional[str] (optional)
     :param order: Optional[str] (optional)
+    :param ownership: Optional[str] (optional)
     :param status: Optional[Union[str, List[str]]] (optional)
     :param id: Optional[Union[str, List[str]]] (optional)
     :param provider_id: Optional[Union[str, List[str]]] (optional)
@@ -48,6 +49,8 @@ class MetorialManagementInstanceProviderDeploymentsConfigsEndpoint(BaseMetorialE
             query_dict["cursor"] = cursor
         if order is not None:
             query_dict["order"] = order
+        if ownership is not None:
+            query_dict["ownership"] = ownership
         if status is not None:
             query_dict["status"] = status
         if id is not None:

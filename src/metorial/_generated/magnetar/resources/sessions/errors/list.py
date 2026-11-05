@@ -112,6 +112,7 @@ class SessionsErrorsListQuery:
     session_message_id: Optional[Union[str, List[str]]] = None
     created_at: Optional[SessionsErrorsListQueryCreatedAt] = None
     updated_at: Optional[SessionsErrorsListQueryUpdatedAt] = None
+    search: Optional[str] = None
 
 
 class mapSessionsErrorsListQuery:
@@ -133,7 +134,8 @@ class mapSessionsErrorsListQuery:
         provider_id=data.get('provider_id'),
         session_message_id=data.get('session_message_id'),
         created_at=mapSessionsErrorsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=mapSessionsErrorsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
+        updated_at=mapSessionsErrorsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None,
+        search=data.get('search')
         )
 
     @staticmethod

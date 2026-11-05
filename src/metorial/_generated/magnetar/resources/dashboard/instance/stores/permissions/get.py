@@ -7,6 +7,7 @@ import dataclasses
 class DashboardInstanceStoresPermissionsGetOutput:
     object: str
     store_id: str
+    can_manage_access: bool
     has_full_access: bool
     permissions: List[str]
     relevant_store_ids: List[str]
@@ -20,6 +21,7 @@ class mapDashboardInstanceStoresPermissionsGetOutput:
         return DashboardInstanceStoresPermissionsGetOutput(
         object=data.get('object'),
         store_id=data.get('store_id'),
+        can_manage_access=data.get('can_manage_access'),
         has_full_access=data.get('has_full_access'),
         permissions=data.get('permissions', []),
         relevant_store_ids=data.get('relevant_store_ids', []),

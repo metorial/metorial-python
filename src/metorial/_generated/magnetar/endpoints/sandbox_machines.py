@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Optional, Union
 from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, MetorialRequest
-from ..resources import mapDashboardInstanceSandboxMachinesListOutput, DashboardInstanceSandboxMachinesListOutput, mapDashboardInstanceSandboxMachinesListQuery, DashboardInstanceSandboxMachinesListQuery, mapDashboardInstanceSandboxMachinesGetOutput, DashboardInstanceSandboxMachinesGetOutput, mapDashboardInstanceSandboxMachinesCreateOutput, DashboardInstanceSandboxMachinesCreateOutput, mapDashboardInstanceSandboxMachinesCreateBody, DashboardInstanceSandboxMachinesCreateBody, mapDashboardInstanceSandboxMachinesUpdateOutput, DashboardInstanceSandboxMachinesUpdateOutput, mapDashboardInstanceSandboxMachinesUpdateBody, DashboardInstanceSandboxMachinesUpdateBody, mapDashboardInstanceSandboxMachinesDeleteOutput, DashboardInstanceSandboxMachinesDeleteOutput, mapDashboardInstanceSandboxMachinesStartOutput, DashboardInstanceSandboxMachinesStartOutput, mapDashboardInstanceSandboxMachinesPauseOutput, DashboardInstanceSandboxMachinesPauseOutput, mapDashboardInstanceSandboxMachinesHibernateOutput, DashboardInstanceSandboxMachinesHibernateOutput, mapDashboardInstanceSandboxMachinesRestartOutput, DashboardInstanceSandboxMachinesRestartOutput, mapDashboardInstanceSandboxMachinesTouchOutput, DashboardInstanceSandboxMachinesTouchOutput, mapDashboardInstanceSandboxMachinesUsageOutput, DashboardInstanceSandboxMachinesUsageOutput, mapDashboardInstanceSandboxMachinesUsageQuery, DashboardInstanceSandboxMachinesUsageQuery
+from ..resources import mapDashboardInstanceSandboxMachinesListOutput, DashboardInstanceSandboxMachinesListOutput, mapDashboardInstanceSandboxMachinesListQuery, DashboardInstanceSandboxMachinesListQuery, mapDashboardInstanceSandboxMachinesGetOutput, DashboardInstanceSandboxMachinesGetOutput, mapDashboardInstanceSandboxMachinesCreateOutput, DashboardInstanceSandboxMachinesCreateOutput, mapDashboardInstanceSandboxMachinesCreateBody, DashboardInstanceSandboxMachinesCreateBody, mapDashboardInstanceSandboxMachinesUpdateOutput, DashboardInstanceSandboxMachinesUpdateOutput, mapDashboardInstanceSandboxMachinesUpdateBody, DashboardInstanceSandboxMachinesUpdateBody, mapDashboardInstanceSandboxMachinesDeleteOutput, DashboardInstanceSandboxMachinesDeleteOutput, mapDashboardInstanceSandboxMachinesStartOutput, DashboardInstanceSandboxMachinesStartOutput, mapDashboardInstanceSandboxMachinesPauseOutput, DashboardInstanceSandboxMachinesPauseOutput, mapDashboardInstanceSandboxMachinesHibernateOutput, DashboardInstanceSandboxMachinesHibernateOutput, mapDashboardInstanceSandboxMachinesRestartOutput, DashboardInstanceSandboxMachinesRestartOutput, mapDashboardInstanceSandboxMachinesTouchOutput, DashboardInstanceSandboxMachinesTouchOutput, mapDashboardInstanceSandboxMachinesUsageOutput, DashboardInstanceSandboxMachinesUsageOutput, mapDashboardInstanceSandboxMachinesUsageQuery, DashboardInstanceSandboxMachinesUsageQuery, mapDashboardInstanceSandboxMachinesExecOutput, DashboardInstanceSandboxMachinesExecOutput, mapDashboardInstanceSandboxMachinesExecBody, DashboardInstanceSandboxMachinesExecBody
 
 class MetorialSandboxMachinesEndpoint(BaseMetorialEndpoint):
     """Create and operate sandbox machines. A machine boots from an image, can mount disks, and moves between running, paused, and hibernated states."""
@@ -306,3 +306,31 @@ class MetorialSandboxMachinesEndpoint(BaseMetorialEndpoint):
             query=query_dict
         )
         return self._get(request).transform(mapDashboardInstanceSandboxMachinesUsageOutput.from_dict)
+
+    def exec(self, machine_id: str, *, command: str, cwd: Optional[str] = None, env: Optional[Dict[str, str]] = None, timeout_seconds: Optional[float] = None) -> DashboardInstanceSandboxMachinesExecOutput:
+        """
+    Run a command
+    Runs a shell command in the machine and returns its exit code and output. Non-interactive; starts the machine if needed.
+
+    :param machine_id: str
+    :param command: str
+    :param cwd: Optional[str] (optional)
+    :param env: Optional[Dict[str, str]] (optional)
+    :param timeout_seconds: Optional[float] (optional)
+    :return: DashboardInstanceSandboxMachinesExecOutput
+    """
+        # Build body parameters from keyword arguments
+        body_dict = {}
+        body_dict["command"] = command
+        if cwd is not None:
+            body_dict["cwd"] = cwd
+        if env is not None:
+            body_dict["env"] = env
+        if timeout_seconds is not None:
+            body_dict["timeout_seconds"] = timeout_seconds
+
+        request = MetorialRequest(
+            path=['sandbox', 'machines', machine_id, 'exec'],
+            body=body_dict
+        )
+        return self._post(request).transform(mapDashboardInstanceSandboxMachinesExecOutput.from_dict)

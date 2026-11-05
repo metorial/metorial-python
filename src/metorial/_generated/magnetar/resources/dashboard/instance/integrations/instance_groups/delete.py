@@ -26,12 +26,35 @@ class DashboardInstanceIntegrationsInstanceGroupsDeleteOutputProviders:
     tool_filter: Optional[Dict[str, Any]] = None
     archived_at: Optional[datetime] = None
 @dataclass
+class DashboardInstanceIntegrationsInstanceGroupsDeleteOutputAccessOwnerOrganizationMember:
+    id: str
+@dataclass
+class DashboardInstanceIntegrationsInstanceGroupsDeleteOutputAccessOwnerConsumer:
+    id: str
+    profile_id: str
+    portal_id: Optional[str] = None
+@dataclass
+class DashboardInstanceIntegrationsInstanceGroupsDeleteOutputAccessOwner:
+    type: str
+    name: Optional[str] = None
+    image_url: Optional[str] = None
+    email: Optional[str] = None
+    organization_member: Optional[DashboardInstanceIntegrationsInstanceGroupsDeleteOutputAccessOwnerOrganizationMember] = None
+    consumer: Optional[DashboardInstanceIntegrationsInstanceGroupsDeleteOutputAccessOwnerConsumer] = None
+@dataclass
+class DashboardInstanceIntegrationsInstanceGroupsDeleteOutputAccess:
+    type: str
+    visibility: str
+    source: Optional[str] = None
+    owner: Optional[DashboardInstanceIntegrationsInstanceGroupsDeleteOutputAccessOwner] = None
+@dataclass
 class DashboardInstanceIntegrationsInstanceGroupsDeleteOutput:
     object: str
     id: str
     status: str
     name: str
     providers: List[DashboardInstanceIntegrationsInstanceGroupsDeleteOutputProviders]
+    access: DashboardInstanceIntegrationsInstanceGroupsDeleteOutputAccess
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
@@ -86,6 +109,76 @@ class mapDashboardInstanceIntegrationsInstanceGroupsDeleteOutputProviders:
             return value
         return dataclasses.asdict(value)
 
+class mapDashboardInstanceIntegrationsInstanceGroupsDeleteOutputAccessOwnerOrganizationMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceIntegrationsInstanceGroupsDeleteOutputAccessOwnerOrganizationMember:
+        return DashboardInstanceIntegrationsInstanceGroupsDeleteOutputAccessOwnerOrganizationMember(
+        id=data.get('id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceIntegrationsInstanceGroupsDeleteOutputAccessOwnerOrganizationMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceIntegrationsInstanceGroupsDeleteOutputAccessOwnerConsumer:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceIntegrationsInstanceGroupsDeleteOutputAccessOwnerConsumer:
+        return DashboardInstanceIntegrationsInstanceGroupsDeleteOutputAccessOwnerConsumer(
+        id=data.get('id'),
+        profile_id=data.get('profile_id'),
+        portal_id=data.get('portal_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceIntegrationsInstanceGroupsDeleteOutputAccessOwnerConsumer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceIntegrationsInstanceGroupsDeleteOutputAccessOwner:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceIntegrationsInstanceGroupsDeleteOutputAccessOwner:
+        return DashboardInstanceIntegrationsInstanceGroupsDeleteOutputAccessOwner(
+        type=data.get('type'),
+        name=data.get('name'),
+        image_url=data.get('image_url'),
+        email=data.get('email'),
+        organization_member=mapDashboardInstanceIntegrationsInstanceGroupsDeleteOutputAccessOwnerOrganizationMember.from_dict(data.get('organization_member')) if data.get('organization_member') else None,
+        consumer=mapDashboardInstanceIntegrationsInstanceGroupsDeleteOutputAccessOwnerConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceIntegrationsInstanceGroupsDeleteOutputAccessOwner, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceIntegrationsInstanceGroupsDeleteOutputAccess:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceIntegrationsInstanceGroupsDeleteOutputAccess:
+        return DashboardInstanceIntegrationsInstanceGroupsDeleteOutputAccess(
+        source=data.get('source'),
+        type=data.get('type'),
+        visibility=data.get('visibility'),
+        owner=mapDashboardInstanceIntegrationsInstanceGroupsDeleteOutputAccessOwner.from_dict(data.get('owner')) if data.get('owner') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceIntegrationsInstanceGroupsDeleteOutputAccess, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapDashboardInstanceIntegrationsInstanceGroupsDeleteOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceIntegrationsInstanceGroupsDeleteOutput:
@@ -98,6 +191,7 @@ class mapDashboardInstanceIntegrationsInstanceGroupsDeleteOutput:
         metadata=data.get('metadata'),
         implementation=mapDashboardInstanceIntegrationsInstanceGroupsDeleteOutputImplementation.from_dict(data.get('implementation')) if data.get('implementation') else None,
         providers=[mapDashboardInstanceIntegrationsInstanceGroupsDeleteOutputProviders.from_dict(item) for item in data.get('providers', []) if item],
+        access=mapDashboardInstanceIntegrationsInstanceGroupsDeleteOutputAccess.from_dict(data.get('access')) if data.get('access') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
         archived_at=datetime.fromisoformat(data.get('archived_at').replace('Z', '+00:00')) if data.get('archived_at') else None

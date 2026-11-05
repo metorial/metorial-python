@@ -112,6 +112,7 @@ class ManagementInstanceSessionsErrorsListQuery:
     session_message_id: Optional[Union[str, List[str]]] = None
     created_at: Optional[ManagementInstanceSessionsErrorsListQueryCreatedAt] = None
     updated_at: Optional[ManagementInstanceSessionsErrorsListQueryUpdatedAt] = None
+    search: Optional[str] = None
 
 
 class mapManagementInstanceSessionsErrorsListQuery:
@@ -133,7 +134,8 @@ class mapManagementInstanceSessionsErrorsListQuery:
         provider_id=data.get('provider_id'),
         session_message_id=data.get('session_message_id'),
         created_at=mapManagementInstanceSessionsErrorsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
-        updated_at=mapManagementInstanceSessionsErrorsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None
+        updated_at=mapManagementInstanceSessionsErrorsListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None,
+        search=data.get('search')
         )
 
     @staticmethod

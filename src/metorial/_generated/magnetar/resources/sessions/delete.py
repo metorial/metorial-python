@@ -54,6 +54,28 @@ class SessionsDeleteOutputProviders:
     from_template_provider_id: Optional[str] = None
     auth_config: Optional[SessionsDeleteOutputProvidersAuthConfig] = None
 @dataclass
+class SessionsDeleteOutputAccessOwnerOrganizationMember:
+    id: str
+@dataclass
+class SessionsDeleteOutputAccessOwnerConsumer:
+    id: str
+    profile_id: str
+    portal_id: Optional[str] = None
+@dataclass
+class SessionsDeleteOutputAccessOwner:
+    type: str
+    name: Optional[str] = None
+    image_url: Optional[str] = None
+    email: Optional[str] = None
+    organization_member: Optional[SessionsDeleteOutputAccessOwnerOrganizationMember] = None
+    consumer: Optional[SessionsDeleteOutputAccessOwnerConsumer] = None
+@dataclass
+class SessionsDeleteOutputAccess:
+    type: str
+    visibility: str
+    source: Optional[str] = None
+    owner: Optional[SessionsDeleteOutputAccessOwner] = None
+@dataclass
 class SessionsDeleteOutput:
     object: str
     id: str
@@ -65,6 +87,7 @@ class SessionsDeleteOutput:
     from_template_ids: List[str]
     has_errors: bool
     has_warnings: bool
+    access: SessionsDeleteOutputAccess
     created_at: datetime
     updated_at: datetime
     name: Optional[str] = None
@@ -197,6 +220,76 @@ class mapSessionsDeleteOutputProviders:
             return value
         return dataclasses.asdict(value)
 
+class mapSessionsDeleteOutputAccessOwnerOrganizationMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> SessionsDeleteOutputAccessOwnerOrganizationMember:
+        return SessionsDeleteOutputAccessOwnerOrganizationMember(
+        id=data.get('id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[SessionsDeleteOutputAccessOwnerOrganizationMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapSessionsDeleteOutputAccessOwnerConsumer:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> SessionsDeleteOutputAccessOwnerConsumer:
+        return SessionsDeleteOutputAccessOwnerConsumer(
+        id=data.get('id'),
+        profile_id=data.get('profile_id'),
+        portal_id=data.get('portal_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[SessionsDeleteOutputAccessOwnerConsumer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapSessionsDeleteOutputAccessOwner:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> SessionsDeleteOutputAccessOwner:
+        return SessionsDeleteOutputAccessOwner(
+        type=data.get('type'),
+        name=data.get('name'),
+        image_url=data.get('image_url'),
+        email=data.get('email'),
+        organization_member=mapSessionsDeleteOutputAccessOwnerOrganizationMember.from_dict(data.get('organization_member')) if data.get('organization_member') else None,
+        consumer=mapSessionsDeleteOutputAccessOwnerConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[SessionsDeleteOutputAccessOwner, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapSessionsDeleteOutputAccess:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> SessionsDeleteOutputAccess:
+        return SessionsDeleteOutputAccess(
+        source=data.get('source'),
+        type=data.get('type'),
+        visibility=data.get('visibility'),
+        owner=mapSessionsDeleteOutputAccessOwner.from_dict(data.get('owner')) if data.get('owner') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[SessionsDeleteOutputAccess, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapSessionsDeleteOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> SessionsDeleteOutput:
@@ -216,6 +309,7 @@ class mapSessionsDeleteOutput:
         has_errors=data.get('has_errors'),
         has_warnings=data.get('has_warnings'),
         identity_actor_id=data.get('identity_actor_id'),
+        access=mapSessionsDeleteOutputAccess.from_dict(data.get('access')) if data.get('access') else None,
         identity_id=data.get('identity_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None

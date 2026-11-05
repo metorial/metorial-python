@@ -26,12 +26,35 @@ class ManagementInstanceIntegrationsInstanceGroupsGetOutputProviders:
     tool_filter: Optional[Dict[str, Any]] = None
     archived_at: Optional[datetime] = None
 @dataclass
+class ManagementInstanceIntegrationsInstanceGroupsGetOutputAccessOwnerOrganizationMember:
+    id: str
+@dataclass
+class ManagementInstanceIntegrationsInstanceGroupsGetOutputAccessOwnerConsumer:
+    id: str
+    profile_id: str
+    portal_id: Optional[str] = None
+@dataclass
+class ManagementInstanceIntegrationsInstanceGroupsGetOutputAccessOwner:
+    type: str
+    name: Optional[str] = None
+    image_url: Optional[str] = None
+    email: Optional[str] = None
+    organization_member: Optional[ManagementInstanceIntegrationsInstanceGroupsGetOutputAccessOwnerOrganizationMember] = None
+    consumer: Optional[ManagementInstanceIntegrationsInstanceGroupsGetOutputAccessOwnerConsumer] = None
+@dataclass
+class ManagementInstanceIntegrationsInstanceGroupsGetOutputAccess:
+    type: str
+    visibility: str
+    source: Optional[str] = None
+    owner: Optional[ManagementInstanceIntegrationsInstanceGroupsGetOutputAccessOwner] = None
+@dataclass
 class ManagementInstanceIntegrationsInstanceGroupsGetOutput:
     object: str
     id: str
     status: str
     name: str
     providers: List[ManagementInstanceIntegrationsInstanceGroupsGetOutputProviders]
+    access: ManagementInstanceIntegrationsInstanceGroupsGetOutputAccess
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
@@ -86,6 +109,76 @@ class mapManagementInstanceIntegrationsInstanceGroupsGetOutputProviders:
             return value
         return dataclasses.asdict(value)
 
+class mapManagementInstanceIntegrationsInstanceGroupsGetOutputAccessOwnerOrganizationMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceIntegrationsInstanceGroupsGetOutputAccessOwnerOrganizationMember:
+        return ManagementInstanceIntegrationsInstanceGroupsGetOutputAccessOwnerOrganizationMember(
+        id=data.get('id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceIntegrationsInstanceGroupsGetOutputAccessOwnerOrganizationMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceIntegrationsInstanceGroupsGetOutputAccessOwnerConsumer:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceIntegrationsInstanceGroupsGetOutputAccessOwnerConsumer:
+        return ManagementInstanceIntegrationsInstanceGroupsGetOutputAccessOwnerConsumer(
+        id=data.get('id'),
+        profile_id=data.get('profile_id'),
+        portal_id=data.get('portal_id')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceIntegrationsInstanceGroupsGetOutputAccessOwnerConsumer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceIntegrationsInstanceGroupsGetOutputAccessOwner:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceIntegrationsInstanceGroupsGetOutputAccessOwner:
+        return ManagementInstanceIntegrationsInstanceGroupsGetOutputAccessOwner(
+        type=data.get('type'),
+        name=data.get('name'),
+        image_url=data.get('image_url'),
+        email=data.get('email'),
+        organization_member=mapManagementInstanceIntegrationsInstanceGroupsGetOutputAccessOwnerOrganizationMember.from_dict(data.get('organization_member')) if data.get('organization_member') else None,
+        consumer=mapManagementInstanceIntegrationsInstanceGroupsGetOutputAccessOwnerConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceIntegrationsInstanceGroupsGetOutputAccessOwner, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceIntegrationsInstanceGroupsGetOutputAccess:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceIntegrationsInstanceGroupsGetOutputAccess:
+        return ManagementInstanceIntegrationsInstanceGroupsGetOutputAccess(
+        source=data.get('source'),
+        type=data.get('type'),
+        visibility=data.get('visibility'),
+        owner=mapManagementInstanceIntegrationsInstanceGroupsGetOutputAccessOwner.from_dict(data.get('owner')) if data.get('owner') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceIntegrationsInstanceGroupsGetOutputAccess, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapManagementInstanceIntegrationsInstanceGroupsGetOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceIntegrationsInstanceGroupsGetOutput:
@@ -98,6 +191,7 @@ class mapManagementInstanceIntegrationsInstanceGroupsGetOutput:
         metadata=data.get('metadata'),
         implementation=mapManagementInstanceIntegrationsInstanceGroupsGetOutputImplementation.from_dict(data.get('implementation')) if data.get('implementation') else None,
         providers=[mapManagementInstanceIntegrationsInstanceGroupsGetOutputProviders.from_dict(item) for item in data.get('providers', []) if item],
+        access=mapManagementInstanceIntegrationsInstanceGroupsGetOutputAccess.from_dict(data.get('access')) if data.get('access') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None,
         archived_at=datetime.fromisoformat(data.get('archived_at').replace('Z', '+00:00')) if data.get('archived_at') else None
