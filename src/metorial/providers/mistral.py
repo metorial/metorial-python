@@ -4,6 +4,8 @@ import json
 from collections.abc import Generator, Iterable
 from typing import TYPE_CHECKING, Any, cast
 
+from metorial._tool_results import serialize_tool_result
+
 if TYPE_CHECKING:
   from metorial._protocols import (
     SessionWithToolManagerProtocol,
@@ -85,9 +87,7 @@ async def call_mistral_tools(
 
     try:
       result = await tool_mgr.execute_tool(str(function_name), args)
-      if hasattr(result, "model_dump"):
-        result = result.model_dump()
-      content = json.dumps(result, ensure_ascii=False, default=str)
+      content = serialize_tool_result(result)
     except Exception as e:
       content = f"[ERROR] Tool call failed: {e!r}"
 

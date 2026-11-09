@@ -28,9 +28,11 @@ dependencies = [
   "aiohttp-sse-client>=0.2.1",
   "typing-extensions>=4.0.0",
   "httpx>=0.25.0",
+  "httpx-sse>=0.4.0",
   "requests>=2.25.0",
   "truststore>=0.8.0",
-  "mcp>=1.0.0,<2",
+  # Both MCP Python SDK majors are supported; metorial.mcp._compat bridges them.
+  "mcp>=1.21.0,<3",
 ]
 
 # Provider SDKs are optional: the Metorial SDK itself never imports them, they

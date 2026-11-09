@@ -5,6 +5,25 @@ All notable changes to the Metorial Python SDK will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.7.0] - 2026-11-09
+
+### Added
+
+- Added support for v2 of the MCP Python SDK (`mcp` 2.x). The SDK now works with both `mcp>=1.21,<2` and `mcp>=2,<3`; all version-specific handling lives in `metorial.mcp._compat`.
+
+### Fixed
+
+- `MetorialMcpClient.from_url` no longer fails with `TypeError: unsupported operand type(s) for +: 'float' and 'datetime.timedelta'` on mcp 2.x. The read timeout is passed in the form the installed `mcp` expects.
+- Tool input schemas and resource URI templates are read correctly from mcp 2.x models (which use snake_case attributes). Previously they would have been silently dropped.
+- Tool results passed to LLM providers and framework integrations are serialized with MCP wire names (`isError`, `structuredContent`, `_meta`) regardless of the installed `mcp` version, and `null` fields are omitted.
+- A failed HTTP request to the MCP server (for example a read timeout on a long-running tool or a 5xx response) now fails only that request, with a JSON-RPC error. Previously it shut down the client's transport, and every later call on that client failed.
+- Per-request MCP headers set by the `mcp` client session are now forwarded by the Streamable HTTP transport.
+
+### Changed
+
+- `httpx-sse` is now a direct dependency. mcp 2.x no longer installs it.
+- The minimum supported `mcp` version is now 1.21.0, the oldest release that provides every API the SDK already used.
+
 ## [2.6.0] - 2026-10-16
 
 ### Added

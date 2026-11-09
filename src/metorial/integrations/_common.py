@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import asyncio
 import inspect
-import json
 from collections.abc import Callable
 from typing import Any
 
@@ -20,18 +19,6 @@ def json_type_to_python(json_type: str) -> type[Any]:
     "object": dict,
   }
   return type_map.get(json_type, str)
-
-
-def normalize_tool_result(result: Any) -> Any:
-  """Normalize SDK objects into plain Python data."""
-  if hasattr(result, "model_dump"):
-    return result.model_dump()
-  return result
-
-
-def serialize_tool_result(result: Any) -> str:
-  """Serialize a tool result as JSON text."""
-  return json.dumps(normalize_tool_result(result), ensure_ascii=False, default=str)
 
 
 def apply_tool_signature(

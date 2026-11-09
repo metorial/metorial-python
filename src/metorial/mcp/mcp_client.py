@@ -5,7 +5,6 @@ import contextlib
 import logging
 from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
-from datetime import timedelta
 from typing import Any, TypedDict, TypeVar
 
 import mcp.types as mcp_types
@@ -16,8 +15,8 @@ from mcp.types import (
   PaginatedRequestParams,
   ServerCapabilities,
 )
-from pydantic import AnyUrl
 
+from ._compat import get_server_capabilities, resource_uri, session_read_timeout
 from .transport import MetorialMcpTransport
 
 
@@ -50,9 +49,19 @@ logger = logging.getLogger("metorial.mcp.client")
 
 
 class MetorialClientSession(ClientSession):
-  """ClientSession variant that preserves raw MCP tool results."""
+  """ClientSession variant that preserves raw MCP tool results.
+
+  The output-schema validation hook is ``_validate_tool_result`` in mcp 1.x and
+  ``validate_tool_result`` in mcp 2.x; both are overridden.
+  """
 
   async def _validate_tool_result(
+    self, name: str, result: mcp_types.CallToolResult
+  ) -> None:
+    logger.debug("Skipping MCP outputSchema validation for tool result: %s", name)
+    return None
+
+  async def validate_tool_result(
     self, name: str, result: mcp_types.CallToolResult
   ) -> None:
     logger.debug("Skipping MCP outputSchema validation for tool result: %s", name)
@@ -137,7 +146,7 @@ class MetorialMcpClient:
       read,
       write,
       client_info=client_info,
-      read_timeout_seconds=timedelta(seconds=read_timeout),
+      read_timeout_seconds=session_read_timeout(read_timeout),
     )
     await session_cm.__aenter__()
     try:
@@ -171,7 +180,7 @@ class MetorialMcpClient:
       raise RuntimeError("MetorialMcpClient is closed")
 
   def get_server_capabilities(self) -> ServerCapabilities:
-    caps: ServerCapabilities | None = self._session.get_server_capabilities()
+    caps = get_server_capabilities(self._session)
     logger.debug("get_server_capabilities -> %s", caps)
     if caps is None:
       raise RuntimeError("Server capabilities not available")
@@ -253,7 +262,7 @@ class MetorialMcpClient:
   ) -> Any:
     self._ensure_open()
     logger.debug("read_resource params=%s options=%s", params, options)
-    uri = AnyUrl(params["uri"])
+    uri = resource_uri(params["uri"])
     return await self._with_timeout(self._session.read_resource(uri), options)
 
   async def call_tool(

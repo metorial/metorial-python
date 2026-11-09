@@ -51,7 +51,7 @@ def _build_tool_fn(
     try:
       result = await tool_manager.execute_tool(tool_name, args)
       if hasattr(result, "model_dump"):
-        result = result.model_dump()
+        result = result.model_dump(by_alias=True, mode="json", exclude_none=True)
       return json.dumps(result, ensure_ascii=False, default=str)
     except Exception as e:
       return json.dumps({"error": str(e)}, ensure_ascii=False)

@@ -24,6 +24,8 @@ from __future__ import annotations
 import json
 from typing import TYPE_CHECKING, Any
 
+from metorial._tool_results import serialize_tool_result
+
 if TYPE_CHECKING:
   from metorial._client import ProviderSession
 
@@ -94,9 +96,7 @@ def _create_openai_agent_tool(tool: Any, tool_manager: Any) -> Any:
     # Filter out None values
     filtered_kwargs = {k: v for k, v in kwargs.items() if v is not None}
     result = await tool_manager.execute_tool(original_name, filtered_kwargs)
-    if hasattr(result, "model_dump"):
-      result = result.model_dump()
-    return json.dumps(result, ensure_ascii=False, default=str)
+    return serialize_tool_result(result)
 
   tool_fn.__name__ = tool_name
   tool_fn.__doc__ = tool_description
@@ -126,9 +126,7 @@ def _make_invoke_handler(tool_name: str, tool_manager: Any, required_params: set
       if k in required_params or (v is not None and v != ""):
         filtered_kwargs[k] = v
     result = await tool_manager.execute_tool(tool_name, filtered_kwargs)
-    if hasattr(result, "model_dump"):
-      result = result.model_dump()
-    return json.dumps(result, ensure_ascii=False, default=str)
+    return serialize_tool_result(result)
 
   return invoke_handler
 

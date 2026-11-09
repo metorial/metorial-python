@@ -12,6 +12,8 @@ from typing import (
   TypedDict,
 )
 
+from ._compat import get_field
+
 if TYPE_CHECKING:
   from metorial._protocols import McpSessionProtocol
 
@@ -245,15 +247,12 @@ class MetorialMcpTool:
         raise last_error
       raise RuntimeError(f"Tool execution failed after {MAX_RETRIES} attempts")
 
-    # Handle both dict and object responses for tool data
     if isinstance(tool, dict):
       tool_name = tool["name"]
-      tool_description = tool.get("description")
-      tool_input_schema = tool.get("inputSchema")
     else:
       tool_name = getattr(tool, "name", "tool")
-      tool_description = getattr(tool, "description", None)
-      tool_input_schema = getattr(tool, "inputSchema", None)
+    tool_description = get_field(tool, "description")
+    tool_input_schema = get_field(tool, "inputSchema")
 
     # Handle None input schema with sensible defaults based on tool name
     if tool_input_schema is None:
@@ -310,11 +309,7 @@ class MetorialMcpTool:
         "is missing serverDeployment.id"
       )
 
-    # Handle both dict and object responses for rt
-    if isinstance(rt, dict):
-      uri_template = rt.get("uriTemplate")
-    else:
-      uri_template = getattr(rt, "uriTemplate", None)
+    uri_template = get_field(rt, "uriTemplate")
 
     # Handle None uriTemplate with sensible defaults based on resource name
     if uri_template is None:

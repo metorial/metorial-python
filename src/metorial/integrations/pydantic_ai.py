@@ -21,6 +21,8 @@ import inspect
 import json
 from typing import TYPE_CHECKING, Any
 
+from metorial._tool_results import serialize_tool_result
+
 if TYPE_CHECKING:
   from metorial._client import ProviderSession
 
@@ -70,9 +72,7 @@ def _register_single_tool(agent: Any, tool: Any, tool_manager: Any) -> None:
       result = await tool_manager.execute_tool(tool_name, filtered_kwargs)
     except Exception as e:
       return json.dumps({"error": str(e)}, ensure_ascii=False)
-    if hasattr(result, "model_dump"):
-      result = result.model_dump()
-    return json.dumps(result, ensure_ascii=False, default=str)
+    return serialize_tool_result(result)
 
   # Override the function metadata
   metorial_tool.__name__ = tool_name
@@ -154,9 +154,7 @@ def _create_pydantic_tool(tool: Any, tool_manager: Any) -> Any:
           result = await mgr.execute_tool(name, filtered_kwargs)
         except Exception as e:
           return json.dumps({"error": str(e)}, ensure_ascii=False)
-        if hasattr(result, "model_dump"):
-          result = result.model_dump()
-        return json.dumps(result, ensure_ascii=False, default=str)
+        return serialize_tool_result(result)
 
       # Set annotations for PydanticAI to discover parameters
       tool_fn.__annotations__ = {
@@ -184,9 +182,7 @@ def _create_pydantic_tool(tool: Any, tool_manager: Any) -> Any:
           result = await mgr.execute_tool(name, {})
         except Exception as e:
           return json.dumps({"error": str(e)}, ensure_ascii=False)
-        if hasattr(result, "model_dump"):
-          result = result.model_dump()
-        return json.dumps(result, ensure_ascii=False, default=str)
+        return serialize_tool_result(result)
 
       tool_fn.__signature__ = inspect.Signature(return_annotation=str)
 

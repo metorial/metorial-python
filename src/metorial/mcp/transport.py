@@ -11,12 +11,13 @@ from anyio.streams.memory import MemoryObjectReceiveStream, MemoryObjectSendStre
 from httpx_sse import EventSource
 from mcp.shared.message import SessionMessage
 from mcp.types import (
-  InitializeResult,
   JSONRPCError,
   JSONRPCMessage,
   JSONRPCRequest,
   JSONRPCResponse,
 )
+
+from ._compat import parse_jsonrpc_json, parse_jsonrpc_message, unwrap_jsonrpc_message
 
 logger = logging.getLogger("metorial.mcp.transport")
 
@@ -26,6 +27,9 @@ ACCEPT = "accept"
 CONTENT_TYPE = "content-type"
 JSON = "application/json"
 SSE = "text/event-stream"
+
+# JSON-RPC "server error" range, used for requests whose HTTP exchange failed.
+POST_FAILED_ERROR_CODE = -32000
 
 
 class MetorialMcpTransportError(RuntimeError):
@@ -74,22 +78,25 @@ class MetorialMcpTransport:
       )
     return self.read_stream, self.write_stream
 
-  def _prepare_headers(self) -> dict[str, str]:
+  def _prepare_headers(
+    self, message_headers: dict[str, str] | None = None
+  ) -> dict[str, str]:
     headers = {
       ACCEPT: f"{JSON}, {SSE}",
       CONTENT_TYPE: JSON,
       **self._headers,
     }
-    if self._session_id:
-      headers[MCP_SESSION_ID] = self._session_id
     if self._protocol_version:
       headers[MCP_PROTOCOL_VERSION] = self._protocol_version
+    if message_headers:
+      headers.update(message_headers)
+    if self._session_id:
+      headers[MCP_SESSION_ID] = self._session_id
     return headers
 
   def _is_initialize_request(self, message: JSONRPCMessage) -> bool:
-    return (
-      isinstance(message.root, JSONRPCRequest) and message.root.method == "initialize"
-    )
+    inner = unwrap_jsonrpc_message(message)
+    return isinstance(inner, JSONRPCRequest) and inner.method == "initialize"
 
   def _update_session_id(self, response: httpx.Response) -> None:
     session_id = response.headers.get(MCP_SESSION_ID)
@@ -97,12 +104,14 @@ class MetorialMcpTransport:
       self._session_id = session_id
 
   def _update_protocol_version(self, message: JSONRPCMessage) -> None:
-    if isinstance(message.root, JSONRPCResponse) and message.root.result:
-      try:
-        init_result = InitializeResult.model_validate(message.root.result)
-        self._protocol_version = str(init_result.protocolVersion)
-      except Exception:
-        logger.debug("Failed to extract negotiated protocol version", exc_info=True)
+    inner = unwrap_jsonrpc_message(message)
+    if not isinstance(inner, JSONRPCResponse) or not isinstance(inner.result, dict):
+      return
+    protocol_version = inner.result.get("protocolVersion")
+    if isinstance(protocol_version, str) and protocol_version:
+      self._protocol_version = protocol_version
+    else:
+      logger.debug("Initialize response carried no protocol version")
 
   async def _send_message(
     self,
@@ -127,7 +136,7 @@ class MetorialMcpTransport:
     payload = json.loads(content)
     messages = payload if isinstance(payload, list) else [payload]
     for item in messages:
-      message = JSONRPCMessage.model_validate(item)
+      message = parse_jsonrpc_message(item)
       await self._send_message(message, is_initialize=is_initialize)
 
   async def _handle_sse_response(
@@ -142,9 +151,9 @@ class MetorialMcpTransport:
         continue
       if not sse.data:
         continue
-      message = JSONRPCMessage.model_validate_json(sse.data)
+      message = parse_jsonrpc_json(sse.data)
       await self._send_message(message, is_initialize=is_initialize)
-      if isinstance(message.root, (JSONRPCResponse, JSONRPCError)):
+      if isinstance(unwrap_jsonrpc_message(message), (JSONRPCResponse, JSONRPCError)):
         await response.aclose()
         return
     await response.aclose()
@@ -154,11 +163,13 @@ class MetorialMcpTransport:
     is_initialize = self._is_initialize_request(message)
     payload = message.model_dump(by_alias=True, mode="json", exclude_none=True)
 
+    message_headers = getattr(session_message.metadata, "headers", None)
+
     async with self._client.stream(
       "POST",
       self._url,
       json=payload,
-      headers=self._prepare_headers(),
+      headers=self._prepare_headers(message_headers),
     ) as response:
       if response.status_code == 202:
         return
@@ -166,7 +177,7 @@ class MetorialMcpTransport:
       response.raise_for_status()
       self._update_session_id(response)
 
-      if not isinstance(message.root, JSONRPCRequest):
+      if not isinstance(unwrap_jsonrpc_message(message), JSONRPCRequest):
         await response.aclose()
         return
 
@@ -180,17 +191,41 @@ class MetorialMcpTransport:
           f"Unexpected content type from MCP endpoint: {content_type}"
         )
 
+  async def _report_post_failure(
+    self, session_message: SessionMessage, exc: Exception
+  ) -> None:
+    inner = unwrap_jsonrpc_message(session_message.message)
+    if not isinstance(inner, JSONRPCRequest):
+      await self._read_stream_writer.send(exc)
+      return
+
+    error = parse_jsonrpc_message(
+      {
+        "jsonrpc": "2.0",
+        "id": inner.id,
+        "error": {
+          "code": POST_FAILED_ERROR_CODE,
+          "message": f"MCP request failed: {type(exc).__name__}: {exc}",
+        },
+      }
+    )
+    await self._read_stream_writer.send(SessionMessage(error))
+
   async def _post_writer(self) -> None:
     try:
       async with self._write_stream_reader:
         async for session_message in self._write_stream_reader:
-          await self._handle_post(session_message)
+          try:
+            await self._handle_post(session_message)
+          except asyncio.CancelledError:
+            raise
+          except Exception as exc:
+            logger.debug("MCP request failed", exc_info=True)
+            await self._report_post_failure(session_message, exc)
     except asyncio.CancelledError:
       raise
-    except Exception as exc:
-      logger.debug("Transport writer failed", exc_info=True)
-      with contextlib.suppress(Exception):
-        await self._read_stream_writer.send(exc)
+    except Exception:
+      logger.debug("Transport writer stopped", exc_info=True)
     finally:
       with contextlib.suppress(Exception):
         await self._read_stream_writer.aclose()

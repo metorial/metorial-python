@@ -6,11 +6,11 @@ import asyncio
 import json
 from typing import TYPE_CHECKING, Any
 
+from metorial._tool_results import serialize_tool_result
 from metorial.integrations import _sanitize_tool_name
 from metorial.integrations._common import (
   apply_tool_signature,
   run_coro_on_loop,
-  serialize_tool_result,
 )
 
 if TYPE_CHECKING:

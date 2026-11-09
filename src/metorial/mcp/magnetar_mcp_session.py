@@ -12,6 +12,7 @@ import contextlib
 import logging
 from typing import TYPE_CHECKING, Any, Protocol, TypedDict
 
+from ._compat import get_field
 from .mcp_client import MetorialMcpClient
 from .mcp_tool import Capability, ResourceTemplate, Tool
 
@@ -250,14 +251,9 @@ class MetorialMagnetarMcpSession:
     _log_info("Starting Magnetar direct MCP tool discovery...")
 
     def _normalize_tool(raw_tool: object) -> Tool | None:
-      if isinstance(raw_tool, dict):
-        name_value = raw_tool.get("name")
-        description_value = raw_tool.get("description")
-        input_schema_value = raw_tool.get("inputSchema")
-      else:
-        name_value = getattr(raw_tool, "name", None)
-        description_value = getattr(raw_tool, "description", None)
-        input_schema_value = getattr(raw_tool, "inputSchema", None)
+      name_value = get_field(raw_tool, "name")
+      description_value = get_field(raw_tool, "description")
+      input_schema_value = get_field(raw_tool, "inputSchema")
 
       if not isinstance(name_value, str) or not name_value:
         return None
@@ -270,14 +266,9 @@ class MetorialMagnetarMcpSession:
       return normalized_tool
 
     def _normalize_resource_template(raw_template: object) -> ResourceTemplate | None:
-      if isinstance(raw_template, dict):
-        name_value = raw_template.get("name")
-        description_value = raw_template.get("description")
-        uri_template_value = raw_template.get("uriTemplate")
-      else:
-        name_value = getattr(raw_template, "name", None)
-        description_value = getattr(raw_template, "description", None)
-        uri_template_value = getattr(raw_template, "uriTemplate", None)
+      name_value = get_field(raw_template, "name")
+      description_value = get_field(raw_template, "description")
+      uri_template_value = get_field(raw_template, "uriTemplate")
 
       if not isinstance(name_value, str) or not name_value:
         return None
@@ -316,13 +307,7 @@ class MetorialMagnetarMcpSession:
     # Get tools
     try:
       tools_response = await client.list_tools()
-      raw_tools: object
-      if hasattr(tools_response, "tools"):
-        raw_tools = tools_response.tools
-      elif isinstance(tools_response, dict):
-        raw_tools = tools_response.get("tools", [])
-      else:
-        raw_tools = []
+      raw_tools: object = get_field(tools_response, "tools") or []
 
       if isinstance(raw_tools, list):
         for raw_tool in raw_tools:
@@ -337,17 +322,7 @@ class MetorialMagnetarMcpSession:
     # Get resource templates
     try:
       templates_response = await client.list_resource_templates()
-      raw_templates: object
-      if hasattr(templates_response, "resourceTemplates"):
-        raw_templates = templates_response.resourceTemplates or []
-      elif hasattr(templates_response, "resource_templates"):
-        raw_templates = templates_response.resource_templates or []
-      elif isinstance(templates_response, dict):
-        raw_templates = templates_response.get(
-          "resourceTemplates"
-        ) or templates_response.get("resource_templates", [])
-      else:
-        raw_templates = []
+      raw_templates: object = get_field(templates_response, "resourceTemplates") or []
 
       if isinstance(raw_templates, list):
         for raw_template in raw_templates:

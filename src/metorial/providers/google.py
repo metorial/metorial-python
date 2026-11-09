@@ -4,6 +4,8 @@ import json
 from collections.abc import Generator, Iterable
 from typing import TYPE_CHECKING, Any, cast
 
+from metorial._tool_results import normalize_tool_result
+
 if TYPE_CHECKING:
   from metorial._protocols import (
     SessionWithToolManagerProtocol,
@@ -86,8 +88,7 @@ async def call_google_tools(
 
     try:
       result = await tool_mgr.execute_tool(str(call_name), cast(dict[str, Any], args))
-      if hasattr(result, "model_dump"):
-        result = result.model_dump()
+      result = normalize_tool_result(result)
     except Exception as e:
       result = {"error": f"[ERROR] Tool call failed: {e!r}"}
 

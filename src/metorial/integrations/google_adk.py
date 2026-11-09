@@ -5,10 +5,10 @@ from __future__ import annotations
 import json
 from typing import TYPE_CHECKING, Any
 
+from metorial._tool_results import normalize_tool_result
 from metorial.integrations import _sanitize_tool_name
 from metorial.integrations._common import (
   apply_tool_signature,
-  normalize_tool_result,
 )
 
 if TYPE_CHECKING:

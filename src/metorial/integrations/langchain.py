@@ -21,6 +21,8 @@ from __future__ import annotations
 import json
 from typing import TYPE_CHECKING, Any
 
+from metorial._tool_results import serialize_tool_result
+
 if TYPE_CHECKING:
   from metorial._client import ProviderSession
 
@@ -64,9 +66,7 @@ def create_langchain_tools(session: ProviderSession) -> list[Any]:
         filtered_kwargs = {k: v for k, v in kwargs.items() if v is not None}
         try:
           result = await tool_manager.execute_tool(tool_name, filtered_kwargs)
-          if hasattr(result, "model_dump"):
-            result = result.model_dump()
-          return json.dumps(result, ensure_ascii=False, default=str)
+          return serialize_tool_result(result)
         except Exception as e:
           return json.dumps({"error": str(e)}, ensure_ascii=False)
 
