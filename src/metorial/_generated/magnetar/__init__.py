@@ -932,6 +932,9 @@ from .endpoints import *
 # DashboardOrganizationsApiKeysRotateOutput
 # DashboardOrganizationsApiKeysUpdateBody
 # DashboardOrganizationsApiKeysUpdateOutput
+# DashboardOrganizationsAuditLogsGetOutput
+# DashboardOrganizationsAuditLogsListOutput
+# DashboardOrganizationsAuditLogsListQuery
 # DashboardOrganizationsEventDeliveriesGetOutput
 # DashboardOrganizationsEventDeliveriesListOutput
 # DashboardOrganizationsEventDeliveriesListQuery
@@ -1917,6 +1920,9 @@ from .endpoints import *
 # mapDashboardOrganizationsApiKeysRotateOutput
 # mapDashboardOrganizationsApiKeysUpdateBody
 # mapDashboardOrganizationsApiKeysUpdateOutput
+# mapDashboardOrganizationsAuditLogsGetOutput
+# mapDashboardOrganizationsAuditLogsListOutput
+# mapDashboardOrganizationsAuditLogsListQuery
 # mapDashboardOrganizationsEventDeliveriesGetOutput
 # mapDashboardOrganizationsEventDeliveriesListOutput
 # mapDashboardOrganizationsEventDeliveriesListQuery
