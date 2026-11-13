@@ -64,7 +64,7 @@ class MetorialManagementInstanceCallbacksEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapDashboardInstanceCallbacksListOutput.from_dict)
 
-    def create(self, instance_id: str, *, integration_id: str, integration_provider_id: str, name: Optional[str] = None, description: Optional[str] = None) -> DashboardInstanceCallbacksCreateOutput:
+    def create(self, instance_id: str, *, integration_id: str, integration_provider_id: str, name: Optional[str] = None, description: Optional[str] = None, trigger_group_selections: Optional[Dict[str, Dict[str, Any]]] = None) -> DashboardInstanceCallbacksCreateOutput:
         """
     Create callback
     Enables callbacks for an integration provider and returns the callback it created. Only providers whose type reports `triggers.status` as `enabled` support this. Callback instances are then registered for every matching integration instance in the background.
@@ -74,6 +74,7 @@ class MetorialManagementInstanceCallbacksEndpoint(BaseMetorialEndpoint):
     :param integration_provider_id: str
     :param name: Optional[str] (optional)
     :param description: Optional[str] (optional)
+    :param trigger_group_selections: Optional[Dict[str, Dict[str, Any]]] (optional)
     :return: DashboardInstanceCallbacksCreateOutput
     """
         # Build body parameters from keyword arguments
@@ -84,6 +85,8 @@ class MetorialManagementInstanceCallbacksEndpoint(BaseMetorialEndpoint):
             body_dict["name"] = name
         if description is not None:
             body_dict["description"] = description
+        if trigger_group_selections is not None:
+            body_dict["trigger_group_selections"] = trigger_group_selections
 
         request = MetorialRequest(
             path=['instances', instance_id, 'callbacks'],
@@ -105,16 +108,17 @@ class MetorialManagementInstanceCallbacksEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapDashboardInstanceCallbacksGetOutput.from_dict)
 
-    def update(self, instance_id: str, callback_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceCallbacksUpdateOutput:
+    def update(self, instance_id: str, callback_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, trigger_group_selections: Optional[Dict[str, Dict[str, Any]]] = None) -> DashboardInstanceCallbacksUpdateOutput:
         """
     Update callback
-    Updates the name, description or metadata of a callback. Everything else about a callback is derived from its integration provider - set `callbacks.status` to `disabled` there to tear it down.
+    Updates the name, description, metadata or trigger group selections of a callback. Changing the selections re-registers the affected triggers. Everything else about a callback is derived from its integration provider - set `callbacks.status` to `disabled` there to tear it down.
 
     :param instance_id: str
     :param callback_id: str
     :param name: Optional[str] (optional)
     :param description: Optional[str] (optional)
     :param metadata: Optional[Dict[str, Any]] (optional)
+    :param trigger_group_selections: Optional[Dict[str, Dict[str, Any]]] (optional)
     :return: DashboardInstanceCallbacksUpdateOutput
     """
         # Build body parameters from keyword arguments
@@ -125,6 +129,8 @@ class MetorialManagementInstanceCallbacksEndpoint(BaseMetorialEndpoint):
             body_dict["description"] = description
         if metadata is not None:
             body_dict["metadata"] = metadata
+        if trigger_group_selections is not None:
+            body_dict["trigger_group_selections"] = trigger_group_selections
 
         request = MetorialRequest(
             path=['instances', instance_id, 'callbacks', callback_id],

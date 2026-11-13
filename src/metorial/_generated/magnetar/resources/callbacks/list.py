@@ -13,6 +13,14 @@ class CallbacksListOutputItemsProvider:
     updated_at: datetime
     description: Optional[str] = None
 @dataclass
+class CallbacksListOutputItemsTriggerGroups:
+    object: str
+    key: str
+    name: str
+    selection_schema: Dict[str, Any]
+    status: str
+    description: Optional[str] = None
+@dataclass
 class CallbacksListOutputItems:
     object: str
     id: str
@@ -21,10 +29,12 @@ class CallbacksListOutputItems:
     integration_id: str
     integration_provider_id: str
     provider: CallbacksListOutputItemsProvider
+    trigger_groups: List[CallbacksListOutputItemsTriggerGroups]
     created_at: datetime
     updated_at: datetime
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
+    trigger_group_selections: Optional[Dict[str, Dict[str, Any]]] = None
 @dataclass
 class CallbacksListOutputPagination:
     has_more_before: bool
@@ -56,6 +66,26 @@ class mapCallbacksListOutputItemsProvider:
             return value
         return dataclasses.asdict(value)
 
+class mapCallbacksListOutputItemsTriggerGroups:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> CallbacksListOutputItemsTriggerGroups:
+        return CallbacksListOutputItemsTriggerGroups(
+        object=data.get('object'),
+        key=data.get('key'),
+        name=data.get('name'),
+        description=data.get('description'),
+        selection_schema=data.get('selection_schema'),
+        status=data.get('status')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[CallbacksListOutputItemsTriggerGroups, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapCallbacksListOutputItems:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> CallbacksListOutputItems:
@@ -69,6 +99,8 @@ class mapCallbacksListOutputItems:
         integration_id=data.get('integration_id'),
         integration_provider_id=data.get('integration_provider_id'),
         provider=mapCallbacksListOutputItemsProvider.from_dict(data.get('provider')) if data.get('provider') else None,
+        trigger_group_selections=data.get('trigger_group_selections'),
+        trigger_groups=[mapCallbacksListOutputItemsTriggerGroups.from_dict(item) for item in data.get('trigger_groups', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

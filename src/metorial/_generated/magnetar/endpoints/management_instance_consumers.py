@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Optional, Union
 from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, MetorialRequest
-from ..resources import mapDashboardInstanceConsumersListOutput, DashboardInstanceConsumersListOutput, mapDashboardInstanceConsumersListQuery, DashboardInstanceConsumersListQuery, mapDashboardInstanceConsumersGetOutput, DashboardInstanceConsumersGetOutput, mapDashboardInstanceConsumersCreateOutput, DashboardInstanceConsumersCreateOutput, mapDashboardInstanceConsumersCreateBody, DashboardInstanceConsumersCreateBody, mapDashboardInstanceConsumersGetMemberConsumerOutput, DashboardInstanceConsumersGetMemberConsumerOutput, mapDashboardInstanceConsumersGetMemberConsumerBody, DashboardInstanceConsumersGetMemberConsumerBody, mapDashboardInstanceConsumersUpdateOutput, DashboardInstanceConsumersUpdateOutput, mapDashboardInstanceConsumersUpdateBody, DashboardInstanceConsumersUpdateBody
+from ..resources import mapDashboardInstanceConsumersListOutput, DashboardInstanceConsumersListOutput, mapDashboardInstanceConsumersListQuery, DashboardInstanceConsumersListQuery, mapDashboardInstanceConsumersGetOutput, DashboardInstanceConsumersGetOutput, mapDashboardInstanceConsumersCreateOutput, DashboardInstanceConsumersCreateOutput, mapDashboardInstanceConsumersCreateBody, DashboardInstanceConsumersCreateBody, mapDashboardInstanceConsumersGetMemberConsumerOutput, DashboardInstanceConsumersGetMemberConsumerOutput, mapDashboardInstanceConsumersGetMemberConsumerBody, DashboardInstanceConsumersGetMemberConsumerBody, mapDashboardInstanceConsumersCreateMemberSessionOutput, DashboardInstanceConsumersCreateMemberSessionOutput, mapDashboardInstanceConsumersCreateMemberSessionBody, DashboardInstanceConsumersCreateMemberSessionBody, mapDashboardInstanceConsumersUpdateOutput, DashboardInstanceConsumersUpdateOutput, mapDashboardInstanceConsumersUpdateBody, DashboardInstanceConsumersUpdateBody
 
 class MetorialManagementInstanceConsumersEndpoint(BaseMetorialEndpoint):
     """Manage instance consumers independently from portals and inspect the profiles linked to each consumer."""
@@ -103,6 +103,26 @@ class MetorialManagementInstanceConsumersEndpoint(BaseMetorialEndpoint):
             body=body_dict
         )
         return self._post(request).transform(mapDashboardInstanceConsumersGetMemberConsumerOutput.from_dict)
+
+    def create_member_session(self, instance_id: str, *, integration_id: Optional[str] = None) -> DashboardInstanceConsumersCreateMemberSessionOutput:
+        """
+    Create member consumer session
+    Exchanges a CLI sign-in for a short-lived credential for the member’s own consumer profile.
+
+    :param instance_id: str
+    :param integration_id: Optional[str] (optional)
+    :return: DashboardInstanceConsumersCreateMemberSessionOutput
+    """
+        # Build body parameters from keyword arguments
+        body_dict = {}
+        if integration_id is not None:
+            body_dict["integration_id"] = integration_id
+
+        request = MetorialRequest(
+            path=['instances', instance_id, 'member-consumer-session'],
+            body=body_dict
+        )
+        return self._post(request).transform(mapDashboardInstanceConsumersCreateMemberSessionOutput.from_dict)
 
     def update(self, instance_id: str, consumer_id: str, *, name: Optional[str] = None, email: Optional[str] = None) -> DashboardInstanceConsumersUpdateOutput:
         """

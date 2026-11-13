@@ -1,5 +1,6 @@
 from .agents import *
 from .consumer_internal import *
+from .devices import *
 from .identity_credentials import *
 from .oauth import *
 from .profile import *
