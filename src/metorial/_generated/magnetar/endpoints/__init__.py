@@ -21,6 +21,8 @@ from .chats_threads import *
 from .consumer_agents import *
 from .consumer_consumer_internal_oauth_authorizations import *
 from .consumer_consumer_internal_oauth_clients import *
+from .consumer_devices import *
+from .consumer_devices_clients import *
 from .consumer_identity_credentials import *
 from .consumer_oauth_authorizations import *
 from .consumer_profile import *
@@ -32,6 +34,7 @@ from .consumer_session_connections import *
 from .consumer_surfaces import *
 from .consumer_tool_calls import *
 from .consumers import *
+from .consumers_devices import *
 from .consumers_profiles import *
 from .conversations import *
 from .conversations_messages import *
@@ -62,6 +65,7 @@ from .dashboard_instance_chats_messages_reactions import *
 from .dashboard_instance_chats_threads import *
 from .dashboard_instance_consumer_surfaces import *
 from .dashboard_instance_consumers import *
+from .dashboard_instance_consumers_devices import *
 from .dashboard_instance_consumers_profiles import *
 from .dashboard_instance_conversations import *
 from .dashboard_instance_conversations_messages import *
@@ -261,6 +265,7 @@ from .management_instance_chats_messages_reactions import *
 from .management_instance_chats_threads import *
 from .management_instance_consumer_surfaces import *
 from .management_instance_consumers import *
+from .management_instance_consumers_devices import *
 from .management_instance_consumers_profiles import *
 from .management_instance_conversations import *
 from .management_instance_conversations_messages import *
