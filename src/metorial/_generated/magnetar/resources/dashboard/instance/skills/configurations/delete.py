@@ -11,6 +11,7 @@ class DashboardInstanceSkillsConfigurationsDeleteOutput:
     allow_scripts: bool
     allowed_file_extensions: List[str]
     allow_non_standard_directories: bool
+    security_review_policy: str
     created_at: datetime
     updated_at: datetime
     deleted_at: Optional[datetime] = None
@@ -26,6 +27,7 @@ class mapDashboardInstanceSkillsConfigurationsDeleteOutput:
         allow_scripts=data.get('allow_scripts'),
         allowed_file_extensions=data.get('allowed_file_extensions', []),
         allow_non_standard_directories=data.get('allow_non_standard_directories'),
+        security_review_policy=data.get('security_review_policy'),
         deleted_at=datetime.fromisoformat(data.get('deleted_at').replace('Z', '+00:00')) if data.get('deleted_at') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None

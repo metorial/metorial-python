@@ -20,6 +20,8 @@ class ProtoGuardConfigGetOutputFilters:
 @dataclass
 class ProtoGuardConfigGetOutput:
     object: str
+    enabled: bool
+    alert_probability_threshold: float
     alert_filter_count_threshold: float
     filters: List[ProtoGuardConfigGetOutputFilters]
 
@@ -55,6 +57,8 @@ class mapProtoGuardConfigGetOutput:
     def from_dict(data: Dict[str, Any]) -> ProtoGuardConfigGetOutput:
         return ProtoGuardConfigGetOutput(
         object=data.get('object'),
+        enabled=data.get('enabled'),
+        alert_probability_threshold=data.get('alert_probability_threshold'),
         alert_filter_count_threshold=data.get('alert_filter_count_threshold'),
         filters=[mapProtoGuardConfigGetOutputFilters.from_dict(item) for item in data.get('filters', []) if item]
         )

@@ -65,6 +65,11 @@ class ManagementInstanceConversationsMessagesListOutputItemsRequestActor:
     consumer: Optional[ManagementInstanceConversationsMessagesListOutputItemsRequestActorConsumer] = None
     consumer_profile: Optional[Dict[str, Any]] = None
 @dataclass
+class ManagementInstanceConversationsMessagesListOutputItemsRequestContext:
+    mode: str
+    requested_mode: str
+    can_write: bool
+@dataclass
 class ManagementInstanceConversationsMessagesListOutputItemsRequest:
     object: str
     id: str
@@ -72,6 +77,7 @@ class ManagementInstanceConversationsMessagesListOutputItemsRequest:
     created_at: datetime
     updated_at: datetime
     actor: Optional[ManagementInstanceConversationsMessagesListOutputItemsRequestActor] = None
+    context: Optional[ManagementInstanceConversationsMessagesListOutputItemsRequestContext] = None
 @dataclass
 class ManagementInstanceConversationsMessagesListOutputItems:
     object: str
@@ -240,6 +246,23 @@ class mapManagementInstanceConversationsMessagesListOutputItemsRequestActor:
             return value
         return dataclasses.asdict(value)
 
+class mapManagementInstanceConversationsMessagesListOutputItemsRequestContext:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceConversationsMessagesListOutputItemsRequestContext:
+        return ManagementInstanceConversationsMessagesListOutputItemsRequestContext(
+        mode=data.get('mode'),
+        requested_mode=data.get('requested_mode'),
+        can_write=data.get('can_write')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceConversationsMessagesListOutputItemsRequestContext, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapManagementInstanceConversationsMessagesListOutputItemsRequest:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceConversationsMessagesListOutputItemsRequest:
@@ -248,6 +271,7 @@ class mapManagementInstanceConversationsMessagesListOutputItemsRequest:
         id=data.get('id'),
         status=data.get('status'),
         actor=mapManagementInstanceConversationsMessagesListOutputItemsRequestActor.from_dict(data.get('actor')) if data.get('actor') else None,
+        context=mapManagementInstanceConversationsMessagesListOutputItemsRequestContext.from_dict(data.get('context')) if data.get('context') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

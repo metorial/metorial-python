@@ -18,6 +18,7 @@ class ManagementInstancePortalsConsumerProfilesGetOutputGroups:
     object: str
     group: ManagementInstancePortalsConsumerProfilesGetOutputGroupsGroup
     assigned_via: str
+    sso_group_ids: List[str]
 @dataclass
 class ManagementInstancePortalsConsumerProfilesGetOutput:
     object: str

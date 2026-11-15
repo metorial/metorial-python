@@ -4,6 +4,12 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class SkillsDeleteOutputImage:
+    object: str
+    type: str
+    icon: Optional[str] = None
+    color: Optional[str] = None
+@dataclass
 class SkillsDeleteOutputHierarchyCreatorOrganizationActorMember:
     object: str
     id: str
@@ -202,6 +208,7 @@ class SkillsDeleteOutput:
     slug: str
     name: str
     image_url: str
+    image: SkillsDeleteOutputImage
     client_name: str
     metadata: Dict[str, Any]
     store_id: str
@@ -216,6 +223,24 @@ class SkillsDeleteOutput:
     license: Optional[str] = None
     compatibility: Optional[str] = None
 
+
+class mapSkillsDeleteOutputImage:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> SkillsDeleteOutputImage:
+        return SkillsDeleteOutputImage(
+        object=data.get('object'),
+        type=data.get('type'),
+        icon=data.get('icon'),
+        color=data.get('color')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[SkillsDeleteOutputImage, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapSkillsDeleteOutputHierarchyCreatorOrganizationActorMember:
     @staticmethod
@@ -671,6 +696,7 @@ class mapSkillsDeleteOutput:
         name=data.get('name'),
         description=data.get('description'),
         image_url=data.get('image_url'),
+        image=mapSkillsDeleteOutputImage.from_dict(data.get('image')) if data.get('image') else None,
         client_name=data.get('client_name'),
         client_description=data.get('client_description'),
         client_metadata=data.get('client_metadata'),

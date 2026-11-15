@@ -7,6 +7,7 @@ import dataclasses
 class PortalsAccessGetOutputListing:
     id: str
     name: str
+    is_discoverable: bool
     description: Optional[str] = None
 @dataclass
 class PortalsAccessGetOutputConsumerGroup:
@@ -39,7 +40,8 @@ class mapPortalsAccessGetOutputListing:
         return PortalsAccessGetOutputListing(
         id=data.get('id'),
         name=data.get('name'),
-        description=data.get('description')
+        description=data.get('description'),
+        is_discoverable=data.get('is_discoverable')
         )
 
     @staticmethod

@@ -8,7 +8,7 @@ class MetorialDashboardInstancePortalsListingsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, portal_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, search: Optional[str] = None, consumer_surface_provider_group_id: Optional[Union[str, List[str]]] = None, provider_template_id: Optional[Union[str, List[str]]] = None, magic_mcp_server_id: Optional[Union[str, List[str]]] = None, skill_id: Optional[Union[str, List[str]]] = None, skill_template_id: Optional[Union[str, List[str]]] = None, skill_group_id: Optional[Union[str, List[str]]] = None, skill_marketplace_id: Optional[Union[str, List[str]]] = None, type: Optional[Union[str, List[str]]] = None) -> DashboardInstancePortalsListingsListOutput:
+    def list(self, instance_id: str, portal_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, search: Optional[str] = None, consumer_surface_provider_group_id: Optional[Union[str, List[str]]] = None, provider_template_id: Optional[Union[str, List[str]]] = None, magic_mcp_server_id: Optional[Union[str, List[str]]] = None, skill_id: Optional[Union[str, List[str]]] = None, skill_template_id: Optional[Union[str, List[str]]] = None, skill_group_id: Optional[Union[str, List[str]]] = None, skill_marketplace_id: Optional[Union[str, List[str]]] = None, type: Optional[Union[str, List[str]]] = None, has_access: Optional[bool] = None) -> DashboardInstancePortalsListingsListOutput:
         """
     List portal listings
     Returns a paginated list of shared listings for a portal.
@@ -29,6 +29,7 @@ class MetorialDashboardInstancePortalsListingsEndpoint(BaseMetorialEndpoint):
     :param skill_group_id: Optional[Union[str, List[str]]] (optional)
     :param skill_marketplace_id: Optional[Union[str, List[str]]] (optional)
     :param type: Optional[Union[str, List[str]]] (optional)
+    :param has_access: Optional[bool] (optional)
     :return: DashboardInstancePortalsListingsListOutput
     """
         # Build query parameters from keyword arguments
@@ -61,6 +62,8 @@ class MetorialDashboardInstancePortalsListingsEndpoint(BaseMetorialEndpoint):
             query_dict["skill_marketplace_id"] = skill_marketplace_id
         if type is not None:
             query_dict["type"] = type
+        if has_access is not None:
+            query_dict["has_access"] = has_access
 
         request = MetorialRequest(
             path=['dashboard', 'instances', instance_id, 'portals', portal_id, 'listings'],
@@ -83,7 +86,7 @@ class MetorialDashboardInstancePortalsListingsEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapDashboardInstancePortalsListingsGetOutput.from_dict)
 
-    def create(self, instance_id: str, portal_id: str, *, access: Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], name: Optional[str] = None, description: Optional[str] = None, readme: Optional[str] = None) -> DashboardInstancePortalsListingsCreateOutput:
+    def create(self, instance_id: str, portal_id: str, *, access: Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], name: Optional[str] = None, description: Optional[str] = None, readme: Optional[str] = None, is_discoverable: Optional[bool] = None) -> DashboardInstancePortalsListingsCreateOutput:
         """
     Create portal listing
     Creates a shared listing for a portal.
@@ -93,6 +96,7 @@ class MetorialDashboardInstancePortalsListingsEndpoint(BaseMetorialEndpoint):
     :param name: Optional[str] (optional)
     :param description: Optional[str] (optional)
     :param readme: Optional[str] (optional)
+    :param is_discoverable: Optional[bool] (optional)
     :param access: Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]
     :return: DashboardInstancePortalsListingsCreateOutput
     """
@@ -104,6 +108,8 @@ class MetorialDashboardInstancePortalsListingsEndpoint(BaseMetorialEndpoint):
             body_dict["description"] = description
         if readme is not None:
             body_dict["readme"] = readme
+        if is_discoverable is not None:
+            body_dict["is_discoverable"] = is_discoverable
         body_dict["access"] = access
 
         request = MetorialRequest(
@@ -112,7 +118,7 @@ class MetorialDashboardInstancePortalsListingsEndpoint(BaseMetorialEndpoint):
         )
         return self._post(request).transform(mapDashboardInstancePortalsListingsCreateOutput.from_dict)
 
-    def update(self, instance_id: str, portal_id: str, listing_id: str, *, name: Optional[str] = None, description: Optional[str] = None, readme: Optional[str] = None) -> DashboardInstancePortalsListingsUpdateOutput:
+    def update(self, instance_id: str, portal_id: str, listing_id: str, *, name: Optional[str] = None, description: Optional[str] = None, readme: Optional[str] = None, is_discoverable: Optional[bool] = None) -> DashboardInstancePortalsListingsUpdateOutput:
         """
     Update portal listing
     Updates listing metadata for a portal listing.
@@ -123,6 +129,7 @@ class MetorialDashboardInstancePortalsListingsEndpoint(BaseMetorialEndpoint):
     :param name: Optional[str] (optional)
     :param description: Optional[str] (optional)
     :param readme: Optional[str] (optional)
+    :param is_discoverable: Optional[bool] (optional)
     :return: DashboardInstancePortalsListingsUpdateOutput
     """
         # Build body parameters from keyword arguments
@@ -133,6 +140,8 @@ class MetorialDashboardInstancePortalsListingsEndpoint(BaseMetorialEndpoint):
             body_dict["description"] = description
         if readme is not None:
             body_dict["readme"] = readme
+        if is_discoverable is not None:
+            body_dict["is_discoverable"] = is_discoverable
 
         request = MetorialRequest(
             path=['dashboard', 'instances', instance_id, 'portals', portal_id, 'listings', listing_id],

@@ -18,6 +18,7 @@ class PortalsConsumerProfilesDeleteOutputGroups:
     object: str
     group: PortalsConsumerProfilesDeleteOutputGroupsGroup
     assigned_via: str
+    sso_group_ids: List[str]
 @dataclass
 class PortalsConsumerProfilesDeleteOutput:
     object: str

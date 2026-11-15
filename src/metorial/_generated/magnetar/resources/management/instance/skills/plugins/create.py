@@ -4,6 +4,12 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class ManagementInstanceSkillsPluginsCreateOutputSkillsSkillImage:
+    object: str
+    type: str
+    icon: Optional[str] = None
+    color: Optional[str] = None
+@dataclass
 class ManagementInstanceSkillsPluginsCreateOutputSkillsSkill:
     object: str
     id: str
@@ -11,6 +17,7 @@ class ManagementInstanceSkillsPluginsCreateOutputSkillsSkill:
     slug: str
     name: str
     image_url: str
+    image: ManagementInstanceSkillsPluginsCreateOutputSkillsSkillImage
     client_name: str
     created_at: datetime
     updated_at: datetime
@@ -45,6 +52,7 @@ class ManagementInstanceSkillsPluginsCreateOutput:
     image_url: str
     name: str
     slug: str
+    source: Dict[str, Any]
     skills: List[ManagementInstanceSkillsPluginsCreateOutputSkills]
     created_at: datetime
     updated_at: datetime
@@ -53,6 +61,24 @@ class ManagementInstanceSkillsPluginsCreateOutput:
     category: Optional[str] = None
     skill_configuration_id: Optional[str] = None
 
+
+class mapManagementInstanceSkillsPluginsCreateOutputSkillsSkillImage:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceSkillsPluginsCreateOutputSkillsSkillImage:
+        return ManagementInstanceSkillsPluginsCreateOutputSkillsSkillImage(
+        object=data.get('object'),
+        type=data.get('type'),
+        icon=data.get('icon'),
+        color=data.get('color')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceSkillsPluginsCreateOutputSkillsSkillImage, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapManagementInstanceSkillsPluginsCreateOutputSkillsSkill:
     @staticmethod
@@ -65,6 +91,7 @@ class mapManagementInstanceSkillsPluginsCreateOutputSkillsSkill:
         name=data.get('name'),
         description=data.get('description'),
         image_url=data.get('image_url'),
+        image=mapManagementInstanceSkillsPluginsCreateOutputSkillsSkillImage.from_dict(data.get('image')) if data.get('image') else None,
         client_name=data.get('client_name'),
         client_description=data.get('client_description'),
         client_metadata=data.get('client_metadata'),
@@ -126,6 +153,7 @@ class mapManagementInstanceSkillsPluginsCreateOutput:
         category=data.get('category'),
         slug=data.get('slug'),
         skill_configuration_id=data.get('skill_configuration_id'),
+        source=data.get('source'),
         skills=[mapManagementInstanceSkillsPluginsCreateOutputSkills.from_dict(item) for item in data.get('skills', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
@@ -142,13 +170,14 @@ class mapManagementInstanceSkillsPluginsCreateOutput:
 
 @dataclass
 class ManagementInstanceSkillsPluginsCreateBody:
-    name: str
+    name: Optional[str] = None
     description: Optional[str] = None
     long_description: Optional[str] = None
     category: Optional[str] = None
     image_file_id: Optional[str] = None
     skill_configuration_id: Optional[str] = None
     skill_marketplace_id: Optional[str] = None
+    skill_group_id: Optional[str] = None
 
 
 class mapManagementInstanceSkillsPluginsCreateBody:
@@ -161,7 +190,8 @@ class mapManagementInstanceSkillsPluginsCreateBody:
         category=data.get('category'),
         image_file_id=data.get('image_file_id'),
         skill_configuration_id=data.get('skill_configuration_id'),
-        skill_marketplace_id=data.get('skill_marketplace_id')
+        skill_marketplace_id=data.get('skill_marketplace_id'),
+        skill_group_id=data.get('skill_group_id')
         )
 
     @staticmethod

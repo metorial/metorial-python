@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Optional, Union
 from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, MetorialRequest
-from ..resources import mapDashboardInstanceConversationsMessagesListOutput, DashboardInstanceConversationsMessagesListOutput, mapDashboardInstanceConversationsMessagesListQuery, DashboardInstanceConversationsMessagesListQuery, mapDashboardInstanceConversationsMessagesCreateOutput, DashboardInstanceConversationsMessagesCreateOutput, mapDashboardInstanceConversationsMessagesCreateBody, DashboardInstanceConversationsMessagesCreateBody, mapDashboardInstanceConversationsMessagesGetOutput, DashboardInstanceConversationsMessagesGetOutput, mapDashboardInstanceConversationsMessagesHandoffResponsesOutput, DashboardInstanceConversationsMessagesHandoffResponsesOutput, mapDashboardInstanceConversationsMessagesHandoffResponsesBody, DashboardInstanceConversationsMessagesHandoffResponsesBody
+from ..resources import mapDashboardInstanceConversationsMessagesListOutput, DashboardInstanceConversationsMessagesListOutput, mapDashboardInstanceConversationsMessagesListQuery, DashboardInstanceConversationsMessagesListQuery, mapDashboardInstanceConversationsMessagesCreateOutput, DashboardInstanceConversationsMessagesCreateOutput, mapDashboardInstanceConversationsMessagesCreateBody, DashboardInstanceConversationsMessagesCreateBody, mapDashboardInstanceConversationsMessagesGetOutput, DashboardInstanceConversationsMessagesGetOutput, mapDashboardInstanceConversationsMessagesHandoffResponsesOutput, DashboardInstanceConversationsMessagesHandoffResponsesOutput, mapDashboardInstanceConversationsMessagesHandoffResponsesBody, DashboardInstanceConversationsMessagesHandoffResponsesBody, mapDashboardInstanceConversationsMessagesCancelOutput, DashboardInstanceConversationsMessagesCancelOutput
 
 class MetorialDashboardInstanceConversationsMessagesEndpoint(BaseMetorialEndpoint):
     """Assistant and conversation endpoints"""
@@ -41,7 +41,7 @@ class MetorialDashboardInstanceConversationsMessagesEndpoint(BaseMetorialEndpoin
         )
         return self._get(request).transform(mapDashboardInstanceConversationsMessagesListOutput.from_dict)
 
-    def create(self, instance_id: str, assistant_conversation_id: str, *, message: Dict[str, Any], parent_message_id: Optional[str] = None, model_id: Optional[str] = None) -> DashboardInstanceConversationsMessagesCreateOutput:
+    def create(self, instance_id: str, assistant_conversation_id: str, *, message: Dict[str, Any], parent_message_id: Optional[str] = None, model_id: Optional[str] = None, context: Optional[Dict[str, Any]] = None) -> DashboardInstanceConversationsMessagesCreateOutput:
         """
     Create assistant message
     Create a user message and assistant request in a specific conversation.
@@ -51,6 +51,7 @@ class MetorialDashboardInstanceConversationsMessagesEndpoint(BaseMetorialEndpoin
     :param message: Dict[str, Any]
     :param parent_message_id: Optional[str] (optional)
     :param model_id: Optional[str] (optional)
+    :param context: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceConversationsMessagesCreateOutput
     """
         # Build body parameters from keyword arguments
@@ -60,6 +61,8 @@ class MetorialDashboardInstanceConversationsMessagesEndpoint(BaseMetorialEndpoin
             body_dict["parent_message_id"] = parent_message_id
         if model_id is not None:
             body_dict["model_id"] = model_id
+        if context is not None:
+            body_dict["context"] = context
 
         request = MetorialRequest(
             path=['dashboard', 'instances', instance_id, 'conversations', assistant_conversation_id, 'messages'],
@@ -102,3 +105,18 @@ class MetorialDashboardInstanceConversationsMessagesEndpoint(BaseMetorialEndpoin
             body=body_dict
         )
         return self._post(request).transform(mapDashboardInstanceConversationsMessagesHandoffResponsesOutput.from_dict)
+
+    def cancel(self, instance_id: str, assistant_conversation_id: str, assistant_message_id: str) -> DashboardInstanceConversationsMessagesCancelOutput:
+        """
+    Cancel assistant message
+    Stop the assistant request that belongs to a message. Work the assistant already finished is kept.
+
+    :param instance_id: str
+    :param assistant_conversation_id: str
+    :param assistant_message_id: str
+    :return: DashboardInstanceConversationsMessagesCancelOutput
+    """
+        request = MetorialRequest(
+            path=['dashboard', 'instances', instance_id, 'conversations', assistant_conversation_id, 'messages', assistant_message_id, 'cancel']
+        )
+        return self._post(request).transform(mapDashboardInstanceConversationsMessagesCancelOutput.from_dict)

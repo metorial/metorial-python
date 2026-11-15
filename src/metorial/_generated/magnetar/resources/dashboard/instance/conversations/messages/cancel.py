@@ -1,0 +1,304 @@
+from dataclasses import dataclass
+from typing import Any, Dict, List, Optional, Union
+from datetime import datetime
+import dataclasses
+
+@dataclass
+class DashboardInstanceConversationsMessagesCancelOutputModelProvider:
+    object: str
+    id: str
+    slug: str
+    name: str
+    image_url: str
+@dataclass
+class DashboardInstanceConversationsMessagesCancelOutputModel:
+    object: str
+    id: str
+    slug: str
+    name: str
+    context_window: float
+    provider: DashboardInstanceConversationsMessagesCancelOutputModelProvider
+@dataclass
+class DashboardInstanceConversationsMessagesCancelOutputRequestActorOrganizationActorMember:
+    object: str
+    id: str
+    status: str
+    role: str
+@dataclass
+class DashboardInstanceConversationsMessagesCancelOutputRequestActorOrganizationActorTeams:
+    id: str
+    name: str
+    slug: str
+    assignment_id: str
+    created_at: datetime
+    updated_at: datetime
+@dataclass
+class DashboardInstanceConversationsMessagesCancelOutputRequestActorOrganizationActor:
+    object: str
+    id: str
+    type: str
+    organization_id: str
+    name: str
+    image_url: str
+    teams: List[DashboardInstanceConversationsMessagesCancelOutputRequestActorOrganizationActorTeams]
+    created_at: datetime
+    updated_at: datetime
+    email: Optional[str] = None
+    member: Optional[DashboardInstanceConversationsMessagesCancelOutputRequestActorOrganizationActorMember] = None
+@dataclass
+class DashboardInstanceConversationsMessagesCancelOutputRequestActorConsumer:
+    object: str
+    id: str
+    name: str
+    email: str
+    image_url: str
+    created_at: datetime
+    updated_at: datetime
+    user_id: Optional[str] = None
+@dataclass
+class DashboardInstanceConversationsMessagesCancelOutputRequestActor:
+    type: str
+    name: str
+    image_url: Optional[str] = None
+    email: Optional[str] = None
+    organization_actor: Optional[DashboardInstanceConversationsMessagesCancelOutputRequestActorOrganizationActor] = None
+    consumer: Optional[DashboardInstanceConversationsMessagesCancelOutputRequestActorConsumer] = None
+    consumer_profile: Optional[Dict[str, Any]] = None
+@dataclass
+class DashboardInstanceConversationsMessagesCancelOutputRequestContext:
+    mode: str
+    requested_mode: str
+    can_write: bool
+@dataclass
+class DashboardInstanceConversationsMessagesCancelOutputRequest:
+    object: str
+    id: str
+    status: str
+    created_at: datetime
+    updated_at: datetime
+    actor: Optional[DashboardInstanceConversationsMessagesCancelOutputRequestActor] = None
+    context: Optional[DashboardInstanceConversationsMessagesCancelOutputRequestContext] = None
+@dataclass
+class DashboardInstanceConversationsMessagesCancelOutput:
+    object: str
+    id: str
+    conversation_item_id: str
+    type: str
+    status: str
+    request: DashboardInstanceConversationsMessagesCancelOutputRequest
+    items: List[Dict[str, Any]]
+    created_at: datetime
+    assistant_id: Optional[str] = None
+    parent_message_id: Optional[str] = None
+    model: Optional[DashboardInstanceConversationsMessagesCancelOutputModel] = None
+
+
+class mapDashboardInstanceConversationsMessagesCancelOutputModelProvider:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceConversationsMessagesCancelOutputModelProvider:
+        return DashboardInstanceConversationsMessagesCancelOutputModelProvider(
+        object=data.get('object'),
+        id=data.get('id'),
+        slug=data.get('slug'),
+        name=data.get('name'),
+        image_url=data.get('image_url')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceConversationsMessagesCancelOutputModelProvider, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceConversationsMessagesCancelOutputModel:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceConversationsMessagesCancelOutputModel:
+        return DashboardInstanceConversationsMessagesCancelOutputModel(
+        object=data.get('object'),
+        id=data.get('id'),
+        slug=data.get('slug'),
+        name=data.get('name'),
+        context_window=data.get('context_window'),
+        provider=mapDashboardInstanceConversationsMessagesCancelOutputModelProvider.from_dict(data.get('provider')) if data.get('provider') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceConversationsMessagesCancelOutputModel, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceConversationsMessagesCancelOutputRequestActorOrganizationActorMember:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceConversationsMessagesCancelOutputRequestActorOrganizationActorMember:
+        return DashboardInstanceConversationsMessagesCancelOutputRequestActorOrganizationActorMember(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        role=data.get('role')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceConversationsMessagesCancelOutputRequestActorOrganizationActorMember, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceConversationsMessagesCancelOutputRequestActorOrganizationActorTeams:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceConversationsMessagesCancelOutputRequestActorOrganizationActorTeams:
+        return DashboardInstanceConversationsMessagesCancelOutputRequestActorOrganizationActorTeams(
+        id=data.get('id'),
+        name=data.get('name'),
+        slug=data.get('slug'),
+        assignment_id=data.get('assignment_id'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceConversationsMessagesCancelOutputRequestActorOrganizationActorTeams, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceConversationsMessagesCancelOutputRequestActorOrganizationActor:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceConversationsMessagesCancelOutputRequestActorOrganizationActor:
+        return DashboardInstanceConversationsMessagesCancelOutputRequestActorOrganizationActor(
+        object=data.get('object'),
+        id=data.get('id'),
+        type=data.get('type'),
+        organization_id=data.get('organization_id'),
+        name=data.get('name'),
+        email=data.get('email'),
+        image_url=data.get('image_url'),
+        member=mapDashboardInstanceConversationsMessagesCancelOutputRequestActorOrganizationActorMember.from_dict(data.get('member')) if data.get('member') else None,
+        teams=[mapDashboardInstanceConversationsMessagesCancelOutputRequestActorOrganizationActorTeams.from_dict(item) for item in data.get('teams', []) if item],
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceConversationsMessagesCancelOutputRequestActorOrganizationActor, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceConversationsMessagesCancelOutputRequestActorConsumer:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceConversationsMessagesCancelOutputRequestActorConsumer:
+        return DashboardInstanceConversationsMessagesCancelOutputRequestActorConsumer(
+        object=data.get('object'),
+        id=data.get('id'),
+        name=data.get('name'),
+        email=data.get('email'),
+        image_url=data.get('image_url'),
+        user_id=data.get('user_id'),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceConversationsMessagesCancelOutputRequestActorConsumer, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceConversationsMessagesCancelOutputRequestActor:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceConversationsMessagesCancelOutputRequestActor:
+        return DashboardInstanceConversationsMessagesCancelOutputRequestActor(
+        type=data.get('type'),
+        name=data.get('name'),
+        image_url=data.get('image_url'),
+        email=data.get('email'),
+        organization_actor=mapDashboardInstanceConversationsMessagesCancelOutputRequestActorOrganizationActor.from_dict(data.get('organization_actor')) if data.get('organization_actor') else None,
+        consumer=mapDashboardInstanceConversationsMessagesCancelOutputRequestActorConsumer.from_dict(data.get('consumer')) if data.get('consumer') else None,
+        consumer_profile=data.get('consumer_profile')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceConversationsMessagesCancelOutputRequestActor, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceConversationsMessagesCancelOutputRequestContext:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceConversationsMessagesCancelOutputRequestContext:
+        return DashboardInstanceConversationsMessagesCancelOutputRequestContext(
+        mode=data.get('mode'),
+        requested_mode=data.get('requested_mode'),
+        can_write=data.get('can_write')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceConversationsMessagesCancelOutputRequestContext, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceConversationsMessagesCancelOutputRequest:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceConversationsMessagesCancelOutputRequest:
+        return DashboardInstanceConversationsMessagesCancelOutputRequest(
+        object=data.get('object'),
+        id=data.get('id'),
+        status=data.get('status'),
+        actor=mapDashboardInstanceConversationsMessagesCancelOutputRequestActor.from_dict(data.get('actor')) if data.get('actor') else None,
+        context=mapDashboardInstanceConversationsMessagesCancelOutputRequestContext.from_dict(data.get('context')) if data.get('context') else None,
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
+        updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceConversationsMessagesCancelOutputRequest, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceConversationsMessagesCancelOutput:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceConversationsMessagesCancelOutput:
+        return DashboardInstanceConversationsMessagesCancelOutput(
+        object=data.get('object'),
+        id=data.get('id'),
+        conversation_item_id=data.get('conversation_item_id'),
+        type=data.get('type'),
+        status=data.get('status'),
+        assistant_id=data.get('assistant_id'),
+        parent_message_id=data.get('parent_message_id'),
+        model=mapDashboardInstanceConversationsMessagesCancelOutputModel.from_dict(data.get('model')) if data.get('model') else None,
+        request=mapDashboardInstanceConversationsMessagesCancelOutputRequest.from_dict(data.get('request')) if data.get('request') else None,
+        items=data.get('items', []),
+        created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceConversationsMessagesCancelOutput, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        # assume dataclass for generated models
+        return dataclasses.asdict(value)
+

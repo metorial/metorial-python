@@ -8,7 +8,7 @@ class MetorialManagementInstancePortalsConsumerProfilesEndpoint(BaseMetorialEndp
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, portal_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, search: Optional[str] = None, email: Optional[Union[str, List[str]]] = None, consumer_group_id: Optional[str] = None, status: Optional[Union[str, List[str]]] = None) -> DashboardInstancePortalsConsumerProfilesListOutput:
+    def list(self, instance_id: str, portal_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, search: Optional[str] = None, email: Optional[Union[str, List[str]]] = None, consumer_group_id: Optional[str] = None, source: Optional[str] = None, status: Optional[Union[str, List[str]]] = None) -> DashboardInstancePortalsConsumerProfilesListOutput:
         """
     List portal consumer profiles
     Returns a paginated list of consumer profiles for a portal.
@@ -23,6 +23,7 @@ class MetorialManagementInstancePortalsConsumerProfilesEndpoint(BaseMetorialEndp
     :param search: Optional[str] (optional)
     :param email: Optional[Union[str, List[str]]] (optional)
     :param consumer_group_id: Optional[str] (optional)
+    :param source: Optional[str] (optional)
     :param status: Optional[Union[str, List[str]]] (optional)
     :return: DashboardInstancePortalsConsumerProfilesListOutput
     """
@@ -44,6 +45,8 @@ class MetorialManagementInstancePortalsConsumerProfilesEndpoint(BaseMetorialEndp
             query_dict["email"] = email
         if consumer_group_id is not None:
             query_dict["consumer_group_id"] = consumer_group_id
+        if source is not None:
+            query_dict["source"] = source
         if status is not None:
             query_dict["status"] = status
 

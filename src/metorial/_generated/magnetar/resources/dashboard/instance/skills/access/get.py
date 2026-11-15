@@ -10,10 +10,19 @@ class DashboardInstanceSkillsAccessGetOutputGrantsSubject:
     consumer_group_id: Optional[str] = None
     name: Optional[str] = None
 @dataclass
+class DashboardInstanceSkillsAccessGetOutputGrantsSourceSkillGroup:
+    id: str
+    name: str
+@dataclass
+class DashboardInstanceSkillsAccessGetOutputGrantsSource:
+    type: str
+    skill_group: Optional[DashboardInstanceSkillsAccessGetOutputGrantsSourceSkillGroup] = None
+@dataclass
 class DashboardInstanceSkillsAccessGetOutputGrants:
     object: str
     level: str
     subject: DashboardInstanceSkillsAccessGetOutputGrantsSubject
+    source: DashboardInstanceSkillsAccessGetOutputGrantsSource
 @dataclass
 class DashboardInstanceSkillsAccessGetOutput:
     object: str
@@ -39,13 +48,46 @@ class mapDashboardInstanceSkillsAccessGetOutputGrantsSubject:
             return value
         return dataclasses.asdict(value)
 
+class mapDashboardInstanceSkillsAccessGetOutputGrantsSourceSkillGroup:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSkillsAccessGetOutputGrantsSourceSkillGroup:
+        return DashboardInstanceSkillsAccessGetOutputGrantsSourceSkillGroup(
+        id=data.get('id'),
+        name=data.get('name')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSkillsAccessGetOutputGrantsSourceSkillGroup, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapDashboardInstanceSkillsAccessGetOutputGrantsSource:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSkillsAccessGetOutputGrantsSource:
+        return DashboardInstanceSkillsAccessGetOutputGrantsSource(
+        type=data.get('type'),
+        skill_group=mapDashboardInstanceSkillsAccessGetOutputGrantsSourceSkillGroup.from_dict(data.get('skill_group')) if data.get('skill_group') else None
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSkillsAccessGetOutputGrantsSource, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapDashboardInstanceSkillsAccessGetOutputGrants:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceSkillsAccessGetOutputGrants:
         return DashboardInstanceSkillsAccessGetOutputGrants(
         object=data.get('object'),
         level=data.get('level'),
-        subject=mapDashboardInstanceSkillsAccessGetOutputGrantsSubject.from_dict(data.get('subject')) if data.get('subject') else None
+        subject=mapDashboardInstanceSkillsAccessGetOutputGrantsSubject.from_dict(data.get('subject')) if data.get('subject') else None,
+        source=mapDashboardInstanceSkillsAccessGetOutputGrantsSource.from_dict(data.get('source')) if data.get('source') else None
         )
 
     @staticmethod

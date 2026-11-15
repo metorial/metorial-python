@@ -65,6 +65,11 @@ class ManagementInstanceConversationsMessagesGetOutputRequestActor:
     consumer: Optional[ManagementInstanceConversationsMessagesGetOutputRequestActorConsumer] = None
     consumer_profile: Optional[Dict[str, Any]] = None
 @dataclass
+class ManagementInstanceConversationsMessagesGetOutputRequestContext:
+    mode: str
+    requested_mode: str
+    can_write: bool
+@dataclass
 class ManagementInstanceConversationsMessagesGetOutputRequest:
     object: str
     id: str
@@ -72,6 +77,7 @@ class ManagementInstanceConversationsMessagesGetOutputRequest:
     created_at: datetime
     updated_at: datetime
     actor: Optional[ManagementInstanceConversationsMessagesGetOutputRequestActor] = None
+    context: Optional[ManagementInstanceConversationsMessagesGetOutputRequestContext] = None
 @dataclass
 class ManagementInstanceConversationsMessagesGetOutput:
     object: str
@@ -232,6 +238,23 @@ class mapManagementInstanceConversationsMessagesGetOutputRequestActor:
             return value
         return dataclasses.asdict(value)
 
+class mapManagementInstanceConversationsMessagesGetOutputRequestContext:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceConversationsMessagesGetOutputRequestContext:
+        return ManagementInstanceConversationsMessagesGetOutputRequestContext(
+        mode=data.get('mode'),
+        requested_mode=data.get('requested_mode'),
+        can_write=data.get('can_write')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceConversationsMessagesGetOutputRequestContext, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapManagementInstanceConversationsMessagesGetOutputRequest:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceConversationsMessagesGetOutputRequest:
@@ -240,6 +263,7 @@ class mapManagementInstanceConversationsMessagesGetOutputRequest:
         id=data.get('id'),
         status=data.get('status'),
         actor=mapManagementInstanceConversationsMessagesGetOutputRequestActor.from_dict(data.get('actor')) if data.get('actor') else None,
+        context=mapManagementInstanceConversationsMessagesGetOutputRequestContext.from_dict(data.get('context')) if data.get('context') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

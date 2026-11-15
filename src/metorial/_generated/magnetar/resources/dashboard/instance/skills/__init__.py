@@ -19,6 +19,7 @@ from .merge_requests import *
 from .participants import *
 from .plugins import *
 from .publish_consumer_skill import *
+from .security_review import *
 from .share import *
 from .templates import *
 from .update import *

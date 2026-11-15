@@ -171,6 +171,7 @@ class DashboardInstanceSessionsEventsGetOutputMessageToolCallError:
     provider_run_id: Optional[str] = None
     connection_id: Optional[str] = None
     group_id: Optional[str] = None
+    issue_id: Optional[str] = None
 @dataclass
 class DashboardInstanceSessionsEventsGetOutputMessageToolCall:
     object: str
@@ -250,6 +251,7 @@ class DashboardInstanceSessionsEventsGetOutputMessageError:
     provider_run_id: Optional[str] = None
     connection_id: Optional[str] = None
     group_id: Optional[str] = None
+    issue_id: Optional[str] = None
 @dataclass
 class DashboardInstanceSessionsEventsGetOutputMessage:
     object: str
@@ -284,6 +286,7 @@ class DashboardInstanceSessionsEventsGetOutputError:
     provider_run_id: Optional[str] = None
     connection_id: Optional[str] = None
     group_id: Optional[str] = None
+    issue_id: Optional[str] = None
 @dataclass
 class DashboardInstanceSessionsEventsGetOutputWarning:
     object: str
@@ -693,6 +696,7 @@ class mapDashboardInstanceSessionsEventsGetOutputMessageToolCallError:
         connection_id=data.get('connection_id'),
         group_id=data.get('group_id'),
         similar_error_count=data.get('similar_error_count'),
+        issue_id=data.get('issue_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
@@ -844,6 +848,7 @@ class mapDashboardInstanceSessionsEventsGetOutputMessageError:
         connection_id=data.get('connection_id'),
         group_id=data.get('group_id'),
         similar_error_count=data.get('similar_error_count'),
+        issue_id=data.get('issue_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
@@ -902,6 +907,7 @@ class mapDashboardInstanceSessionsEventsGetOutputError:
         connection_id=data.get('connection_id'),
         group_id=data.get('group_id'),
         similar_error_count=data.get('similar_error_count'),
+        issue_id=data.get('issue_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 

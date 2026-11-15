@@ -7,6 +7,7 @@ import dataclasses
 class ManagementInstancePortalsAccessUpdateOutputListing:
     id: str
     name: str
+    is_discoverable: bool
     description: Optional[str] = None
 @dataclass
 class ManagementInstancePortalsAccessUpdateOutputConsumerGroup:
@@ -39,7 +40,8 @@ class mapManagementInstancePortalsAccessUpdateOutputListing:
         return ManagementInstancePortalsAccessUpdateOutputListing(
         id=data.get('id'),
         name=data.get('name'),
-        description=data.get('description')
+        description=data.get('description'),
+        is_discoverable=data.get('is_discoverable')
         )
 
     @staticmethod
@@ -103,6 +105,7 @@ class ManagementInstancePortalsAccessUpdateBody:
     name: Optional[str] = None
     description: Optional[str] = None
     readme: Optional[str] = None
+    permission: Optional[str] = None
 
 
 class mapManagementInstancePortalsAccessUpdateBody:
@@ -111,7 +114,8 @@ class mapManagementInstancePortalsAccessUpdateBody:
         return ManagementInstancePortalsAccessUpdateBody(
         name=data.get('name'),
         description=data.get('description'),
-        readme=data.get('readme')
+        readme=data.get('readme'),
+        permission=data.get('permission')
         )
 
     @staticmethod

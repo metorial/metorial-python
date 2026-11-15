@@ -4,6 +4,12 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class SkillsGroupsItemsListOutputItemsSkillImage:
+    object: str
+    type: str
+    icon: Optional[str] = None
+    color: Optional[str] = None
+@dataclass
 class SkillsGroupsItemsListOutputItemsSkill:
     object: str
     id: str
@@ -11,6 +17,7 @@ class SkillsGroupsItemsListOutputItemsSkill:
     slug: str
     name: str
     image_url: str
+    image: SkillsGroupsItemsListOutputItemsSkillImage
     client_name: str
     created_at: datetime
     updated_at: datetime
@@ -38,6 +45,24 @@ class SkillsGroupsItemsListOutput:
     pagination: SkillsGroupsItemsListOutputPagination
 
 
+class mapSkillsGroupsItemsListOutputItemsSkillImage:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> SkillsGroupsItemsListOutputItemsSkillImage:
+        return SkillsGroupsItemsListOutputItemsSkillImage(
+        object=data.get('object'),
+        type=data.get('type'),
+        icon=data.get('icon'),
+        color=data.get('color')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[SkillsGroupsItemsListOutputItemsSkillImage, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapSkillsGroupsItemsListOutputItemsSkill:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> SkillsGroupsItemsListOutputItemsSkill:
@@ -49,6 +74,7 @@ class mapSkillsGroupsItemsListOutputItemsSkill:
         name=data.get('name'),
         description=data.get('description'),
         image_url=data.get('image_url'),
+        image=mapSkillsGroupsItemsListOutputItemsSkillImage.from_dict(data.get('image')) if data.get('image') else None,
         client_name=data.get('client_name'),
         client_description=data.get('client_description'),
         client_metadata=data.get('client_metadata'),

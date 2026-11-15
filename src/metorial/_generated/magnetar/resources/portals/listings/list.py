@@ -14,6 +14,7 @@ class PortalsListingsListOutputItems:
     object: str
     id: str
     name: str
+    is_discoverable: bool
     access: Dict[str, Any]
     groups: List[PortalsListingsListOutputItemsGroups]
     created_at: datetime
@@ -57,6 +58,7 @@ class mapPortalsListingsListOutputItems:
         name=data.get('name'),
         description=data.get('description'),
         readme=data.get('readme'),
+        is_discoverable=data.get('is_discoverable'),
         access=data.get('access'),
         groups=[mapPortalsListingsListOutputItemsGroups.from_dict(item) for item in data.get('groups', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
@@ -120,6 +122,7 @@ class PortalsListingsListQuery:
     skill_group_id: Optional[Union[str, List[str]]] = None
     skill_marketplace_id: Optional[Union[str, List[str]]] = None
     type: Optional[Union[str, List[str]]] = None
+    has_access: Optional[bool] = None
 
 
 class mapPortalsListingsListQuery:
@@ -139,7 +142,8 @@ class mapPortalsListingsListQuery:
         skill_template_id=data.get('skill_template_id'),
         skill_group_id=data.get('skill_group_id'),
         skill_marketplace_id=data.get('skill_marketplace_id'),
-        type=data.get('type')
+        type=data.get('type'),
+        has_access=data.get('has_access')
         )
 
     @staticmethod

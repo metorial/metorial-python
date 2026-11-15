@@ -18,6 +18,7 @@ class PortalsConsumerProfilesAssignGroupsOutputGroups:
     object: str
     group: PortalsConsumerProfilesAssignGroupsOutputGroupsGroup
     assigned_via: str
+    sso_group_ids: List[str]
 @dataclass
 class PortalsConsumerProfilesAssignGroupsOutput:
     object: str

@@ -65,6 +65,11 @@ class ConversationsMessagesListOutputItemsRequestActor:
     consumer: Optional[ConversationsMessagesListOutputItemsRequestActorConsumer] = None
     consumer_profile: Optional[Dict[str, Any]] = None
 @dataclass
+class ConversationsMessagesListOutputItemsRequestContext:
+    mode: str
+    requested_mode: str
+    can_write: bool
+@dataclass
 class ConversationsMessagesListOutputItemsRequest:
     object: str
     id: str
@@ -72,6 +77,7 @@ class ConversationsMessagesListOutputItemsRequest:
     created_at: datetime
     updated_at: datetime
     actor: Optional[ConversationsMessagesListOutputItemsRequestActor] = None
+    context: Optional[ConversationsMessagesListOutputItemsRequestContext] = None
 @dataclass
 class ConversationsMessagesListOutputItems:
     object: str
@@ -240,6 +246,23 @@ class mapConversationsMessagesListOutputItemsRequestActor:
             return value
         return dataclasses.asdict(value)
 
+class mapConversationsMessagesListOutputItemsRequestContext:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ConversationsMessagesListOutputItemsRequestContext:
+        return ConversationsMessagesListOutputItemsRequestContext(
+        mode=data.get('mode'),
+        requested_mode=data.get('requested_mode'),
+        can_write=data.get('can_write')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ConversationsMessagesListOutputItemsRequestContext, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapConversationsMessagesListOutputItemsRequest:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ConversationsMessagesListOutputItemsRequest:
@@ -248,6 +271,7 @@ class mapConversationsMessagesListOutputItemsRequest:
         id=data.get('id'),
         status=data.get('status'),
         actor=mapConversationsMessagesListOutputItemsRequestActor.from_dict(data.get('actor')) if data.get('actor') else None,
+        context=mapConversationsMessagesListOutputItemsRequestContext.from_dict(data.get('context')) if data.get('context') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

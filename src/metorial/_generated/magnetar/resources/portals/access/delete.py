@@ -7,6 +7,7 @@ import dataclasses
 class PortalsAccessDeleteOutputListing:
     id: str
     name: str
+    is_discoverable: bool
     description: Optional[str] = None
 @dataclass
 class PortalsAccessDeleteOutputConsumerGroup:
@@ -39,7 +40,8 @@ class mapPortalsAccessDeleteOutputListing:
         return PortalsAccessDeleteOutputListing(
         id=data.get('id'),
         name=data.get('name'),
-        description=data.get('description')
+        description=data.get('description'),
+        is_discoverable=data.get('is_discoverable')
         )
 
     @staticmethod

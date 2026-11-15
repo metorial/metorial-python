@@ -60,18 +60,21 @@ class MetorialManagementInstanceSkillsImportsEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapDashboardInstanceSkillsImportsGetOutput.from_dict)
 
-    def create(self, instance_id: str, *, source: Union[Dict[str, Any], Dict[str, Any], Dict[str, Any]]) -> DashboardInstanceSkillsImportsCreateOutput:
+    def create(self, instance_id: str, *, source: Union[Dict[str, Any], Dict[str, Any], Dict[str, Any]], skill_group_id: Optional[str] = None) -> DashboardInstanceSkillsImportsCreateOutput:
         """
     Create skill import
     Queues a skill import from a repository or uploaded file.
 
     :param instance_id: str
     :param source: Union[Dict[str, Any], Dict[str, Any], Dict[str, Any]]
+    :param skill_group_id: Optional[str] (optional)
     :return: DashboardInstanceSkillsImportsCreateOutput
     """
         # Build body parameters from keyword arguments
         body_dict = {}
         body_dict["source"] = source
+        if skill_group_id is not None:
+            body_dict["skill_group_id"] = skill_group_id
 
         request = MetorialRequest(
             path=['instances', instance_id, 'skill-imports'],

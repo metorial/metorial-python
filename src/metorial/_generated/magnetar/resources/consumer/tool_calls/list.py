@@ -91,6 +91,7 @@ class ConsumerToolCallsListOutputItemsError:
     provider_run_id: Optional[str] = None
     connection_id: Optional[str] = None
     group_id: Optional[str] = None
+    issue_id: Optional[str] = None
 @dataclass
 class ConsumerToolCallsListOutputItems:
     object: str
@@ -307,6 +308,7 @@ class mapConsumerToolCallsListOutputItemsError:
         connection_id=data.get('connection_id'),
         group_id=data.get('group_id'),
         similar_error_count=data.get('similar_error_count'),
+        issue_id=data.get('issue_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 

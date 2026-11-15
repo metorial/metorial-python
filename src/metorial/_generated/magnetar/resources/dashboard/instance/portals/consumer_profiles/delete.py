@@ -18,6 +18,7 @@ class DashboardInstancePortalsConsumerProfilesDeleteOutputGroups:
     object: str
     group: DashboardInstancePortalsConsumerProfilesDeleteOutputGroupsGroup
     assigned_via: str
+    sso_group_ids: List[str]
 @dataclass
 class DashboardInstancePortalsConsumerProfilesDeleteOutput:
     object: str

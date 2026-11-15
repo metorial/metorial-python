@@ -4,6 +4,12 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class SkillsPublishConsumerSkillOutputImage:
+    object: str
+    type: str
+    icon: Optional[str] = None
+    color: Optional[str] = None
+@dataclass
 class SkillsPublishConsumerSkillOutputHierarchyCreatorOrganizationActorMember:
     object: str
     id: str
@@ -202,6 +208,7 @@ class SkillsPublishConsumerSkillOutput:
     slug: str
     name: str
     image_url: str
+    image: SkillsPublishConsumerSkillOutputImage
     client_name: str
     metadata: Dict[str, Any]
     store_id: str
@@ -216,6 +223,24 @@ class SkillsPublishConsumerSkillOutput:
     license: Optional[str] = None
     compatibility: Optional[str] = None
 
+
+class mapSkillsPublishConsumerSkillOutputImage:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> SkillsPublishConsumerSkillOutputImage:
+        return SkillsPublishConsumerSkillOutputImage(
+        object=data.get('object'),
+        type=data.get('type'),
+        icon=data.get('icon'),
+        color=data.get('color')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[SkillsPublishConsumerSkillOutputImage, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapSkillsPublishConsumerSkillOutputHierarchyCreatorOrganizationActorMember:
     @staticmethod
@@ -671,6 +696,7 @@ class mapSkillsPublishConsumerSkillOutput:
         name=data.get('name'),
         description=data.get('description'),
         image_url=data.get('image_url'),
+        image=mapSkillsPublishConsumerSkillOutputImage.from_dict(data.get('image')) if data.get('image') else None,
         client_name=data.get('client_name'),
         client_description=data.get('client_description'),
         client_metadata=data.get('client_metadata'),

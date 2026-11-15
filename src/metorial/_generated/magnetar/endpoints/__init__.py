@@ -75,6 +75,8 @@ from .dashboard_instance_custom_providers_deployments import *
 from .dashboard_instance_custom_providers_environments import *
 from .dashboard_instance_custom_providers_versions import *
 from .dashboard_instance_documents import *
+from .dashboard_instance_documents_comment_threads import *
+from .dashboard_instance_documents_comment_threads_comments import *
 from .dashboard_instance_documents_edit_token import *
 from .dashboard_instance_documents_participants import *
 from .dashboard_instance_documents_permissions import *
@@ -119,6 +121,7 @@ from .dashboard_instance_portals_consumer_profiles import *
 from .dashboard_instance_portals_listings import *
 from .dashboard_instance_proto_guard_alerts import *
 from .dashboard_instance_proto_guard_config import *
+from .dashboard_instance_proto_guard_suppressions import *
 from .dashboard_instance_provider_categories import *
 from .dashboard_instance_provider_collections import *
 from .dashboard_instance_provider_deployments import *
@@ -131,6 +134,7 @@ from .dashboard_instance_provider_deployments_configs import *
 from .dashboard_instance_provider_deployments_setup_sessions import *
 from .dashboard_instance_provider_deployments_setup_sessions_emails import *
 from .dashboard_instance_provider_groups import *
+from .dashboard_instance_provider_issues import *
 from .dashboard_instance_provider_listings import *
 from .dashboard_instance_provider_runs import *
 from .dashboard_instance_provider_specification_change_notifications import *
@@ -190,6 +194,8 @@ from .dashboard_instance_skills_merge_requests_plan import *
 from .dashboard_instance_skills_participants import *
 from .dashboard_instance_skills_plugins import *
 from .dashboard_instance_skills_plugins_skills import *
+from .dashboard_instance_skills_security_review import *
+from .dashboard_instance_skills_security_review_revisions import *
 from .dashboard_instance_skills_templates import *
 from .dashboard_instance_skills_templates_items import *
 from .dashboard_instance_skills_versions import *
@@ -211,6 +217,8 @@ from .dashboard_organizations_outposts_access import *
 from .dashboard_organizations_outposts_credentials import *
 from .dashboard_organizations_webhook_events import *
 from .documents import *
+from .documents_comment_threads import *
+from .documents_comment_threads_comments import *
 from .documents_edit_token import *
 from .documents_participants import *
 from .documents_permissions import *
@@ -275,6 +283,8 @@ from .management_instance_custom_providers_deployments import *
 from .management_instance_custom_providers_environments import *
 from .management_instance_custom_providers_versions import *
 from .management_instance_documents import *
+from .management_instance_documents_comment_threads import *
+from .management_instance_documents_comment_threads_comments import *
 from .management_instance_documents_edit_token import *
 from .management_instance_documents_participants import *
 from .management_instance_documents_permissions import *
@@ -319,6 +329,7 @@ from .management_instance_portals_consumer_profiles import *
 from .management_instance_portals_listings import *
 from .management_instance_proto_guard_alerts import *
 from .management_instance_proto_guard_config import *
+from .management_instance_proto_guard_suppressions import *
 from .management_instance_provider_categories import *
 from .management_instance_provider_collections import *
 from .management_instance_provider_deployments import *
@@ -331,6 +342,7 @@ from .management_instance_provider_deployments_configs import *
 from .management_instance_provider_deployments_setup_sessions import *
 from .management_instance_provider_deployments_setup_sessions_emails import *
 from .management_instance_provider_groups import *
+from .management_instance_provider_issues import *
 from .management_instance_provider_listings import *
 from .management_instance_provider_runs import *
 from .management_instance_provider_specification_change_notifications import *
@@ -390,6 +402,8 @@ from .management_instance_skills_merge_requests_plan import *
 from .management_instance_skills_participants import *
 from .management_instance_skills_plugins import *
 from .management_instance_skills_plugins_skills import *
+from .management_instance_skills_security_review import *
+from .management_instance_skills_security_review_revisions import *
 from .management_instance_skills_templates import *
 from .management_instance_skills_templates_items import *
 from .management_instance_skills_versions import *
@@ -423,6 +437,7 @@ from .portals_consumer_profiles import *
 from .portals_listings import *
 from .proto_guard_alerts import *
 from .proto_guard_config import *
+from .proto_guard_suppressions import *
 from .provider_categories import *
 from .provider_collections import *
 from .provider_deployments import *
@@ -435,6 +450,7 @@ from .provider_deployments_configs import *
 from .provider_deployments_setup_sessions import *
 from .provider_deployments_setup_sessions_emails import *
 from .provider_groups import *
+from .provider_issues import *
 from .provider_listings import *
 from .provider_runs import *
 from .provider_specification_change_notifications import *
@@ -494,6 +510,8 @@ from .skills_merge_requests_plan import *
 from .skills_participants import *
 from .skills_plugins import *
 from .skills_plugins_skills import *
+from .skills_security_review import *
+from .skills_security_review_revisions import *
 from .skills_templates import *
 from .skills_templates_items import *
 from .skills_versions import *

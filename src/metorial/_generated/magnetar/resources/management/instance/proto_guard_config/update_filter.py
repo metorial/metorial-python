@@ -20,6 +20,8 @@ class ManagementInstanceProtoGuardConfigUpdateFilterOutputFilters:
 @dataclass
 class ManagementInstanceProtoGuardConfigUpdateFilterOutput:
     object: str
+    enabled: bool
+    alert_probability_threshold: float
     alert_filter_count_threshold: float
     filters: List[ManagementInstanceProtoGuardConfigUpdateFilterOutputFilters]
 
@@ -55,6 +57,8 @@ class mapManagementInstanceProtoGuardConfigUpdateFilterOutput:
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceProtoGuardConfigUpdateFilterOutput:
         return ManagementInstanceProtoGuardConfigUpdateFilterOutput(
         object=data.get('object'),
+        enabled=data.get('enabled'),
+        alert_probability_threshold=data.get('alert_probability_threshold'),
         alert_filter_count_threshold=data.get('alert_filter_count_threshold'),
         filters=[mapManagementInstanceProtoGuardConfigUpdateFilterOutputFilters.from_dict(item) for item in data.get('filters', []) if item]
         )

@@ -14,6 +14,7 @@ class PortalsListingsCreateOutput:
     object: str
     id: str
     name: str
+    is_discoverable: bool
     access: Dict[str, Any]
     groups: List[PortalsListingsCreateOutputGroups]
     created_at: datetime
@@ -49,6 +50,7 @@ class mapPortalsListingsCreateOutput:
         name=data.get('name'),
         description=data.get('description'),
         readme=data.get('readme'),
+        is_discoverable=data.get('is_discoverable'),
         access=data.get('access'),
         groups=[mapPortalsListingsCreateOutputGroups.from_dict(item) for item in data.get('groups', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
@@ -70,6 +72,7 @@ class PortalsListingsCreateBody:
     name: Optional[str] = None
     description: Optional[str] = None
     readme: Optional[str] = None
+    is_discoverable: Optional[bool] = None
 
 
 class mapPortalsListingsCreateBody:
@@ -79,6 +82,7 @@ class mapPortalsListingsCreateBody:
         name=data.get('name'),
         description=data.get('description'),
         readme=data.get('readme'),
+        is_discoverable=data.get('is_discoverable'),
         access=data.get('access')
         )
 

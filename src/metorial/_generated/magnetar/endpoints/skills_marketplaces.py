@@ -8,7 +8,7 @@ class MetorialSkillsMarketplacesEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, status: Optional[Union[str, List[str]]] = None, skill_configuration_id: Optional[Union[str, List[str]]] = None, search: Optional[str] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceSkillsMarketplacesListOutput:
+    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, status: Optional[Union[str, List[str]]] = None, skill_configuration_id: Optional[Union[str, List[str]]] = None, skill_group_id: Optional[Union[str, List[str]]] = None, search: Optional[str] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceSkillsMarketplacesListOutput:
         """
     List skill marketplaces
     Returns a paginated list of skill marketplaces.
@@ -21,6 +21,7 @@ class MetorialSkillsMarketplacesEndpoint(BaseMetorialEndpoint):
     :param id: Optional[Union[str, List[str]]] (optional)
     :param status: Optional[Union[str, List[str]]] (optional)
     :param skill_configuration_id: Optional[Union[str, List[str]]] (optional)
+    :param skill_group_id: Optional[Union[str, List[str]]] (optional)
     :param search: Optional[str] (optional)
     :param created_at: Optional[Dict[str, Any]] (optional)
     :param updated_at: Optional[Dict[str, Any]] (optional)
@@ -44,6 +45,8 @@ class MetorialSkillsMarketplacesEndpoint(BaseMetorialEndpoint):
             query_dict["status"] = status
         if skill_configuration_id is not None:
             query_dict["skill_configuration_id"] = skill_configuration_id
+        if skill_group_id is not None:
+            query_dict["skill_group_id"] = skill_group_id
         if search is not None:
             query_dict["search"] = search
         if created_at is not None:

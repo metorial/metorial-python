@@ -56,6 +56,7 @@ class DashboardInstancePortalsConsumerProfilesListQuery:
     search: Optional[str] = None
     email: Optional[Union[str, List[str]]] = None
     consumer_group_id: Optional[str] = None
+    source: Optional[str] = None
     status: Optional[Union[str, List[str]]] = None
 
 
@@ -71,6 +72,7 @@ class mapDashboardInstancePortalsConsumerProfilesListQuery:
         search=data.get('search'),
         email=data.get('email'),
         consumer_group_id=data.get('consumer_group_id'),
+        source=data.get('source'),
         status=data.get('status')
         )
 

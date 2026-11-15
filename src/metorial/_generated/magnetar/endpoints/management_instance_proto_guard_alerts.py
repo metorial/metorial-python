@@ -8,7 +8,7 @@ class MetorialManagementInstanceProtoGuardAlertsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, run_id: Optional[Union[str, List[str]]] = None, filter_id: Optional[Union[str, List[str]]] = None, session_id: Optional[Union[str, List[str]]] = None, session_message_id: Optional[Union[str, List[str]]] = None, session_connection_id: Optional[Union[str, List[str]]] = None, provider_run_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceProtoGuardAlertsListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, run_id: Optional[Union[str, List[str]]] = None, filter_id: Optional[Union[str, List[str]]] = None, session_id: Optional[Union[str, List[str]]] = None, session_message_id: Optional[Union[str, List[str]]] = None, session_connection_id: Optional[Union[str, List[str]]] = None, provider_run_id: Optional[Union[str, List[str]]] = None, issue_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceProtoGuardAlertsListOutput:
         """
     List ProtoGuard alerts
     Returns a paginated list of ProtoGuard alerts for this instance.
@@ -26,6 +26,7 @@ class MetorialManagementInstanceProtoGuardAlertsEndpoint(BaseMetorialEndpoint):
     :param session_message_id: Optional[Union[str, List[str]]] (optional)
     :param session_connection_id: Optional[Union[str, List[str]]] (optional)
     :param provider_run_id: Optional[Union[str, List[str]]] (optional)
+    :param issue_id: Optional[Union[str, List[str]]] (optional)
     :param created_at: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceProtoGuardAlertsListOutput
     """
@@ -55,6 +56,8 @@ class MetorialManagementInstanceProtoGuardAlertsEndpoint(BaseMetorialEndpoint):
             query_dict["session_connection_id"] = session_connection_id
         if provider_run_id is not None:
             query_dict["provider_run_id"] = provider_run_id
+        if issue_id is not None:
+            query_dict["issue_id"] = issue_id
         if created_at is not None:
             query_dict["created_at"] = created_at
 

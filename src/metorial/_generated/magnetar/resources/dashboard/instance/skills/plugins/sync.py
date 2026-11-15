@@ -4,6 +4,12 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class DashboardInstanceSkillsPluginsSyncOutputSkillsSkillImage:
+    object: str
+    type: str
+    icon: Optional[str] = None
+    color: Optional[str] = None
+@dataclass
 class DashboardInstanceSkillsPluginsSyncOutputSkillsSkill:
     object: str
     id: str
@@ -11,6 +17,7 @@ class DashboardInstanceSkillsPluginsSyncOutputSkillsSkill:
     slug: str
     name: str
     image_url: str
+    image: DashboardInstanceSkillsPluginsSyncOutputSkillsSkillImage
     client_name: str
     created_at: datetime
     updated_at: datetime
@@ -45,6 +52,7 @@ class DashboardInstanceSkillsPluginsSyncOutput:
     image_url: str
     name: str
     slug: str
+    source: Dict[str, Any]
     skills: List[DashboardInstanceSkillsPluginsSyncOutputSkills]
     created_at: datetime
     updated_at: datetime
@@ -53,6 +61,24 @@ class DashboardInstanceSkillsPluginsSyncOutput:
     category: Optional[str] = None
     skill_configuration_id: Optional[str] = None
 
+
+class mapDashboardInstanceSkillsPluginsSyncOutputSkillsSkillImage:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSkillsPluginsSyncOutputSkillsSkillImage:
+        return DashboardInstanceSkillsPluginsSyncOutputSkillsSkillImage(
+        object=data.get('object'),
+        type=data.get('type'),
+        icon=data.get('icon'),
+        color=data.get('color')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSkillsPluginsSyncOutputSkillsSkillImage, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapDashboardInstanceSkillsPluginsSyncOutputSkillsSkill:
     @staticmethod
@@ -65,6 +91,7 @@ class mapDashboardInstanceSkillsPluginsSyncOutputSkillsSkill:
         name=data.get('name'),
         description=data.get('description'),
         image_url=data.get('image_url'),
+        image=mapDashboardInstanceSkillsPluginsSyncOutputSkillsSkillImage.from_dict(data.get('image')) if data.get('image') else None,
         client_name=data.get('client_name'),
         client_description=data.get('client_description'),
         client_metadata=data.get('client_metadata'),
@@ -126,6 +153,7 @@ class mapDashboardInstanceSkillsPluginsSyncOutput:
         category=data.get('category'),
         slug=data.get('slug'),
         skill_configuration_id=data.get('skill_configuration_id'),
+        source=data.get('source'),
         skills=[mapDashboardInstanceSkillsPluginsSyncOutputSkills.from_dict(item) for item in data.get('skills', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None

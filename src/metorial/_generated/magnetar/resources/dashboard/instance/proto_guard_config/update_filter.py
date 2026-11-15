@@ -20,6 +20,8 @@ class DashboardInstanceProtoGuardConfigUpdateFilterOutputFilters:
 @dataclass
 class DashboardInstanceProtoGuardConfigUpdateFilterOutput:
     object: str
+    enabled: bool
+    alert_probability_threshold: float
     alert_filter_count_threshold: float
     filters: List[DashboardInstanceProtoGuardConfigUpdateFilterOutputFilters]
 
@@ -55,6 +57,8 @@ class mapDashboardInstanceProtoGuardConfigUpdateFilterOutput:
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceProtoGuardConfigUpdateFilterOutput:
         return DashboardInstanceProtoGuardConfigUpdateFilterOutput(
         object=data.get('object'),
+        enabled=data.get('enabled'),
+        alert_probability_threshold=data.get('alert_probability_threshold'),
         alert_filter_count_threshold=data.get('alert_filter_count_threshold'),
         filters=[mapDashboardInstanceProtoGuardConfigUpdateFilterOutputFilters.from_dict(item) for item in data.get('filters', []) if item]
         )

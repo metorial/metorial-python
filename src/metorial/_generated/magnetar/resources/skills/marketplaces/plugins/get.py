@@ -4,6 +4,12 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class SkillsMarketplacesPluginsGetOutputSkillPluginSkillsSkillImage:
+    object: str
+    type: str
+    icon: Optional[str] = None
+    color: Optional[str] = None
+@dataclass
 class SkillsMarketplacesPluginsGetOutputSkillPluginSkillsSkill:
     object: str
     id: str
@@ -11,6 +17,7 @@ class SkillsMarketplacesPluginsGetOutputSkillPluginSkillsSkill:
     slug: str
     name: str
     image_url: str
+    image: SkillsMarketplacesPluginsGetOutputSkillPluginSkillsSkillImage
     client_name: str
     created_at: datetime
     updated_at: datetime
@@ -45,6 +52,7 @@ class SkillsMarketplacesPluginsGetOutputSkillPlugin:
     image_url: str
     name: str
     slug: str
+    source: Dict[str, Any]
     skills: List[SkillsMarketplacesPluginsGetOutputSkillPluginSkills]
     created_at: datetime
     updated_at: datetime
@@ -65,6 +73,24 @@ class SkillsMarketplacesPluginsGetOutput:
     skill_plugin: Optional[SkillsMarketplacesPluginsGetOutputSkillPlugin] = None
 
 
+class mapSkillsMarketplacesPluginsGetOutputSkillPluginSkillsSkillImage:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> SkillsMarketplacesPluginsGetOutputSkillPluginSkillsSkillImage:
+        return SkillsMarketplacesPluginsGetOutputSkillPluginSkillsSkillImage(
+        object=data.get('object'),
+        type=data.get('type'),
+        icon=data.get('icon'),
+        color=data.get('color')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[SkillsMarketplacesPluginsGetOutputSkillPluginSkillsSkillImage, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapSkillsMarketplacesPluginsGetOutputSkillPluginSkillsSkill:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> SkillsMarketplacesPluginsGetOutputSkillPluginSkillsSkill:
@@ -76,6 +102,7 @@ class mapSkillsMarketplacesPluginsGetOutputSkillPluginSkillsSkill:
         name=data.get('name'),
         description=data.get('description'),
         image_url=data.get('image_url'),
+        image=mapSkillsMarketplacesPluginsGetOutputSkillPluginSkillsSkillImage.from_dict(data.get('image')) if data.get('image') else None,
         client_name=data.get('client_name'),
         client_description=data.get('client_description'),
         client_metadata=data.get('client_metadata'),
@@ -137,6 +164,7 @@ class mapSkillsMarketplacesPluginsGetOutputSkillPlugin:
         category=data.get('category'),
         slug=data.get('slug'),
         skill_configuration_id=data.get('skill_configuration_id'),
+        source=data.get('source'),
         skills=[mapSkillsMarketplacesPluginsGetOutputSkillPluginSkills.from_dict(item) for item in data.get('skills', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None

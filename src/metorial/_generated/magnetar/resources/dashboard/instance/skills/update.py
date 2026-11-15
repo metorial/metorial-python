@@ -4,6 +4,12 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class DashboardInstanceSkillsUpdateOutputImage:
+    object: str
+    type: str
+    icon: Optional[str] = None
+    color: Optional[str] = None
+@dataclass
 class DashboardInstanceSkillsUpdateOutputHierarchyCreatorOrganizationActorMember:
     object: str
     id: str
@@ -202,6 +208,7 @@ class DashboardInstanceSkillsUpdateOutput:
     slug: str
     name: str
     image_url: str
+    image: DashboardInstanceSkillsUpdateOutputImage
     client_name: str
     metadata: Dict[str, Any]
     store_id: str
@@ -216,6 +223,24 @@ class DashboardInstanceSkillsUpdateOutput:
     license: Optional[str] = None
     compatibility: Optional[str] = None
 
+
+class mapDashboardInstanceSkillsUpdateOutputImage:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSkillsUpdateOutputImage:
+        return DashboardInstanceSkillsUpdateOutputImage(
+        object=data.get('object'),
+        type=data.get('type'),
+        icon=data.get('icon'),
+        color=data.get('color')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSkillsUpdateOutputImage, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapDashboardInstanceSkillsUpdateOutputHierarchyCreatorOrganizationActorMember:
     @staticmethod
@@ -671,6 +696,7 @@ class mapDashboardInstanceSkillsUpdateOutput:
         name=data.get('name'),
         description=data.get('description'),
         image_url=data.get('image_url'),
+        image=mapDashboardInstanceSkillsUpdateOutputImage.from_dict(data.get('image')) if data.get('image') else None,
         client_name=data.get('client_name'),
         client_description=data.get('client_description'),
         client_metadata=data.get('client_metadata'),
@@ -695,6 +721,10 @@ class mapDashboardInstanceSkillsUpdateOutput:
         return dataclasses.asdict(value)
 
 @dataclass
+class DashboardInstanceSkillsUpdateBodyImageIcon:
+    icon: str
+    color: str
+@dataclass
 class DashboardInstanceSkillsUpdateBody:
     name: Optional[str] = None
     description: Optional[str] = None
@@ -705,7 +735,24 @@ class DashboardInstanceSkillsUpdateBody:
     client_metadata: Optional[Dict[str, Any]] = None
     metadata: Optional[Dict[str, Any]] = None
     image_file_id: Optional[str] = None
+    image_icon: Optional[DashboardInstanceSkillsUpdateBodyImageIcon] = None
 
+
+class mapDashboardInstanceSkillsUpdateBodyImageIcon:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSkillsUpdateBodyImageIcon:
+        return DashboardInstanceSkillsUpdateBodyImageIcon(
+        icon=data.get('icon'),
+        color=data.get('color')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSkillsUpdateBodyImageIcon, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapDashboardInstanceSkillsUpdateBody:
     @staticmethod
@@ -719,7 +766,8 @@ class mapDashboardInstanceSkillsUpdateBody:
         compatibility=data.get('compatibility'),
         client_metadata=data.get('client_metadata'),
         metadata=data.get('metadata'),
-        image_file_id=data.get('image_file_id')
+        image_file_id=data.get('image_file_id'),
+        image_icon=mapDashboardInstanceSkillsUpdateBodyImageIcon.from_dict(data.get('image_icon')) if data.get('image_icon') else None
         )
 
     @staticmethod

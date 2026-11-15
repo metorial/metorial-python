@@ -17,6 +17,7 @@ class ManagementInstanceSessionsErrorsListOutputItems:
     provider_run_id: Optional[str] = None
     connection_id: Optional[str] = None
     group_id: Optional[str] = None
+    issue_id: Optional[str] = None
 @dataclass
 class ManagementInstanceSessionsErrorsListOutputPagination:
     has_more_before: bool
@@ -42,6 +43,7 @@ class mapManagementInstanceSessionsErrorsListOutputItems:
         connection_id=data.get('connection_id'),
         group_id=data.get('group_id'),
         similar_error_count=data.get('similar_error_count'),
+        issue_id=data.get('issue_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
@@ -108,6 +110,7 @@ class ManagementInstanceSessionsErrorsListQuery:
     session_connection_id: Optional[Union[str, List[str]]] = None
     session_error_group_id: Optional[Union[str, List[str]]] = None
     provider_run_id: Optional[Union[str, List[str]]] = None
+    issue_id: Optional[Union[str, List[str]]] = None
     provider_id: Optional[Union[str, List[str]]] = None
     session_message_id: Optional[Union[str, List[str]]] = None
     created_at: Optional[ManagementInstanceSessionsErrorsListQueryCreatedAt] = None
@@ -131,6 +134,7 @@ class mapManagementInstanceSessionsErrorsListQuery:
         session_connection_id=data.get('session_connection_id'),
         session_error_group_id=data.get('session_error_group_id'),
         provider_run_id=data.get('provider_run_id'),
+        issue_id=data.get('issue_id'),
         provider_id=data.get('provider_id'),
         session_message_id=data.get('session_message_id'),
         created_at=mapManagementInstanceSessionsErrorsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,

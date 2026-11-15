@@ -30,10 +30,12 @@ from .network_policies import *
 from .portals import *
 from .proto_guard_alerts import *
 from .proto_guard_config import *
+from .proto_guard_suppressions import *
 from .provider_categories import *
 from .provider_collections import *
 from .provider_deployments import *
 from .provider_groups import *
+from .provider_issues import *
 from .provider_listings import *
 from .provider_runs import *
 from .provider_specification_change_notifications import *

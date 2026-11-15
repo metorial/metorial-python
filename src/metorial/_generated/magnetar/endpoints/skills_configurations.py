@@ -8,7 +8,7 @@ class MetorialSkillsConfigurationsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def create(self, *, allow_scripts: Optional[bool] = None, allowed_file_extensions: Optional[List[str]] = None, allow_non_standard_directories: Optional[bool] = None) -> DashboardInstanceSkillsConfigurationsCreateOutput:
+    def create(self, *, allow_scripts: Optional[bool] = None, allowed_file_extensions: Optional[List[str]] = None, allow_non_standard_directories: Optional[bool] = None, security_review_policy: Optional[str] = None) -> DashboardInstanceSkillsConfigurationsCreateOutput:
         """
     Create skill configuration
     Creates a new non-default skill configuration.
@@ -16,6 +16,7 @@ class MetorialSkillsConfigurationsEndpoint(BaseMetorialEndpoint):
     :param allow_scripts: Optional[bool] (optional)
     :param allowed_file_extensions: Optional[List[str]] (optional)
     :param allow_non_standard_directories: Optional[bool] (optional)
+    :param security_review_policy: Optional[str] (optional)
     :return: DashboardInstanceSkillsConfigurationsCreateOutput
     """
         # Build body parameters from keyword arguments
@@ -26,6 +27,8 @@ class MetorialSkillsConfigurationsEndpoint(BaseMetorialEndpoint):
             body_dict["allowed_file_extensions"] = allowed_file_extensions
         if allow_non_standard_directories is not None:
             body_dict["allow_non_standard_directories"] = allow_non_standard_directories
+        if security_review_policy is not None:
+            body_dict["security_review_policy"] = security_review_policy
 
         request = MetorialRequest(
             path=['skills', 'configurations'],
@@ -77,7 +80,7 @@ class MetorialSkillsConfigurationsEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapDashboardInstanceSkillsConfigurationsGetOutput.from_dict)
 
-    def update(self, skill_configuration_id: str, *, allow_scripts: Optional[bool] = None, allowed_file_extensions: Optional[List[str]] = None, allow_non_standard_directories: Optional[bool] = None) -> DashboardInstanceSkillsConfigurationsUpdateOutput:
+    def update(self, skill_configuration_id: str, *, allow_scripts: Optional[bool] = None, allowed_file_extensions: Optional[List[str]] = None, allow_non_standard_directories: Optional[bool] = None, security_review_policy: Optional[str] = None) -> DashboardInstanceSkillsConfigurationsUpdateOutput:
         """
     Update skill configuration
     Updates a specific skill configuration. Updating default creates it first if needed.
@@ -86,6 +89,7 @@ class MetorialSkillsConfigurationsEndpoint(BaseMetorialEndpoint):
     :param allow_scripts: Optional[bool] (optional)
     :param allowed_file_extensions: Optional[List[str]] (optional)
     :param allow_non_standard_directories: Optional[bool] (optional)
+    :param security_review_policy: Optional[str] (optional)
     :return: DashboardInstanceSkillsConfigurationsUpdateOutput
     """
         # Build body parameters from keyword arguments
@@ -96,6 +100,8 @@ class MetorialSkillsConfigurationsEndpoint(BaseMetorialEndpoint):
             body_dict["allowed_file_extensions"] = allowed_file_extensions
         if allow_non_standard_directories is not None:
             body_dict["allow_non_standard_directories"] = allow_non_standard_directories
+        if security_review_policy is not None:
+            body_dict["security_review_policy"] = security_review_policy
 
         request = MetorialRequest(
             path=['skills', 'configurations', skill_configuration_id],

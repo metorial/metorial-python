@@ -18,6 +18,7 @@ class ManagementInstancePortalsConsumerProfilesDeleteOutputGroups:
     object: str
     group: ManagementInstancePortalsConsumerProfilesDeleteOutputGroupsGroup
     assigned_via: str
+    sso_group_ids: List[str]
 @dataclass
 class ManagementInstancePortalsConsumerProfilesDeleteOutput:
     object: str

@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Optional, Union
 from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, MetorialRequest
-from ..resources import mapDashboardInstanceProtoGuardConfigGetOutput, DashboardInstanceProtoGuardConfigGetOutput, mapDashboardInstanceProtoGuardConfigUpdateFilterOutput, DashboardInstanceProtoGuardConfigUpdateFilterOutput, mapDashboardInstanceProtoGuardConfigUpdateFilterBody, DashboardInstanceProtoGuardConfigUpdateFilterBody, mapDashboardInstanceProtoGuardConfigSetAlertFilterCountThresholdOutput, DashboardInstanceProtoGuardConfigSetAlertFilterCountThresholdOutput, mapDashboardInstanceProtoGuardConfigSetAlertFilterCountThresholdBody, DashboardInstanceProtoGuardConfigSetAlertFilterCountThresholdBody
+from ..resources import mapDashboardInstanceProtoGuardConfigGetOutput, DashboardInstanceProtoGuardConfigGetOutput, mapDashboardInstanceProtoGuardConfigUpdateOutput, DashboardInstanceProtoGuardConfigUpdateOutput, mapDashboardInstanceProtoGuardConfigUpdateBody, DashboardInstanceProtoGuardConfigUpdateBody, mapDashboardInstanceProtoGuardConfigUpdateFilterOutput, DashboardInstanceProtoGuardConfigUpdateFilterOutput, mapDashboardInstanceProtoGuardConfigUpdateFilterBody, DashboardInstanceProtoGuardConfigUpdateFilterBody, mapDashboardInstanceProtoGuardConfigSetAlertFilterCountThresholdOutput, DashboardInstanceProtoGuardConfigSetAlertFilterCountThresholdOutput, mapDashboardInstanceProtoGuardConfigSetAlertFilterCountThresholdBody, DashboardInstanceProtoGuardConfigSetAlertFilterCountThresholdBody
 
 class MetorialManagementInstanceProtoGuardConfigEndpoint(BaseMetorialEndpoint):
     """ProtoGuard config controls prompt-injection filters and alert thresholds."""
@@ -20,6 +20,32 @@ class MetorialManagementInstanceProtoGuardConfigEndpoint(BaseMetorialEndpoint):
             path=['instances', instance_id, 'protoguard-config']
         )
         return self._get(request).transform(mapDashboardInstanceProtoGuardConfigGetOutput.from_dict)
+
+    def update(self, instance_id: str, *, enabled: Optional[bool] = None, alert_probability_threshold: Optional[float] = None, alert_filter_count_threshold: Optional[float] = None) -> DashboardInstanceProtoGuardConfigUpdateOutput:
+        """
+    Update ProtoGuard config
+    Enables or disables ProtoGuard for this instance and sets its alert thresholds.
+
+    :param instance_id: str
+    :param enabled: Optional[bool] (optional)
+    :param alert_probability_threshold: Optional[float] (optional)
+    :param alert_filter_count_threshold: Optional[float] (optional)
+    :return: DashboardInstanceProtoGuardConfigUpdateOutput
+    """
+        # Build body parameters from keyword arguments
+        body_dict = {}
+        if enabled is not None:
+            body_dict["enabled"] = enabled
+        if alert_probability_threshold is not None:
+            body_dict["alert_probability_threshold"] = alert_probability_threshold
+        if alert_filter_count_threshold is not None:
+            body_dict["alert_filter_count_threshold"] = alert_filter_count_threshold
+
+        request = MetorialRequest(
+            path=['instances', instance_id, 'protoguard-config'],
+            body=body_dict
+        )
+        return self._patch(request).transform(mapDashboardInstanceProtoGuardConfigUpdateOutput.from_dict)
 
     def update_filter(self, instance_id: str, filter_id: str, *, enabled: Optional[bool] = None, alert_confidence_threshold: Optional[float] = None) -> DashboardInstanceProtoGuardConfigUpdateFilterOutput:
         """

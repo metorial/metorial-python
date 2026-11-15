@@ -4,6 +4,12 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class DashboardInstanceSkillsGroupsItemsDeleteOutputSkillImage:
+    object: str
+    type: str
+    icon: Optional[str] = None
+    color: Optional[str] = None
+@dataclass
 class DashboardInstanceSkillsGroupsItemsDeleteOutputSkill:
     object: str
     id: str
@@ -11,6 +17,7 @@ class DashboardInstanceSkillsGroupsItemsDeleteOutputSkill:
     slug: str
     name: str
     image_url: str
+    image: DashboardInstanceSkillsGroupsItemsDeleteOutputSkillImage
     client_name: str
     created_at: datetime
     updated_at: datetime
@@ -30,6 +37,24 @@ class DashboardInstanceSkillsGroupsItemsDeleteOutput:
     created_at: datetime
 
 
+class mapDashboardInstanceSkillsGroupsItemsDeleteOutputSkillImage:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSkillsGroupsItemsDeleteOutputSkillImage:
+        return DashboardInstanceSkillsGroupsItemsDeleteOutputSkillImage(
+        object=data.get('object'),
+        type=data.get('type'),
+        icon=data.get('icon'),
+        color=data.get('color')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSkillsGroupsItemsDeleteOutputSkillImage, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapDashboardInstanceSkillsGroupsItemsDeleteOutputSkill:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceSkillsGroupsItemsDeleteOutputSkill:
@@ -41,6 +66,7 @@ class mapDashboardInstanceSkillsGroupsItemsDeleteOutputSkill:
         name=data.get('name'),
         description=data.get('description'),
         image_url=data.get('image_url'),
+        image=mapDashboardInstanceSkillsGroupsItemsDeleteOutputSkillImage.from_dict(data.get('image')) if data.get('image') else None,
         client_name=data.get('client_name'),
         client_description=data.get('client_description'),
         client_metadata=data.get('client_metadata'),

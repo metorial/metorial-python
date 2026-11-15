@@ -8,7 +8,7 @@ class MetorialManagementInstanceSkillsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, search: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, skill_group_id: Optional[Union[str, List[str]]] = None, integration_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceSkillsListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, search: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, skill_group_id: Optional[Union[str, List[str]]] = None, integration_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, owned_by_me: Optional[bool] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceSkillsListOutput:
         """
     List skills
     Returns a paginated list of skills.
@@ -25,6 +25,7 @@ class MetorialManagementInstanceSkillsEndpoint(BaseMetorialEndpoint):
     :param skill_group_id: Optional[Union[str, List[str]]] (optional)
     :param integration_id: Optional[Union[str, List[str]]] (optional)
     :param provider_id: Optional[Union[str, List[str]]] (optional)
+    :param owned_by_me: Optional[bool] (optional)
     :param created_at: Optional[Dict[str, Any]] (optional)
     :param updated_at: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceSkillsListOutput
@@ -53,6 +54,8 @@ class MetorialManagementInstanceSkillsEndpoint(BaseMetorialEndpoint):
             query_dict["integration_id"] = integration_id
         if provider_id is not None:
             query_dict["provider_id"] = provider_id
+        if owned_by_me is not None:
+            query_dict["owned_by_me"] = owned_by_me
         if created_at is not None:
             query_dict["created_at"] = created_at
         if updated_at is not None:
@@ -127,7 +130,7 @@ class MetorialManagementInstanceSkillsEndpoint(BaseMetorialEndpoint):
         )
         return self._post(request).transform(mapDashboardInstanceSkillsCreateOutput.from_dict)
 
-    def update(self, instance_id: str, skill_id: str, *, name: Optional[str] = None, description: Optional[str] = None, client_name: Optional[str] = None, client_description: Optional[str] = None, license: Optional[str] = None, compatibility: Optional[str] = None, client_metadata: Optional[Dict[str, Any]] = None, metadata: Optional[Dict[str, Any]] = None, image_file_id: Optional[str] = None) -> DashboardInstanceSkillsUpdateOutput:
+    def update(self, instance_id: str, skill_id: str, *, name: Optional[str] = None, description: Optional[str] = None, client_name: Optional[str] = None, client_description: Optional[str] = None, license: Optional[str] = None, compatibility: Optional[str] = None, client_metadata: Optional[Dict[str, Any]] = None, metadata: Optional[Dict[str, Any]] = None, image_file_id: Optional[str] = None, image_icon: Optional[Dict[str, Any]] = None) -> DashboardInstanceSkillsUpdateOutput:
         """
     Update skill
     Updates a specific skill.
@@ -143,6 +146,7 @@ class MetorialManagementInstanceSkillsEndpoint(BaseMetorialEndpoint):
     :param client_metadata: Optional[Dict[str, Any]] (optional)
     :param metadata: Optional[Dict[str, Any]] (optional)
     :param image_file_id: Optional[str] (optional)
+    :param image_icon: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceSkillsUpdateOutput
     """
         # Build body parameters from keyword arguments
@@ -165,6 +169,8 @@ class MetorialManagementInstanceSkillsEndpoint(BaseMetorialEndpoint):
             body_dict["metadata"] = metadata
         if image_file_id is not None:
             body_dict["image_file_id"] = image_file_id
+        if image_icon is not None:
+            body_dict["image_icon"] = image_icon
 
         request = MetorialRequest(
             path=['instances', instance_id, 'skills', skill_id],

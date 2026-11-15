@@ -65,6 +65,11 @@ class DashboardInstanceConversationsMessagesCreateOutputRequestActor:
     consumer: Optional[DashboardInstanceConversationsMessagesCreateOutputRequestActorConsumer] = None
     consumer_profile: Optional[Dict[str, Any]] = None
 @dataclass
+class DashboardInstanceConversationsMessagesCreateOutputRequestContext:
+    mode: str
+    requested_mode: str
+    can_write: bool
+@dataclass
 class DashboardInstanceConversationsMessagesCreateOutputRequest:
     object: str
     id: str
@@ -72,6 +77,7 @@ class DashboardInstanceConversationsMessagesCreateOutputRequest:
     created_at: datetime
     updated_at: datetime
     actor: Optional[DashboardInstanceConversationsMessagesCreateOutputRequestActor] = None
+    context: Optional[DashboardInstanceConversationsMessagesCreateOutputRequestContext] = None
 @dataclass
 class DashboardInstanceConversationsMessagesCreateOutput:
     object: str
@@ -232,6 +238,23 @@ class mapDashboardInstanceConversationsMessagesCreateOutputRequestActor:
             return value
         return dataclasses.asdict(value)
 
+class mapDashboardInstanceConversationsMessagesCreateOutputRequestContext:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceConversationsMessagesCreateOutputRequestContext:
+        return DashboardInstanceConversationsMessagesCreateOutputRequestContext(
+        mode=data.get('mode'),
+        requested_mode=data.get('requested_mode'),
+        can_write=data.get('can_write')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceConversationsMessagesCreateOutputRequestContext, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapDashboardInstanceConversationsMessagesCreateOutputRequest:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceConversationsMessagesCreateOutputRequest:
@@ -240,6 +263,7 @@ class mapDashboardInstanceConversationsMessagesCreateOutputRequest:
         id=data.get('id'),
         status=data.get('status'),
         actor=mapDashboardInstanceConversationsMessagesCreateOutputRequestActor.from_dict(data.get('actor')) if data.get('actor') else None,
+        context=mapDashboardInstanceConversationsMessagesCreateOutputRequestContext.from_dict(data.get('context')) if data.get('context') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )
@@ -286,6 +310,7 @@ class DashboardInstanceConversationsMessagesCreateBody:
     message: DashboardInstanceConversationsMessagesCreateBodyMessage
     parent_message_id: Optional[str] = None
     model_id: Optional[str] = None
+    context: Optional[Dict[str, Any]] = None
 
 
 class mapDashboardInstanceConversationsMessagesCreateBodyMessage:
@@ -309,7 +334,8 @@ class mapDashboardInstanceConversationsMessagesCreateBody:
         return DashboardInstanceConversationsMessagesCreateBody(
         message=mapDashboardInstanceConversationsMessagesCreateBodyMessage.from_dict(data.get('message')) if data.get('message') else None,
         parent_message_id=data.get('parent_message_id'),
-        model_id=data.get('model_id')
+        model_id=data.get('model_id'),
+        context=data.get('context')
         )
 
     @staticmethod

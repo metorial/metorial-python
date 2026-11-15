@@ -65,6 +65,11 @@ class ConversationsMessagesGetOutputRequestActor:
     consumer: Optional[ConversationsMessagesGetOutputRequestActorConsumer] = None
     consumer_profile: Optional[Dict[str, Any]] = None
 @dataclass
+class ConversationsMessagesGetOutputRequestContext:
+    mode: str
+    requested_mode: str
+    can_write: bool
+@dataclass
 class ConversationsMessagesGetOutputRequest:
     object: str
     id: str
@@ -72,6 +77,7 @@ class ConversationsMessagesGetOutputRequest:
     created_at: datetime
     updated_at: datetime
     actor: Optional[ConversationsMessagesGetOutputRequestActor] = None
+    context: Optional[ConversationsMessagesGetOutputRequestContext] = None
 @dataclass
 class ConversationsMessagesGetOutput:
     object: str
@@ -232,6 +238,23 @@ class mapConversationsMessagesGetOutputRequestActor:
             return value
         return dataclasses.asdict(value)
 
+class mapConversationsMessagesGetOutputRequestContext:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ConversationsMessagesGetOutputRequestContext:
+        return ConversationsMessagesGetOutputRequestContext(
+        mode=data.get('mode'),
+        requested_mode=data.get('requested_mode'),
+        can_write=data.get('can_write')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ConversationsMessagesGetOutputRequestContext, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapConversationsMessagesGetOutputRequest:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ConversationsMessagesGetOutputRequest:
@@ -240,6 +263,7 @@ class mapConversationsMessagesGetOutputRequest:
         id=data.get('id'),
         status=data.get('status'),
         actor=mapConversationsMessagesGetOutputRequestActor.from_dict(data.get('actor')) if data.get('actor') else None,
+        context=mapConversationsMessagesGetOutputRequestContext.from_dict(data.get('context')) if data.get('context') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

@@ -117,16 +117,17 @@ class MetorialPortalsAccessEndpoint(BaseMetorialEndpoint):
         )
         return self._post(request).transform(mapDashboardInstancePortalsAccessCreateOutput.from_dict)
 
-    def update(self, portal_id: str, access_id: str, *, name: Optional[str] = None, description: Optional[str] = None, readme: Optional[str] = None) -> DashboardInstancePortalsAccessUpdateOutput:
+    def update(self, portal_id: str, access_id: str, *, name: Optional[str] = None, description: Optional[str] = None, readme: Optional[str] = None, permission: Optional[str] = None) -> DashboardInstancePortalsAccessUpdateOutput:
         """
     Update portal access
-    Updates the shared listing fields for a portal access rule.
+    Updates the shared listing fields of a portal access rule, and the access level of skill and skill group rules.
 
     :param portal_id: str
     :param access_id: str
     :param name: Optional[str] (optional)
     :param description: Optional[str] (optional)
     :param readme: Optional[str] (optional)
+    :param permission: Optional[str] (optional)
     :return: DashboardInstancePortalsAccessUpdateOutput
     """
         # Build body parameters from keyword arguments
@@ -137,6 +138,8 @@ class MetorialPortalsAccessEndpoint(BaseMetorialEndpoint):
             body_dict["description"] = description
         if readme is not None:
             body_dict["readme"] = readme
+        if permission is not None:
+            body_dict["permission"] = permission
 
         request = MetorialRequest(
             path=['portals', portal_id, 'access', access_id],

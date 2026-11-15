@@ -8,7 +8,7 @@ class MetorialDashboardInstanceSessionsErrorsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, type: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, session_id: Optional[Union[str, List[str]]] = None, session_provider_id: Optional[Union[str, List[str]]] = None, session_connection_id: Optional[Union[str, List[str]]] = None, session_error_group_id: Optional[Union[str, List[str]]] = None, provider_run_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, session_message_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None, search: Optional[str] = None) -> DashboardInstanceSessionsErrorsListOutput:
+    def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, type: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, session_id: Optional[Union[str, List[str]]] = None, session_provider_id: Optional[Union[str, List[str]]] = None, session_connection_id: Optional[Union[str, List[str]]] = None, session_error_group_id: Optional[Union[str, List[str]]] = None, provider_run_id: Optional[Union[str, List[str]]] = None, issue_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, session_message_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None, search: Optional[str] = None) -> DashboardInstanceSessionsErrorsListOutput:
         """
     List all session errors
     Returns a paginated list of errors across all sessions.
@@ -26,6 +26,7 @@ class MetorialDashboardInstanceSessionsErrorsEndpoint(BaseMetorialEndpoint):
     :param session_connection_id: Optional[Union[str, List[str]]] (optional)
     :param session_error_group_id: Optional[Union[str, List[str]]] (optional)
     :param provider_run_id: Optional[Union[str, List[str]]] (optional)
+    :param issue_id: Optional[Union[str, List[str]]] (optional)
     :param provider_id: Optional[Union[str, List[str]]] (optional)
     :param session_message_id: Optional[Union[str, List[str]]] (optional)
     :param created_at: Optional[Dict[str, Any]] (optional)
@@ -59,6 +60,8 @@ class MetorialDashboardInstanceSessionsErrorsEndpoint(BaseMetorialEndpoint):
             query_dict["session_error_group_id"] = session_error_group_id
         if provider_run_id is not None:
             query_dict["provider_run_id"] = provider_run_id
+        if issue_id is not None:
+            query_dict["issue_id"] = issue_id
         if provider_id is not None:
             query_dict["provider_id"] = provider_id
         if session_message_id is not None:

@@ -4,6 +4,12 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class SkillsShareOutputImage:
+    object: str
+    type: str
+    icon: Optional[str] = None
+    color: Optional[str] = None
+@dataclass
 class SkillsShareOutputHierarchyCreatorOrganizationActorMember:
     object: str
     id: str
@@ -202,6 +208,7 @@ class SkillsShareOutput:
     slug: str
     name: str
     image_url: str
+    image: SkillsShareOutputImage
     client_name: str
     metadata: Dict[str, Any]
     store_id: str
@@ -216,6 +223,24 @@ class SkillsShareOutput:
     license: Optional[str] = None
     compatibility: Optional[str] = None
 
+
+class mapSkillsShareOutputImage:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> SkillsShareOutputImage:
+        return SkillsShareOutputImage(
+        object=data.get('object'),
+        type=data.get('type'),
+        icon=data.get('icon'),
+        color=data.get('color')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[SkillsShareOutputImage, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapSkillsShareOutputHierarchyCreatorOrganizationActorMember:
     @staticmethod
@@ -671,6 +696,7 @@ class mapSkillsShareOutput:
         name=data.get('name'),
         description=data.get('description'),
         image_url=data.get('image_url'),
+        image=mapSkillsShareOutputImage.from_dict(data.get('image')) if data.get('image') else None,
         client_name=data.get('client_name'),
         client_description=data.get('client_description'),
         client_metadata=data.get('client_metadata'),

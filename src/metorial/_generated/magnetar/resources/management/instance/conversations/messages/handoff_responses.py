@@ -65,6 +65,11 @@ class ManagementInstanceConversationsMessagesHandoffResponsesOutputRequestActor:
     consumer: Optional[ManagementInstanceConversationsMessagesHandoffResponsesOutputRequestActorConsumer] = None
     consumer_profile: Optional[Dict[str, Any]] = None
 @dataclass
+class ManagementInstanceConversationsMessagesHandoffResponsesOutputRequestContext:
+    mode: str
+    requested_mode: str
+    can_write: bool
+@dataclass
 class ManagementInstanceConversationsMessagesHandoffResponsesOutputRequest:
     object: str
     id: str
@@ -72,6 +77,7 @@ class ManagementInstanceConversationsMessagesHandoffResponsesOutputRequest:
     created_at: datetime
     updated_at: datetime
     actor: Optional[ManagementInstanceConversationsMessagesHandoffResponsesOutputRequestActor] = None
+    context: Optional[ManagementInstanceConversationsMessagesHandoffResponsesOutputRequestContext] = None
 @dataclass
 class ManagementInstanceConversationsMessagesHandoffResponsesOutput:
     object: str
@@ -232,6 +238,23 @@ class mapManagementInstanceConversationsMessagesHandoffResponsesOutputRequestAct
             return value
         return dataclasses.asdict(value)
 
+class mapManagementInstanceConversationsMessagesHandoffResponsesOutputRequestContext:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceConversationsMessagesHandoffResponsesOutputRequestContext:
+        return ManagementInstanceConversationsMessagesHandoffResponsesOutputRequestContext(
+        mode=data.get('mode'),
+        requested_mode=data.get('requested_mode'),
+        can_write=data.get('can_write')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceConversationsMessagesHandoffResponsesOutputRequestContext, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapManagementInstanceConversationsMessagesHandoffResponsesOutputRequest:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceConversationsMessagesHandoffResponsesOutputRequest:
@@ -240,6 +263,7 @@ class mapManagementInstanceConversationsMessagesHandoffResponsesOutputRequest:
         id=data.get('id'),
         status=data.get('status'),
         actor=mapManagementInstanceConversationsMessagesHandoffResponsesOutputRequestActor.from_dict(data.get('actor')) if data.get('actor') else None,
+        context=mapManagementInstanceConversationsMessagesHandoffResponsesOutputRequestContext.from_dict(data.get('context')) if data.get('context') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
         )

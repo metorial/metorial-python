@@ -15,17 +15,24 @@ class ProtoGuardAlertsListOutputItemsFilters:
     created_at: datetime
     description: Optional[str] = None
     confidence: Optional[float] = None
+    rule_key: Optional[str] = None
+    direction: Optional[str] = None
+    content_hash: Optional[str] = None
 @dataclass
 class ProtoGuardAlertsListOutputItems:
     object: str
     id: str
     run_id: str
     filters: List[ProtoGuardAlertsListOutputItemsFilters]
+    occurrence_count: float
+    first_seen_at: datetime
+    last_seen_at: datetime
     created_at: datetime
     session_id: Optional[str] = None
     session_message_id: Optional[str] = None
     session_connection_id: Optional[str] = None
     provider_run_id: Optional[str] = None
+    issue_id: Optional[str] = None
 @dataclass
 class ProtoGuardAlertsListOutputPagination:
     has_more_before: bool
@@ -49,6 +56,9 @@ class mapProtoGuardAlertsListOutputItemsFilters:
         issue_type=data.get('issue_type'),
         severity=data.get('severity'),
         confidence=data.get('confidence'),
+        rule_key=data.get('rule_key'),
+        direction=data.get('direction'),
+        content_hash=data.get('content_hash'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
@@ -71,7 +81,11 @@ class mapProtoGuardAlertsListOutputItems:
         session_message_id=data.get('session_message_id'),
         session_connection_id=data.get('session_connection_id'),
         provider_run_id=data.get('provider_run_id'),
+        issue_id=data.get('issue_id'),
         filters=[mapProtoGuardAlertsListOutputItemsFilters.from_dict(item) for item in data.get('filters', []) if item],
+        occurrence_count=data.get('occurrence_count'),
+        first_seen_at=datetime.fromisoformat(data.get('first_seen_at').replace('Z', '+00:00')) if data.get('first_seen_at') else None,
+        last_seen_at=datetime.fromisoformat(data.get('last_seen_at').replace('Z', '+00:00')) if data.get('last_seen_at') else None,
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
@@ -134,6 +148,7 @@ class ProtoGuardAlertsListQuery:
     session_message_id: Optional[Union[str, List[str]]] = None
     session_connection_id: Optional[Union[str, List[str]]] = None
     provider_run_id: Optional[Union[str, List[str]]] = None
+    issue_id: Optional[Union[str, List[str]]] = None
     created_at: Optional[ProtoGuardAlertsListQueryCreatedAt] = None
 
 
@@ -153,6 +168,7 @@ class mapProtoGuardAlertsListQuery:
         session_message_id=data.get('session_message_id'),
         session_connection_id=data.get('session_connection_id'),
         provider_run_id=data.get('provider_run_id'),
+        issue_id=data.get('issue_id'),
         created_at=mapProtoGuardAlertsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None
         )
 

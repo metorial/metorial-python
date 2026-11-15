@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Optional, Union
 from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, MetorialRequest
-from ..resources import mapDashboardInstanceSkillsPluginsListOutput, DashboardInstanceSkillsPluginsListOutput, mapDashboardInstanceSkillsPluginsListQuery, DashboardInstanceSkillsPluginsListQuery, mapDashboardInstanceSkillsPluginsGetOutput, DashboardInstanceSkillsPluginsGetOutput, mapDashboardInstanceSkillsPluginsCreateOutput, DashboardInstanceSkillsPluginsCreateOutput, mapDashboardInstanceSkillsPluginsCreateBody, DashboardInstanceSkillsPluginsCreateBody, mapDashboardInstanceSkillsPluginsUpdateOutput, DashboardInstanceSkillsPluginsUpdateOutput, mapDashboardInstanceSkillsPluginsUpdateBody, DashboardInstanceSkillsPluginsUpdateBody, mapDashboardInstanceSkillsPluginsArchiveOutput, DashboardInstanceSkillsPluginsArchiveOutput, mapDashboardInstanceSkillsPluginsSyncOutput, DashboardInstanceSkillsPluginsSyncOutput, mapDashboardInstanceSkillsPluginsSyncBody, DashboardInstanceSkillsPluginsSyncBody
+from ..resources import mapDashboardInstanceSkillsPluginsListOutput, DashboardInstanceSkillsPluginsListOutput, mapDashboardInstanceSkillsPluginsListQuery, DashboardInstanceSkillsPluginsListQuery, mapDashboardInstanceSkillsPluginsGetOutput, DashboardInstanceSkillsPluginsGetOutput, mapDashboardInstanceSkillsPluginsCreateOutput, DashboardInstanceSkillsPluginsCreateOutput, mapDashboardInstanceSkillsPluginsCreateBody, DashboardInstanceSkillsPluginsCreateBody, mapDashboardInstanceSkillsPluginsUpdateOutput, DashboardInstanceSkillsPluginsUpdateOutput, mapDashboardInstanceSkillsPluginsUpdateBody, DashboardInstanceSkillsPluginsUpdateBody, mapDashboardInstanceSkillsPluginsArchiveOutput, DashboardInstanceSkillsPluginsArchiveOutput, mapDashboardInstanceSkillsPluginsDetachSkillGroupOutput, DashboardInstanceSkillsPluginsDetachSkillGroupOutput, mapDashboardInstanceSkillsPluginsDetachSkillGroupBody, DashboardInstanceSkillsPluginsDetachSkillGroupBody, mapDashboardInstanceSkillsPluginsSyncOutput, DashboardInstanceSkillsPluginsSyncOutput, mapDashboardInstanceSkillsPluginsSyncBody, DashboardInstanceSkillsPluginsSyncBody
 
 class MetorialSkillsPluginsEndpoint(BaseMetorialEndpoint):
     """Manage skill plugins for an instance."""
@@ -8,7 +8,7 @@ class MetorialSkillsPluginsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, skill_marketplace_id: Optional[Union[str, List[str]]] = None, status: Optional[Union[str, List[str]]] = None, category: Optional[str] = None, search: Optional[str] = None, skill_configuration_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceSkillsPluginsListOutput:
+    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, skill_marketplace_id: Optional[Union[str, List[str]]] = None, status: Optional[Union[str, List[str]]] = None, category: Optional[str] = None, search: Optional[str] = None, skill_configuration_id: Optional[Union[str, List[str]]] = None, skill_group_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceSkillsPluginsListOutput:
         """
     List skill plugins
     Returns a paginated list of skill plugins.
@@ -24,6 +24,7 @@ class MetorialSkillsPluginsEndpoint(BaseMetorialEndpoint):
     :param category: Optional[str] (optional)
     :param search: Optional[str] (optional)
     :param skill_configuration_id: Optional[Union[str, List[str]]] (optional)
+    :param skill_group_id: Optional[Union[str, List[str]]] (optional)
     :param created_at: Optional[Dict[str, Any]] (optional)
     :param updated_at: Optional[Dict[str, Any]] (optional)
     :return: DashboardInstanceSkillsPluginsListOutput
@@ -52,6 +53,8 @@ class MetorialSkillsPluginsEndpoint(BaseMetorialEndpoint):
             query_dict["search"] = search
         if skill_configuration_id is not None:
             query_dict["skill_configuration_id"] = skill_configuration_id
+        if skill_group_id is not None:
+            query_dict["skill_group_id"] = skill_group_id
         if created_at is not None:
             query_dict["created_at"] = created_at
         if updated_at is not None:
@@ -76,23 +79,25 @@ class MetorialSkillsPluginsEndpoint(BaseMetorialEndpoint):
         )
         return self._get(request).transform(mapDashboardInstanceSkillsPluginsGetOutput.from_dict)
 
-    def create(self, *, name: str, description: Optional[str] = None, long_description: Optional[str] = None, category: Optional[str] = None, image_file_id: Optional[str] = None, skill_configuration_id: Optional[str] = None, skill_marketplace_id: Optional[str] = None) -> DashboardInstanceSkillsPluginsCreateOutput:
+    def create(self, *, name: Optional[str] = None, description: Optional[str] = None, long_description: Optional[str] = None, category: Optional[str] = None, image_file_id: Optional[str] = None, skill_configuration_id: Optional[str] = None, skill_marketplace_id: Optional[str] = None, skill_group_id: Optional[str] = None) -> DashboardInstanceSkillsPluginsCreateOutput:
         """
     Create skill plugin
     Creates a skill plugin.
 
-    :param name: str
+    :param name: Optional[str] (optional)
     :param description: Optional[str] (optional)
     :param long_description: Optional[str] (optional)
     :param category: Optional[str] (optional)
     :param image_file_id: Optional[str] (optional)
     :param skill_configuration_id: Optional[str] (optional)
     :param skill_marketplace_id: Optional[str] (optional)
+    :param skill_group_id: Optional[str] (optional)
     :return: DashboardInstanceSkillsPluginsCreateOutput
     """
         # Build body parameters from keyword arguments
         body_dict = {}
-        body_dict["name"] = name
+        if name is not None:
+            body_dict["name"] = name
         if description is not None:
             body_dict["description"] = description
         if long_description is not None:
@@ -105,6 +110,8 @@ class MetorialSkillsPluginsEndpoint(BaseMetorialEndpoint):
             body_dict["skill_configuration_id"] = skill_configuration_id
         if skill_marketplace_id is not None:
             body_dict["skill_marketplace_id"] = skill_marketplace_id
+        if skill_group_id is not None:
+            body_dict["skill_group_id"] = skill_group_id
 
         request = MetorialRequest(
             path=['skill-plugins'],
@@ -159,6 +166,19 @@ class MetorialSkillsPluginsEndpoint(BaseMetorialEndpoint):
             path=['skill-plugins', skill_plugin_id]
         )
         return self._delete(request).transform(mapDashboardInstanceSkillsPluginsArchiveOutput.from_dict)
+
+    def detach_skill_group(self, skill_plugin_id: str) -> DashboardInstanceSkillsPluginsDetachSkillGroupOutput:
+        """
+    Detach skill plugin from skill group
+    Stops syncing a plugin from its skill group. The plugin keeps its current skills, which can then be edited directly.
+
+    :param skill_plugin_id: str
+    :return: DashboardInstanceSkillsPluginsDetachSkillGroupOutput
+    """
+        request = MetorialRequest(
+            path=['skill-plugins', skill_plugin_id, 'detach-skill-group']
+        )
+        return self._post(request).transform(mapDashboardInstanceSkillsPluginsDetachSkillGroupOutput.from_dict)
 
     def sync(self, skill_plugin_id: str) -> DashboardInstanceSkillsPluginsSyncOutput:
         """

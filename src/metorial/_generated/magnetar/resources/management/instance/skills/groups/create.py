@@ -4,6 +4,18 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class ManagementInstanceSkillsGroupsCreateOutputImage:
+    object: str
+    type: str
+    icon: Optional[str] = None
+    color: Optional[str] = None
+@dataclass
+class ManagementInstanceSkillsGroupsCreateOutputSkillsImage:
+    object: str
+    type: str
+    icon: Optional[str] = None
+    color: Optional[str] = None
+@dataclass
 class ManagementInstanceSkillsGroupsCreateOutputSkills:
     object: str
     id: str
@@ -11,6 +23,7 @@ class ManagementInstanceSkillsGroupsCreateOutputSkills:
     slug: str
     name: str
     image_url: str
+    image: ManagementInstanceSkillsGroupsCreateOutputSkillsImage
     client_name: str
     created_at: datetime
     updated_at: datetime
@@ -26,6 +39,8 @@ class ManagementInstanceSkillsGroupsCreateOutput:
     id: str
     status: str
     name: str
+    image_url: str
+    image: ManagementInstanceSkillsGroupsCreateOutputImage
     allow_consumer_skill_assignment: bool
     skills: List[ManagementInstanceSkillsGroupsCreateOutputSkills]
     created_at: datetime
@@ -33,6 +48,42 @@ class ManagementInstanceSkillsGroupsCreateOutput:
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
 
+
+class mapManagementInstanceSkillsGroupsCreateOutputImage:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceSkillsGroupsCreateOutputImage:
+        return ManagementInstanceSkillsGroupsCreateOutputImage(
+        object=data.get('object'),
+        type=data.get('type'),
+        icon=data.get('icon'),
+        color=data.get('color')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceSkillsGroupsCreateOutputImage, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
+class mapManagementInstanceSkillsGroupsCreateOutputSkillsImage:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> ManagementInstanceSkillsGroupsCreateOutputSkillsImage:
+        return ManagementInstanceSkillsGroupsCreateOutputSkillsImage(
+        object=data.get('object'),
+        type=data.get('type'),
+        icon=data.get('icon'),
+        color=data.get('color')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[ManagementInstanceSkillsGroupsCreateOutputSkillsImage, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
 
 class mapManagementInstanceSkillsGroupsCreateOutputSkills:
     @staticmethod
@@ -45,6 +96,7 @@ class mapManagementInstanceSkillsGroupsCreateOutputSkills:
         name=data.get('name'),
         description=data.get('description'),
         image_url=data.get('image_url'),
+        image=mapManagementInstanceSkillsGroupsCreateOutputSkillsImage.from_dict(data.get('image')) if data.get('image') else None,
         client_name=data.get('client_name'),
         client_description=data.get('client_description'),
         client_metadata=data.get('client_metadata'),
@@ -73,6 +125,8 @@ class mapManagementInstanceSkillsGroupsCreateOutput:
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
+        image_url=data.get('image_url'),
+        image=mapManagementInstanceSkillsGroupsCreateOutputImage.from_dict(data.get('image')) if data.get('image') else None,
         allow_consumer_skill_assignment=data.get('allow_consumer_skill_assignment'),
         skills=[mapManagementInstanceSkillsGroupsCreateOutputSkills.from_dict(item) for item in data.get('skills', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,

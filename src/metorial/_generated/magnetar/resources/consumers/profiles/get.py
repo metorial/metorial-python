@@ -18,6 +18,7 @@ class ConsumersProfilesGetOutputGroups:
     object: str
     group: ConsumersProfilesGetOutputGroupsGroup
     assigned_via: str
+    sso_group_ids: List[str]
 @dataclass
 class ConsumersProfilesGetOutput:
     object: str

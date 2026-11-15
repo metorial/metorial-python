@@ -18,6 +18,7 @@ class DashboardInstancePortalsConsumerProfilesCreateOutputGroups:
     object: str
     group: DashboardInstancePortalsConsumerProfilesCreateOutputGroupsGroup
     assigned_via: str
+    sso_group_ids: List[str]
 @dataclass
 class DashboardInstancePortalsConsumerProfilesCreateOutput:
     object: str

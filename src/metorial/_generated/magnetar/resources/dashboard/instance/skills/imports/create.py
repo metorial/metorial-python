@@ -99,13 +99,15 @@ class mapDashboardInstanceSkillsImportsCreateOutput:
 @dataclass
 class DashboardInstanceSkillsImportsCreateBody:
     source: Dict[str, Any]
+    skill_group_id: Optional[str] = None
 
 
 class mapDashboardInstanceSkillsImportsCreateBody:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceSkillsImportsCreateBody:
         return DashboardInstanceSkillsImportsCreateBody(
-        source=data.get('source')
+        source=data.get('source'),
+        skill_group_id=data.get('skill_group_id')
         )
 
     @staticmethod

@@ -14,6 +14,7 @@ class DashboardInstancePortalsListingsUpdateOutput:
     object: str
     id: str
     name: str
+    is_discoverable: bool
     access: Dict[str, Any]
     groups: List[DashboardInstancePortalsListingsUpdateOutputGroups]
     created_at: datetime
@@ -49,6 +50,7 @@ class mapDashboardInstancePortalsListingsUpdateOutput:
         name=data.get('name'),
         description=data.get('description'),
         readme=data.get('readme'),
+        is_discoverable=data.get('is_discoverable'),
         access=data.get('access'),
         groups=[mapDashboardInstancePortalsListingsUpdateOutputGroups.from_dict(item) for item in data.get('groups', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
@@ -69,6 +71,7 @@ class DashboardInstancePortalsListingsUpdateBody:
     name: Optional[str] = None
     description: Optional[str] = None
     readme: Optional[str] = None
+    is_discoverable: Optional[bool] = None
 
 
 class mapDashboardInstancePortalsListingsUpdateBody:
@@ -77,7 +80,8 @@ class mapDashboardInstancePortalsListingsUpdateBody:
         return DashboardInstancePortalsListingsUpdateBody(
         name=data.get('name'),
         description=data.get('description'),
-        readme=data.get('readme')
+        readme=data.get('readme'),
+        is_discoverable=data.get('is_discoverable')
         )
 
     @staticmethod

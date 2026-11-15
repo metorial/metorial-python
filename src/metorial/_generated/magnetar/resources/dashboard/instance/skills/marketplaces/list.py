@@ -4,6 +4,12 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class DashboardInstanceSkillsMarketplacesListOutputItemsPluginsSkillPluginSkillsSkillImage:
+    object: str
+    type: str
+    icon: Optional[str] = None
+    color: Optional[str] = None
+@dataclass
 class DashboardInstanceSkillsMarketplacesListOutputItemsPluginsSkillPluginSkillsSkill:
     object: str
     id: str
@@ -11,6 +17,7 @@ class DashboardInstanceSkillsMarketplacesListOutputItemsPluginsSkillPluginSkills
     slug: str
     name: str
     image_url: str
+    image: DashboardInstanceSkillsMarketplacesListOutputItemsPluginsSkillPluginSkillsSkillImage
     client_name: str
     created_at: datetime
     updated_at: datetime
@@ -45,6 +52,7 @@ class DashboardInstanceSkillsMarketplacesListOutputItemsPluginsSkillPlugin:
     image_url: str
     name: str
     slug: str
+    source: Dict[str, Any]
     skills: List[DashboardInstanceSkillsMarketplacesListOutputItemsPluginsSkillPluginSkills]
     created_at: datetime
     updated_at: datetime
@@ -90,6 +98,24 @@ class DashboardInstanceSkillsMarketplacesListOutput:
     pagination: DashboardInstanceSkillsMarketplacesListOutputPagination
 
 
+class mapDashboardInstanceSkillsMarketplacesListOutputItemsPluginsSkillPluginSkillsSkillImage:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSkillsMarketplacesListOutputItemsPluginsSkillPluginSkillsSkillImage:
+        return DashboardInstanceSkillsMarketplacesListOutputItemsPluginsSkillPluginSkillsSkillImage(
+        object=data.get('object'),
+        type=data.get('type'),
+        icon=data.get('icon'),
+        color=data.get('color')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSkillsMarketplacesListOutputItemsPluginsSkillPluginSkillsSkillImage, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapDashboardInstanceSkillsMarketplacesListOutputItemsPluginsSkillPluginSkillsSkill:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceSkillsMarketplacesListOutputItemsPluginsSkillPluginSkillsSkill:
@@ -101,6 +127,7 @@ class mapDashboardInstanceSkillsMarketplacesListOutputItemsPluginsSkillPluginSki
         name=data.get('name'),
         description=data.get('description'),
         image_url=data.get('image_url'),
+        image=mapDashboardInstanceSkillsMarketplacesListOutputItemsPluginsSkillPluginSkillsSkillImage.from_dict(data.get('image')) if data.get('image') else None,
         client_name=data.get('client_name'),
         client_description=data.get('client_description'),
         client_metadata=data.get('client_metadata'),
@@ -162,6 +189,7 @@ class mapDashboardInstanceSkillsMarketplacesListOutputItemsPluginsSkillPlugin:
         category=data.get('category'),
         slug=data.get('slug'),
         skill_configuration_id=data.get('skill_configuration_id'),
+        source=data.get('source'),
         skills=[mapDashboardInstanceSkillsMarketplacesListOutputItemsPluginsSkillPluginSkills.from_dict(item) for item in data.get('skills', []) if item],
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None
@@ -278,6 +306,7 @@ class DashboardInstanceSkillsMarketplacesListQuery:
     id: Optional[Union[str, List[str]]] = None
     status: Optional[Union[str, List[str]]] = None
     skill_configuration_id: Optional[Union[str, List[str]]] = None
+    skill_group_id: Optional[Union[str, List[str]]] = None
     search: Optional[str] = None
     created_at: Optional[DashboardInstanceSkillsMarketplacesListQueryCreatedAt] = None
     updated_at: Optional[DashboardInstanceSkillsMarketplacesListQueryUpdatedAt] = None
@@ -295,6 +324,7 @@ class mapDashboardInstanceSkillsMarketplacesListQuery:
         id=data.get('id'),
         status=data.get('status'),
         skill_configuration_id=data.get('skill_configuration_id'),
+        skill_group_id=data.get('skill_group_id'),
         search=data.get('search'),
         created_at=mapDashboardInstanceSkillsMarketplacesListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None,
         updated_at=mapDashboardInstanceSkillsMarketplacesListQueryUpdatedAt.from_dict(data.get('updated_at')) if data.get('updated_at') else None

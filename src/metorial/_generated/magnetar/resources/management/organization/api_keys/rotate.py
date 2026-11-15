@@ -37,6 +37,7 @@ class ManagementOrganizationApiKeysRotateOutputMachineAccessInstanceProject:
     status: str
     slug: str
     name: str
+    assistant_enabled: bool
     organization_id: str
     created_at: datetime
     updated_at: datetime
@@ -182,6 +183,7 @@ class mapManagementOrganizationApiKeysRotateOutputMachineAccessInstanceProject:
         status=data.get('status'),
         slug=data.get('slug'),
         name=data.get('name'),
+        assistant_enabled=data.get('assistant_enabled'),
         organization_id=data.get('organization_id'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         updated_at=datetime.fromisoformat(data.get('updated_at').replace('Z', '+00:00')) if data.get('updated_at') else None

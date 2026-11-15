@@ -4,6 +4,12 @@ from datetime import datetime
 import dataclasses
 
 @dataclass
+class DashboardInstanceSkillsPluginsSkillsGetOutputSkillImage:
+    object: str
+    type: str
+    icon: Optional[str] = None
+    color: Optional[str] = None
+@dataclass
 class DashboardInstanceSkillsPluginsSkillsGetOutputSkill:
     object: str
     id: str
@@ -11,6 +17,7 @@ class DashboardInstanceSkillsPluginsSkillsGetOutputSkill:
     slug: str
     name: str
     image_url: str
+    image: DashboardInstanceSkillsPluginsSkillsGetOutputSkillImage
     client_name: str
     created_at: datetime
     updated_at: datetime
@@ -38,6 +45,24 @@ class DashboardInstanceSkillsPluginsSkillsGetOutput:
     skill_configuration_id: Optional[str] = None
 
 
+class mapDashboardInstanceSkillsPluginsSkillsGetOutputSkillImage:
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> DashboardInstanceSkillsPluginsSkillsGetOutputSkillImage:
+        return DashboardInstanceSkillsPluginsSkillsGetOutputSkillImage(
+        object=data.get('object'),
+        type=data.get('type'),
+        icon=data.get('icon'),
+        color=data.get('color')
+        )
+
+    @staticmethod
+    def to_dict(value: Union[DashboardInstanceSkillsPluginsSkillsGetOutputSkillImage, Dict[str, Any], None]) -> Optional[Dict[str, Any]]:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        return dataclasses.asdict(value)
+
 class mapDashboardInstanceSkillsPluginsSkillsGetOutputSkill:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceSkillsPluginsSkillsGetOutputSkill:
@@ -49,6 +74,7 @@ class mapDashboardInstanceSkillsPluginsSkillsGetOutputSkill:
         name=data.get('name'),
         description=data.get('description'),
         image_url=data.get('image_url'),
+        image=mapDashboardInstanceSkillsPluginsSkillsGetOutputSkillImage.from_dict(data.get('image')) if data.get('image') else None,
         client_name=data.get('client_name'),
         client_description=data.get('client_description'),
         client_metadata=data.get('client_metadata'),
