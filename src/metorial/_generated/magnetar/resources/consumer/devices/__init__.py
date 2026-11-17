@@ -4,3 +4,4 @@ from .get import *
 from .list import *
 from .revoke import *
 from .sign_out import *
+from .telemetry_token import *

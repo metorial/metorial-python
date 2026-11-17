@@ -10,6 +10,7 @@ class DashboardOrganizationsEventsGetOutput:
     organization_id: str
     source: str
     event_type: str
+    attributes: Dict[str, List[str]]
     created_at: datetime
     instance_id: Optional[str] = None
     callback_id: Optional[str] = None
@@ -37,6 +38,7 @@ class mapDashboardOrganizationsEventsGetOutput:
         chat_event_id=data.get('chat_event_id'),
         chat_connection_id=data.get('chat_connection_id'),
         provider_id=data.get('provider_id'),
+        attributes=data.get('attributes'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None,
         payload=data.get('payload')
         )

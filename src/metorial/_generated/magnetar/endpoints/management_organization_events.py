@@ -8,7 +8,7 @@ class MetorialManagementOrganizationEventsEndpoint(BaseMetorialEndpoint):
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
-    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, instance_id: Optional[str] = None, event_type: Optional[Union[str, List[str]]] = None, source: Optional[Union[str, List[str]]] = None, callback_id: Optional[Union[str, List[str]]] = None, callback_trigger_key: Optional[Union[str, List[str]]] = None, chat_connection_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None) -> DashboardOrganizationsEventsListOutput:
+    def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, instance_id: Optional[str] = None, event_type: Optional[Union[str, List[str]]] = None, source: Optional[Union[str, List[str]]] = None, callback_id: Optional[Union[str, List[str]]] = None, callback_trigger_key: Optional[Union[str, List[str]]] = None, chat_connection_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, attribute: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None) -> DashboardOrganizationsEventsListOutput:
         """
     List events
     List events recorded for the organization
@@ -25,6 +25,7 @@ class MetorialManagementOrganizationEventsEndpoint(BaseMetorialEndpoint):
     :param callback_trigger_key: Optional[Union[str, List[str]]] (optional)
     :param chat_connection_id: Optional[Union[str, List[str]]] (optional)
     :param provider_id: Optional[Union[str, List[str]]] (optional)
+    :param attribute: Optional[Union[str, List[str]]] (optional)
     :param created_at: Optional[Dict[str, Any]] (optional)
     :return: DashboardOrganizationsEventsListOutput
     """
@@ -54,6 +55,8 @@ class MetorialManagementOrganizationEventsEndpoint(BaseMetorialEndpoint):
             query_dict["chat_connection_id"] = chat_connection_id
         if provider_id is not None:
             query_dict["provider_id"] = provider_id
+        if attribute is not None:
+            query_dict["attribute"] = attribute
         if created_at is not None:
             query_dict["created_at"] = created_at
 
