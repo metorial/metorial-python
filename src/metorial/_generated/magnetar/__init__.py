@@ -24,6 +24,7 @@ from .endpoints import *
 # ConsumerDevicesListQuery
 # ConsumerDevicesRevokeOutput
 # ConsumerDevicesSignOutOutput
+# ConsumerDevicesTelemetryTokenIssueOutput
 # ConsumerIdentityCredentialsGetOutput
 # ConsumerIdentityCredentialsListOutput
 # ConsumerIdentityCredentialsListQuery
@@ -1061,6 +1062,7 @@ from .endpoints import *
 # mapConsumerDevicesListQuery
 # mapConsumerDevicesRevokeOutput
 # mapConsumerDevicesSignOutOutput
+# mapConsumerDevicesTelemetryTokenIssueOutput
 # mapConsumerIdentityCredentialsGetOutput
 # mapConsumerIdentityCredentialsListOutput
 # mapConsumerIdentityCredentialsListQuery

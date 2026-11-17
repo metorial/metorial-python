@@ -10,6 +10,7 @@ class ManagementOrganizationEventsListOutputItems:
     organization_id: str
     source: str
     event_type: str
+    attributes: Dict[str, List[str]]
     created_at: datetime
     instance_id: Optional[str] = None
     callback_id: Optional[str] = None
@@ -44,6 +45,7 @@ class mapManagementOrganizationEventsListOutputItems:
         chat_event_id=data.get('chat_event_id'),
         chat_connection_id=data.get('chat_connection_id'),
         provider_id=data.get('provider_id'),
+        attributes=data.get('attributes'),
         created_at=datetime.fromisoformat(data.get('created_at').replace('Z', '+00:00')) if data.get('created_at') else None
         )
 
@@ -106,6 +108,7 @@ class ManagementOrganizationEventsListQuery:
     callback_trigger_key: Optional[Union[str, List[str]]] = None
     chat_connection_id: Optional[Union[str, List[str]]] = None
     provider_id: Optional[Union[str, List[str]]] = None
+    attribute: Optional[Union[str, List[str]]] = None
     created_at: Optional[ManagementOrganizationEventsListQueryCreatedAt] = None
 
 
@@ -125,6 +128,7 @@ class mapManagementOrganizationEventsListQuery:
         callback_trigger_key=data.get('callback_trigger_key'),
         chat_connection_id=data.get('chat_connection_id'),
         provider_id=data.get('provider_id'),
+        attribute=data.get('attribute'),
         created_at=mapManagementOrganizationEventsListQueryCreatedAt.from_dict(data.get('created_at')) if data.get('created_at') else None
         )
 

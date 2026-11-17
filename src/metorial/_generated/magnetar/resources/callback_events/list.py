@@ -10,6 +10,7 @@ class CallbackEventsListOutputItems:
     status: str
     source: str
     provider_trigger_key: str
+    attributes: Dict[str, List[str]]
     callback_id: str
     callback_instance_id: str
     occurred_at: datetime
@@ -37,6 +38,7 @@ class mapCallbackEventsListOutputItems:
         provider_trigger_key=data.get('provider_trigger_key'),
         mapped_type=data.get('mapped_type'),
         mapped_id=data.get('mapped_id'),
+        attributes=data.get('attributes'),
         callback_id=data.get('callback_id'),
         callback_instance_id=data.get('callback_instance_id'),
         occurred_at=datetime.fromisoformat(data.get('occurred_at').replace('Z', '+00:00')) if data.get('occurred_at') else None,

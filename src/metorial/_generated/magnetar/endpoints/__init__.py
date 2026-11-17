@@ -23,6 +23,7 @@ from .consumer_consumer_internal_oauth_authorizations import *
 from .consumer_consumer_internal_oauth_clients import *
 from .consumer_devices import *
 from .consumer_devices_clients import *
+from .consumer_devices_telemetry_token import *
 from .consumer_identity_credentials import *
 from .consumer_oauth_authorizations import *
 from .consumer_profile import *
