@@ -7,6 +7,8 @@ now-removed Pulsar ``_sdk.py`` module.
 
 from typing import Any, TypedDict
 
+from ._api_host import DEFAULT_API_HOST, api_host_from_token
+
 
 class SDKConfig(TypedDict):
   apiKey: str
@@ -22,7 +24,10 @@ def get_headers(config: dict[str, Any]) -> dict[str, str]:
 def get_api_host(config: dict[str, Any]) -> str:
   """Get API host URL with default fallback."""
   api_host = config.get("apiHost")
-  return api_host if isinstance(api_host, str) else "https://api.metorial.com"
+  if isinstance(api_host, str):
+    return api_host
+
+  return api_host_from_token(config.get("apiKey")) or DEFAULT_API_HOST
 
 
 __all__ = ["SDKConfig", "get_headers", "get_api_host"]

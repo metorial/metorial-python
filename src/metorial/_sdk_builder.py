@@ -53,6 +53,7 @@ class MetorialSDKBuilder(Generic[ApiVersionT, ConfigT]):
           Callable[["dict[str, Any]"], "dict[str, str]"], self._get_headers
         )
         api_host = get_api_host(full_config)
+        full_config = {**full_config, "apiHost": api_host}
         manager = MetorialEndpointManager(
           full_config,
           api_host,

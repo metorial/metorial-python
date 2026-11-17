@@ -10,6 +10,7 @@ from typing import TYPE_CHECKING, Any, cast
 
 import httpx
 
+from metorial._api_host import DEFAULT_API_HOST, api_host_from_token
 from metorial._magnetar_sdk import create_magnetar_sdk
 from metorial._session import MetorialSession, SessionFactory
 from metorial.mcp import MagnetarMcpSessionInit, MetorialMagnetarMcpSession
@@ -82,7 +83,7 @@ class MetorialBase:
   def __init__(
     self,
     api_key: str | dict[str, Any] | None = None,
-    api_host: str = "https://api.metorial.com",
+    api_host: str | None = None,
     mcp_host: str = "https://connect.metorial.com",
     logger: logging.Logger | None = None,
     timeout: float = 30.0,
@@ -114,16 +115,17 @@ class MetorialBase:
     if log_level in ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]:
       self.logger.setLevel(getattr(logging, log_level))
 
+    token_api_host = api_host_from_token(api_key) if api_host is None else None
+    if api_host is None:
+      api_host = token_api_host or DEFAULT_API_HOST
+      if token_api_host is None and mcp_host != "https://connect.metorial.com":
+        api_host = mcp_host.replace("://connect.", "://api.")
+
     if (
       api_host != "https://api.metorial.com"
       and mcp_host == "https://connect.metorial.com"
     ):
       mcp_host = api_host.replace("://api.", "://connect.")
-    elif (
-      mcp_host != "https://connect.metorial.com"
-      and api_host == "https://api.metorial.com"
-    ):
-      api_host = mcp_host.replace("://connect.", "://api.")
 
     self._config_data = {
       "apiKey": api_key,
