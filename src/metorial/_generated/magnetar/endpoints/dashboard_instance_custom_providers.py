@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceCustomProvidersListOutput, DashboardInstanceCustomProvidersListOutput, mapDashboardInstanceCustomProvidersListQuery, DashboardInstanceCustomProvidersListQuery, mapDashboardInstanceCustomProvidersGetOutput, DashboardInstanceCustomProvidersGetOutput, mapDashboardInstanceCustomProvidersGetEnvOutput, DashboardInstanceCustomProvidersGetEnvOutput, mapDashboardInstanceCustomProvidersCreateOutput, DashboardInstanceCustomProvidersCreateOutput, mapDashboardInstanceCustomProvidersCreateBody, DashboardInstanceCustomProvidersCreateBody, mapDashboardInstanceCustomProvidersUpdateOutput, DashboardInstanceCustomProvidersUpdateOutput, mapDashboardInstanceCustomProvidersUpdateBody, DashboardInstanceCustomProvidersUpdateBody, mapDashboardInstanceCustomProvidersArchiveOutput, DashboardInstanceCustomProvidersArchiveOutput
 
 class MetorialDashboardInstanceCustomProvidersEndpoint(BaseMetorialEndpoint):
-    """Custom providers allow you to deploy your own MCP servers. Create providers from container images, remote URLs, or serverless functions."""
+    """A custom provider is an MCP server you deploy and use through your instance. It runs from a container image, a remote URL, or serverless function code."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -64,7 +64,7 @@ class MetorialDashboardInstanceCustomProvidersEndpoint(BaseMetorialEndpoint):
     def get(self, instance_id: str, custom_provider_id: str) -> DashboardInstanceCustomProvidersGetOutput:
         """
     Get custom provider
-    Retrieves a specific custom provider by ID.
+    Retrieves a custom provider.
 
     :param instance_id: str
     :param custom_provider_id: str
@@ -78,7 +78,7 @@ class MetorialDashboardInstanceCustomProvidersEndpoint(BaseMetorialEndpoint):
     def get_env(self, instance_id: str, custom_provider_id: str) -> DashboardInstanceCustomProvidersGetEnvOutput:
         """
     Get custom provider environment
-    Retrieves the environment variables for a specific custom provider by ID.
+    Retrieves the environment variables for a custom provider.
 
     :param instance_id: str
     :param custom_provider_id: str
@@ -122,7 +122,7 @@ class MetorialDashboardInstanceCustomProvidersEndpoint(BaseMetorialEndpoint):
     def update(self, instance_id: str, custom_provider_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, readme: Optional[str] = None) -> DashboardInstanceCustomProvidersUpdateOutput:
         """
     Update custom provider
-    Updates a specific custom provider.
+    Updates a custom provider.
 
     :param instance_id: str
     :param custom_provider_id: str
@@ -152,7 +152,7 @@ class MetorialDashboardInstanceCustomProvidersEndpoint(BaseMetorialEndpoint):
     def archive(self, instance_id: str, custom_provider_id: str) -> DashboardInstanceCustomProvidersArchiveOutput:
         """
     Archive custom provider
-    Archives a specific custom provider and disables new connections to it.
+    Archives a custom provider and disables new connections to it.
 
     :param instance_id: str
     :param custom_provider_id: str

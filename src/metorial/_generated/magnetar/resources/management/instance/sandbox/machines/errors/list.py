@@ -24,8 +24,11 @@ class ManagementInstanceSandboxMachinesErrorsListOutputItems:
 class ManagementInstanceSandboxMachinesErrorsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class ManagementInstanceSandboxMachinesErrorsListOutput:
+    object: str
     items: List[ManagementInstanceSandboxMachinesErrorsListOutputItems]
     pagination: ManagementInstanceSandboxMachinesErrorsListOutputPagination
 
@@ -64,7 +67,9 @@ class mapManagementInstanceSandboxMachinesErrorsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceSandboxMachinesErrorsListOutputPagination:
         return ManagementInstanceSandboxMachinesErrorsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -79,6 +84,7 @@ class mapManagementInstanceSandboxMachinesErrorsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceSandboxMachinesErrorsListOutput:
         return ManagementInstanceSandboxMachinesErrorsListOutput(
+        object=data.get('object'),
         items=[mapManagementInstanceSandboxMachinesErrorsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapManagementInstanceSandboxMachinesErrorsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

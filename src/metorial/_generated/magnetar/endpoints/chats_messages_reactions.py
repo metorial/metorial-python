@@ -11,7 +11,7 @@ class MetorialChatsMessagesReactionsEndpoint(BaseMetorialEndpoint):
     def list(self, chat_id: str, message_id: str, *, channel_id: str) -> DashboardInstanceChatsMessagesReactionsListOutput:
         """
     List chat message reactions
-    Returns the reactions left on a specific chat message.
+    Returns the reactions left on a chat message.
 
     :param chat_id: str
     :param message_id: str
@@ -31,7 +31,7 @@ class MetorialChatsMessagesReactionsEndpoint(BaseMetorialEndpoint):
     def create(self, chat_id: str, message_id: str, *, channel_id: str, emoji: Union[str, Dict[str, Any], Dict[str, Any]]) -> DashboardInstanceChatsMessagesReactionsCreateOutput:
         """
     Add chat message reaction
-    Adds a reaction to a specific chat message.
+    Adds a reaction to a chat message.
 
     :param chat_id: str
     :param message_id: str
@@ -53,7 +53,7 @@ class MetorialChatsMessagesReactionsEndpoint(BaseMetorialEndpoint):
     def delete(self, chat_id: str, message_id: str, *, channel_id: str, emoji: str) -> DashboardInstanceChatsMessagesReactionsDeleteOutput:
         """
     Remove chat message reaction
-    Removes a reaction from a specific chat message.
+    Removes a reaction from a chat message.
 
     :param chat_id: str
     :param message_id: str

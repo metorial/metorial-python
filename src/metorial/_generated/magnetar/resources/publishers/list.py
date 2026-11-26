@@ -16,8 +16,11 @@ class PublishersListOutputItems:
 class PublishersListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class PublishersListOutput:
+    object: str
     items: List[PublishersListOutputItems]
     pagination: PublishersListOutputPagination
 
@@ -48,7 +51,9 @@ class mapPublishersListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> PublishersListOutputPagination:
         return PublishersListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -63,6 +68,7 @@ class mapPublishersListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> PublishersListOutput:
         return PublishersListOutput(
+        object=data.get('object'),
         items=[mapPublishersListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapPublishersListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

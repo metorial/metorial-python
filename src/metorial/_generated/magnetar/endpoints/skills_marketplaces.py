@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceSkillsMarketplacesListOutput, DashboardInstanceSkillsMarketplacesListOutput, mapDashboardInstanceSkillsMarketplacesListQuery, DashboardInstanceSkillsMarketplacesListQuery, mapDashboardInstanceSkillsMarketplacesGetOutput, DashboardInstanceSkillsMarketplacesGetOutput, mapDashboardInstanceSkillsMarketplacesCreateOutput, DashboardInstanceSkillsMarketplacesCreateOutput, mapDashboardInstanceSkillsMarketplacesCreateBody, DashboardInstanceSkillsMarketplacesCreateBody, mapDashboardInstanceSkillsMarketplacesUpdateOutput, DashboardInstanceSkillsMarketplacesUpdateOutput, mapDashboardInstanceSkillsMarketplacesUpdateBody, DashboardInstanceSkillsMarketplacesUpdateBody, mapDashboardInstanceSkillsMarketplacesArchiveOutput, DashboardInstanceSkillsMarketplacesArchiveOutput, mapDashboardInstanceSkillsMarketplacesSyncOutput, DashboardInstanceSkillsMarketplacesSyncOutput, mapDashboardInstanceSkillsMarketplacesSyncBody, DashboardInstanceSkillsMarketplacesSyncBody
 
 class MetorialSkillsMarketplacesEndpoint(BaseMetorialEndpoint):
-    """Manage skill marketplaces for an instance."""
+    """A skill marketplace is a curated collection of skill plugins."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -112,7 +112,7 @@ class MetorialSkillsMarketplacesEndpoint(BaseMetorialEndpoint):
     def update(self, skill_marketplace_id: str, *, name: Optional[str] = None, description: Optional[str] = None, image_file_id: Optional[str] = None, skill_configuration_id: Optional[str] = None, repository_access_mode: Optional[str] = None, force_merge_or_push: Optional[bool] = None, merge_before_checks_pass: Optional[bool] = None) -> DashboardInstanceSkillsMarketplacesUpdateOutput:
         """
     Update skill marketplace
-    Updates a skill marketplace.
+    Updates a skill marketplace. Omitted fields keep their current value.
 
     :param skill_marketplace_id: str
     :param name: Optional[str] (optional)
@@ -163,7 +163,7 @@ class MetorialSkillsMarketplacesEndpoint(BaseMetorialEndpoint):
     def sync(self, skill_marketplace_id: str) -> DashboardInstanceSkillsMarketplacesSyncOutput:
         """
     Sync skill marketplace
-    Forces a skill marketplace sync.
+    Starts a sync of the skill marketplace to its linked repositories, even if nothing changed.
 
     :param skill_marketplace_id: str
     :return: DashboardInstanceSkillsMarketplacesSyncOutput

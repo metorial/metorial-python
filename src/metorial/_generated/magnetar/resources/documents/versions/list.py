@@ -64,8 +64,11 @@ class DocumentsVersionsListOutputItems:
 class DocumentsVersionsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class DocumentsVersionsListOutput:
+    object: str
     items: List[DocumentsVersionsListOutputItems]
     pagination: DocumentsVersionsListOutputPagination
 
@@ -204,7 +207,9 @@ class mapDocumentsVersionsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> DocumentsVersionsListOutputPagination:
         return DocumentsVersionsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -219,6 +224,7 @@ class mapDocumentsVersionsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DocumentsVersionsListOutput:
         return DocumentsVersionsListOutput(
+        object=data.get('object'),
         items=[mapDocumentsVersionsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapDocumentsVersionsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

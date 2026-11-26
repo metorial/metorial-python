@@ -49,7 +49,7 @@ class MetorialDashboardInstanceChatsThreadsEndpoint(BaseMetorialEndpoint):
     def get(self, instance_id: str, chat_id: str, thread_id: str, *, channel_id: str) -> DashboardInstanceChatsThreadsGetOutput:
         """
     Get chat thread
-    Retrieves a specific chat thread.
+    Retrieves a chat thread.
 
     :param instance_id: str
     :param chat_id: str

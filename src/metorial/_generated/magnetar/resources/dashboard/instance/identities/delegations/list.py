@@ -93,8 +93,11 @@ class DashboardInstanceIdentitiesDelegationsListOutputItems:
 class DashboardInstanceIdentitiesDelegationsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class DashboardInstanceIdentitiesDelegationsListOutput:
+    object: str
     items: List[DashboardInstanceIdentitiesDelegationsListOutputItems]
     pagination: DashboardInstanceIdentitiesDelegationsListOutputPagination
 
@@ -286,7 +289,9 @@ class mapDashboardInstanceIdentitiesDelegationsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceIdentitiesDelegationsListOutputPagination:
         return DashboardInstanceIdentitiesDelegationsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -301,6 +306,7 @@ class mapDashboardInstanceIdentitiesDelegationsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceIdentitiesDelegationsListOutput:
         return DashboardInstanceIdentitiesDelegationsListOutput(
+        object=data.get('object'),
         items=[mapDashboardInstanceIdentitiesDelegationsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapDashboardInstanceIdentitiesDelegationsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

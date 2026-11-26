@@ -12,8 +12,11 @@ class ManagementOrganizationWebhookEventsListOutputItems:
 class ManagementOrganizationWebhookEventsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class ManagementOrganizationWebhookEventsListOutput:
+    object: str
     items: List[ManagementOrganizationWebhookEventsListOutputItems]
     pagination: ManagementOrganizationWebhookEventsListOutputPagination
 
@@ -40,7 +43,9 @@ class mapManagementOrganizationWebhookEventsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> ManagementOrganizationWebhookEventsListOutputPagination:
         return ManagementOrganizationWebhookEventsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -55,6 +60,7 @@ class mapManagementOrganizationWebhookEventsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementOrganizationWebhookEventsListOutput:
         return ManagementOrganizationWebhookEventsListOutput(
+        object=data.get('object'),
         items=[mapManagementOrganizationWebhookEventsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapManagementOrganizationWebhookEventsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

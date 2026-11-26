@@ -4,7 +4,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceIdentitiesDelegationsListOutput, DashboardInstanceIdentitiesDelegationsListOutput, mapDashboardInstanceIdentitiesDelegationsListQuery, DashboardInstanceIdentitiesDelegationsListQuery, mapDashboardInstanceIdentitiesDelegationsGetOutput, DashboardInstanceIdentitiesDelegationsGetOutput, mapDashboardInstanceIdentitiesDelegationsCreateOutput, DashboardInstanceIdentitiesDelegationsCreateOutput, mapDashboardInstanceIdentitiesDelegationsCreateBody, DashboardInstanceIdentitiesDelegationsCreateBody, mapDashboardInstanceIdentitiesDelegationsRevokeOutput, DashboardInstanceIdentitiesDelegationsRevokeOutput
 
 class MetorialDashboardInstanceIdentitiesDelegationsEndpoint(BaseMetorialEndpoint):
-    """Identity delegations grant provider permissions from one identity owner to another actor, with optional per-credential overrides."""
+    """An identity delegation is a grant of provider permissions from an identity owner to another actor. It can narrow permissions per credential."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -71,7 +71,7 @@ class MetorialDashboardInstanceIdentitiesDelegationsEndpoint(BaseMetorialEndpoin
     def get(self, instance_id: str, identity_delegation_id: str) -> DashboardInstanceIdentitiesDelegationsGetOutput:
         """
     Get identity delegation
-    Retrieves a specific identity delegation by ID.
+    Retrieves an identity delegation.
 
     :param instance_id: str
     :param identity_delegation_id: str
@@ -85,7 +85,7 @@ class MetorialDashboardInstanceIdentitiesDelegationsEndpoint(BaseMetorialEndpoin
     def create(self, instance_id: str, *, identity_id: str, delegatee_actor_id: str, delegator_actor_id: Optional[str] = None, permissions: Optional[List[str]] = None, expires_at: Optional[datetime] = None, delegation_config_id: Optional[str] = None, credential_overrides: Optional[List[Dict[str, Any]]] = None, note: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceIdentitiesDelegationsCreateOutput:
         """
     Create identity delegation
-    Creates a new identity delegation.
+    Creates an identity delegation.
 
     :param instance_id: str
     :param identity_id: str
@@ -127,7 +127,7 @@ class MetorialDashboardInstanceIdentitiesDelegationsEndpoint(BaseMetorialEndpoin
     def revoke(self, instance_id: str, identity_delegation_id: str) -> DashboardInstanceIdentitiesDelegationsRevokeOutput:
         """
     Revoke identity delegation
-    Revokes an existing identity delegation.
+    Revokes an identity delegation.
 
     :param instance_id: str
     :param identity_delegation_id: str

@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceNetworkPoliciesRulesCreateOutput, DashboardInstanceNetworkPoliciesRulesCreateOutput, mapDashboardInstanceNetworkPoliciesRulesCreateBody, DashboardInstanceNetworkPoliciesRulesCreateBody, mapDashboardInstanceNetworkPoliciesRulesUpdateOutput, DashboardInstanceNetworkPoliciesRulesUpdateOutput, mapDashboardInstanceNetworkPoliciesRulesUpdateBody, DashboardInstanceNetworkPoliciesRulesUpdateBody, mapDashboardInstanceNetworkPoliciesRulesDeleteOutput, DashboardInstanceNetworkPoliciesRulesDeleteOutput
 
 class MetorialNetworkPoliciesRulesEndpoint(BaseMetorialEndpoint):
-    """Manage reusable network policy definitions and their rules."""
+    """A network policy is a reusable set of allow and deny rules. Firewalls attach policies to enforce them."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)

@@ -39,8 +39,11 @@ class DashboardInstanceProvidersAuthMethodsListOutputItems:
 class DashboardInstanceProvidersAuthMethodsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class DashboardInstanceProvidersAuthMethodsListOutput:
+    object: str
     items: List[DashboardInstanceProvidersAuthMethodsListOutputItems]
     pagination: DashboardInstanceProvidersAuthMethodsListOutputPagination
 
@@ -130,7 +133,9 @@ class mapDashboardInstanceProvidersAuthMethodsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceProvidersAuthMethodsListOutputPagination:
         return DashboardInstanceProvidersAuthMethodsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -145,6 +150,7 @@ class mapDashboardInstanceProvidersAuthMethodsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceProvidersAuthMethodsListOutput:
         return DashboardInstanceProvidersAuthMethodsListOutput(
+        object=data.get('object'),
         items=[mapDashboardInstanceProvidersAuthMethodsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapDashboardInstanceProvidersAuthMethodsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

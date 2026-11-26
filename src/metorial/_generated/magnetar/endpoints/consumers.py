@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceConsumersListOutput, DashboardInstanceConsumersListOutput, mapDashboardInstanceConsumersListQuery, DashboardInstanceConsumersListQuery, mapDashboardInstanceConsumersGetOutput, DashboardInstanceConsumersGetOutput, mapDashboardInstanceConsumersCreateOutput, DashboardInstanceConsumersCreateOutput, mapDashboardInstanceConsumersCreateBody, DashboardInstanceConsumersCreateBody, mapDashboardInstanceConsumersGetMemberConsumerOutput, DashboardInstanceConsumersGetMemberConsumerOutput, mapDashboardInstanceConsumersGetMemberConsumerBody, DashboardInstanceConsumersGetMemberConsumerBody, mapDashboardInstanceConsumersCreateMemberSessionOutput, DashboardInstanceConsumersCreateMemberSessionOutput, mapDashboardInstanceConsumersCreateMemberSessionBody, DashboardInstanceConsumersCreateMemberSessionBody, mapDashboardInstanceConsumersUpdateOutput, DashboardInstanceConsumersUpdateOutput, mapDashboardInstanceConsumersUpdateBody, DashboardInstanceConsumersUpdateBody
 
 class MetorialConsumersEndpoint(BaseMetorialEndpoint):
-    """Manage instance consumers independently from portals and inspect the profiles linked to each consumer."""
+    """A consumer is a person or system that uses an instance. Each consumer has profiles linking them to the surfaces they can access."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -51,7 +51,7 @@ class MetorialConsumersEndpoint(BaseMetorialEndpoint):
     def get(self, consumer_id: str) -> DashboardInstanceConsumersGetOutput:
         """
     Get consumer
-    Retrieves a consumer by ID.
+    Retrieves a consumer.
 
     :param consumer_id: str
     :return: DashboardInstanceConsumersGetOutput
@@ -122,7 +122,7 @@ class MetorialConsumersEndpoint(BaseMetorialEndpoint):
     def update(self, consumer_id: str, *, name: Optional[str] = None, email: Optional[str] = None) -> DashboardInstanceConsumersUpdateOutput:
         """
     Update consumer
-    Updates a consumer for an instance.
+    Updates a consumer. Omitted fields keep their current value.
 
     :param consumer_id: str
     :param name: Optional[str] (optional)

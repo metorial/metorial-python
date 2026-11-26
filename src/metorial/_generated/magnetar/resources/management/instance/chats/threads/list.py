@@ -43,8 +43,11 @@ class ManagementInstanceChatsThreadsListOutputItems:
 class ManagementInstanceChatsThreadsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class ManagementInstanceChatsThreadsListOutput:
+    object: str
     items: List[ManagementInstanceChatsThreadsListOutputItems]
     pagination: ManagementInstanceChatsThreadsListOutputPagination
 
@@ -138,7 +141,9 @@ class mapManagementInstanceChatsThreadsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceChatsThreadsListOutputPagination:
         return ManagementInstanceChatsThreadsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -153,6 +158,7 @@ class mapManagementInstanceChatsThreadsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceChatsThreadsListOutput:
         return ManagementInstanceChatsThreadsListOutput(
+        object=data.get('object'),
         items=[mapManagementInstanceChatsThreadsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapManagementInstanceChatsThreadsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

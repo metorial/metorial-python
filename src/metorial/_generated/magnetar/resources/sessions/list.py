@@ -100,8 +100,11 @@ class SessionsListOutputItems:
 class SessionsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class SessionsListOutput:
+    object: str
     items: List[SessionsListOutputItems]
     pagination: SessionsListOutputPagination
 
@@ -336,7 +339,9 @@ class mapSessionsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> SessionsListOutputPagination:
         return SessionsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -351,6 +356,7 @@ class mapSessionsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> SessionsListOutput:
         return SessionsListOutput(
+        object=data.get('object'),
         items=[mapSessionsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapSessionsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

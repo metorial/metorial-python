@@ -70,7 +70,7 @@ class MetorialManagementInstanceCallbackInstancesEndpoint(BaseMetorialEndpoint):
     def get(self, instance_id: str, callback_instance_id: str) -> DashboardInstanceCallbackInstancesGetOutput:
         """
     Get callback instance
-    Retrieves a specific callback instance by ID.
+    Retrieves a callback instance.
 
     :param instance_id: str
     :param callback_instance_id: str

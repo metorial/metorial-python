@@ -4,7 +4,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceIdentitiesDelegationRequestsListOutput, DashboardInstanceIdentitiesDelegationRequestsListOutput, mapDashboardInstanceIdentitiesDelegationRequestsListQuery, DashboardInstanceIdentitiesDelegationRequestsListQuery, mapDashboardInstanceIdentitiesDelegationRequestsGetOutput, DashboardInstanceIdentitiesDelegationRequestsGetOutput, mapDashboardInstanceIdentitiesDelegationRequestsGetQuery, DashboardInstanceIdentitiesDelegationRequestsGetQuery, mapDashboardInstanceIdentitiesDelegationRequestsCreateOutput, DashboardInstanceIdentitiesDelegationRequestsCreateOutput, mapDashboardInstanceIdentitiesDelegationRequestsCreateBody, DashboardInstanceIdentitiesDelegationRequestsCreateBody, mapDashboardInstanceIdentitiesDelegationRequestsApproveOutput, DashboardInstanceIdentitiesDelegationRequestsApproveOutput, mapDashboardInstanceIdentitiesDelegationRequestsApproveQuery, DashboardInstanceIdentitiesDelegationRequestsApproveQuery, mapDashboardInstanceIdentitiesDelegationRequestsDenyOutput, DashboardInstanceIdentitiesDelegationRequestsDenyOutput, mapDashboardInstanceIdentitiesDelegationRequestsDenyQuery, DashboardInstanceIdentitiesDelegationRequestsDenyQuery
 
 class MetorialManagementInstanceIdentitiesDelegationRequestsEndpoint(BaseMetorialEndpoint):
-    """Identity delegation requests represent approval workflows for creating delegations that require consent."""
+    """An identity delegation request is an approval workflow for a delegation that needs consent. Approving it creates the delegation."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -62,7 +62,7 @@ class MetorialManagementInstanceIdentitiesDelegationRequestsEndpoint(BaseMetoria
     def get(self, instance_id: str, identity_delegation_request_id: str, *, allow_deleted: Optional[bool] = None) -> DashboardInstanceIdentitiesDelegationRequestsGetOutput:
         """
     Get identity delegation request
-    Retrieves a specific identity delegation request by ID.
+    Retrieves an identity delegation request.
 
     :param instance_id: str
     :param identity_delegation_request_id: str
@@ -83,7 +83,7 @@ class MetorialManagementInstanceIdentitiesDelegationRequestsEndpoint(BaseMetoria
     def create(self, instance_id: str, *, identity_id: str, requester_actor_id: str, expires_at: datetime, delegator_actor_id: Optional[str] = None, permissions: Optional[List[str]] = None, delegation_config_id: Optional[str] = None, credential_overrides: Optional[List[Dict[str, Any]]] = None, note: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceIdentitiesDelegationRequestsCreateOutput:
         """
     Create identity delegation request
-    Creates a new identity delegation request.
+    Creates an identity delegation request.
 
     :param instance_id: str
     :param identity_id: str
@@ -124,7 +124,7 @@ class MetorialManagementInstanceIdentitiesDelegationRequestsEndpoint(BaseMetoria
     def approve(self, instance_id: str, identity_delegation_request_id: str, *, allow_deleted: Optional[bool] = None) -> DashboardInstanceIdentitiesDelegationRequestsApproveOutput:
         """
     Approve identity delegation request
-    Approves an existing identity delegation request.
+    Approves an identity delegation request.
 
     :param instance_id: str
     :param identity_delegation_request_id: str
@@ -145,7 +145,7 @@ class MetorialManagementInstanceIdentitiesDelegationRequestsEndpoint(BaseMetoria
     def deny(self, instance_id: str, identity_delegation_request_id: str, *, allow_deleted: Optional[bool] = None) -> DashboardInstanceIdentitiesDelegationRequestsDenyOutput:
         """
     Deny identity delegation request
-    Denies an existing identity delegation request.
+    Denies an identity delegation request.
 
     :param instance_id: str
     :param identity_delegation_request_id: str

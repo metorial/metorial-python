@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceConsumerSurfacesListOutput, DashboardInstanceConsumerSurfacesListOutput, mapDashboardInstanceConsumerSurfacesListQuery, DashboardInstanceConsumerSurfacesListQuery, mapDashboardInstanceConsumerSurfacesGetOutput, DashboardInstanceConsumerSurfacesGetOutput
 
 class MetorialManagementInstanceConsumerSurfacesEndpoint(BaseMetorialEndpoint):
-    """List and retrieve consumer surfaces for an instance."""
+    """A consumer surface is a portal, member directory, or CLI entry point consumers sign in through."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -11,7 +11,7 @@ class MetorialManagementInstanceConsumerSurfacesEndpoint(BaseMetorialEndpoint):
     def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None) -> DashboardInstanceConsumerSurfacesListOutput:
         """
     List consumer surfaces
-    Returns a paginated list of consumer surfaces for an instance.
+    Returns a paginated list of consumer surfaces.
 
     :param instance_id: str
     :param limit: Optional[float] (optional)
@@ -43,7 +43,7 @@ class MetorialManagementInstanceConsumerSurfacesEndpoint(BaseMetorialEndpoint):
     def get(self, instance_id: str, consumer_surface_id: str) -> DashboardInstanceConsumerSurfacesGetOutput:
         """
     Get consumer surface
-    Retrieves a consumer surface by ID.
+    Retrieves a consumer surface.
 
     :param instance_id: str
     :param consumer_surface_id: str

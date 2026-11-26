@@ -26,8 +26,11 @@ class IntegrationEnclavesListOutputItems:
 class IntegrationEnclavesListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class IntegrationEnclavesListOutput:
+    object: str
     items: List[IntegrationEnclavesListOutputItems]
     pagination: IntegrationEnclavesListOutputPagination
 
@@ -80,7 +83,9 @@ class mapIntegrationEnclavesListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> IntegrationEnclavesListOutputPagination:
         return IntegrationEnclavesListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -95,6 +100,7 @@ class mapIntegrationEnclavesListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> IntegrationEnclavesListOutput:
         return IntegrationEnclavesListOutput(
+        object=data.get('object'),
         items=[mapIntegrationEnclavesListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapIntegrationEnclavesListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

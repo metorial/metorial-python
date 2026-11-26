@@ -16,8 +16,11 @@ class ManagementInstancePublishersListOutputItems:
 class ManagementInstancePublishersListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class ManagementInstancePublishersListOutput:
+    object: str
     items: List[ManagementInstancePublishersListOutputItems]
     pagination: ManagementInstancePublishersListOutputPagination
 
@@ -48,7 +51,9 @@ class mapManagementInstancePublishersListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> ManagementInstancePublishersListOutputPagination:
         return ManagementInstancePublishersListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -63,6 +68,7 @@ class mapManagementInstancePublishersListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstancePublishersListOutput:
         return ManagementInstancePublishersListOutput(
+        object=data.get('object'),
         items=[mapManagementInstancePublishersListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapManagementInstancePublishersListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

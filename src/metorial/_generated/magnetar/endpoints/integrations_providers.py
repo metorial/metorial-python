@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceIntegrationsProvidersListOutput, DashboardInstanceIntegrationsProvidersListOutput, mapDashboardInstanceIntegrationsProvidersListQuery, DashboardInstanceIntegrationsProvidersListQuery, mapDashboardInstanceIntegrationsProvidersGetOutput, DashboardInstanceIntegrationsProvidersGetOutput, mapDashboardInstanceIntegrationsProvidersCreateOutput, DashboardInstanceIntegrationsProvidersCreateOutput, mapDashboardInstanceIntegrationsProvidersCreateBody, DashboardInstanceIntegrationsProvidersCreateBody, mapDashboardInstanceIntegrationsProvidersUpdateOutput, DashboardInstanceIntegrationsProvidersUpdateOutput, mapDashboardInstanceIntegrationsProvidersUpdateBody, DashboardInstanceIntegrationsProvidersUpdateBody, mapDashboardInstanceIntegrationsProvidersDeleteOutput, DashboardInstanceIntegrationsProvidersDeleteOutput
 
 class MetorialIntegrationsProvidersEndpoint(BaseMetorialEndpoint):
-    """Integration providers define the shared provider-level contract for a given integration."""
+    """An integration provider is one provider in an integration, with the deployment, configuration, credentials, and tool filters it runs with."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -75,7 +75,7 @@ class MetorialIntegrationsProvidersEndpoint(BaseMetorialEndpoint):
     def get(self, integration_provider_id: str) -> DashboardInstanceIntegrationsProvidersGetOutput:
         """
     Get integration provider
-    Retrieves a specific integration provider.
+    Retrieves an integration provider.
 
     :param integration_provider_id: str
     :return: DashboardInstanceIntegrationsProvidersGetOutput
@@ -88,7 +88,7 @@ class MetorialIntegrationsProvidersEndpoint(BaseMetorialEndpoint):
     def create(self, *, integration_id: str, provider_id: str, provider_deployment_id: str, provider_auth_method_id: Optional[str] = None, provider_auth_credentials_id: Optional[str] = None, provider_config_id: Optional[str] = None, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None, callbacks: Optional[Dict[str, Any]] = None) -> DashboardInstanceIntegrationsProvidersCreateOutput:
         """
     Create integration provider
-    Creates a new integration provider.
+    Creates an integration provider.
 
     :param integration_id: str
     :param provider_id: str
@@ -134,7 +134,7 @@ class MetorialIntegrationsProvidersEndpoint(BaseMetorialEndpoint):
     def update(self, integration_provider_id: str, *, provider_deployment_id: Optional[str] = None, provider_auth_method_id: Optional[str] = None, provider_auth_credentials_id: Optional[str] = None, provider_config_id: Optional[str] = None, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None, callbacks: Optional[Dict[str, Any]] = None) -> DashboardInstanceIntegrationsProvidersUpdateOutput:
         """
     Update integration provider
-    Updates a specific integration provider.
+    Updates an integration provider. Omitted fields keep their current value.
 
     :param integration_provider_id: str
     :param provider_deployment_id: Optional[str] (optional)
@@ -177,8 +177,8 @@ class MetorialIntegrationsProvidersEndpoint(BaseMetorialEndpoint):
 
     def delete(self, integration_provider_id: str) -> DashboardInstanceIntegrationsProvidersDeleteOutput:
         """
-    Delete integration provider
-    Archives a specific integration provider.
+    Archive integration provider
+    Archives an integration provider. It stays retrievable by ID and listable with `status=archived`.
 
     :param integration_provider_id: str
     :return: DashboardInstanceIntegrationsProvidersDeleteOutput

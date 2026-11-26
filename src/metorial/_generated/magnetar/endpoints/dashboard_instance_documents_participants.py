@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceDocumentsParticipantsListOutput, DashboardInstanceDocumentsParticipantsListOutput, mapDashboardInstanceDocumentsParticipantsListQuery, DashboardInstanceDocumentsParticipantsListQuery, mapDashboardInstanceDocumentsParticipantsGetOutput, DashboardInstanceDocumentsParticipantsGetOutput
 
 class MetorialDashboardInstanceDocumentsParticipantsEndpoint(BaseMetorialEndpoint):
-    """Inspect document participants and their linked Metorial resources."""
+    """A document participant is an actor with access to a document."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -11,7 +11,7 @@ class MetorialDashboardInstanceDocumentsParticipantsEndpoint(BaseMetorialEndpoin
     def list(self, instance_id: str, document_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceDocumentsParticipantsListOutput:
         """
     List document participants
-    Returns a paginated list of participants for a specific document.
+    Returns a paginated list of participants in a document.
 
     :param instance_id: str
     :param document_id: str
@@ -52,8 +52,8 @@ class MetorialDashboardInstanceDocumentsParticipantsEndpoint(BaseMetorialEndpoin
 
     def get(self, instance_id: str, document_id: str, document_participant_id: str) -> DashboardInstanceDocumentsParticipantsGetOutput:
         """
-    Get document participant by ID
-    Retrieves a specific document participant by its ID.
+    Get document participant
+    Retrieves a participant in a document.
 
     :param instance_id: str
     :param document_id: str

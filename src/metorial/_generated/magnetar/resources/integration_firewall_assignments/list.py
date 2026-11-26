@@ -27,8 +27,11 @@ class IntegrationFirewallAssignmentsListOutputItems:
 class IntegrationFirewallAssignmentsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class IntegrationFirewallAssignmentsListOutput:
+    object: str
     items: List[IntegrationFirewallAssignmentsListOutputItems]
     pagination: IntegrationFirewallAssignmentsListOutputPagination
 
@@ -94,7 +97,9 @@ class mapIntegrationFirewallAssignmentsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> IntegrationFirewallAssignmentsListOutputPagination:
         return IntegrationFirewallAssignmentsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -109,6 +114,7 @@ class mapIntegrationFirewallAssignmentsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> IntegrationFirewallAssignmentsListOutput:
         return IntegrationFirewallAssignmentsListOutput(
+        object=data.get('object'),
         items=[mapIntegrationFirewallAssignmentsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapIntegrationFirewallAssignmentsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceIdentitiesDelegationConfigsListOutput, DashboardInstanceIdentitiesDelegationConfigsListOutput, mapDashboardInstanceIdentitiesDelegationConfigsListQuery, DashboardInstanceIdentitiesDelegationConfigsListQuery, mapDashboardInstanceIdentitiesDelegationConfigsGetOutput, DashboardInstanceIdentitiesDelegationConfigsGetOutput, mapDashboardInstanceIdentitiesDelegationConfigsCreateOutput, DashboardInstanceIdentitiesDelegationConfigsCreateOutput, mapDashboardInstanceIdentitiesDelegationConfigsCreateBody, DashboardInstanceIdentitiesDelegationConfigsCreateBody, mapDashboardInstanceIdentitiesDelegationConfigsUpdateOutput, DashboardInstanceIdentitiesDelegationConfigsUpdateOutput, mapDashboardInstanceIdentitiesDelegationConfigsUpdateBody, DashboardInstanceIdentitiesDelegationConfigsUpdateBody, mapDashboardInstanceIdentitiesDelegationConfigsDeleteOutput, DashboardInstanceIdentitiesDelegationConfigsDeleteOutput
 
 class MetorialDashboardInstanceIdentitiesDelegationConfigsEndpoint(BaseMetorialEndpoint):
-    """Delegation configs define the default policy for sub-delegation behavior and delegation depth."""
+    """An identity delegation config is the default policy for sub-delegation. It controls whether delegates can delegate further, and how deep."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -58,7 +58,7 @@ class MetorialDashboardInstanceIdentitiesDelegationConfigsEndpoint(BaseMetorialE
     def get(self, instance_id: str, identity_delegation_config_id: str) -> DashboardInstanceIdentitiesDelegationConfigsGetOutput:
         """
     Get identity delegation config
-    Retrieves a specific identity delegation config by ID.
+    Retrieves an identity delegation config.
 
     :param instance_id: str
     :param identity_delegation_config_id: str
@@ -72,7 +72,7 @@ class MetorialDashboardInstanceIdentitiesDelegationConfigsEndpoint(BaseMetorialE
     def create(self, instance_id: str, *, sub_delegation_behavior: str, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, sub_delegation_depth: Optional[float] = None) -> DashboardInstanceIdentitiesDelegationConfigsCreateOutput:
         """
     Create identity delegation config
-    Creates a new identity delegation config.
+    Creates an identity delegation config.
 
     :param instance_id: str
     :param name: Optional[str] (optional)
@@ -103,7 +103,7 @@ class MetorialDashboardInstanceIdentitiesDelegationConfigsEndpoint(BaseMetorialE
     def update(self, instance_id: str, identity_delegation_config_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, sub_delegation_behavior: Optional[str] = None, sub_delegation_depth: Optional[float] = None) -> DashboardInstanceIdentitiesDelegationConfigsUpdateOutput:
         """
     Update identity delegation config
-    Updates mutable fields on an existing identity delegation config.
+    Updates an identity delegation config. Omitted fields keep their current value.
 
     :param instance_id: str
     :param identity_delegation_config_id: str
@@ -135,8 +135,8 @@ class MetorialDashboardInstanceIdentitiesDelegationConfigsEndpoint(BaseMetorialE
 
     def delete(self, instance_id: str, identity_delegation_config_id: str) -> DashboardInstanceIdentitiesDelegationConfigsDeleteOutput:
         """
-    Delete identity delegation config
-    Archives an identity delegation config.
+    Archive identity delegation config
+    Archives an identity delegation config. It stays listable with `status=archived`.
 
     :param instance_id: str
     :param identity_delegation_config_id: str

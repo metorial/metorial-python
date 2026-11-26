@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceMagicMcpTokensListOutput, DashboardInstanceMagicMcpTokensListOutput, mapDashboardInstanceMagicMcpTokensListQuery, DashboardInstanceMagicMcpTokensListQuery, mapDashboardInstanceMagicMcpTokensGetOutput, DashboardInstanceMagicMcpTokensGetOutput, mapDashboardInstanceMagicMcpTokensCreateOutput, DashboardInstanceMagicMcpTokensCreateOutput, mapDashboardInstanceMagicMcpTokensCreateBody, DashboardInstanceMagicMcpTokensCreateBody, mapDashboardInstanceMagicMcpTokensDeleteOutput, DashboardInstanceMagicMcpTokensDeleteOutput, mapDashboardInstanceMagicMcpTokensUpdateOutput, DashboardInstanceMagicMcpTokensUpdateOutput, mapDashboardInstanceMagicMcpTokensUpdateBody, DashboardInstanceMagicMcpTokensUpdateBody, mapDashboardInstanceMagicMcpTokensAddGroupsOutput, DashboardInstanceMagicMcpTokensAddGroupsOutput, mapDashboardInstanceMagicMcpTokensAddGroupsBody, DashboardInstanceMagicMcpTokensAddGroupsBody, mapDashboardInstanceMagicMcpTokensRemoveGroupsOutput, DashboardInstanceMagicMcpTokensRemoveGroupsOutput, mapDashboardInstanceMagicMcpTokensRemoveGroupsBody, DashboardInstanceMagicMcpTokensRemoveGroupsBody
 
 class MetorialDashboardInstanceMagicMcpTokensEndpoint(BaseMetorialEndpoint):
-    """Magic MCP tokens authorize access to Magic MCP servers via the /magic connection API."""
+    """A magic MCP token is a credential that authorizes access to magic MCP servers and endpoints."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -69,7 +69,7 @@ class MetorialDashboardInstanceMagicMcpTokensEndpoint(BaseMetorialEndpoint):
     def create(self, instance_id: str, *, name: str, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, magic_mcp_group_ids: Optional[List[str]] = None, magic_mcp_server_id: Optional[str] = None, magic_mcp_endpoint_id: Optional[str] = None) -> DashboardInstanceMagicMcpTokensCreateOutput:
         """
     Create magic MCP token
-    Creates a new magic MCP token.
+    Creates a magic MCP token.
 
     :param instance_id: str
     :param name: str
@@ -117,7 +117,7 @@ class MetorialDashboardInstanceMagicMcpTokensEndpoint(BaseMetorialEndpoint):
     def update(self, instance_id: str, magic_mcp_token_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceMagicMcpTokensUpdateOutput:
         """
     Update magic MCP token
-    Updates a magic MCP token.
+    Updates a magic MCP token. Omitted fields keep their current value.
 
     :param instance_id: str
     :param magic_mcp_token_id: str

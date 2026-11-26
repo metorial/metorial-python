@@ -64,8 +64,11 @@ class IntegrationsListOutputItems:
 class IntegrationsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class IntegrationsListOutput:
+    object: str
     items: List[IntegrationsListOutputItems]
     pagination: IntegrationsListOutputPagination
 
@@ -192,7 +195,9 @@ class mapIntegrationsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> IntegrationsListOutputPagination:
         return IntegrationsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -207,6 +212,7 @@ class mapIntegrationsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> IntegrationsListOutput:
         return IntegrationsListOutput(
+        object=data.get('object'),
         items=[mapIntegrationsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapIntegrationsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

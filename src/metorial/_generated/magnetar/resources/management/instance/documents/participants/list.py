@@ -64,8 +64,11 @@ class ManagementInstanceDocumentsParticipantsListOutputItems:
 class ManagementInstanceDocumentsParticipantsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class ManagementInstanceDocumentsParticipantsListOutput:
+    object: str
     items: List[ManagementInstanceDocumentsParticipantsListOutputItems]
     pagination: ManagementInstanceDocumentsParticipantsListOutputPagination
 
@@ -204,7 +207,9 @@ class mapManagementInstanceDocumentsParticipantsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceDocumentsParticipantsListOutputPagination:
         return ManagementInstanceDocumentsParticipantsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -219,6 +224,7 @@ class mapManagementInstanceDocumentsParticipantsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceDocumentsParticipantsListOutput:
         return ManagementInstanceDocumentsParticipantsListOutput(
+        object=data.get('object'),
         items=[mapManagementInstanceDocumentsParticipantsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapManagementInstanceDocumentsParticipantsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

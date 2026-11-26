@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceSkillsForkSyncsCreateOutput, DashboardInstanceSkillsForkSyncsCreateOutput, mapDashboardInstanceSkillsForkSyncsCreateBody, DashboardInstanceSkillsForkSyncsCreateBody, mapDashboardInstanceSkillsForkSyncsGetOutput, DashboardInstanceSkillsForkSyncsGetOutput
 
 class MetorialDashboardInstanceSkillsForkSyncsEndpoint(BaseMetorialEndpoint):
-    """Synchronize changes from an upstream skill into a fork."""
+    """A skill fork sync is a queued update pulling upstream changes into a forked skill."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)

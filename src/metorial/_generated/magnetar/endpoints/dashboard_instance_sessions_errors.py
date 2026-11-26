@@ -3,14 +3,14 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceSessionsErrorsListOutput, DashboardInstanceSessionsErrorsListOutput, mapDashboardInstanceSessionsErrorsListQuery, DashboardInstanceSessionsErrorsListQuery, mapDashboardInstanceSessionsErrorsGetOutput, DashboardInstanceSessionsErrorsGetOutput
 
 class MetorialDashboardInstanceSessionsErrorsEndpoint(BaseMetorialEndpoint):
-    """Session errors track errors that occurred during a session. This read-only resource provides visibility into issues that happened during provider execution."""
+    """A session error is an error recorded while running a session. Similar errors group together for review."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
     def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, type: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, session_id: Optional[Union[str, List[str]]] = None, session_provider_id: Optional[Union[str, List[str]]] = None, session_connection_id: Optional[Union[str, List[str]]] = None, session_error_group_id: Optional[Union[str, List[str]]] = None, provider_run_id: Optional[Union[str, List[str]]] = None, issue_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, session_message_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None, search: Optional[str] = None) -> DashboardInstanceSessionsErrorsListOutput:
         """
-    List all session errors
+    List session errors
     Returns a paginated list of errors across all sessions.
 
     :param instance_id: str
@@ -82,7 +82,7 @@ class MetorialDashboardInstanceSessionsErrorsEndpoint(BaseMetorialEndpoint):
     def get(self, instance_id: str, session_error_id: str) -> DashboardInstanceSessionsErrorsGetOutput:
         """
     Get session error
-    Retrieves a specific error that occurred in a session.
+    Retrieves a session error.
 
     :param instance_id: str
     :param session_error_id: str

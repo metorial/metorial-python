@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceChatInstancesListOutput, DashboardInstanceChatInstancesListOutput, mapDashboardInstanceChatInstancesListQuery, DashboardInstanceChatInstancesListQuery, mapDashboardInstanceChatInstancesGetOutput, DashboardInstanceChatInstancesGetOutput, mapDashboardInstanceChatInstancesCreateOutput, DashboardInstanceChatInstancesCreateOutput, mapDashboardInstanceChatInstancesCreateBody, DashboardInstanceChatInstancesCreateBody, mapDashboardInstanceChatInstancesUpdateOutput, DashboardInstanceChatInstancesUpdateOutput, mapDashboardInstanceChatInstancesUpdateBody, DashboardInstanceChatInstancesUpdateBody, mapDashboardInstanceChatInstancesDeleteOutput, DashboardInstanceChatInstancesDeleteOutput, mapDashboardInstanceChatInstancesSyncOutput, DashboardInstanceChatInstancesSyncOutput
 
 class MetorialManagementInstanceChatInstancesEndpoint(BaseMetorialEndpoint):
-    """Chat instances materialize a chat connection for a specific runtime configuration."""
+    """A chat instance is a chat connection running with its own configuration and identity."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -61,7 +61,7 @@ class MetorialManagementInstanceChatInstancesEndpoint(BaseMetorialEndpoint):
     def get(self, instance_id: str, chat_instance_id: str) -> DashboardInstanceChatInstancesGetOutput:
         """
     Get chat instance
-    Retrieves a specific chat instance.
+    Retrieves a chat instance.
 
     :param instance_id: str
     :param chat_instance_id: str
@@ -112,7 +112,7 @@ class MetorialManagementInstanceChatInstancesEndpoint(BaseMetorialEndpoint):
     def update(self, instance_id: str, chat_instance_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, private_metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceChatInstancesUpdateOutput:
         """
     Update chat instance
-    Updates a specific chat instance.
+    Updates a chat instance. Omitted fields keep their current value.
 
     :param instance_id: str
     :param chat_instance_id: str
@@ -141,8 +141,8 @@ class MetorialManagementInstanceChatInstancesEndpoint(BaseMetorialEndpoint):
 
     def delete(self, instance_id: str, chat_instance_id: str) -> DashboardInstanceChatInstancesDeleteOutput:
         """
-    Delete chat instance
-    Archives a specific chat instance.
+    Archive chat instance
+    Archives a chat instance. It stays listable with `status=archived`.
 
     :param instance_id: str
     :param chat_instance_id: str

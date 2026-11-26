@@ -34,8 +34,11 @@ class SandboxMachinesEventsListOutputItems:
 class SandboxMachinesEventsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class SandboxMachinesEventsListOutput:
+    object: str
     items: List[SandboxMachinesEventsListOutputItems]
     pagination: SandboxMachinesEventsListOutputPagination
 
@@ -120,7 +123,9 @@ class mapSandboxMachinesEventsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> SandboxMachinesEventsListOutputPagination:
         return SandboxMachinesEventsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -135,6 +140,7 @@ class mapSandboxMachinesEventsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> SandboxMachinesEventsListOutput:
         return SandboxMachinesEventsListOutput(
+        object=data.get('object'),
         items=[mapSandboxMachinesEventsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapSandboxMachinesEventsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceSkillsFilesListOutput, DashboardInstanceSkillsFilesListOutput, mapDashboardInstanceSkillsFilesGetOutput, DashboardInstanceSkillsFilesGetOutput, mapDashboardInstanceSkillsFilesGetQuery, DashboardInstanceSkillsFilesGetQuery, mapDashboardInstanceSkillsFilesPutOutput, DashboardInstanceSkillsFilesPutOutput, mapDashboardInstanceSkillsFilesPutBody, DashboardInstanceSkillsFilesPutBody, mapDashboardInstanceSkillsFilesDeleteOutput, DashboardInstanceSkillsFilesDeleteOutput, mapDashboardInstanceSkillsFilesDeleteQuery, DashboardInstanceSkillsFilesDeleteQuery, mapDashboardInstanceSkillsFilesMoveOutput, DashboardInstanceSkillsFilesMoveOutput, mapDashboardInstanceSkillsFilesMoveBody, DashboardInstanceSkillsFilesMoveBody, mapDashboardInstanceSkillsFilesBatchOutput, DashboardInstanceSkillsFilesBatchOutput, mapDashboardInstanceSkillsFilesBatchBody, DashboardInstanceSkillsFilesBatchBody
 
 class MetorialManagementInstanceSkillsFilesEndpoint(BaseMetorialEndpoint):
-    """Read and edit the files of a skill by path."""
+    """Skill files are the versioned files that make up a skill, addressed by path."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)

@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceIntegrationsInstancesListOutput, DashboardInstanceIntegrationsInstancesListOutput, mapDashboardInstanceIntegrationsInstancesListQuery, DashboardInstanceIntegrationsInstancesListQuery, mapDashboardInstanceIntegrationsInstancesGetOutput, DashboardInstanceIntegrationsInstancesGetOutput, mapDashboardInstanceIntegrationsInstancesCreateSessionTemplateOutput, DashboardInstanceIntegrationsInstancesCreateSessionTemplateOutput, mapDashboardInstanceIntegrationsInstancesCreateSessionTemplateBody, DashboardInstanceIntegrationsInstancesCreateSessionTemplateBody, mapDashboardInstanceIntegrationsInstancesCreateSessionOutput, DashboardInstanceIntegrationsInstancesCreateSessionOutput, mapDashboardInstanceIntegrationsInstancesCreateSessionBody, DashboardInstanceIntegrationsInstancesCreateSessionBody, mapDashboardInstanceIntegrationsInstancesCreateOutput, DashboardInstanceIntegrationsInstancesCreateOutput, mapDashboardInstanceIntegrationsInstancesCreateBody, DashboardInstanceIntegrationsInstancesCreateBody, mapDashboardInstanceIntegrationsInstancesUpdateOutput, DashboardInstanceIntegrationsInstancesUpdateOutput, mapDashboardInstanceIntegrationsInstancesUpdateBody, DashboardInstanceIntegrationsInstancesUpdateBody, mapDashboardInstanceIntegrationsInstancesDeleteOutput, DashboardInstanceIntegrationsInstancesDeleteOutput
 
 class MetorialManagementInstanceIntegrationsInstancesEndpoint(BaseMetorialEndpoint):
-    """Integration instances materialize an integration for a specific actor, identity, or runtime configuration."""
+    """An integration instance is an integration set up for a specific actor or identity. It binds each of the integration’s providers to the deployment, config, credentials, and tool filters it runs with."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -91,7 +91,7 @@ class MetorialManagementInstanceIntegrationsInstancesEndpoint(BaseMetorialEndpoi
     def get(self, instance_id: str, integration_instance_id: str) -> DashboardInstanceIntegrationsInstancesGetOutput:
         """
     Get integration instance
-    Retrieves a specific integration instance.
+    Retrieves an integration instance.
 
     :param instance_id: str
     :param integration_instance_id: str
@@ -105,7 +105,7 @@ class MetorialManagementInstanceIntegrationsInstancesEndpoint(BaseMetorialEndpoi
     def create_session_template(self, instance_id: str, integration_instance_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceIntegrationsInstancesCreateSessionTemplateOutput:
         """
     Create integration instance session template
-    Creates or updates the shared session template for a specific integration instance.
+    Creates or updates the shared session template for the integration instance.
 
     :param instance_id: str
     :param integration_instance_id: str
@@ -132,7 +132,7 @@ class MetorialManagementInstanceIntegrationsInstancesEndpoint(BaseMetorialEndpoi
     def create_session(self, instance_id: str, integration_instance_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceIntegrationsInstancesCreateSessionOutput:
         """
     Create integration instance session
-    Creates a session from the shared session template of a specific integration instance.
+    Creates a session from the shared session template of the integration instance.
 
     :param instance_id: str
     :param integration_instance_id: str
@@ -159,7 +159,7 @@ class MetorialManagementInstanceIntegrationsInstancesEndpoint(BaseMetorialEndpoi
     def create(self, instance_id: str, *, integration_id: str, name: str, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, identity_actor_id: Optional[str] = None, identity_id: Optional[str] = None, providers: Optional[List[Dict[str, Any]]] = None) -> DashboardInstanceIntegrationsInstancesCreateOutput:
         """
     Create integration instance
-    Creates a new integration instance.
+    Creates an integration instance.
 
     :param instance_id: str
     :param integration_id: str
@@ -195,7 +195,7 @@ class MetorialManagementInstanceIntegrationsInstancesEndpoint(BaseMetorialEndpoi
     def update(self, instance_id: str, integration_instance_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, identity_actor_id: Optional[str] = None, identity_id: Optional[str] = None, providers: Optional[List[Dict[str, Any]]] = None) -> DashboardInstanceIntegrationsInstancesUpdateOutput:
         """
     Update integration instance
-    Updates a specific integration instance.
+    Updates an integration instance. Omitted fields keep their current value.
 
     :param instance_id: str
     :param integration_instance_id: str
@@ -230,8 +230,8 @@ class MetorialManagementInstanceIntegrationsInstancesEndpoint(BaseMetorialEndpoi
 
     def delete(self, instance_id: str, integration_instance_id: str) -> DashboardInstanceIntegrationsInstancesDeleteOutput:
         """
-    Delete integration instance
-    Archives a specific integration instance.
+    Archive integration instance
+    Archives an integration instance. It stays retrievable by ID and listable with `status=archived`.
 
     :param instance_id: str
     :param integration_instance_id: str

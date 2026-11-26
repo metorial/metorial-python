@@ -58,7 +58,7 @@ class MetorialManagementInstanceChatConnectionsEndpoint(BaseMetorialEndpoint):
     def get(self, instance_id: str, chat_connection_id: str) -> DashboardInstanceChatConnectionsGetOutput:
         """
     Get chat connection
-    Retrieves a specific chat connection.
+    Retrieves a chat connection.
 
     :param instance_id: str
     :param chat_connection_id: str
@@ -102,7 +102,7 @@ class MetorialManagementInstanceChatConnectionsEndpoint(BaseMetorialEndpoint):
     def update(self, instance_id: str, chat_connection_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, private_metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceChatConnectionsUpdateOutput:
         """
     Update chat connection
-    Updates a specific chat connection.
+    Updates a chat connection. Omitted fields keep their current value.
 
     :param instance_id: str
     :param chat_connection_id: str
@@ -131,8 +131,8 @@ class MetorialManagementInstanceChatConnectionsEndpoint(BaseMetorialEndpoint):
 
     def delete(self, instance_id: str, chat_connection_id: str) -> DashboardInstanceChatConnectionsDeleteOutput:
         """
-    Delete chat connection
-    Archives a specific chat connection.
+    Archive chat connection
+    Archives a chat connection. It stays listable with `status=archived`.
 
     :param instance_id: str
     :param chat_connection_id: str

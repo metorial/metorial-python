@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceSkillsGroupsListOutput, DashboardInstanceSkillsGroupsListOutput, mapDashboardInstanceSkillsGroupsListQuery, DashboardInstanceSkillsGroupsListQuery, mapDashboardInstanceSkillsGroupsGetOutput, DashboardInstanceSkillsGroupsGetOutput, mapDashboardInstanceSkillsGroupsCreateOutput, DashboardInstanceSkillsGroupsCreateOutput, mapDashboardInstanceSkillsGroupsCreateBody, DashboardInstanceSkillsGroupsCreateBody, mapDashboardInstanceSkillsGroupsUpdateOutput, DashboardInstanceSkillsGroupsUpdateOutput, mapDashboardInstanceSkillsGroupsUpdateBody, DashboardInstanceSkillsGroupsUpdateBody, mapDashboardInstanceSkillsGroupsDeleteOutput, DashboardInstanceSkillsGroupsDeleteOutput
 
 class MetorialManagementInstanceSkillsGroupsEndpoint(BaseMetorialEndpoint):
-    """Skill groups organize skills into reusable collections."""
+    """A skill group is a reusable collection of skills."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -61,7 +61,7 @@ class MetorialManagementInstanceSkillsGroupsEndpoint(BaseMetorialEndpoint):
     def get(self, instance_id: str, skill_group_id: str) -> DashboardInstanceSkillsGroupsGetOutput:
         """
     Get skill group
-    Retrieves a specific skill group.
+    Retrieves a skill group.
 
     :param instance_id: str
     :param skill_group_id: str
@@ -106,7 +106,7 @@ class MetorialManagementInstanceSkillsGroupsEndpoint(BaseMetorialEndpoint):
     def update(self, instance_id: str, skill_group_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, skill_ids: Optional[List[str]] = None, allow_consumer_skill_assignment: Optional[bool] = None, image_file_id: Optional[str] = None, image_icon: Optional[Dict[str, Any]] = None) -> DashboardInstanceSkillsGroupsUpdateOutput:
         """
     Update skill group
-    Updates a skill group.
+    Updates a skill group. Omitted fields keep their current value.
 
     :param instance_id: str
     :param skill_group_id: str
@@ -144,7 +144,7 @@ class MetorialManagementInstanceSkillsGroupsEndpoint(BaseMetorialEndpoint):
 
     def delete(self, instance_id: str, skill_group_id: str) -> DashboardInstanceSkillsGroupsDeleteOutput:
         """
-    Delete skill group
+    Archive skill group
     Archives a skill group.
 
     :param instance_id: str

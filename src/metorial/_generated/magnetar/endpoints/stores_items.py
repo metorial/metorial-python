@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceStoresItemsModifyOutput, DashboardInstanceStoresItemsModifyOutput, mapDashboardInstanceStoresItemsModifyBody, DashboardInstanceStoresItemsModifyBody, mapDashboardInstanceStoresItemsListOutput, DashboardInstanceStoresItemsListOutput, mapDashboardInstanceStoresItemsListQuery, DashboardInstanceStoresItemsListQuery, mapDashboardInstanceStoresItemsGetOutput, DashboardInstanceStoresItemsGetOutput
 
 class MetorialStoresItemsEndpoint(BaseMetorialEndpoint):
-    """Create and manage instance stores backed by Cargo."""
+    """A store is a shared collection of files and documents. Participants get read or write access to its contents."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -11,7 +11,7 @@ class MetorialStoresItemsEndpoint(BaseMetorialEndpoint):
     def modify(self, store_id: str, *, operations: List[Dict[str, Any]]) -> DashboardInstanceStoresItemsModifyOutput:
         """
     Modify store items
-    Applies bulk item operations to a specific store.
+    Applies a list of add, modify, and remove operations to a store.
 
     :param store_id: str
     :param operations: List[Dict[str, Any]]
@@ -30,7 +30,7 @@ class MetorialStoresItemsEndpoint(BaseMetorialEndpoint):
     def list(self, store_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, file_id: Optional[Union[str, List[str]]] = None, document_id: Optional[Union[str, List[str]]] = None, type: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceStoresItemsListOutput:
         """
     List store items
-    Returns a paginated list of items for a specific store.
+    Returns a paginated list of items in a store.
 
     :param store_id: str
     :param limit: Optional[float] (optional)
@@ -79,8 +79,8 @@ class MetorialStoresItemsEndpoint(BaseMetorialEndpoint):
 
     def get(self, store_id: str, item_id: str) -> DashboardInstanceStoresItemsGetOutput:
         """
-    Get store item by ID
-    Retrieves a specific item within a store.
+    Get store item
+    Retrieves an item in a store.
 
     :param store_id: str
     :param item_id: str

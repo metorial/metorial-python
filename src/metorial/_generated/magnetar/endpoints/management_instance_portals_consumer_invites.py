@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstancePortalsConsumerInvitesListOutput, DashboardInstancePortalsConsumerInvitesListOutput, mapDashboardInstancePortalsConsumerInvitesListQuery, DashboardInstancePortalsConsumerInvitesListQuery, mapDashboardInstancePortalsConsumerInvitesCreateOutput, DashboardInstancePortalsConsumerInvitesCreateOutput, mapDashboardInstancePortalsConsumerInvitesCreateBody, DashboardInstancePortalsConsumerInvitesCreateBody, mapDashboardInstancePortalsConsumerInvitesGetOutput, DashboardInstancePortalsConsumerInvitesGetOutput
 
 class MetorialManagementInstancePortalsConsumerInvitesEndpoint(BaseMetorialEndpoint):
-    """List and inspect consumer invites for a portal."""
+    """A portal consumer invite is an email invitation for one person to join a portal."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -11,7 +11,7 @@ class MetorialManagementInstancePortalsConsumerInvitesEndpoint(BaseMetorialEndpo
     def list(self, instance_id: str, portal_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, search: Optional[str] = None, email: Optional[Union[str, List[str]]] = None, status: Optional[Union[str, List[str]]] = None) -> DashboardInstancePortalsConsumerInvitesListOutput:
         """
     List portal consumer invites
-    Returns a paginated list of invites for a portal.
+    Returns a paginated list of consumer invites for a portal.
 
     :param instance_id: str
     :param portal_id: str
@@ -78,7 +78,7 @@ class MetorialManagementInstancePortalsConsumerInvitesEndpoint(BaseMetorialEndpo
     def get(self, instance_id: str, portal_id: str, consumer_invite_id: str) -> DashboardInstancePortalsConsumerInvitesGetOutput:
         """
     Get portal consumer invite
-    Retrieves a portal consumer invite by ID.
+    Retrieves a portal consumer invite.
 
     :param instance_id: str
     :param portal_id: str

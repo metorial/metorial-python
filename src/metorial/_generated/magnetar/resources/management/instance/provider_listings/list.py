@@ -104,8 +104,11 @@ class ManagementInstanceProviderListingsListOutputItems:
 class ManagementInstanceProviderListingsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class ManagementInstanceProviderListingsListOutput:
+    object: str
     items: List[ManagementInstanceProviderListingsListOutputItems]
     pagination: ManagementInstanceProviderListingsListOutputPagination
 
@@ -332,7 +335,9 @@ class mapManagementInstanceProviderListingsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderListingsListOutputPagination:
         return ManagementInstanceProviderListingsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -347,6 +352,7 @@ class mapManagementInstanceProviderListingsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderListingsListOutput:
         return ManagementInstanceProviderListingsListOutput(
+        object=data.get('object'),
         items=[mapManagementInstanceProviderListingsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapManagementInstanceProviderListingsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

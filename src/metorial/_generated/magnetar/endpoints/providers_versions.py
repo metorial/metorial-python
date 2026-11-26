@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceProvidersVersionsListOutput, DashboardInstanceProvidersVersionsListOutput, mapDashboardInstanceProvidersVersionsListQuery, DashboardInstanceProvidersVersionsListQuery, mapDashboardInstanceProvidersVersionsGetOutput, DashboardInstanceProvidersVersionsGetOutput
 
 class MetorialProvidersVersionsEndpoint(BaseMetorialEndpoint):
-    """A version is a specific release of a provider (e.g., v1.2.0). Each version has its own tools, auth methods, and config schema. Deployments are pinned to a version for security reasons."""
+    """A provider version is a specific release of a provider. Each version has its own tools, auth methods, and config schema. A deployment can lock to one version or follow the provider's current version."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)

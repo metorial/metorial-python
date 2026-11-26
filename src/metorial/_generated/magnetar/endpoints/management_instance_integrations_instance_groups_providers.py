@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceIntegrationsInstanceGroupsProvidersListOutput, DashboardInstanceIntegrationsInstanceGroupsProvidersListOutput, mapDashboardInstanceIntegrationsInstanceGroupsProvidersListQuery, DashboardInstanceIntegrationsInstanceGroupsProvidersListQuery, mapDashboardInstanceIntegrationsInstanceGroupsProvidersGetOutput, DashboardInstanceIntegrationsInstanceGroupsProvidersGetOutput, mapDashboardInstanceIntegrationsInstanceGroupsProvidersSetOutput, DashboardInstanceIntegrationsInstanceGroupsProvidersSetOutput, mapDashboardInstanceIntegrationsInstanceGroupsProvidersSetBody, DashboardInstanceIntegrationsInstanceGroupsProvidersSetBody, mapDashboardInstanceIntegrationsInstanceGroupsProvidersDeleteOutput, DashboardInstanceIntegrationsInstanceGroupsProvidersDeleteOutput
 
 class MetorialManagementInstanceIntegrationsInstanceGroupsProvidersEndpoint(BaseMetorialEndpoint):
-    """Integration instance group providers define the effective routed provider set for an integration instance group."""
+    """An integration instance group provider links one integration instance provider into a group, with optional tool filters."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -85,7 +85,7 @@ class MetorialManagementInstanceIntegrationsInstanceGroupsProvidersEndpoint(Base
     def get(self, instance_id: str, integration_instance_group_provider_id: str) -> DashboardInstanceIntegrationsInstanceGroupsProvidersGetOutput:
         """
     Get integration instance group provider
-    Retrieves a specific integration instance group provider.
+    Retrieves an integration instance group provider.
 
     :param instance_id: str
     :param integration_instance_group_provider_id: str
@@ -99,7 +99,7 @@ class MetorialManagementInstanceIntegrationsInstanceGroupsProvidersEndpoint(Base
     def set(self, instance_id: str, integration_instance_group_id: str, integration_instance_provider_id: str, *, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None) -> DashboardInstanceIntegrationsInstanceGroupsProvidersSetOutput:
         """
     Set integration instance group provider
-    Creates or updates the effective integration instance group provider materialization.
+    Links an existing integration instance provider into the group, with optional tool filters. Creates the link when none exists, otherwise updates its tool filters.
 
     :param instance_id: str
     :param integration_instance_group_id: str
@@ -120,8 +120,8 @@ class MetorialManagementInstanceIntegrationsInstanceGroupsProvidersEndpoint(Base
 
     def delete(self, instance_id: str, integration_instance_group_provider_id: str) -> DashboardInstanceIntegrationsInstanceGroupsProvidersDeleteOutput:
         """
-    Delete integration instance group provider
-    Archives a specific integration instance group provider.
+    Archive integration instance group provider
+    Archives an integration instance group provider. It stays retrievable by ID and listable with `status=archived`.
 
     :param instance_id: str
     :param integration_instance_group_provider_id: str

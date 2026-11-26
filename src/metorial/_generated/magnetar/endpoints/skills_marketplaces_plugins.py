@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceSkillsMarketplacesPluginsListOutput, DashboardInstanceSkillsMarketplacesPluginsListOutput, mapDashboardInstanceSkillsMarketplacesPluginsListQuery, DashboardInstanceSkillsMarketplacesPluginsListQuery, mapDashboardInstanceSkillsMarketplacesPluginsAddOutput, DashboardInstanceSkillsMarketplacesPluginsAddOutput, mapDashboardInstanceSkillsMarketplacesPluginsAddBody, DashboardInstanceSkillsMarketplacesPluginsAddBody, mapDashboardInstanceSkillsMarketplacesPluginsGetOutput, DashboardInstanceSkillsMarketplacesPluginsGetOutput, mapDashboardInstanceSkillsMarketplacesPluginsRemoveOutput, DashboardInstanceSkillsMarketplacesPluginsRemoveOutput
 
 class MetorialSkillsMarketplacesPluginsEndpoint(BaseMetorialEndpoint):
-    """Manage plugin links for skill marketplaces."""
+    """A skill marketplace plugin is one plugin in a skill marketplace."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -61,7 +61,7 @@ class MetorialSkillsMarketplacesPluginsEndpoint(BaseMetorialEndpoint):
     def add(self, skill_marketplace_id: str, *, skill_plugin_id: str, skill_configuration_id: Optional[str] = None, identifier: Optional[str] = None) -> DashboardInstanceSkillsMarketplacesPluginsAddOutput:
         """
     Add skill marketplace plugin
-    Adds a skill plugin to a skill marketplace.
+    Adds a skill plugin to a skill marketplace. Adding a plugin that was removed reactivates its link.
 
     :param skill_marketplace_id: str
     :param skill_plugin_id: str

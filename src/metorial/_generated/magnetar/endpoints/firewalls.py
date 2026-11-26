@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceFirewallsListOutput, DashboardInstanceFirewallsListOutput, mapDashboardInstanceFirewallsListQuery, DashboardInstanceFirewallsListQuery, mapDashboardInstanceFirewallsGetOutput, DashboardInstanceFirewallsGetOutput, mapDashboardInstanceFirewallsCreateOutput, DashboardInstanceFirewallsCreateOutput, mapDashboardInstanceFirewallsCreateBody, DashboardInstanceFirewallsCreateBody, mapDashboardInstanceFirewallsUpdateOutput, DashboardInstanceFirewallsUpdateOutput, mapDashboardInstanceFirewallsUpdateBody, DashboardInstanceFirewallsUpdateBody, mapDashboardInstanceFirewallsDeleteOutput, DashboardInstanceFirewallsDeleteOutput
 
 class MetorialFirewallsEndpoint(BaseMetorialEndpoint):
-    """Manage firewalls and their attached network policies. Firewalls apply to integration enclaves, providers, and sandbox machines."""
+    """A firewall is a set of network policies applied to targets. Firewalls apply to integration enclaves, providers, and sandbox machines."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -11,7 +11,7 @@ class MetorialFirewallsEndpoint(BaseMetorialEndpoint):
     def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, search: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, slug: Optional[Union[str, List[str]]] = None, status: Optional[Union[str, List[str]]] = None, enclave_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, network_policy_id: Optional[Union[str, List[str]]] = None, machine_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceFirewallsListOutput:
         """
     List firewalls
-    Returns a paginated list of firewalls.
+    Returns a paginated list of firewalls in the instance.
 
     :param limit: Optional[float] (optional)
     :param after: Optional[str] (optional)
@@ -72,7 +72,7 @@ class MetorialFirewallsEndpoint(BaseMetorialEndpoint):
     def get(self, firewall_id: str) -> DashboardInstanceFirewallsGetOutput:
         """
     Get firewall
-    Retrieves a specific firewall by ID.
+    Retrieves a firewall.
 
     :param firewall_id: str
     :return: DashboardInstanceFirewallsGetOutput
@@ -85,7 +85,7 @@ class MetorialFirewallsEndpoint(BaseMetorialEndpoint):
     def create(self, *, name: str, description: Optional[str] = None, slug: Optional[str] = None, network_policy_ids: Optional[List[str]] = None) -> DashboardInstanceFirewallsCreateOutput:
         """
     Create firewall
-    Creates a new firewall.
+    Creates a firewall.
 
     :param name: str
     :param description: Optional[str] (optional)
@@ -112,7 +112,7 @@ class MetorialFirewallsEndpoint(BaseMetorialEndpoint):
     def update(self, firewall_id: str, *, name: Optional[str] = None, description: Optional[str] = None, slug: Optional[str] = None, network_policy_ids: Optional[List[str]] = None) -> DashboardInstanceFirewallsUpdateOutput:
         """
     Update firewall
-    Updates a firewall definition.
+    Updates a firewall. Omitted fields keep their current value.
 
     :param firewall_id: str
     :param name: Optional[str] (optional)
@@ -140,8 +140,8 @@ class MetorialFirewallsEndpoint(BaseMetorialEndpoint):
 
     def delete(self, firewall_id: str) -> DashboardInstanceFirewallsDeleteOutput:
         """
-    Delete firewall
-    Archives a firewall.
+    Archive firewall
+    Archives a firewall. It stays listable with `status=archived`.
 
     :param firewall_id: str
     :return: DashboardInstanceFirewallsDeleteOutput

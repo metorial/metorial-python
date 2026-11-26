@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceConsumersDevicesListOutput, DashboardInstanceConsumersDevicesListOutput, mapDashboardInstanceConsumersDevicesListQuery, DashboardInstanceConsumersDevicesListQuery, mapDashboardInstanceConsumersDevicesGetOutput, DashboardInstanceConsumersDevicesGetOutput, mapDashboardInstanceConsumersDevicesRevokeOutput, DashboardInstanceConsumersDevicesRevokeOutput
 
 class MetorialConsumersDevicesEndpoint(BaseMetorialEndpoint):
-    """Inspect and revoke the Metorial Desktop devices consumers have enrolled."""
+    """A consumer device is a Metorial Desktop installation a consumer has enrolled. Revoking a device signs it out and removes its access."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -11,7 +11,7 @@ class MetorialConsumersDevicesEndpoint(BaseMetorialEndpoint):
     def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, consumer_profile_id: Optional[Union[str, List[str]]] = None, consumer_id: Optional[Union[str, List[str]]] = None, status: Optional[Union[str, List[str]]] = None) -> DashboardInstanceConsumersDevicesListOutput:
         """
     List consumer devices
-    Returns the Metorial Desktop devices enrolled by consumers of an instance.
+    Returns a paginated list of consumer devices.
 
     :param limit: Optional[float] (optional)
     :param after: Optional[str] (optional)
@@ -51,7 +51,7 @@ class MetorialConsumersDevicesEndpoint(BaseMetorialEndpoint):
     def get(self, consumer_device_id: str) -> DashboardInstanceConsumersDevicesGetOutput:
         """
     Get consumer device
-    Retrieves a Metorial Desktop device enrolled by a consumer.
+    Retrieves a consumer device.
 
     :param consumer_device_id: str
     :return: DashboardInstanceConsumersDevicesGetOutput

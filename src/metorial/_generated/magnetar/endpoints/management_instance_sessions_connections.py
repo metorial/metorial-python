@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceSessionsConnectionsListOutput, DashboardInstanceSessionsConnectionsListOutput, mapDashboardInstanceSessionsConnectionsListQuery, DashboardInstanceSessionsConnectionsListQuery, mapDashboardInstanceSessionsConnectionsGetOutput, DashboardInstanceSessionsConnectionsGetOutput
 
 class MetorialManagementInstanceSessionsConnectionsEndpoint(BaseMetorialEndpoint):
-    """Session connections represent the MCP connections established within a session. This read-only resource provides visibility into the connection state and capabilities."""
+    """A session connection is one MCP connection in a session. Connections report their state, transport, and capabilities."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -11,7 +11,7 @@ class MetorialManagementInstanceSessionsConnectionsEndpoint(BaseMetorialEndpoint
     def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, connection_state: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, agent_id: Optional[Union[str, List[str]]] = None, actor_id: Optional[Union[str, List[str]]] = None, consumer_profile_id: Optional[Union[str, List[str]]] = None, consumer_id: Optional[Union[str, List[str]]] = None, identity_id: Optional[Union[str, List[str]]] = None, agent_instance_id: Optional[Union[str, List[str]]] = None, session_id: Optional[Union[str, List[str]]] = None, session_provider_id: Optional[Union[str, List[str]]] = None, participant_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceSessionsConnectionsListOutput:
         """
     List session connections
-    Returns a paginated list of connections for a session.
+    Returns a paginated list of session connections.
 
     :param instance_id: str
     :param limit: Optional[float] (optional)
@@ -85,7 +85,7 @@ class MetorialManagementInstanceSessionsConnectionsEndpoint(BaseMetorialEndpoint
     def get(self, instance_id: str, session_connection_id: str) -> DashboardInstanceSessionsConnectionsGetOutput:
         """
     Get session connection
-    Retrieves a specific connection from a session.
+    Retrieves a session connection.
 
     :param instance_id: str
     :param session_connection_id: str

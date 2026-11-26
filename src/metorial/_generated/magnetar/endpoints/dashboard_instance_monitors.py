@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceMonitorsListOutput, DashboardInstanceMonitorsListOutput, mapDashboardInstanceMonitorsListQuery, DashboardInstanceMonitorsListQuery, mapDashboardInstanceMonitorsGetOutput, DashboardInstanceMonitorsGetOutput
 
 class MetorialDashboardInstanceMonitorsEndpoint(BaseMetorialEndpoint):
-    """Monitors track automated observability checks for this instance."""
+    """A monitor is an automated observability check for an instance. It raises alerts when its target misbehaves."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -11,7 +11,7 @@ class MetorialDashboardInstanceMonitorsEndpoint(BaseMetorialEndpoint):
     def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, target: Optional[Union[str, List[str]]] = None, status: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, proto_guard_filter_id: Optional[Union[str, List[str]]] = None, search: Optional[str] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None, first_alert_at: Optional[Dict[str, Any]] = None, last_alert_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceMonitorsListOutput:
         """
     List monitors
-    Returns a paginated list of monitors for this instance.
+    Returns a paginated list of monitors in the instance.
 
     :param instance_id: str
     :param limit: Optional[float] (optional)
@@ -73,7 +73,7 @@ class MetorialDashboardInstanceMonitorsEndpoint(BaseMetorialEndpoint):
     def get(self, instance_id: str, monitor_id: str) -> DashboardInstanceMonitorsGetOutput:
         """
     Get monitor
-    Retrieves a monitor by ID.
+    Retrieves a monitor.
 
     :param instance_id: str
     :param monitor_id: str

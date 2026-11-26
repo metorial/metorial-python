@@ -60,7 +60,7 @@ class MetorialChatEventsEndpoint(BaseMetorialEndpoint):
     def get(self, chat_event_id: str) -> DashboardInstanceChatEventsGetOutput:
         """
     Get chat event
-    Retrieves a specific chat event.
+    Retrieves a chat event.
 
     :param chat_event_id: str
     :return: DashboardInstanceChatEventsGetOutput

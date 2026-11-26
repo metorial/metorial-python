@@ -26,8 +26,11 @@ class DashboardInstanceIntegrationEnclavesListOutputItems:
 class DashboardInstanceIntegrationEnclavesListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class DashboardInstanceIntegrationEnclavesListOutput:
+    object: str
     items: List[DashboardInstanceIntegrationEnclavesListOutputItems]
     pagination: DashboardInstanceIntegrationEnclavesListOutputPagination
 
@@ -80,7 +83,9 @@ class mapDashboardInstanceIntegrationEnclavesListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceIntegrationEnclavesListOutputPagination:
         return DashboardInstanceIntegrationEnclavesListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -95,6 +100,7 @@ class mapDashboardInstanceIntegrationEnclavesListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceIntegrationEnclavesListOutput:
         return DashboardInstanceIntegrationEnclavesListOutput(
+        object=data.get('object'),
         items=[mapDashboardInstanceIntegrationEnclavesListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapDashboardInstanceIntegrationEnclavesListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

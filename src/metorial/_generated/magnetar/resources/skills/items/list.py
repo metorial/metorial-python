@@ -45,8 +45,11 @@ class SkillsItemsListOutputItems:
 class SkillsItemsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class SkillsItemsListOutput:
+    object: str
     items: List[SkillsItemsListOutputItems]
     pagination: SkillsItemsListOutputPagination
 
@@ -142,7 +145,9 @@ class mapSkillsItemsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> SkillsItemsListOutputPagination:
         return SkillsItemsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -157,6 +162,7 @@ class mapSkillsItemsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> SkillsItemsListOutput:
         return SkillsItemsListOutput(
+        object=data.get('object'),
         items=[mapSkillsItemsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapSkillsItemsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

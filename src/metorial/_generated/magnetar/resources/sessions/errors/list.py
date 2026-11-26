@@ -22,8 +22,11 @@ class SessionsErrorsListOutputItems:
 class SessionsErrorsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class SessionsErrorsListOutput:
+    object: str
     items: List[SessionsErrorsListOutputItems]
     pagination: SessionsErrorsListOutputPagination
 
@@ -60,7 +63,9 @@ class mapSessionsErrorsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> SessionsErrorsListOutputPagination:
         return SessionsErrorsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -75,6 +80,7 @@ class mapSessionsErrorsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> SessionsErrorsListOutput:
         return SessionsErrorsListOutput(
+        object=data.get('object'),
         items=[mapSessionsErrorsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapSessionsErrorsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

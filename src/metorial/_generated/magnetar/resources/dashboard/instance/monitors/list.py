@@ -22,8 +22,11 @@ class DashboardInstanceMonitorsListOutputItems:
 class DashboardInstanceMonitorsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class DashboardInstanceMonitorsListOutput:
+    object: str
     items: List[DashboardInstanceMonitorsListOutputItems]
     pagination: DashboardInstanceMonitorsListOutputPagination
 
@@ -60,7 +63,9 @@ class mapDashboardInstanceMonitorsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceMonitorsListOutputPagination:
         return DashboardInstanceMonitorsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -75,6 +80,7 @@ class mapDashboardInstanceMonitorsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceMonitorsListOutput:
         return DashboardInstanceMonitorsListOutput(
+        object=data.get('object'),
         items=[mapDashboardInstanceMonitorsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapDashboardInstanceMonitorsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

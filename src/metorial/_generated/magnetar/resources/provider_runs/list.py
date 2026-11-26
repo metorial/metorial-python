@@ -19,8 +19,11 @@ class ProviderRunsListOutputItems:
 class ProviderRunsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class ProviderRunsListOutput:
+    object: str
     items: List[ProviderRunsListOutputItems]
     pagination: ProviderRunsListOutputPagination
 
@@ -54,7 +57,9 @@ class mapProviderRunsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> ProviderRunsListOutputPagination:
         return ProviderRunsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -69,6 +74,7 @@ class mapProviderRunsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ProviderRunsListOutput:
         return ProviderRunsListOutput(
+        object=data.get('object'),
         items=[mapProviderRunsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapProviderRunsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

@@ -104,8 +104,11 @@ class DashboardInstanceProviderListingsListOutputItems:
 class DashboardInstanceProviderListingsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class DashboardInstanceProviderListingsListOutput:
+    object: str
     items: List[DashboardInstanceProviderListingsListOutputItems]
     pagination: DashboardInstanceProviderListingsListOutputPagination
 
@@ -332,7 +335,9 @@ class mapDashboardInstanceProviderListingsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderListingsListOutputPagination:
         return DashboardInstanceProviderListingsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -347,6 +352,7 @@ class mapDashboardInstanceProviderListingsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceProviderListingsListOutput:
         return DashboardInstanceProviderListingsListOutput(
+        object=data.get('object'),
         items=[mapDashboardInstanceProviderListingsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapDashboardInstanceProviderListingsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

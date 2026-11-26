@@ -71,6 +71,7 @@ class DashboardInstanceMagicMcpServersGetOutputProvidersAuthCredentials:
     provider_id: str
     created_at: datetime
     updated_at: datetime
+    managed_by: Optional[str] = None
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
@@ -308,6 +309,7 @@ class mapDashboardInstanceMagicMcpServersGetOutputProvidersAuthCredentials:
         status=data.get('status'),
         is_default=data.get('is_default'),
         is_managed=data.get('is_managed'),
+        managed_by=data.get('managed_by'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),

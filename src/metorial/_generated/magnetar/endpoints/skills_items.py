@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceSkillsItemsListOutput, DashboardInstanceSkillsItemsListOutput, mapDashboardInstanceSkillsItemsListQuery, DashboardInstanceSkillsItemsListQuery, mapDashboardInstanceSkillsItemsGetOutput, DashboardInstanceSkillsItemsGetOutput, mapDashboardInstanceSkillsItemsCreateOutput, DashboardInstanceSkillsItemsCreateOutput, mapDashboardInstanceSkillsItemsCreateBody, DashboardInstanceSkillsItemsCreateBody, mapDashboardInstanceSkillsItemsDeleteOutput, DashboardInstanceSkillsItemsDeleteOutput
 
 class MetorialSkillsItemsEndpoint(BaseMetorialEndpoint):
-    """Skill items attach integrations and providers to skills."""
+    """A skill item is a provider or integration attached to a skill."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -11,7 +11,7 @@ class MetorialSkillsItemsEndpoint(BaseMetorialEndpoint):
     def list(self, skill_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, type: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, integration_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceSkillsItemsListOutput:
         """
     List skill items
-    Returns a paginated list of items for a skill.
+    Returns a paginated list of skill items.
 
     :param skill_id: str
     :param limit: Optional[float] (optional)
@@ -61,7 +61,7 @@ class MetorialSkillsItemsEndpoint(BaseMetorialEndpoint):
     def get(self, skill_id: str, skill_item_id: str) -> DashboardInstanceSkillsItemsGetOutput:
         """
     Get skill item
-    Retrieves a specific skill item.
+    Retrieves a skill item.
 
     :param skill_id: str
     :param skill_item_id: str
@@ -87,7 +87,7 @@ class MetorialSkillsItemsEndpoint(BaseMetorialEndpoint):
 
     def delete(self, skill_id: str, skill_item_id: str) -> DashboardInstanceSkillsItemsDeleteOutput:
         """
-    Delete skill item
+    Archive skill item
     Archives a skill item.
 
     :param skill_id: str

@@ -66,8 +66,11 @@ class FilesListOutputItems:
 class FilesListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class FilesListOutput:
+    object: str
     items: List[FilesListOutputItems]
     pagination: FilesListOutputPagination
 
@@ -208,7 +211,9 @@ class mapFilesListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> FilesListOutputPagination:
         return FilesListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -223,6 +228,7 @@ class mapFilesListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> FilesListOutput:
         return FilesListOutput(
+        object=data.get('object'),
         items=[mapFilesListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapFilesListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

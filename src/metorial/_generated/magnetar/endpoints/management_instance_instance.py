@@ -9,8 +9,8 @@ class MetorialManagementInstanceInstanceEndpoint(BaseMetorialEndpoint):
 
     def get(self, instance_id: str) -> DashboardInstanceInstanceGetOutput:
         """
-    Get instance details
-    Retrieves metadata and configuration details for a specific instance.
+    Get instance
+    Retrieves an instance.
 
     :param instance_id: str
     :return: DashboardInstanceInstanceGetOutput

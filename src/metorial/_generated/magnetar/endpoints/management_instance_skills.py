@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceSkillsListOutput, DashboardInstanceSkillsListOutput, mapDashboardInstanceSkillsListQuery, DashboardInstanceSkillsListQuery, mapDashboardInstanceSkillsGetOutput, DashboardInstanceSkillsGetOutput, mapDashboardInstanceSkillsCreateOutput, DashboardInstanceSkillsCreateOutput, mapDashboardInstanceSkillsCreateBody, DashboardInstanceSkillsCreateBody, mapDashboardInstanceSkillsUpdateOutput, DashboardInstanceSkillsUpdateOutput, mapDashboardInstanceSkillsUpdateBody, DashboardInstanceSkillsUpdateBody, mapDashboardInstanceSkillsDeleteOutput, DashboardInstanceSkillsDeleteOutput, mapDashboardInstanceSkillsForkOutput, DashboardInstanceSkillsForkOutput, mapDashboardInstanceSkillsForkBody, DashboardInstanceSkillsForkBody, mapDashboardInstanceSkillsPublishConsumerSkillOutput, DashboardInstanceSkillsPublishConsumerSkillOutput, mapDashboardInstanceSkillsShareOutput, DashboardInstanceSkillsShareOutput, mapDashboardInstanceSkillsShareBody, DashboardInstanceSkillsShareBody, mapDashboardInstanceSkillsDuplicateOutput, DashboardInstanceSkillsDuplicateOutput, mapDashboardInstanceSkillsDuplicateBody, DashboardInstanceSkillsDuplicateBody
 
 class MetorialManagementInstanceSkillsEndpoint(BaseMetorialEndpoint):
-    """Skills group provider and integration capabilities into reusable, owned compositions."""
+    """A skill is a reusable composition of provider and integration capabilities."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -70,7 +70,7 @@ class MetorialManagementInstanceSkillsEndpoint(BaseMetorialEndpoint):
     def get(self, instance_id: str, skill_id: str) -> DashboardInstanceSkillsGetOutput:
         """
     Get skill
-    Retrieves a specific skill.
+    Retrieves a skill.
 
     :param instance_id: str
     :param skill_id: str
@@ -133,7 +133,7 @@ class MetorialManagementInstanceSkillsEndpoint(BaseMetorialEndpoint):
     def update(self, instance_id: str, skill_id: str, *, name: Optional[str] = None, description: Optional[str] = None, client_name: Optional[str] = None, client_description: Optional[str] = None, license: Optional[str] = None, compatibility: Optional[str] = None, client_metadata: Optional[Dict[str, Any]] = None, metadata: Optional[Dict[str, Any]] = None, image_file_id: Optional[str] = None, image_icon: Optional[Dict[str, Any]] = None) -> DashboardInstanceSkillsUpdateOutput:
         """
     Update skill
-    Updates a specific skill.
+    Updates a skill. Omitted fields keep their current value.
 
     :param instance_id: str
     :param skill_id: str
@@ -180,8 +180,8 @@ class MetorialManagementInstanceSkillsEndpoint(BaseMetorialEndpoint):
 
     def delete(self, instance_id: str, skill_id: str) -> DashboardInstanceSkillsDeleteOutput:
         """
-    Delete skill
-    Archives a specific skill.
+    Archive skill
+    Archives a skill.
 
     :param instance_id: str
     :param skill_id: str
@@ -253,7 +253,7 @@ class MetorialManagementInstanceSkillsEndpoint(BaseMetorialEndpoint):
     def share(self, instance_id: str, skill_id: str, *, permission: str, consumer_profile_ids: Optional[List[str]] = None, organization_member_ids: Optional[List[str]] = None) -> DashboardInstanceSkillsShareOutput:
         """
     Share skill
-    Shares a skill with consumers or organization members.
+    Shares a skill with consumers.
 
     :param instance_id: str
     :param skill_id: str

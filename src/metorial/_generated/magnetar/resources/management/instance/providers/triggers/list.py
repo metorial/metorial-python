@@ -29,8 +29,11 @@ class ManagementInstanceProvidersTriggersListOutputItems:
 class ManagementInstanceProvidersTriggersListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class ManagementInstanceProvidersTriggersListOutput:
+    object: str
     items: List[ManagementInstanceProvidersTriggersListOutputItems]
     pagination: ManagementInstanceProvidersTriggersListOutputPagination
 
@@ -98,7 +101,9 @@ class mapManagementInstanceProvidersTriggersListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceProvidersTriggersListOutputPagination:
         return ManagementInstanceProvidersTriggersListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -113,6 +118,7 @@ class mapManagementInstanceProvidersTriggersListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceProvidersTriggersListOutput:
         return ManagementInstanceProvidersTriggersListOutput(
+        object=data.get('object'),
         items=[mapManagementInstanceProvidersTriggersListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapManagementInstanceProvidersTriggersListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

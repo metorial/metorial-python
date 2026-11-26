@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceStoresParticipantsListOutput, DashboardInstanceStoresParticipantsListOutput, mapDashboardInstanceStoresParticipantsListQuery, DashboardInstanceStoresParticipantsListQuery, mapDashboardInstanceStoresParticipantsGetOutput, DashboardInstanceStoresParticipantsGetOutput
 
 class MetorialStoresParticipantsEndpoint(BaseMetorialEndpoint):
-    """Inspect participants assigned to an instance store."""
+    """A store participant is an actor with access to a store and its contents."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -11,7 +11,7 @@ class MetorialStoresParticipantsEndpoint(BaseMetorialEndpoint):
     def list(self, store_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None) -> DashboardInstanceStoresParticipantsListOutput:
         """
     List store participants
-    Returns a paginated list of participants for a specific store.
+    Returns a paginated list of participants in a store.
 
     :param store_id: str
     :param limit: Optional[float] (optional)
@@ -42,8 +42,8 @@ class MetorialStoresParticipantsEndpoint(BaseMetorialEndpoint):
 
     def get(self, store_id: str, store_participant_id: str) -> DashboardInstanceStoresParticipantsGetOutput:
         """
-    Get store participant by ID
-    Retrieves a specific participant within a store.
+    Get store participant
+    Retrieves a participant in a store.
 
     :param store_id: str
     :param store_participant_id: str

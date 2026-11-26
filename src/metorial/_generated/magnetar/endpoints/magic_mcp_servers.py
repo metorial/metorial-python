@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceMagicMcpServersListOutput, DashboardInstanceMagicMcpServersListOutput, mapDashboardInstanceMagicMcpServersListQuery, DashboardInstanceMagicMcpServersListQuery, mapDashboardInstanceMagicMcpServersGetOutput, DashboardInstanceMagicMcpServersGetOutput, mapDashboardInstanceMagicMcpServersToolsOutput, DashboardInstanceMagicMcpServersToolsOutput, mapDashboardInstanceMagicMcpServersCreateOutput, DashboardInstanceMagicMcpServersCreateOutput, mapDashboardInstanceMagicMcpServersCreateBody, DashboardInstanceMagicMcpServersCreateBody, mapDashboardInstanceMagicMcpServersDeleteOutput, DashboardInstanceMagicMcpServersDeleteOutput, mapDashboardInstanceMagicMcpServersUpdateOutput, DashboardInstanceMagicMcpServersUpdateOutput, mapDashboardInstanceMagicMcpServersUpdateBody, DashboardInstanceMagicMcpServersUpdateBody
 
 class MetorialMagicMcpServersEndpoint(BaseMetorialEndpoint):
-    """Magic MCP servers are stable MCP entrypoints backed by one Subspace session template."""
+    """A magic MCP server is a stable MCP entrypoint with its own providers and tool filters. Servers can be grouped and bound to tokens, or combined behind an endpoint."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -104,7 +104,7 @@ class MetorialMagicMcpServersEndpoint(BaseMetorialEndpoint):
     def create(self, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, provider_template_id: Optional[str] = None, integration_instance_id: Optional[str] = None, consumer_profile_id: Optional[str] = None) -> DashboardInstanceMagicMcpServersCreateOutput:
         """
     Create magic MCP server
-    Creates a magic MCP server with a new session template. A Subspace session is created automatically on first connection and then reused.
+    Creates a magic MCP server. A session is created automatically on first connection and then reused.
 
     :param name: Optional[str] (optional)
     :param description: Optional[str] (optional)
@@ -137,7 +137,7 @@ class MetorialMagicMcpServersEndpoint(BaseMetorialEndpoint):
 
     def delete(self, magic_mcp_server_id: str) -> DashboardInstanceMagicMcpServersDeleteOutput:
         """
-    Delete magic MCP server
+    Archive magic MCP server
     Archives a magic MCP server.
 
     :param magic_mcp_server_id: str
@@ -151,7 +151,7 @@ class MetorialMagicMcpServersEndpoint(BaseMetorialEndpoint):
     def update(self, magic_mcp_server_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, aliases: Optional[List[str]] = None) -> DashboardInstanceMagicMcpServersUpdateOutput:
         """
     Update magic MCP server
-    Updates a magic MCP server.
+    Updates a magic MCP server. Omitted fields keep their current value.
 
     :param magic_mcp_server_id: str
     :param name: Optional[str] (optional)

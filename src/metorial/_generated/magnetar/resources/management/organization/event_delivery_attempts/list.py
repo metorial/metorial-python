@@ -48,8 +48,11 @@ class ManagementOrganizationEventDeliveryAttemptsListOutputItems:
 class ManagementOrganizationEventDeliveryAttemptsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class ManagementOrganizationEventDeliveryAttemptsListOutput:
+    object: str
     items: List[ManagementOrganizationEventDeliveryAttemptsListOutputItems]
     pagination: ManagementOrganizationEventDeliveryAttemptsListOutputPagination
 
@@ -172,7 +175,9 @@ class mapManagementOrganizationEventDeliveryAttemptsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> ManagementOrganizationEventDeliveryAttemptsListOutputPagination:
         return ManagementOrganizationEventDeliveryAttemptsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -187,6 +192,7 @@ class mapManagementOrganizationEventDeliveryAttemptsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementOrganizationEventDeliveryAttemptsListOutput:
         return ManagementOrganizationEventDeliveryAttemptsListOutput(
+        object=data.get('object'),
         items=[mapManagementOrganizationEventDeliveryAttemptsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapManagementOrganizationEventDeliveryAttemptsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

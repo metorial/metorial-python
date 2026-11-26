@@ -25,8 +25,11 @@ class PortalsListingsListOutputItems:
 class PortalsListingsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class PortalsListingsListOutput:
+    object: str
     items: List[PortalsListingsListOutputItems]
     pagination: PortalsListingsListOutputPagination
 
@@ -78,7 +81,9 @@ class mapPortalsListingsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> PortalsListingsListOutputPagination:
         return PortalsListingsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -93,6 +98,7 @@ class mapPortalsListingsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> PortalsListingsListOutput:
         return PortalsListingsListOutput(
+        object=data.get('object'),
         items=[mapPortalsListingsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapPortalsListingsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

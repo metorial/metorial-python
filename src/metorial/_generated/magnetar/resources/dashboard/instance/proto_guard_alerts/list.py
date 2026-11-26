@@ -37,8 +37,11 @@ class DashboardInstanceProtoGuardAlertsListOutputItems:
 class DashboardInstanceProtoGuardAlertsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class DashboardInstanceProtoGuardAlertsListOutput:
+    object: str
     items: List[DashboardInstanceProtoGuardAlertsListOutputItems]
     pagination: DashboardInstanceProtoGuardAlertsListOutputPagination
 
@@ -102,7 +105,9 @@ class mapDashboardInstanceProtoGuardAlertsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceProtoGuardAlertsListOutputPagination:
         return DashboardInstanceProtoGuardAlertsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -117,6 +122,7 @@ class mapDashboardInstanceProtoGuardAlertsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceProtoGuardAlertsListOutput:
         return DashboardInstanceProtoGuardAlertsListOutput(
+        object=data.get('object'),
         items=[mapDashboardInstanceProtoGuardAlertsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapDashboardInstanceProtoGuardAlertsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

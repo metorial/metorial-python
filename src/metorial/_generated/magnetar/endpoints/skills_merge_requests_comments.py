@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceSkillsMergeRequestsCommentsListOutput, DashboardInstanceSkillsMergeRequestsCommentsListOutput, mapDashboardInstanceSkillsMergeRequestsCommentsListQuery, DashboardInstanceSkillsMergeRequestsCommentsListQuery, mapDashboardInstanceSkillsMergeRequestsCommentsCreateOutput, DashboardInstanceSkillsMergeRequestsCommentsCreateOutput, mapDashboardInstanceSkillsMergeRequestsCommentsCreateBody, DashboardInstanceSkillsMergeRequestsCommentsCreateBody, mapDashboardInstanceSkillsMergeRequestsCommentsGetOutput, DashboardInstanceSkillsMergeRequestsCommentsGetOutput, mapDashboardInstanceSkillsMergeRequestsCommentsUpdateOutput, DashboardInstanceSkillsMergeRequestsCommentsUpdateOutput, mapDashboardInstanceSkillsMergeRequestsCommentsUpdateBody, DashboardInstanceSkillsMergeRequestsCommentsUpdateBody, mapDashboardInstanceSkillsMergeRequestsCommentsDeleteOutput, DashboardInstanceSkillsMergeRequestsCommentsDeleteOutput
 
 class MetorialSkillsMergeRequestsCommentsEndpoint(BaseMetorialEndpoint):
-    """Discuss skill merge requests and individual proposed changes."""
+    """A skill merge request comment is a comment on a merge request or one of its proposed changes."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -11,7 +11,7 @@ class MetorialSkillsMergeRequestsCommentsEndpoint(BaseMetorialEndpoint):
     def list(self, skill_merge_request_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, item_id: Optional[str] = None) -> DashboardInstanceSkillsMergeRequestsCommentsListOutput:
         """
     List skill merge request comments
-    Lists comments on a skill merge request or one of its items.
+    Returns a paginated list of skill merge request comments.
 
     :param skill_merge_request_id: str
     :param limit: Optional[float] (optional)
@@ -46,7 +46,7 @@ class MetorialSkillsMergeRequestsCommentsEndpoint(BaseMetorialEndpoint):
     def create(self, skill_merge_request_id: str, *, body: str, item_id: Optional[str] = None, in_reply_to_comment_id: Optional[str] = None, path: Optional[str] = None) -> DashboardInstanceSkillsMergeRequestsCommentsCreateOutput:
         """
     Create skill merge request comment
-    Adds a comment to a skill merge request or one of its items.
+    Creates a comment on a skill merge request or one of its items.
 
     :param skill_merge_request_id: str
     :param item_id: Optional[str] (optional)

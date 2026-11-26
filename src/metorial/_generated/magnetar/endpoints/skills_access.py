@@ -2,7 +2,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceSkillsAccessGetOutput, DashboardInstanceSkillsAccessGetOutput
 
 class MetorialSkillsAccessEndpoint(BaseMetorialEndpoint):
-    """Inspect who has been granted access to an instance skill."""
+    """Skill access is the record of who can view or edit a skill."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -10,7 +10,7 @@ class MetorialSkillsAccessEndpoint(BaseMetorialEndpoint):
     def get(self, skill_id: str) -> DashboardInstanceSkillsAccessGetOutput:
         """
     Get skill access
-    Returns the access grants of a specific skill.
+    Returns the access grants for a skill.
 
     :param skill_id: str
     :return: DashboardInstanceSkillsAccessGetOutput

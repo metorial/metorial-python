@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceSkillsParticipantsListOutput, DashboardInstanceSkillsParticipantsListOutput, mapDashboardInstanceSkillsParticipantsListQuery, DashboardInstanceSkillsParticipantsListQuery, mapDashboardInstanceSkillsParticipantsGetOutput, DashboardInstanceSkillsParticipantsGetOutput
 
 class MetorialDashboardInstanceSkillsParticipantsEndpoint(BaseMetorialEndpoint):
-    """Inspect participants associated with an instance skill."""
+    """A skill participant is a member or consumer participating in a skill."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -11,7 +11,7 @@ class MetorialDashboardInstanceSkillsParticipantsEndpoint(BaseMetorialEndpoint):
     def list(self, instance_id: str, skill_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None) -> DashboardInstanceSkillsParticipantsListOutput:
         """
     List skill participants
-    Returns a paginated list of participants for a specific skill.
+    Returns a paginated list of skill participants.
 
     :param instance_id: str
     :param skill_id: str
@@ -43,8 +43,8 @@ class MetorialDashboardInstanceSkillsParticipantsEndpoint(BaseMetorialEndpoint):
 
     def get(self, instance_id: str, skill_id: str, skill_participant_id: str) -> DashboardInstanceSkillsParticipantsGetOutput:
         """
-    Get skill participant by ID
-    Retrieves a specific participant within a skill.
+    Get skill participant
+    Retrieves a skill participant.
 
     :param instance_id: str
     :param skill_id: str

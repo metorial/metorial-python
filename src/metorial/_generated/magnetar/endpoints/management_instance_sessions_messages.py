@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceSessionsMessagesListOutput, DashboardInstanceSessionsMessagesListOutput, mapDashboardInstanceSessionsMessagesListQuery, DashboardInstanceSessionsMessagesListQuery, mapDashboardInstanceSessionsMessagesGetOutput, DashboardInstanceSessionsMessagesGetOutput
 
 class MetorialManagementInstanceSessionsMessagesEndpoint(BaseMetorialEndpoint):
-    """Session messages represent the MCP protocol messages exchanged during a session. This read-only resource provides visibility into the communication between clients and providers."""
+    """A session message is one MCP message exchanged between a client and a provider. Messages are recorded automatically as the session runs."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -11,7 +11,7 @@ class MetorialManagementInstanceSessionsMessagesEndpoint(BaseMetorialEndpoint):
     def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, type: Optional[Union[str, List[str]]] = None, source: Optional[Union[str, List[str]]] = None, hierarchy: Optional[Union[str, List[str]]] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, session_id: Optional[Union[str, List[str]]] = None, session_provider_id: Optional[Union[str, List[str]]] = None, session_connection_id: Optional[Union[str, List[str]]] = None, provider_run_id: Optional[Union[str, List[str]]] = None, error_id: Optional[Union[str, List[str]]] = None, participant_id: Optional[Union[str, List[str]]] = None, parent_message_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceSessionsMessagesListOutput:
         """
     List session messages
-    Returns a paginated list of messages for a session.
+    Returns a paginated list of session messages.
 
     :param instance_id: str
     :param limit: Optional[float] (optional)
@@ -85,7 +85,7 @@ class MetorialManagementInstanceSessionsMessagesEndpoint(BaseMetorialEndpoint):
     def get(self, instance_id: str, session_message_id: str) -> DashboardInstanceSessionsMessagesGetOutput:
         """
     Get session message
-    Retrieves a specific message from a session.
+    Retrieves a session message.
 
     :param instance_id: str
     :param session_message_id: str

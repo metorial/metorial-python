@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceMagicMcpSessionsListOutput, DashboardInstanceMagicMcpSessionsListOutput, mapDashboardInstanceMagicMcpSessionsListQuery, DashboardInstanceMagicMcpSessionsListQuery, mapDashboardInstanceMagicMcpSessionsGetOutput, DashboardInstanceMagicMcpSessionsGetOutput
 
 class MetorialDashboardInstanceMagicMcpSessionsEndpoint(BaseMetorialEndpoint):
-    """Magic MCP sessions map a Magic MCP server to one Subspace session and are created on demand by the MCP connection API."""
+    """A magic MCP session is the live connection behind a magic MCP server or endpoint. Sessions are created on demand when a client connects."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)

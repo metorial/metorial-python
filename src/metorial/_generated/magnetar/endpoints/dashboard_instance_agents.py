@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceAgentsListOutput, DashboardInstanceAgentsListOutput, mapDashboardInstanceAgentsListQuery, DashboardInstanceAgentsListQuery, mapDashboardInstanceAgentsGetOutput, DashboardInstanceAgentsGetOutput
 
 class MetorialDashboardInstanceAgentsEndpoint(BaseMetorialEndpoint):
-    """Inspect agents and their linked clients and instances."""
+    """An agent is an identity that acts in your instance. It links to the clients and instances it runs as."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -61,7 +61,7 @@ class MetorialDashboardInstanceAgentsEndpoint(BaseMetorialEndpoint):
     def get(self, instance_id: str, agent_id: str) -> DashboardInstanceAgentsGetOutput:
         """
     Get agent
-    Retrieves a specific agent by ID.
+    Retrieves an agent.
 
     :param instance_id: str
     :param agent_id: str

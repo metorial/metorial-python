@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceIntegrationsListOutput, DashboardInstanceIntegrationsListOutput, mapDashboardInstanceIntegrationsListQuery, DashboardInstanceIntegrationsListQuery, mapDashboardInstanceIntegrationsGetOutput, DashboardInstanceIntegrationsGetOutput, mapDashboardInstanceIntegrationsCreateOutput, DashboardInstanceIntegrationsCreateOutput, mapDashboardInstanceIntegrationsCreateBody, DashboardInstanceIntegrationsCreateBody, mapDashboardInstanceIntegrationsUpdateOutput, DashboardInstanceIntegrationsUpdateOutput, mapDashboardInstanceIntegrationsUpdateBody, DashboardInstanceIntegrationsUpdateBody, mapDashboardInstanceIntegrationsDeleteOutput, DashboardInstanceIntegrationsDeleteOutput
 
 class MetorialIntegrationsEndpoint(BaseMetorialEndpoint):
-    """Integrations define reusable provider contracts that can then be materialized into integration instances."""
+    """An integration is a reusable set of providers with shared configuration. Integration instances connect it for a specific actor or identity."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -63,7 +63,7 @@ class MetorialIntegrationsEndpoint(BaseMetorialEndpoint):
     def get(self, integration_id: str) -> DashboardInstanceIntegrationsGetOutput:
         """
     Get integration
-    Retrieves a specific integration.
+    Retrieves an integration.
 
     :param integration_id: str
     :return: DashboardInstanceIntegrationsGetOutput
@@ -76,7 +76,7 @@ class MetorialIntegrationsEndpoint(BaseMetorialEndpoint):
     def create(self, *, name: str, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, use_integration_name_in_tool_names: Optional[bool] = None, can_attach_custom_tool_filters: Optional[bool] = None, can_attach_custom_provider_config: Optional[bool] = None, can_override_tool_filters: Optional[bool] = None, enable_callback_tools: Optional[bool] = None) -> DashboardInstanceIntegrationsCreateOutput:
         """
     Create integration
-    Creates a new integration.
+    Creates an integration.
 
     :param name: str
     :param description: Optional[str] (optional)
@@ -115,7 +115,7 @@ class MetorialIntegrationsEndpoint(BaseMetorialEndpoint):
     def update(self, integration_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, use_integration_name_in_tool_names: Optional[bool] = None, can_attach_custom_tool_filters: Optional[bool] = None, can_attach_custom_provider_config: Optional[bool] = None, can_override_tool_filters: Optional[bool] = None, enable_callback_tools: Optional[bool] = None) -> DashboardInstanceIntegrationsUpdateOutput:
         """
     Update integration
-    Updates a specific integration.
+    Updates an integration. Omitted fields keep their current value.
 
     :param integration_id: str
     :param name: Optional[str] (optional)
@@ -155,8 +155,8 @@ class MetorialIntegrationsEndpoint(BaseMetorialEndpoint):
 
     def delete(self, integration_id: str) -> DashboardInstanceIntegrationsDeleteOutput:
         """
-    Delete integration
-    Archives a specific integration.
+    Archive integration
+    Archives an integration. It stays retrievable by ID and listable with `status=archived`.
 
     :param integration_id: str
     :return: DashboardInstanceIntegrationsDeleteOutput

@@ -53,8 +53,11 @@ class SessionsConnectionsListOutputItems:
 class SessionsConnectionsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class SessionsConnectionsListOutput:
+    object: str
     items: List[SessionsConnectionsListOutputItems]
     pagination: SessionsConnectionsListOutputPagination
 
@@ -170,7 +173,9 @@ class mapSessionsConnectionsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> SessionsConnectionsListOutputPagination:
         return SessionsConnectionsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -185,6 +190,7 @@ class mapSessionsConnectionsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> SessionsConnectionsListOutput:
         return SessionsConnectionsListOutput(
+        object=data.get('object'),
         items=[mapSessionsConnectionsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapSessionsConnectionsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

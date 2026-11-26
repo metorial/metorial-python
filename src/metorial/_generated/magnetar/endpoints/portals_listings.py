@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstancePortalsListingsListOutput, DashboardInstancePortalsListingsListOutput, mapDashboardInstancePortalsListingsListQuery, DashboardInstancePortalsListingsListQuery, mapDashboardInstancePortalsListingsGetOutput, DashboardInstancePortalsListingsGetOutput, mapDashboardInstancePortalsListingsCreateOutput, DashboardInstancePortalsListingsCreateOutput, mapDashboardInstancePortalsListingsCreateBody, DashboardInstancePortalsListingsCreateBody, mapDashboardInstancePortalsListingsUpdateOutput, DashboardInstancePortalsListingsUpdateOutput, mapDashboardInstancePortalsListingsUpdateBody, DashboardInstancePortalsListingsUpdateBody, mapDashboardInstancePortalsListingsDeleteOutput, DashboardInstancePortalsListingsDeleteOutput
 
 class MetorialPortalsListingsEndpoint(BaseMetorialEndpoint):
-    """Read the shared listings available on a portal surface."""
+    """A portal listing is the shared catalog entry for one integration, skill, or skill set on a portal. Access rules decide which consumer groups see it."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -73,7 +73,7 @@ class MetorialPortalsListingsEndpoint(BaseMetorialEndpoint):
     def get(self, portal_id: str, listing_id: str) -> DashboardInstancePortalsListingsGetOutput:
         """
     Get portal listing
-    Retrieves one shared listing for a portal.
+    Retrieves a shared listing for a portal.
 
     :param portal_id: str
     :param listing_id: str
@@ -87,7 +87,7 @@ class MetorialPortalsListingsEndpoint(BaseMetorialEndpoint):
     def create(self, portal_id: str, *, access: Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], name: Optional[str] = None, description: Optional[str] = None, readme: Optional[str] = None, is_discoverable: Optional[bool] = None) -> DashboardInstancePortalsListingsCreateOutput:
         """
     Create portal listing
-    Creates a shared listing for a portal.
+    Creates or updates the shared listing for one target on a portal. A portal has at most one listing per target.
 
     :param portal_id: str
     :param name: Optional[str] (optional)
@@ -118,7 +118,7 @@ class MetorialPortalsListingsEndpoint(BaseMetorialEndpoint):
     def update(self, portal_id: str, listing_id: str, *, name: Optional[str] = None, description: Optional[str] = None, readme: Optional[str] = None, is_discoverable: Optional[bool] = None) -> DashboardInstancePortalsListingsUpdateOutput:
         """
     Update portal listing
-    Updates listing metadata for a portal listing.
+    Updates a portal listing. Omitted fields keep their current value.
 
     :param portal_id: str
     :param listing_id: str

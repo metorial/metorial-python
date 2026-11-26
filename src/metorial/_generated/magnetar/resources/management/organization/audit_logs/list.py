@@ -32,8 +32,11 @@ class ManagementOrganizationAuditLogsListOutputItems:
 class ManagementOrganizationAuditLogsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class ManagementOrganizationAuditLogsListOutput:
+    object: str
     items: List[ManagementOrganizationAuditLogsListOutputItems]
     pagination: ManagementOrganizationAuditLogsListOutputPagination
 
@@ -104,7 +107,9 @@ class mapManagementOrganizationAuditLogsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> ManagementOrganizationAuditLogsListOutputPagination:
         return ManagementOrganizationAuditLogsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -119,6 +124,7 @@ class mapManagementOrganizationAuditLogsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementOrganizationAuditLogsListOutput:
         return ManagementOrganizationAuditLogsListOutput(
+        object=data.get('object'),
         items=[mapManagementOrganizationAuditLogsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapManagementOrganizationAuditLogsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

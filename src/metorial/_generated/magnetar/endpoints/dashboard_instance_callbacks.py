@@ -97,7 +97,7 @@ class MetorialDashboardInstanceCallbacksEndpoint(BaseMetorialEndpoint):
     def get(self, instance_id: str, callback_id: str) -> DashboardInstanceCallbacksGetOutput:
         """
     Get callback
-    Retrieves a specific callback by ID.
+    Retrieves a callback.
 
     :param instance_id: str
     :param callback_id: str
@@ -111,7 +111,7 @@ class MetorialDashboardInstanceCallbacksEndpoint(BaseMetorialEndpoint):
     def update(self, instance_id: str, callback_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, trigger_group_selections: Optional[Dict[str, Dict[str, Any]]] = None) -> DashboardInstanceCallbacksUpdateOutput:
         """
     Update callback
-    Updates the name, description, metadata or trigger group selections of a callback. Changing the selections re-registers the affected triggers. Everything else about a callback is derived from its integration provider - set `callbacks.status` to `disabled` there to tear it down.
+    Updates a callback. Omitted fields keep their current value. Changing the selections re-registers the affected triggers. Only an active callback can be updated.
 
     :param instance_id: str
     :param callback_id: str
@@ -140,8 +140,8 @@ class MetorialDashboardInstanceCallbacksEndpoint(BaseMetorialEndpoint):
 
     def delete(self, instance_id: str, callback_id: str) -> DashboardInstanceCallbacksDeleteOutput:
         """
-    Delete callback
-    Disables callbacks on the underlying integration provider, tearing down this callback and every callback instance registered for it.
+    Archive callback
+    Archives a callback by disabling callbacks on its integration provider. Callback instances are torn down in the background. Only an active callback can be archived.
 
     :param instance_id: str
     :param callback_id: str

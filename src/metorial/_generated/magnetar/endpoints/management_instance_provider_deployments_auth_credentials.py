@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceProviderDeploymentsAuthCredentialsListOutput, DashboardInstanceProviderDeploymentsAuthCredentialsListOutput, mapDashboardInstanceProviderDeploymentsAuthCredentialsListQuery, DashboardInstanceProviderDeploymentsAuthCredentialsListQuery, mapDashboardInstanceProviderDeploymentsAuthCredentialsGetOutput, DashboardInstanceProviderDeploymentsAuthCredentialsGetOutput, mapDashboardInstanceProviderDeploymentsAuthCredentialsCreateOutput, DashboardInstanceProviderDeploymentsAuthCredentialsCreateOutput, mapDashboardInstanceProviderDeploymentsAuthCredentialsCreateBody, DashboardInstanceProviderDeploymentsAuthCredentialsCreateBody, mapDashboardInstanceProviderDeploymentsAuthCredentialsUpdateOutput, DashboardInstanceProviderDeploymentsAuthCredentialsUpdateOutput, mapDashboardInstanceProviderDeploymentsAuthCredentialsUpdateBody, DashboardInstanceProviderDeploymentsAuthCredentialsUpdateBody, mapDashboardInstanceProviderDeploymentsAuthCredentialsDeleteOutput, DashboardInstanceProviderDeploymentsAuthCredentialsDeleteOutput
 
 class MetorialManagementInstanceProviderDeploymentsAuthCredentialsEndpoint(BaseMetorialEndpoint):
-    """Auth credentials store your OAuth app registration (client ID, client secret, and scopes). These are the app-level credentials you get from a service like GitHub or Slack."""
+    """Provider auth credentials are an OAuth app registration used with a provider: a client ID, a client secret, and scopes."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -67,7 +67,7 @@ class MetorialManagementInstanceProviderDeploymentsAuthCredentialsEndpoint(BaseM
     def get(self, instance_id: str, provider_auth_credentials_id: str) -> DashboardInstanceProviderDeploymentsAuthCredentialsGetOutput:
         """
     Get provider auth credentials
-    Retrieves specific provider auth credentials by ID.
+    Retrieves provider auth credentials.
 
     :param instance_id: str
     :param provider_auth_credentials_id: str
@@ -81,7 +81,7 @@ class MetorialManagementInstanceProviderDeploymentsAuthCredentialsEndpoint(BaseM
     def create(self, instance_id: str, *, provider_id: str, config: Dict[str, Any], name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderDeploymentsAuthCredentialsCreateOutput:
         """
     Create provider auth credentials
-    Creates new provider auth credentials.
+    Creates provider auth credentials.
 
     :param instance_id: str
     :param provider_id: str
@@ -111,7 +111,7 @@ class MetorialManagementInstanceProviderDeploymentsAuthCredentialsEndpoint(BaseM
     def update(self, instance_id: str, provider_auth_credentials_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, client_id: Optional[str] = None, client_secret: Optional[str] = None, scopes: Optional[List[str]] = None) -> DashboardInstanceProviderDeploymentsAuthCredentialsUpdateOutput:
         """
     Update provider auth credentials
-    Updates specific provider auth credentials.
+    Updates provider auth credentials.
 
     :param instance_id: str
     :param provider_auth_credentials_id: str
@@ -146,8 +146,8 @@ class MetorialManagementInstanceProviderDeploymentsAuthCredentialsEndpoint(BaseM
 
     def delete(self, instance_id: str, provider_auth_credentials_id: str) -> DashboardInstanceProviderDeploymentsAuthCredentialsDeleteOutput:
         """
-    Delete provider auth credentials
-    Permanently deletes provider auth credentials.
+    Archive provider auth credentials
+    Archives provider auth credentials. They stay listable with `status=archived`.
 
     :param instance_id: str
     :param provider_auth_credentials_id: str

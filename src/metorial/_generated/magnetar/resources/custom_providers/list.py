@@ -109,8 +109,11 @@ class CustomProvidersListOutputItems:
 class CustomProvidersListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class CustomProvidersListOutput:
+    object: str
     items: List[CustomProvidersListOutputItems]
     pagination: CustomProvidersListOutputPagination
 
@@ -378,7 +381,9 @@ class mapCustomProvidersListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> CustomProvidersListOutputPagination:
         return CustomProvidersListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -393,6 +398,7 @@ class mapCustomProvidersListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> CustomProvidersListOutput:
         return CustomProvidersListOutput(
+        object=data.get('object'),
         items=[mapCustomProvidersListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapCustomProvidersListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

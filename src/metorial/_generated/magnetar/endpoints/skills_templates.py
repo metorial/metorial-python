@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceSkillsTemplatesListOutput, DashboardInstanceSkillsTemplatesListOutput, mapDashboardInstanceSkillsTemplatesListQuery, DashboardInstanceSkillsTemplatesListQuery, mapDashboardInstanceSkillsTemplatesGetOutput, DashboardInstanceSkillsTemplatesGetOutput, mapDashboardInstanceSkillsTemplatesCreateOutput, DashboardInstanceSkillsTemplatesCreateOutput, mapDashboardInstanceSkillsTemplatesCreateBody, DashboardInstanceSkillsTemplatesCreateBody, mapDashboardInstanceSkillsTemplatesUpdateOutput, DashboardInstanceSkillsTemplatesUpdateOutput, mapDashboardInstanceSkillsTemplatesUpdateBody, DashboardInstanceSkillsTemplatesUpdateBody, mapDashboardInstanceSkillsTemplatesDeleteOutput, DashboardInstanceSkillsTemplatesDeleteOutput
 
 class MetorialSkillsTemplatesEndpoint(BaseMetorialEndpoint):
-    """Skill templates define reusable starting points for skills."""
+    """A skill template is a reusable starting point for creating skills."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -66,7 +66,7 @@ class MetorialSkillsTemplatesEndpoint(BaseMetorialEndpoint):
     def get(self, skill_template_id: str) -> DashboardInstanceSkillsTemplatesGetOutput:
         """
     Get skill template
-    Retrieves a specific skill template.
+    Retrieves a skill template.
 
     :param skill_template_id: str
     :return: DashboardInstanceSkillsTemplatesGetOutput
@@ -106,7 +106,7 @@ class MetorialSkillsTemplatesEndpoint(BaseMetorialEndpoint):
     def update(self, skill_template_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceSkillsTemplatesUpdateOutput:
         """
     Update skill template
-    Updates a skill template.
+    Updates a skill template. Omitted fields keep their current value.
 
     :param skill_template_id: str
     :param name: Optional[str] (optional)
@@ -131,7 +131,7 @@ class MetorialSkillsTemplatesEndpoint(BaseMetorialEndpoint):
 
     def delete(self, skill_template_id: str) -> DashboardInstanceSkillsTemplatesDeleteOutput:
         """
-    Delete skill template
+    Archive skill template
     Archives a skill template.
 
     :param skill_template_id: str

@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceCustomProvidersEnvironmentsListOutput, DashboardInstanceCustomProvidersEnvironmentsListOutput, mapDashboardInstanceCustomProvidersEnvironmentsListQuery, DashboardInstanceCustomProvidersEnvironmentsListQuery, mapDashboardInstanceCustomProvidersEnvironmentsGetOutput, DashboardInstanceCustomProvidersEnvironmentsGetOutput
 
 class MetorialManagementInstanceCustomProvidersEnvironmentsEndpoint(BaseMetorialEndpoint):
-    """Environments represent deployment targets for custom provider versions (e.g., staging, production)."""
+    """A custom provider environment is a deployment target for custom provider versions, such as staging or production."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -11,7 +11,7 @@ class MetorialManagementInstanceCustomProvidersEnvironmentsEndpoint(BaseMetorial
     def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, custom_provider_version_id: Optional[Union[str, List[str]]] = None, custom_provider_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceCustomProvidersEnvironmentsListOutput:
         """
     List custom provider environments
-    Returns a paginated list of environments for a custom provider.
+    Returns a paginated list of custom provider environments.
 
     :param instance_id: str
     :param limit: Optional[float] (optional)
@@ -58,7 +58,7 @@ class MetorialManagementInstanceCustomProvidersEnvironmentsEndpoint(BaseMetorial
     def get(self, instance_id: str, custom_provider_environment_id: str) -> DashboardInstanceCustomProvidersEnvironmentsGetOutput:
         """
     Get custom provider environment
-    Retrieves a specific environment.
+    Retrieves a custom provider environment.
 
     :param instance_id: str
     :param custom_provider_environment_id: str

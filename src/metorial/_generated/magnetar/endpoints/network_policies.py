@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceNetworkPoliciesListOutput, DashboardInstanceNetworkPoliciesListOutput, mapDashboardInstanceNetworkPoliciesListQuery, DashboardInstanceNetworkPoliciesListQuery, mapDashboardInstanceNetworkPoliciesGetOutput, DashboardInstanceNetworkPoliciesGetOutput, mapDashboardInstanceNetworkPoliciesCreateOutput, DashboardInstanceNetworkPoliciesCreateOutput, mapDashboardInstanceNetworkPoliciesCreateBody, DashboardInstanceNetworkPoliciesCreateBody, mapDashboardInstanceNetworkPoliciesUpdateOutput, DashboardInstanceNetworkPoliciesUpdateOutput, mapDashboardInstanceNetworkPoliciesUpdateBody, DashboardInstanceNetworkPoliciesUpdateBody, mapDashboardInstanceNetworkPoliciesDeleteOutput, DashboardInstanceNetworkPoliciesDeleteOutput
 
 class MetorialNetworkPoliciesEndpoint(BaseMetorialEndpoint):
-    """Manage reusable network policy definitions and their rules."""
+    """A network policy is a reusable set of allow and deny rules. Firewalls attach policies to enforce them."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -11,7 +11,7 @@ class MetorialNetworkPoliciesEndpoint(BaseMetorialEndpoint):
     def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, status: Optional[Union[str, List[str]]] = None, firewall_id: Optional[Union[str, List[str]]] = None, search: Optional[str] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceNetworkPoliciesListOutput:
         """
     List network policies
-    Returns a paginated list of network policies.
+    Returns a paginated list of network policies in the instance.
 
     :param limit: Optional[float] (optional)
     :param after: Optional[str] (optional)
@@ -60,7 +60,7 @@ class MetorialNetworkPoliciesEndpoint(BaseMetorialEndpoint):
     def get(self, network_policy_id: str) -> DashboardInstanceNetworkPoliciesGetOutput:
         """
     Get network policy
-    Retrieves a specific network policy by ID.
+    Retrieves a network policy.
 
     :param network_policy_id: str
     :return: DashboardInstanceNetworkPoliciesGetOutput
@@ -73,7 +73,7 @@ class MetorialNetworkPoliciesEndpoint(BaseMetorialEndpoint):
     def create(self, *, name: str, description: Optional[str] = None, rules: Optional[List[Dict[str, Any]]] = None) -> DashboardInstanceNetworkPoliciesCreateOutput:
         """
     Create network policy
-    Creates a new network policy.
+    Creates a network policy.
 
     :param name: str
     :param description: Optional[str] (optional)
@@ -97,7 +97,7 @@ class MetorialNetworkPoliciesEndpoint(BaseMetorialEndpoint):
     def update(self, network_policy_id: str, *, name: Optional[str] = None, description: Optional[str] = None, rules: Optional[List[Dict[str, Any]]] = None) -> DashboardInstanceNetworkPoliciesUpdateOutput:
         """
     Update network policy
-    Updates a network policy definition.
+    Updates a network policy. Omitted fields keep their current value.
 
     :param network_policy_id: str
     :param name: Optional[str] (optional)
@@ -122,8 +122,8 @@ class MetorialNetworkPoliciesEndpoint(BaseMetorialEndpoint):
 
     def delete(self, network_policy_id: str) -> DashboardInstanceNetworkPoliciesDeleteOutput:
         """
-    Delete network policy
-    Archives a network policy.
+    Archive network policy
+    Archives a network policy. It stays listable with `status=archived`.
 
     :param network_policy_id: str
     :return: DashboardInstanceNetworkPoliciesDeleteOutput

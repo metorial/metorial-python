@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceSkillsTemplatesItemsListOutput, DashboardInstanceSkillsTemplatesItemsListOutput, mapDashboardInstanceSkillsTemplatesItemsListQuery, DashboardInstanceSkillsTemplatesItemsListQuery, mapDashboardInstanceSkillsTemplatesItemsGetOutput, DashboardInstanceSkillsTemplatesItemsGetOutput, mapDashboardInstanceSkillsTemplatesItemsCreateOutput, DashboardInstanceSkillsTemplatesItemsCreateOutput, mapDashboardInstanceSkillsTemplatesItemsCreateBody, DashboardInstanceSkillsTemplatesItemsCreateBody, mapDashboardInstanceSkillsTemplatesItemsDeleteOutput, DashboardInstanceSkillsTemplatesItemsDeleteOutput
 
 class MetorialDashboardInstanceSkillsTemplatesItemsEndpoint(BaseMetorialEndpoint):
-    """Skill template items link template definitions to provider and integration items."""
+    """A skill template item is a provider or integration attached to a skill template."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -11,7 +11,7 @@ class MetorialDashboardInstanceSkillsTemplatesItemsEndpoint(BaseMetorialEndpoint
     def list(self, instance_id: str, skill_template_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None) -> DashboardInstanceSkillsTemplatesItemsListOutput:
         """
     List skill template items
-    Returns a paginated list of items for a skill template.
+    Returns a paginated list of skill template items.
 
     :param instance_id: str
     :param skill_template_id: str
@@ -44,7 +44,7 @@ class MetorialDashboardInstanceSkillsTemplatesItemsEndpoint(BaseMetorialEndpoint
     def get(self, instance_id: str, skill_template_id: str, skill_template_item_id: str) -> DashboardInstanceSkillsTemplatesItemsGetOutput:
         """
     Get skill template item
-    Retrieves a specific skill template item.
+    Retrieves a skill template item.
 
     :param instance_id: str
     :param skill_template_id: str

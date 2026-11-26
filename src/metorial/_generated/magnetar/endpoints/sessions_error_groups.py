@@ -3,14 +3,14 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceSessionsErrorGroupsListOutput, DashboardInstanceSessionsErrorGroupsListOutput, mapDashboardInstanceSessionsErrorGroupsListQuery, DashboardInstanceSessionsErrorGroupsListQuery, mapDashboardInstanceSessionsErrorGroupsGetOutput, DashboardInstanceSessionsErrorGroupsGetOutput
 
 class MetorialSessionsErrorGroupsEndpoint(BaseMetorialEndpoint):
-    """Session error groups aggregate similar errors that occurred during a session. This read-only resource helps identify patterns in errors."""
+    """A session error group is a set of similar session errors. Groups show how often each failure repeats."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
     def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, type: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, session_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, search: Optional[str] = None) -> DashboardInstanceSessionsErrorGroupsListOutput:
         """
-    List all session error groups
+    List session error groups
     Returns a paginated list of error groups across all sessions.
 
     :param limit: Optional[float] (optional)
@@ -57,7 +57,7 @@ class MetorialSessionsErrorGroupsEndpoint(BaseMetorialEndpoint):
     def get(self, session_error_group_id: str) -> DashboardInstanceSessionsErrorGroupsGetOutput:
         """
     Get session error group
-    Retrieves a specific error group by ID across all sessions.
+    Retrieves a session error group.
 
     :param session_error_group_id: str
     :return: DashboardInstanceSessionsErrorGroupsGetOutput

@@ -36,8 +36,11 @@ class NetworkPoliciesListOutputItems:
 class NetworkPoliciesListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class NetworkPoliciesListOutput:
+    object: str
     items: List[NetworkPoliciesListOutputItems]
     pagination: NetworkPoliciesListOutputPagination
 
@@ -112,7 +115,9 @@ class mapNetworkPoliciesListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> NetworkPoliciesListOutputPagination:
         return NetworkPoliciesListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -127,6 +132,7 @@ class mapNetworkPoliciesListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> NetworkPoliciesListOutput:
         return NetworkPoliciesListOutput(
+        object=data.get('object'),
         items=[mapNetworkPoliciesListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapNetworkPoliciesListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

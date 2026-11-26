@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceIntegrationEnclavesListOutput, DashboardInstanceIntegrationEnclavesListOutput, mapDashboardInstanceIntegrationEnclavesListQuery, DashboardInstanceIntegrationEnclavesListQuery, mapDashboardInstanceIntegrationEnclavesGetOutput, DashboardInstanceIntegrationEnclavesGetOutput
 
 class MetorialDashboardInstanceIntegrationEnclavesEndpoint(BaseMetorialEndpoint):
-    """Read integration enclave records for provider deployments in an instance."""
+    """An integration enclave is the isolated network a provider deployment runs in. It connects the deployment to its internet gateway and firewalls."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -11,7 +11,7 @@ class MetorialDashboardInstanceIntegrationEnclavesEndpoint(BaseMetorialEndpoint)
     def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, slug: Optional[Union[str, List[str]]] = None, internet_gateway_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, firewall_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceIntegrationEnclavesListOutput:
         """
     List integration enclaves
-    Returns a paginated list of integration enclaves.
+    Returns a paginated list of integration enclaves in the instance.
 
     :param instance_id: str
     :param limit: Optional[float] (optional)
@@ -64,7 +64,7 @@ class MetorialDashboardInstanceIntegrationEnclavesEndpoint(BaseMetorialEndpoint)
     def get(self, instance_id: str, integration_enclave_id: str) -> DashboardInstanceIntegrationEnclavesGetOutput:
         """
     Get integration enclave
-    Retrieves a specific integration enclave by ID.
+    Retrieves an integration enclave.
 
     :param instance_id: str
     :param integration_enclave_id: str

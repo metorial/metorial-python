@@ -4,7 +4,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceProtoGuardSuppressionsListOutput, DashboardInstanceProtoGuardSuppressionsListOutput, mapDashboardInstanceProtoGuardSuppressionsListQuery, DashboardInstanceProtoGuardSuppressionsListQuery, mapDashboardInstanceProtoGuardSuppressionsGetOutput, DashboardInstanceProtoGuardSuppressionsGetOutput, mapDashboardInstanceProtoGuardSuppressionsCreateOutput, DashboardInstanceProtoGuardSuppressionsCreateOutput, mapDashboardInstanceProtoGuardSuppressionsCreateBody, DashboardInstanceProtoGuardSuppressionsCreateBody, mapDashboardInstanceProtoGuardSuppressionsArchiveOutput, DashboardInstanceProtoGuardSuppressionsArchiveOutput
 
 class MetorialManagementInstanceProtoGuardSuppressionsEndpoint(BaseMetorialEndpoint):
-    """ProtoGuard suppressions mark known-benign findings so they no longer raise alerts."""
+    """A ProtoGuard suppression is a rule that hides known-benign findings. Matching findings no longer raise alerts."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -12,7 +12,7 @@ class MetorialManagementInstanceProtoGuardSuppressionsEndpoint(BaseMetorialEndpo
     def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, filter_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceProtoGuardSuppressionsListOutput:
         """
     List ProtoGuard suppressions
-    Returns the ProtoGuard suppressions of this instance.
+    Returns a paginated list of ProtoGuard suppressions in the instance.
 
     :param instance_id: str
     :param limit: Optional[float] (optional)

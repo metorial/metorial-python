@@ -37,8 +37,11 @@ class SandboxImagesBuildsListOutputItems:
 class SandboxImagesBuildsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class SandboxImagesBuildsListOutput:
+    object: str
     items: List[SandboxImagesBuildsListOutputItems]
     pagination: SandboxImagesBuildsListOutputPagination
 
@@ -114,7 +117,9 @@ class mapSandboxImagesBuildsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> SandboxImagesBuildsListOutputPagination:
         return SandboxImagesBuildsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -129,6 +134,7 @@ class mapSandboxImagesBuildsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> SandboxImagesBuildsListOutput:
         return SandboxImagesBuildsListOutput(
+        object=data.get('object'),
         items=[mapSandboxImagesBuildsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapSandboxImagesBuildsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

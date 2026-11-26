@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceDocumentsListOutput, DashboardInstanceDocumentsListOutput, mapDashboardInstanceDocumentsListQuery, DashboardInstanceDocumentsListQuery, mapDashboardInstanceDocumentsCreateOutput, DashboardInstanceDocumentsCreateOutput, mapDashboardInstanceDocumentsCreateBody, DashboardInstanceDocumentsCreateBody, mapDashboardInstanceDocumentsGetOutput, DashboardInstanceDocumentsGetOutput, mapDashboardInstanceDocumentsUpdateOutput, DashboardInstanceDocumentsUpdateOutput, mapDashboardInstanceDocumentsUpdateBody, DashboardInstanceDocumentsUpdateBody, mapDashboardInstanceDocumentsDeleteOutput, DashboardInstanceDocumentsDeleteOutput, mapDashboardInstanceDocumentsCloneOutput, DashboardInstanceDocumentsCloneOutput, mapDashboardInstanceDocumentsCloneBody, DashboardInstanceDocumentsCloneBody
 
 class MetorialDocumentsEndpoint(BaseMetorialEndpoint):
-    """Create and manage instance documents backed by Cargo."""
+    """A document is rich text with comments, versions, and participants."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -11,7 +11,7 @@ class MetorialDocumentsEndpoint(BaseMetorialEndpoint):
     def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, file_id: Optional[Union[str, List[str]]] = None, store_id: Optional[Union[str, List[str]]] = None, parent_document_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceDocumentsListOutput:
         """
     List documents
-    Returns a paginated list of documents owned by the instance.
+    Returns a paginated list of documents.
 
     :param limit: Optional[float] (optional)
     :param after: Optional[str] (optional)
@@ -60,7 +60,7 @@ class MetorialDocumentsEndpoint(BaseMetorialEndpoint):
     def create(self, *, title: str, content: str) -> DashboardInstanceDocumentsCreateOutput:
         """
     Create document
-    Creates a new document for the instance.
+    Creates a document.
 
     :param title: str
     :param content: str
@@ -79,8 +79,8 @@ class MetorialDocumentsEndpoint(BaseMetorialEndpoint):
 
     def get(self, document_id: str) -> DashboardInstanceDocumentsGetOutput:
         """
-    Get document by ID
-    Retrieves a document by its ID.
+    Get document
+    Retrieves a document.
 
     :param document_id: str
     :return: DashboardInstanceDocumentsGetOutput
@@ -92,8 +92,8 @@ class MetorialDocumentsEndpoint(BaseMetorialEndpoint):
 
     def update(self, document_id: str, *, title: Optional[str] = None, content: Optional[str] = None) -> DashboardInstanceDocumentsUpdateOutput:
         """
-    Update document by ID
-    Updates a specific document.
+    Update document
+    Updates a document.
 
     :param document_id: str
     :param title: Optional[str] (optional)
@@ -115,8 +115,8 @@ class MetorialDocumentsEndpoint(BaseMetorialEndpoint):
 
     def delete(self, document_id: str) -> DashboardInstanceDocumentsDeleteOutput:
         """
-    Delete document by ID
-    Deletes a specific document.
+    Delete document
+    Deletes a document.
 
     :param document_id: str
     :return: DashboardInstanceDocumentsDeleteOutput
@@ -128,8 +128,8 @@ class MetorialDocumentsEndpoint(BaseMetorialEndpoint):
 
     def clone(self, document_id: str, *, target_document_id: Optional[str] = None, title: Optional[str] = None) -> DashboardInstanceDocumentsCloneOutput:
         """
-    Clone document by ID
-    Clones a specific document.
+    Clone document
+    Creates a copy of a document.
 
     :param document_id: str
     :param target_document_id: Optional[str] (optional)

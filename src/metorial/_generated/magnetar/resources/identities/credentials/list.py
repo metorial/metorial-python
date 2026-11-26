@@ -20,8 +20,11 @@ class IdentitiesCredentialsListOutputItems:
 class IdentitiesCredentialsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class IdentitiesCredentialsListOutput:
+    object: str
     items: List[IdentitiesCredentialsListOutputItems]
     pagination: IdentitiesCredentialsListOutputPagination
 
@@ -56,7 +59,9 @@ class mapIdentitiesCredentialsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> IdentitiesCredentialsListOutputPagination:
         return IdentitiesCredentialsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -71,6 +76,7 @@ class mapIdentitiesCredentialsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> IdentitiesCredentialsListOutput:
         return IdentitiesCredentialsListOutput(
+        object=data.get('object'),
         items=[mapIdentitiesCredentialsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapIdentitiesCredentialsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

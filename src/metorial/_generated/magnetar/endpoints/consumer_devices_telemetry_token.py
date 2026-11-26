@@ -10,7 +10,7 @@ class MetorialConsumerDevicesTelemetryTokenEndpoint(BaseMetorialEndpoint):
     def issue(self, consumer_device_id: str) -> ConsumerDevicesTelemetryTokenIssueOutput:
         """
     Issue device telemetry token
-    Issues the ingest token the device sends agent telemetry with, bound to the consumer that enrolled this device. Every call rotates: the new token replaces the previous tokens of the device, which are revoked. The secret is only returned here. Returns 404 when this server does not collect agent telemetry, and 412 when the device is no longer signed in.
+    Issues the ingest token the device sends agent telemetry with, bound to the consumer that enrolled this device. Every call rotates: the new token replaces the previous tokens of the device, which are revoked. The secret is only returned here. Returns 404 when agent telemetry is not collected for this organization, and 412 when the device is no longer signed in.
 
     :param consumer_device_id: str
     :return: ConsumerDevicesTelemetryTokenIssueOutput

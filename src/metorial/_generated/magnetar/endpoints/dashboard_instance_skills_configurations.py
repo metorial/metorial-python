@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceSkillsConfigurationsCreateOutput, DashboardInstanceSkillsConfigurationsCreateOutput, mapDashboardInstanceSkillsConfigurationsCreateBody, DashboardInstanceSkillsConfigurationsCreateBody, mapDashboardInstanceSkillsConfigurationsListOutput, DashboardInstanceSkillsConfigurationsListOutput, mapDashboardInstanceSkillsConfigurationsListQuery, DashboardInstanceSkillsConfigurationsListQuery, mapDashboardInstanceSkillsConfigurationsGetOutput, DashboardInstanceSkillsConfigurationsGetOutput, mapDashboardInstanceSkillsConfigurationsUpdateOutput, DashboardInstanceSkillsConfigurationsUpdateOutput, mapDashboardInstanceSkillsConfigurationsUpdateBody, DashboardInstanceSkillsConfigurationsUpdateBody, mapDashboardInstanceSkillsConfigurationsDeleteOutput, DashboardInstanceSkillsConfigurationsDeleteOutput
 
 class MetorialDashboardInstanceSkillsConfigurationsEndpoint(BaseMetorialEndpoint):
-    """Manage configuration profiles for skill execution."""
+    """A skill configuration is a profile controlling how skills execute."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -72,7 +72,7 @@ class MetorialDashboardInstanceSkillsConfigurationsEndpoint(BaseMetorialEndpoint
     def get(self, instance_id: str, skill_configuration_id: str) -> DashboardInstanceSkillsConfigurationsGetOutput:
         """
     Get skill configuration
-    Retrieves a specific skill configuration by ID, or the default.
+    Retrieves a skill configuration. Pass `default` for the default configuration.
 
     :param instance_id: str
     :param skill_configuration_id: str
@@ -86,7 +86,7 @@ class MetorialDashboardInstanceSkillsConfigurationsEndpoint(BaseMetorialEndpoint
     def update(self, instance_id: str, skill_configuration_id: str, *, allow_scripts: Optional[bool] = None, allowed_file_extensions: Optional[List[str]] = None, allow_non_standard_directories: Optional[bool] = None, security_review_policy: Optional[str] = None) -> DashboardInstanceSkillsConfigurationsUpdateOutput:
         """
     Update skill configuration
-    Updates a specific skill configuration. Updating default creates it first if needed.
+    Updates a skill configuration. Omitted fields keep their current value. Updating `default` creates it first if needed.
 
     :param instance_id: str
     :param skill_configuration_id: str
@@ -116,7 +116,7 @@ class MetorialDashboardInstanceSkillsConfigurationsEndpoint(BaseMetorialEndpoint
     def delete(self, instance_id: str, skill_configuration_id: str) -> DashboardInstanceSkillsConfigurationsDeleteOutput:
         """
     Delete skill configuration
-    Soft deletes a specific non-internal skill configuration.
+    Deletes a skill configuration. The default and internal configurations cannot be deleted.
 
     :param instance_id: str
     :param skill_configuration_id: str

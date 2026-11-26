@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceSessionsEventsListOutput, DashboardInstanceSessionsEventsListOutput, mapDashboardInstanceSessionsEventsListQuery, DashboardInstanceSessionsEventsListQuery, mapDashboardInstanceSessionsEventsGetOutput, DashboardInstanceSessionsEventsGetOutput
 
 class MetorialManagementInstanceSessionsEventsEndpoint(BaseMetorialEndpoint):
-    """Session events represent significant occurrences during a session, such as errors or state changes. This read-only resource provides visibility into session activity."""
+    """A session event records something that happened in a session, like a connection opening or an error occurring."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -11,7 +11,7 @@ class MetorialManagementInstanceSessionsEventsEndpoint(BaseMetorialEndpoint):
     def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, type: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, session_id: Optional[Union[str, List[str]]] = None, session_provider_id: Optional[Union[str, List[str]]] = None, session_connection_id: Optional[Union[str, List[str]]] = None, provider_run_id: Optional[Union[str, List[str]]] = None, session_message_id: Optional[Union[str, List[str]]] = None, session_error_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceSessionsEventsListOutput:
         """
     List session events
-    Returns a paginated list of events for a session.
+    Returns a paginated list of session events.
 
     :param instance_id: str
     :param limit: Optional[float] (optional)
@@ -73,7 +73,7 @@ class MetorialManagementInstanceSessionsEventsEndpoint(BaseMetorialEndpoint):
     def get(self, instance_id: str, session_event_id: str) -> DashboardInstanceSessionsEventsGetOutput:
         """
     Get session event
-    Retrieves a specific event from a session.
+    Retrieves a session event.
 
     :param instance_id: str
     :param session_event_id: str

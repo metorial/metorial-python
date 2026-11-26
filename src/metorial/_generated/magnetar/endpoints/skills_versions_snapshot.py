@@ -2,7 +2,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceSkillsVersionsSnapshotGetOutput, DashboardInstanceSkillsVersionsSnapshotGetOutput
 
 class MetorialSkillsVersionsSnapshotEndpoint(BaseMetorialEndpoint):
-    """Inspect version history and snapshots for a skill."""
+    """A skill version is a snapshot of a skill at a point in time."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -10,7 +10,7 @@ class MetorialSkillsVersionsSnapshotEndpoint(BaseMetorialEndpoint):
     def get(self, skill_id: str, skill_version_id: str) -> DashboardInstanceSkillsVersionsSnapshotGetOutput:
         """
     Get skill version snapshot
-    Retrieves the store-backed snapshot for a specific skill version.
+    Retrieves the content snapshot for a skill version.
 
     :param skill_id: str
     :param skill_version_id: str

@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceSkillsVersionsListOutput, DashboardInstanceSkillsVersionsListOutput, mapDashboardInstanceSkillsVersionsListQuery, DashboardInstanceSkillsVersionsListQuery, mapDashboardInstanceSkillsVersionsGetOutput, DashboardInstanceSkillsVersionsGetOutput
 
 class MetorialManagementInstanceSkillsVersionsEndpoint(BaseMetorialEndpoint):
-    """Inspect version history and snapshots for a skill."""
+    """A skill version is a snapshot of a skill at a point in time."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -11,7 +11,7 @@ class MetorialManagementInstanceSkillsVersionsEndpoint(BaseMetorialEndpoint):
     def list(self, instance_id: str, skill_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None) -> DashboardInstanceSkillsVersionsListOutput:
         """
     List skill versions
-    Returns a paginated list of versions for a specific skill.
+    Returns a paginated list of skill versions.
 
     :param instance_id: str
     :param skill_id: str
@@ -43,8 +43,8 @@ class MetorialManagementInstanceSkillsVersionsEndpoint(BaseMetorialEndpoint):
 
     def get(self, instance_id: str, skill_id: str, skill_version_id: str) -> DashboardInstanceSkillsVersionsGetOutput:
         """
-    Get skill version by ID
-    Retrieves a specific skill version by its ID.
+    Get skill version
+    Retrieves a skill version.
 
     :param instance_id: str
     :param skill_id: str

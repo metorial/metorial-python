@@ -53,8 +53,11 @@ class DashboardInstanceSessionsConnectionsListOutputItems:
 class DashboardInstanceSessionsConnectionsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class DashboardInstanceSessionsConnectionsListOutput:
+    object: str
     items: List[DashboardInstanceSessionsConnectionsListOutputItems]
     pagination: DashboardInstanceSessionsConnectionsListOutputPagination
 
@@ -170,7 +173,9 @@ class mapDashboardInstanceSessionsConnectionsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionsConnectionsListOutputPagination:
         return DashboardInstanceSessionsConnectionsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -185,6 +190,7 @@ class mapDashboardInstanceSessionsConnectionsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionsConnectionsListOutput:
         return DashboardInstanceSessionsConnectionsListOutput(
+        object=data.get('object'),
         items=[mapDashboardInstanceSessionsConnectionsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapDashboardInstanceSessionsConnectionsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

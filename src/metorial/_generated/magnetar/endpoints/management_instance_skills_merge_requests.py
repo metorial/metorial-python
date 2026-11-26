@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceSkillsMergeRequestsListOutput, DashboardInstanceSkillsMergeRequestsListOutput, mapDashboardInstanceSkillsMergeRequestsListQuery, DashboardInstanceSkillsMergeRequestsListQuery, mapDashboardInstanceSkillsMergeRequestsCreateOutput, DashboardInstanceSkillsMergeRequestsCreateOutput, mapDashboardInstanceSkillsMergeRequestsCreateBody, DashboardInstanceSkillsMergeRequestsCreateBody, mapDashboardInstanceSkillsMergeRequestsGetOutput, DashboardInstanceSkillsMergeRequestsGetOutput, mapDashboardInstanceSkillsMergeRequestsPerformOutput, DashboardInstanceSkillsMergeRequestsPerformOutput, mapDashboardInstanceSkillsMergeRequestsCloseOutput, DashboardInstanceSkillsMergeRequestsCloseOutput, mapDashboardInstanceSkillsMergeRequestsRollbackOutput, DashboardInstanceSkillsMergeRequestsRollbackOutput
 
 class MetorialManagementInstanceSkillsMergeRequestsEndpoint(BaseMetorialEndpoint):
-    """Review, resolve, and apply changes between skills."""
+    """A skill merge request is a proposed change from one skill into another."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)

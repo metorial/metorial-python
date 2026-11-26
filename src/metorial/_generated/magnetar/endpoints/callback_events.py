@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceCallbackEventsListOutput, DashboardInstanceCallbackEventsListOutput, mapDashboardInstanceCallbackEventsListQuery, DashboardInstanceCallbackEventsListQuery, mapDashboardInstanceCallbackEventsGetOutput, DashboardInstanceCallbackEventsGetOutput
 
 class MetorialCallbackEventsEndpoint(BaseMetorialEndpoint):
-    """A callback event is recorded every time a provider trigger behind one of your callbacks fires. Listing returns the events themselves; fetch a single event to enrich it with the payload the provider produced, and the inbound webhook behind it, if any."""
+    """A callback event is recorded every time a provider trigger behind one of your callbacks fires."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -72,7 +72,7 @@ class MetorialCallbackEventsEndpoint(BaseMetorialEndpoint):
     def get(self, callback_event_id: str) -> DashboardInstanceCallbackEventsGetOutput:
         """
     Get callback event
-    Retrieves a specific callback event by ID, enriched with the payload the provider produced for it and, if it came from a webhook, the inbound request behind it.
+    Retrieves a callback event, with the payload the provider produced and the inbound webhook behind it when there is one. The inbound request is `null` once it is past its retention period.
 
     :param callback_event_id: str
     :return: DashboardInstanceCallbackEventsGetOutput

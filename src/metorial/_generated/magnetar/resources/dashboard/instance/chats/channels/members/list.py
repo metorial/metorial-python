@@ -24,8 +24,11 @@ class DashboardInstanceChatsChannelsMembersListOutputItems:
 class DashboardInstanceChatsChannelsMembersListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class DashboardInstanceChatsChannelsMembersListOutput:
+    object: str
     items: List[DashboardInstanceChatsChannelsMembersListOutputItems]
     pagination: DashboardInstanceChatsChannelsMembersListOutputPagination
 
@@ -64,7 +67,9 @@ class mapDashboardInstanceChatsChannelsMembersListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceChatsChannelsMembersListOutputPagination:
         return DashboardInstanceChatsChannelsMembersListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -79,6 +84,7 @@ class mapDashboardInstanceChatsChannelsMembersListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceChatsChannelsMembersListOutput:
         return DashboardInstanceChatsChannelsMembersListOutput(
+        object=data.get('object'),
         items=[mapDashboardInstanceChatsChannelsMembersListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapDashboardInstanceChatsChannelsMembersListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

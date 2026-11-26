@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceIntegrationInternetGatewayGetOutput, DashboardInstanceIntegrationInternetGatewayGetOutput, mapDashboardInstanceIntegrationInternetGatewayListNetworkLogsOutput, DashboardInstanceIntegrationInternetGatewayListNetworkLogsOutput, mapDashboardInstanceIntegrationInternetGatewayListNetworkLogsQuery, DashboardInstanceIntegrationInternetGatewayListNetworkLogsQuery
 
 class MetorialManagementInstanceIntegrationInternetGatewayEndpoint(BaseMetorialEndpoint):
-    """Read the internet gateway that integration enclaves use to reach and be reached from the internet."""
+    """An integration internet gateway is the shared network exit for integration enclaves in an instance. Enclaves use it to reach the internet and be reached from it."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -11,7 +11,7 @@ class MetorialManagementInstanceIntegrationInternetGatewayEndpoint(BaseMetorialE
     def get(self, instance_id: str) -> DashboardInstanceIntegrationInternetGatewayGetOutput:
         """
     Get integration internet gateway
-    Retrieves the integration internet gateway of the instance, including its public IPs.
+    Retrieves the instance's integration internet gateway. Public IPs are masked as `x.x.x.x` unless your plan includes IP access.
 
     :param instance_id: str
     :return: DashboardInstanceIntegrationInternetGatewayGetOutput
@@ -24,7 +24,7 @@ class MetorialManagementInstanceIntegrationInternetGatewayEndpoint(BaseMetorialE
     def list_network_logs(self, instance_id: str, *, direction: str, enclave_id: Optional[Union[str, List[str]]] = None, hostname: Optional[Union[str, List[str]]] = None, ip: Optional[Union[str, List[str]]] = None, from_: Optional[str] = None, to: Optional[str] = None, interval_minutes: Optional[float] = None) -> DashboardInstanceIntegrationInternetGatewayListNetworkLogsOutput:
         """
     List integration internet gateway network logs
-    Returns ingress or egress network logs for integration enclaves in the instance environment.
+    Returns network logs for integration enclaves in the instance. Set `direction` to choose ingress or egress logs.
 
     :param instance_id: str
     :param direction: str

@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceMagicMcpGroupsListOutput, DashboardInstanceMagicMcpGroupsListOutput, mapDashboardInstanceMagicMcpGroupsListQuery, DashboardInstanceMagicMcpGroupsListQuery, mapDashboardInstanceMagicMcpGroupsGetOutput, DashboardInstanceMagicMcpGroupsGetOutput, mapDashboardInstanceMagicMcpGroupsCreateOutput, DashboardInstanceMagicMcpGroupsCreateOutput, mapDashboardInstanceMagicMcpGroupsCreateBody, DashboardInstanceMagicMcpGroupsCreateBody, mapDashboardInstanceMagicMcpGroupsDeleteOutput, DashboardInstanceMagicMcpGroupsDeleteOutput, mapDashboardInstanceMagicMcpGroupsUpdateOutput, DashboardInstanceMagicMcpGroupsUpdateOutput, mapDashboardInstanceMagicMcpGroupsUpdateBody, DashboardInstanceMagicMcpGroupsUpdateBody, mapDashboardInstanceMagicMcpGroupsAddServersOutput, DashboardInstanceMagicMcpGroupsAddServersOutput, mapDashboardInstanceMagicMcpGroupsAddServersBody, DashboardInstanceMagicMcpGroupsAddServersBody, mapDashboardInstanceMagicMcpGroupsRemoveServersOutput, DashboardInstanceMagicMcpGroupsRemoveServersOutput, mapDashboardInstanceMagicMcpGroupsRemoveServersBody, DashboardInstanceMagicMcpGroupsRemoveServersBody
 
 class MetorialMagicMcpGroupsEndpoint(BaseMetorialEndpoint):
-    """Magic MCP groups categorize servers and can be bound to token access."""
+    """A magic MCP group is a set of magic MCP servers that a token can be scoped to."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -101,7 +101,7 @@ class MetorialMagicMcpGroupsEndpoint(BaseMetorialEndpoint):
     def update(self, magic_mcp_group_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceMagicMcpGroupsUpdateOutput:
         """
     Update magic MCP group
-    Updates a magic MCP group.
+    Updates a magic MCP group. Omitted fields keep their current value.
 
     :param magic_mcp_group_id: str
     :param name: Optional[str] (optional)

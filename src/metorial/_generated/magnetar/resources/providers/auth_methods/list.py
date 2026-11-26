@@ -39,8 +39,11 @@ class ProvidersAuthMethodsListOutputItems:
 class ProvidersAuthMethodsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class ProvidersAuthMethodsListOutput:
+    object: str
     items: List[ProvidersAuthMethodsListOutputItems]
     pagination: ProvidersAuthMethodsListOutputPagination
 
@@ -130,7 +133,9 @@ class mapProvidersAuthMethodsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> ProvidersAuthMethodsListOutputPagination:
         return ProvidersAuthMethodsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -145,6 +150,7 @@ class mapProvidersAuthMethodsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ProvidersAuthMethodsListOutput:
         return ProvidersAuthMethodsListOutput(
+        object=data.get('object'),
         items=[mapProvidersAuthMethodsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapProvidersAuthMethodsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

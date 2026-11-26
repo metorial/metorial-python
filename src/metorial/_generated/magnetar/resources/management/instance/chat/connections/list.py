@@ -64,8 +64,11 @@ class ManagementInstanceChatConnectionsListOutputItems:
 class ManagementInstanceChatConnectionsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class ManagementInstanceChatConnectionsListOutput:
+    object: str
     items: List[ManagementInstanceChatConnectionsListOutputItems]
     pagination: ManagementInstanceChatConnectionsListOutputPagination
 
@@ -192,7 +195,9 @@ class mapManagementInstanceChatConnectionsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceChatConnectionsListOutputPagination:
         return ManagementInstanceChatConnectionsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -207,6 +212,7 @@ class mapManagementInstanceChatConnectionsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceChatConnectionsListOutput:
         return ManagementInstanceChatConnectionsListOutput(
+        object=data.get('object'),
         items=[mapManagementInstanceChatConnectionsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapManagementInstanceChatConnectionsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )
