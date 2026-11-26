@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceProviderGroupsListOutput, DashboardInstanceProviderGroupsListOutput, mapDashboardInstanceProviderGroupsListQuery, DashboardInstanceProviderGroupsListQuery, mapDashboardInstanceProviderGroupsGetOutput, DashboardInstanceProviderGroupsGetOutput, mapDashboardInstanceProviderGroupsCreateOutput, DashboardInstanceProviderGroupsCreateOutput, mapDashboardInstanceProviderGroupsCreateBody, DashboardInstanceProviderGroupsCreateBody, mapDashboardInstanceProviderGroupsUpdateOutput, DashboardInstanceProviderGroupsUpdateOutput, mapDashboardInstanceProviderGroupsUpdateBody, DashboardInstanceProviderGroupsUpdateBody, mapDashboardInstanceProviderGroupsAddListingOutput, DashboardInstanceProviderGroupsAddListingOutput, mapDashboardInstanceProviderGroupsAddListingBody, DashboardInstanceProviderGroupsAddListingBody, mapDashboardInstanceProviderGroupsRemoveListingOutput, DashboardInstanceProviderGroupsRemoveListingOutput
 
 class MetorialDashboardInstanceProviderGroupsEndpoint(BaseMetorialEndpoint):
-    """A group is a user-defined custom folder for organizing providers in your instance like 'Sales Tools' or 'Engineering'."""
+    """A provider group is a folder for organizing providers in your instance."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)

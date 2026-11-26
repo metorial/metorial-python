@@ -25,8 +25,11 @@ class IntegrationsInstanceGroupsProvidersListOutputItems:
 class IntegrationsInstanceGroupsProvidersListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class IntegrationsInstanceGroupsProvidersListOutput:
+    object: str
     items: List[IntegrationsInstanceGroupsProvidersListOutputItems]
     pagination: IntegrationsInstanceGroupsProvidersListOutputPagination
 
@@ -66,7 +69,9 @@ class mapIntegrationsInstanceGroupsProvidersListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> IntegrationsInstanceGroupsProvidersListOutputPagination:
         return IntegrationsInstanceGroupsProvidersListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -81,6 +86,7 @@ class mapIntegrationsInstanceGroupsProvidersListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> IntegrationsInstanceGroupsProvidersListOutput:
         return IntegrationsInstanceGroupsProvidersListOutput(
+        object=data.get('object'),
         items=[mapIntegrationsInstanceGroupsProvidersListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapIntegrationsInstanceGroupsProvidersListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

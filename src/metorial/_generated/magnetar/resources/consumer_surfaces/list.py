@@ -32,8 +32,11 @@ class ConsumerSurfacesListOutputItems:
 class ConsumerSurfacesListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class ConsumerSurfacesListOutput:
+    object: str
     items: List[ConsumerSurfacesListOutputItems]
     pagination: ConsumerSurfacesListOutputPagination
 
@@ -104,7 +107,9 @@ class mapConsumerSurfacesListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> ConsumerSurfacesListOutputPagination:
         return ConsumerSurfacesListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -119,6 +124,7 @@ class mapConsumerSurfacesListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ConsumerSurfacesListOutput:
         return ConsumerSurfacesListOutput(
+        object=data.get('object'),
         items=[mapConsumerSurfacesListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapConsumerSurfacesListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

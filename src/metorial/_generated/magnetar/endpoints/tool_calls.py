@@ -3,14 +3,14 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceToolCallsListOutput, DashboardInstanceToolCallsListOutput, mapDashboardInstanceToolCallsListQuery, DashboardInstanceToolCallsListQuery, mapDashboardInstanceToolCallsGetOutput, DashboardInstanceToolCallsGetOutput, mapDashboardInstanceToolCallsCreateOutput, DashboardInstanceToolCallsCreateOutput, mapDashboardInstanceToolCallsCreateBody, DashboardInstanceToolCallsCreateBody
 
 class MetorialToolCallsEndpoint(BaseMetorialEndpoint):
-    """Tool calls represent individual tool invocations within a session. They track the input, output, and status of each tool execution."""
+    """A tool call is one invocation of a provider tool in a session, with its input, output, and status."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
     def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, session_id: Optional[Union[str, List[str]]] = None, session_template_id: Optional[Union[str, List[str]]] = None, session_provider_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, provider_config_id: Optional[Union[str, List[str]]] = None, provider_auth_config_id: Optional[Union[str, List[str]]] = None, agent_id: Optional[Union[str, List[str]]] = None, actor_id: Optional[Union[str, List[str]]] = None, consumer_profile_id: Optional[Union[str, List[str]]] = None, consumer_id: Optional[Union[str, List[str]]] = None, identity_id: Optional[Union[str, List[str]]] = None, agent_instance_id: Optional[Union[str, List[str]]] = None, tool_id: Optional[Union[str, List[str]]] = None, status: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None, search: Optional[str] = None) -> DashboardInstanceToolCallsListOutput:
         """
-    List all tool calls
+    List tool calls
     Returns a paginated list of tool calls across all sessions.
 
     :param limit: Optional[float] (optional)
@@ -96,7 +96,7 @@ class MetorialToolCallsEndpoint(BaseMetorialEndpoint):
     def get(self, tool_call_id: str) -> DashboardInstanceToolCallsGetOutput:
         """
     Get tool call
-    Retrieves a specific tool call by ID.
+    Retrieves a tool call.
 
     :param tool_call_id: str
     :return: DashboardInstanceToolCallsGetOutput
@@ -109,7 +109,7 @@ class MetorialToolCallsEndpoint(BaseMetorialEndpoint):
     def create(self, *, tool_id: str, input: Dict[str, Any], session_id: str, metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceToolCallsCreateOutput:
         """
     Create tool call
-    Creates a new tool call in a session by invoking a specific tool.
+    Calls a tool in a session and returns the resulting tool call.
 
     :param tool_id: str
     :param input: Dict[str, Any]

@@ -2,15 +2,15 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapInstancesGetOutput, InstancesGetOutput, mapInstancesListOutput, InstancesListOutput
 
 class MetorialInstancesEndpoint(BaseMetorialEndpoint):
-    """Endpoints for listing and retrieving instances. An instance is an isolated environment within a Metorial project. Instances are created via the dashboard (since API keys are scoped to instances). Common setups include production, staging, and development instances."""
+    """An instance is an isolated environment within a Metorial project. Only the instances you can access are listed."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
     def get(self, instance_id: str) -> InstancesGetOutput:
         """
-    Get instance details
-    Retrieves metadata and configuration details for a specific instance.
+    Get instance
+    Retrieves an instance.
 
     :param instance_id: str
     :return: InstancesGetOutput
@@ -23,7 +23,7 @@ class MetorialInstancesEndpoint(BaseMetorialEndpoint):
     def list(self) -> InstancesListOutput:
         """
     List instances
-    Lists all instances within the organization that the authenticated actor has access to.
+    Returns the instances in the organization that the caller can access.
 
 
     :return: InstancesListOutput

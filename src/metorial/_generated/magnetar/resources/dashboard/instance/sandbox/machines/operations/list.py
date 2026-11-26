@@ -30,8 +30,11 @@ class DashboardInstanceSandboxMachinesOperationsListOutputItems:
 class DashboardInstanceSandboxMachinesOperationsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class DashboardInstanceSandboxMachinesOperationsListOutput:
+    object: str
     items: List[DashboardInstanceSandboxMachinesOperationsListOutputItems]
     pagination: DashboardInstanceSandboxMachinesOperationsListOutputPagination
 
@@ -100,7 +103,9 @@ class mapDashboardInstanceSandboxMachinesOperationsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceSandboxMachinesOperationsListOutputPagination:
         return DashboardInstanceSandboxMachinesOperationsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -115,6 +120,7 @@ class mapDashboardInstanceSandboxMachinesOperationsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceSandboxMachinesOperationsListOutput:
         return DashboardInstanceSandboxMachinesOperationsListOutput(
+        object=data.get('object'),
         items=[mapDashboardInstanceSandboxMachinesOperationsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapDashboardInstanceSandboxMachinesOperationsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

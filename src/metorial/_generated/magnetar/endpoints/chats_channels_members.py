@@ -44,7 +44,7 @@ class MetorialChatsChannelsMembersEndpoint(BaseMetorialEndpoint):
     def get(self, chat_id: str, channel_id: str, user_id: str) -> DashboardInstanceChatsChannelsMembersGetOutput:
         """
     Get chat channel member
-    Retrieves a specific member of a chat channel.
+    Retrieves a member of a chat channel.
 
     :param chat_id: str
     :param channel_id: str

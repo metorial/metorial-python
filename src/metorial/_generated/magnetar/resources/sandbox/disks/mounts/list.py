@@ -24,8 +24,11 @@ class SandboxDisksMountsListOutputItems:
 class SandboxDisksMountsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class SandboxDisksMountsListOutput:
+    object: str
     items: List[SandboxDisksMountsListOutputItems]
     pagination: SandboxDisksMountsListOutputPagination
 
@@ -76,7 +79,9 @@ class mapSandboxDisksMountsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> SandboxDisksMountsListOutputPagination:
         return SandboxDisksMountsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -91,6 +96,7 @@ class mapSandboxDisksMountsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> SandboxDisksMountsListOutput:
         return SandboxDisksMountsListOutput(
+        object=data.get('object'),
         items=[mapSandboxDisksMountsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapSandboxDisksMountsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

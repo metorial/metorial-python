@@ -19,8 +19,11 @@ class ManagementInstanceSandboxRegionsListOutputItems:
 class ManagementInstanceSandboxRegionsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class ManagementInstanceSandboxRegionsListOutput:
+    object: str
     items: List[ManagementInstanceSandboxRegionsListOutputItems]
     pagination: ManagementInstanceSandboxRegionsListOutputPagination
 
@@ -66,7 +69,9 @@ class mapManagementInstanceSandboxRegionsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceSandboxRegionsListOutputPagination:
         return ManagementInstanceSandboxRegionsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -81,6 +86,7 @@ class mapManagementInstanceSandboxRegionsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceSandboxRegionsListOutput:
         return ManagementInstanceSandboxRegionsListOutput(
+        object=data.get('object'),
         items=[mapManagementInstanceSandboxRegionsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapManagementInstanceSandboxRegionsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

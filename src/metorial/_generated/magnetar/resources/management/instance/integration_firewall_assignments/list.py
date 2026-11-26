@@ -27,8 +27,11 @@ class ManagementInstanceIntegrationFirewallAssignmentsListOutputItems:
 class ManagementInstanceIntegrationFirewallAssignmentsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class ManagementInstanceIntegrationFirewallAssignmentsListOutput:
+    object: str
     items: List[ManagementInstanceIntegrationFirewallAssignmentsListOutputItems]
     pagination: ManagementInstanceIntegrationFirewallAssignmentsListOutputPagination
 
@@ -94,7 +97,9 @@ class mapManagementInstanceIntegrationFirewallAssignmentsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceIntegrationFirewallAssignmentsListOutputPagination:
         return ManagementInstanceIntegrationFirewallAssignmentsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -109,6 +114,7 @@ class mapManagementInstanceIntegrationFirewallAssignmentsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceIntegrationFirewallAssignmentsListOutput:
         return ManagementInstanceIntegrationFirewallAssignmentsListOutput(
+        object=data.get('object'),
         items=[mapManagementInstanceIntegrationFirewallAssignmentsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapManagementInstanceIntegrationFirewallAssignmentsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

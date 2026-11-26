@@ -1,9 +1,9 @@
 from typing import Any, Dict, List, Optional, Union
 from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, MetorialRequest
-from ..resources import mapDashboardInstanceSkillsPluginsListOutput, DashboardInstanceSkillsPluginsListOutput, mapDashboardInstanceSkillsPluginsListQuery, DashboardInstanceSkillsPluginsListQuery, mapDashboardInstanceSkillsPluginsGetOutput, DashboardInstanceSkillsPluginsGetOutput, mapDashboardInstanceSkillsPluginsCreateOutput, DashboardInstanceSkillsPluginsCreateOutput, mapDashboardInstanceSkillsPluginsCreateBody, DashboardInstanceSkillsPluginsCreateBody, mapDashboardInstanceSkillsPluginsUpdateOutput, DashboardInstanceSkillsPluginsUpdateOutput, mapDashboardInstanceSkillsPluginsUpdateBody, DashboardInstanceSkillsPluginsUpdateBody, mapDashboardInstanceSkillsPluginsArchiveOutput, DashboardInstanceSkillsPluginsArchiveOutput, mapDashboardInstanceSkillsPluginsDetachSkillGroupOutput, DashboardInstanceSkillsPluginsDetachSkillGroupOutput, mapDashboardInstanceSkillsPluginsDetachSkillGroupBody, DashboardInstanceSkillsPluginsDetachSkillGroupBody, mapDashboardInstanceSkillsPluginsSyncOutput, DashboardInstanceSkillsPluginsSyncOutput, mapDashboardInstanceSkillsPluginsSyncBody, DashboardInstanceSkillsPluginsSyncBody
+from ..resources import mapDashboardInstanceSkillsPluginsListOutput, DashboardInstanceSkillsPluginsListOutput, mapDashboardInstanceSkillsPluginsListQuery, DashboardInstanceSkillsPluginsListQuery, mapDashboardInstanceSkillsPluginsGetOutput, DashboardInstanceSkillsPluginsGetOutput, mapDashboardInstanceSkillsPluginsCreateOutput, DashboardInstanceSkillsPluginsCreateOutput, mapDashboardInstanceSkillsPluginsCreateBody, DashboardInstanceSkillsPluginsCreateBody, mapDashboardInstanceSkillsPluginsUpdateOutput, DashboardInstanceSkillsPluginsUpdateOutput, mapDashboardInstanceSkillsPluginsUpdateBody, DashboardInstanceSkillsPluginsUpdateBody, mapDashboardInstanceSkillsPluginsArchiveOutput, DashboardInstanceSkillsPluginsArchiveOutput, mapDashboardInstanceSkillsPluginsAttachSkillGroupOutput, DashboardInstanceSkillsPluginsAttachSkillGroupOutput, mapDashboardInstanceSkillsPluginsAttachSkillGroupBody, DashboardInstanceSkillsPluginsAttachSkillGroupBody, mapDashboardInstanceSkillsPluginsDetachSkillGroupOutput, DashboardInstanceSkillsPluginsDetachSkillGroupOutput, mapDashboardInstanceSkillsPluginsDetachSkillGroupBody, DashboardInstanceSkillsPluginsDetachSkillGroupBody, mapDashboardInstanceSkillsPluginsSyncOutput, DashboardInstanceSkillsPluginsSyncOutput, mapDashboardInstanceSkillsPluginsSyncBody, DashboardInstanceSkillsPluginsSyncBody
 
 class MetorialSkillsPluginsEndpoint(BaseMetorialEndpoint):
-    """Manage skill plugins for an instance."""
+    """A skill plugin is a set of skills distributed through a skill marketplace."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -122,7 +122,7 @@ class MetorialSkillsPluginsEndpoint(BaseMetorialEndpoint):
     def update(self, skill_plugin_id: str, *, name: Optional[str] = None, description: Optional[str] = None, long_description: Optional[str] = None, category: Optional[str] = None, image_file_id: Optional[str] = None, skill_configuration_id: Optional[str] = None) -> DashboardInstanceSkillsPluginsUpdateOutput:
         """
     Update skill plugin
-    Updates a skill plugin.
+    Updates a skill plugin. Omitted fields keep their current value.
 
     :param skill_plugin_id: str
     :param name: Optional[str] (optional)
@@ -167,6 +167,25 @@ class MetorialSkillsPluginsEndpoint(BaseMetorialEndpoint):
         )
         return self._delete(request).transform(mapDashboardInstanceSkillsPluginsArchiveOutput.from_dict)
 
+    def attach_skill_group(self, skill_plugin_id: str, *, skill_group_id: str) -> DashboardInstanceSkillsPluginsAttachSkillGroupOutput:
+        """
+    Attach skill plugin to skill group
+    Starts syncing a plugin from a skill group. The plugin's skills are replaced with the group's skills right away and follow the group from then on.
+
+    :param skill_plugin_id: str
+    :param skill_group_id: str
+    :return: DashboardInstanceSkillsPluginsAttachSkillGroupOutput
+    """
+        # Build body parameters from keyword arguments
+        body_dict = {}
+        body_dict["skill_group_id"] = skill_group_id
+
+        request = MetorialRequest(
+            path=['skill-plugins', skill_plugin_id, 'attach-skill-group'],
+            body=body_dict
+        )
+        return self._post(request).transform(mapDashboardInstanceSkillsPluginsAttachSkillGroupOutput.from_dict)
+
     def detach_skill_group(self, skill_plugin_id: str) -> DashboardInstanceSkillsPluginsDetachSkillGroupOutput:
         """
     Detach skill plugin from skill group
@@ -183,7 +202,7 @@ class MetorialSkillsPluginsEndpoint(BaseMetorialEndpoint):
     def sync(self, skill_plugin_id: str) -> DashboardInstanceSkillsPluginsSyncOutput:
         """
     Sync skill plugin
-    Forces a skill plugin sync.
+    Starts a sync of the skill plugin to its linked repositories, even if nothing changed.
 
     :param skill_plugin_id: str
     :return: DashboardInstanceSkillsPluginsSyncOutput

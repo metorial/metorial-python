@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceProviderDeploymentsAuthConfigsExportsListOutput, DashboardInstanceProviderDeploymentsAuthConfigsExportsListOutput, mapDashboardInstanceProviderDeploymentsAuthConfigsExportsListQuery, DashboardInstanceProviderDeploymentsAuthConfigsExportsListQuery, mapDashboardInstanceProviderDeploymentsAuthConfigsExportsGetOutput, DashboardInstanceProviderDeploymentsAuthConfigsExportsGetOutput, mapDashboardInstanceProviderDeploymentsAuthConfigsExportsCreateOutput, DashboardInstanceProviderDeploymentsAuthConfigsExportsCreateOutput, mapDashboardInstanceProviderDeploymentsAuthConfigsExportsCreateBody, DashboardInstanceProviderDeploymentsAuthConfigsExportsCreateBody
 
 class MetorialProviderDeploymentsAuthConfigsExportsEndpoint(BaseMetorialEndpoint):
-    """An auth export lets you extract OAuth tokens or credentials from Metorial to use in other systems, avoiding duplicate authentication flows."""
+    """A provider auth export is a copy of authentication credentials taken out of Metorial for use in another system."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -73,7 +73,7 @@ class MetorialProviderDeploymentsAuthConfigsExportsEndpoint(BaseMetorialEndpoint
     def create(self, *, provider_auth_config_id: str, note: str, metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderDeploymentsAuthConfigsExportsCreateOutput:
         """
     Create provider auth export
-    Exports authentication credentials from a provider.
+    Exports the credentials of a provider auth config for use outside Metorial.
 
     :param provider_auth_config_id: str
     :param note: str

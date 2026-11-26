@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceCustomProvidersDeploymentsListOutput, DashboardInstanceCustomProvidersDeploymentsListOutput, mapDashboardInstanceCustomProvidersDeploymentsListQuery, DashboardInstanceCustomProvidersDeploymentsListQuery, mapDashboardInstanceCustomProvidersDeploymentsGetOutput, DashboardInstanceCustomProvidersDeploymentsGetOutput, mapDashboardInstanceCustomProvidersDeploymentsGetLogsOutput, DashboardInstanceCustomProvidersDeploymentsGetLogsOutput
 
 class MetorialDashboardInstanceCustomProvidersDeploymentsEndpoint(BaseMetorialEndpoint):
-    """Deployments track the build and deployment process of custom provider versions. View deployment status and logs."""
+    """A custom provider deployment is a build and rollout of one custom provider version."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -11,7 +11,7 @@ class MetorialDashboardInstanceCustomProvidersDeploymentsEndpoint(BaseMetorialEn
     def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, custom_provider_version_id: Optional[Union[str, List[str]]] = None, custom_provider_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceCustomProvidersDeploymentsListOutput:
         """
     List custom provider deployments
-    Returns a paginated list of deployments for a custom provider.
+    Returns a paginated list of custom provider deployments.
 
     :param instance_id: str
     :param limit: Optional[float] (optional)
@@ -61,7 +61,7 @@ class MetorialDashboardInstanceCustomProvidersDeploymentsEndpoint(BaseMetorialEn
     def get(self, instance_id: str, custom_provider_deployment_id: str) -> DashboardInstanceCustomProvidersDeploymentsGetOutput:
         """
     Get custom provider deployment
-    Retrieves a specific deployment.
+    Retrieves a custom provider deployment.
 
     :param instance_id: str
     :param custom_provider_deployment_id: str
@@ -74,8 +74,8 @@ class MetorialDashboardInstanceCustomProvidersDeploymentsEndpoint(BaseMetorialEn
 
     def get_logs(self, instance_id: str, custom_provider_deployment_id: str) -> DashboardInstanceCustomProvidersDeploymentsGetLogsOutput:
         """
-    Get deployment logs
-    Retrieves the build and deployment logs for a deployment.
+    Get custom provider deployment logs
+    Retrieves the build and deployment logs for a custom provider deployment.
 
     :param instance_id: str
     :param custom_provider_deployment_id: str

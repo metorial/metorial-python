@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceSessionTemplatesListOutput, DashboardInstanceSessionTemplatesListOutput, mapDashboardInstanceSessionTemplatesListQuery, DashboardInstanceSessionTemplatesListQuery, mapDashboardInstanceSessionTemplatesGetOutput, DashboardInstanceSessionTemplatesGetOutput, mapDashboardInstanceSessionTemplatesCreateOutput, DashboardInstanceSessionTemplatesCreateOutput, mapDashboardInstanceSessionTemplatesCreateBody, DashboardInstanceSessionTemplatesCreateBody, mapDashboardInstanceSessionTemplatesUpdateOutput, DashboardInstanceSessionTemplatesUpdateOutput, mapDashboardInstanceSessionTemplatesUpdateBody, DashboardInstanceSessionTemplatesUpdateBody, mapDashboardInstanceSessionTemplatesDeleteOutput, DashboardInstanceSessionTemplatesDeleteOutput, mapDashboardInstanceSessionTemplatesListToolsOutput, DashboardInstanceSessionTemplatesListToolsOutput
 
 class MetorialManagementInstanceSessionTemplatesEndpoint(BaseMetorialEndpoint):
-    """Session templates define reusable configurations for sessions, including which providers to include. Templates can be used to quickly create new sessions with consistent settings."""
+    """A session template is a reusable configuration for creating sessions with the same providers."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -76,7 +76,7 @@ class MetorialManagementInstanceSessionTemplatesEndpoint(BaseMetorialEndpoint):
     def get(self, instance_id: str, session_template_id: str) -> DashboardInstanceSessionTemplatesGetOutput:
         """
     Get session template
-    Retrieves a specific session template by ID.
+    Retrieves a session template.
 
     :param instance_id: str
     :param session_template_id: str
@@ -90,7 +90,7 @@ class MetorialManagementInstanceSessionTemplatesEndpoint(BaseMetorialEndpoint):
     def create(self, instance_id: str, *, name: str, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, providers: Optional[List[Dict[str, Any]]] = None) -> DashboardInstanceSessionTemplatesCreateOutput:
         """
     Create session template
-    Creates a new session template.
+    Creates a session template.
 
     :param instance_id: str
     :param name: str
@@ -118,7 +118,7 @@ class MetorialManagementInstanceSessionTemplatesEndpoint(BaseMetorialEndpoint):
     def update(self, instance_id: str, session_template_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceSessionTemplatesUpdateOutput:
         """
     Update session template
-    Updates a specific session template.
+    Updates a session template. Omitted fields keep their current value.
 
     :param instance_id: str
     :param session_template_id: str
@@ -144,8 +144,8 @@ class MetorialManagementInstanceSessionTemplatesEndpoint(BaseMetorialEndpoint):
 
     def delete(self, instance_id: str, session_template_id: str) -> DashboardInstanceSessionTemplatesDeleteOutput:
         """
-    Delete session template
-    Deletes a specific session template.
+    Archive session template
+    Archives a session template. It stays listable with `status=archived`.
 
     :param instance_id: str
     :param session_template_id: str

@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceConsumersProfilesListOutput, DashboardInstanceConsumersProfilesListOutput, mapDashboardInstanceConsumersProfilesListQuery, DashboardInstanceConsumersProfilesListQuery, mapDashboardInstanceConsumersProfilesGetOutput, DashboardInstanceConsumersProfilesGetOutput
 
 class MetorialManagementInstanceConsumersProfilesEndpoint(BaseMetorialEndpoint):
-    """Manage instance consumers independently from portals and inspect the profiles linked to each consumer."""
+    """A consumer is a person or system that uses an instance. Each consumer has profiles linking them to the surfaces they can access."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -11,7 +11,7 @@ class MetorialManagementInstanceConsumersProfilesEndpoint(BaseMetorialEndpoint):
     def list(self, instance_id: str, consumer_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None) -> DashboardInstanceConsumersProfilesListOutput:
         """
     List consumer profiles
-    Returns a paginated list of profiles for a consumer in an instance.
+    Returns a paginated list of profiles for a consumer.
 
     :param instance_id: str
     :param consumer_id: str
@@ -44,7 +44,7 @@ class MetorialManagementInstanceConsumersProfilesEndpoint(BaseMetorialEndpoint):
     def get(self, instance_id: str, consumer_id: str, consumer_profile_id: str) -> DashboardInstanceConsumersProfilesGetOutput:
         """
     Get consumer profile
-    Retrieves a consumer profile by ID for a consumer.
+    Retrieves a consumer profile.
 
     :param instance_id: str
     :param consumer_id: str

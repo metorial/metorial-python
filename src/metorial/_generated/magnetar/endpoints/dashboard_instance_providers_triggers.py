@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceProvidersTriggersListOutput, DashboardInstanceProvidersTriggersListOutput, mapDashboardInstanceProvidersTriggersListQuery, DashboardInstanceProvidersTriggersListQuery, mapDashboardInstanceProvidersTriggersGetOutput, DashboardInstanceProvidersTriggersGetOutput
 
 class MetorialDashboardInstanceProvidersTriggersEndpoint(BaseMetorialEndpoint):
-    """A provider trigger describes an event source a provider can emit for callbacks. Use triggers to discover which callback subscriptions a provider version supports."""
+    """A provider trigger is an event a provider can emit for callbacks. Each provider version has its own set of triggers."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)

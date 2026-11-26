@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceCustomProvidersCommitsListOutput, DashboardInstanceCustomProvidersCommitsListOutput, mapDashboardInstanceCustomProvidersCommitsListQuery, DashboardInstanceCustomProvidersCommitsListQuery, mapDashboardInstanceCustomProvidersCommitsGetOutput, DashboardInstanceCustomProvidersCommitsGetOutput, mapDashboardInstanceCustomProvidersCommitsCreateOutput, DashboardInstanceCustomProvidersCommitsCreateOutput, mapDashboardInstanceCustomProvidersCommitsCreateBody, DashboardInstanceCustomProvidersCommitsCreateBody
 
 class MetorialCustomProvidersCommitsEndpoint(BaseMetorialEndpoint):
-    """Commits represent version promotions between environments. Merge versions from one environment to another or rollback to a previous version."""
+    """A custom provider commit is a promotion of a version into an environment, or a rollback to a previous version."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -11,7 +11,7 @@ class MetorialCustomProvidersCommitsEndpoint(BaseMetorialEndpoint):
     def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, custom_provider_version_id: Optional[Union[str, List[str]]] = None, custom_provider_environment_id: Optional[Union[str, List[str]]] = None, custom_provider_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceCustomProvidersCommitsListOutput:
         """
     List custom provider commits
-    Returns a paginated list of commits for a custom provider.
+    Returns a paginated list of custom provider commits.
 
     :param limit: Optional[float] (optional)
     :param after: Optional[str] (optional)
@@ -63,7 +63,7 @@ class MetorialCustomProvidersCommitsEndpoint(BaseMetorialEndpoint):
     def get(self, custom_provider_commit_id: str) -> DashboardInstanceCustomProvidersCommitsGetOutput:
         """
     Get custom provider commit
-    Retrieves a specific commit.
+    Retrieves a custom provider commit.
 
     :param custom_provider_commit_id: str
     :return: DashboardInstanceCustomProvidersCommitsGetOutput

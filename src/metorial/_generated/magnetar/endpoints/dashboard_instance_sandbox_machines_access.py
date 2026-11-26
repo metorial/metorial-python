@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceSandboxMachinesAccessShellOutput, DashboardInstanceSandboxMachinesAccessShellOutput, mapDashboardInstanceSandboxMachinesAccessShellBody, DashboardInstanceSandboxMachinesAccessShellBody, mapDashboardInstanceSandboxMachinesAccessFilesOutput, DashboardInstanceSandboxMachinesAccessFilesOutput, mapDashboardInstanceSandboxMachinesAccessFilesBody, DashboardInstanceSandboxMachinesAccessFilesBody, mapDashboardInstanceSandboxMachinesAccessPortsOutput, DashboardInstanceSandboxMachinesAccessPortsOutput, mapDashboardInstanceSandboxMachinesAccessPortsBody, DashboardInstanceSandboxMachinesAccessPortsBody
 
 class MetorialDashboardInstanceSandboxMachinesAccessEndpoint(BaseMetorialEndpoint):
-    """Create and operate sandbox machines. A machine boots from an image, can mount disks, and moves between running, paused, and hibernated states."""
+    """A sandbox machine is a virtual machine that boots from an image and can mount disks. Machines move between running, paused, and hibernated states."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)

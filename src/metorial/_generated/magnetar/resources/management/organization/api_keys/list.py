@@ -113,8 +113,11 @@ class ManagementOrganizationApiKeysListOutputItems:
 class ManagementOrganizationApiKeysListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class ManagementOrganizationApiKeysListOutput:
+    object: str
     items: List[ManagementOrganizationApiKeysListOutputItems]
     pagination: ManagementOrganizationApiKeysListOutputPagination
 
@@ -338,7 +341,9 @@ class mapManagementOrganizationApiKeysListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> ManagementOrganizationApiKeysListOutputPagination:
         return ManagementOrganizationApiKeysListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -353,6 +358,7 @@ class mapManagementOrganizationApiKeysListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementOrganizationApiKeysListOutput:
         return ManagementOrganizationApiKeysListOutput(
+        object=data.get('object'),
         items=[mapManagementOrganizationApiKeysListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapManagementOrganizationApiKeysListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

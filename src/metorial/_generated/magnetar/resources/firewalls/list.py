@@ -42,8 +42,11 @@ class FirewallsListOutputItems:
 class FirewallsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class FirewallsListOutput:
+    object: str
     items: List[FirewallsListOutputItems]
     pagination: FirewallsListOutputPagination
 
@@ -136,7 +139,9 @@ class mapFirewallsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> FirewallsListOutputPagination:
         return FirewallsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -151,6 +156,7 @@ class mapFirewallsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> FirewallsListOutput:
         return FirewallsListOutput(
+        object=data.get('object'),
         items=[mapFirewallsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapFirewallsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

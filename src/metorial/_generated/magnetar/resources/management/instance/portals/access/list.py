@@ -36,8 +36,11 @@ class ManagementInstancePortalsAccessListOutputItems:
 class ManagementInstancePortalsAccessListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class ManagementInstancePortalsAccessListOutput:
+    object: str
     items: List[ManagementInstancePortalsAccessListOutputItems]
     pagination: ManagementInstancePortalsAccessListOutputPagination
 
@@ -112,7 +115,9 @@ class mapManagementInstancePortalsAccessListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> ManagementInstancePortalsAccessListOutputPagination:
         return ManagementInstancePortalsAccessListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -127,6 +132,7 @@ class mapManagementInstancePortalsAccessListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstancePortalsAccessListOutput:
         return ManagementInstancePortalsAccessListOutput(
+        object=data.get('object'),
         items=[mapManagementInstancePortalsAccessListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapManagementInstancePortalsAccessListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceSkillsAgentsCreateOutput, DashboardInstanceSkillsAgentsCreateOutput, mapDashboardInstanceSkillsAgentsCreateBody, DashboardInstanceSkillsAgentsCreateBody, mapDashboardInstanceSkillsAgentsListOutput, DashboardInstanceSkillsAgentsListOutput, mapDashboardInstanceSkillsAgentsListQuery, DashboardInstanceSkillsAgentsListQuery, mapDashboardInstanceSkillsAgentsGetOutput, DashboardInstanceSkillsAgentsGetOutput, mapDashboardInstanceSkillsAgentsUpdateOutput, DashboardInstanceSkillsAgentsUpdateOutput, mapDashboardInstanceSkillsAgentsUpdateBody, DashboardInstanceSkillsAgentsUpdateBody, mapDashboardInstanceSkillsAgentsDeleteOutput, DashboardInstanceSkillsAgentsDeleteOutput
 
 class MetorialManagementInstanceSkillsAgentsEndpoint(BaseMetorialEndpoint):
-    """Manage sub-agents attached to a skill."""
+    """A skill agent is a reusable sub-agent document stored in a skill."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -37,7 +37,7 @@ class MetorialManagementInstanceSkillsAgentsEndpoint(BaseMetorialEndpoint):
     def list(self, instance_id: str, skill_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, include_archived: Optional[bool] = None) -> DashboardInstanceSkillsAgentsListOutput:
         """
     List skill agents
-    Returns a paginated list of agents for a specific skill.
+    Returns a paginated list of skill agents.
 
     :param instance_id: str
     :param skill_id: str
@@ -72,8 +72,8 @@ class MetorialManagementInstanceSkillsAgentsEndpoint(BaseMetorialEndpoint):
 
     def get(self, instance_id: str, skill_id: str, skill_agent_id: str) -> DashboardInstanceSkillsAgentsGetOutput:
         """
-    Get skill agent by ID
-    Retrieves a specific agent within a skill.
+    Get skill agent
+    Retrieves a skill agent.
 
     :param instance_id: str
     :param skill_id: str
@@ -88,7 +88,7 @@ class MetorialManagementInstanceSkillsAgentsEndpoint(BaseMetorialEndpoint):
     def update(self, instance_id: str, skill_id: str, skill_agent_id: str, *, name: Optional[str] = None, description: Optional[str] = None) -> DashboardInstanceSkillsAgentsUpdateOutput:
         """
     Update skill agent
-    Updates the name or description for a specific skill agent.
+    Updates a skill agent. Omitted fields keep their current value.
 
     :param instance_id: str
     :param skill_id: str
@@ -112,8 +112,8 @@ class MetorialManagementInstanceSkillsAgentsEndpoint(BaseMetorialEndpoint):
 
     def delete(self, instance_id: str, skill_id: str, skill_agent_id: str) -> DashboardInstanceSkillsAgentsDeleteOutput:
         """
-    Delete skill agent
-    Archives a specific skill agent and removes its linked store item.
+    Archive skill agent
+    Archives a skill agent and removes its linked store item.
 
     :param instance_id: str
     :param skill_id: str

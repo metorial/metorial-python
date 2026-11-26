@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceSkillsPluginsSkillsListOutput, DashboardInstanceSkillsPluginsSkillsListOutput, mapDashboardInstanceSkillsPluginsSkillsListQuery, DashboardInstanceSkillsPluginsSkillsListQuery, mapDashboardInstanceSkillsPluginsSkillsAddOutput, DashboardInstanceSkillsPluginsSkillsAddOutput, mapDashboardInstanceSkillsPluginsSkillsAddBody, DashboardInstanceSkillsPluginsSkillsAddBody, mapDashboardInstanceSkillsPluginsSkillsGetOutput, DashboardInstanceSkillsPluginsSkillsGetOutput, mapDashboardInstanceSkillsPluginsSkillsUpdateOutput, DashboardInstanceSkillsPluginsSkillsUpdateOutput, mapDashboardInstanceSkillsPluginsSkillsUpdateBody, DashboardInstanceSkillsPluginsSkillsUpdateBody, mapDashboardInstanceSkillsPluginsSkillsRemoveOutput, DashboardInstanceSkillsPluginsSkillsRemoveOutput
 
 class MetorialSkillsPluginsSkillsEndpoint(BaseMetorialEndpoint):
-    """Manage skill links for skill plugins."""
+    """A skill plugin skill is one skill in a skill plugin."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -61,7 +61,7 @@ class MetorialSkillsPluginsSkillsEndpoint(BaseMetorialEndpoint):
     def add(self, skill_plugin_id: str, *, skill_id: str, identifier: Optional[str] = None, client_name: Optional[str] = None, client_description: Optional[str] = None, client_metadata: Optional[Dict[str, Any]] = None, license: Optional[str] = None, compatibility: Optional[str] = None, skill_configuration_id: Optional[str] = None) -> DashboardInstanceSkillsPluginsSkillsAddOutput:
         """
     Add skill plugin skill
-    Adds a skill to a skill plugin.
+    Adds a skill to a skill plugin. Adding a skill that was removed reactivates its link.
 
     :param skill_plugin_id: str
     :param skill_id: str

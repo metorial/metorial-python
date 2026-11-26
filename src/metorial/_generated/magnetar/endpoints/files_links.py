@@ -4,7 +4,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceFilesLinksListOutput, DashboardInstanceFilesLinksListOutput, mapDashboardInstanceFilesLinksListQuery, DashboardInstanceFilesLinksListQuery, mapDashboardInstanceFilesLinksGetOutput, DashboardInstanceFilesLinksGetOutput, mapDashboardInstanceFilesLinksCreateOutput, DashboardInstanceFilesLinksCreateOutput, mapDashboardInstanceFilesLinksCreateBody, DashboardInstanceFilesLinksCreateBody, mapDashboardInstanceFilesLinksDeleteOutput, DashboardInstanceFilesLinksDeleteOutput
 
 class MetorialFilesLinksEndpoint(BaseMetorialEndpoint):
-    """Files are private by default. If you want to share a file, you can create a link for it. Links are public and do not require authentication to access, so be careful with what you share."""
+    """A file link is a public URL for a file. Anyone with the link can download the file without authenticating, until the link expires or is deleted."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -12,7 +12,7 @@ class MetorialFilesLinksEndpoint(BaseMetorialEndpoint):
     def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, file_id: Optional[str] = None) -> DashboardInstanceFilesLinksListOutput:
         """
     List file links
-    Returns a paginated list of file links owned by the instance organization.
+    Returns a paginated list of file links.
 
     :param limit: Optional[float] (optional)
     :param after: Optional[str] (optional)
@@ -45,8 +45,8 @@ class MetorialFilesLinksEndpoint(BaseMetorialEndpoint):
 
     def get(self, link_id: str) -> DashboardInstanceFilesLinksGetOutput:
         """
-    Get file link by ID
-    Retrieves the details of a specific file link by its ID.
+    Get file link
+    Retrieves a file link.
 
     :param link_id: str
     :return: DashboardInstanceFilesLinksGetOutput
@@ -59,7 +59,7 @@ class MetorialFilesLinksEndpoint(BaseMetorialEndpoint):
     def create(self, *, file_id: str, expires_at: Optional[datetime] = None) -> DashboardInstanceFilesLinksCreateOutput:
         """
     Create file link
-    Creates a new link for a specific file.
+    Creates a link for a file.
 
     :param file_id: str
     :param expires_at: Optional[datetime] (optional)
@@ -79,8 +79,8 @@ class MetorialFilesLinksEndpoint(BaseMetorialEndpoint):
 
     def delete(self, link_id: str) -> DashboardInstanceFilesLinksDeleteOutput:
         """
-    Delete file link by ID
-    Deletes a specific file link by its ID.
+    Delete file link
+    Deletes a file link. The file itself is kept.
 
     :param link_id: str
     :return: DashboardInstanceFilesLinksDeleteOutput

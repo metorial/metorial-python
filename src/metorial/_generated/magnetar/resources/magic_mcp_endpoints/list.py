@@ -46,8 +46,11 @@ class MagicMcpEndpointsListOutputItems:
 class MagicMcpEndpointsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class MagicMcpEndpointsListOutput:
+    object: str
     items: List[MagicMcpEndpointsListOutputItems]
     pagination: MagicMcpEndpointsListOutputPagination
 
@@ -156,7 +159,9 @@ class mapMagicMcpEndpointsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> MagicMcpEndpointsListOutputPagination:
         return MagicMcpEndpointsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -171,6 +176,7 @@ class mapMagicMcpEndpointsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> MagicMcpEndpointsListOutput:
         return MagicMcpEndpointsListOutput(
+        object=data.get('object'),
         items=[mapMagicMcpEndpointsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapMagicMcpEndpointsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

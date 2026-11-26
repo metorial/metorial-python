@@ -46,8 +46,11 @@ class SessionTemplatesProvidersListOutputItems:
 class SessionTemplatesProvidersListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class SessionTemplatesProvidersListOutput:
+    object: str
     items: List[SessionTemplatesProvidersListOutputItems]
     pagination: SessionTemplatesProvidersListOutputPagination
 
@@ -144,7 +147,9 @@ class mapSessionTemplatesProvidersListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> SessionTemplatesProvidersListOutputPagination:
         return SessionTemplatesProvidersListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -159,6 +164,7 @@ class mapSessionTemplatesProvidersListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> SessionTemplatesProvidersListOutput:
         return SessionTemplatesProvidersListOutput(
+        object=data.get('object'),
         items=[mapSessionTemplatesProvidersListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapSessionTemplatesProvidersListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

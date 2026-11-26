@@ -25,8 +25,11 @@ class PortalsAccessRequestsListOutputItems:
 class PortalsAccessRequestsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class PortalsAccessRequestsListOutput:
+    object: str
     items: List[PortalsAccessRequestsListOutputItems]
     pagination: PortalsAccessRequestsListOutputPagination
 
@@ -78,7 +81,9 @@ class mapPortalsAccessRequestsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> PortalsAccessRequestsListOutputPagination:
         return PortalsAccessRequestsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -93,6 +98,7 @@ class mapPortalsAccessRequestsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> PortalsAccessRequestsListOutput:
         return PortalsAccessRequestsListOutput(
+        object=data.get('object'),
         items=[mapPortalsAccessRequestsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapPortalsAccessRequestsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

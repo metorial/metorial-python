@@ -39,8 +39,11 @@ class ManagementInstanceSkillsGroupsItemsListOutputItems:
 class ManagementInstanceSkillsGroupsItemsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class ManagementInstanceSkillsGroupsItemsListOutput:
+    object: str
     items: List[ManagementInstanceSkillsGroupsItemsListOutputItems]
     pagination: ManagementInstanceSkillsGroupsItemsListOutputPagination
 
@@ -118,7 +121,9 @@ class mapManagementInstanceSkillsGroupsItemsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceSkillsGroupsItemsListOutputPagination:
         return ManagementInstanceSkillsGroupsItemsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -133,6 +138,7 @@ class mapManagementInstanceSkillsGroupsItemsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceSkillsGroupsItemsListOutput:
         return ManagementInstanceSkillsGroupsItemsListOutput(
+        object=data.get('object'),
         items=[mapManagementInstanceSkillsGroupsItemsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapManagementInstanceSkillsGroupsItemsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

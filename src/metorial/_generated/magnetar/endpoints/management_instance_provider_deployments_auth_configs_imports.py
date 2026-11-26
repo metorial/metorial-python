@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceProviderDeploymentsAuthConfigsImportsListOutput, DashboardInstanceProviderDeploymentsAuthConfigsImportsListOutput, mapDashboardInstanceProviderDeploymentsAuthConfigsImportsListQuery, DashboardInstanceProviderDeploymentsAuthConfigsImportsListQuery, mapDashboardInstanceProviderDeploymentsAuthConfigsImportsGetOutput, DashboardInstanceProviderDeploymentsAuthConfigsImportsGetOutput, mapDashboardInstanceProviderDeploymentsAuthConfigsImportsCreateOutput, DashboardInstanceProviderDeploymentsAuthConfigsImportsCreateOutput, mapDashboardInstanceProviderDeploymentsAuthConfigsImportsCreateBody, DashboardInstanceProviderDeploymentsAuthConfigsImportsCreateBody, mapDashboardInstanceProviderDeploymentsAuthConfigsImportsGetSchemaOutput, DashboardInstanceProviderDeploymentsAuthConfigsImportsGetSchemaOutput, mapDashboardInstanceProviderDeploymentsAuthConfigsImportsGetSchemaQuery, DashboardInstanceProviderDeploymentsAuthConfigsImportsGetSchemaQuery
 
 class MetorialManagementInstanceProviderDeploymentsAuthConfigsImportsEndpoint(BaseMetorialEndpoint):
-    """An auth import lets you bring in existing OAuth tokens or credentials from another system, so users don't need to re-authenticate to use Metorial."""
+    """A provider auth import is existing authentication credentials brought into Metorial from another system, so users skip re-authenticating."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -78,7 +78,7 @@ class MetorialManagementInstanceProviderDeploymentsAuthConfigsImportsEndpoint(Ba
     def create(self, instance_id: str, *, note: str, value: Dict[str, Any], provider_id: Optional[str] = None, provider_deployment_id: Optional[str] = None, provider_auth_config_id: Optional[str] = None, provider_auth_method_id: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderDeploymentsAuthConfigsImportsCreateOutput:
         """
     Create provider auth import
-    Imports authentication credentials for a provider.
+    Imports existing authentication credentials into Metorial.
 
     :param instance_id: str
     :param provider_id: Optional[str] (optional)

@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceProviderListingsListOutput, DashboardInstanceProviderListingsListOutput, mapDashboardInstanceProviderListingsListQuery, DashboardInstanceProviderListingsListQuery, mapDashboardInstanceProviderListingsGetOutput, DashboardInstanceProviderListingsGetOutput
 
 class MetorialProviderListingsEndpoint(BaseMetorialEndpoint):
-    """A listing is a provider enriched with marketplace metadata."""
+    """A provider listing is a provider with its marketplace details."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)

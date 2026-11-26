@@ -46,8 +46,11 @@ class DashboardInstanceSessionTemplatesProvidersListOutputItems:
 class DashboardInstanceSessionTemplatesProvidersListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class DashboardInstanceSessionTemplatesProvidersListOutput:
+    object: str
     items: List[DashboardInstanceSessionTemplatesProvidersListOutputItems]
     pagination: DashboardInstanceSessionTemplatesProvidersListOutputPagination
 
@@ -144,7 +147,9 @@ class mapDashboardInstanceSessionTemplatesProvidersListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionTemplatesProvidersListOutputPagination:
         return DashboardInstanceSessionTemplatesProvidersListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -159,6 +164,7 @@ class mapDashboardInstanceSessionTemplatesProvidersListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionTemplatesProvidersListOutput:
         return DashboardInstanceSessionTemplatesProvidersListOutput(
+        object=data.get('object'),
         items=[mapDashboardInstanceSessionTemplatesProvidersListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapDashboardInstanceSessionTemplatesProvidersListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

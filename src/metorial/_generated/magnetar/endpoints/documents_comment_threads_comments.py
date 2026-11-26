@@ -3,15 +3,15 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceDocumentsCommentThreadsCommentsCreateOutput, DashboardInstanceDocumentsCommentThreadsCommentsCreateOutput, mapDashboardInstanceDocumentsCommentThreadsCommentsCreateBody, DashboardInstanceDocumentsCommentThreadsCommentsCreateBody, mapDashboardInstanceDocumentsCommentThreadsCommentsUpdateOutput, DashboardInstanceDocumentsCommentThreadsCommentsUpdateOutput, mapDashboardInstanceDocumentsCommentThreadsCommentsUpdateBody, DashboardInstanceDocumentsCommentThreadsCommentsUpdateBody, mapDashboardInstanceDocumentsCommentThreadsCommentsDeleteOutput, DashboardInstanceDocumentsCommentThreadsCommentsDeleteOutput
 
 class MetorialDocumentsCommentThreadsCommentsEndpoint(BaseMetorialEndpoint):
-    """Reply to, edit, and delete comments in a document comment thread."""
+    """A document comment is a message in a document comment thread."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
     def create(self, document_id: str, document_comment_thread_id: str, *, body: str) -> DashboardInstanceDocumentsCommentThreadsCommentsCreateOutput:
         """
-    Reply to document comment thread
-    Adds a comment to an existing comment thread.
+    Create document comment
+    Creates a comment in a document comment thread.
 
     :param document_id: str
     :param document_comment_thread_id: str

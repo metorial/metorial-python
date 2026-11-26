@@ -64,8 +64,11 @@ class DashboardInstanceChatConnectionsListOutputItems:
 class DashboardInstanceChatConnectionsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class DashboardInstanceChatConnectionsListOutput:
+    object: str
     items: List[DashboardInstanceChatConnectionsListOutputItems]
     pagination: DashboardInstanceChatConnectionsListOutputPagination
 
@@ -192,7 +195,9 @@ class mapDashboardInstanceChatConnectionsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceChatConnectionsListOutputPagination:
         return DashboardInstanceChatConnectionsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -207,6 +212,7 @@ class mapDashboardInstanceChatConnectionsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceChatConnectionsListOutput:
         return DashboardInstanceChatConnectionsListOutput(
+        object=data.get('object'),
         items=[mapDashboardInstanceChatConnectionsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapDashboardInstanceChatConnectionsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

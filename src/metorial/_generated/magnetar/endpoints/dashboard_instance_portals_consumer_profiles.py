@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstancePortalsConsumerProfilesListOutput, DashboardInstancePortalsConsumerProfilesListOutput, mapDashboardInstancePortalsConsumerProfilesListQuery, DashboardInstancePortalsConsumerProfilesListQuery, mapDashboardInstancePortalsConsumerProfilesGetOutput, DashboardInstancePortalsConsumerProfilesGetOutput, mapDashboardInstancePortalsConsumerProfilesCreateOutput, DashboardInstancePortalsConsumerProfilesCreateOutput, mapDashboardInstancePortalsConsumerProfilesCreateBody, DashboardInstancePortalsConsumerProfilesCreateBody, mapDashboardInstancePortalsConsumerProfilesDeleteOutput, DashboardInstancePortalsConsumerProfilesDeleteOutput, mapDashboardInstancePortalsConsumerProfilesAssignGroupsOutput, DashboardInstancePortalsConsumerProfilesAssignGroupsOutput, mapDashboardInstancePortalsConsumerProfilesAssignGroupsBody, DashboardInstancePortalsConsumerProfilesAssignGroupsBody, mapDashboardInstancePortalsConsumerProfilesUnassignGroupsOutput, DashboardInstancePortalsConsumerProfilesUnassignGroupsOutput, mapDashboardInstancePortalsConsumerProfilesUnassignGroupsBody, DashboardInstancePortalsConsumerProfilesUnassignGroupsBody
 
 class MetorialDashboardInstancePortalsConsumerProfilesEndpoint(BaseMetorialEndpoint):
-    """Manage the consumers and effective group assignments for a portal."""
+    """A portal consumer profile is the identity of one person on a portal. Group assignments decide what the consumer can access."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -59,7 +59,7 @@ class MetorialDashboardInstancePortalsConsumerProfilesEndpoint(BaseMetorialEndpo
     def get(self, instance_id: str, portal_id: str, consumer_profile_id: str) -> DashboardInstancePortalsConsumerProfilesGetOutput:
         """
     Get portal consumer profile
-    Retrieves a portal consumer profile by ID.
+    Retrieves a portal consumer profile.
 
     :param instance_id: str
     :param portal_id: str
@@ -74,7 +74,7 @@ class MetorialDashboardInstancePortalsConsumerProfilesEndpoint(BaseMetorialEndpo
     def create(self, instance_id: str, portal_id: str, *, email: str, name: str) -> DashboardInstancePortalsConsumerProfilesCreateOutput:
         """
     Create portal consumer profile
-    Creates a new portal consumer profile.
+    Creates a portal consumer profile.
 
     :param instance_id: str
     :param portal_id: str

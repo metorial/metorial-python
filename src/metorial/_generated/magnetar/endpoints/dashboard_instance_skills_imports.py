@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceSkillsImportsListOutput, DashboardInstanceSkillsImportsListOutput, mapDashboardInstanceSkillsImportsListQuery, DashboardInstanceSkillsImportsListQuery, mapDashboardInstanceSkillsImportsGetOutput, DashboardInstanceSkillsImportsGetOutput, mapDashboardInstanceSkillsImportsCreateOutput, DashboardInstanceSkillsImportsCreateOutput, mapDashboardInstanceSkillsImportsCreateBody, DashboardInstanceSkillsImportsCreateBody
 
 class MetorialDashboardInstanceSkillsImportsEndpoint(BaseMetorialEndpoint):
-    """Import skills from public repositories or uploaded files."""
+    """A skill import is a queued import of skills from a repository or uploaded file."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -49,7 +49,7 @@ class MetorialDashboardInstanceSkillsImportsEndpoint(BaseMetorialEndpoint):
     def get(self, instance_id: str, skill_import_id: str) -> DashboardInstanceSkillsImportsGetOutput:
         """
     Get skill import
-    Retrieves an individual skill import and its results.
+    Retrieves a skill import and its results.
 
     :param instance_id: str
     :param skill_import_id: str

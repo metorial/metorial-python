@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceIntegrationsInstanceGroupsListOutput, DashboardInstanceIntegrationsInstanceGroupsListOutput, mapDashboardInstanceIntegrationsInstanceGroupsListQuery, DashboardInstanceIntegrationsInstanceGroupsListQuery, mapDashboardInstanceIntegrationsInstanceGroupsGetOutput, DashboardInstanceIntegrationsInstanceGroupsGetOutput, mapDashboardInstanceIntegrationsInstanceGroupsCreateSessionTemplateOutput, DashboardInstanceIntegrationsInstanceGroupsCreateSessionTemplateOutput, mapDashboardInstanceIntegrationsInstanceGroupsCreateSessionTemplateBody, DashboardInstanceIntegrationsInstanceGroupsCreateSessionTemplateBody, mapDashboardInstanceIntegrationsInstanceGroupsCreateSessionOutput, DashboardInstanceIntegrationsInstanceGroupsCreateSessionOutput, mapDashboardInstanceIntegrationsInstanceGroupsCreateSessionBody, DashboardInstanceIntegrationsInstanceGroupsCreateSessionBody, mapDashboardInstanceIntegrationsInstanceGroupsCreateOutput, DashboardInstanceIntegrationsInstanceGroupsCreateOutput, mapDashboardInstanceIntegrationsInstanceGroupsCreateBody, DashboardInstanceIntegrationsInstanceGroupsCreateBody, mapDashboardInstanceIntegrationsInstanceGroupsUpdateOutput, DashboardInstanceIntegrationsInstanceGroupsUpdateOutput, mapDashboardInstanceIntegrationsInstanceGroupsUpdateBody, DashboardInstanceIntegrationsInstanceGroupsUpdateBody, mapDashboardInstanceIntegrationsInstanceGroupsDeleteOutput, DashboardInstanceIntegrationsInstanceGroupsDeleteOutput
 
 class MetorialIntegrationsInstanceGroupsEndpoint(BaseMetorialEndpoint):
-    """Integration instance groups combine instance providers into a grouped routed configuration."""
+    """An integration instance group combines providers from multiple integration instances into one set, with a shared session template."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -84,7 +84,7 @@ class MetorialIntegrationsInstanceGroupsEndpoint(BaseMetorialEndpoint):
     def get(self, integration_instance_group_id: str) -> DashboardInstanceIntegrationsInstanceGroupsGetOutput:
         """
     Get integration instance group
-    Retrieves a specific integration instance group.
+    Retrieves an integration instance group.
 
     :param integration_instance_group_id: str
     :return: DashboardInstanceIntegrationsInstanceGroupsGetOutput
@@ -97,7 +97,7 @@ class MetorialIntegrationsInstanceGroupsEndpoint(BaseMetorialEndpoint):
     def create_session_template(self, integration_instance_group_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceIntegrationsInstanceGroupsCreateSessionTemplateOutput:
         """
     Create integration instance group session template
-    Creates or updates the shared session template for a specific integration instance group.
+    Creates or updates the shared session template for the integration instance group.
 
     :param integration_instance_group_id: str
     :param name: Optional[str] (optional)
@@ -123,7 +123,7 @@ class MetorialIntegrationsInstanceGroupsEndpoint(BaseMetorialEndpoint):
     def create_session(self, integration_instance_group_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceIntegrationsInstanceGroupsCreateSessionOutput:
         """
     Create integration instance group session
-    Creates a session from the shared session template of a specific integration instance group.
+    Creates a session from the shared session template of the integration instance group.
 
     :param integration_instance_group_id: str
     :param name: Optional[str] (optional)
@@ -149,7 +149,7 @@ class MetorialIntegrationsInstanceGroupsEndpoint(BaseMetorialEndpoint):
     def create(self, *, name: str, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, providers: Optional[List[Dict[str, Any]]] = None) -> DashboardInstanceIntegrationsInstanceGroupsCreateOutput:
         """
     Create integration instance group
-    Creates a new integration instance group.
+    Creates an integration instance group.
 
     :param name: str
     :param description: Optional[str] (optional)
@@ -176,7 +176,7 @@ class MetorialIntegrationsInstanceGroupsEndpoint(BaseMetorialEndpoint):
     def update(self, integration_instance_group_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, providers: Optional[List[Dict[str, Any]]] = None) -> DashboardInstanceIntegrationsInstanceGroupsUpdateOutput:
         """
     Update integration instance group
-    Updates a specific integration instance group.
+    Updates an integration instance group. Omitted fields keep their current value.
 
     :param integration_instance_group_id: str
     :param name: Optional[str] (optional)
@@ -204,8 +204,8 @@ class MetorialIntegrationsInstanceGroupsEndpoint(BaseMetorialEndpoint):
 
     def delete(self, integration_instance_group_id: str) -> DashboardInstanceIntegrationsInstanceGroupsDeleteOutput:
         """
-    Delete integration instance group
-    Archives a specific integration instance group.
+    Archive integration instance group
+    Archives an integration instance group. It stays retrievable by ID and listable with `status=archived`.
 
     :param integration_instance_group_id: str
     :return: DashboardInstanceIntegrationsInstanceGroupsDeleteOutput

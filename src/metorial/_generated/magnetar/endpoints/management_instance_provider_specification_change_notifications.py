@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceProviderSpecificationChangeNotificationsListOutput, DashboardInstanceProviderSpecificationChangeNotificationsListOutput, mapDashboardInstanceProviderSpecificationChangeNotificationsListQuery, DashboardInstanceProviderSpecificationChangeNotificationsListQuery, mapDashboardInstanceProviderSpecificationChangeNotificationsGetOutput, DashboardInstanceProviderSpecificationChangeNotificationsGetOutput
 
 class MetorialManagementInstanceProviderSpecificationChangeNotificationsEndpoint(BaseMetorialEndpoint):
-    """Provider specification change notifications describe provider schema changes."""
+    """A provider specification change notification is a record of a provider schema change. It captures the before and after specification and version."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -11,7 +11,7 @@ class MetorialManagementInstanceProviderSpecificationChangeNotificationsEndpoint
     def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, target: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_version_id: Optional[Union[str, List[str]]] = None, provider_specification_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderSpecificationChangeNotificationsListOutput:
         """
     List provider specification change notifications
-    Returns a paginated list of provider specification change notifications for this instance.
+    Returns a paginated list of provider specification change notifications in the instance.
 
     :param instance_id: str
     :param limit: Optional[float] (optional)
@@ -61,7 +61,7 @@ class MetorialManagementInstanceProviderSpecificationChangeNotificationsEndpoint
     def get(self, instance_id: str, notification_id: str) -> DashboardInstanceProviderSpecificationChangeNotificationsGetOutput:
         """
     Get provider specification change notification
-    Retrieves a provider specification change notification by ID.
+    Retrieves a provider specification change notification.
 
     :param instance_id: str
     :param notification_id: str

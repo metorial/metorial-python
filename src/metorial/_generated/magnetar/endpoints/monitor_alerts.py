@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceMonitorAlertsListOutput, DashboardInstanceMonitorAlertsListOutput, mapDashboardInstanceMonitorAlertsListQuery, DashboardInstanceMonitorAlertsListQuery, mapDashboardInstanceMonitorAlertsGetOutput, DashboardInstanceMonitorAlertsGetOutput, mapDashboardInstanceMonitorAlertsViewedOutput, DashboardInstanceMonitorAlertsViewedOutput, mapDashboardInstanceMonitorAlertsResolveOutput, DashboardInstanceMonitorAlertsResolveOutput, mapDashboardInstanceMonitorAlertsUnresolveOutput, DashboardInstanceMonitorAlertsUnresolveOutput
 
 class MetorialMonitorAlertsEndpoint(BaseMetorialEndpoint):
-    """Monitor alerts represent detected prompt-injection or schema-change events."""
+    """A monitor alert is one firing of a monitor. It records a detected prompt-injection or schema-change event."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -11,7 +11,7 @@ class MetorialMonitorAlertsEndpoint(BaseMetorialEndpoint):
     def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, monitor_id: Optional[Union[str, List[str]]] = None, status: Optional[Union[str, List[str]]] = None, target: Optional[Union[str, List[str]]] = None, source: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, proto_guard_alert_id: Optional[Union[str, List[str]]] = None, proto_guard_run_id: Optional[Union[str, List[str]]] = None, proto_guard_filter_id: Optional[Union[str, List[str]]] = None, specification_change_notification_id: Optional[Union[str, List[str]]] = None, session_id: Optional[Union[str, List[str]]] = None, session_message_id: Optional[Union[str, List[str]]] = None, session_connection_id: Optional[Union[str, List[str]]] = None, provider_run_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, resolved_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceMonitorAlertsListOutput:
         """
     List monitor alerts
-    Returns a paginated list of monitor alerts for this instance.
+    Returns a paginated list of monitor alerts in the instance.
 
     :param limit: Optional[float] (optional)
     :param after: Optional[str] (optional)
@@ -90,7 +90,7 @@ class MetorialMonitorAlertsEndpoint(BaseMetorialEndpoint):
     def get(self, monitor_alert_id: str) -> DashboardInstanceMonitorAlertsGetOutput:
         """
     Get monitor alert
-    Retrieves a monitor alert by ID.
+    Retrieves a monitor alert.
 
     :param monitor_alert_id: str
     :return: DashboardInstanceMonitorAlertsGetOutput

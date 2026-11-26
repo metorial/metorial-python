@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceIdentityActorsListOutput, DashboardInstanceIdentityActorsListOutput, mapDashboardInstanceIdentityActorsListQuery, DashboardInstanceIdentityActorsListQuery, mapDashboardInstanceIdentityActorsGetOutput, DashboardInstanceIdentityActorsGetOutput, mapDashboardInstanceIdentityActorsCreateOutput, DashboardInstanceIdentityActorsCreateOutput, mapDashboardInstanceIdentityActorsCreateBody, DashboardInstanceIdentityActorsCreateBody, mapDashboardInstanceIdentityActorsUpdateOutput, DashboardInstanceIdentityActorsUpdateOutput, mapDashboardInstanceIdentityActorsUpdateBody, DashboardInstanceIdentityActorsUpdateBody, mapDashboardInstanceIdentityActorsDeleteOutput, DashboardInstanceIdentityActorsDeleteOutput
 
 class MetorialManagementInstanceIdentityActorsEndpoint(BaseMetorialEndpoint):
-    """Identity actors represent people or agents that can own identities and participate in delegations."""
+    """An identity actor is a person or agent that can own identities and take part in delegations."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -67,7 +67,7 @@ class MetorialManagementInstanceIdentityActorsEndpoint(BaseMetorialEndpoint):
     def get(self, instance_id: str, identity_actor_id: str) -> DashboardInstanceIdentityActorsGetOutput:
         """
     Get identity actor
-    Retrieves a specific identity actor by ID.
+    Retrieves an identity actor.
 
     :param instance_id: str
     :param identity_actor_id: str
@@ -81,7 +81,7 @@ class MetorialManagementInstanceIdentityActorsEndpoint(BaseMetorialEndpoint):
     def create(self, instance_id: str, *, type: str, name: str, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceIdentityActorsCreateOutput:
         """
     Create identity actor
-    Creates a new identity actor.
+    Creates an identity actor.
 
     :param instance_id: str
     :param type: str
@@ -108,7 +108,7 @@ class MetorialManagementInstanceIdentityActorsEndpoint(BaseMetorialEndpoint):
     def update(self, instance_id: str, identity_actor_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceIdentityActorsUpdateOutput:
         """
     Update identity actor
-    Updates mutable fields on an existing identity actor.
+    Updates an identity actor. Omitted fields keep their current value.
 
     :param instance_id: str
     :param identity_actor_id: str
@@ -134,8 +134,8 @@ class MetorialManagementInstanceIdentityActorsEndpoint(BaseMetorialEndpoint):
 
     def delete(self, instance_id: str, identity_actor_id: str) -> DashboardInstanceIdentityActorsDeleteOutput:
         """
-    Delete identity actor
-    Archives an identity actor.
+    Archive identity actor
+    Archives an identity actor. It stays listable with `status=archived`.
 
     :param instance_id: str
     :param identity_actor_id: str

@@ -107,8 +107,11 @@ class CustomProvidersDeploymentsListOutputItems:
 class CustomProvidersDeploymentsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class CustomProvidersDeploymentsListOutput:
+    object: str
     items: List[CustomProvidersDeploymentsListOutputItems]
     pagination: CustomProvidersDeploymentsListOutputPagination
 
@@ -362,7 +365,9 @@ class mapCustomProvidersDeploymentsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> CustomProvidersDeploymentsListOutputPagination:
         return CustomProvidersDeploymentsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -377,6 +382,7 @@ class mapCustomProvidersDeploymentsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> CustomProvidersDeploymentsListOutput:
         return CustomProvidersDeploymentsListOutput(
+        object=data.get('object'),
         items=[mapCustomProvidersDeploymentsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapCustomProvidersDeploymentsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

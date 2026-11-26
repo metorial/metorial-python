@@ -21,8 +21,11 @@ class ManagementInstanceIdentityActorsListOutputItems:
 class ManagementInstanceIdentityActorsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class ManagementInstanceIdentityActorsListOutput:
+    object: str
     items: List[ManagementInstanceIdentityActorsListOutputItems]
     pagination: ManagementInstanceIdentityActorsListOutputPagination
 
@@ -58,7 +61,9 @@ class mapManagementInstanceIdentityActorsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceIdentityActorsListOutputPagination:
         return ManagementInstanceIdentityActorsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -73,6 +78,7 @@ class mapManagementInstanceIdentityActorsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceIdentityActorsListOutput:
         return ManagementInstanceIdentityActorsListOutput(
+        object=data.get('object'),
         items=[mapManagementInstanceIdentityActorsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapManagementInstanceIdentityActorsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

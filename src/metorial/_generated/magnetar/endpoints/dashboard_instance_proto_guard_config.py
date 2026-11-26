@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceProtoGuardConfigGetOutput, DashboardInstanceProtoGuardConfigGetOutput, mapDashboardInstanceProtoGuardConfigUpdateOutput, DashboardInstanceProtoGuardConfigUpdateOutput, mapDashboardInstanceProtoGuardConfigUpdateBody, DashboardInstanceProtoGuardConfigUpdateBody, mapDashboardInstanceProtoGuardConfigUpdateFilterOutput, DashboardInstanceProtoGuardConfigUpdateFilterOutput, mapDashboardInstanceProtoGuardConfigUpdateFilterBody, DashboardInstanceProtoGuardConfigUpdateFilterBody, mapDashboardInstanceProtoGuardConfigSetAlertFilterCountThresholdOutput, DashboardInstanceProtoGuardConfigSetAlertFilterCountThresholdOutput, mapDashboardInstanceProtoGuardConfigSetAlertFilterCountThresholdBody, DashboardInstanceProtoGuardConfigSetAlertFilterCountThresholdBody
 
 class MetorialDashboardInstanceProtoGuardConfigEndpoint(BaseMetorialEndpoint):
-    """ProtoGuard config controls prompt-injection filters and alert thresholds."""
+    """ProtoGuard config is the prompt-injection filter set for an instance. It controls which filters run and when they raise alerts."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -11,7 +11,7 @@ class MetorialDashboardInstanceProtoGuardConfigEndpoint(BaseMetorialEndpoint):
     def get(self, instance_id: str) -> DashboardInstanceProtoGuardConfigGetOutput:
         """
     Get ProtoGuard config
-    Retrieves ProtoGuard filter configuration for this instance.
+    Retrieves the ProtoGuard config for the instance.
 
     :param instance_id: str
     :return: DashboardInstanceProtoGuardConfigGetOutput

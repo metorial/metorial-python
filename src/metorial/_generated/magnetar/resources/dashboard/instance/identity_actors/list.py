@@ -21,8 +21,11 @@ class DashboardInstanceIdentityActorsListOutputItems:
 class DashboardInstanceIdentityActorsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class DashboardInstanceIdentityActorsListOutput:
+    object: str
     items: List[DashboardInstanceIdentityActorsListOutputItems]
     pagination: DashboardInstanceIdentityActorsListOutputPagination
 
@@ -58,7 +61,9 @@ class mapDashboardInstanceIdentityActorsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceIdentityActorsListOutputPagination:
         return DashboardInstanceIdentityActorsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -73,6 +78,7 @@ class mapDashboardInstanceIdentityActorsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceIdentityActorsListOutput:
         return DashboardInstanceIdentityActorsListOutput(
+        object=data.get('object'),
         items=[mapDashboardInstanceIdentityActorsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapDashboardInstanceIdentityActorsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

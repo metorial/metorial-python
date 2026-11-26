@@ -25,6 +25,7 @@ class ProviderDeploymentsAuthConfigsImportsListOutputItemsAuthConfigCredentials:
     provider_id: str
     created_at: datetime
     updated_at: datetime
+    managed_by: Optional[str] = None
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
@@ -121,8 +122,11 @@ class ProviderDeploymentsAuthConfigsImportsListOutputItems:
 class ProviderDeploymentsAuthConfigsImportsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class ProviderDeploymentsAuthConfigsImportsListOutput:
+    object: str
     items: List[ProviderDeploymentsAuthConfigsImportsListOutputItems]
     pagination: ProviderDeploymentsAuthConfigsImportsListOutputPagination
 
@@ -160,6 +164,7 @@ class mapProviderDeploymentsAuthConfigsImportsListOutputItemsAuthConfigCredentia
         status=data.get('status'),
         is_default=data.get('is_default'),
         is_managed=data.get('is_managed'),
+        managed_by=data.get('managed_by'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
@@ -390,7 +395,9 @@ class mapProviderDeploymentsAuthConfigsImportsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsAuthConfigsImportsListOutputPagination:
         return ProviderDeploymentsAuthConfigsImportsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -405,6 +412,7 @@ class mapProviderDeploymentsAuthConfigsImportsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ProviderDeploymentsAuthConfigsImportsListOutput:
         return ProviderDeploymentsAuthConfigsImportsListOutput(
+        object=data.get('object'),
         items=[mapProviderDeploymentsAuthConfigsImportsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapProviderDeploymentsAuthConfigsImportsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceProviderCollectionsListOutput, DashboardInstanceProviderCollectionsListOutput, mapDashboardInstanceProviderCollectionsListQuery, DashboardInstanceProviderCollectionsListQuery, mapDashboardInstanceProviderCollectionsGetOutput, DashboardInstanceProviderCollectionsGetOutput
 
 class MetorialDashboardInstanceProviderCollectionsEndpoint(BaseMetorialEndpoint):
-    """A collection is a curated set of providers like 'Featured', 'Most Popular', or 'New Arrivals'."""
+    """A provider collection is a curated set of providers."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)

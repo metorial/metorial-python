@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceProviderDeploymentsAuthConfigsListOutput, DashboardInstanceProviderDeploymentsAuthConfigsListOutput, mapDashboardInstanceProviderDeploymentsAuthConfigsListQuery, DashboardInstanceProviderDeploymentsAuthConfigsListQuery, mapDashboardInstanceProviderDeploymentsAuthConfigsGetOutput, DashboardInstanceProviderDeploymentsAuthConfigsGetOutput, mapDashboardInstanceProviderDeploymentsAuthConfigsCreateOutput, DashboardInstanceProviderDeploymentsAuthConfigsCreateOutput, mapDashboardInstanceProviderDeploymentsAuthConfigsCreateBody, DashboardInstanceProviderDeploymentsAuthConfigsCreateBody, mapDashboardInstanceProviderDeploymentsAuthConfigsUpdateOutput, DashboardInstanceProviderDeploymentsAuthConfigsUpdateOutput, mapDashboardInstanceProviderDeploymentsAuthConfigsUpdateBody, DashboardInstanceProviderDeploymentsAuthConfigsUpdateBody, mapDashboardInstanceProviderDeploymentsAuthConfigsDeleteOutput, DashboardInstanceProviderDeploymentsAuthConfigsDeleteOutput
 
 class MetorialManagementInstanceProviderDeploymentsAuthConfigsEndpoint(BaseMetorialEndpoint):
-    """An auth config is a user's authenticated connection to a provider. Created when a user completes OAuth or manually enters an API token."""
+    """A provider auth config is a user's authenticated connection to a provider. It is created when a user completes OAuth or enters an API token."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -108,7 +108,7 @@ class MetorialManagementInstanceProviderDeploymentsAuthConfigsEndpoint(BaseMetor
     def create(self, instance_id: str, *, provider_auth_method_id: str, value: Dict[str, Any], name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None, provider_deployment_id: Optional[str] = None) -> DashboardInstanceProviderDeploymentsAuthConfigsCreateOutput:
         """
     Create provider auth config
-    Creates a new provider auth config.
+    Creates a provider auth config.
 
     :param instance_id: str
     :param name: Optional[str] (optional)
@@ -173,8 +173,8 @@ class MetorialManagementInstanceProviderDeploymentsAuthConfigsEndpoint(BaseMetor
 
     def delete(self, instance_id: str, provider_auth_config_id: str) -> DashboardInstanceProviderDeploymentsAuthConfigsDeleteOutput:
         """
-    Delete provider auth config
-    Permanently deletes a provider auth config.
+    Archive provider auth config
+    Archives a provider auth config. It stays listable with `status=archived`.
 
     :param instance_id: str
     :param provider_auth_config_id: str

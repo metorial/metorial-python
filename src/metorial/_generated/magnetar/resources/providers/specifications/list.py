@@ -92,8 +92,11 @@ class ProvidersSpecificationsListOutputItems:
 class ProvidersSpecificationsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class ProvidersSpecificationsListOutput:
+    object: str
     items: List[ProvidersSpecificationsListOutputItems]
     pagination: ProvidersSpecificationsListOutputPagination
 
@@ -308,7 +311,9 @@ class mapProvidersSpecificationsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> ProvidersSpecificationsListOutputPagination:
         return ProvidersSpecificationsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -323,6 +328,7 @@ class mapProvidersSpecificationsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ProvidersSpecificationsListOutput:
         return ProvidersSpecificationsListOutput(
+        object=data.get('object'),
         items=[mapProvidersSpecificationsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapProvidersSpecificationsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

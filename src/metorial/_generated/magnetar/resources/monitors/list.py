@@ -22,8 +22,11 @@ class MonitorsListOutputItems:
 class MonitorsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class MonitorsListOutput:
+    object: str
     items: List[MonitorsListOutputItems]
     pagination: MonitorsListOutputPagination
 
@@ -60,7 +63,9 @@ class mapMonitorsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> MonitorsListOutputPagination:
         return MonitorsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -75,6 +80,7 @@ class mapMonitorsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> MonitorsListOutput:
         return MonitorsListOutput(
+        object=data.get('object'),
         items=[mapMonitorsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapMonitorsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

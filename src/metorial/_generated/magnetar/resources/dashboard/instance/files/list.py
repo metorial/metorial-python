@@ -66,8 +66,11 @@ class DashboardInstanceFilesListOutputItems:
 class DashboardInstanceFilesListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class DashboardInstanceFilesListOutput:
+    object: str
     items: List[DashboardInstanceFilesListOutputItems]
     pagination: DashboardInstanceFilesListOutputPagination
 
@@ -208,7 +211,9 @@ class mapDashboardInstanceFilesListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceFilesListOutputPagination:
         return DashboardInstanceFilesListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -223,6 +228,7 @@ class mapDashboardInstanceFilesListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceFilesListOutput:
         return DashboardInstanceFilesListOutput(
+        object=data.get('object'),
         items=[mapDashboardInstanceFilesListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapDashboardInstanceFilesListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

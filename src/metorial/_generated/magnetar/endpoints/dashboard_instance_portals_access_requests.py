@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstancePortalsAccessRequestsListOutput, DashboardInstancePortalsAccessRequestsListOutput, mapDashboardInstancePortalsAccessRequestsListQuery, DashboardInstancePortalsAccessRequestsListQuery, mapDashboardInstancePortalsAccessRequestsGetOutput, DashboardInstancePortalsAccessRequestsGetOutput, mapDashboardInstancePortalsAccessRequestsUpdateOutput, DashboardInstancePortalsAccessRequestsUpdateOutput, mapDashboardInstancePortalsAccessRequestsUpdateBody, DashboardInstancePortalsAccessRequestsUpdateBody
 
 class MetorialDashboardInstancePortalsAccessRequestsEndpoint(BaseMetorialEndpoint):
-    """Review and resolve access requests for a portal."""
+    """A portal access request is a consumer's request for access to a listing. Approving it grants access through a consumer group."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -53,7 +53,7 @@ class MetorialDashboardInstancePortalsAccessRequestsEndpoint(BaseMetorialEndpoin
     def get(self, instance_id: str, portal_id: str, access_request_id: str) -> DashboardInstancePortalsAccessRequestsGetOutput:
         """
     Get portal access request
-    Retrieves a access request by ID.
+    Retrieves a portal access request.
 
     :param instance_id: str
     :param portal_id: str
@@ -68,7 +68,7 @@ class MetorialDashboardInstancePortalsAccessRequestsEndpoint(BaseMetorialEndpoin
     def update(self, instance_id: str, portal_id: str, access_request_id: str, *, status: str, resolution_message: Optional[str] = None, consumer_group_id: Optional[str] = None) -> DashboardInstancePortalsAccessRequestsUpdateOutput:
         """
     Review portal access request
-    Approves or rejects a access request.
+    Approves or rejects a portal access request. Approving with a consumer group grants access through that group.
 
     :param instance_id: str
     :param portal_id: str

@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceSkillsExportsListOutput, DashboardInstanceSkillsExportsListOutput, mapDashboardInstanceSkillsExportsListQuery, DashboardInstanceSkillsExportsListQuery, mapDashboardInstanceSkillsExportsGetOutput, DashboardInstanceSkillsExportsGetOutput, mapDashboardInstanceSkillsExportsCreateOutput, DashboardInstanceSkillsExportsCreateOutput, mapDashboardInstanceSkillsExportsCreateBody, DashboardInstanceSkillsExportsCreateBody
 
 class MetorialManagementInstanceSkillsExportsEndpoint(BaseMetorialEndpoint):
-    """Export skills, skill plugins, and skill marketplaces as zip files."""
+    """A skill export is a zip file containing a skill, plugin, or marketplace."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)

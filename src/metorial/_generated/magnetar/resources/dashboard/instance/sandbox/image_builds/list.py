@@ -37,8 +37,11 @@ class DashboardInstanceSandboxImageBuildsListOutputItems:
 class DashboardInstanceSandboxImageBuildsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class DashboardInstanceSandboxImageBuildsListOutput:
+    object: str
     items: List[DashboardInstanceSandboxImageBuildsListOutputItems]
     pagination: DashboardInstanceSandboxImageBuildsListOutputPagination
 
@@ -114,7 +117,9 @@ class mapDashboardInstanceSandboxImageBuildsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceSandboxImageBuildsListOutputPagination:
         return DashboardInstanceSandboxImageBuildsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -129,6 +134,7 @@ class mapDashboardInstanceSandboxImageBuildsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceSandboxImageBuildsListOutput:
         return DashboardInstanceSandboxImageBuildsListOutput(
+        object=data.get('object'),
         items=[mapDashboardInstanceSandboxImageBuildsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapDashboardInstanceSandboxImageBuildsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

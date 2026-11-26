@@ -20,8 +20,11 @@ class IdentitiesDelegationConfigsListOutputItems:
 class IdentitiesDelegationConfigsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class IdentitiesDelegationConfigsListOutput:
+    object: str
     items: List[IdentitiesDelegationConfigsListOutputItems]
     pagination: IdentitiesDelegationConfigsListOutputPagination
 
@@ -56,7 +59,9 @@ class mapIdentitiesDelegationConfigsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> IdentitiesDelegationConfigsListOutputPagination:
         return IdentitiesDelegationConfigsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -71,6 +76,7 @@ class mapIdentitiesDelegationConfigsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> IdentitiesDelegationConfigsListOutput:
         return IdentitiesDelegationConfigsListOutput(
+        object=data.get('object'),
         items=[mapIdentitiesDelegationConfigsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapIdentitiesDelegationConfigsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

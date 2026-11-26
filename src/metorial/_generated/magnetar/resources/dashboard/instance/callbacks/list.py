@@ -39,8 +39,11 @@ class DashboardInstanceCallbacksListOutputItems:
 class DashboardInstanceCallbacksListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class DashboardInstanceCallbacksListOutput:
+    object: str
     items: List[DashboardInstanceCallbacksListOutputItems]
     pagination: DashboardInstanceCallbacksListOutputPagination
 
@@ -118,7 +121,9 @@ class mapDashboardInstanceCallbacksListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceCallbacksListOutputPagination:
         return DashboardInstanceCallbacksListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -133,6 +138,7 @@ class mapDashboardInstanceCallbacksListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceCallbacksListOutput:
         return DashboardInstanceCallbacksListOutput(
+        object=data.get('object'),
         items=[mapDashboardInstanceCallbacksListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapDashboardInstanceCallbacksListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

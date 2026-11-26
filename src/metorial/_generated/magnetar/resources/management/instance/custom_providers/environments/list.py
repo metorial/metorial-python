@@ -17,8 +17,11 @@ class ManagementInstanceCustomProvidersEnvironmentsListOutputItems:
 class ManagementInstanceCustomProvidersEnvironmentsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class ManagementInstanceCustomProvidersEnvironmentsListOutput:
+    object: str
     items: List[ManagementInstanceCustomProvidersEnvironmentsListOutputItems]
     pagination: ManagementInstanceCustomProvidersEnvironmentsListOutputPagination
 
@@ -50,7 +53,9 @@ class mapManagementInstanceCustomProvidersEnvironmentsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceCustomProvidersEnvironmentsListOutputPagination:
         return ManagementInstanceCustomProvidersEnvironmentsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -65,6 +70,7 @@ class mapManagementInstanceCustomProvidersEnvironmentsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceCustomProvidersEnvironmentsListOutput:
         return ManagementInstanceCustomProvidersEnvironmentsListOutput(
+        object=data.get('object'),
         items=[mapManagementInstanceCustomProvidersEnvironmentsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapManagementInstanceCustomProvidersEnvironmentsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

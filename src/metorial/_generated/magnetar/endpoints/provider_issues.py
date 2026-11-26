@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceProviderIssuesListOutput, DashboardInstanceProviderIssuesListOutput, mapDashboardInstanceProviderIssuesListQuery, DashboardInstanceProviderIssuesListQuery, mapDashboardInstanceProviderIssuesGetOutput, DashboardInstanceProviderIssuesGetOutput
 
 class MetorialProviderIssuesEndpoint(BaseMetorialEndpoint):
-    """Provider issues aggregate repeated provider errors, authentication failures and ProtoGuard warnings into one record per distinct problem."""
+    """A provider issue is a group of repeated provider errors, authentication failures, or ProtoGuard warnings sharing one underlying problem."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)

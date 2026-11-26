@@ -16,8 +16,11 @@ class ManagementInstanceProviderDeploymentsSetupSessionsEmailsCreateOutputItems:
 class ManagementInstanceProviderDeploymentsSetupSessionsEmailsCreateOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class ManagementInstanceProviderDeploymentsSetupSessionsEmailsCreateOutput:
+    object: str
     items: List[ManagementInstanceProviderDeploymentsSetupSessionsEmailsCreateOutputItems]
     pagination: ManagementInstanceProviderDeploymentsSetupSessionsEmailsCreateOutputPagination
 
@@ -48,7 +51,9 @@ class mapManagementInstanceProviderDeploymentsSetupSessionsEmailsCreateOutputPag
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderDeploymentsSetupSessionsEmailsCreateOutputPagination:
         return ManagementInstanceProviderDeploymentsSetupSessionsEmailsCreateOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -63,6 +68,7 @@ class mapManagementInstanceProviderDeploymentsSetupSessionsEmailsCreateOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceProviderDeploymentsSetupSessionsEmailsCreateOutput:
         return ManagementInstanceProviderDeploymentsSetupSessionsEmailsCreateOutput(
+        object=data.get('object'),
         items=[mapManagementInstanceProviderDeploymentsSetupSessionsEmailsCreateOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapManagementInstanceProviderDeploymentsSetupSessionsEmailsCreateOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

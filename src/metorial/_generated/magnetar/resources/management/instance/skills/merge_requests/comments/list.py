@@ -65,8 +65,11 @@ class ManagementInstanceSkillsMergeRequestsCommentsListOutputItems:
 class ManagementInstanceSkillsMergeRequestsCommentsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class ManagementInstanceSkillsMergeRequestsCommentsListOutput:
+    object: str
     items: List[ManagementInstanceSkillsMergeRequestsCommentsListOutputItems]
     pagination: ManagementInstanceSkillsMergeRequestsCommentsListOutputPagination
 
@@ -206,7 +209,9 @@ class mapManagementInstanceSkillsMergeRequestsCommentsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceSkillsMergeRequestsCommentsListOutputPagination:
         return ManagementInstanceSkillsMergeRequestsCommentsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -221,6 +226,7 @@ class mapManagementInstanceSkillsMergeRequestsCommentsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceSkillsMergeRequestsCommentsListOutput:
         return ManagementInstanceSkillsMergeRequestsCommentsListOutput(
+        object=data.get('object'),
         items=[mapManagementInstanceSkillsMergeRequestsCommentsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapManagementInstanceSkillsMergeRequestsCommentsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

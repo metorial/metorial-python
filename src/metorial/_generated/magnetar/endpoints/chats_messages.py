@@ -51,7 +51,7 @@ class MetorialChatsMessagesEndpoint(BaseMetorialEndpoint):
     def get(self, chat_id: str, message_id: str, *, channel_id: str) -> DashboardInstanceChatsMessagesGetOutput:
         """
     Get chat message
-    Retrieves a specific chat message.
+    Retrieves a chat message.
 
     :param chat_id: str
     :param message_id: str
@@ -107,7 +107,7 @@ class MetorialChatsMessagesEndpoint(BaseMetorialEndpoint):
     def update(self, chat_id: str, message_id: str, *, channel_id: str, parts: List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]], alt_text: Optional[str] = None) -> DashboardInstanceChatsMessagesUpdateOutput:
         """
     Edit chat message
-    Edits a specific chat message.
+    Edits a chat message.
 
     :param chat_id: str
     :param message_id: str
@@ -132,7 +132,7 @@ class MetorialChatsMessagesEndpoint(BaseMetorialEndpoint):
     def delete(self, chat_id: str, message_id: str, *, channel_id: str) -> DashboardInstanceChatsMessagesDeleteOutput:
         """
     Delete chat message
-    Deletes a specific chat message.
+    Deletes a chat message.
 
     :param chat_id: str
     :param message_id: str
@@ -152,7 +152,7 @@ class MetorialChatsMessagesEndpoint(BaseMetorialEndpoint):
     def read(self, chat_id: str, message_id: str, *, channel_id: str, thread_id: Optional[str] = None) -> DashboardInstanceChatsMessagesReadOutput:
         """
     Mark chat message read
-    Marks a specific chat message as read.
+    Marks a chat message as read.
 
     :param chat_id: str
     :param message_id: str

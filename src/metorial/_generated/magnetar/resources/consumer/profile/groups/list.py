@@ -17,8 +17,11 @@ class ConsumerProfileGroupsListOutputItems:
 class ConsumerProfileGroupsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class ConsumerProfileGroupsListOutput:
+    object: str
     items: List[ConsumerProfileGroupsListOutputItems]
     pagination: ConsumerProfileGroupsListOutputPagination
 
@@ -50,7 +53,9 @@ class mapConsumerProfileGroupsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> ConsumerProfileGroupsListOutputPagination:
         return ConsumerProfileGroupsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -65,6 +70,7 @@ class mapConsumerProfileGroupsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ConsumerProfileGroupsListOutput:
         return ConsumerProfileGroupsListOutput(
+        object=data.get('object'),
         items=[mapConsumerProfileGroupsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapConsumerProfileGroupsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceSessionsProvidersListOutput, DashboardInstanceSessionsProvidersListOutput, mapDashboardInstanceSessionsProvidersListQuery, DashboardInstanceSessionsProvidersListQuery, mapDashboardInstanceSessionsProvidersGetOutput, DashboardInstanceSessionsProvidersGetOutput, mapDashboardInstanceSessionsProvidersCreateOutput, DashboardInstanceSessionsProvidersCreateOutput, mapDashboardInstanceSessionsProvidersCreateBody, DashboardInstanceSessionsProvidersCreateBody, mapDashboardInstanceSessionsProvidersUpdateOutput, DashboardInstanceSessionsProvidersUpdateOutput, mapDashboardInstanceSessionsProvidersUpdateBody, DashboardInstanceSessionsProvidersUpdateBody, mapDashboardInstanceSessionsProvidersDeleteOutput, DashboardInstanceSessionsProvidersDeleteOutput
 
 class MetorialManagementInstanceSessionsProvidersEndpoint(BaseMetorialEndpoint):
-    """Session providers represent the providers that are actively connected to a session. Each session can have multiple providers, and providers can be added or removed during the session lifecycle."""
+    """A session provider is one provider connected to a session, with the deployment, config, and credentials it runs with."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -11,7 +11,7 @@ class MetorialManagementInstanceSessionsProvidersEndpoint(BaseMetorialEndpoint):
     def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, session_id: Optional[Union[str, List[str]]] = None, session_template_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, provider_config_id: Optional[Union[str, List[str]]] = None, provider_auth_config_id: Optional[Union[str, List[str]]] = None, status: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceSessionsProvidersListOutput:
         """
     List session providers
-    Returns a paginated list of providers connected to a session.
+    Returns a paginated list of session providers.
 
     :param instance_id: str
     :param limit: Optional[float] (optional)
@@ -73,7 +73,7 @@ class MetorialManagementInstanceSessionsProvidersEndpoint(BaseMetorialEndpoint):
     def get(self, instance_id: str, session_provider_id: str) -> DashboardInstanceSessionsProvidersGetOutput:
         """
     Get session provider
-    Retrieves a specific provider connected to a session.
+    Retrieves a session provider.
 
     :param instance_id: str
     :param session_provider_id: str
@@ -87,7 +87,7 @@ class MetorialManagementInstanceSessionsProvidersEndpoint(BaseMetorialEndpoint):
     def create(self, instance_id: str, *, session_id: str, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None) -> DashboardInstanceSessionsProvidersCreateOutput:
         """
     Create session provider
-    Adds a new provider to an active session.
+    Creates a session provider. The session must be active.
 
     :param instance_id: str
     :param session_id: str
@@ -109,7 +109,7 @@ class MetorialManagementInstanceSessionsProvidersEndpoint(BaseMetorialEndpoint):
     def update(self, instance_id: str, session_provider_id: str, *, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None) -> DashboardInstanceSessionsProvidersUpdateOutput:
         """
     Update session provider
-    Updates a provider connected to a session.
+    Updates a session provider.
 
     :param instance_id: str
     :param session_provider_id: str
@@ -129,8 +129,8 @@ class MetorialManagementInstanceSessionsProvidersEndpoint(BaseMetorialEndpoint):
 
     def delete(self, instance_id: str, session_provider_id: str) -> DashboardInstanceSessionsProvidersDeleteOutput:
         """
-    Delete session provider
-    Removes a provider from a session.
+    Archive session provider
+    Archives a session provider. It stays listable with `status=archived`.
 
     :param instance_id: str
     :param session_provider_id: str

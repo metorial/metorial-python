@@ -2,7 +2,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceStoresPermissionsGetOutput, DashboardInstanceStoresPermissionsGetOutput
 
 class MetorialManagementInstanceStoresPermissionsEndpoint(BaseMetorialEndpoint):
-    """Create and manage instance stores backed by Cargo."""
+    """A store is a shared collection of files and documents. Participants get read or write access to its contents."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -10,7 +10,7 @@ class MetorialManagementInstanceStoresPermissionsEndpoint(BaseMetorialEndpoint):
     def get(self, instance_id: str, store_id: str) -> DashboardInstanceStoresPermissionsGetOutput:
         """
     Get store permissions
-    Returns the effective Cargo permissions for the current actor on a specific store.
+    Returns what the caller can do with a store.
 
     :param instance_id: str
     :param store_id: str

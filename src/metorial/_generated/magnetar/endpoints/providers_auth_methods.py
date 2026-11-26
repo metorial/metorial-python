@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceProvidersAuthMethodsListOutput, DashboardInstanceProvidersAuthMethodsListOutput, mapDashboardInstanceProvidersAuthMethodsListQuery, DashboardInstanceProvidersAuthMethodsListQuery, mapDashboardInstanceProvidersAuthMethodsGetOutput, DashboardInstanceProvidersAuthMethodsGetOutput
 
 class MetorialProvidersAuthMethodsEndpoint(BaseMetorialEndpoint):
-    """An auth method defines one way to authenticate with a provider (OAuth, API token, or custom credentials). A provider version may support multiple auth methods."""
+    """A provider auth method is one way to authenticate with a provider, such as OAuth, an API token, or custom credentials. A provider version can offer multiple auth methods."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)

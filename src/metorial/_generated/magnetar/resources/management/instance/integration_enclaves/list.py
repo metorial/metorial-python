@@ -26,8 +26,11 @@ class ManagementInstanceIntegrationEnclavesListOutputItems:
 class ManagementInstanceIntegrationEnclavesListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class ManagementInstanceIntegrationEnclavesListOutput:
+    object: str
     items: List[ManagementInstanceIntegrationEnclavesListOutputItems]
     pagination: ManagementInstanceIntegrationEnclavesListOutputPagination
 
@@ -80,7 +83,9 @@ class mapManagementInstanceIntegrationEnclavesListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceIntegrationEnclavesListOutputPagination:
         return ManagementInstanceIntegrationEnclavesListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -95,6 +100,7 @@ class mapManagementInstanceIntegrationEnclavesListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceIntegrationEnclavesListOutput:
         return ManagementInstanceIntegrationEnclavesListOutput(
+        object=data.get('object'),
         items=[mapManagementInstanceIntegrationEnclavesListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapManagementInstanceIntegrationEnclavesListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceDocumentsCommentThreadsListOutput, DashboardInstanceDocumentsCommentThreadsListOutput, mapDashboardInstanceDocumentsCommentThreadsListQuery, DashboardInstanceDocumentsCommentThreadsListQuery, mapDashboardInstanceDocumentsCommentThreadsGetOutput, DashboardInstanceDocumentsCommentThreadsGetOutput, mapDashboardInstanceDocumentsCommentThreadsCreateOutput, DashboardInstanceDocumentsCommentThreadsCreateOutput, mapDashboardInstanceDocumentsCommentThreadsCreateBody, DashboardInstanceDocumentsCommentThreadsCreateBody, mapDashboardInstanceDocumentsCommentThreadsUpdateOutput, DashboardInstanceDocumentsCommentThreadsUpdateOutput, mapDashboardInstanceDocumentsCommentThreadsUpdateBody, DashboardInstanceDocumentsCommentThreadsUpdateBody, mapDashboardInstanceDocumentsCommentThreadsDeleteOutput, DashboardInstanceDocumentsCommentThreadsDeleteOutput
 
 class MetorialDocumentsCommentThreadsEndpoint(BaseMetorialEndpoint):
-    """Discuss selected text in a document through comment threads."""
+    """A document comment thread is a discussion anchored to a text selection in a document."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -11,7 +11,7 @@ class MetorialDocumentsCommentThreadsEndpoint(BaseMetorialEndpoint):
     def list(self, document_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, status: Optional[Union[str, List[str]]] = None, anchor_status: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceDocumentsCommentThreadsListOutput:
         """
     List document comment threads
-    Returns a paginated list of comment threads for a specific document.
+    Returns a paginated list of comment threads in a document.
 
     :param document_id: str
     :param limit: Optional[float] (optional)
@@ -54,8 +54,8 @@ class MetorialDocumentsCommentThreadsEndpoint(BaseMetorialEndpoint):
 
     def get(self, document_id: str, document_comment_thread_id: str) -> DashboardInstanceDocumentsCommentThreadsGetOutput:
         """
-    Get document comment thread by ID
-    Retrieves a specific comment thread with its comments.
+    Get document comment thread
+    Retrieves a document comment thread with its comments.
 
     :param document_id: str
     :param document_comment_thread_id: str

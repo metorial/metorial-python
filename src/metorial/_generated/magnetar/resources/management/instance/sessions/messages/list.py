@@ -218,8 +218,11 @@ class ManagementInstanceSessionsMessagesListOutputItems:
 class ManagementInstanceSessionsMessagesListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class ManagementInstanceSessionsMessagesListOutput:
+    object: str
     items: List[ManagementInstanceSessionsMessagesListOutputItems]
     pagination: ManagementInstanceSessionsMessagesListOutputPagination
 
@@ -680,7 +683,9 @@ class mapManagementInstanceSessionsMessagesListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceSessionsMessagesListOutputPagination:
         return ManagementInstanceSessionsMessagesListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -695,6 +700,7 @@ class mapManagementInstanceSessionsMessagesListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceSessionsMessagesListOutput:
         return ManagementInstanceSessionsMessagesListOutput(
+        object=data.get('object'),
         items=[mapManagementInstanceSessionsMessagesListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapManagementInstanceSessionsMessagesListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

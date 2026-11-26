@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceMagicMcpEndpointsListOutput, DashboardInstanceMagicMcpEndpointsListOutput, mapDashboardInstanceMagicMcpEndpointsListQuery, DashboardInstanceMagicMcpEndpointsListQuery, mapDashboardInstanceMagicMcpEndpointsGetOutput, DashboardInstanceMagicMcpEndpointsGetOutput, mapDashboardInstanceMagicMcpEndpointsCreateOutput, DashboardInstanceMagicMcpEndpointsCreateOutput, mapDashboardInstanceMagicMcpEndpointsCreateBody, DashboardInstanceMagicMcpEndpointsCreateBody, mapDashboardInstanceMagicMcpEndpointsDeleteOutput, DashboardInstanceMagicMcpEndpointsDeleteOutput, mapDashboardInstanceMagicMcpEndpointsUpdateOutput, DashboardInstanceMagicMcpEndpointsUpdateOutput, mapDashboardInstanceMagicMcpEndpointsUpdateBody, DashboardInstanceMagicMcpEndpointsUpdateBody, mapDashboardInstanceMagicMcpEndpointsAddServersOutput, DashboardInstanceMagicMcpEndpointsAddServersOutput, mapDashboardInstanceMagicMcpEndpointsAddServersBody, DashboardInstanceMagicMcpEndpointsAddServersBody, mapDashboardInstanceMagicMcpEndpointsRemoveServersOutput, DashboardInstanceMagicMcpEndpointsRemoveServersOutput, mapDashboardInstanceMagicMcpEndpointsRemoveServersBody, DashboardInstanceMagicMcpEndpointsRemoveServersBody
 
 class MetorialMagicMcpEndpointsEndpoint(BaseMetorialEndpoint):
-    """Magic MCP endpoints combine multiple Magic MCP servers behind one routed connection target."""
+    """A magic MCP endpoint is one connection target that routes to multiple magic MCP servers."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -109,7 +109,7 @@ class MetorialMagicMcpEndpointsEndpoint(BaseMetorialEndpoint):
 
     def delete(self, magic_mcp_endpoint_id: str) -> DashboardInstanceMagicMcpEndpointsDeleteOutput:
         """
-    Delete magic MCP endpoint
+    Archive magic MCP endpoint
     Archives a magic MCP endpoint.
 
     :param magic_mcp_endpoint_id: str
@@ -123,7 +123,7 @@ class MetorialMagicMcpEndpointsEndpoint(BaseMetorialEndpoint):
     def update(self, magic_mcp_endpoint_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, enable_skill_editing: Optional[bool] = None, enable_skill_resources: Optional[bool] = None, skill_selection: Optional[Union[Dict[str, Any], Dict[str, Any]]] = None) -> DashboardInstanceMagicMcpEndpointsUpdateOutput:
         """
     Update magic MCP endpoint
-    Updates a magic MCP endpoint.
+    Updates a magic MCP endpoint. Omitted fields keep their current value.
 
     :param magic_mcp_endpoint_id: str
     :param name: Optional[str] (optional)

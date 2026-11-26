@@ -117,8 +117,11 @@ class DashboardInstanceSkillsParticipantsListOutputItems:
 class DashboardInstanceSkillsParticipantsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class DashboardInstanceSkillsParticipantsListOutput:
+    object: str
     items: List[DashboardInstanceSkillsParticipantsListOutputItems]
     pagination: DashboardInstanceSkillsParticipantsListOutputPagination
 
@@ -382,7 +385,9 @@ class mapDashboardInstanceSkillsParticipantsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceSkillsParticipantsListOutputPagination:
         return DashboardInstanceSkillsParticipantsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -397,6 +402,7 @@ class mapDashboardInstanceSkillsParticipantsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceSkillsParticipantsListOutput:
         return DashboardInstanceSkillsParticipantsListOutput(
+        object=data.get('object'),
         items=[mapDashboardInstanceSkillsParticipantsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapDashboardInstanceSkillsParticipantsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

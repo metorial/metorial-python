@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceProviderDeploymentsConfigsListOutput, DashboardInstanceProviderDeploymentsConfigsListOutput, mapDashboardInstanceProviderDeploymentsConfigsListQuery, DashboardInstanceProviderDeploymentsConfigsListQuery, mapDashboardInstanceProviderDeploymentsConfigsGetOutput, DashboardInstanceProviderDeploymentsConfigsGetOutput, mapDashboardInstanceProviderDeploymentsConfigsCreateOutput, DashboardInstanceProviderDeploymentsConfigsCreateOutput, mapDashboardInstanceProviderDeploymentsConfigsCreateBody, DashboardInstanceProviderDeploymentsConfigsCreateBody, mapDashboardInstanceProviderDeploymentsConfigsUpdateOutput, DashboardInstanceProviderDeploymentsConfigsUpdateOutput, mapDashboardInstanceProviderDeploymentsConfigsUpdateBody, DashboardInstanceProviderDeploymentsConfigsUpdateBody, mapDashboardInstanceProviderDeploymentsConfigsDeleteOutput, DashboardInstanceProviderDeploymentsConfigsDeleteOutput, mapDashboardInstanceProviderDeploymentsConfigsGetConfigSchemaOutput, DashboardInstanceProviderDeploymentsConfigsGetConfigSchemaOutput, mapDashboardInstanceProviderDeploymentsConfigsGetConfigSchemaQuery, DashboardInstanceProviderDeploymentsConfigsGetConfigSchemaQuery
 
 class MetorialManagementInstanceProviderDeploymentsConfigsEndpoint(BaseMetorialEndpoint):
-    """A config holds settings for a deployment, like API endpoints or feature flags. Create configs with values directly, or from a saved config vault with pre-saved values."""
+    """A provider config is a set of configuration values for a provider. It holds values directly or references a config vault."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -105,7 +105,7 @@ class MetorialManagementInstanceProviderDeploymentsConfigsEndpoint(BaseMetorialE
     def create(self, instance_id: str, *, provider_id: str, provider_deployment_id: Optional[str] = None, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None, value: Dict[str, Any] = None, provider_config_vault_id: str = None) -> DashboardInstanceProviderDeploymentsConfigsCreateOutput:
         """
     Create provider config
-    Creates a new provider config.
+    Creates a provider config.
 
     :param instance_id: str
     :param provider_id: str
@@ -174,8 +174,8 @@ class MetorialManagementInstanceProviderDeploymentsConfigsEndpoint(BaseMetorialE
 
     def delete(self, instance_id: str, provider_config_id: str) -> DashboardInstanceProviderDeploymentsConfigsDeleteOutput:
         """
-    Delete provider config
-    Permanently deletes a provider config.
+    Archive provider config
+    Archives a provider config. It stays listable with `status=archived`.
 
     :param instance_id: str
     :param provider_config_id: str
@@ -189,7 +189,7 @@ class MetorialManagementInstanceProviderDeploymentsConfigsEndpoint(BaseMetorialE
     def get_config_schema(self, instance_id: str, *, provider_id: Optional[str] = None, provider_config_id: Optional[str] = None, provider_version_id: Optional[str] = None, provider_deployment_id: Optional[str] = None) -> DashboardInstanceProviderDeploymentsConfigsGetConfigSchemaOutput:
         """
     Get config schema
-    Retrieves the JSON Schema for configuration of this provider deployment.
+    Returns the JSON Schema for provider configuration, resolved from the given provider, version, deployment, or config.
 
     :param instance_id: str
     :param provider_id: Optional[str] (optional)

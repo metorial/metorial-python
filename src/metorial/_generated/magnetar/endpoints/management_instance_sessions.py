@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceSessionsListOutput, DashboardInstanceSessionsListOutput, mapDashboardInstanceSessionsListQuery, DashboardInstanceSessionsListQuery, mapDashboardInstanceSessionsGetOutput, DashboardInstanceSessionsGetOutput, mapDashboardInstanceSessionsCreateOutput, DashboardInstanceSessionsCreateOutput, mapDashboardInstanceSessionsCreateBody, DashboardInstanceSessionsCreateBody, mapDashboardInstanceSessionsUpdateOutput, DashboardInstanceSessionsUpdateOutput, mapDashboardInstanceSessionsUpdateBody, DashboardInstanceSessionsUpdateBody, mapDashboardInstanceSessionsDeleteOutput, DashboardInstanceSessionsDeleteOutput
 
 class MetorialManagementInstanceSessionsEndpoint(BaseMetorialEndpoint):
-    """Sessions are connections to providers that allow clients to interact with MCP servers. Each session can include one or more provider deployments."""
+    """A session is a connection between clients and providers over MCP. Each session connects to one or more providers."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -88,7 +88,7 @@ class MetorialManagementInstanceSessionsEndpoint(BaseMetorialEndpoint):
     def get(self, instance_id: str, session_id: str) -> DashboardInstanceSessionsGetOutput:
         """
     Get session
-    Retrieves a specific session by ID.
+    Retrieves a session.
 
     :param instance_id: str
     :param session_id: str
@@ -102,7 +102,7 @@ class MetorialManagementInstanceSessionsEndpoint(BaseMetorialEndpoint):
     def create(self, instance_id: str, *, providers: List[Dict[str, Any]], name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceSessionsCreateOutput:
         """
     Create session
-    Creates a new session with provider deployments.
+    Creates a session with one or more providers, from a template or inline definitions.
 
     :param instance_id: str
     :param name: Optional[str] (optional)
@@ -130,7 +130,7 @@ class MetorialManagementInstanceSessionsEndpoint(BaseMetorialEndpoint):
     def update(self, instance_id: str, session_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceSessionsUpdateOutput:
         """
     Update session
-    Updates a session.
+    Updates a session. Omitted fields keep their current value.
 
     :param instance_id: str
     :param session_id: str
@@ -156,8 +156,8 @@ class MetorialManagementInstanceSessionsEndpoint(BaseMetorialEndpoint):
 
     def delete(self, instance_id: str, session_id: str) -> DashboardInstanceSessionsDeleteOutput:
         """
-    Delete session
-    Deletes a session.
+    Archive session
+    Archives a session. Its connections disconnect and its providers are archived. It stays listable with `status=archived`.
 
     :param instance_id: str
     :param session_id: str

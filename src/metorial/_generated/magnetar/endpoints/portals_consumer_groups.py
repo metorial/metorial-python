@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstancePortalsConsumerGroupsListOutput, DashboardInstancePortalsConsumerGroupsListOutput, mapDashboardInstancePortalsConsumerGroupsListQuery, DashboardInstancePortalsConsumerGroupsListQuery, mapDashboardInstancePortalsConsumerGroupsGetOutput, DashboardInstancePortalsConsumerGroupsGetOutput, mapDashboardInstancePortalsConsumerGroupsCreateOutput, DashboardInstancePortalsConsumerGroupsCreateOutput, mapDashboardInstancePortalsConsumerGroupsCreateBody, DashboardInstancePortalsConsumerGroupsCreateBody, mapDashboardInstancePortalsConsumerGroupsUpdateOutput, DashboardInstancePortalsConsumerGroupsUpdateOutput, mapDashboardInstancePortalsConsumerGroupsUpdateBody, DashboardInstancePortalsConsumerGroupsUpdateBody, mapDashboardInstancePortalsConsumerGroupsDeleteOutput, DashboardInstancePortalsConsumerGroupsDeleteOutput
 
 class MetorialPortalsConsumerGroupsEndpoint(BaseMetorialEndpoint):
-    """Manage the consumer groups that drive portal visibility and access rules."""
+    """A portal consumer group is a set of consumers on a portal. Groups decide which listings each consumer sees."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -49,7 +49,7 @@ class MetorialPortalsConsumerGroupsEndpoint(BaseMetorialEndpoint):
     def get(self, portal_id: str, consumer_group_id: str) -> DashboardInstancePortalsConsumerGroupsGetOutput:
         """
     Get portal consumer group
-    Retrieves a portal consumer group by ID.
+    Retrieves a portal consumer group.
 
     :param portal_id: str
     :param consumer_group_id: str
@@ -63,7 +63,7 @@ class MetorialPortalsConsumerGroupsEndpoint(BaseMetorialEndpoint):
     def create(self, portal_id: str, *, name: str, description: Optional[str] = None, is_default: Optional[bool] = None) -> DashboardInstancePortalsConsumerGroupsCreateOutput:
         """
     Create portal consumer group
-    Creates a new consumer group for the portal.
+    Creates a consumer group for a portal.
 
     :param portal_id: str
     :param name: str
@@ -88,7 +88,7 @@ class MetorialPortalsConsumerGroupsEndpoint(BaseMetorialEndpoint):
     def update(self, portal_id: str, consumer_group_id: str, *, name: Optional[str] = None, description: Optional[str] = None, is_default: Optional[bool] = None) -> DashboardInstancePortalsConsumerGroupsUpdateOutput:
         """
     Update portal consumer group
-    Updates a consumer group for the portal.
+    Updates a portal consumer group. Omitted fields keep their current value.
 
     :param portal_id: str
     :param consumer_group_id: str
@@ -114,8 +114,8 @@ class MetorialPortalsConsumerGroupsEndpoint(BaseMetorialEndpoint):
 
     def delete(self, portal_id: str, consumer_group_id: str) -> DashboardInstancePortalsConsumerGroupsDeleteOutput:
         """
-    Delete portal consumer group
-    Archives a consumer group for the portal.
+    Archive portal consumer group
+    Archives a portal consumer group.
 
     :param portal_id: str
     :param consumer_group_id: str

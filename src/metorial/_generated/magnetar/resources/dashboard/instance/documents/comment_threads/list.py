@@ -172,8 +172,11 @@ class DashboardInstanceDocumentsCommentThreadsListOutputItems:
 class DashboardInstanceDocumentsCommentThreadsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class DashboardInstanceDocumentsCommentThreadsListOutput:
+    object: str
     items: List[DashboardInstanceDocumentsCommentThreadsListOutputItems]
     pagination: DashboardInstanceDocumentsCommentThreadsListOutputPagination
 
@@ -552,7 +555,9 @@ class mapDashboardInstanceDocumentsCommentThreadsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceDocumentsCommentThreadsListOutputPagination:
         return DashboardInstanceDocumentsCommentThreadsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -567,6 +572,7 @@ class mapDashboardInstanceDocumentsCommentThreadsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceDocumentsCommentThreadsListOutput:
         return DashboardInstanceDocumentsCommentThreadsListOutput(
+        object=data.get('object'),
         items=[mapDashboardInstanceDocumentsCommentThreadsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapDashboardInstanceDocumentsCommentThreadsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

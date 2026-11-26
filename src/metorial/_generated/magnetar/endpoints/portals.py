@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstancePortalsListOutput, DashboardInstancePortalsListOutput, mapDashboardInstancePortalsListQuery, DashboardInstancePortalsListQuery, mapDashboardInstancePortalsGetOutput, DashboardInstancePortalsGetOutput, mapDashboardInstancePortalsCreateOutput, DashboardInstancePortalsCreateOutput, mapDashboardInstancePortalsCreateBody, DashboardInstancePortalsCreateBody, mapDashboardInstancePortalsUpdateOutput, DashboardInstancePortalsUpdateOutput, mapDashboardInstancePortalsUpdateBody, DashboardInstancePortalsUpdateBody, mapDashboardInstancePortalsDeleteOutput, DashboardInstancePortalsDeleteOutput
 
 class MetorialPortalsEndpoint(BaseMetorialEndpoint):
-    """Use Portals to create custom branded MCP server marketplaces for your organization."""
+    """A portal is a branded catalog of integrations and skills for your consumers. Each portal has its own consumers, groups, and access rules."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -45,7 +45,7 @@ class MetorialPortalsEndpoint(BaseMetorialEndpoint):
     def get(self, portal_id: str) -> DashboardInstancePortalsGetOutput:
         """
     Get portal
-    Retrieves details for a specific portal.
+    Retrieves a portal.
 
     :param portal_id: str
     :return: DashboardInstancePortalsGetOutput
@@ -58,7 +58,7 @@ class MetorialPortalsEndpoint(BaseMetorialEndpoint):
     def create(self, *, name: str, description: Optional[str] = None, allowed_redirect_url_filters: Optional[List[Dict[str, Any]]] = None, session_expiry_time_in_seconds: Optional[float] = None, allow_consumer_skill_authoring: Optional[bool] = None, allow_consumer_skill_publishing: Optional[bool] = None) -> DashboardInstancePortalsCreateOutput:
         """
     Create portal
-    Creates a new portal for the instance.
+    Creates a portal.
 
     :param name: str
     :param description: Optional[str] (optional)
@@ -91,7 +91,7 @@ class MetorialPortalsEndpoint(BaseMetorialEndpoint):
     def update(self, portal_id: str, *, name: Optional[str] = None, description: Optional[str] = None, allowed_redirect_url_filters: Optional[List[Dict[str, Any]]] = None, session_expiry_time_in_seconds: Optional[float] = None, allow_consumer_skill_authoring: Optional[bool] = None, allow_consumer_skill_publishing: Optional[bool] = None, skill_configuration: Optional[Dict[str, Any]] = None) -> DashboardInstancePortalsUpdateOutput:
         """
     Update portal
-    Updates an existing portal for the instance.
+    Updates a portal. Omitted fields keep their current value.
 
     :param portal_id: str
     :param name: Optional[str] (optional)
@@ -128,7 +128,7 @@ class MetorialPortalsEndpoint(BaseMetorialEndpoint):
 
     def delete(self, portal_id: str) -> DashboardInstancePortalsDeleteOutput:
         """
-    Delete portal
+    Archive portal
     Archives a portal.
 
     :param portal_id: str

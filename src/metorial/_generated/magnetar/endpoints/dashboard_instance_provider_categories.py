@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceProviderCategoriesListOutput, DashboardInstanceProviderCategoriesListOutput, mapDashboardInstanceProviderCategoriesListQuery, DashboardInstanceProviderCategoriesListQuery, mapDashboardInstanceProviderCategoriesGetOutput, DashboardInstanceProviderCategoriesGetOutput
 
 class MetorialDashboardInstanceProviderCategoriesEndpoint(BaseMetorialEndpoint):
-    """A category groups providers by function like 'Developer Tools' or 'ERPs'."""
+    """A provider category is a grouping of providers by function."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)

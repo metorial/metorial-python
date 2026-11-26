@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceMagicMcpServersProvidersListOutput, DashboardInstanceMagicMcpServersProvidersListOutput, mapDashboardInstanceMagicMcpServersProvidersListQuery, DashboardInstanceMagicMcpServersProvidersListQuery, mapDashboardInstanceMagicMcpServersProvidersCreateOutput, DashboardInstanceMagicMcpServersProvidersCreateOutput, mapDashboardInstanceMagicMcpServersProvidersCreateBody, DashboardInstanceMagicMcpServersProvidersCreateBody, mapDashboardInstanceMagicMcpServersProvidersGetOutput, DashboardInstanceMagicMcpServersProvidersGetOutput, mapDashboardInstanceMagicMcpServersProvidersUpdateOutput, DashboardInstanceMagicMcpServersProvidersUpdateOutput, mapDashboardInstanceMagicMcpServersProvidersUpdateBody, DashboardInstanceMagicMcpServersProvidersUpdateBody, mapDashboardInstanceMagicMcpServersProvidersDeleteOutput, DashboardInstanceMagicMcpServersProvidersDeleteOutput
 
 class MetorialMagicMcpServersProvidersEndpoint(BaseMetorialEndpoint):
-    """Magic MCP servers are stable MCP entrypoints backed by one Subspace session template."""
+    """A magic MCP server is a stable MCP entrypoint with its own providers and tool filters. Servers can be grouped and bound to tokens, or combined behind an endpoint."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -73,7 +73,7 @@ class MetorialMagicMcpServersProvidersEndpoint(BaseMetorialEndpoint):
     def create(self, magic_mcp_server_id: str, *, provider_id: str, provider_deployment_id: Optional[str] = None, provider_config_id: Optional[str] = None, provider_auth_config_id: Optional[str] = None, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None) -> DashboardInstanceMagicMcpServersProvidersCreateOutput:
         """
     Create magic MCP server provider
-    Creates a configurable provider row for a magic MCP server.
+    Adds a provider to a magic MCP server.
 
     :param magic_mcp_server_id: str
     :param provider_id: str
@@ -104,7 +104,7 @@ class MetorialMagicMcpServersProvidersEndpoint(BaseMetorialEndpoint):
     def get(self, magic_mcp_server_id: str, magic_mcp_server_provider_id: str) -> DashboardInstanceMagicMcpServersProvidersGetOutput:
         """
     Get magic MCP server provider
-    Retrieves a specific backing integration instance provider for a magic MCP server.
+    Retrieves a provider of a magic MCP server.
 
     :param magic_mcp_server_id: str
     :param magic_mcp_server_provider_id: str
@@ -118,7 +118,7 @@ class MetorialMagicMcpServersProvidersEndpoint(BaseMetorialEndpoint):
     def update(self, magic_mcp_server_id: str, magic_mcp_server_provider_id: str, *, provider_deployment_id: Optional[str] = None, provider_config_id: Optional[str] = None, provider_auth_config_id: Optional[str] = None, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None) -> DashboardInstanceMagicMcpServersProvidersUpdateOutput:
         """
     Update magic MCP server provider
-    Updates a backing integration provider and then sets the corresponding integration instance provider for a magic MCP server.
+    Updates a provider of a magic MCP server. Omitted fields keep their current value.
 
     :param magic_mcp_server_id: str
     :param magic_mcp_server_provider_id: str
@@ -147,7 +147,7 @@ class MetorialMagicMcpServersProvidersEndpoint(BaseMetorialEndpoint):
 
     def delete(self, magic_mcp_server_id: str, magic_mcp_server_provider_id: str) -> DashboardInstanceMagicMcpServersProvidersDeleteOutput:
         """
-    Delete magic MCP server provider
+    Archive magic MCP server provider
     Archives a backing integration instance provider from a magic MCP server and removes the shared integration provider when unused.
 
     :param magic_mcp_server_id: str

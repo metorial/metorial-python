@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceChatsDmsOpenOutput, DashboardInstanceChatsDmsOpenOutput, mapDashboardInstanceChatsDmsOpenBody, DashboardInstanceChatsDmsOpenBody
 
 class MetorialChatsDmsEndpoint(BaseMetorialEndpoint):
-    """Open direct message channels with one or more users on a chat."""
+    """A chat DM is a direct message channel with one or more users on a chat."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)

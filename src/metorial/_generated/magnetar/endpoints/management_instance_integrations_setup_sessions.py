@@ -4,7 +4,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceIntegrationsSetupSessionsListOutput, DashboardInstanceIntegrationsSetupSessionsListOutput, mapDashboardInstanceIntegrationsSetupSessionsListQuery, DashboardInstanceIntegrationsSetupSessionsListQuery, mapDashboardInstanceIntegrationsSetupSessionsGetOutput, DashboardInstanceIntegrationsSetupSessionsGetOutput, mapDashboardInstanceIntegrationsSetupSessionsCreateOutput, DashboardInstanceIntegrationsSetupSessionsCreateOutput, mapDashboardInstanceIntegrationsSetupSessionsCreateBody, DashboardInstanceIntegrationsSetupSessionsCreateBody
 
 class MetorialManagementInstanceIntegrationsSetupSessionsEndpoint(BaseMetorialEndpoint):
-    """Integration setup sessions orchestrate configuring every provider required by an integration instance."""
+    """An integration setup session is a shareable flow that connects each provider an integration instance needs. It creates a draft instance unless you pass one, and expires 30 minutes after creation unless `expires_at` is set."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -62,7 +62,7 @@ class MetorialManagementInstanceIntegrationsSetupSessionsEndpoint(BaseMetorialEn
     def get(self, instance_id: str, integration_setup_session_id: str) -> DashboardInstanceIntegrationsSetupSessionsGetOutput:
         """
     Get integration setup session
-    Retrieves a specific integration setup session.
+    Retrieves an integration setup session.
 
     :param instance_id: str
     :param integration_setup_session_id: str
@@ -76,7 +76,7 @@ class MetorialManagementInstanceIntegrationsSetupSessionsEndpoint(BaseMetorialEn
     def create(self, instance_id: str, *, integration_id: str, name: str, integration_instance_id: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, identity_actor_id: Optional[str] = None, identity_id: Optional[str] = None, expires_at: Optional[datetime] = None, redirect_url: Optional[str] = None, configuration: Optional[Dict[str, Any]] = None) -> DashboardInstanceIntegrationsSetupSessionsCreateOutput:
         """
     Create integration setup session
-    Creates a new integration setup session. Creates a draft integration instance unless integration_instance_id is given, in which case that instance is reused and its config and auth config are overwritten on completion.
+    Creates an integration setup session. Creates a draft integration instance unless `integration_instance_id` is given, in which case that instance is reused and its providers are configured on completion.
 
     :param instance_id: str
     :param integration_id: str

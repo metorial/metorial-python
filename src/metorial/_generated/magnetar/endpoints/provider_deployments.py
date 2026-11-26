@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceProviderDeploymentsListOutput, DashboardInstanceProviderDeploymentsListOutput, mapDashboardInstanceProviderDeploymentsListQuery, DashboardInstanceProviderDeploymentsListQuery, mapDashboardInstanceProviderDeploymentsGetOutput, DashboardInstanceProviderDeploymentsGetOutput, mapDashboardInstanceProviderDeploymentsCreateOutput, DashboardInstanceProviderDeploymentsCreateOutput, mapDashboardInstanceProviderDeploymentsCreateBody, DashboardInstanceProviderDeploymentsCreateBody, mapDashboardInstanceProviderDeploymentsUpdateOutput, DashboardInstanceProviderDeploymentsUpdateOutput, mapDashboardInstanceProviderDeploymentsUpdateBody, DashboardInstanceProviderDeploymentsUpdateBody, mapDashboardInstanceProviderDeploymentsDeleteOutput, DashboardInstanceProviderDeploymentsDeleteOutput
 
 class MetorialProviderDeploymentsEndpoint(BaseMetorialEndpoint):
-    """A deployment is a running instance of a provider, pinned to a specific version. Deployments support custom configuration values and user authentication."""
+    """A provider deployment is a provider set up for your instance, with its own configuration and credentials. It follows the provider's current version unless you lock it to one."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -88,7 +88,7 @@ class MetorialProviderDeploymentsEndpoint(BaseMetorialEndpoint):
     def create(self, *, provider_id: str, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None, locked_provider_version_id: Optional[str] = None, provider_config_id: Optional[str] = None, provider_config: Optional[Union[Dict[str, Any], Dict[str, Any]]] = None) -> DashboardInstanceProviderDeploymentsCreateOutput:
         """
     Create provider deployment
-    Creates a new provider deployment.
+    Creates a provider deployment.
 
     :param name: Optional[str] (optional)
     :param description: Optional[str] (optional)
@@ -158,8 +158,8 @@ class MetorialProviderDeploymentsEndpoint(BaseMetorialEndpoint):
 
     def delete(self, provider_deployment_id: str) -> DashboardInstanceProviderDeploymentsDeleteOutput:
         """
-    Delete provider deployment
-    Permanently deletes a provider deployment.
+    Archive provider deployment
+    Archives a provider deployment. It stays listable with `status=archived`.
 
     :param provider_deployment_id: str
     :return: DashboardInstanceProviderDeploymentsDeleteOutput

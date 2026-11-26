@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstancePortalsAccessListOutput, DashboardInstancePortalsAccessListOutput, mapDashboardInstancePortalsAccessListQuery, DashboardInstancePortalsAccessListQuery, mapDashboardInstancePortalsAccessGetOutput, DashboardInstancePortalsAccessGetOutput, mapDashboardInstancePortalsAccessCreateOutput, DashboardInstancePortalsAccessCreateOutput, mapDashboardInstancePortalsAccessCreateBody, DashboardInstancePortalsAccessCreateBody, mapDashboardInstancePortalsAccessUpdateOutput, DashboardInstancePortalsAccessUpdateOutput, mapDashboardInstancePortalsAccessUpdateBody, DashboardInstancePortalsAccessUpdateBody, mapDashboardInstancePortalsAccessDeleteOutput, DashboardInstancePortalsAccessDeleteOutput
 
 class MetorialDashboardInstancePortalsAccessEndpoint(BaseMetorialEndpoint):
-    """Manage which consumer groups can access portal provider templates and MCP servers."""
+    """A portal access rule grants one consumer group access to one listing target, such as an integration, skill, or skill set."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -77,7 +77,7 @@ class MetorialDashboardInstancePortalsAccessEndpoint(BaseMetorialEndpoint):
     def get(self, instance_id: str, portal_id: str, access_id: str) -> DashboardInstancePortalsAccessGetOutput:
         """
     Get portal access
-    Retrieves a portal access rule by ID.
+    Retrieves a portal access rule.
 
     :param instance_id: str
     :param portal_id: str
@@ -92,7 +92,7 @@ class MetorialDashboardInstancePortalsAccessEndpoint(BaseMetorialEndpoint):
     def create(self, instance_id: str, portal_id: str, *, consumer_group_id: str, access: Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], name: Optional[str] = None, description: Optional[str] = None, readme: Optional[str] = None) -> DashboardInstancePortalsAccessCreateOutput:
         """
     Create portal access
-    Creates a new consumer access rule for the portal.
+    Creates a consumer access rule for a portal.
 
     :param instance_id: str
     :param portal_id: str
@@ -123,7 +123,7 @@ class MetorialDashboardInstancePortalsAccessEndpoint(BaseMetorialEndpoint):
     def update(self, instance_id: str, portal_id: str, access_id: str, *, name: Optional[str] = None, description: Optional[str] = None, readme: Optional[str] = None, permission: Optional[str] = None) -> DashboardInstancePortalsAccessUpdateOutput:
         """
     Update portal access
-    Updates the shared listing fields of a portal access rule, and the access level of skill and skill group rules.
+    Updates a portal access rule. Only skill and skill group rules use `permission`. Omitted fields keep their current value.
 
     :param instance_id: str
     :param portal_id: str
@@ -154,7 +154,7 @@ class MetorialDashboardInstancePortalsAccessEndpoint(BaseMetorialEndpoint):
     def delete(self, instance_id: str, portal_id: str, access_id: str) -> DashboardInstancePortalsAccessDeleteOutput:
         """
     Delete portal access
-    Deletes a consumer access rule from the portal.
+    Deletes a portal access rule.
 
     :param instance_id: str
     :param portal_id: str

@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceSessionTemplatesProvidersListOutput, DashboardInstanceSessionTemplatesProvidersListOutput, mapDashboardInstanceSessionTemplatesProvidersListQuery, DashboardInstanceSessionTemplatesProvidersListQuery, mapDashboardInstanceSessionTemplatesProvidersGetOutput, DashboardInstanceSessionTemplatesProvidersGetOutput, mapDashboardInstanceSessionTemplatesProvidersCreateOutput, DashboardInstanceSessionTemplatesProvidersCreateOutput, mapDashboardInstanceSessionTemplatesProvidersCreateBody, DashboardInstanceSessionTemplatesProvidersCreateBody, mapDashboardInstanceSessionTemplatesProvidersUpdateOutput, DashboardInstanceSessionTemplatesProvidersUpdateOutput, mapDashboardInstanceSessionTemplatesProvidersUpdateBody, DashboardInstanceSessionTemplatesProvidersUpdateBody, mapDashboardInstanceSessionTemplatesProvidersDeleteOutput, DashboardInstanceSessionTemplatesProvidersDeleteOutput
 
 class MetorialManagementInstanceSessionTemplatesProvidersEndpoint(BaseMetorialEndpoint):
-    """Session template providers define which providers should be included when a session is created from a template."""
+    """A session template provider is one provider in a session template, with its deployment, config, auth config, and tool filters."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -11,7 +11,7 @@ class MetorialManagementInstanceSessionTemplatesProvidersEndpoint(BaseMetorialEn
     def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, session_template_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, provider_deployment_id: Optional[Union[str, List[str]]] = None, provider_config_id: Optional[Union[str, List[str]]] = None, provider_auth_config_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceSessionTemplatesProvidersListOutput:
         """
     List session template providers
-    Returns a paginated list of providers configured for a session template.
+    Returns a paginated list of session template providers.
 
     :param instance_id: str
     :param limit: Optional[float] (optional)
@@ -70,7 +70,7 @@ class MetorialManagementInstanceSessionTemplatesProvidersEndpoint(BaseMetorialEn
     def get(self, instance_id: str, session_template_provider_id: str) -> DashboardInstanceSessionTemplatesProvidersGetOutput:
         """
     Get session template provider
-    Retrieves a specific provider configuration from a session template.
+    Retrieves a session template provider.
 
     :param instance_id: str
     :param session_template_provider_id: str
@@ -84,7 +84,7 @@ class MetorialManagementInstanceSessionTemplatesProvidersEndpoint(BaseMetorialEn
     def create(self, instance_id: str, *, session_template_id: str, provider_deployment_id: Optional[str] = None, provider_config_id: Optional[str] = None, provider_config_vault_id: Optional[str] = None, provider_auth_config_id: Optional[str] = None, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None) -> DashboardInstanceSessionTemplatesProvidersCreateOutput:
         """
     Create session template provider
-    Adds a new provider configuration to a session template.
+    Creates a session template provider.
 
     :param instance_id: str
     :param session_template_id: str
@@ -118,7 +118,7 @@ class MetorialManagementInstanceSessionTemplatesProvidersEndpoint(BaseMetorialEn
     def update(self, instance_id: str, session_template_provider_id: str, *, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None) -> DashboardInstanceSessionTemplatesProvidersUpdateOutput:
         """
     Update session template provider
-    Updates a provider configuration in a session template.
+    Updates a session template provider.
 
     :param instance_id: str
     :param session_template_provider_id: str
@@ -138,8 +138,8 @@ class MetorialManagementInstanceSessionTemplatesProvidersEndpoint(BaseMetorialEn
 
     def delete(self, instance_id: str, session_template_provider_id: str) -> DashboardInstanceSessionTemplatesProvidersDeleteOutput:
         """
-    Delete session template provider
-    Removes a provider configuration from a session template.
+    Archive session template provider
+    Archives a session template provider. It stays listable with `status=archived`.
 
     :param instance_id: str
     :param session_template_provider_id: str

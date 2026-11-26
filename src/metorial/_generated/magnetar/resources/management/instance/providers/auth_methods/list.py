@@ -39,8 +39,11 @@ class ManagementInstanceProvidersAuthMethodsListOutputItems:
 class ManagementInstanceProvidersAuthMethodsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class ManagementInstanceProvidersAuthMethodsListOutput:
+    object: str
     items: List[ManagementInstanceProvidersAuthMethodsListOutputItems]
     pagination: ManagementInstanceProvidersAuthMethodsListOutputPagination
 
@@ -130,7 +133,9 @@ class mapManagementInstanceProvidersAuthMethodsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceProvidersAuthMethodsListOutputPagination:
         return ManagementInstanceProvidersAuthMethodsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -145,6 +150,7 @@ class mapManagementInstanceProvidersAuthMethodsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceProvidersAuthMethodsListOutput:
         return ManagementInstanceProvidersAuthMethodsListOutput(
+        object=data.get('object'),
         items=[mapManagementInstanceProvidersAuthMethodsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapManagementInstanceProvidersAuthMethodsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

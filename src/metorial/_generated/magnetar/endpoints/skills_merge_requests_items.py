@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceSkillsMergeRequestsItemsResolveOutput, DashboardInstanceSkillsMergeRequestsItemsResolveOutput, mapDashboardInstanceSkillsMergeRequestsItemsResolveBody, DashboardInstanceSkillsMergeRequestsItemsResolveBody, mapDashboardInstanceSkillsMergeRequestsItemsBulkResolveOutput, DashboardInstanceSkillsMergeRequestsItemsBulkResolveOutput, mapDashboardInstanceSkillsMergeRequestsItemsBulkResolveBody, DashboardInstanceSkillsMergeRequestsItemsBulkResolveBody
 
 class MetorialSkillsMergeRequestsItemsEndpoint(BaseMetorialEndpoint):
-    """Review, resolve, and apply changes between skills."""
+    """A skill merge request is a proposed change from one skill into another."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -11,7 +11,7 @@ class MetorialSkillsMergeRequestsItemsEndpoint(BaseMetorialEndpoint):
     def resolve(self, skill_merge_request_id: str, item_id: str, *, resolution_type: str, resolution: Optional[Dict[str, Any]] = None) -> DashboardInstanceSkillsMergeRequestsItemsResolveOutput:
         """
     Resolve skill merge request item
-    Saves a resolution for one proposed skill change.
+    Saves a resolution for one proposed skill change. The merge request must be open.
 
     :param skill_merge_request_id: str
     :param item_id: str
@@ -34,7 +34,7 @@ class MetorialSkillsMergeRequestsItemsEndpoint(BaseMetorialEndpoint):
     def bulk_resolve(self, skill_merge_request_id: str, *, items: List[Dict[str, Any]]) -> DashboardInstanceSkillsMergeRequestsItemsBulkResolveOutput:
         """
     Resolve skill merge request items
-    Saves resolutions for multiple proposed skill changes.
+    Saves resolutions for multiple proposed skill changes. The merge request must be open.
 
     :param skill_merge_request_id: str
     :param items: List[Dict[str, Any]]

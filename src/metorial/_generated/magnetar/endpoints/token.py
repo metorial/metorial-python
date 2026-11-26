@@ -2,15 +2,15 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapTokenGetOutput, TokenGetOutput
 
 class MetorialTokenEndpoint(BaseMetorialEndpoint):
-    """Endpoint for retrieving metadata about the token used for authentication. This is useful for clients to understand the type and capabilities of the token they are using, especially since Metorial supports multiple token types with different permission models."""
+    """A token is the credential a request authenticates with. This resource describes the calling token’s type and scope."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
     def get(self) -> TokenGetOutput:
         """
-    Get token details
-    Retrieves metadata and configuration details for a specific token.
+    Get token
+    Retrieves metadata about the calling token.
 
 
     :return: TokenGetOutput

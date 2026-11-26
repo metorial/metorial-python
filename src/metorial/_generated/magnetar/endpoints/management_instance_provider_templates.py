@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceProviderTemplatesListOutput, DashboardInstanceProviderTemplatesListOutput, mapDashboardInstanceProviderTemplatesListQuery, DashboardInstanceProviderTemplatesListQuery, mapDashboardInstanceProviderTemplatesGetOutput, DashboardInstanceProviderTemplatesGetOutput, mapDashboardInstanceProviderTemplatesCreateOutput, DashboardInstanceProviderTemplatesCreateOutput, mapDashboardInstanceProviderTemplatesCreateBody, DashboardInstanceProviderTemplatesCreateBody, mapDashboardInstanceProviderTemplatesUpdateOutput, DashboardInstanceProviderTemplatesUpdateOutput, mapDashboardInstanceProviderTemplatesUpdateBody, DashboardInstanceProviderTemplatesUpdateBody, mapDashboardInstanceProviderTemplatesDeleteOutput, DashboardInstanceProviderTemplatesDeleteOutput
 
 class MetorialManagementInstanceProviderTemplatesEndpoint(BaseMetorialEndpoint):
-    """Provider templates are reusable, consumer-facing wrappers around integrations."""
+    """A provider template is a consumer-facing view of an integration. It is created from an existing integration."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -55,7 +55,7 @@ class MetorialManagementInstanceProviderTemplatesEndpoint(BaseMetorialEndpoint):
     def get(self, instance_id: str, provider_template_id: str) -> DashboardInstanceProviderTemplatesGetOutput:
         """
     Get provider template
-    Retrieves a specific provider template.
+    Retrieves a provider template.
 
     :param instance_id: str
     :param provider_template_id: str
@@ -69,7 +69,7 @@ class MetorialManagementInstanceProviderTemplatesEndpoint(BaseMetorialEndpoint):
     def create(self, instance_id: str, *, name: str, integration_id: str, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderTemplatesCreateOutput:
         """
     Create provider template
-    Creates a new provider template from an existing integration.
+    Creates a provider template from an existing integration.
 
     :param instance_id: str
     :param name: str
@@ -96,7 +96,7 @@ class MetorialManagementInstanceProviderTemplatesEndpoint(BaseMetorialEndpoint):
     def update(self, instance_id: str, provider_template_id: str, *, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderTemplatesUpdateOutput:
         """
     Update provider template
-    Updates an existing provider template.
+    Updates a provider template. Omitted fields keep their current value.
 
     :param instance_id: str
     :param provider_template_id: str
@@ -123,7 +123,7 @@ class MetorialManagementInstanceProviderTemplatesEndpoint(BaseMetorialEndpoint):
     def delete(self, instance_id: str, provider_template_id: str) -> DashboardInstanceProviderTemplatesDeleteOutput:
         """
     Archive provider template
-    Archives an existing provider template.
+    Archives a provider template.
 
     :param instance_id: str
     :param provider_template_id: str

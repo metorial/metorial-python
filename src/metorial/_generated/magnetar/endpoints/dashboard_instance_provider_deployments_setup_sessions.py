@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceProviderDeploymentsSetupSessionsListOutput, DashboardInstanceProviderDeploymentsSetupSessionsListOutput, mapDashboardInstanceProviderDeploymentsSetupSessionsListQuery, DashboardInstanceProviderDeploymentsSetupSessionsListQuery, mapDashboardInstanceProviderDeploymentsSetupSessionsGetOutput, DashboardInstanceProviderDeploymentsSetupSessionsGetOutput, mapDashboardInstanceProviderDeploymentsSetupSessionsCreateOutput, DashboardInstanceProviderDeploymentsSetupSessionsCreateOutput, mapDashboardInstanceProviderDeploymentsSetupSessionsCreateBody, DashboardInstanceProviderDeploymentsSetupSessionsCreateBody, mapDashboardInstanceProviderDeploymentsSetupSessionsUpdateOutput, DashboardInstanceProviderDeploymentsSetupSessionsUpdateOutput, mapDashboardInstanceProviderDeploymentsSetupSessionsUpdateBody, DashboardInstanceProviderDeploymentsSetupSessionsUpdateBody, mapDashboardInstanceProviderDeploymentsSetupSessionsDeleteOutput, DashboardInstanceProviderDeploymentsSetupSessionsDeleteOutput
 
 class MetorialDashboardInstanceProviderDeploymentsSetupSessionsEndpoint(BaseMetorialEndpoint):
-    """A setup session tracks an in-progress OAuth flow, storing state during the redirect. On success, it creates an auth config with the user's access token."""
+    """A provider setup session is a guided flow that collects authentication, configuration, or both for a provider. `admin` sessions create a consent link for someone else to complete instead."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -87,7 +87,7 @@ class MetorialDashboardInstanceProviderDeploymentsSetupSessionsEndpoint(BaseMeto
     def create(self, instance_id: str, *, provider_id: Optional[str] = None, provider_deployment_id: Optional[str] = None, name: Optional[str] = None, description: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None, provider_auth_method_id: Optional[str] = None, provider_auth_credentials_id: Optional[str] = None, identity_id: Optional[str] = None, consumer_id: Optional[str] = None, redirect_url: Optional[str] = None, type: Optional[str] = None, configuration: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderDeploymentsSetupSessionsCreateOutput:
         """
     Create provider setup session
-    Creates a new provider setup session for OAuth authentication.
+    Creates a provider setup session.
 
     :param instance_id: str
     :param provider_id: Optional[str] (optional)
@@ -169,8 +169,8 @@ class MetorialDashboardInstanceProviderDeploymentsSetupSessionsEndpoint(BaseMeto
 
     def delete(self, instance_id: str, provider_setup_session_id: str) -> DashboardInstanceProviderDeploymentsSetupSessionsDeleteOutput:
         """
-    Delete provider setup session
-    Deletes a provider setup session.
+    Archive provider setup session
+    Archives a provider setup session. It stays listable with `status=archived`.
 
     :param instance_id: str
     :param provider_setup_session_id: str

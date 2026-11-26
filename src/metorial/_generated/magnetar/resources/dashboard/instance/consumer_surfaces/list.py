@@ -32,8 +32,11 @@ class DashboardInstanceConsumerSurfacesListOutputItems:
 class DashboardInstanceConsumerSurfacesListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class DashboardInstanceConsumerSurfacesListOutput:
+    object: str
     items: List[DashboardInstanceConsumerSurfacesListOutputItems]
     pagination: DashboardInstanceConsumerSurfacesListOutputPagination
 
@@ -104,7 +107,9 @@ class mapDashboardInstanceConsumerSurfacesListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceConsumerSurfacesListOutputPagination:
         return DashboardInstanceConsumerSurfacesListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -119,6 +124,7 @@ class mapDashboardInstanceConsumerSurfacesListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceConsumerSurfacesListOutput:
         return DashboardInstanceConsumerSurfacesListOutput(
+        object=data.get('object'),
         items=[mapDashboardInstanceConsumerSurfacesListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapDashboardInstanceConsumerSurfacesListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

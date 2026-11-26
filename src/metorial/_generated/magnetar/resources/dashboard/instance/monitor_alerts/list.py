@@ -94,8 +94,11 @@ class DashboardInstanceMonitorAlertsListOutputItems:
 class DashboardInstanceMonitorAlertsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class DashboardInstanceMonitorAlertsListOutput:
+    object: str
     items: List[DashboardInstanceMonitorAlertsListOutputItems]
     pagination: DashboardInstanceMonitorAlertsListOutputPagination
 
@@ -300,7 +303,9 @@ class mapDashboardInstanceMonitorAlertsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceMonitorAlertsListOutputPagination:
         return DashboardInstanceMonitorAlertsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -315,6 +320,7 @@ class mapDashboardInstanceMonitorAlertsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceMonitorAlertsListOutput:
         return DashboardInstanceMonitorAlertsListOutput(
+        object=data.get('object'),
         items=[mapDashboardInstanceMonitorAlertsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapDashboardInstanceMonitorAlertsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

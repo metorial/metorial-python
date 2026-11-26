@@ -17,8 +17,11 @@ class CustomProvidersEnvironmentsListOutputItems:
 class CustomProvidersEnvironmentsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class CustomProvidersEnvironmentsListOutput:
+    object: str
     items: List[CustomProvidersEnvironmentsListOutputItems]
     pagination: CustomProvidersEnvironmentsListOutputPagination
 
@@ -50,7 +53,9 @@ class mapCustomProvidersEnvironmentsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> CustomProvidersEnvironmentsListOutputPagination:
         return CustomProvidersEnvironmentsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -65,6 +70,7 @@ class mapCustomProvidersEnvironmentsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> CustomProvidersEnvironmentsListOutput:
         return CustomProvidersEnvironmentsListOutput(
+        object=data.get('object'),
         items=[mapCustomProvidersEnvironmentsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapCustomProvidersEnvironmentsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

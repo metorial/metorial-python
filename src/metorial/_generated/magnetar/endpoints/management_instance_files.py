@@ -3,15 +3,15 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceFilesListOutput, DashboardInstanceFilesListOutput, mapDashboardInstanceFilesListQuery, DashboardInstanceFilesListQuery, mapDashboardInstanceFilesGetOutput, DashboardInstanceFilesGetOutput, mapDashboardInstanceFilesDeleteOutput, DashboardInstanceFilesDeleteOutput
 
 class MetorialManagementInstanceFilesEndpoint(BaseMetorialEndpoint):
-    """Represents files that you have uploaded to Metorial. Files can be linked to various resources based on their purpose. Metorial can also automatically extract files for you, for example for data exports."""
+    """A file is content uploaded to an instance, such as an image or an attachment. Its purpose controls what it can be linked to."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
     def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, purpose: Optional[Union[str, List[str]]] = None, store_id: Optional[Union[str, List[str]]] = None, document_id: Optional[Union[str, List[str]]] = None, file_link_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceFilesListOutput:
         """
-    List instance files
-    Returns a paginated list of files owned by the instance.
+    List files
+    Returns a paginated list of files.
 
     :param instance_id: str
     :param limit: Optional[float] (optional)
@@ -63,8 +63,8 @@ class MetorialManagementInstanceFilesEndpoint(BaseMetorialEndpoint):
 
     def get(self, instance_id: str, file_id: str) -> DashboardInstanceFilesGetOutput:
         """
-    Get file by ID
-    Retrieves details for a specific file by its ID.
+    Get file
+    Retrieves a file.
 
     :param instance_id: str
     :param file_id: str
@@ -77,8 +77,8 @@ class MetorialManagementInstanceFilesEndpoint(BaseMetorialEndpoint):
 
     def delete(self, instance_id: str, file_id: str) -> DashboardInstanceFilesDeleteOutput:
         """
-    Delete file by ID
-    Deletes a specific file by its ID.
+    Delete file
+    Deletes a file.
 
     :param instance_id: str
     :param file_id: str

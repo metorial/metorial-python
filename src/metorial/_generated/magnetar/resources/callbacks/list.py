@@ -39,8 +39,11 @@ class CallbacksListOutputItems:
 class CallbacksListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class CallbacksListOutput:
+    object: str
     items: List[CallbacksListOutputItems]
     pagination: CallbacksListOutputPagination
 
@@ -118,7 +121,9 @@ class mapCallbacksListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> CallbacksListOutputPagination:
         return CallbacksListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -133,6 +138,7 @@ class mapCallbacksListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> CallbacksListOutput:
         return CallbacksListOutput(
+        object=data.get('object'),
         items=[mapCallbacksListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapCallbacksListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

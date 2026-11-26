@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceProviderDeploymentsConfigVaultsListOutput, DashboardInstanceProviderDeploymentsConfigVaultsListOutput, mapDashboardInstanceProviderDeploymentsConfigVaultsListQuery, DashboardInstanceProviderDeploymentsConfigVaultsListQuery, mapDashboardInstanceProviderDeploymentsConfigVaultsGetOutput, DashboardInstanceProviderDeploymentsConfigVaultsGetOutput, mapDashboardInstanceProviderDeploymentsConfigVaultsCreateOutput, DashboardInstanceProviderDeploymentsConfigVaultsCreateOutput, mapDashboardInstanceProviderDeploymentsConfigVaultsCreateBody, DashboardInstanceProviderDeploymentsConfigVaultsCreateBody, mapDashboardInstanceProviderDeploymentsConfigVaultsUpdateOutput, DashboardInstanceProviderDeploymentsConfigVaultsUpdateOutput, mapDashboardInstanceProviderDeploymentsConfigVaultsUpdateBody, DashboardInstanceProviderDeploymentsConfigVaultsUpdateBody, mapDashboardInstanceProviderDeploymentsConfigVaultsDeleteOutput, DashboardInstanceProviderDeploymentsConfigVaultsDeleteOutput
 
 class MetorialProviderDeploymentsConfigVaultsEndpoint(BaseMetorialEndpoint):
-    """A config vault is a saved, reusable set of configuration values. Use vaults to store credentials once and apply them to multiple deployments without re-entering."""
+    """A provider config vault is a saved, reusable set of configuration values. Configs can reference a vault instead of holding values directly."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -138,8 +138,8 @@ class MetorialProviderDeploymentsConfigVaultsEndpoint(BaseMetorialEndpoint):
 
     def delete(self, provider_config_vault_id: str) -> DashboardInstanceProviderDeploymentsConfigVaultsDeleteOutput:
         """
-    Delete provider config vault
-    Permanently deletes a provider config vault.
+    Archive provider config vault
+    Archives a provider config vault. It stays listable with `status=archived`.
 
     :param provider_config_vault_id: str
     :return: DashboardInstanceProviderDeploymentsConfigVaultsDeleteOutput

@@ -2,7 +2,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceDocumentsPermissionsGetOutput, DashboardInstanceDocumentsPermissionsGetOutput
 
 class MetorialDashboardInstanceDocumentsPermissionsEndpoint(BaseMetorialEndpoint):
-    """Create and manage instance documents backed by Cargo."""
+    """A document is rich text with comments, versions, and participants."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -10,7 +10,7 @@ class MetorialDashboardInstanceDocumentsPermissionsEndpoint(BaseMetorialEndpoint
     def get(self, instance_id: str, document_id: str) -> DashboardInstanceDocumentsPermissionsGetOutput:
         """
     Get document permissions
-    Returns the effective Cargo permissions for the current actor on a specific document.
+    Returns what the caller can do with a document.
 
     :param instance_id: str
     :param document_id: str

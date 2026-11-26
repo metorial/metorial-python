@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceStoresListOutput, DashboardInstanceStoresListOutput, mapDashboardInstanceStoresListQuery, DashboardInstanceStoresListQuery, mapDashboardInstanceStoresCreateOutput, DashboardInstanceStoresCreateOutput, mapDashboardInstanceStoresCreateBody, DashboardInstanceStoresCreateBody, mapDashboardInstanceStoresGetOutput, DashboardInstanceStoresGetOutput, mapDashboardInstanceStoresUpdateOutput, DashboardInstanceStoresUpdateOutput, mapDashboardInstanceStoresUpdateBody, DashboardInstanceStoresUpdateBody, mapDashboardInstanceStoresDeleteOutput, DashboardInstanceStoresDeleteOutput
 
 class MetorialStoresEndpoint(BaseMetorialEndpoint):
-    """Create and manage instance stores backed by Cargo."""
+    """A store is a shared collection of files and documents. Participants get read or write access to its contents."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -11,7 +11,7 @@ class MetorialStoresEndpoint(BaseMetorialEndpoint):
     def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceStoresListOutput:
         """
     List stores
-    Returns a paginated list of stores owned by the instance.
+    Returns a paginated list of stores.
 
     :param limit: Optional[float] (optional)
     :param after: Optional[str] (optional)
@@ -51,7 +51,7 @@ class MetorialStoresEndpoint(BaseMetorialEndpoint):
     def create(self, *, name: str, access: Optional[str] = None, template_id: Optional[str] = None, parent_id: Optional[str] = None) -> DashboardInstanceStoresCreateOutput:
         """
     Create store
-    Creates a new store for the instance.
+    Creates a store.
 
     :param name: str
     :param access: Optional[str] (optional)
@@ -77,8 +77,8 @@ class MetorialStoresEndpoint(BaseMetorialEndpoint):
 
     def get(self, store_id: str) -> DashboardInstanceStoresGetOutput:
         """
-    Get store by ID
-    Retrieves a store by its ID.
+    Get store
+    Retrieves a store.
 
     :param store_id: str
     :return: DashboardInstanceStoresGetOutput
@@ -90,8 +90,8 @@ class MetorialStoresEndpoint(BaseMetorialEndpoint):
 
     def update(self, store_id: str, *, name: Optional[str] = None, access: Optional[str] = None) -> DashboardInstanceStoresUpdateOutput:
         """
-    Update store by ID
-    Updates a specific store.
+    Update store
+    Updates a store.
 
     :param store_id: str
     :param name: Optional[str] (optional)
@@ -113,8 +113,8 @@ class MetorialStoresEndpoint(BaseMetorialEndpoint):
 
     def delete(self, store_id: str) -> DashboardInstanceStoresDeleteOutput:
         """
-    Delete store by ID
-    Deletes a specific store.
+    Delete store
+    Deletes a store.
 
     :param store_id: str
     :return: DashboardInstanceStoresDeleteOutput

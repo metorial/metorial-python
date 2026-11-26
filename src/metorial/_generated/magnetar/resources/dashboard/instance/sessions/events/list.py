@@ -313,8 +313,11 @@ class DashboardInstanceSessionsEventsListOutputItems:
 class DashboardInstanceSessionsEventsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class DashboardInstanceSessionsEventsListOutput:
+    object: str
     items: List[DashboardInstanceSessionsEventsListOutputItems]
     pagination: DashboardInstanceSessionsEventsListOutputPagination
 
@@ -978,7 +981,9 @@ class mapDashboardInstanceSessionsEventsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionsEventsListOutputPagination:
         return DashboardInstanceSessionsEventsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -993,6 +998,7 @@ class mapDashboardInstanceSessionsEventsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionsEventsListOutput:
         return DashboardInstanceSessionsEventsListOutput(
+        object=data.get('object'),
         items=[mapDashboardInstanceSessionsEventsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapDashboardInstanceSessionsEventsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

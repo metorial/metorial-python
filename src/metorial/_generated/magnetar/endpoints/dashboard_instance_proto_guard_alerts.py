@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceProtoGuardAlertsListOutput, DashboardInstanceProtoGuardAlertsListOutput, mapDashboardInstanceProtoGuardAlertsListQuery, DashboardInstanceProtoGuardAlertsListQuery, mapDashboardInstanceProtoGuardAlertsGetOutput, DashboardInstanceProtoGuardAlertsGetOutput
 
 class MetorialDashboardInstanceProtoGuardAlertsEndpoint(BaseMetorialEndpoint):
-    """ProtoGuard alerts describe prompt-injection detections."""
+    """A ProtoGuard alert is a record of related prompt-injection findings. Findings that recur are folded into the same alert."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -11,7 +11,7 @@ class MetorialDashboardInstanceProtoGuardAlertsEndpoint(BaseMetorialEndpoint):
     def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, run_id: Optional[Union[str, List[str]]] = None, filter_id: Optional[Union[str, List[str]]] = None, session_id: Optional[Union[str, List[str]]] = None, session_message_id: Optional[Union[str, List[str]]] = None, session_connection_id: Optional[Union[str, List[str]]] = None, provider_run_id: Optional[Union[str, List[str]]] = None, issue_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceProtoGuardAlertsListOutput:
         """
     List ProtoGuard alerts
-    Returns a paginated list of ProtoGuard alerts for this instance.
+    Returns a paginated list of ProtoGuard alerts in the instance.
 
     :param instance_id: str
     :param limit: Optional[float] (optional)
@@ -70,7 +70,7 @@ class MetorialDashboardInstanceProtoGuardAlertsEndpoint(BaseMetorialEndpoint):
     def get(self, instance_id: str, proto_guard_alert_id: str) -> DashboardInstanceProtoGuardAlertsGetOutput:
         """
     Get ProtoGuard alert
-    Retrieves a ProtoGuard alert by ID.
+    Retrieves a ProtoGuard alert.
 
     :param instance_id: str
     :param proto_guard_alert_id: str

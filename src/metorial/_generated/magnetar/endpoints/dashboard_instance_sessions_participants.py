@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceSessionsParticipantsListOutput, DashboardInstanceSessionsParticipantsListOutput, mapDashboardInstanceSessionsParticipantsListQuery, DashboardInstanceSessionsParticipantsListQuery, mapDashboardInstanceSessionsParticipantsGetOutput, DashboardInstanceSessionsParticipantsGetOutput
 
 class MetorialDashboardInstanceSessionsParticipantsEndpoint(BaseMetorialEndpoint):
-    """Session participants represent the clients and other entities that are connected to a session. This read-only resource tracks who is participating in a session."""
+    """A session participant is a client, provider, or system actor in a session. Participants appear automatically as connections open."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -11,7 +11,7 @@ class MetorialDashboardInstanceSessionsParticipantsEndpoint(BaseMetorialEndpoint
     def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, type: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, agent_id: Optional[Union[str, List[str]]] = None, actor_id: Optional[Union[str, List[str]]] = None, consumer_id: Optional[Union[str, List[str]]] = None, identity_id: Optional[Union[str, List[str]]] = None, agent_instance_id: Optional[Union[str, List[str]]] = None, session_id: Optional[Union[str, List[str]]] = None, session_connection_id: Optional[Union[str, List[str]]] = None, session_message_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceSessionsParticipantsListOutput:
         """
     List session participants
-    Returns a paginated list of participants in a session.
+    Returns a paginated list of session participants.
 
     :param instance_id: str
     :param limit: Optional[float] (optional)
@@ -79,7 +79,7 @@ class MetorialDashboardInstanceSessionsParticipantsEndpoint(BaseMetorialEndpoint
     def get(self, instance_id: str, session_participant_id: str) -> DashboardInstanceSessionsParticipantsGetOutput:
         """
     Get session participant
-    Retrieves a specific participant in a session.
+    Retrieves a session participant.
 
     :param instance_id: str
     :param session_participant_id: str

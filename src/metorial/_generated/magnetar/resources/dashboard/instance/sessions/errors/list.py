@@ -22,8 +22,11 @@ class DashboardInstanceSessionsErrorsListOutputItems:
 class DashboardInstanceSessionsErrorsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class DashboardInstanceSessionsErrorsListOutput:
+    object: str
     items: List[DashboardInstanceSessionsErrorsListOutputItems]
     pagination: DashboardInstanceSessionsErrorsListOutputPagination
 
@@ -60,7 +63,9 @@ class mapDashboardInstanceSessionsErrorsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionsErrorsListOutputPagination:
         return DashboardInstanceSessionsErrorsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -75,6 +80,7 @@ class mapDashboardInstanceSessionsErrorsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> DashboardInstanceSessionsErrorsListOutput:
         return DashboardInstanceSessionsErrorsListOutput(
+        object=data.get('object'),
         items=[mapDashboardInstanceSessionsErrorsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapDashboardInstanceSessionsErrorsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

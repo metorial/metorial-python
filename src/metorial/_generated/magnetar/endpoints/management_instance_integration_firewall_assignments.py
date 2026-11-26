@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceIntegrationFirewallAssignmentsListOutput, DashboardInstanceIntegrationFirewallAssignmentsListOutput, mapDashboardInstanceIntegrationFirewallAssignmentsListQuery, DashboardInstanceIntegrationFirewallAssignmentsListQuery, mapDashboardInstanceIntegrationFirewallAssignmentsGetOutput, DashboardInstanceIntegrationFirewallAssignmentsGetOutput, mapDashboardInstanceIntegrationFirewallAssignmentsCreateOutput, DashboardInstanceIntegrationFirewallAssignmentsCreateOutput, mapDashboardInstanceIntegrationFirewallAssignmentsCreateBody, DashboardInstanceIntegrationFirewallAssignmentsCreateBody, mapDashboardInstanceIntegrationFirewallAssignmentsDeleteOutput, DashboardInstanceIntegrationFirewallAssignmentsDeleteOutput
 
 class MetorialManagementInstanceIntegrationFirewallAssignmentsEndpoint(BaseMetorialEndpoint):
-    """Manage assignments that apply firewalls to integration enclaves, providers, or the integration internet gateway."""
+    """An integration firewall assignment is a firewall applied to one target. Targets are integration enclaves, providers, or the integration internet gateway."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -11,7 +11,7 @@ class MetorialManagementInstanceIntegrationFirewallAssignmentsEndpoint(BaseMetor
     def list(self, instance_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, firewall_id: Optional[Union[str, List[str]]] = None, enclave_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, internet_gateway_id: Optional[Union[str, List[str]]] = None, target_type: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceIntegrationFirewallAssignmentsListOutput:
         """
     List integration firewall assignments
-    Returns a paginated list of integration firewall assignments.
+    Returns a paginated list of integration firewall assignments in the instance.
 
     :param instance_id: str
     :param limit: Optional[float] (optional)
@@ -64,7 +64,7 @@ class MetorialManagementInstanceIntegrationFirewallAssignmentsEndpoint(BaseMetor
     def get(self, instance_id: str, integration_firewall_assignment_id: str) -> DashboardInstanceIntegrationFirewallAssignmentsGetOutput:
         """
     Get integration firewall assignment
-    Retrieves a specific integration firewall assignment by ID.
+    Retrieves an integration firewall assignment.
 
     :param instance_id: str
     :param integration_firewall_assignment_id: str
@@ -78,7 +78,7 @@ class MetorialManagementInstanceIntegrationFirewallAssignmentsEndpoint(BaseMetor
     def create(self, instance_id: str, *, firewall_id: str, target_type: str, enclave_id: Optional[str] = None, provider_id: Optional[str] = None) -> DashboardInstanceIntegrationFirewallAssignmentsCreateOutput:
         """
     Create integration firewall assignment
-    Creates an assignment that applies a firewall to a target.
+    Creates an integration firewall assignment.
 
     :param instance_id: str
     :param firewall_id: str
@@ -105,7 +105,7 @@ class MetorialManagementInstanceIntegrationFirewallAssignmentsEndpoint(BaseMetor
     def delete(self, instance_id: str, integration_firewall_assignment_id: str) -> DashboardInstanceIntegrationFirewallAssignmentsDeleteOutput:
         """
     Delete integration firewall assignment
-    Deletes an integration firewall assignment.
+    Permanently deletes an integration firewall assignment. The firewall stops applying to the target.
 
     :param instance_id: str
     :param integration_firewall_assignment_id: str

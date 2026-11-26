@@ -47,7 +47,7 @@ class MetorialChatWorkspacesEndpoint(BaseMetorialEndpoint):
     def get(self, chat_workspace_id: str, *, chat_instance_id: str) -> DashboardInstanceChatWorkspacesGetOutput:
         """
     Get chat workspace
-    Retrieves a specific chat workspace.
+    Retrieves a chat workspace.
 
     :param chat_workspace_id: str
     :param chat_instance_id: str

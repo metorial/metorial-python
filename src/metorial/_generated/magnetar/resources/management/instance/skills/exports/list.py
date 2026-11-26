@@ -132,8 +132,11 @@ class ManagementInstanceSkillsExportsListOutputItems:
 class ManagementInstanceSkillsExportsListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class ManagementInstanceSkillsExportsListOutput:
+    object: str
     items: List[ManagementInstanceSkillsExportsListOutputItems]
     pagination: ManagementInstanceSkillsExportsListOutputPagination
 
@@ -424,7 +427,9 @@ class mapManagementInstanceSkillsExportsListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceSkillsExportsListOutputPagination:
         return ManagementInstanceSkillsExportsListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -439,6 +444,7 @@ class mapManagementInstanceSkillsExportsListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceSkillsExportsListOutput:
         return ManagementInstanceSkillsExportsListOutput(
+        object=data.get('object'),
         items=[mapManagementInstanceSkillsExportsListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapManagementInstanceSkillsExportsListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

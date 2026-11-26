@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceIntegrationsInstancesProvidersListOutput, DashboardInstanceIntegrationsInstancesProvidersListOutput, mapDashboardInstanceIntegrationsInstancesProvidersListQuery, DashboardInstanceIntegrationsInstancesProvidersListQuery, mapDashboardInstanceIntegrationsInstancesProvidersGetOutput, DashboardInstanceIntegrationsInstancesProvidersGetOutput, mapDashboardInstanceIntegrationsInstancesProvidersSetOutput, DashboardInstanceIntegrationsInstancesProvidersSetOutput, mapDashboardInstanceIntegrationsInstancesProvidersSetBody, DashboardInstanceIntegrationsInstancesProvidersSetBody
 
 class MetorialDashboardInstanceIntegrationsInstancesProvidersEndpoint(BaseMetorialEndpoint):
-    """Integration instance providers resolve the effective per-instance provider materialization for an integration."""
+    """An integration instance provider binds one provider of an integration instance to the deployment, config, credentials, and tool filters it runs with."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -82,7 +82,7 @@ class MetorialDashboardInstanceIntegrationsInstancesProvidersEndpoint(BaseMetori
     def get(self, instance_id: str, integration_instance_provider_id: str) -> DashboardInstanceIntegrationsInstancesProvidersGetOutput:
         """
     Get integration instance provider
-    Retrieves a specific integration instance provider.
+    Retrieves an integration instance provider.
 
     :param instance_id: str
     :param integration_instance_provider_id: str
@@ -96,7 +96,7 @@ class MetorialDashboardInstanceIntegrationsInstancesProvidersEndpoint(BaseMetori
     def set(self, instance_id: str, integration_instance_id: str, provider_id: str, *, provider_deployment_id: Optional[str] = None, provider_config_id: Optional[str] = None, provider_auth_config_id: Optional[str] = None, tool_filters: Optional[Union[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]], List[Union[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, Any]]]]] = None, is_override_tool_filter: Optional[bool] = None) -> DashboardInstanceIntegrationsInstancesProvidersSetOutput:
         """
     Set integration instance provider
-    Creates or updates the effective integration instance provider materialization.
+    Sets the deployment, config, credentials, and tool filters one provider of an integration instance runs with. Creates the entry when none exists, otherwise updates it.
 
     :param instance_id: str
     :param integration_instance_id: str

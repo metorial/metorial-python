@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceChatInstancesProviderGetOutput, DashboardInstanceChatInstancesProviderGetOutput, mapDashboardInstanceChatInstancesProviderSetOutput, DashboardInstanceChatInstancesProviderSetOutput, mapDashboardInstanceChatInstancesProviderSetBody, DashboardInstanceChatInstancesProviderSetBody, mapDashboardInstanceChatInstancesProviderAuthenticatedUserOutput, DashboardInstanceChatInstancesProviderAuthenticatedUserOutput
 
 class MetorialManagementInstanceChatInstancesProviderEndpoint(BaseMetorialEndpoint):
-    """Chat instances materialize a chat connection for a specific runtime configuration."""
+    """A chat instance is a chat connection running with its own configuration and identity."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)

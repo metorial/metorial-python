@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceProvidersToolsListOutput, DashboardInstanceProvidersToolsListOutput, mapDashboardInstanceProvidersToolsListQuery, DashboardInstanceProvidersToolsListQuery, mapDashboardInstanceProvidersToolsGetOutput, DashboardInstanceProvidersToolsGetOutput
 
 class MetorialProvidersToolsEndpoint(BaseMetorialEndpoint):
-    """A tool is a single action a provider can perform like 'search_issues' or 'send_message'. Tools are what AI agents call via MCP. By default, tools from the latest provider version are returned. Use the optional version filter to get tools for a specific version."""
+    """A tool is a single action a provider can perform, like `search_issues` or `send_message`. Agents call tools over MCP, and each provider version has its own set."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -11,7 +11,7 @@ class MetorialProvidersToolsEndpoint(BaseMetorialEndpoint):
     def list(self, *, provider_version_id: str, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, provider_auth_method_id: Optional[Union[str, List[str]]] = None) -> DashboardInstanceProvidersToolsListOutput:
         """
     List provider tools
-    Returns a paginated list of provider tools. By default returns tools from the latest version. Use optional filters to get tools for a specific version.
+    Returns a paginated list of provider tools for a provider version.
 
     :param limit: Optional[float] (optional)
     :param after: Optional[str] (optional)

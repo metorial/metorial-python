@@ -71,6 +71,7 @@ class ManagementInstanceMagicMcpServersListOutputItemsProvidersAuthCredentials:
     provider_id: str
     created_at: datetime
     updated_at: datetime
+    managed_by: Optional[str] = None
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
@@ -159,8 +160,11 @@ class ManagementInstanceMagicMcpServersListOutputItems:
 class ManagementInstanceMagicMcpServersListOutputPagination:
     has_more_before: bool
     has_more_after: bool
+    before: Optional[str] = None
+    after: Optional[str] = None
 @dataclass
 class ManagementInstanceMagicMcpServersListOutput:
+    object: str
     items: List[ManagementInstanceMagicMcpServersListOutputItems]
     pagination: ManagementInstanceMagicMcpServersListOutputPagination
 
@@ -316,6 +320,7 @@ class mapManagementInstanceMagicMcpServersListOutputItemsProvidersAuthCredential
         status=data.get('status'),
         is_default=data.get('is_default'),
         is_managed=data.get('is_managed'),
+        managed_by=data.get('managed_by'),
         name=data.get('name'),
         description=data.get('description'),
         metadata=data.get('metadata'),
@@ -514,7 +519,9 @@ class mapManagementInstanceMagicMcpServersListOutputPagination:
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceMagicMcpServersListOutputPagination:
         return ManagementInstanceMagicMcpServersListOutputPagination(
         has_more_before=data.get('has_more_before'),
-        has_more_after=data.get('has_more_after')
+        has_more_after=data.get('has_more_after'),
+        before=data.get('before'),
+        after=data.get('after')
         )
 
     @staticmethod
@@ -529,6 +536,7 @@ class mapManagementInstanceMagicMcpServersListOutput:
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> ManagementInstanceMagicMcpServersListOutput:
         return ManagementInstanceMagicMcpServersListOutput(
+        object=data.get('object'),
         items=[mapManagementInstanceMagicMcpServersListOutputItems.from_dict(item) for item in data.get('items', []) if item],
         pagination=mapManagementInstanceMagicMcpServersListOutputPagination.from_dict(data.get('pagination')) if data.get('pagination') else None
         )

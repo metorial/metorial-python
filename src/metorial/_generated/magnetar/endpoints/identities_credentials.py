@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceIdentitiesCredentialsListOutput, DashboardInstanceIdentitiesCredentialsListOutput, mapDashboardInstanceIdentitiesCredentialsListQuery, DashboardInstanceIdentitiesCredentialsListQuery, mapDashboardInstanceIdentitiesCredentialsGetOutput, DashboardInstanceIdentitiesCredentialsGetOutput, mapDashboardInstanceIdentitiesCredentialsCreateOutput, DashboardInstanceIdentitiesCredentialsCreateOutput, mapDashboardInstanceIdentitiesCredentialsCreateBody, DashboardInstanceIdentitiesCredentialsCreateBody, mapDashboardInstanceIdentitiesCredentialsUpdateOutput, DashboardInstanceIdentitiesCredentialsUpdateOutput, mapDashboardInstanceIdentitiesCredentialsUpdateBody, DashboardInstanceIdentitiesCredentialsUpdateBody, mapDashboardInstanceIdentitiesCredentialsDeleteOutput, DashboardInstanceIdentitiesCredentialsDeleteOutput
 
 class MetorialIdentitiesCredentialsEndpoint(BaseMetorialEndpoint):
-    """Identity credentials bind an identity to concrete provider deployment, config, and auth resources."""
+    """An identity credential is one provider attachment on an identity. It links the identity to a provider deployment, config, or auth config."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -78,7 +78,7 @@ class MetorialIdentitiesCredentialsEndpoint(BaseMetorialEndpoint):
     def get(self, identity_credential_id: str) -> DashboardInstanceIdentitiesCredentialsGetOutput:
         """
     Get identity credential
-    Retrieves a specific identity credential by ID.
+    Retrieves an identity credential.
 
     :param identity_credential_id: str
     :return: DashboardInstanceIdentitiesCredentialsGetOutput
@@ -91,7 +91,7 @@ class MetorialIdentitiesCredentialsEndpoint(BaseMetorialEndpoint):
     def create(self, *, identity_id: str, deployment_id: Optional[str] = None, config_id: Optional[str] = None, auth_config_id: Optional[str] = None, delegation_config_id: Optional[str] = None) -> DashboardInstanceIdentitiesCredentialsCreateOutput:
         """
     Create identity credential
-    Creates a new credential and attaches it to an identity.
+    Creates an identity credential.
 
     :param identity_id: str
     :param deployment_id: Optional[str] (optional)
@@ -139,8 +139,8 @@ class MetorialIdentitiesCredentialsEndpoint(BaseMetorialEndpoint):
 
     def delete(self, identity_credential_id: str) -> DashboardInstanceIdentitiesCredentialsDeleteOutput:
         """
-    Delete identity credential
-    Archives an identity credential.
+    Archive identity credential
+    Archives an identity credential. It stays listable with `status=archived`.
 
     :param identity_credential_id: str
     :return: DashboardInstanceIdentitiesCredentialsDeleteOutput

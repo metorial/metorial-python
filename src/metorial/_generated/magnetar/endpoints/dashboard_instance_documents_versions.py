@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceDocumentsVersionsListOutput, DashboardInstanceDocumentsVersionsListOutput, mapDashboardInstanceDocumentsVersionsListQuery, DashboardInstanceDocumentsVersionsListQuery, mapDashboardInstanceDocumentsVersionsGetOutput, DashboardInstanceDocumentsVersionsGetOutput
 
 class MetorialDashboardInstanceDocumentsVersionsEndpoint(BaseMetorialEndpoint):
-    """Inspect document version history for an instance document."""
+    """A document version is a snapshot of a document's content."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
@@ -11,7 +11,7 @@ class MetorialDashboardInstanceDocumentsVersionsEndpoint(BaseMetorialEndpoint):
     def list(self, instance_id: str, document_id: str, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, last_edited_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceDocumentsVersionsListOutput:
         """
     List document versions
-    Returns a paginated list of versions for a specific document.
+    Returns a paginated list of versions of a document.
 
     :param instance_id: str
     :param document_id: str
@@ -52,8 +52,8 @@ class MetorialDashboardInstanceDocumentsVersionsEndpoint(BaseMetorialEndpoint):
 
     def get(self, instance_id: str, document_id: str, document_version_id: str) -> DashboardInstanceDocumentsVersionsGetOutput:
         """
-    Get document version by ID
-    Retrieves a specific document version by its ID.
+    Get document version
+    Retrieves a version of a document.
 
     :param instance_id: str
     :param document_id: str

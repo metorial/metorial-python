@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceSkillsMergeRequestsEventsListOutput, DashboardInstanceSkillsMergeRequestsEventsListOutput, mapDashboardInstanceSkillsMergeRequestsEventsListQuery, DashboardInstanceSkillsMergeRequestsEventsListQuery, mapDashboardInstanceSkillsMergeRequestsEventsGetOutput, DashboardInstanceSkillsMergeRequestsEventsGetOutput
 
 class MetorialSkillsMergeRequestsEventsEndpoint(BaseMetorialEndpoint):
-    """Inspect the activity history of skill merge requests."""
+    """A skill merge request event is one entry in a merge request activity history."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)

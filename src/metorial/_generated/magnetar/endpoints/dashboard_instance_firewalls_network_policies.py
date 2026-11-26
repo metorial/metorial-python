@@ -3,7 +3,7 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceFirewallsNetworkPoliciesAttachOutput, DashboardInstanceFirewallsNetworkPoliciesAttachOutput, mapDashboardInstanceFirewallsNetworkPoliciesAttachBody, DashboardInstanceFirewallsNetworkPoliciesAttachBody, mapDashboardInstanceFirewallsNetworkPoliciesDetachOutput, DashboardInstanceFirewallsNetworkPoliciesDetachOutput
 
 class MetorialDashboardInstanceFirewallsNetworkPoliciesEndpoint(BaseMetorialEndpoint):
-    """Manage firewalls and their attached network policies. Firewalls apply to integration enclaves, providers, and sandbox machines."""
+    """A firewall is a set of network policies applied to targets. Firewalls apply to integration enclaves, providers, and sandbox machines."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)

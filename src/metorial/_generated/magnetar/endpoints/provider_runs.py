@@ -3,14 +3,14 @@ from metorial._endpoint import BaseMetorialEndpoint, MetorialEndpointManager, Me
 from ..resources import mapDashboardInstanceProviderRunsListOutput, DashboardInstanceProviderRunsListOutput, mapDashboardInstanceProviderRunsListQuery, DashboardInstanceProviderRunsListQuery, mapDashboardInstanceProviderRunsGetOutput, DashboardInstanceProviderRunsGetOutput, mapDashboardInstanceProviderRunsGetLogsOutput, DashboardInstanceProviderRunsGetLogsOutput
 
 class MetorialProviderRunsEndpoint(BaseMetorialEndpoint):
-    """Provider runs track the execution of provider operations within a session. This read-only resource provides visibility into provider activity."""
+    """A provider run is one execution of a provider in a session. Runs track activity from start to completion."""
 
     def __init__(self, config: MetorialEndpointManager):
         super().__init__(config)
 
     def list(self, *, limit: Optional[float] = None, after: Optional[str] = None, before: Optional[str] = None, cursor: Optional[str] = None, order: Optional[str] = None, status: Optional[Union[str, List[str]]] = None, id: Optional[Union[str, List[str]]] = None, session_id: Optional[Union[str, List[str]]] = None, provider_id: Optional[Union[str, List[str]]] = None, session_provider_id: Optional[Union[str, List[str]]] = None, session_connection_id: Optional[Union[str, List[str]]] = None, provider_version_id: Optional[Union[str, List[str]]] = None, created_at: Optional[Dict[str, Any]] = None, updated_at: Optional[Dict[str, Any]] = None) -> DashboardInstanceProviderRunsListOutput:
         """
-    List all provider runs
+    List provider runs
     Returns a paginated list of provider runs across all sessions.
 
     :param limit: Optional[float] (optional)
@@ -69,7 +69,7 @@ class MetorialProviderRunsEndpoint(BaseMetorialEndpoint):
     def get(self, provider_run_id: str) -> DashboardInstanceProviderRunsGetOutput:
         """
     Get provider run
-    Retrieves a specific provider run by ID.
+    Retrieves a provider run.
 
     :param provider_run_id: str
     :return: DashboardInstanceProviderRunsGetOutput
@@ -82,7 +82,7 @@ class MetorialProviderRunsEndpoint(BaseMetorialEndpoint):
     def get_logs(self, provider_run_id: str) -> DashboardInstanceProviderRunsGetLogsOutput:
         """
     Get provider run logs
-    Retrieves the logs for a specific provider run.
+    Retrieves the logs for a provider run.
 
     :param provider_run_id: str
     :return: DashboardInstanceProviderRunsGetLogsOutput
